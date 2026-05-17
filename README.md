@@ -1,62 +1,46 @@
 # PMS
 
-The Future of Project Leadership — certification pathways, premium resources, and a global PM community.
+Project Management certification platform — **Next.js** monorepo (TypeScript + JavaScript).
 
-## Monorepo structure
+## Structure
 
-| Path | Description | Port |
-|------|-------------|------|
-| `frontend/` | Public marketing website (React + Vite) | 5173 |
-| `backend/` | Public API (Express) — form submissions, health | 3001 |
-| `dashboard/frontend/` | Admin dashboard (React + Vite) | 5174 |
-| `dashboard/backend/` | Dashboard API (Express) — interactions inbox, export | 3002 |
-| `supabase/migrations/` | Postgres schema (website_data, form_submissions) | — |
+| Package | Stack | Port |
+|---------|--------|------|
+| `frontend/` | Next.js 15 (App Router, TypeScript) — public site | 3000 |
+| `backend/` | Next.js 15 API routes (TypeScript + `.js` helpers) | 3001 |
+| `dashboard/frontend/` | Next.js 15 admin UI (TypeScript) | 5174 |
+| `dashboard/backend/` | Next.js 15 dashboard API (TypeScript + `.js` helpers) | 3002 |
+| `supabase/migrations/` | Postgres schema | — |
 
-## Tech stack
+## Tech
 
-- **Frontend**: React 19, Vite, Tailwind CSS, shadcn/ui
-- **Backend**: Express, TypeScript
-- **Database**: Supabase (Postgres + Auth + RLS)
+- **UI**: React 19, Tailwind CSS v4, shadcn/ui, Motion
+- **Data**: Supabase (Postgres, Auth, RLS)
+- **Languages**: TypeScript (primary), JavaScript (shared helpers in `lib/*.js`)
 
-## Getting started
+## Setup
 
-1. Copy environment variables:
+```bash
+cp .env.example .env
+# Add Supabase keys, then run migration SQL in supabase/migrations/
 
-   ```bash
-   cp .env.example .env
-   ```
+npm install
+npm run dev
+```
 
-   Fill in `SUPABASE_URL`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` from your [Supabase](https://supabase.com) project.
+## Scripts
 
-2. Apply database migrations (Supabase SQL editor or CLI):
+```bash
+npm run dev              # all four Next.js apps
+npm run dev:frontend     # site only
+npm run dev:backend      # public API only
+npm run dev:dashboard    # dashboard UI + API
+npm run build            # production build all packages
+```
 
-   ```bash
-   # Run supabase/migrations/20240517000000_initial_schema.sql in your project
-   ```
+## Demo login
 
-3. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-4. Run everything:
-
-   ```bash
-   npm run dev
-   ```
-
-   Or run individually:
-
-   ```bash
-   npm run dev:backend      # API :3001
-   npm run dev:frontend     # Site :5173
-   npm run dev:dashboard    # Dashboard UI :5174 + API :3002
-   ```
-
-## Demo dashboard login
-
-Without Supabase configured, use **admin@pms.os** / **admin** on the dashboard (`http://localhost:5174`).
+Dashboard: **admin@pms.os** / **admin** (works without Supabase configured).
 
 ## License
 

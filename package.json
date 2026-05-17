@@ -9,10 +9,10 @@
     "dashboard/backend"
   ],
   "scripts": {
-    "dev": "concurrently -n frontend,backend,dash-fe,dash-be -c blue,green,magenta,yellow \"npm run dev -w @pms/frontend\" \"npm run dev -w @pms/backend\" \"npm run dev -w @pms/dashboard-frontend\" \"npm run dev -w @pms/dashboard-backend\"",
+    "dev": "concurrently -n site,api,dash,dash-api -c blue,green,magenta,yellow \"npm run dev -w @pms/frontend\" \"npm run dev -w @pms/backend\" \"npm run dev -w @pms/dashboard-frontend\" \"npm run dev -w @pms/dashboard-backend\"",
     "dev:frontend": "npm run dev -w @pms/frontend",
     "dev:backend": "npm run dev -w @pms/backend",
-    "dev:dashboard": "concurrently -n dash-fe,dash-be -c magenta,yellow \"npm run dev -w @pms/dashboard-frontend\" \"npm run dev -w @pms/dashboard-backend\"",
+    "dev:dashboard": "concurrently -n dash,dash-api -c magenta,yellow \"npm run dev -w @pms/dashboard-frontend\" \"npm run dev -w @pms/dashboard-backend\"",
     "build": "npm run build -w @pms/frontend && npm run build -w @pms/backend && npm run build -w @pms/dashboard-frontend && npm run build -w @pms/dashboard-backend",
     "lint": "npm run lint -w @pms/frontend && npm run lint -w @pms/backend && npm run lint -w @pms/dashboard-frontend && npm run lint -w @pms/dashboard-backend"
   },
