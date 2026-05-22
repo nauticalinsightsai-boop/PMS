@@ -8,6 +8,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { CTAButton } from '@/components/ui/CTAButton';
 import { BrandLogo } from '@/components/shared/BrandLogo';
+import { siteUrl } from '@/lib/site-config';
+import Link from 'next/link';
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -85,7 +87,8 @@ export const Login: React.FC = () => {
 
             {isError && (
               <p className="text-red-500 text-xs font-medium text-center">
-                Invalid credentials. Demo: admin@pms.os / admin
+                Invalid credentials. Local dev: <strong>admin@pms.os</strong> / <strong>admin</strong>.
+                Or use a user from Supabase → Authentication → Users.
               </p>
             )}
 
@@ -98,8 +101,13 @@ export const Login: React.FC = () => {
             </CTAButton>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-center gap-2 text-gw-text-secondary text-xs">
-            <ShieldCheck size={14} /> Secured by Supabase Auth
+          <div className="mt-8 pt-6 border-t border-white/5 flex flex-col items-center gap-3 text-gw-text-secondary text-xs">
+            <p className="flex items-center gap-2">
+              <ShieldCheck size={14} /> Secured by Supabase Auth
+            </p>
+            <Link href={siteUrl} className="hover:text-gw-accent-primary font-semibold transition-colors">
+              ← Back to main website
+            </Link>
           </div>
         </GlassCard>
       </motion.div>

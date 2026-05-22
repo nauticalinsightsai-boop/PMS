@@ -10,6 +10,9 @@
   ],
   "scripts": {
     "dev": "concurrently -n site,api,dash,dash-api -c blue,green,magenta,yellow \"npm run dev -w @pms/frontend\" \"npm run dev -w @pms/backend\" \"npm run dev -w @pms/dashboard-frontend\" \"npm run dev -w @pms/dashboard-backend\"",
+    "dev:all": "npm run dev",
+    "dev:website": "npm run dev -w @pms/frontend",
+    "open:site": "npm run dev:website",
     "dev:frontend": "npm run dev -w @pms/frontend",
     "dev:backend": "npm run dev -w @pms/backend",
     "dev:dashboard": "concurrently -n dash,dash-api -c magenta,yellow \"npm run dev -w @pms/dashboard-frontend\" \"npm run dev -w @pms/dashboard-backend\"",

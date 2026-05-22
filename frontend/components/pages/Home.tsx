@@ -35,6 +35,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { RegisterModal } from "@/components/RegisterModal";
 import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
+import { useHomePageConfig } from "@/lib/home-config";
 
 import * as siteData from "@/data/siteData";
 
@@ -67,6 +68,7 @@ const families = [
 
 export function Home() {
   const { get } = useWebsiteData();
+  const homeCms = useHomePageConfig();
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 5000 })]);
   const [selectedIndex, setSelectedIndex] = React.useState(0);

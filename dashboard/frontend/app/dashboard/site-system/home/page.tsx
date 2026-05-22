@@ -1,5 +1,5 @@
-import { PlaceholderPage } from '@/components/PlaceholderPage';
+import { HomeCmsEditor } from '@/components/pages/admin/HomeCmsEditor';
 
-export default function Page() {
-  return <PlaceholderPage title="Home CMS" />;
+export default function HomeCmsPage() {
+  return <HomeCmsEditor />;
 }

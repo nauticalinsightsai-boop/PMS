@@ -1,5 +1,5 @@
-import { PlaceholderPage } from '@/components/PlaceholderPage';
+import { redirect } from 'next/navigation';
 
-export default function Page() {
-  return <PlaceholderPage title="Booking Email Template" />;
+export default function LegacyRoute() {
+  redirect('/dashboard/site-system/settings');
 }

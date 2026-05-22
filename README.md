@@ -38,6 +38,18 @@ npm run dev:dashboard    # dashboard UI + API
 npm run build            # production build all packages
 ```
 
+## URLs (local dev) — open the website, not the API
+
+| Open this | Do not use for browsing |
+|-----------|-------------------------|
+| **http://localhost:3050** — main website (Home, Certifications, …) | ~~http://localhost:3001~~ (API only, auto-redirects to site) |
+| Footer → **Admin Dashboard** | ~~http://localhost:3002~~ (dashboard API, auto-redirects) |
+
+```bash
+npm run dev          # all services
+npm run dev:website  # main site only (port 3050)
+```
+
 ## Demo login
 
 Dashboard: **admin@pms.os** / **admin** (works without Supabase configured).

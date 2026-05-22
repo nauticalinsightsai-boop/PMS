@@ -184,7 +184,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
 
           <div className="flex items-center gap-2 md:gap-4">
             <a
-              href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}
+              href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3050'}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs font-medium bg-white/5 hover:bg-white/10 rounded-xl transition-colors border border-white/10"

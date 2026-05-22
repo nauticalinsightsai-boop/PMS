@@ -3,6 +3,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { User } from '@supabase/supabase-js';
+import {
+  clearDemoSession,
+  createDemoUser,
+  isDemoCredentials,
+  isDemoLoginAllowed,
+  persistDemoSession,
+  readDemoSessionEmail,
+} from '@/lib/demo-auth';
 
 interface AuthContextType {
   user: User | null;
@@ -20,6 +28,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const checkSession = async () => {
+      const demoEmail = readDemoSessionEmail();
+      if (demoEmail) {
+        setUser(createDemoUser(demoEmail));
+        setLoading(false);
+        return;
+      }
+
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
       setLoading(false);
@@ -28,6 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     checkSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (readDemoSessionEmail()) return;
       setUser(session?.user ?? null);
       setLoading(false);
     });
@@ -36,43 +52,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async (email: string, password: string) => {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-    const isPlaceholder = !url || url.includes('placeholder');
-
-    if (isPlaceholder) {
-      const isAdmin = email === 'admin@pms.os' && password === 'admin';
-      const isAltAdmin = email === 'admin@platform.os' && password === 'admin';
-
-      if (!isAdmin && !isAltAdmin && password !== 'admin' && password !== 'password') {
-        throw new Error('Invalid credentials for demo mode. Use admin@pms.os / admin');
-      }
-
-      const mockUser: User = {
-        id: 'demo-user-id',
-        aud: 'authenticated',
-        role: 'authenticated',
-        email: email || 'admin@pms.os',
-        email_confirmed_at: new Date().toISOString(),
-        phone: '',
-        confirmed_at: new Date().toISOString(),
-        last_sign_in_at: new Date().toISOString(),
-        app_metadata: { provider: 'email' },
-        user_metadata: { full_name: 'Demo Admin' },
-        identities: [],
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
+    if (isDemoLoginAllowed() && isDemoCredentials(email, password)) {
+      const mockUser = createDemoUser(email);
+      persistDemoSession(email);
       setUser(mockUser);
       return;
     }
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
     if (error) throw error;
   };
 
   const logout = async () => {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-    if (!url || url.includes('placeholder')) {
+    if (readDemoSessionEmail() || user?.id === 'demo-user-id') {
+      clearDemoSession();
       setUser(null);
       return;
     }
