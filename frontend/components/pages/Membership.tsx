@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import Link from "next/link";
 import { BRAND, HOME_COPY, REGION_COPY } from "@/lib/brand-voice";
-import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PricingComplianceNote } from "@/components/PricingComplianceNote";
 import { RegionalPrice } from "@/components/RegionalPrice";
 import { useRegion } from "@/contexts/RegionContext";
@@ -79,7 +79,7 @@ export function Membership() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className={sectionSurface('blend', 'relative pt-32 pb-48')}>
+      <section className={sectionSurface('blend', cn('relative', PAGE_HERO_PADDING))}>
         <SectionAmbience tone="blend" />
         
         <div className="container relative z-10 mx-auto text-center">
@@ -91,7 +91,7 @@ export function Membership() {
             <Badge className="mb-6 bg-brand-purple/10 text-brand-purple border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
               {get('membership_hero_badge', 'Membership Plans')}
             </Badge>
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
+            <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
               {get('membership_hero_title', 'Invest in Your Future Self')}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
@@ -163,16 +163,14 @@ export function Membership() {
                     </div>
                   </CardContent>
                   <CardFooter className="p-8 pt-0">
-                    <Button 
-                      className={cn(
-                        "w-full h-14 text-lg font-bold rounded-2xl transition-all",
-                        tier.highlight 
-                          ? "bg-brand-purple hover:bg-brand-hover text-white" 
-                          : "bg-slate-900 hover:bg-brand-purple text-white dark:bg-white dark:text-slate-900 dark:hover:bg-brand-purple dark:hover:text-white"
-                      )} 
-                    >
-                      {tier.cta}
-                    </Button>
+                    <Link href={tier.highlight ? "/membership" : "/contact"} className="w-full">
+                      <Button
+                        variant={tier.highlight ? "brand" : "outline"}
+                        className="w-full h-14 text-lg font-bold rounded-2xl transition-all"
+                      >
+                        {tier.cta}
+                      </Button>
+                    </Link>
                   </CardFooter>
                 </Card>
               </motion.div>
@@ -243,9 +241,11 @@ export function Membership() {
                     </div>
                   ))}
                 </div>
-                <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
-                  Explore Resource Library
-                </Button>
+                <Link href="/community?view=store">
+                  <Button size="lg" variant="brand" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
+                    Explore Resource Library
+                  </Button>
+                </Link>
               </div>
               <div className="grid grid-cols-2 gap-6">
                 {[1, 2, 3, 4].map(i => (

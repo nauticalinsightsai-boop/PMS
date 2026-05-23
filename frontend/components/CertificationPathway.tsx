@@ -56,14 +56,11 @@ export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: str
 
   return (
     <motion.div
-      whileHover={{ 
-        y: -15, 
-        rotateX: 2,
-        rotateY: -2,
-        scale: 1.02,
-        transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+      whileHover={{
+        y: -6,
+        transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
       }}
-      className="h-full perspective-1000"
+      className="h-full motion-reduce:transform-none max-md:[&]:transform-none"
     >
       <Card className={cn(
         "h-full flex flex-col transition-all duration-500 border border-sandstone/30 dark:border-slate-800 relative group overflow-hidden rounded-[3.5rem] bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl",
@@ -77,7 +74,7 @@ export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: str
         {/* Animated Background Accent */}
         <div 
           className="absolute -top-24 -right-24 w-48 h-48 rounded-full blur-3xl opacity-5 transition-opacity group-hover:opacity-20"
-          style={{ backgroundColor: color || "#f97316" }}
+          style={{ backgroundColor: color || 'var(--pms-orange)' }}
         />
 
         {tier.isPopular && (
@@ -109,16 +106,16 @@ export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: str
 
         <CardContent className="px-6 pb-6 flex-1">
           <div className="space-y-6">
-            <div className="space-y-3">
+            <div className="space-y-3 text-center">
               {tier.duration && (
-                <div className="flex items-center gap-2 text-[10px] font-black text-obsidian/70 dark:text-slate-300 uppercase tracking-tight">
+                <div className="flex items-center justify-center gap-2 text-[10px] font-black text-obsidian/70 dark:text-slate-300 uppercase tracking-tight">
                   <Clock className="h-4 w-4 text-brand-orange shrink-0" />
                   <span>{tier.duration}</span>
                 </div>
               )}
               {tier.tierDelivery && (
-                <div className="flex items-start gap-2 text-[10px] font-medium text-obsidian/70 dark:text-slate-300 leading-snug">
-                  <Globe className="h-4 w-4 text-brand-orange shrink-0 mt-0.5" />
+                <div className="flex items-center justify-center gap-2 text-[10px] font-medium text-obsidian/70 dark:text-slate-300 leading-snug">
+                  <Globe className="h-4 w-4 text-brand-orange shrink-0" />
                   <span>{tier.tierDelivery}</span>
                 </div>
               )}
@@ -127,7 +124,9 @@ export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: str
             <div className="h-px bg-gradient-to-r from-transparent via-sandstone/50 dark:via-slate-800 to-transparent w-full" />
 
             <div className="space-y-4">
-              <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Key Outcomes</div>
+              <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-center">
+                Key Outcomes
+              </div>
               <ul className="space-y-3">
                 {tier.outcomes.map((outcome, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm font-bold text-carbon/80 dark:text-slate-300">
@@ -143,7 +142,7 @@ export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: str
           </div>
         </CardContent>
 
-        <CardFooter className="p-6 pt-0 flex flex-col gap-4">
+        <CardFooter className="p-6 pt-0 flex flex-col items-center gap-4 text-center">
           {tier.regionMessage && tier.status && (
             <RegionalStatusBanner
               status={tier.status as OfferingStatus}
@@ -182,7 +181,7 @@ export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: str
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
             </Link>
           )}
-          <p className="text-[10px] text-slate-400 text-center font-medium leading-tight max-w-[180px] mx-auto">
+          <p className="text-[10px] text-slate-400 font-medium leading-tight max-w-[220px] mx-auto">
             Tuition only. Official fees are separate.
           </p>
         </CardFooter>

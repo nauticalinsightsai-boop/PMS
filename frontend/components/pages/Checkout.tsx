@@ -8,8 +8,8 @@ export function CheckoutPage() {
   return (
     <section className={sectionSurface('blend', 'py-24')}>
       <SectionAmbience tone="blend" />
-      <div className="container relative z-10 mx-auto max-w-md">
-        <h1 className="text-4xl font-bold mb-8">Checkout</h1>
+      <div className="container relative z-10 mx-auto max-w-lg">
+        <h1 className="font-heading text-hero font-bold mb-8">Checkout</h1>
         <Suspense fallback={<p>Loading checkout…</p>}>
           <CheckoutForm />
         </Suspense>

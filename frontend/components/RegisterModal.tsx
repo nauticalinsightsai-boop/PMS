@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogBody,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -45,7 +46,7 @@ export function RegisterModal({ trigger }: RegisterModalProps) {
 
   const tierOptions = React.useMemo(
     () => (certId ? getRegisterOfferingsForCert(certId, regionId) : []),
-    [certId, regionId]
+    [certId, regionId],
   );
 
   React.useEffect(() => {
@@ -71,7 +72,7 @@ export function RegisterModal({ trigger }: RegisterModalProps) {
   return (
     <Dialog>
       <DialogTrigger
-        render={trigger || <Button className="bg-brand-orange hover:bg-brand-hover">Book consultation</Button>}
+        render={trigger || <Button variant="brand">Book consultation</Button>}
       />
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
@@ -82,83 +83,94 @@ export function RegisterModal({ trigger }: RegisterModalProps) {
           </DialogDescription>
         </DialogHeader>
         {submitted ? (
-          <p className="py-6 text-sm text-green-700">
-            Thanks — we received your request.{' '}
-            <Link href="/contact" className="underline text-brand-orange">
-              Contact us
-            </Link>{' '}
-            for follow-up.
-          </p>
+          <DialogBody>
+            <p className="py-4 text-sm text-green-700 dark:text-green-400">
+              Thanks — we received your request.{' '}
+              <Link href="/contact" className="underline text-brand-orange">
+                Contact us
+              </Link>{' '}
+              for follow-up.
+            </p>
+          </DialogBody>
         ) : (
-          <form onSubmit={handleSubmit} className="grid gap-6 py-4">
-            <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
+            <DialogBody className="grid gap-6 py-2">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="certification">Certification</Label>
+                  <Select value={certId} onValueChange={(v) => v && setCertId(v)}>
+                    <SelectTrigger id="certification" className="focus-visible:ring-brand-orange/40">
+                      <SelectValue placeholder="Choose one" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {certOptions.map((c) => (
+                        <SelectItem key={c.siteCertId} value={c.siteCertId}>
+                          {c.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="tier">Tier</Label>
+                  <Select value={offeringId} onValueChange={(v) => v && setOfferingId(v)}>
+                    <SelectTrigger id="tier" className="focus-visible:ring-brand-orange/40">
+                      <SelectValue placeholder="Choose tier" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {tierOptions.map((t) => (
+                        <SelectItem key={t.offeringId} value={t.offeringId}>
+                          {t.tierLabel}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
               <div className="space-y-2">
-                <Label htmlFor="certification">Certification</Label>
-                <Select value={certId} onValueChange={(v) => v && setCertId(v)}>
-                  <SelectTrigger id="certification">
-                    <SelectValue placeholder="Choose one" />
+                <Label htmlFor="region">Region (from site selector)</Label>
+                <Select value={regionId} disabled>
+                  <SelectTrigger id="region">
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {certOptions.map((c) => (
-                      <SelectItem key={c.siteCertId} value={c.siteCertId}>
-                        {c.label}
+                    {regions.map((r) => (
+                      <SelectItem key={r.id} value={r.id}>
+                        {r.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+                <p className="text-[11px] text-slate-500">
+                  Change region via the navbar chip before registering.
+                </p>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="tier">Tier</Label>
-                <Select value={offeringId} onValueChange={(v) => v && setOfferingId(v)}>
-                  <SelectTrigger id="tier">
-                    <SelectValue placeholder="Choose tier" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {tierOptions.map((t) => (
-                      <SelectItem key={t.offeringId} value={t.offeringId}>
-                        {t.tierLabel}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input
+                    id="name"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="focus-visible:ring-brand-orange/40"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="focus-visible:ring-brand-orange/40"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="region">Region (from site selector)</Label>
-              <Select value={regionId} disabled>
-                <SelectTrigger id="region">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {regions.map((r) => (
-                    <SelectItem key={r.id} value={r.id}>
-                      {r.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <p className="text-[11px] text-slate-500">
-                Change region via the navbar chip before registering.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input id="name" required value={name} onChange={(e) => setName(e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-            </div>
+            </DialogBody>
             <DialogFooter>
-              <Button type="submit" className="w-full bg-brand-purple hover:bg-brand-purple/90 h-12 text-lg">
+              <Button type="submit" variant="brand" className="w-full h-12 text-lg">
                 Submit pathway request
               </Button>
             </DialogFooter>

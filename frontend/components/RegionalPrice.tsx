@@ -79,31 +79,29 @@ function RegionalPriceTier({
   membership: string | null;
 }) {
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-2 text-center">
       {presentation.showGlobalReference && globalReference && (
         <p className="text-[10px] text-slate-400 dark:text-slate-500">
           {presentation.globalReferenceLabel}{' '}
           <span className="line-through decoration-slate-300">{globalReference}</span>
         </p>
       )}
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <span
-          className={cn(
-            'text-[10px] font-bold uppercase tracking-widest',
-            presentation.kind === 'scholarship' ? 'text-brand-orange' : 'text-slate-500 dark:text-slate-400',
-          )}
-        >
-          {presentation.activeLabel}
-        </span>
-        <span
-          className={cn(
-            'font-bold text-lg',
-            presentation.kind === 'scholarship' ? 'text-brand-orange' : 'text-slate-900 dark:text-white',
-          )}
-        >
-          {active}
-        </span>
-      </div>
+      <p
+        className={cn(
+          'text-[10px] font-bold uppercase tracking-widest',
+          presentation.kind === 'scholarship' ? 'text-brand-orange' : 'text-slate-500 dark:text-slate-400',
+        )}
+      >
+        {presentation.activeLabel}
+      </p>
+      <p
+        className={cn(
+          'font-bold text-lg leading-tight',
+          presentation.kind === 'scholarship' ? 'text-brand-orange' : 'text-slate-900 dark:text-white',
+        )}
+      >
+        {active}
+      </p>
       {membership && (
         <p className="text-[10px] font-semibold text-brand-purple">
           {REGION_COPY.membershipPriceLabel}: {membership}
@@ -126,7 +124,7 @@ function RegionalPriceCompare({
   presentation: ReturnType<typeof resolvePricingPresentation>;
 }) {
   return (
-    <div className="space-y-1 text-sm">
+    <div className="mx-auto space-y-1.5 text-center text-sm max-w-[14rem]">
       {presentation.showGlobalReference && globalReference && (
         <div className="text-slate-400 line-through text-xs">{globalReference}</div>
       )}

@@ -4,6 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import {
   Dialog,
+  DialogBody,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -63,14 +64,14 @@ export function PathwayOfferingModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[min(90vh,820px)] overflow-y-auto rounded-[2rem] sm:max-w-2xl">
+      <DialogContent className="rounded-[2rem] sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold tracking-tight pr-8">{programmeTitle}</DialogTitle>
           <DialogDescription className="text-base font-medium leading-relaxed">{intro}</DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6">
-          <div className="flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+        <DialogBody className="space-y-6 py-2">
+          <div className="flex flex-wrap gap-2 text-label">
             {duration && <span className="rounded-full bg-slate-100 px-3 py-1 dark:bg-slate-800">{duration}</span>}
             {deliveryLine && (
               <span className="rounded-full bg-brand-orange/10 px-3 py-1 text-brand-orange">{deliveryLine}</span>
@@ -101,33 +102,32 @@ export function PathwayOfferingModal({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {preview.resources.map((resource) => {
               const Icon = RESOURCE_ICON[resource.kind];
+              const isPlaceholder = resource.href.startsWith('#');
               return (
-                <a
+                <div
                   key={resource.href}
-                  href={resource.href}
-                  className="group rounded-2xl border border-slate-100 bg-slate-50/80 p-4 transition-colors hover:border-brand-orange/30 hover:bg-brand-orange/5 dark:border-slate-800 dark:bg-slate-900/50"
-                  onClick={(e) => {
-                    if (resource.href.startsWith('#')) e.preventDefault();
-                  }}
+                  className={cn(
+                    'rounded-2xl border border-slate-100 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-900/50',
+                    isPlaceholder && 'opacity-75',
+                  )}
+                  aria-disabled={isPlaceholder}
                 >
                   <Icon className="mb-2 h-5 w-5 text-brand-orange" />
                   <p className="text-sm font-bold text-slate-900 dark:text-white">{resource.title}</p>
                   <p className="mt-1 text-[11px] leading-snug text-slate-500 dark:text-slate-400">
                     {resource.description}
                   </p>
-                  <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-brand-orange opacity-80 group-hover:opacity-100">
-                    Preview
+                  <p className="mt-2 text-label text-brand-orange">
+                    {isPlaceholder ? 'Coming soon' : 'Preview'}
                   </p>
-                </a>
+                </div>
               );
             })}
           </div>
 
           {outcomes.length > 0 && (
             <div className="rounded-2xl border border-slate-100 bg-white p-4 dark:border-slate-800 dark:bg-slate-950/50">
-              <p className="mb-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-                Programme focus
-              </p>
+              <p className="mb-3 text-label">Programme focus</p>
               <ul className="space-y-2">
                 {outcomes.slice(0, 4).map((item) => (
                   <li key={item} className="text-sm font-medium text-slate-600 dark:text-slate-300">
@@ -137,16 +137,15 @@ export function PathwayOfferingModal({
               </ul>
             </div>
           )}
-        </div>
+        </DialogBody>
 
         <DialogFooter className="flex-col gap-2 sm:flex-col">
           <Link
             href={proceedHref}
             onClick={() => onOpenChange(false)}
             className={cn(
-              buttonVariants(),
-              'h-12 w-full rounded-2xl font-bold text-base inline-flex justify-center',
-              'bg-brand-orange hover:bg-brand-hover text-white shadow-md shadow-brand-orange/20',
+              buttonVariants({ variant: 'brand' }),
+              'h-12 w-full rounded-2xl text-base',
             )}
           >
             {proceedLabel}

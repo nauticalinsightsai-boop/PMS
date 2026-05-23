@@ -1,4 +1,5 @@
 'use client';
+import * as React from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -93,24 +94,46 @@ const categories = [
 
 /** Store sections used on /community (Resource Store tab) and legacy /store redirect target */
 export function StoreContent() {
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [activeCategory, setActiveCategory] = React.useState("All Resources");
+
+  const filteredProducts = React.useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return products.filter((product) => {
+      const matchesCategory =
+        activeCategory === "All Resources" || product.category === activeCategory;
+      const matchesSearch =
+        !q ||
+        product.title.toLowerCase().includes(q) ||
+        product.description.toLowerCase().includes(q) ||
+        product.category.toLowerCase().includes(q);
+      return matchesCategory && matchesSearch;
+    });
+  }, [searchQuery, activeCategory]);
+
   return (
     <>
       {/* Store search */}
       <section className={sectionSurface('cool', 'py-12 border-b border-sandstone/60 dark:border-slate-800')}>
         <SectionAmbience tone="cool" />
         <div className="container relative z-10 mx-auto">
-          <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+          <form
+            className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <div className="relative flex-1">
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
               <Input
                 placeholder="Search resources..."
-                className="pl-12 h-14 bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm focus:ring-brand-purple text-base font-medium"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-12 h-14 bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm focus:ring-brand-orange text-base font-medium"
               />
             </div>
-            <Button size="lg" className="bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-brand-purple dark:hover:bg-brand-purple dark:hover:text-white text-white h-14 px-8 rounded-2xl font-bold text-base transition-all">
+            <Button type="submit" size="lg" variant="brand" className="h-14 px-8 rounded-2xl font-bold text-base transition-all">
               Search
             </Button>
-          </div>
+          </form>
         </div>
       </section>
 
@@ -120,11 +143,18 @@ export function StoreContent() {
           <div className="flex items-center gap-4 overflow-x-auto pb-2 no-scrollbar">
             {categories.map((cat) => (
               <Button 
-                key={cat.name} 
-                variant="ghost" 
-                className="whitespace-nowrap rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 text-slate-500 dark:text-slate-400 font-bold px-6 h-10 text-sm transition-all"
+                key={cat.name}
+                type="button"
+                variant={activeCategory === cat.name ? "secondary" : "ghost"}
+                onClick={() => setActiveCategory(cat.name)}
+                className={cn(
+                  "whitespace-nowrap rounded-xl font-bold px-6 h-10 text-sm transition-all",
+                  activeCategory === cat.name
+                    ? "bg-brand-orange/10 text-brand-orange"
+                    : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900",
+                )}
               >
-                <cat.icon className="h-4 w-4 mr-2 text-brand-purple" />
+                <cat.icon className="h-4 w-4 mr-2 text-brand-orange" />
                 {cat.name}
               </Button>
             ))}
@@ -136,8 +166,13 @@ export function StoreContent() {
       <section className={sectionSurface('soft', 'py-20')}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
+          {filteredProducts.length === 0 ? (
+            <p className="text-center text-slate-500 dark:text-slate-400 font-medium py-16">
+              No resources match your search. Try another category or clear the search.
+            </p>
+          ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product, index) => (
+            {filteredProducts.map((product, index) => (
               <motion.div
                 key={product.title}
                 initial={{ opacity: 0, y: 20 }}
@@ -180,14 +215,21 @@ export function StoreContent() {
                     <div className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{product.price}</div>
                   </CardContent>
                   <CardFooter className="px-8 pb-8 pt-0">
-                    <Button className="w-full h-12 bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-brand-purple dark:hover:bg-brand-purple dark:hover:text-white text-white rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2">
-                      <ShoppingCart className="h-4 w-4" /> Add to Cart
+                    <Button
+                      type="button"
+                      disabled
+                      aria-disabled="true"
+                      variant="outline"
+                      className="w-full h-12 rounded-xl font-bold text-sm flex items-center justify-center gap-2 opacity-60 cursor-not-allowed"
+                    >
+                      <ShoppingCart className="h-4 w-4" /> Add to Cart (soon)
                     </Button>
                   </CardFooter>
                 </Card>
               </motion.div>
             ))}
           </div>
+          )}
         </div>
       </section>
 

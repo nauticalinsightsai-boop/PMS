@@ -35,7 +35,7 @@ export function PathwayTierCta({
         type="button"
         onClick={() => setOpen(true)}
         className={cn(
-          'h-14 w-full rounded-[1rem] font-black text-lg group/btn transition-all shadow-xl hover:shadow-brand-orange/20',
+          'h-14 w-full rounded-[1rem] font-black text-lg text-center justify-center group/btn transition-all shadow-xl hover:shadow-brand-orange/20',
           popular
             ? gradient
               ? cn('bg-gradient-to-r text-white', gradient)

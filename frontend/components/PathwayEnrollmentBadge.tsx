@@ -18,7 +18,7 @@ export function PathwayEnrollmentBadge({
   return (
     <Badge
       className={cn(
-        'border-none text-[10px] font-bold uppercase tracking-widest px-3 py-1',
+        'inline-flex items-center justify-center text-center leading-none border-none text-[10px] font-bold uppercase tracking-widest px-3 py-1 min-h-6',
         isOpen
           ? 'bg-brand-orange text-white'
           : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-300',

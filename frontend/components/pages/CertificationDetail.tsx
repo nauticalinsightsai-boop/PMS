@@ -6,7 +6,7 @@ import { CertificationPathway } from "@/components/CertificationPathway";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, Clock, Award, ShieldCheck, CheckCircle2, TrendingUp, Sparkles, Target, Zap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { PathwayTier } from "@/types/site";
 import * as siteData from "@/data/siteData";
@@ -16,6 +16,9 @@ import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
 import { useRegion } from "@/contexts/RegionContext";
 import { buildPathwayTiersForCert } from "@/lib/pathway-from-catalogue";
 import { getOfferingsForSiteCert } from "@/lib/regional-catalogue";
+import { hrefForCtaAction } from "@/lib/cta-router";
+import { canCheckout } from "@/lib/status-normalize";
+import type { RegionId } from "@/types/regional-catalogue";
 import { PricingComplianceNote } from "@/components/PricingComplianceNote";
 
 function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
@@ -28,21 +31,18 @@ function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
 export function CertificationDetail() {
   const { id } = useParams();
   const { regionId, gccCountry } = useRegion();
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
   const cert = siteData.certifications.find(c => c.id === id) || siteData.certifications[0];
   const certName = cert.name;
   const family = siteData.familyConfigs[cert.familyId] || siteData.familyConfigs["PMI"];
   const enrollmentOpen = certHasOpenEnrollment(cert.id, regionId);
 
-  // Parallax effects for 3D feel
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const rotateX = useTransform(scrollYProgress, [0, 0.2], [0, 10]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
+  const foundationCheckoutHref = React.useMemo(() => {
+    const foundation = getOfferingsForSiteCert(cert.id).find((o) => o.tierId === "foundation");
+    if (!foundation) return null;
+    const status = foundation.regional[regionId as RegionId]?.status;
+    if (!canCheckout(status)) return null;
+    return hrefForCtaAction("checkout", foundation.offeringId, cert.id);
+  }, [cert.id, regionId]);
 
   const pathway: PathwayTier[] = React.useMemo(
     () =>
@@ -57,9 +57,9 @@ export function CertificationDetail() {
   );
 
   return (
-    <div ref={containerRef} className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
+    <div className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
       {/* Header / Breadcrumb */}
-      <section className="py-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100 dark:border-slate-800">
+      <section className="py-3 bg-background/90 backdrop-blur-sm sticky top-16 z-40 border-b border-border">
         <div className="container mx-auto flex justify-between items-center">
           <Link href="/certifications">
             <Button variant="ghost" className="text-slate-500 hover:text-brand-orange -ml-4 font-bold transition-all">
@@ -97,7 +97,7 @@ export function CertificationDetail() {
                 <PathwayEnrollmentBadge certId={cert.id} />
               </div>
 
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
+              <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
                 {certName} <br />
                 <span className="text-brand-orange">Pathway</span>
               </h1>
@@ -114,7 +114,7 @@ export function CertificationDetail() {
                 <div className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">{cert.outputValue}</div>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 {[
                   { icon: Clock, label: "Flexible Learning", color: "text-brand-orange" },
                   { icon: Award, label: "Global Recognition", color: "text-brand-deep" },
@@ -395,9 +395,11 @@ export function CertificationDetail() {
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 {enrollmentOpen ? (
-                  <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
-                    Enroll in Foundation
-                  </Button>
+                  <Link href={foundationCheckoutHref ?? "/contact"}>
+                    <Button size="lg" variant="brand" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
+                      Enroll in Foundation
+                    </Button>
+                  </Link>
                 ) : (
                   <Link href="/contact">
                     <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">

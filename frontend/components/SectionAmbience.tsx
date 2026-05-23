@@ -4,12 +4,12 @@ import { cn } from '@/lib/utils';
 export type SectionTone = 'warm' | 'cool' | 'purple' | 'blend' | 'soft';
 
 const toneBackground: Record<SectionTone, string> = {
-  warm: 'bg-gradient-to-b from-orange-50/55 via-white to-white dark:from-[#1a100e] dark:via-slate-950 dark:to-slate-950',
-  cool: 'bg-gradient-to-b from-cyan-50/50 via-white to-white dark:from-[#061628] dark:via-slate-950 dark:to-slate-950',
-  purple: 'bg-gradient-to-b from-violet-50/50 via-white to-white dark:from-[#100e28] dark:via-slate-950 dark:to-slate-950',
+  warm: 'bg-gradient-to-b from-orange-50/55 via-background to-background dark:from-background dark:via-card dark:to-background',
+  cool: 'bg-gradient-to-b from-cyan-50/50 via-background to-background dark:from-background dark:via-card dark:to-background',
+  purple: 'bg-gradient-to-b from-violet-50/50 via-background to-background dark:from-background dark:via-card dark:to-background',
   blend:
-    'bg-gradient-to-br from-orange-50/35 via-white to-violet-50/30 dark:from-[#0f0e38] dark:via-slate-950 dark:to-[#0a1535]',
-  soft: 'bg-gradient-to-b from-slate-50/90 via-white to-white dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-950',
+    'bg-gradient-to-br from-orange-50/35 via-background to-violet-50/30 dark:from-card dark:via-background dark:to-[var(--shell-gradient-dark-to)]',
+  soft: 'bg-gradient-to-b from-slate-50/90 via-background to-background dark:from-card/80 dark:via-background dark:to-background',
 };
 
 type Orb = { className: string };

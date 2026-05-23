@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -55,6 +54,13 @@
   --gw-accent-secondary: var(--secondary);
 
   --site-gutter: clamp(1.25rem, 5vw, 3rem);
+
+  --shell-gradient-from: #fff7f5;
+  --shell-gradient-via: #ffffff;
+  --shell-gradient-to: #f5f3ff;
+  --shell-gradient-dark-from: var(--background);
+  --shell-gradient-dark-via: var(--card);
+  --shell-gradient-dark-to: #0a1535;
 }
 
 .dark {
@@ -85,8 +91,8 @@
 }
 
 @theme inline {
-  --font-heading: 'Montserrat', sans-serif;
-  --font-sans: 'Montserrat', sans-serif;
+  --font-heading: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
 
   /* Legacy aliases → PMS palette (existing components keep working) */
   --color-brand-orange: #ff4a38;
@@ -163,7 +169,7 @@
     @apply bg-background text-foreground transition-colors duration-300 antialiased;
   }
   html {
-    @apply font-sans scroll-smooth;
+    @apply font-sans scroll-smooth overflow-x-hidden;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading tracking-tight text-pms-navy dark:text-foreground;
@@ -260,5 +266,54 @@
   }
   .animate-pulse-slow {
     animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .text-hero {
+    @apply font-heading text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl text-slate-900 dark:text-white;
+  }
+  .text-section {
+    @apply font-heading text-3xl font-bold tracking-tight leading-tight md:text-4xl lg:text-5xl text-slate-900 dark:text-white;
+  }
+  .text-label {
+    @apply text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500;
+  }
+  .text-price {
+    @apply text-sm font-extrabold tabular-nums text-slate-900 dark:text-white;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--border) 80%, transparent) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--muted-foreground) 40%, transparent);
+  }
+
+  .scroll-fade-x {
+    position: relative;
+  }
+  .scroll-fade-x::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2rem;
+    background: linear-gradient(to left, var(--background), transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .motion-safe\:animate-float {
+      animation: none !important;
+    }
+    html {
+      scroll-behavior: auto;
+    }
   }
 }

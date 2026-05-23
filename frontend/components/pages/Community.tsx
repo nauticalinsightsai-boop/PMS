@@ -17,6 +17,7 @@ import {
   Heart,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { StoreContent } from "@/components/pages/Store";
 import { BRAND, COMMUNITY_COPY, CTAS } from "@/lib/brand-voice";
@@ -98,9 +99,11 @@ function CommunityNetworkContent() {
                         <Users2 className="h-4 w-4" />
                         <span>{channel.members} members</span>
                       </div>
-                      <Button variant="ghost" size="sm" className="text-brand-purple font-bold text-base group-hover:translate-x-1 transition-transform">
-                        Join <ArrowRight className="ml-1.5 h-4 w-4" />
-                      </Button>
+                      <Link href="/contact">
+                        <Button variant="ghost" size="sm" className="text-brand-orange font-bold text-base group-hover:translate-x-1 transition-transform">
+                          Join <ArrowRight className="ml-1.5 h-4 w-4" />
+                        </Button>
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>
@@ -180,7 +183,9 @@ function CommunityNetworkContent() {
               <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">Live Sessions & Events</h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 mt-4 font-medium">Join our upcoming interactive workshops and networking mixers.</p>
             </div>
-            <Button variant="outline" className="rounded-xl border-slate-200 dark:border-slate-800 h-12 px-6 font-bold text-base">View Full Calendar</Button>
+            <Link href="/contact">
+              <Button variant="outline" className="rounded-xl border-slate-200 dark:border-slate-800 h-12 px-6 font-bold text-base">View Full Calendar</Button>
+            </Link>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -198,7 +203,7 @@ function CommunityNetworkContent() {
                       </Badge>
                       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{event.date}</div>
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-brand-purple transition-colors tracking-tight">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-brand-orange transition-colors tracking-tight">
                       {event.title}
                     </h3>
                     <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 font-medium">
@@ -208,7 +213,9 @@ function CommunityNetworkContent() {
                   </div>
                   <div className="px-8 py-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
                     <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">124 attending</span>
-                    <Button size="sm" className="bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-brand-purple dark:hover:bg-brand-purple dark:hover:text-white text-white rounded-lg h-10 px-4 font-bold text-xs">Register Now</Button>
+                    <Link href="/contact">
+                      <Button size="sm" variant="brand" className="rounded-lg h-10 px-4 font-bold text-xs">Register Now</Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>
@@ -229,12 +236,16 @@ function CommunityNetworkContent() {
                 Your professional network supports readiness and delivery judgment. Start building it with {BRAND.name}.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Button size="lg" className="bg-brand-purple hover:bg-brand-hover text-white h-14 px-8 rounded-2xl font-bold text-lg shadow-xl transition-all">
-                  Join the Community
-                </Button>
-                <Button size="lg" variant="outline" className="border-slate-700 text-white hover:bg-white/10 h-14 px-8 rounded-2xl font-bold text-lg transition-all">
-                  Browse Study Circles
-                </Button>
+                <Link href="/contact">
+                  <Button size="lg" variant="brand" className="h-14 px-8 rounded-2xl font-bold text-lg shadow-xl transition-all">
+                    Join the Community
+                  </Button>
+                </Link>
+                <Link href="/community">
+                  <Button size="lg" variant="outline" className="border-slate-700 text-white hover:bg-white/10 h-14 px-8 rounded-2xl font-bold text-lg transition-all">
+                    Browse Study Circles
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -268,7 +279,7 @@ export function Community() {
     cn(
       "h-12 px-6 rounded-xl font-bold text-base transition-all",
       activeTab === tab
-        ? "bg-brand-purple hover:bg-brand-hover text-white shadow-xl border-transparent"
+        ? "bg-brand-orange hover:bg-brand-hover text-white shadow-xl border-transparent"
         : "border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900 bg-transparent shadow-none",
     );
 
@@ -287,7 +298,7 @@ export function Community() {
             <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
               {get('community_badge', COMMUNITY_COPY.heroBadge)}
             </Badge>
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
+            <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
               {get('community_title', COMMUNITY_COPY.heroTitle)}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">

@@ -27,31 +27,22 @@ export function Footer() {
             <p className="text-sm text-carbon dark:text-slate-400 leading-relaxed max-w-xs font-medium">
               {BRAND_LINES.promise}
             </p>
-            <div className="flex gap-4">
-              <a
-                href="#"
-                className="p-2 rounded-full bg-white dark:bg-slate-900 shadow-sm text-carbon dark:text-slate-400 hover:text-brand-orange transition-colors"
-              >
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="p-2 rounded-full bg-white dark:bg-slate-900 shadow-sm text-carbon dark:text-slate-400 hover:text-brand-orange transition-colors"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="p-2 rounded-full bg-white dark:bg-slate-900 shadow-sm text-carbon dark:text-slate-400 hover:text-brand-orange transition-colors"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="p-2 rounded-full bg-white dark:bg-slate-900 shadow-sm text-carbon dark:text-slate-400 hover:text-brand-orange transition-colors"
-              >
-                <Youtube className="h-5 w-5" />
-              </a>
+            <div className="flex gap-4" aria-label="Social media (coming soon)">
+              {[
+                { Icon: Facebook, label: 'Facebook' },
+                { Icon: Twitter, label: 'Twitter' },
+                { Icon: Linkedin, label: 'LinkedIn' },
+                { Icon: Youtube, label: 'YouTube' },
+              ].map(({ Icon, label }) => (
+                <span
+                  key={label}
+                  aria-disabled
+                  title={`${label} (coming soon)`}
+                  className="p-2 rounded-full bg-card shadow-sm text-muted-foreground opacity-60"
+                >
+                  <Icon className="h-5 w-5" />
+                </span>
+              ))}
             </div>
           </div>
 
@@ -162,7 +153,8 @@ export function Footer() {
             <a href={dashboardLoginUrl}>
               <Button
                 size="lg"
-                className="bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-brand-orange dark:hover:bg-brand-orange dark:hover:text-white font-semibold px-6 rounded-full shadow-md gap-2"
+                variant="brand"
+                className="font-semibold px-6 rounded-full gap-2"
               >
                 <LayoutDashboard className="h-4 w-4" />
                 Admin Dashboard
@@ -175,15 +167,15 @@ export function Footer() {
 
           <div className="flex flex-wrap justify-center gap-6 text-xs text-carbon dark:text-slate-500 font-medium">
             <span>© {new Date().getFullYear()} {BRAND.name}. All rights reserved.</span>
-            <Link href="#" className="hover:text-brand-orange transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="hover:text-brand-orange transition-colors">
-              Terms of Service
-            </Link>
-            <Link href="#" className="hover:text-brand-orange transition-colors">
-              Cookie Policy
-            </Link>
+            <span className="text-muted-foreground" aria-disabled>
+              Privacy Policy (coming soon)
+            </span>
+            <span className="text-muted-foreground" aria-disabled>
+              Terms of Service (coming soon)
+            </span>
+            <span className="text-muted-foreground" aria-disabled>
+              Cookie Policy (coming soon)
+            </span>
           </div>
         </div>
 

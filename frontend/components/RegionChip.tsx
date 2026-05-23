@@ -2,7 +2,9 @@
 
 import { MapPin } from 'lucide-react';
 import { useRegion } from '@/contexts/RegionContext';
-export function RegionChip() {
+import { cn } from '@/lib/utils';
+
+export function RegionChip({ className }: { className?: string }) {
   const { regionId, regionLabel, openRegionModal } = useRegion();
   const suffix =
     regionId === 'india' || regionId === 'pakistan' ? ' · Regional Scholarship' : '';
@@ -11,14 +13,17 @@ export function RegionChip() {
     <button
       type="button"
       onClick={openRegionModal}
-      className="hidden md:flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:border-brand-orange hover:text-brand-orange dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-300"
+      className={cn(
+        'flex min-h-11 items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:border-brand-orange hover:text-brand-orange',
+        className,
+      )}
     >
       <MapPin className="h-3.5 w-3.5 shrink-0" />
-      <span>
+      <span className="max-w-[140px] truncate sm:max-w-none">
         {regionLabel}
         {suffix}
       </span>
-      <span className="text-[10px] font-bold uppercase tracking-wider text-brand-orange">Change</span>
+      <span className="text-label text-brand-orange">Change</span>
     </button>
   );
 }

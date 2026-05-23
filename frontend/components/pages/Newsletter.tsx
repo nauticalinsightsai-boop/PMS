@@ -78,8 +78,28 @@ const articles = [
   }
 ];
 
+const SUBSCRIBER_COUNT = "5,000+";
+
 export function Newsletter() {
   const [activeCategory, setActiveCategory] = React.useState("All");
+  const [visibleCount, setVisibleCount] = React.useState(4);
+  const [subscribeNote, setSubscribeNote] = React.useState<string | null>(null);
+
+  const filteredArticles = React.useMemo(() => {
+    if (activeCategory === "All") return articles;
+    return articles.filter((a) => a.category === activeCategory);
+  }, [activeCategory]);
+
+  const featuredArticle = filteredArticles[0] ?? articles[0];
+  const visibleArticles = filteredArticles.slice(0, visibleCount);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubscribeNote("Thanks — redirecting you to subscribe.");
+    window.setTimeout(() => {
+      window.location.href = "/newsletter";
+    }, 800);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -98,11 +118,11 @@ export function Newsletter() {
               <Badge variant="outline" className="mb-6 border-[#0859b3]/25 text-[#0859b3] dark:text-[#57d5e2] bg-[#0859b3]/5 dark:bg-[#57d5e2]/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
                 Editorial & Insights
               </Badge>
-              <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-8">
+              <h1 className="font-heading text-hero font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-8">
                 The <span className="text-pms-gradient-blue-cyan">Structure</span> Report
               </h1>
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium max-w-2xl md:mx-0 mx-auto">
-                Expert analysis, certification strategies, and the latest trends in global project leadership. Delivered weekly to 5,000+ professionals.
+                Expert analysis, certification strategies, and the latest trends in global project leadership. Delivered weekly to {SUBSCRIBER_COUNT} professionals.
               </p>
             </div>
             <div className="w-full md:w-auto">
@@ -137,7 +157,7 @@ export function Newsletter() {
 
       <div className="container mx-auto py-12">
         {/* 2. Featured Article */}
-        <FeaturedPost article={articles[3]} />
+        <FeaturedPost article={featuredArticle} storyHref="#featured-story" />
 
         <Separator className="my-12 opacity-50" />
 
@@ -157,16 +177,23 @@ export function Newsletter() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {articles.map((article, index) => (
-                <ArticleCard key={index} article={article} />
+              {visibleArticles.map((article, index) => (
+                <ArticleCard key={`${article.title}-${index}`} article={article} />
               ))}
             </div>
 
-            <div className="mt-16 flex justify-center">
-              <Button variant="outline" size="lg" className="h-14 px-12 rounded-2xl border-slate-200 dark:border-slate-800 font-bold group">
-                Load More Articles <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </div>
+            {visibleCount < filteredArticles.length && (
+              <div className="mt-16 flex justify-center">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="h-14 px-12 rounded-2xl border-slate-200 dark:border-slate-800 font-bold group"
+                  onClick={() => setVisibleCount((n) => Math.min(n + 2, filteredArticles.length))}
+                >
+                  Load More Articles <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Sidebar: Popular & Editor Picks */}
@@ -223,15 +250,18 @@ export function Newsletter() {
                 <p className="text-white/90 text-sm mb-6 leading-relaxed">
                   Get the latest PM insights and certification strategies delivered to your inbox every Tuesday.
                 </p>
-                <div className="space-y-3">
+                <form className="space-y-3" onSubmit={handleSubscribe}>
                   <Input
                     placeholder="Your email address"
                     className="h-12 bg-white/15 border-white/30 text-white placeholder:text-white/60 focus-visible:ring-white/40"
                   />
-                  <Button className="w-full h-12 bg-white text-brand-orange hover:bg-slate-50 font-bold shadow-sm">
+                  <Button type="submit" className="w-full h-12 bg-white text-brand-orange hover:bg-slate-50 font-bold shadow-sm">
                     Subscribe
                   </Button>
-                </div>
+                  {subscribeNote && (
+                    <p className="text-xs text-white/90 font-medium" role="status">{subscribeNote}</p>
+                  )}
+                </form>
                 <div className="mt-8 pt-6 border-t border-white/25">
                   <p className="text-xs font-semibold uppercase tracking-widest text-white/70 mb-3">
                     Need pathway guidance?
@@ -254,8 +284,9 @@ export function Newsletter() {
         {/* 7. Join Newsletter CTA (Large) */}
         <CTABanner 
           title="Stay Ahead of the Curve" 
-          description="Join 1,284+ project professionals receiving weekly deep-dives on methodology, leadership, and career growth."
+          description={`Join ${SUBSCRIBER_COUNT} project professionals receiving weekly deep-dives on methodology, leadership, and career growth.`}
           buttonText="Join the Newsletter"
+          buttonHref="/newsletter"
           variant="orange"
         />
 
@@ -264,6 +295,7 @@ export function Newsletter() {
           title="Join the PM Structure Newsletter" 
           description="Members get access to case studies, exam simulators, and mentor-led sessions focused on readiness and practical project judgment."
           buttonText="Explore Membership"
+          buttonHref="/membership"
           variant="purple"
         />
       </div>

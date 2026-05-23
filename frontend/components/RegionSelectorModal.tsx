@@ -3,8 +3,10 @@
 import * as React from 'react';
 import {
   Dialog,
+  DialogBody,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -59,9 +61,7 @@ const SECTIONS: { title: string; options: CardOption[]; columns?: 2 | 3 }[] = [
 function SectionDivider({ title }: { title: string }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="shrink-0 text-[11px] font-semibold uppercase tracking-wide text-slate-400">
-        {title}
-      </span>
+      <span className="shrink-0 text-label">{title}</span>
       <div className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
     </div>
   );
@@ -92,22 +92,15 @@ export function RegionSelectorModal() {
 
   return (
     <Dialog open={modalOpen} onOpenChange={(open) => !open && closeRegionModal()}>
-      <DialogContent
-        className={cn(
-          'max-h-[90vh] overflow-y-auto border-slate-200 bg-white p-6 sm:max-w-[512px]',
-          'text-slate-900 shadow-xl dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100',
-        )}
-      >
+      <DialogContent className="sm:max-w-[512px] border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-950">
         <DialogHeader className="space-y-2 text-left">
-          <DialogTitle className="text-lg font-bold leading-snug pr-8 text-slate-900 dark:text-white">
+          <DialogTitle className="text-lg font-bold leading-snug pr-8">
             Select your region for a personalized website experience.
           </DialogTitle>
-          <DialogDescription className="text-sm text-slate-500 dark:text-slate-400">
-            {REGION_COPY.pricingSelector}
-          </DialogDescription>
+          <DialogDescription>{REGION_COPY.pricingSelector}</DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 py-1">
+        <DialogBody className="space-y-6 py-1">
           {SECTIONS.map((section) => (
             <div key={section.title} className="space-y-3">
               <SectionDivider title={section.title} />
@@ -127,9 +120,9 @@ export function RegionSelectorModal() {
                       type="button"
                       onClick={() => setSelected(opt.id)}
                       className={cn(
-                        'flex items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-all',
+                        'flex min-h-11 items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-all',
                         isSelected
-                          ? 'border-violet-400 bg-violet-50 ring-1 ring-violet-300 dark:border-violet-500 dark:bg-violet-950/50 dark:ring-violet-600'
+                          ? 'border-brand-orange bg-brand-orange/5 ring-2 ring-brand-orange/30 dark:bg-brand-orange/10'
                           : 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:hover:border-slate-600',
                       )}
                     >
@@ -138,7 +131,7 @@ export function RegionSelectorModal() {
                         {opt.label}
                       </span>
                       {isSelected && (
-                        <Check className="h-4 w-4 shrink-0 text-violet-600 dark:text-violet-400" />
+                        <Check className="h-4 w-4 shrink-0 text-brand-orange" />
                       )}
                     </button>
                   );
@@ -146,22 +139,24 @@ export function RegionSelectorModal() {
               </div>
             </div>
           ))}
-        </div>
 
-        {overview && (
-          <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400 border-t border-slate-100 pt-4 dark:border-slate-800">
-            {overview}
-          </p>
-        )}
+          {overview && (
+            <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400 border-t border-slate-100 pt-4 dark:border-slate-800">
+              {overview}
+            </p>
+          )}
+        </DialogBody>
 
-        <button
-          type="button"
-          disabled={!selected}
-          onClick={confirm}
-          className="w-full rounded-full bg-brand-orange py-3 text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-95 disabled:opacity-40"
-        >
-          Confirm region
-        </button>
+        <DialogFooter className="sm:justify-stretch">
+          <button
+            type="button"
+            disabled={!selected}
+            onClick={confirm}
+            className="w-full rounded-full bg-brand-orange py-3 text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-95 disabled:opacity-40 min-h-11"
+          >
+            Confirm region
+          </button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

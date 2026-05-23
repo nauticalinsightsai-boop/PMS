@@ -1,11 +1,11 @@
 'use client';
 
-import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { CheckCircle2, Zap } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { StatChip } from '@/components/ui/stat-chip';
 import { CertificationPathwayVisual } from '@/components/CertificationPathwayVisual';
 import { PathwayEnrollmentBadge } from '@/components/PathwayEnrollmentBadge';
 import { cn } from '@/lib/utils';
@@ -14,30 +14,6 @@ import { isEnrollmentOpen } from '@/lib/certification-enrollment';
 import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import { getCertDurationLabel, getListingPriceForCert } from '@/lib/regional-catalogue';
 import type { CertificationSummary } from '@/types/site';
-
-function FeaturedPricingChip({
-  label,
-  children,
-  className,
-}: {
-  label: string;
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={cn(
-        'flex min-w-0 flex-1 flex-col gap-0.5 rounded-xl bg-slate-50 px-2 py-1.5 dark:bg-slate-800 sm:px-2.5',
-        className,
-      )}
-    >
-      <span className="text-[8px] font-bold uppercase leading-tight tracking-widest text-slate-400 dark:text-slate-500">
-        {label}
-      </span>
-      <div className="min-w-0">{children}</div>
-    </div>
-  );
-}
 
 /** Prep time, tuition, and membership — three aligned chips from the same listing tier. */
 function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
@@ -59,46 +35,59 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
       })
     : null;
 
-  return (
-    <div className="mb-5 grid grid-cols-3 gap-1.5">
-      <FeaturedPricingChip label="Prep time">
-        <p className="text-[11px] font-bold leading-tight text-slate-800 dark:text-slate-100">
-          {duration ?? 'Flexible'}
-        </p>
-      </FeaturedPricingChip>
+  const showGlobalReference =
+    Boolean(presentation?.showGlobalReference && listing.original);
 
-      <FeaturedPricingChip label="Tuition">
-        {listing.active ? (
-          <div className="space-y-0.5">
+  return (
+    <div className="mb-5 space-y-2">
+      <div className="grid grid-cols-2 gap-2 items-stretch sm:grid-cols-3">
+        <StatChip label="Prep time">
+          <p className="text-sm font-extrabold leading-tight tracking-tight text-slate-900 dark:text-white">
+            {duration ?? 'Flexible'}
+          </p>
+        </StatChip>
+
+        <StatChip label="Tuition">
+          {listing.active ? (
             <p
               className={cn(
-                'text-[11px] font-bold leading-tight',
+                'text-sm font-extrabold leading-tight tracking-tight',
                 presentation?.kind === 'scholarship'
                   ? 'text-brand-orange'
-                  : 'text-slate-800 dark:text-slate-100',
+                  : 'text-slate-900 dark:text-white',
               )}
             >
               {listing.active}
             </p>
-            {presentation?.showGlobalReference && listing.original && (
-              <p className="text-[8px] leading-tight text-slate-400 dark:text-slate-500">
-                <span className="font-semibold">{presentation.globalReferenceLabel}</span>{' '}
-                <span className="line-through decoration-slate-300">{listing.original}</span>
-              </p>
-            )}
-          </div>
-        ) : (
-          <p className="text-[11px] font-bold text-slate-400">—</p>
-        )}
-      </FeaturedPricingChip>
+          ) : (
+            <p className="text-sm font-extrabold text-slate-400">—</p>
+          )}
+        </StatChip>
 
-      <FeaturedPricingChip label="Member">
-        {listing.membership ? (
-          <p className="text-[11px] font-bold leading-tight text-brand-purple">{listing.membership}</p>
-        ) : (
-          <p className="text-[11px] font-bold text-slate-400">—</p>
-        )}
-      </FeaturedPricingChip>
+        <StatChip label="Member">
+          {listing.membership ? (
+            <p className="text-sm font-extrabold leading-tight tracking-tight text-brand-purple">
+              {listing.membership}
+            </p>
+          ) : (
+            <p className="text-sm font-extrabold text-slate-400">—</p>
+          )}
+        </StatChip>
+      </div>
+
+      {showGlobalReference && listing.original && (
+        <div
+          className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 rounded-xl border border-slate-200/80 bg-white px-3 py-2 text-center dark:border-slate-700 dark:bg-slate-950/40"
+          aria-label={`${presentation!.globalReferenceLabel} ${listing.original}`}
+        >
+          <span className="text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+            {presentation!.globalReferenceLabel}
+          </span>
+          <span className="text-xs font-bold text-slate-600 line-through decoration-slate-400 dark:text-slate-300 dark:decoration-slate-500">
+            {listing.original}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
@@ -138,16 +127,16 @@ export function PathwayFeaturedCard({
     >
       <CertificationPathwayVisual cert={cert} subtitle={subtitle} />
       <CardHeader className="p-5 pb-2">
-        <div className="flex flex-wrap items-center gap-2 mb-3">
-          <Badge className="w-fit bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1">
+        <div className="flex flex-wrap items-center justify-start gap-2 mb-3">
+          <Badge className="inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1 text-center">
             {badgeLabel}
           </Badge>
           <PathwayEnrollmentBadge certId={cert.id} />
         </div>
         <CardTitle className="text-2xl font-bold tracking-tight mb-3 leading-tight">{displayTitle}</CardTitle>
-        <div className="flex items-center gap-2 mb-4 p-2 rounded-xl bg-brand-orange/5 border border-brand-orange/10">
+        <div className="flex items-center justify-center gap-2 mb-4 p-2.5 rounded-xl bg-brand-orange/5 border border-brand-orange/10 text-center">
           <Zap className="h-3 w-3 text-brand-orange shrink-0" />
-          <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight">
+          <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight leading-snug">
             {cert.outputValue}
           </span>
         </div>
@@ -171,9 +160,9 @@ export function PathwayFeaturedCard({
           ))}
         </ul>
       </CardContent>
-      <CardFooter className="max-h-0 overflow-hidden border-t-0 bg-transparent p-0 opacity-0 transition-all duration-300 ease-out max-md:max-h-28 max-md:border-t max-md:bg-muted/50 max-md:px-5 max-md:pb-5 max-md:pt-6 max-md:opacity-100 md:group-hover/pathway:max-h-28 md:group-hover/pathway:border-t md:group-hover/pathway:bg-muted/50 md:group-hover/pathway:px-5 md:group-hover/pathway:pb-5 md:group-hover/pathway:pt-6 md:group-hover/pathway:opacity-100 md:group-focus-within/pathway:max-h-28 md:group-focus-within/pathway:border-t md:group-focus-within/pathway:bg-muted/50 md:group-focus-within/pathway:px-5 md:group-focus-within/pathway:pb-5 md:group-focus-within/pathway:pt-6 md:group-focus-within/pathway:opacity-100">
+      <CardFooter className="border-t border-border bg-muted/50 px-5 pb-5 pt-6 max-md:opacity-100 [@media(hover:hover)]:max-h-0 [@media(hover:hover)]:overflow-hidden [@media(hover:hover)]:border-t-0 [@media(hover:hover)]:bg-transparent [@media(hover:hover)]:p-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover/pathway:max-h-28 [@media(hover:hover)]:group-hover/pathway:border-t [@media(hover:hover)]:group-hover/pathway:bg-muted/50 [@media(hover:hover)]:group-hover/pathway:px-5 [@media(hover:hover)]:group-hover/pathway:pb-5 [@media(hover:hover)]:group-hover/pathway:pt-6 [@media(hover:hover)]:group-hover/pathway:opacity-100 [@media(hover:hover)]:group-focus-within/pathway:max-h-28 [@media(hover:hover)]:group-focus-within/pathway:opacity-100">
         <Link href={`/certifications/${cert.id}`} className="w-full">
-          <Button className="w-full h-12 rounded-2xl font-bold text-base bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-brand-orange dark:hover:bg-brand-orange dark:hover:text-white text-white transition-all">
+          <Button variant="brand" className="w-full h-12 rounded-2xl font-bold text-base">
             {isEnrollmentOpen(cert.id, regionId) ? 'View pathway' : 'View overview'}
           </Button>
         </Link>

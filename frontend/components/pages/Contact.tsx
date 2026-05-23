@@ -1,6 +1,6 @@
 'use client';
+import * as React from "react";
 import { Suspense } from 'react';
-import { motion } from "motion/react";
 import { ContactRegionalExtras } from '@/components/ContactRegionalExtras';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +13,27 @@ import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 
 export function Contact() {
   const { get } = useWebsiteData();
+  const [formError, setFormError] = React.useState<string | null>(null);
+  const [formSent, setFormSent] = React.useState(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const email = String(data.get("email") ?? "").trim();
+    const message = String(data.get("message") ?? "").trim();
+    if (!email || !message) {
+      setFormError("Please enter your email and message.");
+      setFormSent(false);
+      return;
+    }
+    setFormError(null);
+    setFormSent(true);
+    const subject = encodeURIComponent(String(data.get("subject") ?? "PMS inquiry"));
+    const body = encodeURIComponent(
+      `From: ${data.get("first-name")} ${data.get("last-name")}\nEmail: ${email}\n\n${message}`,
+    );
+    window.location.href = `mailto:support@pmstructure.com?subject=${subject}&body=${body}`;
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -74,7 +95,9 @@ export function Contact() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-slate-300 mb-4">Need immediate help? Chat with our support experts right now.</p>
-                  <Button className="w-full bg-brand-purple hover:bg-brand-purple/90">Start Chat</Button>
+                  <Button type="button" disabled variant="outline" className="w-full">
+                    Start Chat (coming soon)
+                  </Button>
                 </CardContent>
               </Card>
             </div>
@@ -82,30 +105,38 @@ export function Contact() {
             {/* Contact Form */}
             <div className="lg:col-span-8">
               <Card className="border-slate-100 shadow-xl p-4 md:p-8">
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="first-name">First Name</Label>
-                      <Input id="first-name" placeholder="John" />
+                      <Input id="first-name" name="first-name" placeholder="John" />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="last-name">Last Name</Label>
-                      <Input id="last-name" placeholder="Doe" />
+                      <Input id="last-name" name="last-name" placeholder="Doe" />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email Address</Label>
-                    <Input id="email" type="email" placeholder="john@example.com" />
+                    <Input id="email" name="email" type="email" placeholder="john@example.com" required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="subject">Subject</Label>
-                    <Input id="subject" placeholder="How can we help?" />
+                    <Input id="subject" name="subject" placeholder="How can we help?" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="message">Message</Label>
-                    <Textarea id="message" placeholder="Tell us more about your inquiry..." className="min-h-[150px]" />
+                    <Textarea id="message" name="message" placeholder="Tell us more about your inquiry..." className="min-h-[150px]" required />
                   </div>
-                  <Button className="w-full h-12 bg-brand-purple hover:bg-brand-purple/90 text-lg">Send Message</Button>
+                  {formError && (
+                    <p className="text-sm text-destructive font-medium" role="alert">{formError}</p>
+                  )}
+                  {formSent && !formError && (
+                    <p className="text-sm text-green-600 dark:text-green-400 font-medium" role="status">
+                      Opening your email client to send the message…
+                    </p>
+                  )}
+                  <Button type="submit" variant="brand" className="w-full h-12 text-lg">Send Message</Button>
                 </form>
                 <Suspense fallback={null}>
                   <ContactRegionalExtras />

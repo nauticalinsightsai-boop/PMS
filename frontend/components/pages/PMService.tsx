@@ -65,26 +65,30 @@ export function PMService() {
             <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
               {SERVICES_COPY.heroBadge}
             </Badge>
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-8">
+            <h1 className="font-heading text-hero font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-8">
               {SERVICES_COPY.heroTitle}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-2xl font-medium md:mx-0 mx-auto">
               {SERVICES_COPY.heroSubtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Button size="lg" className="bg-brand-orange hover:bg-brand-orange/90 text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20">
-                {CTAS.pathwayConsultation}
-              </Button>
-              <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white h-14 px-10 rounded-2xl font-bold text-lg">
-                View Case Studies
-              </Button>
+              <Link href="/contact?topic=consultation">
+                <Button size="lg" variant="brand" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20">
+                  {CTAS.pathwayConsultation}
+                </Button>
+              </Link>
+              <Link href="#services">
+                <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white h-14 px-10 rounded-2xl font-bold text-lg">
+                  View Case Studies
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className={sectionSurface('soft', 'py-24')}>
+      <section id="services" className={sectionSurface('soft', 'py-24 scroll-mt-24')}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -124,9 +128,11 @@ export function PMService() {
                     </ul>
                   </CardContent>
                   
-                  <Button className="w-full h-14 rounded-2xl bg-neutral-900 dark:bg-white dark:text-neutral-900 hover:bg-brand-orange dark:hover:bg-brand-orange dark:hover:text-white transition-all text-white font-bold group">
-                    Learn More <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                  </Button>
+                  <Link href="/contact" className="w-full">
+                    <Button variant="brand" className="w-full h-14 rounded-2xl font-bold group">
+                      Learn More <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                  </Link>
                 </Card>
               </motion.div>
             ))}
@@ -162,9 +168,11 @@ export function PMService() {
               <p className="text-slate-900 dark:text-slate-300 text-xl mb-12 leading-relaxed font-medium">
                 Our team is standing by to help you solve your most complex project management challenges.
               </p>
-              <Button size="lg" className="bg-brand-orange hover:bg-brand-deep text-white h-16 px-12 rounded-2xl font-bold text-xl shadow-xl">
-                Contact Our Experts
-              </Button>
+              <Link href="/contact">
+                <Button size="lg" variant="brand" className="h-16 px-12 rounded-2xl font-bold text-xl shadow-xl">
+                  Contact Our Experts
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

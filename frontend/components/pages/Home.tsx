@@ -1,5 +1,5 @@
 'use client';
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import * as React from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
@@ -25,16 +25,13 @@ import {
   MessageSquare,
   Award,
   Sparkles,
-  Clock,
-  Tag
 } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { RegisterModal } from "@/components/RegisterModal";
 import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
-import { useHomePageConfig } from "@/lib/home-config";
-import { BRAND, BRAND_LINES, CTAS, HOME_COPY } from "@/lib/brand-voice";
+import { BRAND, CTAS, HOME_COPY } from "@/lib/brand-voice";
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
 import { FamilyExploreCard } from "@/components/FamilyExploreCard";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
@@ -44,38 +41,21 @@ import * as siteData from "@/data/siteData";
 /** Featured Pathways: exactly 6 cards in 2 rows × 3 columns on md+ */
 const featuredPathways = siteData.featuredCertifications;
 
-const families = [
-  { 
-    id: "PMI", 
-    title: "PMI Certifications", 
-    desc: "Global standards for project, program, and portfolio management.",
-    icon: Trophy,
-    color: "text-brand-orange",
-    bg: "bg-brand-orange/10"
-  },
-  { 
-    id: "PRINCE2", 
-    title: "PRINCE2 / Governance", 
-    desc: "Structured methodologies for effective project governance and control.",
-    icon: ShieldCheck,
-    color: "text-teal-700",
-    bg: "bg-teal-700/10"
-  },
-  { 
-    id: "SixSigma", 
-    title: "Lean Six Sigma / Process", 
-    desc: "Methodologies for process improvement and operational excellence.",
-    icon: Zap,
-    color: "text-slate-700",
-    bg: "bg-slate-700/10"
-  },
-];
-
 export function Home() {
   const { get } = useWebsiteData();
-  const homeCms = useHomePageConfig();
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 5000 })]);
+  const [reduceMotion, setReduceMotion] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduceMotion(mq.matches);
+    const onChange = () => setReduceMotion(mq.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+  const emblaPlugins = React.useMemo(
+    () => (reduceMotion ? [] : [Autoplay({ delay: 5000 })]),
+    [reduceMotion],
+  );
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' }, emblaPlugins);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const onSelect = React.useCallback(() => {
@@ -89,17 +69,13 @@ export function Home() {
     emblaApi.on('select', onSelect);
   }, [emblaApi, onSelect]);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  const y1 = useTransform(scrollYProgress, [0, 0.5], [0, -150]);
-  const rotateX = useTransform(scrollYProgress, [0, 0.3], [0, 15]);
-  const scale = useTransform(scrollYProgress, [0, 0.3], [1, 0.9]);
+  const handleNewsletterSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    window.location.href = "/newsletter";
+  };
 
   return (
-    <div ref={containerRef} className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
+    <div className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center pt-20 pb-24 overflow-visible bg-gradient-to-br from-violet-50/70 via-background to-orange-50/30 dark:from-[#0f0e38] dark:via-[#07071c] dark:to-[#12081a]">
         {/* PMS gradient ambient — orange + blue-purple from logo system */}
@@ -122,7 +98,7 @@ export function Home() {
                 {get('hero_badge', HOME_COPY.heroBadge)}
               </Badge>
               
-              <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-[1.1]">
+              <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-[1.1]">
                 {get('hero_title', HOME_COPY.heroTitle)}
               </h1>
               
@@ -294,14 +270,14 @@ export function Home() {
                   { title: "AI in Project Management", desc: "How to leverage generative AI for planning and risk assessment." },
                   { title: "2026 Salary Trends", desc: "The latest data on certification ROI across global markets." },
                   { title: "Hybrid Leadership", desc: "Mastering the balance between predictive and agile frameworks." },
-                ].map((item, i) => (
-                  <div key={item.title} className="flex gap-6 group cursor-pointer">
+                ].map((item) => (
+                  <Link key={item.title} href="/newsletter" className="flex gap-6 group">
                     <div className="h-1 w-12 bg-brand-orange mt-4 group-hover:w-16 transition-all duration-500 rounded-full shrink-0" />
                     <div>
                       <h4 className="text-xl font-bold text-white dark:text-pms-navy group-hover:text-brand-orange transition-colors tracking-tight">{item.title}</h4>
                       <p className="text-base text-slate-300 dark:text-slate-600 mt-1 font-medium">{item.desc}</p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </motion.div>
@@ -405,9 +381,11 @@ export function Home() {
                     ))}
                   </ul>
                 </div>
-                <Button className="w-full h-14 bg-brand-orange hover:bg-brand-hover text-white font-bold text-lg rounded-2xl transition-all relative z-10">
-                  Join Now
-                </Button>
+                <Link href="/membership" className="relative z-10 block">
+                  <Button variant="brand" className="w-full h-14 font-bold text-lg rounded-2xl transition-all">
+                    Join Now
+                  </Button>
+                </Link>
               </Card>
             </motion.div>
           </div>
@@ -450,7 +428,7 @@ export function Home() {
                   ))}
                 </div>
                 <Link href="/community">
-                  <Button className="bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-brand-orange dark:hover:bg-brand-orange dark:hover:text-white text-white h-14 px-10 rounded-2xl font-bold text-lg transition-all group/btn">
+                  <Button variant="brand" className="h-14 px-10 rounded-2xl font-bold text-lg transition-all group/btn">
                     Join Community
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
                   </Button>
@@ -496,15 +474,18 @@ export function Home() {
                 <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed font-medium max-w-lg">
                   Join 1,284+ project professionals receiving weekly deep-dives on methodology, leadership, and career growth.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 max-w-md">
+                <form
+                  className="flex flex-col sm:flex-row gap-4 max-w-md"
+                  onSubmit={handleNewsletterSubscribe}
+                >
                   <Input 
                     placeholder="Enter your email" 
                     className="h-14 rounded-2xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-brand-orange/30"
                   />
-                  <Button className="h-14 px-8 rounded-2xl bg-slate-900 dark:bg-brand-orange text-white hover:bg-brand-orange dark:hover:bg-brand-deep font-bold text-lg shadow-xl transition-all">
+                  <Button type="submit" variant="brand" className="h-14 px-8 rounded-2xl font-bold text-lg shadow-xl transition-all">
                     Subscribe
                   </Button>
-                </div>
+                </form>
                 <p className="mt-4 text-xs text-slate-400 font-medium">
                   We respect your privacy. Unsubscribe at any time.
                 </p>
@@ -643,13 +624,21 @@ export function Home() {
                 {siteData.testimonials.map((_, idx) => (
                   <button
                     key={idx}
+                    type="button"
                     onClick={() => emblaApi?.scrollTo(idx)}
                     className={cn(
-                      "h-2 transition-all duration-300 rounded-full",
-                      selectedIndex === idx ? "w-8 bg-brand-orange" : "w-2 bg-slate-200 dark:bg-slate-800"
+                      "min-h-11 min-w-11 inline-flex items-center justify-center rounded-full transition-all",
+                      selectedIndex === idx ? "bg-brand-orange/15" : "hover:bg-muted"
                     )}
                     aria-label={`Go to slide ${idx + 1}`}
-                  />
+                  >
+                    <span
+                      className={cn(
+                        "block h-2 rounded-full transition-all",
+                        selectedIndex === idx ? "w-8 bg-brand-orange" : "w-2 bg-slate-200 dark:bg-slate-800",
+                      )}
+                    />
+                  </button>
                 ))}
               </div>
             </div>

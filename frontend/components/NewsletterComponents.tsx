@@ -1,6 +1,7 @@
 'use client';
 import * as React from "react";
 import { motion } from "motion/react";
+import Link from "next/link";
 import { ArrowRight, Calendar, User, Bookmark, Share2, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -132,9 +133,9 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = "de
   );
 };
 
-export const FeaturedPost: React.FC<{ article: Article }> = ({ article }) => {
+export const FeaturedPost: React.FC<{ article: Article; storyHref?: string }> = ({ article, storyHref = "#" }) => {
   return (
-    <section className="py-12 md:py-20">
+    <section id="featured-story" className="py-12 md:py-20 scroll-mt-24">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-7">
           <motion.div
@@ -176,9 +177,9 @@ export const FeaturedPost: React.FC<{ article: Article }> = ({ article }) => {
                 <div className="text-xs text-muted-foreground">Senior Editor</div>
               </div>
             </div>
-            <Button variant="link" className="text-brand-purple font-bold text-lg group p-0">
+            <Link href={storyHref} className="inline-flex items-center text-brand-purple font-bold text-lg group p-0 hover:underline">
               Read Full Story <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -190,8 +191,9 @@ export const CTABanner: React.FC<{
   title: string;
   description: string;
   buttonText: string;
+  buttonHref?: string;
   variant?: "orange" | "purple";
-}> = ({ title, description, buttonText, variant = "orange" }) => {
+}> = ({ title, description, buttonText, buttonHref = "/newsletter", variant = "orange" }) => {
   const variants = {
     orange: "bg-pms-gradient-orange",
     purple: "bg-pms-gradient-blue-purple",
@@ -210,12 +212,14 @@ export const CTABanner: React.FC<{
         <div className="relative z-10 max-w-3xl mx-auto">
           <h3 className="font-heading text-3xl md:text-5xl font-bold text-white mb-6">{title}</h3>
           <p className="text-white/90 text-lg md:text-xl mb-10 leading-relaxed">{description}</p>
-          <Button
-            size="lg"
-            className="bg-white text-slate-900 hover:bg-slate-100 h-14 px-10 text-lg font-bold rounded-2xl shadow-xl"
-          >
-            {buttonText}
-          </Button>
+          <Link href={buttonHref}>
+            <Button
+              size="lg"
+              className="bg-white text-slate-900 hover:bg-slate-100 h-14 px-10 text-lg font-bold rounded-2xl shadow-xl"
+            >
+              {buttonText}
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

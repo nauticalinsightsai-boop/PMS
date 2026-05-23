@@ -108,7 +108,7 @@ export function Compare() {
           <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
             Comparison matrix
           </Badge>
-          <h1 className="font-heading text-5xl md:text-7xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
+          <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
             Compare <span className="text-brand-orange">certifications</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
@@ -142,7 +142,7 @@ export function Compare() {
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900">
+            <div className="scroll-fade-x overflow-x-auto rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 scrollbar-thin">
               <Table>
                 <TableHeader className="bg-slate-900 dark:bg-slate-950 text-white">
                   <TableRow className="hover:bg-slate-900 dark:hover:bg-slate-950 border-none">

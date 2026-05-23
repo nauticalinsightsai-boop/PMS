@@ -1,5 +1,5 @@
 'use client';
-import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -102,14 +102,6 @@ export function Certifications() {
   );
   const [activeTab, setActiveTab] = React.useState<PathwayFamilyTab>("PMI");
   const [searchQuery, setSearchQuery] = React.useState("");
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  const y1 = useTransform(scrollYProgress, [0, 0.5], [0, -100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   const familyCerts = (familyId: PathwayFamilyTab) => {
     const q = searchQuery.trim().toLowerCase();
@@ -125,7 +117,7 @@ export function Certifications() {
   };
 
   return (
-    <div ref={containerRef} className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
+    <div className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
       {/* Hero Section */}
       <section
         className={cn(
@@ -148,7 +140,7 @@ export function Certifications() {
             <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
               {CERTIFICATIONS_COPY.heroBadge}
             </Badge>
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
+            <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
               Find your <span className="text-pms-gradient-orange">pathway</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
@@ -389,16 +381,20 @@ export function Certifications() {
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button size="lg" className="h-16 px-10 rounded-2xl bg-brand-orange hover:bg-brand-deep text-white font-bold text-lg shadow-xl transition-all hover:scale-105">
-                  Compare Frameworks
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="h-16 px-10 rounded-2xl border-white/30 bg-white text-black hover:bg-slate-100 hover:text-black dark:border-slate-300 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800 dark:hover:text-white font-bold text-lg transition-all"
-                >
-                  Talk to an Advisor
-                </Button>
+                <Link href="/compare">
+                  <Button size="lg" variant="brand" className="h-16 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all hover:scale-105">
+                    Compare Frameworks
+                  </Button>
+                </Link>
+                <Link href="/contact">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="h-16 px-10 rounded-2xl border-white/30 bg-white text-black hover:bg-slate-100 hover:text-black dark:border-slate-300 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800 dark:hover:text-white font-bold text-lg transition-all"
+                  >
+                    Talk to an Advisor
+                  </Button>
+                </Link>
               </div>
             </div>
           </motion.div>

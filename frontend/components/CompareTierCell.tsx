@@ -55,7 +55,7 @@ export function CompareTierCell({
         <span className="block text-center text-slate-500 font-medium">Pricing on request</span>
       )}
       {offering.deliveryMode && (
-        <p className="text-xs text-slate-500 dark:text-slate-400 text-center leading-relaxed">
+        <p className="text-xs text-slate-500 dark:text-slate-400 text-center leading-relaxed line-clamp-2">
           {offering.deliveryMode}
         </p>
       )}

@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { Search, HelpCircle } from "lucide-react";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { BRAND, CTAS } from "@/lib/brand-voice";
@@ -70,7 +71,7 @@ export function FAQ() {
             <Accordion {...({ type: "single", collapsible: true } as any)} className="w-full space-y-4">
               {faqs.map((faq, index) => (
                 <AccordionItem key={index} value={`item-${index}`} className="bg-white dark:bg-slate-900 px-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
-                  <AccordionTrigger className="text-left font-bold py-6 hover:text-brand-purple hover:no-underline">
+                  <AccordionTrigger className="text-left font-bold min-h-11 py-6 hover:text-brand-purple hover:no-underline">
                     {faq.question}
                   </AccordionTrigger>
                   <AccordionContent className="text-slate-600 dark:text-slate-400 pb-6 leading-relaxed">
@@ -93,8 +94,12 @@ export function FAQ() {
           <h2 className="text-2xl font-bold mb-4">Still have questions?</h2>
           <p className="text-muted-foreground mb-8">Can't find the answer you're looking for? Please chat to our friendly team.</p>
           <div className="flex justify-center gap-4">
-            <Button className="bg-brand-purple hover:bg-brand-purple/90">Contact Support</Button>
-            <Button variant="outline">Visit Help Center</Button>
+            <Link href="/contact">
+              <Button variant="brand">Contact Support</Button>
+            </Link>
+            <Link href="/faq">
+              <Button variant="outline">Visit Help Center</Button>
+            </Link>
           </div>
         </div>
       </section>
