@@ -35,34 +35,11 @@ import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { useHomePageConfig } from "@/lib/home-config";
 import { BRAND, BRAND_LINES, CTAS, HOME_COPY } from "@/lib/brand-voice";
-import { CertificationPathwayVisual } from "@/components/CertificationPathwayVisual";
-import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
-import { useRegion } from "@/contexts/RegionContext";
-import { getCertDurationLabel, getListingPriceForCert } from "@/lib/regional-catalogue";
-import { RegionalPrice } from "@/components/RegionalPrice";
-import { isEnrollmentOpen } from "@/lib/certification-enrollment";
+import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
+import { FamilyExploreCard } from "@/components/FamilyExploreCard";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 
 import * as siteData from "@/data/siteData";
-
-function FeaturedPathwayPrice({ certId }: { certId: string }) {
-  const { regionId, gccCountry } = useRegion();
-  const listing = getListingPriceForCert(certId, regionId, gccCountry);
-  if (!listing.active) return null;
-  return (
-    <div className="px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800">
-      <RegionalPrice
-        original={listing.original}
-        active={listing.active}
-        membership={listing.membership}
-        showScholarshipLabels={listing.showScholarship}
-        regionalLabel={listing.regionalLabel}
-        footnote={listing.footnote}
-        compact
-      />
-    </div>
-  );
-}
 
 /** Featured Pathways: exactly 6 cards in 2 rows × 3 columns on md+ */
 const featuredPathways = siteData.featuredCertifications;
@@ -161,7 +138,7 @@ export function Home() {
                 } />
                 <Link href="/certifications">
                   <Button size="lg" variant="outline" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-900 h-14 px-8 rounded-full font-bold text-lg transition-all">
-                    {CTAS.readinessCheck}
+                    {CTAS.findPathway}
                   </Button>
                 </Link>
               </div>
@@ -248,48 +225,13 @@ export function Home() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className="group/pathway h-full flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden">
-                    <CertificationPathwayVisual cert={cert} subtitle={featured.title} />
-                    <CardHeader className="p-5 pb-2">
-                      <div className="flex flex-wrap items-center gap-2 mb-4">
-                        <Badge className="w-fit bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1">
-                          {featured.family}
-                        </Badge>
-                        <PathwayEnrollmentBadge certId={featured.id} />
-                      </div>
-                      <CardTitle className="text-2xl font-bold tracking-tight mb-3 leading-tight">{featured.title}</CardTitle>
-                      <div className="flex items-center gap-2 mb-4 p-2 rounded-xl bg-brand-orange/5 border border-brand-orange/10">
-                        <Zap className="h-3 w-3 text-brand-orange shrink-0" />
-                        <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight">{cert.outputValue}</span>
-                      </div>
-                      <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">{featured.desc}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="px-5 pb-5 flex-1">
-                      <div className="flex flex-wrap gap-2 mb-5">
-                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800 text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-tight">
-                          <Clock className="h-3 w-3 text-brand-orange" />
-                          <span>{getCertDurationLabel(cert.id) ?? cert.pricing?.Foundation?.duration ?? 'Flexible'}</span>
-                        </div>
-                        <FeaturedPathwayPrice certId={cert.id} />
-                      </div>
-                      
-                      <ul className="space-y-3">
-                        {(cert.learningOutcomes?.slice(0, 3) || ["Structured study plan", "Mock exam practice", "Weak-area tracking"]).map((item) => (
-                          <li key={item} className="flex items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
-                            <CheckCircle2 className="h-3 w-3 mr-2 text-brand-orange shrink-0" />
-                            <span className="line-clamp-1">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                    <CardFooter className="max-h-0 overflow-hidden border-t-0 bg-transparent p-0 opacity-0 transition-all duration-300 ease-out max-md:max-h-28 max-md:border-t max-md:bg-muted/50 max-md:px-5 max-md:pb-5 max-md:pt-6 max-md:opacity-100 md:group-hover/pathway:max-h-28 md:group-hover/pathway:border-t md:group-hover/pathway:bg-muted/50 md:group-hover/pathway:px-5 md:group-hover/pathway:pb-5 md:group-hover/pathway:pt-6 md:group-hover/pathway:opacity-100 md:group-focus-within/pathway:max-h-28 md:group-focus-within/pathway:border-t md:group-focus-within/pathway:bg-muted/50 md:group-focus-within/pathway:px-5 md:group-focus-within/pathway:pb-5 md:group-focus-within/pathway:pt-6 md:group-focus-within/pathway:opacity-100">
-                      <Link href={`/certifications/${cert.id}`} className="w-full">
-                        <Button className="w-full h-12 rounded-2xl font-bold text-base bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-brand-orange dark:hover:bg-brand-orange dark:hover:text-white text-white transition-all">
-                          {isEnrollmentOpen(cert.id) ? 'View pathway' : 'View overview'}
-                        </Button>
-                      </Link>
-                    </CardFooter>
-                  </Card>
+                  <PathwayFeaturedCard
+                    cert={cert}
+                    familyLabel={featured.family}
+                    title={featured.title}
+                    description={featured.desc}
+                    visualSubtitle={featured.title}
+                  />
                 </motion.div>
               );
             })}
@@ -317,53 +259,13 @@ export function Home() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {(["PMI", "PRINCE2", "SixSigma"] as const).map((familyId, index) => {
-              const family = siteData.familyConfigs[familyId];
-              return (
-              <motion.div
-                key={family.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group"
-              >
-                <div className="h-full p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-all duration-300 hover:shadow-lg relative overflow-hidden">
-                  <div
-                    className={cn(
-                      'mb-8 flex h-16 w-16 items-center justify-center rounded-2xl shadow-sm ring-1 ring-slate-100 dark:ring-slate-800',
-                      family.lightBg,
-                      family.text,
-                    )}
-                  >
-                    {family.id === 'PMI' ? (
-                      <Award className="h-8 w-8" />
-                    ) : family.id === 'PRINCE2' ? (
-                      <ShieldCheck className="h-8 w-8" />
-                    ) : (
-                      <TrendingUp className="h-8 w-8" />
-                    )}
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">{family.name}</h3>
-                  <p className="text-base text-slate-500 dark:text-slate-400 mb-8 leading-relaxed font-medium">
-                    {family.description}
-                  </p>
-                  <Link href={`/certifications?family=${family.id}`}>
-                    <Button
-                      variant="link"
-                      className={cn(
-                        'p-0 font-bold text-base h-auto group/link',
-                        family.text,
-                        'dark:text-white dark:hover:text-brand-orange',
-                      )}
-                    >
-                      Explore Family <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/link:translate-x-1" />
-                    </Button>
-                  </Link>
-                </div>
-              </motion.div>
-              );
-            })}
+            {(["PMI", "PRINCE2", "SixSigma"] as const).map((familyId, index) => (
+              <FamilyExploreCard
+                key={familyId}
+                family={siteData.familyConfigs[familyId]}
+                index={index}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -646,10 +548,34 @@ export function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { title: "CV Maker", desc: "Build a PM-specific resume that gets noticed.", icon: FileText, color: "text-brand-purple" },
-              { title: "Study Planner", desc: "Custom schedules based on your exam date.", icon: Calendar, color: "text-brand-orange" },
-              { title: "Cert Comparison", desc: "Find the right certification for your goals.", icon: LayoutDashboard, color: "text-indigo-600" },
-              { title: "Roadmap Guidance", desc: "Step-by-step career progression maps.", icon: Map, color: "text-emerald-600" },
+              {
+                title: "CV Maker",
+                desc: "Build a PM-specific resume that gets noticed.",
+                icon: FileText,
+                color: "text-brand-purple",
+                href: "/membership",
+              },
+              {
+                title: "Study Planner",
+                desc: "Custom schedules based on your exam date.",
+                icon: Calendar,
+                color: "text-brand-orange",
+                href: "/certifications",
+              },
+              {
+                title: "Cert Comparison",
+                desc: "Find the right certification for your goals.",
+                icon: LayoutDashboard,
+                color: "text-indigo-600",
+                href: "/compare",
+              },
+              {
+                title: "Roadmap Guidance",
+                desc: "Step-by-step career progression maps.",
+                icon: Map,
+                color: "text-emerald-600",
+                href: "/pm-service",
+              },
             ].map((tool, index) => (
               <motion.div
                 key={tool.title}
@@ -659,13 +585,23 @@ export function Home() {
                 transition={{ delay: index * 0.1 }}
               >
                 <Card className="h-full flex flex-col border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] p-4 bg-slate-50/50 dark:bg-slate-900/50">
-                  <CardHeader className="p-6">
+                  <CardHeader className="p-6 pb-4">
                     <div className={cn("p-4 rounded-xl bg-white dark:bg-slate-800 w-fit mb-6 shadow-sm", tool.color)}>
                       <tool.icon className="h-8 w-8" />
                     </div>
                     <CardTitle className="text-2xl font-bold mb-4 tracking-tight">{tool.title}</CardTitle>
-                    <CardDescription className="text-base leading-relaxed font-medium text-slate-500 dark:text-slate-400">{tool.desc}</CardDescription>
+                    <CardDescription className="text-base leading-relaxed font-medium text-slate-500 dark:text-slate-400">
+                      {tool.desc}
+                    </CardDescription>
                   </CardHeader>
+                  <CardFooter className="mt-auto border-0 bg-transparent p-6 pt-0">
+                    <Link href={tool.href} className="w-full">
+                      <Button className="w-full h-12 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base shadow-md shadow-brand-orange/20 dark:bg-brand-orange dark:hover:bg-brand-hover dark:text-white group/link">
+                        Try Tool
+                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/link:translate-x-1" />
+                      </Button>
+                    </Link>
+                  </CardFooter>
                 </Card>
               </motion.div>
             ))}
@@ -682,7 +618,7 @@ export function Home() {
               <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">Our Impact</Badge>
               <h2 className="font-heading text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">Student Success</h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 mb-8 leading-relaxed font-medium">
-                Join professionals building measurable certification readiness with {BRAND.name}.
+                Join professionals building structured project management capability with {BRAND.name}.
               </p>
               
               <div className="flex items-center gap-4 mb-10">

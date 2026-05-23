@@ -9,6 +9,47 @@ export type PathwayFamilyTab = (typeof PATHWAY_FAMILY_TABS)[number];
 
 export const LISTABLE_PATHWAY_FAMILIES: PathwayFamilyTab[] = [...PATHWAY_FAMILY_TABS];
 
+/** Flagship pathways — always shown as the 3-up card row per family tab. */
+export const FAMILY_FEATURED_CERT_IDS: Record<PathwayFamilyTab, readonly string[]> = {
+  PMI: ['pmp', 'capm', 'pmi-acp'],
+  PRINCE2: ['prince2', 'prince2-practitioner', 'prince2-agile'],
+  SixSigma: ['lss-green', 'lss-yellow', 'lss-black'],
+};
+
+const TOP_TIER_CERT_IDS = new Set(
+  PATHWAY_FAMILY_TABS.flatMap((familyId) => FAMILY_FEATURED_CERT_IDS[familyId]),
+);
+
+const FEATURED_ROW_LIMIT = 3;
+
+export function isTopTierPathwayCert(certId: string): boolean {
+  return TOP_TIER_CERT_IDS.has(certId);
+}
+
+/** Flagship row: fixed order (PMP → CAPM → …), includes open and next-cohort pathways. */
+export function pickFeaturedPathwayCerts<T extends { id: string }>(
+  certsInFamily: T[],
+  familyId: PathwayFamilyTab,
+  limit = FEATURED_ROW_LIMIT,
+): T[] {
+  const preferred = FAMILY_FEATURED_CERT_IDS[familyId];
+  const picked: T[] = [];
+
+  for (const id of preferred) {
+    const cert = certsInFamily.find((c) => c.id === id);
+    if (cert) picked.push(cert);
+    if (picked.length >= limit) return picked;
+  }
+
+  for (const cert of certsInFamily) {
+    if (picked.some((p) => p.id === cert.id)) continue;
+    picked.push(cert);
+    if (picked.length >= limit) break;
+  }
+
+  return picked;
+}
+
 export function isEnrollmentOpen(certId: string, regionId: RegionId = 'global'): boolean {
   const offerings = getOfferingsForSiteCert(certId);
   if (!offerings.length) return OPEN_ENROLLMENT_CERT_IDS.has(certId);
@@ -18,7 +59,47 @@ export function isEnrollmentOpen(certId: string, regionId: RegionId = 'global'):
   });
 }
 
+/** Badge prefix when showing the next intake (not “Open now” while a cohort is running). */
 export const ENROLLMENT_STATUS = {
-  open: 'Open now',
-  nextCohort: 'Next cohort',
+  nextIntake: 'Next',
 } as const;
+
+/**
+ * Rolling next intake: first day of the calendar month after today.
+ * (e.g. viewed in May → "Jun 2026"; always one month ahead of the current month.)
+ */
+export function getNextCohortDate(_certId?: string): Date {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() + 1, 1);
+}
+
+export function formatCohortMonthYear(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
+export type CohortEnrollmentDisplay = {
+  isOpen: boolean;
+  nextCohortDate: Date;
+  nextCohortLabel: string;
+  badgeText: string;
+  note: string;
+};
+
+export function getCohortEnrollmentDisplay(
+  certId: string,
+  regionId: RegionId = 'global',
+): CohortEnrollmentDisplay {
+  const isOpen = isEnrollmentOpen(certId, regionId);
+  const nextCohortDate = getNextCohortDate(certId);
+  const nextCohortLabel = formatCohortMonthYear(nextCohortDate);
+
+  const badgeText = `${ENROLLMENT_STATUS.nextIntake} · ${nextCohortLabel}`;
+
+  return {
+    isOpen,
+    nextCohortDate,
+    nextCohortLabel,
+    badgeText,
+    note: `Next intake · ${nextCohortLabel}`,
+  };
+}

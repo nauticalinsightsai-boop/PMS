@@ -797,7 +797,7 @@ export const footerSections: FooterSection[] = [
 
 export const heroCTA: SiteCTA = {
   title: "Structured project management capability",
-  subtitle: "Choose your pathway. Prepare with measurable readiness.",
+  subtitle: "Choose the right pathway. Prepare with structure. Build judgment for real projects.",
   primaryButton: { label: "Book consultation", href: "/contact" },
-  secondaryButton: { label: "Check readiness", href: "/certifications" }
+  secondaryButton: { label: "Find your pathway", href: "/certifications" }
 };

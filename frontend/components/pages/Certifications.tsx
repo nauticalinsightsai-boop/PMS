@@ -2,35 +2,89 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import * as React from "react";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { 
   ArrowRight, 
   Clock, 
   Tag, 
   CheckCircle2,
   Search,
-  Zap,
   ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import * as siteData from "@/data/siteData";
 import type { CertificationSummary } from "@/types/site";
 import { CERTIFICATIONS_COPY, CTAS } from "@/lib/brand-voice";
-import { CertificationPathwayVisual } from "@/components/CertificationPathwayVisual";
-import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
+import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
+import { useRegion } from "@/contexts/RegionContext";
 import {
   isEnrollmentOpen,
   PATHWAY_FAMILY_TABS,
+  pickFeaturedPathwayCerts,
   type PathwayFamilyTab,
 } from "@/lib/certification-enrollment";
-import { useRegion } from "@/contexts/RegionContext";
-import { getCertDurationLabel, getListingPriceForCert } from "@/lib/regional-catalogue";
-import { RegionalPrice } from "@/components/RegionalPrice";
 
+const FAMILY_TAB_LABEL: Record<PathwayFamilyTab, string> = {
+  PMI: "PMI®",
+  PRINCE2: "PRINCE2®",
+  SixSigma: "Lean Six Sigma",
+};
+
+const FAMILY_TAB_SELECTED: Record<PathwayFamilyTab, string> = {
+  PMI: "bg-pms-gradient-orange text-white shadow-lg shadow-brand-orange/25 border-transparent",
+  PRINCE2:
+    "bg-pms-gradient-blue-cyan text-white shadow-lg shadow-[#0859b3]/20 border-transparent",
+  SixSigma:
+    "bg-pms-gradient-charcoal text-white shadow-lg shadow-slate-900/30 border-transparent",
+};
+
+const FAMILY_TAB_IDLE: Record<PathwayFamilyTab, string> = {
+  PMI: "bg-transparent text-slate-600 dark:text-slate-400 hover:bg-orange-50/80 dark:hover:bg-orange-950/30 hover:text-brand-orange border-transparent",
+  PRINCE2:
+    "bg-transparent text-slate-600 dark:text-slate-400 hover:bg-cyan-50/60 dark:hover:bg-cyan-950/20 hover:text-[#0859b3] dark:hover:text-brand-cyan border-transparent",
+  SixSigma:
+    "bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-800 dark:hover:text-slate-200 border-transparent",
+};
+
+function CertificationFamilyTabs({
+  activeTab,
+  onChange,
+}: {
+  activeTab: PathwayFamilyTab;
+  onChange: (tab: PathwayFamilyTab) => void;
+}) {
+  return (
+    <div
+      role="tablist"
+      aria-label="Certification families"
+      className="w-full grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 rounded-[1.75rem] border border-slate-200/80 dark:border-slate-700 bg-white/90 dark:bg-slate-900/90 p-2.5 sm:p-3 shadow-sm backdrop-blur-sm"
+    >
+      {PATHWAY_FAMILY_TABS.map((familyId) => {
+        const selected = activeTab === familyId;
+        return (
+          <button
+            key={familyId}
+            type="button"
+            role="tab"
+            aria-selected={selected ? "true" : "false"}
+            tabIndex={selected ? 0 : -1}
+            onClick={() => onChange(familyId)}
+            className={cn(
+              "min-h-[3.25rem] w-full px-4 py-3.5 sm:py-4 rounded-2xl font-bold text-base sm:text-lg text-center transition-all duration-200 border",
+              selected ? FAMILY_TAB_SELECTED[familyId] : FAMILY_TAB_IDLE[familyId],
+            )}
+          >
+            {FAMILY_TAB_LABEL[familyId]}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 const certifications = siteData.certifications.filter((c) =>
   PATHWAY_FAMILY_TABS.includes(c.familyId as PathwayFamilyTab),
 );
@@ -73,7 +127,12 @@ export function Certifications() {
   return (
     <div ref={containerRef} className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-28 overflow-hidden bg-gradient-to-b from-orange-50/80 via-slate-50 to-slate-50 dark:from-[#1a0f0c] dark:via-slate-950 dark:to-slate-950">
+      <section
+        className={cn(
+          'relative overflow-hidden bg-gradient-to-b from-orange-50/80 via-slate-50 to-slate-50 dark:from-[#1a0f0c] dark:via-slate-950 dark:to-slate-950',
+          PAGE_HERO_PADDING,
+        )}
+      >
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[-15%] right-[-10%] w-[45%] h-[50%] rounded-full blur-[120px] opacity-35 bg-pms-gradient-orange" />
           <div className="absolute bottom-[-20%] left-[-15%] w-[40%] h-[45%] rounded-full blur-[120px] opacity-25 bg-pms-gradient-orange" />
@@ -95,54 +154,62 @@ export function Certifications() {
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
               {CERTIFICATIONS_COPY.heroSubtitle}
             </p>
+
+            <div className="relative w-full max-w-xl mx-auto mt-10 group">
+              <Search
+                className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-brand-orange transition-colors pointer-events-none"
+                aria-hidden
+              />
+              <label htmlFor="cert-family-search" className="sr-only">
+                Search certifications in the active family
+              </label>
+              <input
+                id="cert-family-search"
+                type="search"
+                placeholder={`Search ${FAMILY_TAB_LABEL[activeTab]} pathways…`}
+                className="w-full h-14 pl-14 pr-6 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-700 shadow-lg shadow-slate-900/5 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-brand-orange/30 font-bold text-base transition-all dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-20 -mt-20 relative z-20">
-        <div className="container mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="bg-white dark:bg-slate-900 rounded-[3rem] p-8 md:p-12 shadow-xl border border-slate-100 dark:border-slate-800"
+      {/* Main Content — full-width section (same pattern as Home Featured Pathways) */}
+      <section className={sectionSurface('soft', 'py-32 relative')}>
+        <SectionAmbience tone="soft" />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="container relative z-10 mx-auto"
+        >
+          <Tabs
+            value={activeTab}
+            onValueChange={(v) => setActiveTab(v as PathwayFamilyTab)}
+            className="w-full flex flex-col"
           >
-            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as PathwayFamilyTab)} className="w-full">
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-10">
-                <TabsList className="bg-slate-50 dark:bg-slate-800/50 p-1.5 h-auto flex-wrap justify-start rounded-2xl border border-slate-100 dark:border-slate-800">
-                  <TabsTrigger value="PMI" className="px-6 py-2.5 rounded-xl data-[state=active]:bg-brand-orange data-[state=active]:text-white font-bold text-sm transition-all">
-                    PMI®
-                  </TabsTrigger>
-                  <TabsTrigger value="PRINCE2" className="px-6 py-2.5 rounded-xl data-[state=active]:bg-teal-600 data-[state=active]:text-white font-bold text-sm transition-all">
-                    PRINCE2®
-                  </TabsTrigger>
-                  <TabsTrigger value="SixSigma" className="px-6 py-2.5 rounded-xl data-[state=active]:bg-slate-700 data-[state=active]:text-white font-bold text-sm transition-all">
-                    Lean Six Sigma
-                  </TabsTrigger>
-                </TabsList>
-
-                <div className="relative max-w-md w-full group">
-                  <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-brand-orange transition-colors" />
-                  <input
-                    type="text"
-                    placeholder="Search this family..."
-                    className="w-full h-14 pl-14 pr-6 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-orange/20 font-bold text-base transition-all dark:text-white"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-              </div>
+            <div className="mb-12 w-full max-w-none">
+              <CertificationFamilyTabs
+                activeTab={activeTab}
+                onChange={(tab) => setActiveTab(tab)}
+              />
+            </div>
 
               {PATHWAY_FAMILY_TABS.map((familyId) => {
                 const family = siteData.familyConfigs[familyId];
                 const certs = familyCerts(familyId);
                 const openCerts = certs.filter((c) => isEnrollmentOpen(c.id, regionId));
                 const closedCerts = certs.filter((c) => !isEnrollmentOpen(c.id, regionId));
+                const featuredTop = pickFeaturedPathwayCerts(certs, familyId);
+                const featuredIds = new Set(featuredTop.map((c) => c.id));
+                const moreOpen = openCerts.filter((c) => !featuredIds.has(c.id));
+                const closedRest = closedCerts.filter((c) => !featuredIds.has(c.id));
 
                 return (
-                  <TabsContent key={familyId} value={familyId} className="mt-0">
-                    <p className="text-slate-600 dark:text-slate-400 font-medium text-base leading-relaxed mb-8 max-w-3xl">
+                  <TabsContent key={familyId} value={familyId} className="mt-0 data-[hidden]:hidden">
+                    <p className="text-slate-600 dark:text-slate-400 font-medium text-base md:text-lg leading-relaxed mb-10 max-w-3xl mx-auto text-center md:text-left md:mx-0">
                       {family.description}
                     </p>
 
@@ -160,17 +227,48 @@ export function Certifications() {
                       </div>
                     ) : (
                       <div className="space-y-10">
-                        {openCerts.length > 0 && (
-                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl">
-                            <AnimatePresence mode="popLayout">
-                              {openCerts.map((cert) => (
-                                <PathwayFeaturedCard key={cert.id} cert={cert} familyName={family.name} />
-                              ))}
-                            </AnimatePresence>
+                        {featuredTop.length > 0 && (
+                          <div>
+                            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 text-center md:text-left">
+                              Flagship pathways
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                              <AnimatePresence mode="popLayout">
+                                {featuredTop.map((cert) => (
+                                  <motion.div
+                                    key={cert.id}
+                                    layout
+                                    initial={{ opacity: 0, y: 12 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 12 }}
+                                    transition={{ duration: 0.35 }}
+                                    className="h-full"
+                                  >
+                                    <PathwayFeaturedCard
+                                      cert={cert}
+                                      familyLabel={cert.familyId}
+                                    />
+                                  </motion.div>
+                                ))}
+                              </AnimatePresence>
+                            </div>
                           </div>
                         )}
 
-                        {closedCerts.length > 0 && (
+                        {moreOpen.length > 0 && (
+                          <div>
+                            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
+                              More open pathways
+                            </h3>
+                            <ul className="rounded-2xl border border-slate-100 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden bg-slate-50/50 dark:bg-slate-800/30">
+                              {moreOpen.map((cert) => (
+                                <PathwayCompactRow key={cert.id} cert={cert} />
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {closedRest.length > 0 && (
                           <div>
                             <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
                               {openCerts.length > 0
@@ -178,7 +276,7 @@ export function Certifications() {
                                 : CERTIFICATIONS_COPY.nextCohortLabel}
                             </h3>
                             <ul className="rounded-2xl border border-slate-100 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden bg-slate-50/50 dark:bg-slate-800/30">
-                              {closedCerts.map((cert) => (
+                              {closedRest.map((cert) => (
                                 <PathwayCompactRow key={cert.id} cert={cert} />
                               ))}
                             </ul>
@@ -193,8 +291,7 @@ export function Certifications() {
                 );
               })}
             </Tabs>
-          </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Pathway consultation */}
@@ -308,92 +405,6 @@ export function Certifications() {
         </div>
       </section>
     </div>
-  );
-}
-
-function PathwayFeaturedCard({
-  cert,
-  familyName,
-}: {
-  cert: CertificationSummary;
-  familyName: string;
-}) {
-  const { regionId, gccCountry } = useRegion();
-  const listing = getListingPriceForCert(cert.id, regionId, gccCountry);
-
-  return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 12 }}
-      transition={{ duration: 0.35 }}
-      className="lg:max-w-xl"
-    >
-      <Card className="h-full flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-md hover:shadow-lg transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden ring-2 ring-brand-orange/20">
-        <CertificationPathwayVisual cert={cert} />
-        <CardHeader className="p-5 pb-2">
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <Badge className="w-fit bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1">
-              {familyName}
-            </Badge>
-            <PathwayEnrollmentBadge certId={cert.id} />
-          </div>
-          <CardTitle className="text-2xl font-bold tracking-tight mb-3 leading-tight">
-            {cert.name}
-          </CardTitle>
-          <div className="flex items-center gap-2 mb-4 p-2 rounded-xl bg-brand-orange/5 border border-brand-orange/10">
-            <Zap className="h-3 w-3 text-brand-orange shrink-0" />
-            <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight">
-              {cert.outputValue}
-            </span>
-          </div>
-          <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-            {cert.desc}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex-1 px-5 pb-5">
-          <div className="flex flex-wrap gap-2 mb-5">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800 text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-tight">
-              <Clock className="h-3 w-3 text-brand-orange" />
-              <span>{getCertDurationLabel(cert.id) ?? cert.pricing?.Foundation?.duration ?? 'Flexible'}</span>
-            </div>
-            {listing.active && (
-              <div className="px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800">
-                <RegionalPrice
-                  original={listing.original}
-                  active={listing.active}
-                  membership={listing.membership}
-                  showScholarshipLabels={listing.showScholarship}
-                  regionalLabel={listing.regionalLabel}
-                  footnote={listing.footnote}
-                  compact
-                />
-              </div>
-            )}
-          </div>
-          <ul className="space-y-3">
-            {(cert.learningOutcomes?.slice(0, 3) || [
-              'Structured study plan',
-              'Mock exam practice',
-              'Weak-area tracking',
-            ]).map((item) => (
-              <li key={item} className="flex items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
-                <CheckCircle2 className="h-3 w-3 mr-2 text-brand-orange shrink-0" />
-                <span className="line-clamp-1">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-        <CardFooter className="px-5 pb-5 pt-6">
-          <Link href={`/certifications/${cert.id}`} className="w-full">
-            <Button className="w-full h-12 rounded-2xl font-bold text-base bg-brand-orange hover:bg-brand-hover text-white transition-all">
-              View pathway
-            </Button>
-          </Link>
-        </CardFooter>
-      </Card>
-    </motion.div>
   );
 }
 

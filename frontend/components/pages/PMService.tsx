@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { SERVICES_COPY, CTAS } from "@/lib/brand-voice";
-import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 
 const services = [
   {
@@ -58,20 +58,20 @@ export function PMService() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className={sectionSurface('warm', 'relative pt-24 pb-16')}>
+      <section className={pageHeroSection('warm')}>
         <SectionAmbience tone="warm" />
-        <div className="container relative z-10 mx-auto">
-          <div className="max-w-4xl">
+        <div className="container relative z-10 mx-auto text-center md:text-left">
+          <div className="max-w-4xl mx-auto md:mx-0">
             <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
               {SERVICES_COPY.heroBadge}
             </Badge>
-            <h1 className="font-heading text-5xl md:text-7xl font-bold tracking-tight text-slate-900 dark:text-white mb-8">
+            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-8">
               {SERVICES_COPY.heroTitle}
             </h1>
-            <p className="text-xl text-slate-900 dark:text-slate-300 mb-10 leading-relaxed max-w-2xl font-medium">
+            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-2xl font-medium md:mx-0 mx-auto">
               {SERVICES_COPY.heroSubtitle}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <Button size="lg" className="bg-brand-orange hover:bg-brand-orange/90 text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20">
                 {CTAS.pathwayConsultation}
               </Button>

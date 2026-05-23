@@ -10,6 +10,11 @@ import {
 } from '@/lib/regional-catalogue';
 import { routeOfferingCtas, hrefForCtaAction } from '@/lib/cta-router';
 import { isOfferingVisible } from '@/lib/status-normalize';
+import {
+  resolveTierPathwayCta,
+  tierDeliveryLine,
+  tierPathwaySummary,
+} from '@/lib/pathway-tier-cta';
 
 const TIER_ORDER = ['foundation', 'professional', 'mastery', 'mastery_corporate', 'mastery_advisory'];
 
@@ -28,26 +33,35 @@ export function buildPathwayTiersForCert(
     const rule = resolveRegionalRule(o, regionId);
     const prices = resolveFullPriceDisplay(o, regionId, gccCountry);
     const ctas: CtaRoute = routeOfferingCtas(rule.status, rule.primaryCta, rule.secondaryCta);
+    const pathwayCta = resolveTierPathwayCta(
+      o.tierId,
+      o.offeringId,
+      siteCertId,
+      rule.status,
+      rule.primaryCta,
+    );
+    const deliveryLine = tierDeliveryLine(o.deliveryMode);
 
     return {
       level: tierPathwayLevel(o.tierId),
       title: `${certName} ${tierDisplayLabel(o.tierId, o.tier)}`,
       duration: o.length ?? '',
-      details: o.deliveryMode ?? '',
-      tierDelivery: o.deliveryMode ?? '',
+      details: tierPathwaySummary(o.tierId),
+      tierDelivery: deliveryLine,
       price: prices.active ?? '',
       membershipPrice: prices.membership ?? '',
       regionalLabel: prices.regionalLabel,
       priceFootnote: prices.footnote,
-      deliveryMode: o.deliveryMode?.split(';')[0]?.trim() ?? '',
+      deliveryMode: deliveryLine,
       outcomes: learningOutcomes.slice(0, 4),
-      ctaText: ctas.primaryLabel,
+      ctaText: pathwayCta.label,
       ctas,
+      pathwayCta,
       isPopular: o.tierId === 'professional' && offerings.length > 1,
       offeringId: o.offeringId,
       originalPrice: prices.original ?? undefined,
       showScholarshipLabels: prices.showScholarshipLabels,
-      primaryHref: hrefForCtaAction(ctas.primary, o.offeringId, siteCertId),
+      primaryHref: pathwayCta.proceedHref,
       secondaryHref: hrefForCtaAction(ctas.secondary, o.offeringId, siteCertId),
       secondaryCtaLabel: ctas.secondaryLabel,
       regionMessage: rule.regionMessage,

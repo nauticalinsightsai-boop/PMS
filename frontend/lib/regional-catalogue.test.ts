@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import {
   getAllOfferings,
+  getCertDurationLabel,
+  getListingPriceForCert,
   getOfferingById,
   getOfferingsForSiteCert,
+  pickListingTierOffering,
   resolveCheckoutUsdCents,
   resolveFullPriceDisplay,
   resolveRegionalRule,
@@ -24,6 +27,18 @@ describe('regional-catalogue', () => {
   it('CAPM has professional only', () => {
     const tiers = getOfferingsForSiteCert('capm').map((o) => o.tierId);
     expect(tiers).toEqual(['professional']);
+  });
+
+  it('listing card price and duration use the same lowest tier', () => {
+    const pmpListing = pickListingTierOffering('pmp');
+    expect(pmpListing?.tierId).toBe('foundation');
+    expect(getCertDurationLabel('pmp')).toBe('2 weeks');
+    const gccFoundation = resolveFullPriceDisplay(pmpListing!, 'gcc');
+    expect(getListingPriceForCert('pmp', 'gcc').active).toBe(gccFoundation.active);
+
+    const capmListing = pickListingTierOffering('capm');
+    expect(capmListing?.tierId).toBe('professional');
+    expect(getCertDurationLabel('capm')).toBe(capmListing?.length);
   });
 
   it('India PMP mastery is scholarship_unavailable', () => {

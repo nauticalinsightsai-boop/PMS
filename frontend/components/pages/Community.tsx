@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { StoreContent } from "@/components/pages/Store";
 import { BRAND, COMMUNITY_COPY, CTAS } from "@/lib/brand-voice";
-import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 
 const communityChannels = [
   {
@@ -266,7 +266,7 @@ export function Community() {
 
   const heroTabButtonClass = (tab: "community" | "store") =>
     cn(
-      "h-14 px-8 rounded-2xl font-bold text-lg transition-all",
+      "h-12 px-6 rounded-xl font-bold text-base transition-all",
       activeTab === tab
         ? "bg-brand-purple hover:bg-brand-hover text-white shadow-xl border-transparent"
         : "border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900 bg-transparent shadow-none",
@@ -275,10 +275,10 @@ export function Community() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className={sectionSurface('blend', 'relative pt-32 pb-24')}>
+      <section className={pageHeroSection('blend', 'text-center')}>
         <SectionAmbience tone="blend" />
         
-        <div className="container relative z-10 mx-auto text-center">
+        <div className="container relative z-10 mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -293,39 +293,44 @@ export function Community() {
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
               {get('community_subtitle', COMMUNITY_COPY.heroSubtitle)}
             </p>
-            <div
-              className="mt-12 inline-flex flex-col sm:flex-row justify-center gap-3 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
-              role="tablist"
-              aria-label="Community and resource store"
-            >
-              <Button
-                type="button"
-                size="lg"
-                variant="ghost"
-                role="tab"
-                aria-selected={activeTab === "community"}
-                className={heroTabButtonClass("community")}
-                onClick={() => handleTabChange("community")}
-              >
-                Join Slack Community
-              </Button>
-              <Button
-                type="button"
-                size="lg"
-                variant="ghost"
-                role="tab"
-                aria-selected={activeTab === "store"}
-                className={heroTabButtonClass("store")}
-                onClick={() => handleTabChange("store")}
-              >
-                Browse Resources
-              </Button>
-            </div>
           </motion.div>
         </div>
       </section>
 
-      <div ref={contentRef} className="scroll-mt-8">
+      <section className="py-5 border-b border-slate-100 dark:border-slate-900 bg-slate-50/60 dark:bg-slate-900/30 sticky top-16 z-40 backdrop-blur-md">
+        <div className="container mx-auto flex justify-center">
+          <div
+            className="inline-flex flex-col sm:flex-row justify-center gap-2 p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm"
+            role="tablist"
+            aria-label="Community and resource store"
+          >
+            <Button
+              type="button"
+              size="lg"
+              variant="ghost"
+              role="tab"
+              aria-selected={activeTab === "community"}
+              className={heroTabButtonClass("community")}
+              onClick={() => handleTabChange("community")}
+            >
+              Join Slack Community
+            </Button>
+            <Button
+              type="button"
+              size="lg"
+              variant="ghost"
+              role="tab"
+              aria-selected={activeTab === "store"}
+              className={heroTabButtonClass("store")}
+              onClick={() => handleTabChange("store")}
+            >
+              Browse Resources
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <div ref={contentRef} className="scroll-mt-24">
         <Tabs value={activeTab} onValueChange={handleTabChange} className="flex flex-col">
           <TabsContent value="community" className="mt-0 outline-none">
             <CommunityNetworkContent />

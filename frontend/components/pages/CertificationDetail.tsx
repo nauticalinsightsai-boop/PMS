@@ -97,12 +97,6 @@ export function CertificationDetail() {
                 <PathwayEnrollmentBadge certId={cert.id} />
               </div>
 
-              {!enrollmentOpen && (
-                <p className="mb-8 max-w-xl rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm font-medium text-slate-600 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-300">
-                  {CERTIFICATIONS_COPY.nextCohortHint}
-                </p>
-              )}
-              
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
                 {certName} <br />
                 <span className="text-brand-orange">Pathway</span>

@@ -89,6 +89,7 @@ export function CheckoutForm() {
         showScholarshipLabels={data.showScholarshipLabels}
         regionalLabel={data.prices.regionalLabel}
         footnote={data.rule.regionMessage ?? data.prices.footnote}
+        variant="full"
       />
 
       <label className="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-700 p-4 cursor-pointer">

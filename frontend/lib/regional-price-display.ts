@@ -1,3 +1,4 @@
+import { REGION_COPY } from '@/lib/brand-voice';
 import type { RegionId } from '@/types/regional-catalogue';
 
 export const MEMBERSHIP_DISCOUNT_RATE = 0.2;
@@ -29,4 +30,44 @@ export interface FullRegionalPriceDisplay {
   showScholarshipLabels: boolean;
   footnote: string | null;
   regionalLabel: string;
+}
+
+export type PricingPresentationKind = 'scholarship' | 'single';
+
+export interface PricingPresentation {
+  kind: PricingPresentationKind;
+  showGlobalReference: boolean;
+  activeLabel: string;
+  globalReferenceLabel: string;
+}
+
+/** How to label prices for a given matrix row (scholarship compare vs single regional tuition). */
+export function resolvePricingPresentation(full: FullRegionalPriceDisplay): PricingPresentation {
+  const globalReferenceLabel = REGION_COPY.globalReferenceLabel;
+  if (!full.active) {
+    return {
+      kind: 'single',
+      showGlobalReference: false,
+      activeLabel: full.regionalLabel || REGION_COPY.regionalPriceLabel,
+      globalReferenceLabel,
+    };
+  }
+  if (
+    full.showScholarshipLabels &&
+    full.original &&
+    full.original.trim() !== full.active.trim()
+  ) {
+    return {
+      kind: 'scholarship',
+      showGlobalReference: true,
+      activeLabel: REGION_COPY.scholarshipPriceLabel,
+      globalReferenceLabel,
+    };
+  }
+  return {
+    kind: 'single',
+    showGlobalReference: false,
+    activeLabel: full.regionalLabel || REGION_COPY.regionalPriceLabel,
+    globalReferenceLabel,
+  };
 }

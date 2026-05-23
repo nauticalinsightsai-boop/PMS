@@ -5,13 +5,16 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Search, Mail, ArrowRight, TrendingUp } from "lucide-react";
+import Link from "next/link";
+import { Search, Mail, ArrowRight, TrendingUp, MessageCircle } from "lucide-react";
+import { CTAS } from "@/lib/brand-voice";
 import { 
   CategoryChip, 
   ArticleCard, 
   FeaturedPost, 
   CTABanner 
 } from "@/components/NewsletterComponents";
+import { PAGE_HERO_PADDING } from "@/components/SectionAmbience";
 
 const categories = [
   "All", "PMP", "CAPM", "Agile", "Risk", "Business Analysis", 
@@ -81,22 +84,24 @@ export function Newsletter() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* 1. Newsletter Hero / Title Section */}
-      <section className="relative pt-20 pb-12 border-b border-slate-100 dark:border-slate-900 overflow-hidden bg-gradient-to-br from-cyan-50/70 via-slate-50 to-blue-50/50 dark:from-[#061628] dark:via-slate-950 dark:to-[#0a1535]">
+      <section
+        className={`relative border-b border-slate-100 dark:border-slate-900 overflow-hidden bg-gradient-to-br from-cyan-50/70 via-slate-50 to-blue-50/50 dark:from-[#061628] dark:via-slate-950 dark:to-[#0a1535] ${PAGE_HERO_PADDING}`}
+      >
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[-15%] right-[-8%] w-[45%] h-[48%] rounded-full blur-[120px] opacity-35 bg-pms-gradient-blue-cyan" />
           <div className="absolute bottom-[-25%] left-[-12%] w-[42%] h-[45%] rounded-full blur-[120px] opacity-30 bg-pms-gradient-blue-purple dark:opacity-40" />
           <div className="absolute top-[30%] left-[35%] w-[22%] h-[28%] rounded-full blur-[100px] opacity-15 bg-pms-gradient-blue-cyan dark:opacity-25" />
         </div>
         <div className="container relative z-10 mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <div className="max-w-3xl">
-              <Badge variant="outline" className="mb-4 border-[#0859b3]/25 text-[#0859b3] dark:text-[#57d5e2] bg-[#0859b3]/5 dark:bg-[#57d5e2]/10 px-4 py-1 font-bold">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div className="max-w-3xl text-center md:text-left mx-auto md:mx-0">
+              <Badge variant="outline" className="mb-6 border-[#0859b3]/25 text-[#0859b3] dark:text-[#57d5e2] bg-[#0859b3]/5 dark:bg-[#57d5e2]/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
                 Editorial & Insights
               </Badge>
-              <h1 className="font-heading text-5xl md:text-7xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
+              <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-8">
                 The <span className="text-pms-gradient-blue-cyan">Structure</span> Report
               </h1>
-              <p className="text-xl text-muted-foreground leading-relaxed">
+              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium max-w-2xl md:mx-0 mx-auto">
                 Expert analysis, certification strategies, and the latest trends in global project leadership. Delivered weekly to 5,000+ professionals.
               </p>
             </div>
@@ -175,7 +180,10 @@ export function Newsletter() {
               <div className="space-y-8">
                 {articles.slice(0, 4).map((article, index) => (
                   <div key={index} className="flex gap-4 group cursor-pointer">
-                    <span className="text-4xl font-heading font-black text-slate-100 dark:text-slate-800 group-hover:text-brand-orange/20 transition-colors">
+                    <span
+                      className="text-4xl font-heading font-black tabular-nums leading-none text-slate-300 dark:text-slate-600 group-hover:text-brand-orange transition-colors duration-300"
+                      aria-hidden
+                    >
                       0{index + 1}
                     </span>
                     <div>
@@ -206,16 +214,38 @@ export function Newsletter() {
             </div>
 
             {/* Newsletter Mini CTA */}
-            <div className="p-8 rounded-[2rem] bg-brand-orange text-white overflow-hidden relative">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 blur-3xl pointer-events-none" />
-              <Mail className="h-10 w-10 mb-6" />
-              <h3 className="text-2xl font-bold mb-4">Never miss an update</h3>
-              <p className="text-white/80 text-sm mb-6 leading-relaxed">
-                Get the latest PM insights and certification strategies delivered to your inbox every Tuesday.
-              </p>
-              <div className="space-y-3">
-                <Input placeholder="Your email address" className="bg-white/10 border-white/20 text-white placeholder:text-white/50" />
-                <Button className="w-full bg-white text-brand-orange hover:bg-slate-100 font-bold">Subscribe</Button>
+            <div className="p-8 rounded-[2rem] bg-gradient-to-br from-brand-orange to-[#e85a45] text-white overflow-hidden relative shadow-lg shadow-brand-orange/20">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/15 blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+              <div className="relative z-10">
+                <Mail className="h-10 w-10 mb-6 opacity-95" />
+                <h3 className="text-2xl font-bold mb-3 tracking-tight">Never miss an update</h3>
+                <p className="text-white/90 text-sm mb-6 leading-relaxed">
+                  Get the latest PM insights and certification strategies delivered to your inbox every Tuesday.
+                </p>
+                <div className="space-y-3">
+                  <Input
+                    placeholder="Your email address"
+                    className="h-12 bg-white/15 border-white/30 text-white placeholder:text-white/60 focus-visible:ring-white/40"
+                  />
+                  <Button className="w-full h-12 bg-white text-brand-orange hover:bg-slate-50 font-bold shadow-sm">
+                    Subscribe
+                  </Button>
+                </div>
+                <div className="mt-8 pt-6 border-t border-white/25">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-white/70 mb-3">
+                    Need pathway guidance?
+                  </p>
+                  <Link href="/contact">
+                    <Button
+                      variant="outline"
+                      className="w-full h-12 border-white/40 bg-white/10 text-white hover:bg-white/20 hover:text-white font-bold gap-2"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      {CTAS.pathwayConsultation}
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </aside>

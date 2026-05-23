@@ -74,7 +74,7 @@ export function useHomePageConfig() {
     config,
     isPreview,
     activeSlide,
-    heroBadge: 'Certification readiness & project management capability',
+    heroBadge: 'Prepare with structure',
     heroTitle: activeSlide?.heading ?? '',
     heroSubtitle: activeSlide?.description ?? '',
     ctaPrimary: activeSlide?.primaryCta ?? '',

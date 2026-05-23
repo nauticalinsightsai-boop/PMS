@@ -146,14 +146,49 @@ export function tierDisplayLabel(tierId: string, tier: string): string {
   return tier;
 }
 
-/** Foundation or professional `length` from matrix for listing cards. */
-export function getCertDurationLabel(siteId: string): string | null {
+/** Lowest pathway tier shown on listing cards (starting price + duration from same row). */
+const LISTING_TIER_ORDER = [
+  'foundation',
+  'professional',
+  'mastery',
+  'mastery_corporate',
+  'mastery_advisory',
+] as const;
+
+export function pickListingTierOffering(siteId: string): CourseOffering | undefined {
   const offerings = getOfferingsForSiteCert(siteId);
-  const pick =
-    offerings.find((o) => o.tierId === 'foundation') ??
-    offerings.find((o) => o.tierId === 'professional') ??
-    offerings[0];
-  return pick?.length ?? null;
+  if (!offerings.length) return undefined;
+  for (const tierId of LISTING_TIER_ORDER) {
+    const match = offerings.find((o) => o.tierId === tierId);
+    if (match) return match;
+  }
+  return offerings[0];
+}
+
+/** Duration for the same tier as `getListingPriceForCert` (lowest available pathway tier). */
+export function getCertDurationLabel(siteId: string): string | null {
+  return pickListingTierOffering(siteId)?.length ?? null;
+}
+
+/** Matrix tier id used for listing-card starting price (e.g. foundation vs professional only). */
+export function getListingTierId(siteId: string): string | null {
+  return pickListingTierOffering(siteId)?.tierId ?? null;
+}
+
+const MASTERY_TIER_IDS = ['mastery', 'mastery_corporate', 'mastery_advisory'] as const;
+
+/** Single matrix row for a pathway tier (compare matrix, detail tables). */
+export function getOfferingForTier(
+  siteId: string,
+  tier: 'foundation' | 'professional' | 'mastery'
+): CourseOffering | undefined {
+  const offerings = getOfferingsForSiteCert(siteId);
+  if (tier === 'mastery') {
+    return offerings.find((o) =>
+      (MASTERY_TIER_IDS as readonly string[]).includes(o.tierId)
+    );
+  }
+  return offerings.find((o) => o.tierId === tier);
 }
 
 export function getTierPriceDisplay(
@@ -172,12 +207,8 @@ export function getListingPriceForCert(
   regionId: RegionId,
   gccCountry?: string | null
 ): FullRegionalPriceDisplay & { showScholarship: boolean } {
-  const offerings = getOfferingsForSiteCert(siteId);
-  const pro =
-    offerings.find((o) => o.tierId === 'professional') ??
-    offerings.find((o) => o.tierId === 'foundation') ??
-    offerings[0];
-  if (!pro) {
+  const listing = pickListingTierOffering(siteId);
+  if (!listing) {
     return {
       active: null,
       original: null,
@@ -188,7 +219,7 @@ export function getListingPriceForCert(
       regionalLabel: 'Regional price',
     };
   }
-  const full = resolveFullPriceDisplay(pro, regionId, gccCountry);
+  const full = resolveFullPriceDisplay(listing, regionId, gccCountry);
   return { ...full, showScholarship: full.showScholarshipLabels };
 }
 

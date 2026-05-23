@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { PathwayTier, FamilyId } from "../types/site";
 import { RegionalPrice } from "@/components/RegionalPrice";
 import { RegionalStatusBanner } from "@/components/RegionalStatusBanner";
-import { OfferingCtaButtons } from "@/components/OfferingCtaButtons";
+import { PathwayTierCta } from "@/components/PathwayTierCta";
 import type { OfferingStatus } from "@/types/regional-catalogue";
 
 export interface CertificationPathwayProps {
@@ -116,10 +116,10 @@ export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: str
                   <span>{tier.duration}</span>
                 </div>
               )}
-              {(tier.tierDelivery || tier.deliveryMode) && (
+              {tier.tierDelivery && (
                 <div className="flex items-start gap-2 text-[10px] font-medium text-obsidian/70 dark:text-slate-300 leading-snug">
                   <Globe className="h-4 w-4 text-brand-orange shrink-0 mt-0.5" />
-                  <span>{tier.tierDelivery ?? tier.deliveryMode}</span>
+                  <span>{tier.tierDelivery}</span>
                 </div>
               )}
             </div>
@@ -156,16 +156,17 @@ export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: str
             membership={tier.membershipPrice || null}
             showScholarshipLabels={tier.showScholarshipLabels ?? false}
             regionalLabel={tier.regionalLabel}
-            footnote={tier.priceFootnote ?? tier.regionMessage}
-            compact
+            footnote={null}
+            variant="tier"
           />
-          {tier.ctas ? (
-            <OfferingCtaButtons
-              ctas={tier.ctas}
-              primaryHref={tier.primaryHref ?? '#'}
-              secondaryHref={tier.secondaryHref ?? '#'}
-              vertical
-              className="w-full [&_a]:w-full [&_a]:justify-center"
+          {tier.pathwayCta ? (
+            <PathwayTierCta
+              tier={tier}
+              pathwayCta={tier.pathwayCta}
+              popular={tier.isPopular}
+              gradient={gradient}
+              accentClass={config.accent}
+              color={color}
             />
           ) : (
             <Link

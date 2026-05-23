@@ -38,8 +38,15 @@ const toneOrbs: Record<SectionTone, Orb[]> = {
   ],
 };
 
+/** Shared vertical rhythm for page heroes (aligned with Certifications). */
+export const PAGE_HERO_PADDING = 'pt-32 pb-28';
+
 export function sectionSurface(tone: SectionTone, className?: string) {
   return cn('relative overflow-hidden', toneBackground[tone], className);
+}
+
+export function pageHeroSection(tone: SectionTone, className?: string) {
+  return sectionSurface(tone, cn(PAGE_HERO_PADDING, className));
 }
 
 export function SectionAmbience({ tone }: { tone: SectionTone }) {

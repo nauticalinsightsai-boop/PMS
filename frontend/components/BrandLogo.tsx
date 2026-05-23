@@ -7,9 +7,10 @@ export const BRAND_LOGO_LIGHT = '/brand/pms-logo-light.png';
 /** Dark header/footer backgrounds */
 export const BRAND_LOGO_DARK = '/brand/pms-logo-dark.png';
 
+/** Wordmark source is 1024×247 (~4.15:1) */
 const SIZE_MAP = {
-  nav: { height: 40, width: 220, className: 'h-9 md:h-10 max-w-[min(220px,52vw)]' },
-  footer: { height: 96, width: 528, className: 'h-16 sm:h-20 md:h-24 max-w-[min(480px,85vw)]' },
+  nav: { height: 40, width: 166, className: 'h-9 md:h-10 max-w-[min(280px,58vw)]' },
+  footer: { height: 48, width: 199, className: 'h-8 sm:h-10 md:h-12 max-w-[min(260px,90vw)]' },
   /** Card headers & family tiles (on light panels) */
   card: { height: 28, width: 160, className: 'h-7 w-auto max-w-[160px]' },
   /** Compact inline mark */

@@ -101,7 +101,7 @@ const defaultConfig: HomePageConfig = {
       description: HOME_COPY.heroSubtitle,
       primaryCta: CTAS.pathwayConsultation,
       primaryLink: '/contact',
-      secondaryCta: CTAS.readinessCheck,
+      secondaryCta: CTAS.findPathway,
       secondaryLink: '/certifications',
     },
   ],

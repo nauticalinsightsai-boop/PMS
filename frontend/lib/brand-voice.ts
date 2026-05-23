@@ -104,17 +104,15 @@ export function tierDisplayName(tier: 'Foundation' | 'Professional' | 'Elite'): 
 
 export const HOME_COPY = {
 
-  heroBadge: 'Certification readiness',
+  heroBadge: 'Prepare with structure',
 
   heroTitle: 'Structured project management capability',
 
-  heroSubtitle:
-
-    'Choose your pathway. Prepare with measurable readiness.',
+  heroSubtitle: BRAND_LINES.promise,
 
   ctaPrimary: 'Book consultation',
 
-  ctaSecondary: 'Check readiness',
+  ctaSecondary: 'Find your pathway',
 
   frameworksTitle: 'Programme families',
 
@@ -148,11 +146,12 @@ export const CERTIFICATIONS_COPY = {
 
     'Independent exam prep. Verify eligibility and policies with each certification body.',
 
-  openCohortLabel: 'Open now',
+  openCohortLabel: 'Next intake',
 
   nextCohortLabel: 'Next cohort',
 
-  nextCohortHint: 'Enrollment opens with the next cohort. View the pathway or join the waitlist.',
+  nextCohortHint:
+    'Cohorts run from August 2026 onward. If a pathway shows “next cohort”, that intake is not open yet — view the overview or join the waitlist.',
 
   familyMorePathways: 'More in this family',
 
@@ -187,6 +186,8 @@ export const REGION_COPY = {
   compliance:
     'Prices exclude official exam fees, certification-body fees, taxes, vouchers, membership fees, and third-party charges. PM Structure is currently an independent exam-prep and project management learning platform.',
   originalPriceLabel: 'Original price',
+  /** Browse/compare surfaces — less “sale” framing than “Original price”. */
+  globalReferenceLabel: 'Global reference',
   scholarshipPriceLabel: 'Regional Scholarship price',
   scholarshipFootnote:
     'Regional Scholarship Pricing applies when residence and billing country match this region.',

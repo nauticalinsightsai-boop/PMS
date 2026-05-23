@@ -70,6 +70,7 @@ export interface PathwayTier {
   secondaryCtaLabel?: string;
   regionMessage?: string | null;
   status?: string;
+  pathwayCta?: import('@/lib/pathway-tier-cta').TierPathwayCta;
 }
 
 export interface MembershipTier {

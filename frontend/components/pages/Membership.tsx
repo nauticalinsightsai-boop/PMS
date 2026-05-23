@@ -31,7 +31,8 @@ function MemberCertPricing({ certId }: { certId: string }) {
         membership={listing.membership}
         showScholarshipLabels={listing.showScholarship}
         regionalLabel={listing.regionalLabel}
-        compact
+        variant="tier"
+        footnote={null}
       />
       <Link href={`/certifications/${certId}`} className="text-xs text-brand-orange font-bold mt-2 inline-block">
         View pathway →
