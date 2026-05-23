@@ -10,17 +10,19 @@ import { useWebsiteData } from "@/services/WebsiteDataService";
 import Link from "next/link";
 import { BRAND, HOME_COPY } from "@/lib/brand-voice";
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { MembershipDualPrice } from '@/components/MembershipDualPrice';
 import {
   type BillingCycle,
+  formatMembershipSavingsPercent,
   formatMembershipUsd,
   getMembershipDisplayPrice,
-  membershipAnnualSavingsUsd,
+  membershipAnnualSavingsPercent,
   MEMBERSHIP_PRICING,
 } from '@/lib/membership-plans';
 
 import * as siteData from "@/data/siteData";
 
-const MAX_ANNUAL_SAVINGS = membershipAnnualSavingsUsd(
+const MAX_ANNUAL_SAVINGS_PERCENT = membershipAnnualSavingsPercent(
   MEMBERSHIP_PRICING.mastery.monthlyUsd,
   MEMBERSHIP_PRICING.mastery.yearlyUsd,
 );
@@ -98,9 +100,11 @@ function MembershipBillingToggle({
           aria-pressed={billing === 'yearly'}
         >
           Yearly
-          <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-purple/15 text-brand-purple">
-            Save up to {formatMembershipUsd(MAX_ANNUAL_SAVINGS)}
-          </span>
+          {MAX_ANNUAL_SAVINGS_PERCENT > 0 ? (
+            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-purple/15 text-brand-purple">
+              Save up to {MAX_ANNUAL_SAVINGS_PERCENT}%
+            </span>
+          ) : null}
         </button>
       </div>
     </div>
@@ -110,7 +114,7 @@ function MembershipBillingToggle({
 export function Membership() {
   const { get } = useWebsiteData();
   const tiers = siteData.membershipTiers;
-  const [billing, setBilling] = useState<BillingCycle>('yearly');
+  const [billing, setBilling] = useState<BillingCycle>('monthly');
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -143,9 +147,18 @@ export function Membership() {
           <MembershipBillingToggle billing={billing} onChange={setBilling} />
           <p className="text-center text-sm text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto -mt-6 mb-10">
             Professional is {MEMBERSHIP_PRICING.professional.monthlyUsd}/month or{' '}
-            {MEMBERSHIP_PRICING.professional.yearlyUsd}/year (about two months free). Mastery is{' '}
-            {MEMBERSHIP_PRICING.mastery.monthlyUsd}/month or {MEMBERSHIP_PRICING.mastery.yearlyUsd}/year billed
-            annually.
+            {MEMBERSHIP_PRICING.professional.yearlyUsd}/year (
+            {formatMembershipSavingsPercent(
+              MEMBERSHIP_PRICING.professional.monthlyUsd,
+              MEMBERSHIP_PRICING.professional.yearlyUsd,
+            )}
+            ). Mastery is {MEMBERSHIP_PRICING.mastery.monthlyUsd}/month or{' '}
+            {MEMBERSHIP_PRICING.mastery.yearlyUsd}/year (
+            {formatMembershipSavingsPercent(
+              MEMBERSHIP_PRICING.mastery.monthlyUsd,
+              MEMBERSHIP_PRICING.mastery.yearlyUsd,
+            )}
+            ).
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
             {tiers.map((tier, index) => {
@@ -176,20 +189,36 @@ export function Membership() {
                   )}
                   <CardHeader className="p-8">
                     <CardTitle className="text-2xl font-bold tracking-tight">{tier.name}</CardTitle>
-                    <div className="mt-6 flex flex-col items-start gap-1">
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
-                          {display.price}
-                        </span>
-                        {display.period ? (
-                          <span className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">
-                            {display.period}
-                          </span>
-                        ) : null}
-                      </div>
-                      {display.savingsLabel ? (
-                        <p className="text-xs font-bold text-brand-purple">{display.savingsLabel}</p>
-                      ) : null}
+                    <div className="mt-6 flex flex-col items-start gap-2">
+                      {billing === 'monthly' && tier.monthlyPriceUsd > 0 ? (
+                        <MembershipDualPrice
+                          monthlyUsd={tier.monthlyPriceUsd}
+                          yearlyUsd={tier.yearlyPriceUsd}
+                        />
+                      ) : (
+                        <>
+                          <div className="flex flex-wrap items-baseline gap-2">
+                            <span className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
+                              {display.price}
+                            </span>
+                            {display.period ? (
+                              <span className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">
+                                {display.period}
+                              </span>
+                            ) : null}
+                            {display.savingsLabel ? (
+                              <span className="rounded-full bg-brand-purple/15 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-brand-purple">
+                                {display.savingsLabel}
+                              </span>
+                            ) : null}
+                          </div>
+                          {tier.monthlyPriceUsd > 0 ? (
+                            <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+                              or {formatMembershipUsd(tier.monthlyPriceUsd)}/month
+                            </p>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                     <CardDescription className="mt-4 text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                       {tier.description}

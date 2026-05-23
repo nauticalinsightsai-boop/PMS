@@ -9,7 +9,11 @@ import type {
 } from '@/types/regional-catalogue';
 import { MATRIX_COURSE_TO_SITE_ID, siteIdForMatrixCourse } from '@/lib/course-slug-map';
 import { canCheckout, isOfferingVisible } from '@/lib/status-normalize';
-import { gccDisplayForCountry, showsOriginalVsScholarship } from '@/lib/price-parser';
+import {
+  gccDisplayForCountry,
+  resolveComparableGlobalReference,
+  showsOriginalVsScholarship,
+} from '@/lib/price-parser';
 import {
   applyMembershipDiscountDisplay,
   regionalPriceLabel,
@@ -108,18 +112,23 @@ export function resolveFullPriceDisplay(
   gccCountry?: string | null
 ): FullRegionalPriceDisplay {
   const rule = resolveRegionalRule(offering, regionId);
-  const globalDisplay = offering.prices.global.display ?? null;
   const activePrice = resolveActivePrice(offering, regionId, gccCountry);
   const activeDisplay = activePrice.display ?? null;
+  const originalDisplay = resolveComparableGlobalReference(
+    offering,
+    regionId,
+    activeDisplay,
+    gccCountry
+  );
   const showScholarshipLabels = showsOriginalVsScholarship(
     regionId,
     rule.status,
-    globalDisplay,
+    originalDisplay,
     activeDisplay
   );
   const membership = applyMembershipDiscountDisplay(activeDisplay);
   return {
-    original: globalDisplay,
+    original: originalDisplay,
     active: activeDisplay,
     membership,
     showScholarshipLabels,
@@ -133,10 +142,10 @@ export function membershipPriceUsdCents(usdCents: number | null): number | null 
   return Math.round(usdCents * (1 - 0.2));
 }
 
-export function tierPathwayLevel(tierId: string): 'Foundation' | 'Professional' | 'Elite' {
+export function tierPathwayLevel(tierId: string): 'Foundation' | 'Professional' | 'Mastery' {
   if (tierId === 'foundation') return 'Foundation';
   if (tierId === 'professional') return 'Professional';
-  return 'Elite';
+  return 'Mastery';
 }
 
 export function tierDisplayLabel(tierId: string, tier: string): string {

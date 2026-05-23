@@ -189,10 +189,12 @@ export const REGION_COPY = {
   /** Browse/compare surfaces — less “sale” framing than “Original price”. */
   globalReferenceLabel: 'Global reference',
   scholarshipPriceLabel: 'Regional Scholarship price',
+  scholarshipChipSubtitle: 'Regional scholarship',
   scholarshipFootnote:
     'Regional Scholarship Pricing applies when residence and billing country match this region.',
   regionalPriceLabel: 'Regional price',
   membershipPriceLabel: 'Membership price',
+  membershipChipLabel: 'Membership',
   membershipDiscountNote: '20% off regional tuition with an active membership.',
 } as const;
 

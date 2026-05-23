@@ -94,6 +94,26 @@ export const certifications: CertificationSummary[] = [
     officialFee: "Member price $405; full price $655.",
     trainingPriceRange: "~$500–$3,000 (provider-dependent).",
     learningOutcomes: ["Define/plan work using predictive + hybrid patterns", "Lead teams and stakeholders", "Manage delivery, risk, and quality", "Tailor agile practices", "Align outcomes to business environment"],
+    pathwayOutcomes: {
+      foundation: [
+        "Map PMP exam domains at a conceptual level across predictive and agile work",
+        "Learn pathway structure, LMS navigation, and baseline study planning",
+        "Build core PM vocabulary before intensive exam preparation",
+        "Clarify eligibility, timelines, and how Foundation fits your PMP path",
+      ],
+      professional: [
+        "Apply PMP ECO scenarios with mocks, templates, and timed practice",
+        "Strengthen people, process, and business environment domains",
+        "Use cohort support, drills, and limited 1:1 review for weak areas",
+        "Prepare exam-day strategy, pacing, and confidence for test day",
+      ],
+      mastery: [
+        "Translate PMP knowledge into program delivery and stakeholder leadership",
+        "Mentor-led readiness review and structured accountability",
+        "Integrate governance, benefits, and quality in real-world contexts",
+        "Extend exam mastery to broader organizational implementation",
+      ],
+    },
     suggestedResources: ["PMP Exam Content Outline (ECO)", "Sample questions", "PMI certification handbook policies"],
     recommendedCTA: "Check eligibility and start your PMP path — build a plan, train to 35+ hours, and book your exam.",
     regionalDemand: "PMP has very large global holder base; PMI highlights top countries including China and Canada (with the US also listed)."

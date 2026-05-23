@@ -9,6 +9,13 @@ export const BRAND_LOGO = {
   dark: '/brand/pms-logo-dark.png',
 } as const;
 
+/** Issuing-body marks on certification / family cards */
+export const BRAND_CERT_LOGOS = {
+  PMI: '/brand/pmi-logo.png',
+  PRINCE2: '/brand/prince2-logo.svg',
+  SixSigma: '/brand/sixsigma-logo.svg',
+} as const;
+
 export const PMS_COLORS = {
   white: '#FFFFFF',
   black: '#000000',

@@ -35,6 +35,8 @@ import { BRAND, CTAS, HOME_COPY } from "@/lib/brand-voice";
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
 import { FamilyExploreCard } from "@/components/FamilyExploreCard";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { MembershipDualPrice } from '@/components/MembershipDualPrice';
+import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 
 import * as siteData from "@/data/siteData";
 
@@ -368,12 +370,12 @@ export function Home() {
                   <Badge className="bg-brand-orange text-white border-none mb-8 px-4 py-1 text-[10px] font-bold uppercase tracking-widest">Best Value</Badge>
                   <h3 className="text-3xl font-bold text-white mb-4 tracking-tight">Professional Membership</h3>
                   <p className="text-slate-300 text-base mb-8 font-medium leading-relaxed">The complete toolkit for the ambitious project professional.</p>
-                  <div className="flex flex-col gap-1 mb-8">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-5xl font-bold tracking-tight text-white">$199</span>
-                      <span className="text-slate-300 font-bold text-lg">/ year</span>
-                    </div>
-                    <p className="text-slate-400 text-sm font-semibold">or $19 / month · save $29 annually</p>
+                  <div className="mb-8">
+                    <MembershipDualPrice
+                      monthlyUsd={MEMBERSHIP_PRICING.professional.monthlyUsd}
+                      yearlyUsd={MEMBERSHIP_PRICING.professional.yearlyUsd}
+                      variant="dark"
+                    />
                   </div>
                   <ul className="space-y-4 mb-10">
                     {[

@@ -8,6 +8,18 @@ export function membershipAnnualSavingsUsd(monthlyUsd: number, yearlyUsd: number
   return Math.max(0, monthlyUsd * 12 - yearlyUsd);
 }
 
+/** Rounded percent saved vs paying monthly for 12 months (e.g. 19×12 vs 199 → 13%). */
+export function membershipAnnualSavingsPercent(monthlyUsd: number, yearlyUsd: number): number {
+  const annualAtMonthly = monthlyUsd * 12;
+  if (annualAtMonthly <= 0) return 0;
+  return Math.round(((annualAtMonthly - yearlyUsd) / annualAtMonthly) * 100);
+}
+
+export function formatMembershipSavingsPercent(monthlyUsd: number, yearlyUsd: number): string | null {
+  const pct = membershipAnnualSavingsPercent(monthlyUsd, yearlyUsd);
+  return pct > 0 ? `Save ${pct}%` : null;
+}
+
 export function getMembershipDisplayPrice(
   monthlyUsd: number,
   yearlyUsd: number,
@@ -17,6 +29,8 @@ export function getMembershipDisplayPrice(
     return { price: '$0', period: '', savingsLabel: null };
   }
 
+  const savingsLabel = formatMembershipSavingsPercent(monthlyUsd, yearlyUsd);
+
   if (cycle === 'monthly') {
     return {
       price: formatMembershipUsd(monthlyUsd),
@@ -25,12 +39,10 @@ export function getMembershipDisplayPrice(
     };
   }
 
-  const savings = membershipAnnualSavingsUsd(monthlyUsd, yearlyUsd);
   return {
     price: formatMembershipUsd(yearlyUsd),
     period: '/year',
-    savingsLabel:
-      savings > 0 ? `Save ${formatMembershipUsd(savings)} vs monthly` : null,
+    savingsLabel,
   };
 }
 

@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { motion } from 'motion/react';
-import { Award, ArrowRight, ShieldCheck, TrendingUp } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { CertFamilyMark } from '@/components/CertFamilyMark';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { FamilyConfig } from '@/types/site';
@@ -14,12 +15,6 @@ const FAMILY_WASH: Record<string, string> = {
   SixSigma:
     'from-slate-100/90 via-white/95 to-slate-50/40 dark:from-slate-800/35 dark:via-slate-900 dark:to-slate-950',
 };
-
-function FamilyIcon({ familyId }: { familyId: string }) {
-  if (familyId === 'PMI') return <Award className="h-8 w-8" aria-hidden />;
-  if (familyId === 'PRINCE2') return <ShieldCheck className="h-8 w-8" aria-hidden />;
-  return <TrendingUp className="h-8 w-8" aria-hidden />;
-}
 
 export function FamilyExploreCard({
   family,
@@ -71,14 +66,28 @@ export function FamilyExploreCard({
         <div className="relative z-10 flex flex-1 flex-col p-10 md:p-11">
           <div
             className={cn(
-              'mb-8 flex h-16 w-16 items-center justify-center rounded-2xl text-white',
+              'mb-8 flex h-16 items-center justify-center rounded-2xl',
+              family.id === 'PRINCE2' ? 'w-[5.75rem]' : 'w-16',
               'shadow-[0_12px_28px_-8px_rgba(11,11,42,0.35)]',
               'ring-2 ring-white/40 dark:ring-slate-600/50',
               'transition-transform duration-500 group-hover:scale-[1.06]',
-              family.accent,
+              (family.id === 'PMI' || family.id === 'SixSigma') && 'bg-white p-1.5',
+              family.id === 'PRINCE2' && 'w-[5.75rem] bg-white px-2',
+              family.id !== 'PMI' &&
+                family.id !== 'PRINCE2' &&
+                family.id !== 'SixSigma' &&
+                cn('text-white', family.accent),
             )}
           >
-            <FamilyIcon familyId={family.id} />
+            <CertFamilyMark
+              familyId={family.id}
+              imageClassName={
+                family.id === 'PRINCE2'
+                  ? 'h-9 w-full max-w-[5rem]'
+                  : 'h-11 w-11 object-contain'
+              }
+              iconClassName="h-8 w-8 text-white"
+            />
           </div>
 
           <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">

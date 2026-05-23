@@ -15,6 +15,10 @@ import {
   tierDeliveryLine,
   tierPathwaySummary,
 } from '@/lib/pathway-tier-cta';
+import {
+  resolvePathwayTierOutcomes,
+  type PathwayOutcomesByTier,
+} from '@/lib/pathway-tier-outcomes';
 
 const TIER_ORDER = ['foundation', 'professional', 'mastery', 'mastery_corporate', 'mastery_advisory'];
 
@@ -23,7 +27,8 @@ export function buildPathwayTiersForCert(
   certName: string,
   regionId: RegionId,
   gccCountry: GccCountryCode | null,
-  learningOutcomes: string[] = []
+  pathwayOutcomes?: PathwayOutcomesByTier,
+  legacyOutcomes: string[] = [],
 ): PathwayTier[] {
   const offerings = getOfferingsForSiteCert(siteCertId)
     .filter((o) => isOfferingVisible(o.regional[regionId].status))
@@ -53,7 +58,12 @@ export function buildPathwayTiersForCert(
       regionalLabel: prices.regionalLabel,
       priceFootnote: prices.footnote,
       deliveryMode: deliveryLine,
-      outcomes: learningOutcomes.slice(0, 4),
+      outcomes: resolvePathwayTierOutcomes(
+        siteCertId,
+        o.tierId,
+        pathwayOutcomes,
+        legacyOutcomes,
+      ),
       ctaText: pathwayCta.label,
       ctas,
       pathwayCta,

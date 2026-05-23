@@ -1,4 +1,5 @@
 import type { RegionId } from '@/types/regional-catalogue';
+import { getScheduledCohortDate } from '@/lib/cohort-intake-schedule';
 import { getOfferingsForSiteCert } from '@/lib/regional-catalogue';
 
 /** @deprecated Use matrix status via isEnrollmentOpen(certId, regionId) */
@@ -11,7 +12,7 @@ export const LISTABLE_PATHWAY_FAMILIES: PathwayFamilyTab[] = [...PATHWAY_FAMILY_
 
 /** Flagship pathways — always shown as the 3-up card row per family tab. */
 export const FAMILY_FEATURED_CERT_IDS: Record<PathwayFamilyTab, readonly string[]> = {
-  PMI: ['pmp', 'capm', 'pmi-acp'],
+  PMI: ['pmp', 'pmi-rmp', 'capm'],
   PRINCE2: ['prince2', 'prince2-practitioner', 'prince2-agile'],
   SixSigma: ['lss-green', 'lss-yellow', 'lss-black'],
 };
@@ -26,7 +27,7 @@ export function isTopTierPathwayCert(certId: string): boolean {
   return TOP_TIER_CERT_IDS.has(certId);
 }
 
-/** Flagship row: fixed order (PMP → CAPM → …), includes open and next-cohort pathways. */
+/** Flagship row: fixed order per family (PMI: PMP → RMP → CAPM), includes open and next-cohort pathways. */
 export function pickFeaturedPathwayCerts<T extends { id: string }>(
   certsInFamily: T[],
   familyId: PathwayFamilyTab,
@@ -65,12 +66,15 @@ export const ENROLLMENT_STATUS = {
 } as const;
 
 /**
- * Rolling next intake: first day of the calendar month after today.
- * (e.g. viewed in May → "Jun 2026"; always one month ahead of the current month.)
+ * Next intake for a pathway — staggered by certification (see cohort-intake-schedule).
+ * Baseline is next calendar month; flagship PM certs add +1 month (e.g. PMP in Jul when viewed in May).
  */
-export function getNextCohortDate(_certId?: string): Date {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth() + 1, 1);
+export function getNextCohortDate(certId?: string): Date {
+  if (!certId) {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  }
+  return getScheduledCohortDate(certId);
 }
 
 export function formatCohortMonthYear(date: Date): string {

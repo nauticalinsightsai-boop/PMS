@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { resolvePricingPresentation } from '@/lib/regional-price-display';
 
 describe('resolvePricingPresentation', () => {
-  it('scholarship when regional differs from global', () => {
+  it('scholarship when regional differs from global reference in same currency', () => {
     const p = resolvePricingPresentation({
-      original: '$899',
+      original: '₹53,999',
       active: '₹44,999',
       membership: '₹35,999',
       showScholarshipLabels: true,

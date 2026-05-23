@@ -37,10 +37,15 @@ export function tierPathwaySummary(tierId: string): string {
   return 'Structured preparation aligned to your certification goals.';
 }
 
-/** Short delivery line for the card (first clause of matrix delivery mode). */
+/** Full delivery line for pathway cards (matrix clauses joined like Professional tier). */
 export function tierDeliveryLine(deliveryMode: string | null | undefined): string {
   if (!deliveryMode?.trim()) return '';
-  return deliveryMode.split(';')[0]?.trim() ?? deliveryMode.trim();
+  const parts = deliveryMode
+    .split(';')
+    .map((part) => part.trim())
+    .filter(Boolean);
+  if (parts.length <= 1) return parts[0] ?? deliveryMode.trim();
+  return parts.join(' + ');
 }
 
 /**

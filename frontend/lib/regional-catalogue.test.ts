@@ -84,6 +84,16 @@ describe('regional-catalogue', () => {
     expect(india.membership).not.toMatch(/^\$/);
   });
 
+  it('resolveFullPriceDisplay uses same-currency global reference for GCC scholarship', () => {
+    const foundation = getOfferingById('pmp-preparation-foundation');
+    expect(foundation).toBeDefined();
+    const gcc = resolveFullPriceDisplay(foundation!, 'gcc', 'AE');
+    expect(gcc.active).toBe('AED 900');
+    expect(gcc.original).toMatch(/^AED /);
+    expect(gcc.original).not.toMatch(/\$/);
+    expect(gcc.showScholarshipLabels).toBe(true);
+  });
+
   it('routes scholarship_unavailable CTAs', () => {
     const mastery = getOfferingById('pmp-preparation-mastery');
     const rule = resolveRegionalRule(mastery!, 'india');

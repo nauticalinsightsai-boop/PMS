@@ -4,11 +4,14 @@ import { cn } from '@/lib/utils';
 /** Compact label + value cell — content centered within the chip area. */
 export function StatChip({
   label,
+  subtitle,
   children,
   className,
   valueClassName,
 }: {
   label: string;
+  /** Small hint under the label (e.g. Regional scholarship). */
+  subtitle?: string;
   children: ReactNode;
   className?: string;
   valueClassName?: string;
@@ -21,9 +24,14 @@ export function StatChip({
         className,
       )}
     >
-      <span className="w-full text-label leading-none">
-        {label}
-      </span>
+      <div className="flex w-full flex-col items-center gap-0.5">
+        <span className="w-full text-label leading-none">{label}</span>
+        {subtitle ? (
+          <span className="w-full text-[9px] font-semibold leading-tight text-brand-orange/90 dark:text-brand-orange">
+            {subtitle}
+          </span>
+        ) : null}
+      </div>
       <div
         className={cn(
           'flex w-full min-w-0 flex-col items-center justify-center text-center',

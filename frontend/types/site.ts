@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react";
+import type { PathwayOutcomesByTier } from "@/lib/pathway-tier-outcomes";
 
 export type FamilyId = "PMI" | "PRINCE2" | "SixSigma" | "FoundationDirect";
 
@@ -40,12 +41,14 @@ export interface CertificationSummary {
   officialFee?: string;
   trainingPriceRange?: string;
   learningOutcomes?: string[];
+  /** Tier-specific bullets on pathway cards (Foundation / Professional / Mastery). */
+  pathwayOutcomes?: PathwayOutcomesByTier;
   suggestedResources?: string[];
   recommendedCTA?: string;
   regionalDemand?: string;
 }
 
-export type TierLevel = "Foundation" | "Professional" | "Elite";
+export type TierLevel = "Foundation" | "Professional" | "Mastery";
 
 export interface PathwayTier {
   level: TierLevel;

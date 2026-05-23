@@ -19,13 +19,17 @@ import { getOfferingsForSiteCert } from "@/lib/regional-catalogue";
 import { hrefForCtaAction } from "@/lib/cta-router";
 import { canCheckout } from "@/lib/status-normalize";
 import type { RegionId } from "@/types/regional-catalogue";
-import { PricingComplianceNote } from "@/components/PricingComplianceNote";
 import {
   PUBLIC_NAVBAR_HEIGHT_CLASS,
   PUBLIC_NAVBAR_OFFSET_CLASS,
   PUBLIC_NAVBAR_TOP_CLASS,
   PUBLIC_SUBNAV_SPACER_CLASS,
 } from "@/components/PublicShell";
+import {
+  DossierBulletList,
+  DossierCard,
+  ExpandableLearningOutcomes,
+} from "@/components/CertDossierBlocks";
 
 function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
   return getOfferingsForSiteCert(siteId).some((o) => {
@@ -57,9 +61,10 @@ export function CertificationDetail() {
         certName,
         regionId,
         gccCountry,
-        cert.learningOutcomes ?? []
+        cert.pathwayOutcomes,
+        cert.learningOutcomes ?? [],
       ),
-    [cert.id, certName, regionId, gccCountry, cert.learningOutcomes]
+    [cert.id, certName, regionId, gccCountry, cert.pathwayOutcomes, cert.learningOutcomes]
   );
 
   return (
@@ -223,7 +228,6 @@ export function CertificationDetail() {
             color={cert.color}
             gradient={cert.gradient}
           />
-          <PricingComplianceNote className="mt-12 max-w-3xl mx-auto text-center" />
         </div>
       </section>
 
@@ -241,18 +245,22 @@ export function CertificationDetail() {
                     Target Audience & Prerequisites
                   </h3>
                   <div className="space-y-6">
-                    <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Who is this for?</h4>
-                      <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
-                        {cert.targetAudience || "Professionals looking to validate their expertise in this domain."}
-                      </p>
-                    </div>
-                    <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Prerequisites</h4>
-                      <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
-                        {cert.prerequisites || "Varies by experience level. Contact us for a personalized assessment."}
-                      </p>
-                    </div>
+                    <DossierCard title="Who is this for?">
+                      <DossierBulletList
+                        text={
+                          cert.targetAudience ||
+                          'Professionals looking to validate their expertise in this domain.'
+                        }
+                      />
+                    </DossierCard>
+                    <DossierCard title="Prerequisites">
+                      <DossierBulletList
+                        text={
+                          cert.prerequisites ||
+                          'Varies by experience level. Contact us for a personalized assessment.'
+                        }
+                      />
+                    </DossierCard>
                   </div>
                 </div>
 
@@ -263,37 +271,20 @@ export function CertificationDetail() {
                     Exam Format & Registration
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Official Exam</h4>
-                      <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
-                        {cert.examFormat || "Standard proctored examination."}
-                      </p>
-                    </div>
-                    <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Registration Steps</h4>
-                      <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
-                        {cert.registrationSteps || "Apply via governing body website."}
-                      </p>
-                    </div>
+                    <DossierCard title="Official exam">
+                      <DossierBulletList text={cert.examFormat || 'Standard proctored examination.'} />
+                    </DossierCard>
+                    <DossierCard title="Registration steps">
+                      <DossierBulletList
+                        text={cert.registrationSteps || 'Apply via governing body website.'}
+                      />
+                    </DossierCard>
                   </div>
                 </div>
 
                 {/* Learning Outcomes */}
-                {cert.learningOutcomes && (
-                  <div>
-                    <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                      <CheckCircle2 className="h-6 w-6 text-brand-orange" />
-                      Learning Outcomes
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {cert.learningOutcomes.map((outcome, i) => (
-                        <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-                          <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0 mt-0.5" />
-                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">{outcome}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                {cert.learningOutcomes && cert.learningOutcomes.length > 0 && (
+                  <ExpandableLearningOutcomes outcomes={cert.learningOutcomes} />
                 )}
               </div>
 

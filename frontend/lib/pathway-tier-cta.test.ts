@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { resolveTierPathwayCta, tierPathwaySummary } from './pathway-tier-cta';
+import { resolveTierPathwayCta, tierDeliveryLine, tierPathwaySummary } from './pathway-tier-cta';
 
 describe('pathway-tier-cta', () => {
   it('foundation with direct checkout opens enroll modal flow', () => {
@@ -43,5 +43,17 @@ describe('pathway-tier-cta', () => {
   it('tier summaries are distinct from raw delivery mode', () => {
     expect(tierPathwaySummary('foundation')).toMatch(/LMS/i);
     expect(tierPathwaySummary('professional')).toMatch(/weekend/i);
+  });
+
+  it('tierDeliveryLine includes all mastery clauses, not only the first', () => {
+    const professional =
+      'Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review';
+    expect(tierDeliveryLine(professional)).toBe(professional);
+
+    const mastery =
+      'Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access';
+    expect(tierDeliveryLine(mastery)).toBe(
+      'Mentor-led + weekend/live sessions + WhatsApp support + consultation/review before access',
+    );
   });
 });

@@ -14,11 +14,13 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { StatChip } from '@/components/ui/stat-chip';
+import { MembershipPriceChip } from '@/components/MembershipPriceChip';
 import { CheckCircle2, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PathwayTier, FamilyId } from '../types/site';
 import { RegionalStatusBanner } from '@/components/RegionalStatusBanner';
 import { PathwayTierCta } from '@/components/PathwayTierCta';
+import { REGION_COPY } from '@/lib/brand-voice';
 import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import type { OfferingStatus } from '@/types/regional-catalogue';
 
@@ -48,7 +50,7 @@ const familyConfigs = {
 const tierLevelLabel: Record<PathwayTier['level'], string> = {
   Foundation: 'Tier 1 · Foundation',
   Professional: 'Tier 2 · Professional',
-  Elite: 'Tier 3 · Mastery',
+  Mastery: 'Tier 3 · Mastery',
 };
 
 const pathwayCardShell =
@@ -82,14 +84,17 @@ function PathwayTierPricingChips({
 
   return (
     <div className="mb-5 space-y-2">
-      <div className="grid grid-cols-2 gap-2 items-stretch sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-2 items-stretch overflow-visible sm:grid-cols-3">
         <StatChip label="Prep time">
           <p className="text-sm font-extrabold leading-tight tracking-tight text-slate-900 dark:text-white">
             {tier.duration?.trim() || 'Flexible'}
           </p>
         </StatChip>
 
-        <StatChip label="Tuition">
+        <StatChip
+          label="Tuition"
+          subtitle={isScholarship ? REGION_COPY.scholarshipChipSubtitle : undefined}
+        >
           {tier.price ? (
             <p
               className={cn(
@@ -104,15 +109,7 @@ function PathwayTierPricingChips({
           )}
         </StatChip>
 
-        <StatChip label="Member">
-          {tier.membershipPrice ? (
-            <p className="text-sm font-extrabold leading-tight tracking-tight text-brand-purple">
-              {tier.membershipPrice}
-            </p>
-          ) : (
-            <p className="text-sm font-extrabold text-slate-400">—</p>
-          )}
-        </StatChip>
+        <MembershipPriceChip price={tier.membershipPrice} />
       </div>
 
       {showGlobalReference && tier.originalPrice && (

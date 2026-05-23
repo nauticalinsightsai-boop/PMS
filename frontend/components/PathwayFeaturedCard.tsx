@@ -6,11 +6,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { StatChip } from '@/components/ui/stat-chip';
+import { MembershipPriceChip } from '@/components/MembershipPriceChip';
 import { CertificationPathwayVisual } from '@/components/CertificationPathwayVisual';
 import { PathwayEnrollmentBadge } from '@/components/PathwayEnrollmentBadge';
 import { cn } from '@/lib/utils';
 import { useRegion } from '@/contexts/RegionContext';
 import { isEnrollmentOpen } from '@/lib/certification-enrollment';
+import { REGION_COPY } from '@/lib/brand-voice';
 import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import { getCertDurationLabel, getListingPriceForCert } from '@/lib/regional-catalogue';
 import type { CertificationSummary } from '@/types/site';
@@ -40,14 +42,19 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
 
   return (
     <div className="mb-5 space-y-2">
-      <div className="grid grid-cols-2 gap-2 items-stretch sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-2 items-stretch overflow-visible sm:grid-cols-3">
         <StatChip label="Prep time">
           <p className="text-sm font-extrabold leading-tight tracking-tight text-slate-900 dark:text-white">
             {duration ?? 'Flexible'}
           </p>
         </StatChip>
 
-        <StatChip label="Tuition">
+        <StatChip
+          label="Tuition"
+          subtitle={
+            presentation?.kind === 'scholarship' ? REGION_COPY.scholarshipChipSubtitle : undefined
+          }
+        >
           {listing.active ? (
             <p
               className={cn(
@@ -64,15 +71,7 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
           )}
         </StatChip>
 
-        <StatChip label="Member">
-          {listing.membership ? (
-            <p className="text-sm font-extrabold leading-tight tracking-tight text-brand-purple">
-              {listing.membership}
-            </p>
-          ) : (
-            <p className="text-sm font-extrabold text-slate-400">—</p>
-          )}
-        </StatChip>
+        <MembershipPriceChip price={listing.membership} />
       </div>
 
       {showGlobalReference && listing.original && (
