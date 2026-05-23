@@ -20,6 +20,12 @@ import { hrefForCtaAction } from "@/lib/cta-router";
 import { canCheckout } from "@/lib/status-normalize";
 import type { RegionId } from "@/types/regional-catalogue";
 import { PricingComplianceNote } from "@/components/PricingComplianceNote";
+import {
+  PUBLIC_NAVBAR_HEIGHT_CLASS,
+  PUBLIC_NAVBAR_OFFSET_CLASS,
+  PUBLIC_NAVBAR_TOP_CLASS,
+  PUBLIC_SUBNAV_SPACER_CLASS,
+} from "@/components/PublicShell";
 
 function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
   return getOfferingsForSiteCert(siteId).some((o) => {
@@ -57,9 +63,21 @@ export function CertificationDetail() {
   );
 
   return (
-    <div className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
-      {/* Header / Breadcrumb */}
-      <section className="py-3 bg-background/90 backdrop-blur-sm sticky top-16 z-40 border-b border-border">
+    <div
+      className={cn(
+        'flex flex-col min-h-screen selection:bg-brand-orange selection:text-white',
+        /* Cancel main pt-16 so subnav can sit flush under the fixed navbar */
+        PUBLIC_NAVBAR_OFFSET_CLASS,
+      )}
+    >
+      {/* Subnav — fixed directly under navbar (avoids gap from main padding + sticky top) */}
+      <section
+        className={cn(
+          'fixed inset-x-0 z-40 py-3 border-b border-border',
+          'bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/90',
+          PUBLIC_NAVBAR_TOP_CLASS,
+        )}
+      >
         <div className="container mx-auto flex justify-between items-center">
           <Link href="/certifications">
             <Button variant="ghost" className="text-slate-500 hover:text-brand-orange -ml-4 font-bold transition-all">
@@ -90,8 +108,11 @@ export function CertificationDetail() {
         </div>
       </section>
 
+      {/* Reserve space for fixed navbar + subnav */}
+      <div className={cn(PUBLIC_NAVBAR_HEIGHT_CLASS, PUBLIC_SUBNAV_SPACER_CLASS, 'shrink-0')} aria-hidden />
+
       {/* Hero Section */}
-      <section className={sectionSurface('blend', 'relative pt-24 pb-32')}>
+      <section className={sectionSurface('blend', 'relative pt-16 pb-32 md:pt-20')}>
         <SectionAmbience tone="blend" />
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-orange/5 rounded-full blur-[120px]" />
@@ -396,16 +417,16 @@ export function CertificationDetail() {
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="bg-slate-900 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl"
+            className="bg-slate-100 dark:bg-slate-900 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl border border-slate-200/80 dark:border-slate-800"
           >
             <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-brand-orange/10 to-transparent pointer-events-none" />
             
             <div className="relative z-10 max-w-4xl mx-auto">
-              <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">
+              <h2 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
                 Ready to start your <br />
                 <span className="text-brand-orange">professional</span> journey?
               </h2>
-              <p className="text-slate-400 text-lg md:text-xl mb-12 leading-relaxed font-medium max-w-2xl mx-auto">
+              <p className="text-slate-600 dark:text-slate-400 text-lg md:text-xl mb-12 leading-relaxed font-medium max-w-2xl mx-auto">
                 Structured pathways, practice, and advisory support for {certName}.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -423,7 +444,11 @@ export function CertificationDetail() {
                   </Link>
                 )}
                 <Link href="/contact">
-                  <Button size="lg" variant="outline" className="border-white/10 text-white hover:bg-white/5 h-14 px-10 rounded-2xl font-bold text-lg transition-all">
+                  <Button
+                    size="lg"
+                    variant="ghost"
+                    className="h-14 px-10 rounded-2xl font-bold text-lg transition-all border border-slate-900/15 dark:border-white/10 bg-white dark:bg-transparent text-black dark:text-white hover:bg-slate-50 dark:hover:bg-white/5"
+                  >
                     {CTAS.pathwayConsultation}
                   </Button>
                 </Link>

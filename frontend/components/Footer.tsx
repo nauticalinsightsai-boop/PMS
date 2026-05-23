@@ -116,17 +116,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/legal" className="hover:text-brand-orange transition-colors">
-                  Legal hub
-                </Link>
-              </li>
-              <li>
-                <Link href="/legal/services" className="hover:text-brand-orange transition-colors">
-                  Services terms
-                </Link>
-              </li>
-              <li>
-                <Link href="/legal/pricing-disclaimers" className="hover:text-brand-orange transition-colors">
-                  Pricing & disclaimers
+                  Policies &amp; legal
                 </Link>
               </li>
               <li>
@@ -187,26 +177,16 @@ export function Footer() {
 
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-carbon dark:text-slate-500 font-medium">
             <span>© {new Date().getFullYear()} {BRAND.name}. All rights reserved.</span>
-            <Link href="/legal/terms" className="hover:text-brand-orange transition-colors">
-              Terms
-            </Link>
-            <Link href="/legal/privacy" className="hover:text-brand-orange transition-colors">
-              Privacy
-            </Link>
-            <Link href="/legal/cookies" className="hover:text-brand-orange transition-colors">
-              Cookies
+            <Link href="/legal" className="hover:text-brand-orange transition-colors">
+              Policies &amp; legal
             </Link>
           </div>
         </div>
 
         <p className="mt-6 text-[10px] text-slate-400 max-w-3xl mx-auto text-center leading-relaxed font-medium">
-          See{' '}
-          <Link href="/legal/pricing-disclaimers" className="text-brand-orange hover:underline font-semibold">
-            pricing &amp; certification disclaimers
-          </Link>{' '}
-          and{' '}
-          <Link href="/legal/terms" className="text-brand-orange hover:underline font-semibold">
-            terms of use
+          Tuition, regional pricing, certification disclaimers, and terms of use are in our{' '}
+          <Link href="/legal" className="text-brand-orange hover:underline font-semibold">
+            legal &amp; compliance hub
           </Link>
           .
         </p>

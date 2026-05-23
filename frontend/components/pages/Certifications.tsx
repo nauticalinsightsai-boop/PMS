@@ -149,7 +149,6 @@ export function Certifications() {
             </p>
 
             <div className="mt-10 max-w-3xl mx-auto space-y-4">
-              <CertificationHubActions />
               <div className="relative w-full group">
                 <Search
                   className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-brand-orange transition-colors pointer-events-none"
@@ -167,6 +166,7 @@ export function Certifications() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
+              <CertificationHubActions className="justify-center" />
             </div>
           </motion.div>
         </div>
@@ -228,7 +228,7 @@ export function Certifications() {
                             <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 text-center md:text-left">
                               Flagship pathways
                             </h3>
-                            <div className="grid grid-cols-1 gap-10 items-stretch lg:grid-cols-3">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                               <AnimatePresence mode="popLayout">
                                 {featuredTop.map((cert) => (
                                   <motion.div
@@ -243,7 +243,7 @@ export function Certifications() {
                                     <PathwayFeaturedCard
                                       cert={cert}
                                       familyLabel={cert.familyId}
-                                      layout="directory"
+                                      layout="catalog"
                                     />
                                   </motion.div>
                                 ))}
@@ -389,15 +389,6 @@ export function Certifications() {
                 <Link href="/certifications/compare">
                   <Button size="lg" variant="brand" className="h-16 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all hover:scale-105">
                     Compare Frameworks
-                  </Button>
-                </Link>
-                <Link href="/membership">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="h-16 px-10 rounded-2xl border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white dark:border-slate-400 dark:text-slate-900 dark:hover:bg-slate-200 font-bold text-lg transition-all"
-                  >
-                    Explore Membership
                   </Button>
                 </Link>
                 <Link href="/contact">

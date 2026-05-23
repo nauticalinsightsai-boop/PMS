@@ -22,7 +22,7 @@ const ACTIONS = [
 export function CertificationHubActions({ className }: { className?: string }) {
   return (
     <div
-      className={cn('flex flex-col sm:flex-row items-stretch sm:items-center gap-3', className)}
+      className={cn('flex flex-row flex-wrap items-center justify-center gap-3', className)}
       aria-label="Certification tools"
     >
       {ACTIONS.map(({ label, href, icon: Icon, variant }) => (
@@ -30,7 +30,7 @@ export function CertificationHubActions({ className }: { className?: string }) {
           key={href}
           href={href}
           className={cn(
-            'inline-flex min-h-12 flex-1 sm:flex-none items-center justify-center gap-2 rounded-2xl px-6 font-bold text-sm transition-all',
+            'inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-2xl px-6 font-bold text-sm transition-all',
             variant === 'brand'
               ? 'bg-brand-orange text-white shadow-lg shadow-brand-orange/25 hover:bg-brand-hover'
               : 'border border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-slate-100 hover:border-brand-orange hover:text-brand-orange',

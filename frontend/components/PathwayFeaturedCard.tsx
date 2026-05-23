@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Award, CheckCircle2, ShieldCheck, TrendingUp, Zap } from 'lucide-react';
+import { CheckCircle2, Zap } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -9,42 +9,12 @@ import { StatChip } from '@/components/ui/stat-chip';
 import { CertificationPathwayVisual } from '@/components/CertificationPathwayVisual';
 import { PathwayEnrollmentBadge } from '@/components/PathwayEnrollmentBadge';
 import { cn } from '@/lib/utils';
-import { getFamilyGradient } from '@/lib/brand-visual';
 import { useRegion } from '@/contexts/RegionContext';
 import { isEnrollmentOpen } from '@/lib/certification-enrollment';
 import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import { getCertDurationLabel, getListingPriceForCert } from '@/lib/regional-catalogue';
 import type { CertificationSummary } from '@/types/site';
 import type { RegionId } from '@/types/regional-catalogue';
-
-const familyStyles = {
-  PMI: {
-    text: 'text-brand-orange',
-    accent: 'bg-brand-orange',
-    gradient: 'from-brand-orange to-amber-600',
-  },
-  PRINCE2: {
-    text: 'text-teal-700 dark:text-teal-400',
-    accent: 'bg-teal-700',
-    gradient: 'from-teal-600 to-blue-700',
-  },
-  SixSigma: {
-    text: 'text-slate-700 dark:text-slate-300',
-    accent: 'bg-slate-700',
-    gradient: 'from-slate-600 to-slate-900',
-  },
-  FoundationDirect: {
-    text: 'text-brand-orange',
-    accent: 'bg-brand-orange',
-    gradient: 'from-brand-orange to-amber-600',
-  },
-} as const;
-
-function familyIcon(familyId: string) {
-  if (familyId === 'PRINCE2') return ShieldCheck;
-  if (familyId === 'SixSigma') return TrendingUp;
-  return Award;
-}
 
 /** Prep time, tuition, and membership — three aligned chips from the same listing tier. */
 function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
@@ -131,16 +101,35 @@ export interface PathwayFeaturedCardProps {
   description?: string;
   /** Shown under the icon in the visual header */
   visualSubtitle?: string;
-  /** `visual` = gradient header (Home). `directory` = detail-style card, no image, always-visible CTA. */
-  layout?: 'visual' | 'directory';
+  /** `visual` = gradient image header (Home). `catalog` = same listing card, no image (Certifications). */
+  layout?: 'visual' | 'catalog';
   className?: string;
 }
 
+const featuredCardShell =
+  'group/pathway h-full flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden';
+
+function certAccentColor(cert: CertificationSummary): string | undefined {
+  return cert.color?.trim() || undefined;
+}
+
 /** Featured pathway card — shared by Home and Certifications flagship grids */
-function PathwayCardCta({ certId, regionId }: { certId: string; regionId: RegionId }) {
+function PathwayCardCta({
+  certId,
+  regionId,
+  accentColor,
+}: {
+  certId: string;
+  regionId: RegionId;
+  accentColor?: string;
+}) {
   return (
     <Link href={`/certifications/${certId}`} className="w-full">
-      <Button variant="brand" className="w-full h-12 rounded-2xl font-bold text-base">
+      <Button
+        variant={accentColor ? 'default' : 'brand'}
+        className="w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md hover:opacity-90"
+        style={accentColor ? { backgroundColor: accentColor } : undefined}
+      >
         {isEnrollmentOpen(certId, regionId) ? 'View pathway' : 'View overview'}
       </Button>
     </Link>
@@ -161,97 +150,16 @@ export function PathwayFeaturedCard({
   const displayDesc = description ?? cert.desc;
   const badgeLabel = familyLabel ?? cert.familyId;
   const subtitle = visualSubtitle ?? displayTitle;
-  const family =
-    familyStyles[cert.familyId as keyof typeof familyStyles] ?? familyStyles.PMI;
-  const Icon = familyIcon(cert.familyId);
   const outcomes =
-    cert.learningOutcomes?.slice(0, 4) ?? [
+    cert.learningOutcomes?.slice(0, 3) ?? [
       'Structured study plan',
       'Mock exam practice',
       'Weak-area tracking',
     ];
+  const accent = certAccentColor(cert);
 
-  if (layout === 'directory') {
-    const headerGradient = getFamilyGradient(cert.familyId);
-    const accent = cert.color ?? '#2851b9';
-
-    return (
-      <Card
-        className={cn(
-          'group/pathway h-full flex flex-col gap-0 border border-sandstone/30 dark:border-slate-800 py-0 shadow-sm hover:shadow-lg transition-all duration-300 rounded-[2.5rem] bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm overflow-hidden relative',
-          className,
-        )}
-      >
-        <div className="absolute top-0 left-0 w-full h-1.5" style={{ background: headerGradient }} />
-        <CardHeader className="p-6 pb-3">
-          <div className="flex items-start gap-3 mb-4">
-            <div
-              className={cn(
-                'p-3 rounded-2xl bg-ivory dark:bg-slate-800 shadow-inner border border-sandstone/20 dark:border-slate-700 shrink-0',
-                family.text,
-              )}
-              style={{ color: accent }}
-            >
-              <Icon className="h-5 w-5" aria-hidden />
-            </div>
-            <div className="flex flex-wrap items-center gap-2 min-w-0 flex-1">
-              <Badge className="text-[10px] font-bold uppercase tracking-widest border-slate-200 dark:border-slate-700">
-                {badgeLabel}
-              </Badge>
-              <PathwayEnrollmentBadge certId={cert.id} />
-            </div>
-          </div>
-          <CardTitle className="text-2xl font-bold tracking-tight leading-tight text-slate-900 dark:text-white">
-            {displayTitle}
-          </CardTitle>
-          <div className="flex items-center gap-2 mt-3 p-2.5 rounded-xl bg-brand-orange/5 border border-brand-orange/10">
-            <Zap className="h-3 w-3 text-brand-orange shrink-0" />
-            <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight leading-snug">
-              {cert.outputValue}
-            </span>
-          </div>
-          <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-3 leading-relaxed line-clamp-3">
-            {displayDesc}
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent className="px-6 pb-4 flex-1 flex flex-col">
-          <PathwayFeaturedPricingChips certId={cert.id} />
-          <div className="h-px bg-gradient-to-r from-transparent via-sandstone/50 dark:via-slate-800 to-transparent w-full my-2" />
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-center mb-3">
-            Key outcomes
-          </p>
-          <ul className="space-y-2.5 flex-1">
-            {outcomes.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300"
-              >
-                <CheckCircle2 className={cn('h-4 w-4 mt-0.5 shrink-0', family.text)} />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-
-        <CardFooter className="border-t border-border bg-muted/40 dark:bg-slate-800/40 px-6 py-5 flex flex-col gap-2">
-          <PathwayCardCta certId={cert.id} regionId={regionId} />
-          <p className="text-[10px] text-slate-400 font-medium text-center leading-tight">
-            Tuition only. Official exam fees are separate.
-          </p>
-        </CardFooter>
-      </Card>
-    );
-  }
-
-  return (
-    <Card
-      className={
-        className ??
-        'group/pathway h-full flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden'
-      }
-    >
-      <CertificationPathwayVisual cert={cert} subtitle={subtitle} />
+  const cardBody = (
+    <>
       <CardHeader className="p-5 pb-2">
         <div className="flex flex-wrap items-center justify-start gap-2 mb-3">
           <Badge className="inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1 text-center">
@@ -260,8 +168,18 @@ export function PathwayFeaturedCard({
           <PathwayEnrollmentBadge certId={cert.id} />
         </div>
         <CardTitle className="text-2xl font-bold tracking-tight mb-3 leading-tight">{displayTitle}</CardTitle>
-        <div className="flex items-center justify-center gap-2 mb-4 p-2.5 rounded-xl bg-brand-orange/5 border border-brand-orange/10 text-center">
-          <Zap className="h-3 w-3 text-brand-orange shrink-0" />
+        <div
+          className="flex items-center justify-center gap-2 mb-4 p-2.5 rounded-xl border text-center"
+          style={
+            accent
+              ? { backgroundColor: `${accent}12`, borderColor: `${accent}28` }
+              : undefined
+          }
+        >
+          <Zap
+            className={cn('h-3 w-3 shrink-0', !accent && 'text-brand-orange')}
+            style={accent ? { color: accent } : undefined}
+          />
           <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight leading-snug">
             {cert.outputValue}
           </span>
@@ -272,19 +190,42 @@ export function PathwayFeaturedCard({
       </CardHeader>
       <CardContent className="px-5 pb-5 flex-1">
         <PathwayFeaturedPricingChips certId={cert.id} />
-
         <ul className="space-y-3">
-          {outcomes.slice(0, 3).map((item) => (
+          {outcomes.map((item) => (
             <li key={item} className="flex items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
-              <CheckCircle2 className="h-3 w-3 mr-2 text-brand-orange shrink-0" />
-              <span className="line-clamp-1">{item}</span>
+              <CheckCircle2
+                className={cn('h-3 w-3 mr-2 shrink-0', !accent && 'text-brand-orange')}
+                style={accent ? { color: accent } : undefined}
+              />
+              <span className="line-clamp-2">{item}</span>
             </li>
           ))}
         </ul>
       </CardContent>
       <CardFooter className="border-t border-border bg-muted/50 px-5 pb-5 pt-6">
-        <PathwayCardCta certId={cert.id} regionId={regionId} />
+        <PathwayCardCta certId={cert.id} regionId={regionId} accentColor={accent} />
       </CardFooter>
+    </>
+  );
+
+  if (layout === 'catalog') {
+    return (
+      <Card className={cn(featuredCardShell, className)}>
+        {accent ? (
+          <div className="h-1.5 w-full shrink-0" style={{ backgroundColor: accent }} aria-hidden />
+        ) : null}
+        {cardBody}
+      </Card>
+    );
+  }
+
+  return (
+    <Card className={cn(featuredCardShell, className)}>
+      {accent ? (
+        <div className="h-1.5 w-full shrink-0" style={{ backgroundColor: accent }} aria-hidden />
+      ) : null}
+      <CertificationPathwayVisual cert={cert} subtitle={subtitle} />
+      {cardBody}
     </Card>
   );
 }

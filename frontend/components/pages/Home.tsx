@@ -322,7 +322,7 @@ export function Home() {
               viewport={{ once: true }}
             >
               <h2 className="font-heading text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight leading-none">
-                {get('membership_title', 'Annual Membership')}
+                {get('membership_title', 'Membership Plans')}
               </h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                 {get('membership_subtitle', HOME_COPY.membershipSubtitle)}
@@ -368,12 +368,19 @@ export function Home() {
                   <Badge className="bg-brand-orange text-white border-none mb-8 px-4 py-1 text-[10px] font-bold uppercase tracking-widest">Best Value</Badge>
                   <h3 className="text-3xl font-bold text-white mb-4 tracking-tight">Professional Membership</h3>
                   <p className="text-slate-300 text-base mb-8 font-medium leading-relaxed">The complete toolkit for the ambitious project professional.</p>
-                  <div className="flex items-baseline gap-2 mb-8">
-                    <span className="text-5xl font-bold tracking-tight text-white">$199</span>
-                    <span className="text-slate-300 font-bold text-lg">/ year</span>
+                  <div className="flex flex-col gap-1 mb-8">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-5xl font-bold tracking-tight text-white">$199</span>
+                      <span className="text-slate-300 font-bold text-lg">/ year</span>
+                    </div>
+                    <p className="text-slate-400 text-sm font-semibold">or $19 / month · save $29 annually</p>
                   </div>
                   <ul className="space-y-4 mb-10">
-                    {["All Premium Features", "Readiness review access", "Priority support"].map((item) => (
+                    {[
+                      "Full platform access",
+                      "Direct mentor access each month",
+                      "20% off regional certification tuition",
+                    ].map((item) => (
                       <li key={item} className="flex items-center gap-4 text-base font-bold">
                         <CheckCircle2 className="h-5 w-5 text-brand-orange" />
                         {item}

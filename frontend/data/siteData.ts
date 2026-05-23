@@ -659,32 +659,50 @@ export const certifications: CertificationSummary[] = [
 export const membershipTiers: MembershipTier[] = [
   {
     name: "Free Tier",
-    price: "$0",
-    period: "/year",
+    monthlyPriceUsd: 0,
+    yearlyPriceUsd: 0,
     description: "Essential resources for project enthusiasts.",
-    features: ["Monthly Newsletter", "Basic Study Guides", "Public Community Access", "Public Forums"],
+    features: [
+      "Monthly newsletter",
+      "Basic study guides",
+      "Public community & forums",
+    ],
     cta: "Create Free Account",
-    variant: "outline"
+    variant: "outline",
   },
   {
     name: "Professional",
-    price: "$199",
-    period: "/year",
-    description: "Exam-focused tools, templates, and support for measurable certification readiness.",
-    features: ["All Free Features", "Premium Exam Simulator", "Exclusive Weekly Sessions", "Private Slack Community", "AI-Powered CV Maker"],
+    monthlyPriceUsd: 19,
+    yearlyPriceUsd: 199,
+    description:
+      "Full platform access plus direct mentor reach-out for your membership month — built for exam-ready momentum.",
+    features: [
+      "All Free features",
+      "Full learning platform access",
+      "Direct mentor access for your membership month",
+      "Premium exam simulator & weekly sessions",
+      "Private Slack community & AI CV maker",
+      "20% off regional certification tuition",
+    ],
     cta: "Join Professional",
     variant: "default",
-    highlight: true
+    highlight: true,
   },
   {
     name: "Mastery",
-    price: "$499",
-    period: "/year",
-    description: "Mentor-led support for senior professionals who need deeper accountability and readiness review.",
-    features: ["All Professional Features", "1-on-1 Mentorship Session", "Priority Support", "Bulk Cert Licenses"],
+    monthlyPriceUsd: 49,
+    yearlyPriceUsd: 499,
+    description:
+      "Everything in Professional, with deeper mentor accountability and readiness review for senior PMs.",
+    features: [
+      "All Professional features",
+      "Extended 1-on-1 mentorship sessions",
+      "Priority support & readiness review",
+      "Bulk certification licenses (teams)",
+    ],
     cta: "Join Mastery",
-    variant: "outline"
-  }
+    variant: "outline",
+  },
 ];
 
 export const newsletterPosts: NewsletterPost[] = [
@@ -790,9 +808,7 @@ export const footerSections: FooterSection[] = [
       { label: "About Us", href: "/about" },
       { label: "Contact", href: "/contact" },
       { label: "FAQ", href: "/faq" },
-      { label: "Privacy Policy", href: "/legal/privacy" },
-      { label: "Terms & Conditions", href: "/legal/terms" },
-      { label: "Cookie Policy", href: "/legal/cookies" },
+      { label: "Policies & legal", href: "/legal" },
     ]
   }
 ];

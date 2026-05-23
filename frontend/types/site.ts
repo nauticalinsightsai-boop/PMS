@@ -75,8 +75,8 @@ export interface PathwayTier {
 
 export interface MembershipTier {
   name: string;
-  price: string;
-  period: string;
+  monthlyPriceUsd: number;
+  yearlyPriceUsd: number;
   description: string;
   features: string[];
   cta: string;

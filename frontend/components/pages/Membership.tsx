@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -8,14 +9,25 @@ import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import Link from "next/link";
 import { BRAND, HOME_COPY, REGION_COPY } from "@/lib/brand-voice";
-import { CertificationHubNav } from "@/components/CertificationHubNav";
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PricingComplianceNote } from "@/components/PricingComplianceNote";
 import { RegionalPrice } from "@/components/RegionalPrice";
 import { useRegion } from "@/contexts/RegionContext";
 import { getListingPriceForCert } from "@/lib/regional-catalogue";
+import {
+  type BillingCycle,
+  formatMembershipUsd,
+  getMembershipDisplayPrice,
+  membershipAnnualSavingsUsd,
+  MEMBERSHIP_PRICING,
+} from '@/lib/membership-plans';
 
 import * as siteData from "@/data/siteData";
+
+const MAX_ANNUAL_SAVINGS = membershipAnnualSavingsUsd(
+  MEMBERSHIP_PRICING.mastery.monthlyUsd,
+  MEMBERSHIP_PRICING.mastery.yearlyUsd,
+);
 
 const MEMBER_CERT_SAMPLES = ['pmp', 'capm', 'prince2'] as const;
 
@@ -51,6 +63,13 @@ const benefits = [
     bg: "bg-blue-50 dark:bg-blue-900/10"
   },
   {
+    title: "Direct mentor access",
+    desc: "Professional members can reach mentors during their membership month for exam and career questions.",
+    icon: Users,
+    color: "text-brand-orange",
+    bg: "bg-brand-orange/5 dark:bg-brand-orange/10"
+  },
+  {
     title: "Private Slack",
     desc: "Real-time access to thousands of PMs, mentors, and industry experts in our private channels.",
     icon: MessageCircle,
@@ -73,9 +92,54 @@ const benefits = [
   }
 ];
 
+function MembershipBillingToggle({
+  billing,
+  onChange,
+}: {
+  billing: BillingCycle;
+  onChange: (cycle: BillingCycle) => void;
+}) {
+  return (
+    <div className="flex justify-center mb-12" role="group" aria-label="Billing period">
+      <div className="inline-flex p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700">
+        <button
+          type="button"
+          onClick={() => onChange('monthly')}
+          className={cn(
+            'min-h-11 px-6 rounded-xl text-sm font-bold transition-all',
+            billing === 'monthly'
+              ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm'
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200',
+          )}
+          aria-pressed={billing === 'monthly'}
+        >
+          Monthly
+        </button>
+        <button
+          type="button"
+          onClick={() => onChange('yearly')}
+          className={cn(
+            'min-h-11 px-6 rounded-xl text-sm font-bold transition-all inline-flex items-center gap-2',
+            billing === 'yearly'
+              ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm'
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200',
+          )}
+          aria-pressed={billing === 'yearly'}
+        >
+          Yearly
+          <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-purple/15 text-brand-purple">
+            Save up to {formatMembershipUsd(MAX_ANNUAL_SAVINGS)}
+          </span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function Membership() {
   const { get } = useWebsiteData();
   const tiers = siteData.membershipTiers;
+  const [billing, setBilling] = useState<BillingCycle>('yearly');
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -102,8 +166,6 @@ export function Membership() {
         </div>
       </section>
 
-      <CertificationHubNav />
-
       <section className="py-12 border-b border-slate-100 dark:border-slate-800 bg-brand-purple/5">
         <div className="container mx-auto max-w-4xl text-center space-y-6">
           <p className="text-sm text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
@@ -121,8 +183,21 @@ export function Membership() {
       {/* Pricing Tiers */}
       <section className="py-20 -mt-20 relative z-20">
         <div className="container mx-auto">
+          <MembershipBillingToggle billing={billing} onChange={setBilling} />
+          <p className="text-center text-sm text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto -mt-6 mb-10">
+            Professional is {MEMBERSHIP_PRICING.professional.monthlyUsd}/month or{' '}
+            {MEMBERSHIP_PRICING.professional.yearlyUsd}/year (about two months free). Mastery is{' '}
+            {MEMBERSHIP_PRICING.mastery.monthlyUsd}/month or {MEMBERSHIP_PRICING.mastery.yearlyUsd}/year billed
+            annually.
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
-            {tiers.map((tier, index) => (
+            {tiers.map((tier, index) => {
+              const display = getMembershipDisplayPrice(
+                tier.monthlyPriceUsd,
+                tier.yearlyPriceUsd,
+                billing,
+              );
+              return (
               <motion.div
                 key={tier.name}
                 initial={{ opacity: 0, y: 20 }}
@@ -144,9 +219,20 @@ export function Membership() {
                   )}
                   <CardHeader className="p-8">
                     <CardTitle className="text-2xl font-bold tracking-tight">{tier.name}</CardTitle>
-                    <div className="mt-6 flex items-baseline gap-2">
-                      <span className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white">{tier.price}</span>
-                      <span className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">{tier.period}</span>
+                    <div className="mt-6 flex flex-col items-start gap-1">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
+                          {display.price}
+                        </span>
+                        {display.period ? (
+                          <span className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">
+                            {display.period}
+                          </span>
+                        ) : null}
+                      </div>
+                      {display.savingsLabel ? (
+                        <p className="text-xs font-bold text-brand-purple">{display.savingsLabel}</p>
+                      ) : null}
                     </div>
                     <CardDescription className="mt-4 text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                       {tier.description}
@@ -177,7 +263,8 @@ export function Membership() {
                   </CardFooter>
                 </Card>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

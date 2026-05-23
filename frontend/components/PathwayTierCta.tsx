@@ -13,9 +13,7 @@ export function PathwayTierCta({
   tier,
   pathwayCta,
   className,
-  popular,
   gradient,
-  accentClass,
   color,
 }: {
   tier: PathwayTier;
@@ -29,24 +27,23 @@ export function PathwayTierCta({
   const [open, setOpen] = React.useState(false);
   const offeringId = tier.offeringId ?? 'pathway';
 
+  const buttonStyle: React.CSSProperties | undefined =
+    !gradient && color ? { backgroundColor: color } : undefined;
+
   return (
     <>
       <Button
         type="button"
         onClick={() => setOpen(true)}
         className={cn(
-          'h-14 w-full rounded-[1rem] font-black text-lg text-center justify-center group/btn transition-all shadow-xl hover:shadow-brand-orange/20',
-          popular
-            ? gradient
-              ? cn('bg-gradient-to-r text-white', gradient)
-              : cn(accentClass, 'hover:opacity-90 text-white')
-            : 'bg-obsidian hover:bg-brand-orange text-white dark:bg-slate-800 dark:hover:bg-brand-orange',
+          'w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md transition-all hover:opacity-90 inline-flex items-center justify-center group/btn',
+          gradient && cn('bg-gradient-to-r', gradient),
           className,
         )}
-        style={popular && !gradient && color ? { backgroundColor: color } : undefined}
+        style={buttonStyle}
       >
         {pathwayCta.label}
-        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
+        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
       </Button>
 
       <PathwayOfferingModal

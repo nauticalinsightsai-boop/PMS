@@ -1,17 +1,26 @@
 'use client';
-import * as React from "react";
-import Link from "next/link";
-import { motion } from "motion/react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { buttonVariants } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Clock, Globe, ArrowRight, Sparkles, Target, Award } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { PathwayTier, FamilyId } from "../types/site";
-import { RegionalPrice } from "@/components/RegionalPrice";
-import { RegionalStatusBanner } from "@/components/RegionalStatusBanner";
-import { PathwayTierCta } from "@/components/PathwayTierCta";
-import type { OfferingStatus } from "@/types/regional-catalogue";
+
+import * as React from 'react';
+import Link from 'next/link';
+import { motion } from 'motion/react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { StatChip } from '@/components/ui/stat-chip';
+import { CheckCircle2, Zap } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { PathwayTier, FamilyId } from '../types/site';
+import { RegionalStatusBanner } from '@/components/RegionalStatusBanner';
+import { PathwayTierCta } from '@/components/PathwayTierCta';
+import { resolvePricingPresentation } from '@/lib/regional-price-display';
+import type { OfferingStatus } from '@/types/regional-catalogue';
 
 export interface CertificationPathwayProps {
   certificationName: string;
@@ -22,167 +31,247 @@ export interface CertificationPathwayProps {
 }
 
 const familyConfigs = {
-  "PMI": {
-    accent: "bg-brand-orange",
-    text: "text-brand-orange",
-    border: "border-brand-orange/10",
-    lightBg: "bg-brand-orange/5",
-    gradient: "from-brand-orange to-amber-600"
+  PMI: {
+    text: 'text-brand-orange',
+    defaultColor: '#f97316',
   },
-  "PRINCE2": {
-    accent: "bg-teal-700",
-    text: "text-teal-700",
-    border: "border-teal-100",
-    lightBg: "bg-teal-50/50",
-    gradient: "from-teal-600 to-blue-700"
+  PRINCE2: {
+    text: 'text-teal-700 dark:text-teal-400',
+    defaultColor: '#0f766e',
   },
-  "SixSigma": {
-    accent: "bg-slate-700",
-    text: "text-slate-700",
-    border: "border-slate-100",
-    lightBg: "bg-slate-50/50",
-    gradient: "from-slate-600 to-slate-900"
-  }
+  SixSigma: {
+    text: 'text-slate-700 dark:text-slate-300',
+    defaultColor: '#334155',
+  },
+} as const;
+
+const tierLevelLabel: Record<PathwayTier['level'], string> = {
+  Foundation: 'Tier 1 · Foundation',
+  Professional: 'Tier 2 · Professional',
+  Elite: 'Tier 3 · Mastery',
 };
 
-const tierIcons = {
-  Foundation: Sparkles,
-  Professional: Target,
-  Elite: Award
-};
+const pathwayCardShell =
+  'group/pathway h-full flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden';
 
-export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: string; gradient?: string }> = ({ tier, config, color, gradient }) => {
-  const Icon = tierIcons[tier.level];
+function tierAccentColor(color: string | undefined, family: FamilyId): string {
+  if (color) return color;
+  return familyConfigs[family as keyof typeof familyConfigs]?.defaultColor ?? familyConfigs.PMI.defaultColor;
+}
+
+function PathwayTierPricingChips({
+  tier,
+  accentColor,
+}: {
+  tier: PathwayTier;
+  accentColor: string;
+}) {
+  const presentation = tier.price
+    ? resolvePricingPresentation({
+        original: tier.originalPrice ?? null,
+        active: tier.price,
+        membership: tier.membershipPrice || null,
+        showScholarshipLabels: tier.showScholarshipLabels ?? false,
+        footnote: tier.priceFootnote ?? null,
+        regionalLabel: tier.regionalLabel ?? '',
+      })
+    : null;
+
+  const showGlobalReference = Boolean(presentation?.showGlobalReference && tier.originalPrice);
+  const isScholarship = presentation?.kind === 'scholarship';
+
+  return (
+    <div className="mb-5 space-y-2">
+      <div className="grid grid-cols-2 gap-2 items-stretch sm:grid-cols-3">
+        <StatChip label="Prep time">
+          <p className="text-sm font-extrabold leading-tight tracking-tight text-slate-900 dark:text-white">
+            {tier.duration?.trim() || 'Flexible'}
+          </p>
+        </StatChip>
+
+        <StatChip label="Tuition">
+          {tier.price ? (
+            <p
+              className={cn(
+                'text-sm font-extrabold leading-tight tracking-tight',
+                isScholarship ? 'text-brand-orange' : 'text-slate-900 dark:text-white',
+              )}
+            >
+              {tier.price}
+            </p>
+          ) : (
+            <p className="text-sm font-extrabold text-slate-400">—</p>
+          )}
+        </StatChip>
+
+        <StatChip label="Member">
+          {tier.membershipPrice ? (
+            <p className="text-sm font-extrabold leading-tight tracking-tight text-brand-purple">
+              {tier.membershipPrice}
+            </p>
+          ) : (
+            <p className="text-sm font-extrabold text-slate-400">—</p>
+          )}
+        </StatChip>
+      </div>
+
+      {showGlobalReference && tier.originalPrice && (
+        <div
+          className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 rounded-xl border border-slate-200/80 bg-white px-3 py-2 text-center dark:border-slate-700 dark:bg-slate-950/40"
+          aria-label={`${presentation!.globalReferenceLabel} ${tier.originalPrice}`}
+        >
+          <span className="text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+            {presentation!.globalReferenceLabel}
+          </span>
+          <span className="text-xs font-bold text-slate-600 line-through decoration-slate-400 dark:text-slate-300 dark:decoration-slate-500">
+            {tier.originalPrice}
+          </span>
+        </div>
+      )}
+
+      {(tier.tierDelivery || tier.deliveryMode) && (
+        <p
+          className="text-center text-[11px] font-semibold leading-snug text-slate-500 dark:text-slate-400"
+          style={{ color: accentColor }}
+        >
+          {tier.tierDelivery ?? tier.deliveryMode}
+        </p>
+      )}
+    </div>
+  );
+}
+
+export const PathwayCard: React.FC<{
+  tier: PathwayTier;
+  family: FamilyId;
+  color?: string;
+  gradient?: string;
+}> = ({ tier, family, color, gradient }) => {
+  const accent = tierAccentColor(color, family);
+
+  const ctaButtonStyle: React.CSSProperties | undefined = gradient
+    ? undefined
+    : { backgroundColor: accent };
+
+  const ctaButtonClass = cn(
+    'w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md transition-all hover:opacity-90',
+    gradient && cn('bg-gradient-to-r', gradient),
+  );
 
   return (
     <motion.div
-      whileHover={{
-        y: -6,
-        transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
-      }}
+      whileHover={{ y: -4, transition: { duration: 0.25 } }}
       className="h-full motion-reduce:transform-none max-md:[&]:transform-none"
     >
-      <Card className={cn(
-        "h-full flex flex-col transition-all duration-500 border border-sandstone/30 dark:border-slate-800 relative group overflow-hidden rounded-[3.5rem] bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl",
-        tier.isPopular ? cn("shadow-[0_40px_80px_-15px_rgba(0,0,0,0.15)] ring-2 ring-offset-4 dark:ring-offset-slate-950") : "premium-shadow"
-      )}
-      style={tier.isPopular && color ? { borderColor: `${color}40` } as React.CSSProperties : {}}
+      <Card
+        className={cn(
+          pathwayCardShell,
+          tier.isPopular && 'ring-2 ring-offset-2 dark:ring-offset-slate-950',
+        )}
+        style={
+          tier.isPopular
+            ? ({ borderColor: `${accent}55`, '--tw-ring-color': `${accent}66` } as React.CSSProperties)
+            : undefined
+        }
       >
-        {/* Subtle Background Gradient */}
-        <div className={cn("absolute top-0 left-0 w-full h-1.5", gradient ? cn("bg-gradient-to-r", gradient) : config.accent)} />
-        
-        {/* Animated Background Accent */}
-        <div 
-          className="absolute -top-24 -right-24 w-48 h-48 rounded-full blur-3xl opacity-5 transition-opacity group-hover:opacity-20"
-          style={{ backgroundColor: color || 'var(--pms-orange)' }}
-        />
+        <div
+          className="h-1.5 w-full shrink-0"
+          style={
+            gradient
+              ? undefined
+              : { backgroundColor: accent }
+          }
+          aria-hidden
+        >
+          {gradient ? <div className={cn('h-full w-full bg-gradient-to-r', gradient)} /> : null}
+        </div>
 
         {tier.isPopular && (
-          <div 
-            className={cn("absolute top-0 right-0 px-10 py-2 rotate-45 translate-x-10 translate-y-4 text-[10px] font-black text-white uppercase tracking-[0.3em] shadow-lg z-20", !color && config.accent)}
-            style={color ? { backgroundColor: color } : {}}
-          >
-            Popular
+          <div className="absolute top-5 right-5 z-10">
+            <Badge
+              className="border-none text-[10px] font-bold uppercase tracking-widest text-white shadow-md"
+              style={{ backgroundColor: accent }}
+            >
+              Most popular
+            </Badge>
           </div>
         )}
 
-        <CardHeader className="p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div 
-              className={cn("p-3 rounded-2xl bg-ivory dark:bg-slate-800 shadow-inner border border-sandstone/20 dark:border-slate-800 transition-transform group-hover:scale-110 duration-500", !color && config.text)}
-              style={color ? { color: color } : {}}
+        <CardHeader className="p-5 pb-2 relative">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <Badge
+              variant="outline"
+              className="text-[10px] font-bold uppercase tracking-widest border-slate-200 dark:border-slate-700"
+              style={{ color: accent, borderColor: `${accent}40` }}
             >
-              <Icon className="h-5 w-5" />
-            </div>
-            <Badge variant="outline" className="text-[10px] uppercase tracking-[0.25em] font-black border-sandstone/50 dark:border-slate-700 text-slate-400 px-2 py-0.5">
-              Tier {tier.level === "Foundation" ? "1" : tier.level === "Professional" ? "2" : "3"}
+              {tierLevelLabel[tier.level]}
             </Badge>
           </div>
-          <CardTitle className="text-2xl font-bold text-obsidian dark:text-white tracking-tighter leading-tight">{tier.title}</CardTitle>
-          <CardDescription className="text-carbon/60 dark:text-slate-400 mt-3 text-sm leading-relaxed font-medium">
+          <CardTitle className="text-2xl font-bold tracking-tight leading-tight text-slate-900 dark:text-white pr-16">
+            {tier.title}
+          </CardTitle>
+          <div
+            className="flex items-center justify-center gap-2 mb-4 mt-3 p-2.5 rounded-xl border text-center"
+            style={{
+              backgroundColor: `${accent}12`,
+              borderColor: `${accent}28`,
+            }}
+          >
+            <Zap className="h-3 w-3 shrink-0" style={{ color: accent }} />
+            <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight leading-snug">
+              {tier.level} pathway
+            </span>
+          </div>
+          <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-3">
             {tier.details}
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="px-6 pb-6 flex-1">
-          <div className="space-y-6">
-            <div className="space-y-3 text-center">
-              {tier.duration && (
-                <div className="flex items-center justify-center gap-2 text-[10px] font-black text-obsidian/70 dark:text-slate-300 uppercase tracking-tight">
-                  <Clock className="h-4 w-4 text-brand-orange shrink-0" />
-                  <span>{tier.duration}</span>
-                </div>
-              )}
-              {tier.tierDelivery && (
-                <div className="flex items-center justify-center gap-2 text-[10px] font-medium text-obsidian/70 dark:text-slate-300 leading-snug">
-                  <Globe className="h-4 w-4 text-brand-orange shrink-0" />
-                  <span>{tier.tierDelivery}</span>
-                </div>
-              )}
-            </div>
-
-            <div className="h-px bg-gradient-to-r from-transparent via-sandstone/50 dark:via-slate-800 to-transparent w-full" />
-
-            <div className="space-y-4">
-              <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-center">
-                Key Outcomes
-              </div>
-              <ul className="space-y-3">
-                {tier.outcomes.map((outcome, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm font-bold text-carbon/80 dark:text-slate-300">
-                    <CheckCircle2 
-                      className={cn("h-4 w-4 mt-0.5 shrink-0 transition-transform group-hover:scale-110", !color && config.text)} 
-                      style={color ? { color: color } : {}}
-                    />
-                    {outcome}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+        <CardContent className="px-5 pb-5 flex-1">
+          <PathwayTierPricingChips tier={tier} accentColor={accent} />
+          <ul className="space-y-3">
+            {tier.outcomes.map((outcome) => (
+              <li
+                key={outcome}
+                className="flex items-start text-xs font-semibold text-slate-600 dark:text-slate-400"
+              >
+                <CheckCircle2
+                  className="h-3.5 w-3.5 mr-2 mt-0.5 shrink-0"
+                  style={{ color: accent }}
+                />
+                <span className="leading-relaxed">{outcome}</span>
+              </li>
+            ))}
+          </ul>
         </CardContent>
 
-        <CardFooter className="p-6 pt-0 flex flex-col items-center gap-4 text-center">
+        <CardFooter className="border-t border-border bg-muted/50 px-5 pb-5 pt-6 flex flex-col gap-3">
           {tier.regionMessage && tier.status && (
             <RegionalStatusBanner
               status={tier.status as OfferingStatus}
               message={tier.regionMessage}
             />
           )}
-          <RegionalPrice
-            original={tier.originalPrice ?? null}
-            active={tier.price}
-            membership={tier.membershipPrice || null}
-            showScholarshipLabels={tier.showScholarshipLabels ?? false}
-            regionalLabel={tier.regionalLabel}
-            footnote={null}
-            variant="tier"
-          />
+
           {tier.pathwayCta ? (
             <PathwayTierCta
               tier={tier}
               pathwayCta={tier.pathwayCta}
               popular={tier.isPopular}
               gradient={gradient}
-              accentClass={config.accent}
-              color={color}
+              color={accent}
+              className={ctaButtonClass}
             />
           ) : (
-            <Link
-              href={tier.primaryHref ?? '#'}
-              className={cn(
-                buttonVariants(),
-                "w-full h-14 rounded-[1rem] font-black text-lg group/btn transition-all shadow-xl hover:shadow-brand-orange/20 inline-flex",
-                tier.isPopular ? (gradient ? cn("bg-gradient-to-r text-white", gradient) : cn(config.accent, "hover:opacity-90 text-white")) : "bg-obsidian hover:bg-brand-orange text-white dark:bg-slate-800 dark:hover:bg-brand-orange"
-              )}
-              style={tier.isPopular && !gradient && color ? { backgroundColor: color } : {}}
-            >
-              {tier.ctaText}
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
+            <Link href={tier.primaryHref ?? '#'} className="w-full">
+              <Button className={ctaButtonClass} style={ctaButtonStyle}>
+                {tier.ctaText}
+              </Button>
             </Link>
           )}
-          <p className="text-[10px] text-slate-400 font-medium leading-tight max-w-[220px] mx-auto">
-            Tuition only. Official fees are separate.
+
+          <p className="text-[10px] text-slate-400 font-medium text-center leading-tight">
+            Tuition only. Official exam fees are separate.
           </p>
         </CardFooter>
       </Card>
@@ -190,17 +279,20 @@ export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: str
   );
 };
 
-export const CertificationPathway: React.FC<CertificationPathwayProps> = ({ certificationName, family, tiers, color, gradient }) => {
-  const config = familyConfigs[family as keyof typeof familyConfigs] || familyConfigs["PMI"];
-
+export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
+  family,
+  tiers,
+  color,
+  gradient,
+}) => {
   return (
     <div className="w-full">
       <div
         className={cn(
-          'grid grid-cols-1 gap-10 items-stretch',
-          tiers.length === 1 && 'lg:grid-cols-1',
-          tiers.length === 2 && 'lg:grid-cols-2',
-          tiers.length >= 3 && 'lg:grid-cols-3'
+          'grid grid-cols-1 gap-8 items-stretch',
+          tiers.length === 1 && 'lg:max-w-xl lg:mx-auto',
+          tiers.length === 2 && 'md:grid-cols-2',
+          tiers.length >= 3 && 'md:grid-cols-2 lg:grid-cols-3',
         )}
       >
         {tiers.map((tier, index) => (
@@ -210,8 +302,9 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({ cert
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.6 }}
+            className="h-full"
           >
-            <PathwayCard tier={tier} config={config} color={color} gradient={gradient} />
+            <PathwayCard tier={tier} family={family} color={color} gradient={gradient} />
           </motion.div>
         ))}
       </div>

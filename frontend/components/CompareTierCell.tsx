@@ -41,7 +41,7 @@ export function CompareTierCell({
   const tierName = tierDisplayLabel(offering.tierId, offering.tier);
 
   return (
-    <div className="space-y-3 text-left max-w-xs mx-auto">
+    <div className="space-y-3 text-left w-full max-w-none">
       <div className="flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest text-brand-orange">
         <Clock className="h-3.5 w-3.5 shrink-0" />
         <span>{offering.length ?? 'Flexible'}</span>

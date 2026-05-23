@@ -6,47 +6,15 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Info } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { CertificationHubNav } from '@/components/CertificationHubNav';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { CompareCertPicker } from '@/components/CompareCertPicker';
-import { CompareTierCell } from '@/components/CompareTierCell';
+import { CompareComparisonMatrix } from '@/components/CompareComparisonMatrix';
 import { PricingComplianceNote } from '@/components/PricingComplianceNote';
 import {
   compareIdsToQuery,
   getCompareableCertifications,
   parseCompareCertIds,
 } from '@/lib/compare-certifications';
-import type { CertificationSummary } from '@/types/site';
-
-type CompareRow =
-  | { kind: 'text'; label: string; field: keyof CertificationSummary }
-  | { kind: 'tier'; label: string; tier: 'foundation' | 'professional' | 'mastery' };
-
-const COMPARE_ROWS: CompareRow[] = [
-  { kind: 'text', label: 'Primary value', field: 'outputValue' },
-  { kind: 'text', label: 'Target audience', field: 'targetAudience' },
-  { kind: 'tier', label: 'Foundation pathway', tier: 'foundation' },
-  { kind: 'tier', label: 'Professional pathway', tier: 'professional' },
-  { kind: 'tier', label: 'Mastery pathway', tier: 'mastery' },
-  { kind: 'text', label: 'Exam format', field: 'examFormat' },
-  { kind: 'text', label: 'Prerequisites', field: 'prerequisites' },
-  { kind: 'text', label: 'Official exam fee', field: 'officialFee' },
-  { kind: 'text', label: 'Career guidance', field: 'recommendedCTA' },
-];
-
-function textCellValue(cert: CertificationSummary, field: keyof CertificationSummary): string {
-  const raw = cert[field];
-  if (typeof raw === 'string' && raw.trim()) return raw;
-  return '—';
-}
 
 export function Compare() {
   const router = useRouter();
@@ -92,13 +60,12 @@ export function Compare() {
     () =>
       selectedIds
         .map((id) => compareable.find((c) => c.id === id))
-        .filter((c): c is CertificationSummary => Boolean(c)),
+        .filter((c): c is NonNullable<typeof c> => Boolean(c)),
     [selectedIds, compareable],
   );
 
   return (
     <div className="flex flex-col min-h-screen">
-      <CertificationHubNav />
       <section
         className={sectionSurface(
           'purple',
@@ -114,8 +81,8 @@ export function Compare() {
             Compare <span className="text-brand-orange">certifications</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-            Pick any certifications we offer, then compare pathway tiers, preparation time, regional
-            tuition with global reference, and exam guidance in one view.
+            Switch between PMI®, PRINCE2®, or Lean Six Sigma, pick up to three pathways, and
+            review tiers, prep time, and regional tuition in one matrix.
           </p>
         </div>
       </section>
@@ -144,75 +111,7 @@ export function Compare() {
               </p>
             </div>
           ) : (
-            <div className="scroll-fade-x overflow-x-auto rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 scrollbar-thin">
-              <Table>
-                <TableHeader className="bg-slate-900 dark:bg-slate-950 text-white">
-                  <TableRow className="hover:bg-slate-900 dark:hover:bg-slate-950 border-none">
-                    <TableHead className="w-[220px] min-w-[180px] text-white font-bold py-8 px-8 text-lg sticky left-0 z-10 bg-slate-900 dark:bg-slate-950">
-                      Compare
-                    </TableHead>
-                    {compareCerts.map((cert) => (
-                      <TableHead
-                        key={cert.id}
-                        className="text-white font-bold text-center py-8 px-6 min-w-[240px]"
-                      >
-                        <div className="text-brand-orange text-xs uppercase tracking-widest mb-2">
-                          {cert.familyId}
-                        </div>
-                        <div className="text-xl tracking-tight">{cert.name}</div>
-                      </TableHead>
-                    ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {COMPARE_ROWS.map((row, index) => (
-                    <TableRow
-                      key={row.label}
-                      className={
-                        index % 2 === 0
-                          ? 'bg-white dark:bg-slate-900'
-                          : 'bg-slate-50/50 dark:bg-slate-800/30'
-                      }
-                    >
-                      <TableCell className="font-bold py-8 px-8 text-slate-900 dark:text-white border-r border-slate-100 dark:border-slate-800 sticky left-0 z-10 bg-inherit">
-                        {row.label}
-                      </TableCell>
-                      {compareCerts.map((cert) => (
-                        <TableCell
-                          key={`${cert.id}-${row.label}`}
-                          className="text-center py-8 px-6 text-slate-600 dark:text-slate-400 font-medium leading-relaxed align-top"
-                        >
-                          {row.kind === 'tier' ? (
-                            <CompareTierCell siteId={cert.id} tier={row.tier} />
-                          ) : (
-                            <p className="text-sm text-left max-w-md mx-auto">
-                              {textCellValue(cert, row.field)}
-                            </p>
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                  <TableRow className="bg-white dark:bg-slate-900">
-                    <TableCell className="font-bold py-12 px-8 text-slate-900 dark:text-white border-r border-slate-100 dark:border-slate-800 sticky left-0 z-10 bg-inherit">
-                      View pathway
-                    </TableCell>
-                    {compareCerts.map((cert) => (
-                      <TableCell key={`${cert.id}-cta`} className="text-center py-12 px-6">
-                        <Link href={`/certifications/${cert.id}`}>
-                          <Button
-                            size="lg"
-                            className="bg-brand-orange hover:bg-brand-hover text-white font-bold rounded-xl shadow-md shadow-brand-orange/20 dark:bg-brand-orange dark:hover:bg-brand-hover"
-                          >
-                            Open pathway
-                          </Button>
-                        </Link>
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
+            <CompareComparisonMatrix certs={compareCerts} />
           )}
           <PricingComplianceNote className="mt-10 max-w-3xl mx-auto" />
         </div>

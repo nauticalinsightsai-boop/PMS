@@ -9,8 +9,12 @@ import { RegionGate } from '@/components/RegionGate';
 import { ScrollToTop } from '@/components/ScrollToTop';
 import { CookieConsent } from '@/components/CookieConsent';
 
-/** Matches Navbar `h-16` — keep main padding in sync */
+/** Matches Navbar inner `h-16` — keep main padding and fixed subnav offset in sync */
 export const PUBLIC_NAVBAR_HEIGHT_CLASS = 'pt-16';
+export const PUBLIC_NAVBAR_OFFSET_CLASS = '-mt-16';
+export const PUBLIC_NAVBAR_TOP_CLASS = 'top-16';
+/** Certification detail / newsletter subnav row (py-3 + one line) */
+export const PUBLIC_SUBNAV_SPACER_CLASS = 'h-14';
 
 export function PublicShell({ children }: { children: React.ReactNode }) {
   const [isDarkMode, setIsDarkMode] = useState(false);

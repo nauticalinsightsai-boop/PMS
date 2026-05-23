@@ -4,21 +4,25 @@ import * as React from 'react';
 import { Search, X, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import type { CertificationSummary, FamilyId } from '@/types/site';
+import type { CertificationSummary } from '@/types/site';
 import {
   MAX_COMPARE_CERTS,
   filterCertsForPicker,
+  getDefaultCompareIdsForFamily,
+  inferCompareFamilyFromSelection,
   toggleCompareSelection,
 } from '@/lib/compare-certifications';
-import { PATHWAY_FAMILY_TABS, type PathwayFamilyTab } from '@/lib/certification-enrollment';
+import {
+  FAMILY_FEATURED_CERT_IDS,
+  PATHWAY_FAMILY_TABS,
+  type PathwayFamilyTab,
+} from '@/lib/certification-enrollment';
 
 const FAMILY_LABEL: Record<PathwayFamilyTab, string> = {
   PMI: 'PMI®',
   PRINCE2: 'PRINCE2®',
   SixSigma: 'Lean Six Sigma',
 };
-
-type FamilyFilter = PathwayFamilyTab | 'all';
 
 export function CompareCertPicker({
   certifications,
@@ -29,14 +33,21 @@ export function CompareCertPicker({
   selectedIds: string[];
   onChange: (ids: string[]) => void;
 }) {
+  const allowedIds = React.useMemo(
+    () => new Set(certifications.map((c) => c.id)),
+    [certifications],
+  );
+
   const [query, setQuery] = React.useState('');
-  const [familyFilter, setFamilyFilter] = React.useState<FamilyFilter>('all');
+  const [familyFilter, setFamilyFilter] = React.useState<PathwayFamilyTab>(() =>
+    inferCompareFamilyFromSelection(selectedIds, certifications),
+  );
   const [maxHint, setMaxHint] = React.useState(false);
 
   const filtered = React.useMemo(
     () =>
       filterCertsForPicker(certifications, {
-        familyId: familyFilter === 'all' ? undefined : (familyFilter as FamilyId),
+        familyId: familyFilter,
         query,
       }),
     [certifications, familyFilter, query],
@@ -49,6 +60,15 @@ export function CompareCertPicker({
         .filter((c): c is CertificationSummary => Boolean(c)),
     [selectedIds, certifications],
   );
+
+  const handleFamilyChange = (family: PathwayFamilyTab) => {
+    setFamilyFilter(family);
+    setQuery('');
+    const defaults = getDefaultCompareIdsForFamily(family, allowedIds);
+    if (defaults.length > 0) {
+      onChange(defaults);
+    }
+  };
 
   const handleToggle = (certId: string) => {
     const { next, atMax } = toggleCompareSelection(selectedIds, certId);
@@ -69,7 +89,9 @@ export function CompareCertPicker({
             Choose certifications to compare
           </h2>
           <p className="text-slate-500 dark:text-slate-400 font-medium mt-1">
-            Select up to {MAX_COMPARE_CERTS} — pathway tiers, prep time, regional tuition, and exam guidance side by side.
+            Pick up to {MAX_COMPARE_CERTS} within{' '}
+            <span className="text-slate-700 dark:text-slate-200">{FAMILY_LABEL[familyFilter]}</span> —
+            flagship pathways first, then the rest of the family.
           </p>
         </div>
         <Badge
@@ -81,6 +103,21 @@ export function CompareCertPicker({
         >
           {selectedIds.length} / {MAX_COMPARE_CERTS} selected
         </Badge>
+      </div>
+
+      <div
+        role="tablist"
+        aria-label="Certification family"
+        className="flex flex-wrap gap-2"
+      >
+        {PATHWAY_FAMILY_TABS.map((familyId) => (
+          <FamilyChip
+            key={familyId}
+            label={FAMILY_LABEL[familyId]}
+            selected={familyFilter === familyId}
+            onClick={() => handleFamilyChange(familyId)}
+          />
+        ))}
       </div>
 
       {selectedCerts.length > 0 && (
@@ -108,33 +145,20 @@ export function CompareCertPicker({
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search by name or keyword…"
+            placeholder={`Search ${FAMILY_LABEL[familyFilter]} pathways…`}
             className="w-full h-14 pl-11 pr-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-950/50 text-slate-900 dark:text-white font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-orange/30"
           />
         </div>
 
-        <div
-          role="tablist"
-          aria-label="Filter by family"
-          className="flex flex-wrap gap-2"
-        >
-          <FamilyChip
-            label="All families"
-            selected={familyFilter === 'all'}
-            onClick={() => setFamilyFilter('all')}
-          />
-          {PATHWAY_FAMILY_TABS.map((familyId) => (
-            <FamilyChip
-              key={familyId}
-              label={FAMILY_LABEL[familyId]}
-              selected={familyFilter === familyId}
-              onClick={() => setFamilyFilter(familyId)}
-            />
-          ))}
-        </div>
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          Suggested:{' '}
+          {FAMILY_FEATURED_CERT_IDS[familyFilter]
+            .map((id) => certifications.find((c) => c.id === id)?.name)
+            .filter(Boolean)
+            .join(' · ')}
+        </p>
 
-        <p className="text-[11px] text-muted-foreground sm:hidden">Scroll for more certifications</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 max-h-[min(24rem,50vh)] overflow-y-auto pr-1 scrollbar-thin">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-[min(24rem,50vh)] overflow-y-auto pr-1 scrollbar-thin">
           {filtered.map((cert) => {
             const selected = selectedIds.includes(cert.id);
             const disabled = !selected && selectedIds.length >= MAX_COMPARE_CERTS;
@@ -152,9 +176,6 @@ export function CompareCertPicker({
                   disabled && 'opacity-40 cursor-not-allowed',
                 )}
               >
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">
-                  {cert.familyId}
-                </p>
                 <p className="font-bold text-slate-900 dark:text-white leading-tight">{cert.name}</p>
                 {selected && (
                   <span className="mt-2 inline-flex items-center justify-center rounded-full bg-brand-orange text-white p-0.5">
@@ -168,7 +189,7 @@ export function CompareCertPicker({
 
         {filtered.length === 0 && (
           <p className="text-center text-slate-500 dark:text-slate-400 py-8 font-medium">
-            No certifications match your search.
+            No certifications match your search in {FAMILY_LABEL[familyFilter]}.
           </p>
         )}
       </div>
@@ -198,7 +219,7 @@ function FamilyChip({
       aria-selected={selected}
       onClick={onClick}
       className={cn(
-        'inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-bold text-center transition-colors border',
+        'inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-bold text-center transition-colors border',
         selected
           ? 'bg-brand-orange text-white border-brand-orange shadow-md shadow-brand-orange/20'
           : 'bg-transparent text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-brand-orange/40',
