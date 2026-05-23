@@ -9,3 +9,9 @@ coverage/
 .env.local
 .env.*.local
 !.env.example
+
+# Large programme preview videos (see frontend/public/videos/programme/README.md)
+frontend/public/videos/programme/*.mp4
+
+# Large session-deck PDF (~150MB; copy locally — see frontend/public/programme/README.md)
+frontend/public/programme/pmp-foundation-session-slides.pdf

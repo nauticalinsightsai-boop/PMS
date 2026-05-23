@@ -8,6 +8,7 @@ import type {
   RegionalPrice,
 } from '@/types/regional-catalogue';
 import { MATRIX_COURSE_TO_SITE_ID, siteIdForMatrixCourse } from '@/lib/course-slug-map';
+import { isPathwayTierAllowed } from '@/lib/pathway-tier-allowlist';
 import { canCheckout, isOfferingVisible } from '@/lib/status-normalize';
 import {
   gccDisplayForCountry,
@@ -43,7 +44,12 @@ export function matrixCoursesForSiteId(siteId: string): string[] {
 export function getOfferingsForSiteCert(siteId: string): CourseOffering[] {
   const courses = matrixCoursesForSiteId(siteId);
   if (!courses.length) return [];
-  return catalogue.offerings.filter((o) => courses.includes(o.courseName) && isOfferingVisible(o.regional.global.status));
+  return catalogue.offerings.filter(
+    (o) =>
+      courses.includes(o.courseName) &&
+      isOfferingVisible(o.regional.global.status) &&
+      isPathwayTierAllowed(siteId, o.tierId),
+  );
 }
 
 export function getOfferingsForFamily(familyId: string): CourseOffering[] {

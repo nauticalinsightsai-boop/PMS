@@ -28,6 +28,7 @@ import {
 import {
   DossierBulletList,
   DossierCard,
+  ExpandableExamRegistration,
   ExpandableLearningOutcomes,
 } from "@/components/CertDossierBlocks";
 
@@ -264,23 +265,10 @@ export function CertificationDetail() {
                   </div>
                 </div>
 
-                {/* Exam & Registration */}
-                <div>
-                  <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                    <Award className="h-6 w-6 text-brand-orange" />
-                    Exam Format & Registration
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <DossierCard title="Official exam">
-                      <DossierBulletList text={cert.examFormat || 'Standard proctored examination.'} />
-                    </DossierCard>
-                    <DossierCard title="Registration steps">
-                      <DossierBulletList
-                        text={cert.registrationSteps || 'Apply via governing body website.'}
-                      />
-                    </DossierCard>
-                  </div>
-                </div>
+                <ExpandableExamRegistration
+                  examFormat={cert.examFormat}
+                  registrationSteps={cert.registrationSteps}
+                />
 
                 {/* Learning Outcomes */}
                 {cert.learningOutcomes && cert.learningOutcomes.length > 0 && (

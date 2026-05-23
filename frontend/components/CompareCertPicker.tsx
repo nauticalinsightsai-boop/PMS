@@ -8,7 +8,6 @@ import type { CertificationSummary } from '@/types/site';
 import {
   MAX_COMPARE_CERTS,
   filterCertsForPicker,
-  getDefaultCompareIdsForFamily,
   inferCompareFamilyFromSelection,
   toggleCompareSelection,
 } from '@/lib/compare-certifications';
@@ -64,10 +63,11 @@ export function CompareCertPicker({
   const handleFamilyChange = (family: PathwayFamilyTab) => {
     setFamilyFilter(family);
     setQuery('');
-    const defaults = getDefaultCompareIdsForFamily(family, allowedIds);
-    if (defaults.length > 0) {
-      onChange(defaults);
-    }
+  };
+
+  const clearAll = () => {
+    setMaxHint(false);
+    onChange([]);
   };
 
   const handleToggle = (certId: string) => {
@@ -89,9 +89,8 @@ export function CompareCertPicker({
             Choose certifications to compare
           </h2>
           <p className="text-slate-500 dark:text-slate-400 font-medium mt-1">
-            Pick up to {MAX_COMPARE_CERTS} within{' '}
-            <span className="text-slate-700 dark:text-slate-200">{FAMILY_LABEL[familyFilter]}</span> —
-            flagship pathways first, then the rest of the family.
+            Pick up to {MAX_COMPARE_CERTS} pathways across PMI®, PRINCE2®, and Lean Six Sigma.
+            Use the family tabs to browse each catalogue — your selection is kept when you switch.
           </p>
         </div>
         <Badge
@@ -121,20 +120,38 @@ export function CompareCertPicker({
       </div>
 
       {selectedCerts.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {selectedCerts.map((cert) => (
+        <div className="rounded-2xl border border-brand-orange/20 bg-brand-orange/[0.04] dark:bg-brand-orange/10 p-4 space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+              Your comparison ({selectedCerts.length}/{MAX_COMPARE_CERTS})
+            </p>
             <button
-              key={cert.id}
               type="button"
-              onClick={() => handleToggle(cert.id)}
-              className="inline-flex items-center justify-center gap-2 pl-4 pr-2 py-2 rounded-2xl bg-brand-orange/10 text-brand-orange border border-brand-orange/20 text-sm font-bold text-center hover:bg-brand-orange/15 transition-colors"
+              onClick={clearAll}
+              className="text-xs font-bold uppercase tracking-wider text-slate-500 hover:text-destructive dark:text-slate-400 dark:hover:text-destructive transition-colors"
             >
-              {cert.name}
-              <span className="rounded-full bg-brand-orange/20 p-1">
-                <X className="h-3.5 w-3.5" />
-              </span>
+              Clear all
             </button>
-          ))}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {selectedCerts.map((cert) => (
+              <button
+                key={cert.id}
+                type="button"
+                onClick={() => handleToggle(cert.id)}
+                className="inline-flex items-center justify-center gap-2 pl-3 pr-2 py-2 rounded-2xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-brand-orange/30 text-sm font-bold text-center hover:border-brand-orange/60 shadow-sm transition-colors"
+                aria-label={`Remove ${cert.name} from comparison`}
+              >
+                <span className="text-[9px] font-black uppercase tracking-wider text-brand-orange">
+                  {FAMILY_LABEL[cert.familyId as PathwayFamilyTab] ?? cert.familyId}
+                </span>
+                <span>{cert.name}</span>
+                <span className="rounded-full bg-brand-orange/15 p-1 text-brand-orange">
+                  <X className="h-3.5 w-3.5" />
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
@@ -151,7 +168,7 @@ export function CompareCertPicker({
         </div>
 
         <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          Suggested:{' '}
+          Browsing {FAMILY_LABEL[familyFilter]} — suggested:{' '}
           {FAMILY_FEATURED_CERT_IDS[familyFilter]
             .map((id) => certifications.find((c) => c.id === id)?.name)
             .filter(Boolean)
@@ -176,6 +193,9 @@ export function CompareCertPicker({
                   disabled && 'opacity-40 cursor-not-allowed',
                 )}
               >
+                <p className="text-[9px] font-black uppercase tracking-wider text-brand-orange mb-1">
+                  {FAMILY_LABEL[cert.familyId as PathwayFamilyTab] ?? cert.familyId}
+                </p>
                 <p className="font-bold text-slate-900 dark:text-white leading-tight">{cert.name}</p>
                 {selected && (
                   <span className="mt-2 inline-flex items-center justify-center rounded-full bg-brand-orange text-white p-0.5">

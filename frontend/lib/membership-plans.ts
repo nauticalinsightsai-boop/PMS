@@ -1,3 +1,6 @@
+import type { GccCountryCode, RegionId } from '@/types/regional-catalogue';
+import { getRegionalMembershipAmounts } from '@/lib/membership-regional-pricing';
+
 export type BillingCycle = 'monthly' | 'yearly';
 
 export function formatMembershipUsd(amount: number): string {
@@ -24,23 +27,30 @@ export function getMembershipDisplayPrice(
   monthlyUsd: number,
   yearlyUsd: number,
   cycle: BillingCycle,
+  regionId: RegionId = 'global',
+  gccCountry: GccCountryCode | null = null,
 ): { price: string; period: string; savingsLabel: string | null } {
   if (monthlyUsd === 0 && yearlyUsd === 0) {
-    return { price: '$0', period: '', savingsLabel: null };
+    const zero = getRegionalMembershipAmounts(0, 0, regionId, gccCountry);
+    return { price: zero.monthly, period: '', savingsLabel: null };
   }
 
-  const savingsLabel = formatMembershipSavingsPercent(monthlyUsd, yearlyUsd);
+  const amounts = getRegionalMembershipAmounts(monthlyUsd, yearlyUsd, regionId, gccCountry);
+  const savingsLabel = formatMembershipSavingsPercent(
+    amounts.monthlyNumeric,
+    amounts.yearlyNumeric,
+  );
 
   if (cycle === 'monthly') {
     return {
-      price: formatMembershipUsd(monthlyUsd),
+      price: amounts.monthly,
       period: '/month',
       savingsLabel: null,
     };
   }
 
   return {
-    price: formatMembershipUsd(yearlyUsd),
+    price: amounts.yearly,
     period: '/year',
     savingsLabel,
   };

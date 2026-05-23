@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { CheckCircle2, ChevronDown } from 'lucide-react';
+import { Award, CheckCircle2, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { dossierTextToBullets } from '@/lib/dossier-text-bullets';
 
@@ -59,6 +59,106 @@ export function DossierBulletList({
 }
 
 /** Collapsed preview; expands on hover (desktop) or tap (all devices). */
+export function ExpandableExamRegistration({
+  examFormat,
+  registrationSteps,
+  title = 'Exam Format & Registration',
+}: {
+  examFormat?: string | null;
+  registrationSteps?: string | null;
+  title?: string;
+}) {
+  const [expanded, setExpanded] = React.useState(false);
+  const examBullets = React.useMemo(
+    () => dossierTextToBullets(examFormat || 'Standard proctored examination.'),
+    [examFormat],
+  );
+  const registrationBullets = React.useMemo(
+    () => dossierTextToBullets(registrationSteps || 'Apply via governing body website.'),
+    [registrationSteps],
+  );
+  const totalItems = examBullets.length + registrationBullets.length;
+  const examPreview = examBullets.slice(0, 2);
+  const regPreview = registrationBullets.slice(0, 2);
+  const hiddenCount =
+    Math.max(0, examBullets.length - examPreview.length) +
+    Math.max(0, registrationBullets.length - regPreview.length);
+
+  return (
+    <div
+      className={cn(
+        'rounded-2xl border border-slate-100 bg-white p-6 transition-shadow duration-300 dark:border-slate-800 dark:bg-slate-900',
+        expanded && 'shadow-md ring-1 ring-brand-orange/15',
+      )}
+      onMouseEnter={() => setExpanded(true)}
+      onMouseLeave={() => setExpanded(false)}
+    >
+      <button
+        type="button"
+        className="flex w-full items-center justify-between gap-4 text-left"
+        onClick={() => setExpanded((open) => !open)}
+        aria-expanded={expanded}
+      >
+        <h3 className="text-2xl font-bold flex items-center gap-3">
+          <Award className="h-6 w-6 text-brand-orange shrink-0" />
+          {title}
+        </h3>
+        <ChevronDown
+          className={cn(
+            'h-5 w-5 shrink-0 text-slate-400 transition-transform duration-300',
+            expanded && 'rotate-180',
+          )}
+        />
+      </button>
+
+      <p className="mt-2 text-xs font-semibold text-slate-400 dark:text-slate-500">
+        {expanded
+          ? 'Official exam and registration'
+          : `Hover or tap to view exam format and registration (${totalItems} details)`}
+      </p>
+
+      <div
+        className={cn(
+          'mt-5 transition-all duration-300 ease-out',
+          expanded ? 'opacity-100' : 'opacity-90',
+        )}
+      >
+        {expanded ? (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <DossierCard title="Official exam">
+              <DossierBulletList items={examBullets} />
+            </DossierCard>
+            <DossierCard title="Registration steps">
+              <DossierBulletList items={registrationBullets} />
+            </DossierCard>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="rounded-xl border border-slate-100 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-950/50">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">
+                Official exam
+              </p>
+              <DossierBulletList items={examPreview} />
+            </div>
+            <div className="rounded-xl border border-slate-100 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-950/50">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">
+                Registration steps
+              </p>
+              <DossierBulletList items={regPreview} />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {!expanded && hiddenCount > 0 && (
+        <p className="mt-3 text-center text-xs font-bold uppercase tracking-widest text-brand-orange/80">
+          +{hiddenCount} more
+        </p>
+      )}
+    </div>
+  );
+}
+
 export function ExpandableLearningOutcomes({
   outcomes,
   title = 'Learning Outcomes',

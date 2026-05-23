@@ -29,6 +29,12 @@ describe('regional-catalogue', () => {
     expect(tiers).toEqual(['professional']);
   });
 
+  it('PMI-RMP has foundation and professional only (no mastery pathway)', () => {
+    const tiers = getOfferingsForSiteCert('pmi-rmp').map((o) => o.tierId);
+    expect(tiers).toEqual(['foundation', 'professional']);
+    expect(tiers).not.toContain('mastery');
+  });
+
   it('listing card price and duration use the same lowest tier', () => {
     const pmpListing = pickListingTierOffering('pmp');
     expect(pmpListing?.tierId).toBe('foundation');

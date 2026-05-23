@@ -1,11 +1,11 @@
 {
   "meta": {
     "version": 1,
-    "importedAt": "2026-05-23T08:20:37.581Z",
+    "importedAt": "2026-05-23T14:53:42.477Z",
     "sourceFile": "PM_Structure_Regional_Availability_Matrix.xlsx",
     "offeringCount": 55,
     "businessRules": {
-      "membershipDiscount": "20% off active regional display string; checkout uses 80% of regional usdCents when membership enabled",
+      "membershipDiscount": "TBD — do not stack on scholarship until confirmed",
       "gccCheckoutUsdCents": "single global usdCents per offering",
       "consultationApproval": "manual dashboard before mastery checkout"
     },

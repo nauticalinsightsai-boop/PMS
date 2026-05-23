@@ -4,28 +4,44 @@ import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Users, BookOpen, Sparkles, MessageCircle, FileText, Gift } from "lucide-react";
+import { Check, Users, BookOpen, Sparkles, FileText, Gift } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import Link from "next/link";
 import { BRAND, HOME_COPY } from "@/lib/brand-voice";
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { MembershipDualPrice } from '@/components/MembershipDualPrice';
+import { useRegion } from '@/contexts/RegionContext';
 import {
   type BillingCycle,
   formatMembershipSavingsPercent,
-  formatMembershipUsd,
   getMembershipDisplayPrice,
   membershipAnnualSavingsPercent,
   MEMBERSHIP_PRICING,
 } from '@/lib/membership-plans';
+import { getRegionalMembershipAmounts } from '@/lib/membership-regional-pricing';
 
 import * as siteData from "@/data/siteData";
 
-const MAX_ANNUAL_SAVINGS_PERCENT = membershipAnnualSavingsPercent(
-  MEMBERSHIP_PRICING.mastery.monthlyUsd,
-  MEMBERSHIP_PRICING.mastery.yearlyUsd,
-);
+function useMaxAnnualSavingsPercent() {
+  const { regionId, gccCountry } = useRegion();
+  const pro = getRegionalMembershipAmounts(
+    MEMBERSHIP_PRICING.professional.monthlyUsd,
+    MEMBERSHIP_PRICING.professional.yearlyUsd,
+    regionId,
+    gccCountry,
+  );
+  const mastery = getRegionalMembershipAmounts(
+    MEMBERSHIP_PRICING.mastery.monthlyUsd,
+    MEMBERSHIP_PRICING.mastery.yearlyUsd,
+    regionId,
+    gccCountry,
+  );
+  return Math.max(
+    membershipAnnualSavingsPercent(pro.monthlyNumeric, pro.yearlyNumeric),
+    membershipAnnualSavingsPercent(mastery.monthlyNumeric, mastery.yearlyNumeric),
+  );
+}
 
 const benefits = [
   {
@@ -41,13 +57,6 @@ const benefits = [
     icon: Users,
     color: "text-brand-orange",
     bg: "bg-brand-orange/5 dark:bg-brand-orange/10"
-  },
-  {
-    title: "Private Slack",
-    desc: "Real-time access to thousands of PMs, mentors, and industry experts in our private channels.",
-    icon: MessageCircle,
-    color: "text-brand-purple",
-    bg: "bg-brand-purple/5 dark:bg-brand-purple/10"
   },
   {
     title: "Exclusive Sessions",
@@ -68,9 +77,11 @@ const benefits = [
 function MembershipBillingToggle({
   billing,
   onChange,
+  maxAnnualSavingsPercent,
 }: {
   billing: BillingCycle;
   onChange: (cycle: BillingCycle) => void;
+  maxAnnualSavingsPercent: number;
 }) {
   return (
     <div className="flex justify-center mb-12" role="group" aria-label="Billing period">
@@ -100,9 +111,9 @@ function MembershipBillingToggle({
           aria-pressed={billing === 'yearly'}
         >
           Yearly
-          {MAX_ANNUAL_SAVINGS_PERCENT > 0 ? (
+          {maxAnnualSavingsPercent > 0 ? (
             <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-purple/15 text-brand-purple">
-              Save up to {MAX_ANNUAL_SAVINGS_PERCENT}%
+              Save up to {maxAnnualSavingsPercent}%
             </span>
           ) : null}
         </button>
@@ -113,8 +124,22 @@ function MembershipBillingToggle({
 
 export function Membership() {
   const { get } = useWebsiteData();
+  const { regionId, gccCountry, regionLabel } = useRegion();
   const tiers = siteData.membershipTiers;
   const [billing, setBilling] = useState<BillingCycle>('monthly');
+  const maxAnnualSavingsPercent = useMaxAnnualSavingsPercent();
+  const proRegional = getRegionalMembershipAmounts(
+    MEMBERSHIP_PRICING.professional.monthlyUsd,
+    MEMBERSHIP_PRICING.professional.yearlyUsd,
+    regionId,
+    gccCountry,
+  );
+  const masteryRegional = getRegionalMembershipAmounts(
+    MEMBERSHIP_PRICING.mastery.monthlyUsd,
+    MEMBERSHIP_PRICING.mastery.yearlyUsd,
+    regionId,
+    gccCountry,
+  );
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -144,21 +169,18 @@ export function Membership() {
       {/* Pricing Tiers */}
       <section className="py-20 -mt-12 relative z-20">
         <div className="container mx-auto">
-          <MembershipBillingToggle billing={billing} onChange={setBilling} />
+          <MembershipBillingToggle
+            billing={billing}
+            onChange={setBilling}
+            maxAnnualSavingsPercent={maxAnnualSavingsPercent}
+          />
           <p className="text-center text-sm text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto -mt-6 mb-10">
-            Professional is {MEMBERSHIP_PRICING.professional.monthlyUsd}/month or{' '}
-            {MEMBERSHIP_PRICING.professional.yearlyUsd}/year (
-            {formatMembershipSavingsPercent(
-              MEMBERSHIP_PRICING.professional.monthlyUsd,
-              MEMBERSHIP_PRICING.professional.yearlyUsd,
-            )}
-            ). Mastery is {MEMBERSHIP_PRICING.mastery.monthlyUsd}/month or{' '}
-            {MEMBERSHIP_PRICING.mastery.yearlyUsd}/year (
-            {formatMembershipSavingsPercent(
-              MEMBERSHIP_PRICING.mastery.monthlyUsd,
-              MEMBERSHIP_PRICING.mastery.yearlyUsd,
-            )}
-            ).
+            Prices in {regionLabel} currency. Professional is {proRegional.monthly}/month or{' '}
+            {proRegional.yearly}/year (
+            {formatMembershipSavingsPercent(proRegional.monthlyNumeric, proRegional.yearlyNumeric)}
+            ). Mastery is {masteryRegional.monthly}/month or {masteryRegional.yearly}/year (
+            {formatMembershipSavingsPercent(masteryRegional.monthlyNumeric, masteryRegional.yearlyNumeric)}
+            ). Checkout is processed in USD equivalent.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
             {tiers.map((tier, index) => {
@@ -166,6 +188,8 @@ export function Membership() {
                 tier.monthlyPriceUsd,
                 tier.yearlyPriceUsd,
                 billing,
+                regionId,
+                gccCountry,
               );
               return (
               <motion.div
@@ -214,7 +238,16 @@ export function Membership() {
                           </div>
                           {tier.monthlyPriceUsd > 0 ? (
                             <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-                              or {formatMembershipUsd(tier.monthlyPriceUsd)}/month
+                              or{' '}
+                              {
+                                getRegionalMembershipAmounts(
+                                  tier.monthlyPriceUsd,
+                                  tier.yearlyPriceUsd,
+                                  regionId,
+                                  gccCountry,
+                                ).monthly
+                              }
+                              /month
                             </p>
                           ) : null}
                         </>
@@ -237,8 +270,11 @@ export function Membership() {
                       </ul>
                     </div>
                   </CardContent>
-                  <CardFooter className="p-8 pt-0">
-                    <Link href={tier.highlight ? "/membership" : "/contact"} className="w-full">
+                  <CardFooter className="flex justify-center p-8 pt-0">
+                    <Link
+                      href={tier.highlight ? "/membership" : "/contact"}
+                      className="w-full max-w-[280px]"
+                    >
                       <Button
                         variant={tier.highlight ? "brand" : "outline"}
                         className="w-full h-14 text-lg font-bold rounded-2xl transition-all"
@@ -268,7 +304,7 @@ export function Membership() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {benefits.map((benefit, index) => (
               <motion.div
                 key={benefit.title}

@@ -81,7 +81,7 @@ export function Compare() {
             Compare <span className="text-brand-orange">certifications</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-            Switch between PMI®, PRINCE2®, or Lean Six Sigma, pick up to three pathways, and
+            Pick up to three pathways from any mix of PMI®, PRINCE2®, and Lean Six Sigma, then
             review tiers, prep time, and regional tuition in one matrix.
           </p>
         </div>

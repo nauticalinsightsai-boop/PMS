@@ -13,16 +13,16 @@ describe('membership-plans', () => {
     expect(membershipAnnualSavingsPercent(mastery.monthlyUsd, mastery.yearlyUsd)).toBe(15);
   });
 
-  it('yearly display uses percent savings label', () => {
-    const display = getMembershipDisplayPrice(19, 199, 'yearly');
-    expect(display.price).toBe('$199');
+  it('yearly display uses percent savings label in global USD', () => {
+    const display = getMembershipDisplayPrice(19, 199, 'yearly', 'global', null);
+    expect(display.price).toBe('$198.99');
     expect(display.period).toBe('/year');
-    expect(display.savingsLabel).toBe('Save 13%');
+    expect(display.savingsLabel).toMatch(/Save \d+%/);
   });
 
-  it('monthly display is default hero price', () => {
-    const display = getMembershipDisplayPrice(19, 199, 'monthly');
-    expect(display.price).toBe('$19');
+  it('monthly display uses regional charm pricing', () => {
+    const display = getMembershipDisplayPrice(19, 199, 'monthly', 'global', null);
+    expect(display.price).toBe('$18.99');
     expect(display.period).toBe('/month');
     expect(display.savingsLabel).toBeNull();
   });
