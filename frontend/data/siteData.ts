@@ -758,9 +758,9 @@ export const testimonials: Testimonial[] = [
 export const mainNav: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Certifications", href: "/certifications" },
-  { label: "Membership", href: "/membership" },
-  { label: "Community", href: "/community" },
+  { label: "Services", href: "/pm-service" },
   { label: "Newsletter", href: "/newsletter" },
+  { label: "Community", href: "/community" },
   { label: "About", href: "/about" },
 ];
 
@@ -772,7 +772,7 @@ export const footerSections: FooterSection[] = [
       { label: "CAPM® Prep", href: "/certifications/capm" },
       { label: "Agile (ACP)®", href: "/certifications/pmi-acp" },
       { label: "PRINCE2®", href: "/certifications/prince2" },
-      { label: "Compare pathways", href: "/compare" },
+      { label: "Compare pathways", href: "/certifications/compare" },
     ]
   },
   {
@@ -790,7 +790,9 @@ export const footerSections: FooterSection[] = [
       { label: "About Us", href: "/about" },
       { label: "Contact", href: "/contact" },
       { label: "FAQ", href: "/faq" },
-      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Privacy Policy", href: "/legal/privacy" },
+      { label: "Terms & Conditions", href: "/legal/terms" },
+      { label: "Cookie Policy", href: "/legal/cookies" },
     ]
   }
 ];

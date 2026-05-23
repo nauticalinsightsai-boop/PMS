@@ -13,7 +13,7 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { dashboardLoginUrl } from '@/lib/site-config';
 import { BrandLogo } from '@/components/BrandLogo';
-import { BRAND, BRAND_LINES, DISCLAIMERS, REGION_COPY } from '@/lib/brand-voice';
+import { BRAND, BRAND_LINES } from '@/lib/brand-voice';
 import { SectionAmbience } from '@/components/SectionAmbience';
 
 export function Footer() {
@@ -77,8 +77,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/compare" className="hover:text-brand-orange font-bold text-brand-orange/80">
+                <Link href="/certifications/compare" className="hover:text-brand-orange font-bold text-brand-orange/80">
                   Compare All Certs
+                </Link>
+              </li>
+              <li>
+                <Link href="/membership" className="hover:text-brand-orange transition-colors">
+                  Membership
                 </Link>
               </li>
             </ul>
@@ -107,6 +112,21 @@ export function Footer() {
               <li>
                 <Link href="/faq" className="hover:text-brand-orange transition-colors">
                   Help & FAQ
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal" className="hover:text-brand-orange transition-colors">
+                  Legal hub
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/services" className="hover:text-brand-orange transition-colors">
+                  Services terms
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/pricing-disclaimers" className="hover:text-brand-orange transition-colors">
+                  Pricing & disclaimers
                 </Link>
               </li>
               <li>
@@ -165,25 +185,30 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-6 text-xs text-carbon dark:text-slate-500 font-medium">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-carbon dark:text-slate-500 font-medium">
             <span>© {new Date().getFullYear()} {BRAND.name}. All rights reserved.</span>
-            <span className="text-muted-foreground" aria-disabled>
-              Privacy Policy (coming soon)
-            </span>
-            <span className="text-muted-foreground" aria-disabled>
-              Terms of Service (coming soon)
-            </span>
-            <span className="text-muted-foreground" aria-disabled>
-              Cookie Policy (coming soon)
-            </span>
+            <Link href="/legal/terms" className="hover:text-brand-orange transition-colors">
+              Terms
+            </Link>
+            <Link href="/legal/privacy" className="hover:text-brand-orange transition-colors">
+              Privacy
+            </Link>
+            <Link href="/legal/cookies" className="hover:text-brand-orange transition-colors">
+              Cookies
+            </Link>
           </div>
         </div>
 
         <p className="mt-6 text-[10px] text-slate-400 max-w-3xl mx-auto text-center leading-relaxed font-medium">
-          {REGION_COPY.compliance}
-        </p>
-        <p className="mt-4 text-[10px] text-slate-400 max-w-3xl mx-auto text-center leading-relaxed font-medium">
-          {DISCLAIMERS.accreditation}
+          See{' '}
+          <Link href="/legal/pricing-disclaimers" className="text-brand-orange hover:underline font-semibold">
+            pricing &amp; certification disclaimers
+          </Link>{' '}
+          and{' '}
+          <Link href="/legal/terms" className="text-brand-orange hover:underline font-semibold">
+            terms of use
+          </Link>
+          .
         </p>
       </div>
     </footer>

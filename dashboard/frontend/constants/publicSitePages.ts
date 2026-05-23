@@ -11,6 +11,7 @@ import {
   HelpCircle,
   Mail,
   CreditCard,
+  Scale,
 } from 'lucide-react';
 
 /** Matches routes under frontend/app/(site)/ */
@@ -25,15 +26,21 @@ export interface PublicSitePage {
 export const PUBLIC_SITE_PAGES: PublicSitePage[] = [
   { slug: 'home', label: 'Home', path: '/', icon: Home, inMainNav: true },
   { slug: 'certifications', label: 'Certifications', path: '/certifications', icon: Award, inMainNav: true },
-  { slug: 'pm-service', label: 'Service', path: '/pm-service', icon: Briefcase, inMainNav: true },
+  { slug: 'pm-service', label: 'Services', path: '/pm-service', icon: Briefcase, inMainNav: true },
   { slug: 'newsletter', label: 'Newsletter', path: '/newsletter', icon: Newspaper, inMainNav: true },
   { slug: 'community', label: 'Community', path: '/community', icon: Users, inMainNav: true },
   { slug: 'store', label: 'Resource Store', path: '/community?view=store', icon: ShoppingBag, inMainNav: false },
   { slug: 'about', label: 'About', path: '/about', icon: Info, inMainNav: false },
-  { slug: 'compare', label: 'Compare Certifications', path: '/compare', icon: GitCompare, inMainNav: false },
+  { slug: 'compare', label: 'Compare Certifications', path: '/certifications/compare', icon: GitCompare, inMainNav: false },
   { slug: 'faq', label: 'FAQ', path: '/faq', icon: HelpCircle, inMainNav: false },
   { slug: 'contact', label: 'Contact', path: '/contact', icon: Mail, inMainNav: false },
   { slug: 'membership', label: 'Membership', path: '/membership', icon: CreditCard, inMainNav: false },
+  { slug: 'legal', label: 'Legal hub', path: '/legal', icon: Scale, inMainNav: false },
+  { slug: 'legal-terms', label: 'Terms & Conditions', path: '/legal/terms', icon: Scale, inMainNav: false },
+  { slug: 'legal-privacy', label: 'Privacy Policy', path: '/legal/privacy', icon: Scale, inMainNav: false },
+  { slug: 'legal-cookies', label: 'Cookie Policy', path: '/legal/cookies', icon: Scale, inMainNav: false },
+  { slug: 'legal-services', label: 'Services Terms', path: '/legal/services', icon: Scale, inMainNav: false },
+  { slug: 'legal-pricing', label: 'Pricing disclaimers', path: '/legal/pricing-disclaimers', icon: Scale, inMainNav: false },
 ];
 
 export function getPublicSitePage(slug: string): PublicSitePage | undefined {

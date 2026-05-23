@@ -125,7 +125,7 @@ export const WEBSITE_PAGE_CONFIGS: Record<WebsitePageSlug, WebsitePageConfig> = 
   compare: {
     label: 'Compare Certifications',
     icon: GitCompare,
-    publicPath: '/compare',
+    publicPath: '/certifications/compare',
     sections: [{ id: 'hero', label: 'Hero', fields: heroFields('compare') }],
   },
   faq: {

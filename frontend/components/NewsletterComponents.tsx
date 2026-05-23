@@ -7,16 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-
-interface Article {
-  title: string;
-  excerpt: string;
-  category: string;
-  date: string;
-  author: string;
-  readTime: string;
-  image: string;
-}
+import type { NewsletterArticle } from "@/data/newsletterArticles";
+import { getNewsletterArticleHref } from "@/data/newsletterArticles";
 
 interface CategoryChipProps {
   label: string;
@@ -41,19 +33,21 @@ export const CategoryChip: React.FC<CategoryChipProps> = ({ label, active, onCli
 };
 
 interface ArticleCardProps {
-  article: Article;
+  article: NewsletterArticle;
   variant?: "default" | "compact" | "horizontal";
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = "default" }) => {
+  const href = getNewsletterArticleHref(article);
+
   if (variant === "horizontal") {
     return (
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="flex gap-6 group cursor-pointer"
       >
+        <Link href={href} className="flex gap-6 group">
         <div className="w-1/3 aspect-[4/3] rounded-2xl overflow-hidden shrink-0">
           <img 
             src={article.image} 
@@ -75,6 +69,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = "de
             <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {article.readTime}</span>
           </div>
         </div>
+        </Link>
       </motion.div>
     );
   }
@@ -86,6 +81,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = "de
       viewport={{ once: true }}
       className="group"
     >
+      <Link href={href} className="block">
       <Card className="h-full border-none shadow-none bg-transparent overflow-hidden">
         <div className="aspect-video rounded-3xl overflow-hidden mb-6">
           <img 
@@ -129,31 +125,38 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = "de
           </div>
         </CardContent>
       </Card>
+      </Link>
     </motion.div>
   );
 };
 
-export const FeaturedPost: React.FC<{ article: Article; storyHref?: string }> = ({ article, storyHref = "#" }) => {
+export const FeaturedPost: React.FC<{ article: NewsletterArticle; storyHref?: string }> = ({
+  article,
+  storyHref,
+}) => {
+  const href = storyHref ?? getNewsletterArticleHref(article);
   return (
     <section id="featured-story" className="py-12 md:py-20 scroll-mt-24">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-7">
+          <Link href={href} className="block">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden shadow-2xl"
+            className="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden shadow-2xl group"
           >
             <img 
               src={article.image} 
               alt={article.title} 
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
               referrerPolicy="no-referrer"
             />
             <div className="absolute top-8 left-8">
               <Badge className="bg-brand-purple text-white border-none px-6 py-1.5 text-sm font-bold shadow-lg">Featured Story</Badge>
             </div>
           </motion.div>
+          </Link>
         </div>
         <div className="lg:col-span-5">
           <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground mb-6">
@@ -161,9 +164,11 @@ export const FeaturedPost: React.FC<{ article: Article; storyHref?: string }> = 
             <span className="w-1 h-1 rounded-full bg-slate-300" />
             <span className="flex items-center gap-1.5"><Clock className="h-4 w-4" /> {article.readTime}</span>
           </div>
-          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6 leading-[1.1]">
+          <Link href={href}>
+          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6 leading-[1.1] hover:text-brand-purple transition-colors">
             {article.title}
           </h2>
+          </Link>
           <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
             {article.excerpt}
           </p>
@@ -177,8 +182,8 @@ export const FeaturedPost: React.FC<{ article: Article; storyHref?: string }> = 
                 <div className="text-xs text-muted-foreground">Senior Editor</div>
               </div>
             </div>
-            <Link href={storyHref} className="inline-flex items-center text-brand-purple font-bold text-lg group p-0 hover:underline">
-              Read Full Story <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            <Link href={href} className="inline-flex items-center text-brand-purple font-bold text-lg group p-0 hover:underline">
+              Read full story <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>

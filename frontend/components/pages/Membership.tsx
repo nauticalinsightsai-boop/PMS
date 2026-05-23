@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import Link from "next/link";
 import { BRAND, HOME_COPY, REGION_COPY } from "@/lib/brand-voice";
+import { CertificationHubNav } from "@/components/CertificationHubNav";
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PricingComplianceNote } from "@/components/PricingComplianceNote";
 import { RegionalPrice } from "@/components/RegionalPrice";
@@ -100,6 +101,8 @@ export function Membership() {
           </motion.div>
         </div>
       </section>
+
+      <CertificationHubNav />
 
       <section className="py-12 border-b border-slate-100 dark:border-slate-800 bg-brand-purple/5">
         <div className="container mx-auto max-w-4xl text-center space-y-6">

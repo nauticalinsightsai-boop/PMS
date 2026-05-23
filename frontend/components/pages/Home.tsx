@@ -267,11 +267,11 @@ export function Home() {
               </p>
               <div className="space-y-8">
                 {[
-                  { title: "AI in Project Management", desc: "How to leverage generative AI for planning and risk assessment." },
-                  { title: "2026 Salary Trends", desc: "The latest data on certification ROI across global markets." },
-                  { title: "Hybrid Leadership", desc: "Mastering the balance between predictive and agile frameworks." },
+                  { title: "AI in Project Management", desc: "How to leverage generative AI for planning and risk assessment.", href: "/newsletter/ai-augmented-project-manager" },
+                  { title: "2026 Salary Trends", desc: "The latest data on certification ROI across global markets.", href: "/newsletter/2026-pmp-exam-changes" },
+                  { title: "Hybrid Leadership", desc: "Mastering the balance between predictive and agile frameworks.", href: "/newsletter/hybrid-methodologies-enterprise" },
                 ].map((item) => (
-                  <Link key={item.title} href="/newsletter" className="flex gap-6 group">
+                  <Link key={item.title} href={item.href} className="flex gap-6 group">
                     <div className="h-1 w-12 bg-brand-orange mt-4 group-hover:w-16 transition-all duration-500 rounded-full shrink-0" />
                     <div>
                       <h4 className="text-xl font-bold text-white dark:text-pms-navy group-hover:text-brand-orange transition-colors tracking-tight">{item.title}</h4>
@@ -487,7 +487,11 @@ export function Home() {
                   </Button>
                 </form>
                 <p className="mt-4 text-xs text-slate-400 font-medium">
-                  We respect your privacy. Unsubscribe at any time.
+                  We respect your privacy.{' '}
+                  <Link href="/legal/privacy" className="text-brand-orange font-semibold hover:underline">
+                    Privacy Policy
+                  </Link>
+                  . Unsubscribe at any time.
                 </p>
               </div>
               <div className="hidden lg:grid grid-cols-2 gap-6">
@@ -548,7 +552,7 @@ export function Home() {
                 desc: "Find the right certification for your goals.",
                 icon: LayoutDashboard,
                 color: "text-indigo-600",
-                href: "/compare",
+                href: "/certifications/compare",
               },
               {
                 title: "Roadmap Guidance",

@@ -66,7 +66,22 @@ export function CertificationDetail() {
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Directory
             </Button>
           </Link>
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
+            <Link
+              href="/certifications/compare"
+              className="text-sm font-bold text-slate-500 hover:text-brand-orange transition-colors"
+            >
+              Compare
+            </Link>
+            <Link
+              href="/membership"
+              className="text-sm font-bold text-slate-500 hover:text-brand-orange transition-colors"
+            >
+              Membership
+            </Link>
+            <span className="text-slate-300 dark:text-slate-600" aria-hidden>
+              |
+            </span>
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Currently Viewing:</span>
             <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-none">
               {certName}

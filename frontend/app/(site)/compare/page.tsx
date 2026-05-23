@@ -1,10 +1,6 @@
-import { Suspense } from 'react';
-import { Compare } from '@/components/pages/Compare';
+import { redirect } from 'next/navigation';
 
-export default function Page() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-white dark:bg-slate-950" />}>
-      <Compare />
-    </Suspense>
-  );
+/** Legacy URL — canonical route is /certifications/compare */
+export default function CompareRedirectPage() {
+  redirect('/certifications/compare');
 }

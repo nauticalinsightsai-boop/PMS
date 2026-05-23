@@ -12,9 +12,7 @@ import { cn } from "@/lib/utils";
 
 const MAIN_NAV_LINKS = [
   { label: "Certifications", href: "/certifications" },
-  { label: "Compare", href: "/compare" },
-  { label: "Membership", href: "/membership" },
-  { label: "Service", href: "/pm-service" },
+  { label: "Services", href: "/pm-service" },
   { label: "Newsletter", href: "/newsletter" },
   { label: "Community", href: "/community" },
 ] as const;
@@ -53,7 +51,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm border-b border-border">
+    <header className="fixed inset-x-0 top-0 z-[100] w-full bg-background/95 backdrop-blur-md border-b border-border supports-[backdrop-filter]:bg-background/80">
       <div className="container mx-auto flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <BrandLogo size="nav" className="group-hover:opacity-90 transition-opacity" />

@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { CertificationHubNav } from '@/components/CertificationHubNav';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { CompareCertPicker } from '@/components/CompareCertPicker';
 import { CompareTierCell } from '@/components/CompareTierCell';
@@ -77,7 +78,7 @@ export function Compare() {
       if (next) params.set('c', next);
       else params.delete('c');
       const qs = params.toString();
-      router.replace(qs ? `/compare?${qs}` : '/compare', { scroll: false });
+      router.replace(qs ? `/certifications/compare?${qs}` : '/certifications/compare', { scroll: false });
     },
     [router, searchParams],
   );
@@ -97,6 +98,7 @@ export function Compare() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <CertificationHubNav />
       <section
         className={sectionSurface(
           'purple',

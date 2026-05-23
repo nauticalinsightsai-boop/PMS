@@ -241,9 +241,9 @@ function CommunityNetworkContent() {
                     Join the Community
                   </Button>
                 </Link>
-                <Link href="/community">
+                <Link href="/membership">
                   <Button size="lg" variant="outline" className="border-slate-700 text-white hover:bg-white/10 h-14 px-8 rounded-2xl font-bold text-lg transition-all">
-                    Browse Study Circles
+                    Explore Membership
                   </Button>
                 </Link>
               </div>
@@ -337,6 +337,15 @@ export function Community() {
             >
               Browse Resources
             </Button>
+            <Link
+              href="/membership"
+              className={cn(
+                'inline-flex min-h-11 h-12 items-center justify-center px-6 rounded-xl font-bold text-base transition-all',
+                'border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-brand-orange/10 hover:text-brand-orange dark:hover:bg-brand-orange/10',
+              )}
+            >
+              Membership
+            </Link>
           </div>
         </div>
       </section>

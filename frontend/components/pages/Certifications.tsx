@@ -20,6 +20,7 @@ import { CERTIFICATIONS_COPY, CTAS } from "@/lib/brand-voice";
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
+import { CertificationHubActions } from "@/components/CertificationHubActions";
 import { useRegion } from "@/contexts/RegionContext";
 import {
   isEnrollmentOpen,
@@ -147,22 +148,25 @@ export function Certifications() {
               {CERTIFICATIONS_COPY.heroSubtitle}
             </p>
 
-            <div className="relative w-full max-w-xl mx-auto mt-10 group">
-              <Search
-                className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-brand-orange transition-colors pointer-events-none"
-                aria-hidden
-              />
-              <label htmlFor="cert-family-search" className="sr-only">
-                Search certifications in the active family
-              </label>
-              <input
-                id="cert-family-search"
-                type="search"
-                placeholder={`Search ${FAMILY_TAB_LABEL[activeTab]} pathways…`}
-                className="w-full h-14 pl-14 pr-6 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-700 shadow-lg shadow-slate-900/5 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-brand-orange/30 font-bold text-base transition-all dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+            <div className="mt-10 max-w-3xl mx-auto space-y-4">
+              <CertificationHubActions />
+              <div className="relative w-full group">
+                <Search
+                  className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-brand-orange transition-colors pointer-events-none"
+                  aria-hidden
+                />
+                <label htmlFor="cert-family-search" className="sr-only">
+                  Search certifications in the active family
+                </label>
+                <input
+                  id="cert-family-search"
+                  type="search"
+                  placeholder={`Search ${FAMILY_TAB_LABEL[activeTab]} pathways…`}
+                  className="w-full h-14 pl-14 pr-6 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-700 shadow-lg shadow-slate-900/5 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-brand-orange/30 font-bold text-base transition-all dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
             </div>
           </motion.div>
         </div>
@@ -224,7 +228,7 @@ export function Certifications() {
                             <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 text-center md:text-left">
                               Flagship pathways
                             </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div className="grid grid-cols-1 gap-10 items-stretch lg:grid-cols-3">
                               <AnimatePresence mode="popLayout">
                                 {featuredTop.map((cert) => (
                                   <motion.div
@@ -234,11 +238,12 @@ export function Certifications() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: 12 }}
                                     transition={{ duration: 0.35 }}
-                                    className="h-full"
+                                    className="h-full motion-reduce:transform-none"
                                   >
                                     <PathwayFeaturedCard
                                       cert={cert}
                                       familyLabel={cert.familyId}
+                                      layout="directory"
                                     />
                                   </motion.div>
                                 ))}
@@ -381,9 +386,18 @@ export function Certifications() {
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/compare">
+                <Link href="/certifications/compare">
                   <Button size="lg" variant="brand" className="h-16 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all hover:scale-105">
                     Compare Frameworks
+                  </Button>
+                </Link>
+                <Link href="/membership">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="h-16 px-10 rounded-2xl border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white dark:border-slate-400 dark:text-slate-900 dark:hover:bg-slate-200 font-bold text-lg transition-all"
+                  >
+                    Explore Membership
                   </Button>
                 </Link>
                 <Link href="/contact">

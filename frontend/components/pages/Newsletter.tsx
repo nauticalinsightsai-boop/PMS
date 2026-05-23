@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { Search, Mail, ArrowRight, TrendingUp, MessageCircle } from "lucide-react";
-import { CTAS } from "@/lib/brand-voice";
+import { Search, ArrowRight, TrendingUp } from "lucide-react";
 import { 
   CategoryChip, 
   ArticleCard, 
@@ -15,75 +14,21 @@ import {
   CTABanner 
 } from "@/components/NewsletterComponents";
 import { PAGE_HERO_PADDING } from "@/components/SectionAmbience";
+import { newsletterArticles } from "@/data/newsletterArticles";
+import { getNewsletterArticleHref } from "@/data/newsletterArticles";
 
 const categories = [
   "All", "PMP", "CAPM", "Agile", "Risk", "Business Analysis", 
   "PRINCE2", "PMO", "Six Sigma", "Career Growth", "Exam Strategies"
 ];
 
-const articles = [
-  {
-    title: "The 2026 PMP® Exam: What's Really Changing?",
-    excerpt: "A deep dive into the new Exam Content Outline (ECO) and how it impacts your study strategy for the coming year.",
-    category: "Exam Strategies",
-    date: "Oct 12, 2025",
-    author: "Dr. Robert Chen",
-    readTime: "8 min read",
-    image: "https://picsum.photos/seed/pmp/800/600"
-  },
-  {
-    title: "Mastering Hybrid Methodologies in Enterprise Projects",
-    excerpt: "Why the 'Waterfall vs Agile' debate is dead, and how the most successful PMOs are blending both for maximum efficiency.",
-    category: "Agile",
-    date: "Oct 10, 2025",
-    author: "Sarah Jenkins",
-    readTime: "12 min read",
-    image: "https://picsum.photos/seed/agile/800/600"
-  },
-  {
-    title: "Risk Management: Beyond the Probability Matrix",
-    excerpt: "Advanced techniques for identifying 'Black Swan' events in complex infrastructure projects.",
-    category: "Risk",
-    date: "Oct 08, 2025",
-    author: "Marcus Thorne",
-    readTime: "10 min read",
-    image: "https://picsum.photos/seed/risk/800/600"
-  },
-  {
-    title: "The Rise of the AI-Augmented Project Manager",
-    excerpt: "How generative AI is transforming risk assessment, resource allocation, and stakeholder communication.",
-    category: "Career Growth",
-    date: "Oct 05, 2025",
-    author: "Elena Rodriguez",
-    readTime: "15 min read",
-    image: "https://picsum.photos/seed/ai/800/600"
-  },
-  {
-    title: "PRINCE2® 7th Edition: A Practitioner's Perspective",
-    excerpt: "Key takeaways from the latest update to the world's most popular project management methodology.",
-    category: "PRINCE2",
-    date: "Oct 02, 2025",
-    author: "James Wilson",
-    readTime: "7 min read",
-    image: "https://picsum.photos/seed/prince/800/600"
-  },
-  {
-    title: "Building a High-Performance PMO from Scratch",
-    excerpt: "A step-by-step guide to establishing governance, standards, and value delivery in a growing organization.",
-    category: "PMO",
-    date: "Sep 28, 2025",
-    author: "Linda Wu",
-    readTime: "20 min read",
-    image: "https://picsum.photos/seed/pmo/800/600"
-  }
-];
+const articles = newsletterArticles;
 
 const SUBSCRIBER_COUNT = "5,000+";
 
 export function Newsletter() {
   const [activeCategory, setActiveCategory] = React.useState("All");
   const [visibleCount, setVisibleCount] = React.useState(4);
-  const [subscribeNote, setSubscribeNote] = React.useState<string | null>(null);
 
   const filteredArticles = React.useMemo(() => {
     if (activeCategory === "All") return articles;
@@ -92,14 +37,6 @@ export function Newsletter() {
 
   const featuredArticle = filteredArticles[0] ?? articles[0];
   const visibleArticles = filteredArticles.slice(0, visibleCount);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubscribeNote("Thanks — redirecting you to subscribe.");
-    window.setTimeout(() => {
-      window.location.href = "/newsletter";
-    }, 800);
-  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -123,6 +60,15 @@ export function Newsletter() {
               </h1>
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium max-w-2xl md:mx-0 mx-auto">
                 Expert analysis, certification strategies, and the latest trends in global project leadership. Delivered weekly to {SUBSCRIBER_COUNT} professionals.
+              </p>
+              <p className="mt-6">
+                <Link
+                  href="/membership"
+                  className="inline-flex items-center gap-2 text-sm font-bold text-brand-orange hover:text-brand-hover transition-colors"
+                >
+                  Explore membership benefits
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </Link>
               </p>
             </div>
             <div className="w-full md:w-auto">
@@ -157,13 +103,13 @@ export function Newsletter() {
 
       <div className="container mx-auto py-12">
         {/* 2. Featured Article */}
-        <FeaturedPost article={featuredArticle} storyHref="#featured-story" />
+        <FeaturedPost article={featuredArticle} />
 
         <Separator className="my-12 opacity-50" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:items-stretch">
           {/* Main Content: Latest Posts */}
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-8 min-w-0">
             <div className="flex items-center justify-between mb-10">
               <h2 className="font-heading text-3xl font-bold">Latest Insights</h2>
               <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
@@ -177,8 +123,8 @@ export function Newsletter() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {visibleArticles.map((article, index) => (
-                <ArticleCard key={`${article.title}-${index}`} article={article} />
+              {visibleArticles.map((article) => (
+                <ArticleCard key={article.slug} article={article} />
               ))}
             </div>
 
@@ -196,87 +142,52 @@ export function Newsletter() {
             )}
           </div>
 
-          {/* Sidebar: Popular & Editor Picks */}
-          <aside className="lg:col-span-4 space-y-16">
-            {/* 4. Popular Posts */}
-            <div>
-              <div className="flex items-center gap-2 mb-8">
+          {/* Sidebar: Popular & Editor Picks — equal panels, stretch to main column height on lg */}
+          <aside className="lg:col-span-4 flex flex-col gap-6 lg:h-full">
+            <div className="flex flex-col flex-1 min-h-0 p-8 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2 mb-6 shrink-0">
                 <TrendingUp className="h-6 w-6 text-brand-orange" />
                 <h3 className="font-heading text-2xl font-bold">Popular Now</h3>
               </div>
-              <div className="space-y-8">
+              <div className="flex flex-1 flex-col justify-between gap-5 min-h-0">
                 {articles.slice(0, 4).map((article, index) => (
-                  <div key={index} className="flex gap-4 group cursor-pointer">
+                  <Link
+                    key={article.slug}
+                    href={getNewsletterArticleHref(article)}
+                    className="flex gap-4 group"
+                  >
                     <span
-                      className="text-4xl font-heading font-black tabular-nums leading-none text-slate-300 dark:text-slate-600 group-hover:text-brand-orange transition-colors duration-300"
+                      className="text-4xl font-heading font-black tabular-nums leading-none text-slate-300 dark:text-slate-600 group-hover:text-brand-orange transition-colors duration-300 shrink-0"
                       aria-hidden
                     >
                       0{index + 1}
                     </span>
-                    <div>
+                    <div className="min-w-0">
                       <Badge variant="link" className="p-0 h-auto text-brand-purple text-[10px] uppercase tracking-widest font-bold mb-1">
                         {article.category}
                       </Badge>
-                      <h4 className="font-bold leading-tight group-hover:text-brand-purple transition-colors">
+                      <h4 className="font-bold leading-tight group-hover:text-brand-purple transition-colors line-clamp-2">
                         {article.title}
                       </h4>
                       <p className="text-xs text-muted-foreground mt-2">{article.readTime}</p>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 5. Editor Picks */}
-            <div className="p-8 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-              <h3 className="font-heading text-2xl font-bold mb-8">Editor's Picks</h3>
-              <div className="space-y-8">
-                {articles.slice(4, 6).map((article, index) => (
-                  <ArticleCard key={index} article={article} variant="horizontal" />
-                ))}
-              </div>
-              <Button className="w-full mt-8 bg-brand-purple hover:bg-brand-purple/90">
-                View All Picks
-              </Button>
-            </div>
-
-            {/* Newsletter Mini CTA */}
-            <div className="p-8 rounded-[2rem] bg-gradient-to-br from-brand-orange to-[#e85a45] text-white overflow-hidden relative shadow-lg shadow-brand-orange/20">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/15 blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-              <div className="relative z-10">
-                <Mail className="h-10 w-10 mb-6 opacity-95" />
-                <h3 className="text-2xl font-bold mb-3 tracking-tight">Never miss an update</h3>
-                <p className="text-white/90 text-sm mb-6 leading-relaxed">
-                  Get the latest PM insights and certification strategies delivered to your inbox every Tuesday.
-                </p>
-                <form className="space-y-3" onSubmit={handleSubscribe}>
-                  <Input
-                    placeholder="Your email address"
-                    className="h-12 bg-white/15 border-white/30 text-white placeholder:text-white/60 focus-visible:ring-white/40"
-                  />
-                  <Button type="submit" className="w-full h-12 bg-white text-brand-orange hover:bg-slate-50 font-bold shadow-sm">
-                    Subscribe
-                  </Button>
-                  {subscribeNote && (
-                    <p className="text-xs text-white/90 font-medium" role="status">{subscribeNote}</p>
-                  )}
-                </form>
-                <div className="mt-8 pt-6 border-t border-white/25">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-white/70 mb-3">
-                    Need pathway guidance?
-                  </p>
-                  <Link href="/contact">
-                    <Button
-                      variant="outline"
-                      className="w-full h-12 border-white/40 bg-white/10 text-white hover:bg-white/20 hover:text-white font-bold gap-2"
-                    >
-                      <MessageCircle className="h-4 w-4" />
-                      {CTAS.pathwayConsultation}
-                    </Button>
                   </Link>
-                </div>
+                ))}
               </div>
+            </div>
+
+            <div className="flex flex-col flex-1 min-h-0 p-8 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+              <h3 className="font-heading text-2xl font-bold mb-6 shrink-0">Editor&apos;s Picks</h3>
+              <div className="flex flex-1 flex-col justify-center gap-8 min-h-0">
+                {articles.slice(4, 6).map((article) => (
+                  <ArticleCard key={article.slug} article={article} variant="horizontal" />
+                ))}
+              </div>
+              <Link href="/newsletter" className="block mt-6 shrink-0">
+                <Button className="w-full bg-brand-purple hover:bg-brand-purple/90">
+                  View all articles
+                </Button>
+              </Link>
             </div>
           </aside>
         </div>

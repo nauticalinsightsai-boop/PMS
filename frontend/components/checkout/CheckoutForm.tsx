@@ -9,6 +9,7 @@ import { RegionalPrice } from '@/components/RegionalPrice';
 import { useRegion } from '@/contexts/RegionContext';
 import { useRegionalOffering } from '@/hooks/useRegionalOffering';
 import { createCheckoutSession, verifyRegion } from '@/services/regional';
+import Link from 'next/link';
 import { REGION_COPY } from '@/lib/brand-voice';
 
 export function CheckoutForm() {
@@ -20,6 +21,7 @@ export function CheckoutForm() {
   const [residence, setResidence] = React.useState('');
   const [billing, setBilling] = React.useState('');
   const [hasMembership, setHasMembership] = React.useState(false);
+  const [acceptedTerms, setAcceptedTerms] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false);
 
@@ -33,6 +35,10 @@ export function CheckoutForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!acceptedTerms) {
+      setError('Please accept the Terms & Conditions and Privacy Policy to continue.');
+      return;
+    }
     setError(null);
     setLoading(true);
     try {
@@ -128,11 +134,35 @@ export function CheckoutForm() {
       </div>
 
       <p className="text-xs text-slate-500">{REGION_COPY.checkoutNote}</p>
-      <p className="text-xs text-slate-500">{REGION_COPY.compliance}</p>
+
+      <label className="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-700 p-4 cursor-pointer">
+        <input
+          type="checkbox"
+          className="mt-1"
+          required
+          checked={acceptedTerms}
+          onChange={(e) => setAcceptedTerms(e.target.checked)}
+        />
+        <span className="text-xs text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
+          I agree to the{' '}
+          <Link href="/legal/terms" className="text-brand-orange font-bold hover:underline">
+            Terms &amp; Conditions
+          </Link>{' '}
+          and{' '}
+          <Link href="/legal/privacy" className="text-brand-orange font-bold hover:underline">
+            Privacy Policy
+          </Link>
+          , and I understand pricing excludes official exam and third-party fees (
+          <Link href="/legal/pricing-disclaimers" className="text-brand-orange font-bold hover:underline">
+            details
+          </Link>
+          ).
+        </span>
+      </label>
 
       {error && <p className="text-sm text-red-600">{error}</p>}
 
-      <Button type="submit" disabled={loading} className="w-full rounded-full bg-brand-orange">
+      <Button type="submit" disabled={loading || !acceptedTerms} className="w-full rounded-full bg-brand-orange">
         {loading ? 'Processing…' : 'Continue to payment'}
       </Button>
     </form>
