@@ -20,6 +20,7 @@ import { CTAButton } from '@/components/ui/CTAButton';
 import { SyncStatusIndicator, SyncStatus } from '@/components/shared/SyncStatusIndicator';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
 import { siteUrl } from '@/lib/site-config';
+import { HOME_COPY, CTAS } from '@/lib/brand-voice';
 
 type CmsTab = 'hero' | 'cta' | 'featured' | 'latest-news' | 'global-footprint';
 
@@ -96,11 +97,11 @@ const defaultConfig: HomePageConfig = {
     {
       id: 1,
       visible: true,
-      heading: 'Master Your Professional Pathway',
-      description: 'Structured pathways, premium resources, and a global community.',
-      primaryCta: 'Get Started Free',
-      primaryLink: '/membership',
-      secondaryCta: 'Explore Directory',
+      heading: HOME_COPY.heroTitle,
+      description: HOME_COPY.heroSubtitle,
+      primaryCta: CTAS.pathwayConsultation,
+      primaryLink: '/contact',
+      secondaryCta: CTAS.readinessCheck,
       secondaryLink: '/certifications',
     },
   ],

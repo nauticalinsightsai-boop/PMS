@@ -1,0 +1,102 @@
+import {
+  canCheckoutStatus,
+  getOfferingById,
+  resolveCheckoutUsdCents,
+} from '@/lib/regional-catalogue';
+import { isConsultationApproved } from '@/lib/consultation-approval';
+import { membershipPriceUsdCents } from '@/lib/membership-pricing';
+import { verifyRegion } from '@/lib/verify-region';
+import { createStripeCheckoutSession } from '@/lib/stripe';
+import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
+import { jsonError, jsonOk } from '@/lib/response-helpers.js';
+import type { RegionId } from '@/lib/regional-catalogue';
+
+export async function POST(request: Request) {
+  const body = await request.json().catch(() => ({}));
+  const {
+    offeringId,
+    regionId,
+    residenceCountry,
+    billingCountry,
+    email,
+    gccCountry,
+    hasMembership,
+  } = body as {
+    offeringId?: string;
+    regionId?: RegionId;
+    residenceCountry?: string;
+    billingCountry?: string;
+    email?: string;
+    gccCountry?: string | null;
+    hasMembership?: boolean;
+  };
+
+  if (!offeringId || !regionId || !email) {
+    return jsonError('offeringId, regionId, and email are required', 400);
+  }
+
+  const offering = getOfferingById(offeringId);
+  if (!offering) return jsonError('Offering not found', 404);
+
+  const status = offering.regional[regionId].status;
+
+  if (status === 'consultation_required') {
+    const approved = await isConsultationApproved(email, offeringId);
+    if (!approved) {
+      return jsonError(
+        'Mastery consultation must be approved before checkout. Submit a consultation request or contact support.',
+        403
+      );
+    }
+  } else if (!canCheckoutStatus(status)) {
+    return jsonError('Checkout not available for this offering in your region', 403);
+  }
+
+  if (status === 'scholarship_verify') {
+    const verification = verifyRegion({
+      regionId,
+      residenceCountry: residenceCountry ?? '',
+      billingCountry: billingCountry ?? '',
+      gccCountry,
+    });
+    if (!verification.verified || !verification.scholarshipEligible) {
+      return jsonError(verification.message, 403);
+    }
+  }
+
+  let usdCents = resolveCheckoutUsdCents(offering, regionId);
+  if (!usdCents) return jsonError('Price unavailable', 400);
+
+  if (hasMembership) {
+    const memberCents = membershipPriceUsdCents(usdCents);
+    if (memberCents != null) usdCents = memberCents;
+  }
+
+  const origin = request.headers.get('origin') ?? 'http://localhost:3050';
+  const session = await createStripeCheckoutSession({
+    offeringId,
+    usdCents,
+    email,
+    successUrl: `${origin}/checkout/success?offering=${offeringId}`,
+    cancelUrl: `${origin}/checkout/cancel?offering=${offeringId}`,
+  });
+
+  if (isSupabaseConfigured) {
+    await supabaseAdmin.from('orders').insert({
+      offering_id: offeringId,
+      region_id: regionId,
+      email,
+      usd_cents: usdCents,
+      status: 'pending',
+      stripe_session_id: session.sessionId,
+      metadata: {
+        residenceCountry,
+        billingCountry,
+        gccCountry,
+        hasMembership: !!hasMembership,
+      },
+    });
+  }
+
+  return jsonOk({ session, usdCents, hasMembership: !!hasMembership });
+}

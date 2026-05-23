@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { RegionProvider } from '@/contexts/RegionContext';
+import { RegionGate } from '@/components/RegionGate';
 
 export function PublicShell({ children }: { children: React.ReactNode }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -21,10 +23,14 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
   }, [isDarkMode]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-porcelain dark:bg-obsidian text-slate-900 dark:text-white">
-      <Navbar toggleTheme={() => setIsDarkMode((v) => !v)} isDarkMode={isDarkMode} />
-      <main className="flex-1">{children}</main>
-      <Footer />
-    </div>
+    <RegionProvider>
+      <RegionGate>
+        <div className="min-h-screen flex flex-col bg-gradient-to-b from-orange-50/30 via-porcelain to-violet-50/25 dark:from-[#07071c] dark:via-obsidian dark:to-[#0a1535] text-slate-900 dark:text-white">
+          <Navbar toggleTheme={() => setIsDarkMode((v) => !v)} isDarkMode={isDarkMode} />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
+      </RegionGate>
+    </RegionProvider>
   );
 }

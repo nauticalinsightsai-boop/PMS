@@ -16,35 +16,37 @@ import {
   Globe
 } from "lucide-react";
 import Link from "next/link";
+import { SERVICES_COPY, CTAS } from "@/lib/brand-voice";
+import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 
 const services = [
   {
-    title: "Project Management Consulting",
-    description: "Expert guidance for your organization's complex project portfolios. We help establish governance and best practices.",
+    title: "Pathway consultation",
+    description: "Map experience, timeline, and goals to the right PMI, PRINCE2, or Six Sigma route.",
     icon: Briefcase,
     benefits: ["Portfolio Strategy", "Risk Assessment", "Resource Optimization"],
     color: "text-brand-orange",
     bg: "bg-brand-orange/10"
   },
   {
-    title: "PMO Establishment",
-    description: "Design and implement a High-Performance Project Management Office (PMO) tailored to your business goals.",
+    title: "Governance & PMO",
+    description: "Clear roles, reporting, escalation, and control rhythms.",
     icon: Settings,
     benefits: ["Framework Design", "Standardized Reporting", "Maturity Assessment"],
     color: "text-brand-purple",
     bg: "bg-brand-purple/10"
   },
   {
-    title: "Corporate Training",
-    description: "Upskill your entire project team with customized on-site or virtual training programs based on global standards.",
+    title: "Corporate training",
+    description: "Cohort pathways with shared language and governance — not content-only delivery.",
     icon: Globe,
     benefits: ["Custom Curriculum", "Interactive Workshops", "Post-Training Support"],
     color: "text-blue-600",
     bg: "bg-blue-50 dark:bg-blue-900/10"
   },
   {
-    title: "Agile Transformation",
-    description: "Transition from traditional to agile or hybrid methodologies with the help of our experienced agile coaches.",
+    title: "Exam readiness",
+    description: "Mocks, weak-area tracking, revision, and mentor review.",
     icon: Zap,
     benefits: ["Scrum Implementation", "Kanban Optimization", "Cultural Alignment"],
     color: "text-amber-600",
@@ -54,23 +56,24 @@ const services = [
 
 export function PMService() {
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-slate-950">
+    <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="pt-24 pb-16 bg-slate-50 dark:bg-slate-900/30">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('warm', 'relative pt-24 pb-16')}>
+        <SectionAmbience tone="warm" />
+        <div className="container relative z-10 mx-auto">
           <div className="max-w-4xl">
             <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              Professional Services
+              {SERVICES_COPY.heroBadge}
             </Badge>
             <h1 className="font-heading text-5xl md:text-7xl font-bold tracking-tight text-slate-900 dark:text-white mb-8">
-              Strategic <span className="text-brand-orange">PM Services</span>
+              {SERVICES_COPY.heroTitle}
             </h1>
             <p className="text-xl text-slate-900 dark:text-slate-300 mb-10 leading-relaxed max-w-2xl font-medium">
-              We go beyond education. Our expert consultants partner with your organization to deliver excellence, optimize performance, and achieve measurable project success.
+              {SERVICES_COPY.heroSubtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-brand-orange hover:bg-brand-orange/90 text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20">
-                Book a Consultation
+                {CTAS.pathwayConsultation}
               </Button>
               <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white h-14 px-10 rounded-2xl font-bold text-lg">
                 View Case Studies
@@ -81,8 +84,9 @@ export function PMService() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-24 bg-white dark:bg-slate-950">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('soft', 'py-24')}>
+        <SectionAmbience tone="soft" />
+        <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {services.map((service, index) => (
               <motion.div
@@ -131,12 +135,13 @@ export function PMService() {
       </section>
 
       {/* Trust Quote Section */}
-      <section className="py-24 bg-slate-50 dark:bg-slate-900/30">
-        <div className="container mx-auto px-4 text-center max-w-4xl">
+      <section className={sectionSurface('purple', 'py-24')}>
+        <SectionAmbience tone="purple" />
+        <div className="container relative z-10 mx-auto text-center max-w-4xl">
           <div className="flex justify-center mb-8">
             <ShieldCheck className="h-16 w-16 text-brand-orange opacity-50" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-slate-900 dark:text-white">"PMStructure brought a level of organization and strategic foresight that transformed our project delivery culture within months."</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-slate-900 dark:text-white">&quot;PM Structure helped our team establish governance rhythm and reporting discipline — delivery became clearer within the first quarter.&quot;</h2>
           <div className="flex items-center justify-center gap-4">
             <div className="h-12 w-12 rounded-full bg-slate-200" />
             <div className="text-left">
@@ -148,9 +153,10 @@ export function PMService() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24 bg-white dark:bg-slate-950">
-        <div className="container mx-auto px-4">
-          <div className="bg-slate-50 dark:bg-slate-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-xl border border-slate-100 dark:border-slate-800">
+      <section className={sectionSurface('cool', 'py-24')}>
+        <SectionAmbience tone="cool" />
+        <div className="container relative z-10 mx-auto">
+          <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-xl border border-slate-100 dark:border-slate-800">
             <div className="relative z-10 max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight">Ready to elevate your project performance?</h2>
               <p className="text-slate-900 dark:text-slate-300 text-xl mb-12 leading-relaxed font-medium">

@@ -1,14 +1,42 @@
 'use client';
+import * as React from 'react';
 import { motion } from "motion/react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, X, Info, Zap, Target, Clock, Tag } from "lucide-react";
+import { Info } from "lucide-react";
 import Link from "next/link";
 import * as siteData from "@/data/siteData";
+import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { useRegion } from "@/contexts/RegionContext";
+import {
+  getListingPriceForCert,
+  getOfferingsForSiteCert,
+  getTierPriceDisplay,
+  resolveFullPriceDisplay,
+} from "@/lib/regional-catalogue";
+import { PricingComplianceNote } from "@/components/PricingComplianceNote";
+
+function ComparePriceCell({ siteId, tierId }: { siteId: string; tierId: string }) {
+  const { regionId, gccCountry } = useRegion();
+  const offering = getOfferingsForSiteCert(siteId).find((o) => o.tierId === tierId);
+  if (!offering) return <span>—</span>;
+  const full = resolveFullPriceDisplay(offering, regionId, gccCountry);
+  return (
+    <div className="space-y-1 text-sm">
+      {full.showScholarshipLabels && full.original && (
+        <div className="text-slate-400 line-through text-xs">{full.original}</div>
+      )}
+      <div className="font-bold text-slate-800 dark:text-slate-200">{full.active ?? '—'}</div>
+      {full.membership && (
+        <div className="text-brand-purple text-xs font-semibold">Member: {full.membership}</div>
+      )}
+    </div>
+  );
+}
 
 export function Compare() {
-  // Select a few key certifications to compare by default
+  const { regionId, gccCountry } = useRegion();
   const compareIds = ["pmp", "capm", "pmi-acp", "prince2"];
   const compareCerts = siteData.certifications.filter(c => compareIds.includes(c.id));
 
@@ -17,14 +45,15 @@ export function Compare() {
     { label: "Target Audience", key: "targetAudience" },
     { label: "Foundation Price", key: "foundationPrice" },
     { label: "Professional Price", key: "professionalPrice" },
-    { label: "Elite Price", key: "elitePrice" },
+    { label: "Mastery Price", key: "elitePrice" },
     { label: "Exam Format", key: "examFormat" },
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-slate-950">
-      <section className="bg-slate-50 dark:bg-slate-900/30 py-24 md:py-32 border-b border-slate-100 dark:border-slate-800">
-        <div className="container mx-auto px-4 text-center">
+    <div className="flex flex-col min-h-screen">
+      <section className={sectionSurface('purple', 'py-24 md:py-32 border-b border-sandstone/60 dark:border-slate-800')}>
+        <SectionAmbience tone="purple" />
+        <div className="container relative z-10 mx-auto text-center">
           <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
             Comparison Matrix
           </Badge>
@@ -37,8 +66,9 @@ export function Compare() {
         </div>
       </section>
 
-      <section className="py-24">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('soft', 'py-24')}>
+        <SectionAmbience tone="soft" />
+        <div className="container relative z-10 mx-auto">
           <div className="overflow-x-auto rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900">
             <Table>
               <TableHeader className="bg-slate-900 dark:bg-slate-950 text-white">
@@ -59,11 +89,36 @@ export function Compare() {
                       {feature.label}
                     </TableCell>
                     {compareCerts.map(cert => {
-                      let value: any = "";
-                      if (feature.key === "foundationPrice") value = `$${cert.pricing.Foundation.price}`;
-                      else if (feature.key === "professionalPrice") value = `$${cert.pricing.Professional.price}`;
-                      else if (feature.key === "elitePrice") value = `$${cert.pricing.Elite.price}`;
-                      else value = (cert as any)[feature.key] || "Contact for details";
+                      let value: React.ReactNode = "";
+                      if (feature.key === "foundationPrice") {
+                        value = <ComparePriceCell siteId={cert.id} tierId="foundation" />;
+                      } else if (feature.key === "professionalPrice") {
+                        const listing = getListingPriceForCert(cert.id, regionId, gccCountry);
+                        value = listing.active ? (
+                          <div className="space-y-1 text-sm">
+                            {listing.showScholarship && listing.original && (
+                              <div className="text-slate-400 line-through text-xs">{listing.original}</div>
+                            )}
+                            <div className="font-bold">{listing.active}</div>
+                            {listing.membership && (
+                              <div className="text-brand-purple text-xs font-semibold">Member: {listing.membership}</div>
+                            )}
+                          </div>
+                        ) : (
+                          getTierPriceDisplay(cert.id, 'professional', regionId, gccCountry) ?? '—'
+                        );
+                      } else if (feature.key === "elitePrice") {
+                        const mastery = getOfferingsForSiteCert(cert.id).find((x) =>
+                          ['mastery', 'mastery_corporate', 'mastery_advisory'].includes(x.tierId),
+                        );
+                        value = mastery ? (
+                          <ComparePriceCell siteId={cert.id} tierId={mastery.tierId} />
+                        ) : (
+                          '—'
+                        );
+                      } else {
+                        value = String((cert as unknown as Record<string, unknown>)[feature.key] ?? 'Contact for details');
+                      }
 
                       return (
                         <TableCell key={`${cert.id}-${feature.key}`} className="text-center py-8 px-6 text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
@@ -90,11 +145,13 @@ export function Compare() {
               </TableBody>
             </Table>
           </div>
+          <PricingComplianceNote className="mt-10 max-w-3xl mx-auto" />
         </div>
       </section>
 
-      <section className="py-24 bg-slate-50 dark:bg-slate-900/30 border-t border-slate-100 dark:border-slate-800">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('warm', 'py-24 border-t border-sandstone/60 dark:border-slate-800')}>
+        <SectionAmbience tone="warm" />
+        <div className="container relative z-10 mx-auto">
           <div className="max-w-4xl mx-auto bg-white dark:bg-slate-900 p-12 md:p-16 rounded-[3rem] shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/5 rounded-full blur-3xl -mr-32 -mt-32" />
             <div className="flex flex-col md:flex-row items-center gap-12 relative z-10">
@@ -106,14 +163,11 @@ export function Compare() {
                 <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed font-medium text-lg">
                   Our certification experts can help you map out a personalized professional development plan based on your experience and career aspirations.
                 </p>
-                <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                  <Button className="bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-brand-orange dark:hover:bg-brand-orange dark:hover:text-white text-white h-14 px-10 rounded-2xl font-bold text-lg transition-all">
+                <Link href="/contact">
+                  <Button className="bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-brand-orange h-14 px-10 rounded-2xl font-bold text-lg">
                     Talk to an Advisor
                   </Button>
-                  <Button variant="outline" className="border-slate-200 dark:border-slate-700 h-14 px-10 rounded-2xl font-bold text-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-                    Download Guide
-                  </Button>
-                </div>
+                </Link>
               </div>
             </div>
           </div>

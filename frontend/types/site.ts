@@ -54,10 +54,22 @@ export interface PathwayTier {
   details: string;
   price: string;
   membershipPrice: string;
+  regionalLabel?: string;
+  priceFootnote?: string | null;
+  tierDelivery?: string;
+  ctas?: import('@/lib/cta-router').CtaRoute;
   deliveryMode: string;
   outcomes: string[];
   ctaText: string;
   isPopular?: boolean;
+  offeringId?: string;
+  originalPrice?: string;
+  showScholarshipLabels?: boolean;
+  primaryHref?: string;
+  secondaryHref?: string;
+  secondaryCtaLabel?: string;
+  regionMessage?: string | null;
+  status?: string;
 }
 
 export interface MembershipTier {

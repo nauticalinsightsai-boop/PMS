@@ -6,8 +6,39 @@ import { Badge } from "@/components/ui/badge";
 import { Check, Zap, Users, Globe, BookOpen, Sparkles, MessageCircle, FileText, Gift, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
+import Link from "next/link";
+import { BRAND, HOME_COPY, REGION_COPY } from "@/lib/brand-voice";
+import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { PricingComplianceNote } from "@/components/PricingComplianceNote";
+import { RegionalPrice } from "@/components/RegionalPrice";
+import { useRegion } from "@/contexts/RegionContext";
+import { getListingPriceForCert } from "@/lib/regional-catalogue";
 
 import * as siteData from "@/data/siteData";
+
+const MEMBER_CERT_SAMPLES = ['pmp', 'capm', 'prince2'] as const;
+
+function MemberCertPricing({ certId }: { certId: string }) {
+  const { regionId, gccCountry } = useRegion();
+  const listing = getListingPriceForCert(certId, regionId, gccCountry);
+  if (!listing.active) return null;
+  return (
+    <div className="rounded-2xl border border-slate-100 dark:border-slate-800 p-4 bg-white dark:bg-slate-900">
+      <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">{certId.toUpperCase()}</p>
+      <RegionalPrice
+        original={listing.original}
+        active={listing.active}
+        membership={listing.membership}
+        showScholarshipLabels={listing.showScholarship}
+        regionalLabel={listing.regionalLabel}
+        compact
+      />
+      <Link href={`/certifications/${certId}`} className="text-xs text-brand-orange font-bold mt-2 inline-block">
+        View pathway →
+      </Link>
+    </div>
+  );
+}
 
 const benefits = [
   {
@@ -45,15 +76,12 @@ export function Membership() {
   const tiers = siteData.membershipTiers;
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-slate-950">
+    <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-48 overflow-hidden bg-slate-50 dark:bg-slate-950">
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-purple/5 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-orange/5 rounded-full blur-[120px]" />
-        </div>
+      <section className={sectionSurface('blend', 'relative pt-32 pb-48')}>
+        <SectionAmbience tone="blend" />
         
-        <div className="container relative z-10 mx-auto px-4 text-center">
+        <div className="container relative z-10 mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -66,15 +94,29 @@ export function Membership() {
               {get('membership_hero_title', 'Invest in Your Future Self')}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-              {get('membership_hero_subtitle', 'Join the world\'s most structured project management community. Get the tools, network, and resources you need to lead with confidence.')}
+              {get('membership_hero_subtitle', HOME_COPY.membershipSubtitle)}
             </p>
           </motion.div>
         </div>
       </section>
 
+      <section className="py-12 border-b border-slate-100 dark:border-slate-800 bg-brand-purple/5">
+        <div className="container mx-auto max-w-4xl text-center space-y-6">
+          <p className="text-sm text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+            {REGION_COPY.membershipDiscountNote} Certification tuition uses regional pricing from the matrix — select your region on any pathway page.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+            {MEMBER_CERT_SAMPLES.map((id) => (
+              <MemberCertPricing key={id} certId={id} />
+            ))}
+          </div>
+          <PricingComplianceNote className="text-left" />
+        </div>
+      </section>
+
       {/* Pricing Tiers */}
       <section className="py-20 -mt-20 relative z-20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
             {tiers.map((tier, index) => (
               <motion.div
@@ -139,11 +181,12 @@ export function Membership() {
       </section>
 
       {/* Detailed Benefits */}
-      <section className="py-32 bg-white dark:bg-slate-950">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('purple', 'py-32')}>
+        <SectionAmbience tone="purple" />
+        <div className="container relative z-10 mx-auto">
           <div className="max-w-3xl mx-auto text-center mb-20">
             <h2 className="font-heading text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
-              {get('membership_benefits_title', 'Why Join PMStructure?')}
+              {get('membership_benefits_title', `Why join ${BRAND.name}?`)}
             </h2>
             <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
               {get('membership_benefits_subtitle', 'Beyond certifications, we provide the infrastructure for your entire professional journey.')}
@@ -174,8 +217,9 @@ export function Membership() {
       </section>
 
       {/* Member Resources Preview */}
-      <section className="py-32 bg-slate-50 dark:bg-slate-900/30">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('warm', 'py-32')}>
+        <SectionAmbience tone="warm" />
+        <div className="container relative z-10 mx-auto">
           <div className="bg-slate-900 rounded-[3rem] p-12 md:p-20 relative overflow-hidden shadow-2xl">
             <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-brand-orange/10 to-brand-purple/10 pointer-events-none" />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">

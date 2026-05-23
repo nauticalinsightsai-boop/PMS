@@ -17,9 +17,21 @@
     "dev:backend": "npm run dev -w @pms/backend",
     "dev:dashboard": "concurrently -n dash,dash-api -c magenta,yellow \"npm run dev -w @pms/dashboard-frontend\" \"npm run dev -w @pms/dashboard-backend\"",
     "build": "npm run build -w @pms/frontend && npm run build -w @pms/backend && npm run build -w @pms/dashboard-frontend && npm run build -w @pms/dashboard-backend",
-    "lint": "npm run lint -w @pms/frontend && npm run lint -w @pms/backend && npm run lint -w @pms/dashboard-frontend && npm run lint -w @pms/dashboard-backend"
+    "lint": "npm run lint -w @pms/frontend && npm run lint -w @pms/backend && npm run lint -w @pms/dashboard-frontend && npm run lint -w @pms/dashboard-backend",
+    "import:regional": "node scripts/import-regional-matrix.mjs",
+    "validate:regional": "node scripts/validate-regional-catalogue.mjs",
+    "test:regional": "npm run test -w @pms/frontend -- lib/regional-catalogue.test.ts lib/regional-checkout.integration.test.ts",
+    "db:migrate": "node scripts/apply-supabase-migrations.mjs",
+    "sync:regional": "node scripts/sync-regional-catalogue-to-supabase.mjs",
+    "spot-check:india-pmp": "node scripts/spot-check-india-pmp.mjs",
+    "spot-check:checkout-api": "node scripts/spot-check-checkout-api.mjs",
+    "qa:regional": "node scripts/qa-regional-matrix.mjs",
+    "setup:env": "node scripts/setup-regional-env.mjs",
+    "verify:regional-dev": "node scripts/verify-regional-dev.mjs"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "pg": "^8.21.0",
+    "xlsx": "^0.18.5"
   }
 }

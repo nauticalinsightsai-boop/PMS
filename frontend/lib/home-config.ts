@@ -74,7 +74,7 @@ export function useHomePageConfig() {
     config,
     isPreview,
     activeSlide,
-    heroBadge: 'The Future of Project Leadership',
+    heroBadge: 'Certification readiness & project management capability',
     heroTitle: activeSlide?.heading ?? '',
     heroSubtitle: activeSlide?.description ?? '',
     ctaPrimary: activeSlide?.primaryCta ?? '',

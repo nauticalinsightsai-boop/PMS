@@ -1,5 +1,12 @@
-import { PlaceholderPage } from '@/components/PlaceholderPage';
+'use client';
 
-export default function Page() {
-  return <PlaceholderPage title="Client Bookings" />;
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
+import { BookingsOrders } from '@/components/pages/admin/BookingsOrders';
+
+export default function BookingsPage() {
+  return (
+    <DashboardLayout>
+      <BookingsOrders />
+    </DashboardLayout>
+  );
 }

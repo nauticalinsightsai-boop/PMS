@@ -1,0 +1,5399 @@
+{
+  "meta": {
+    "version": 1,
+    "importedAt": "2026-05-23T08:20:37.581Z",
+    "sourceFile": "PM_Structure_Regional_Availability_Matrix.xlsx",
+    "offeringCount": 55,
+    "businessRules": {
+      "membershipDiscount": "20% off active regional display string; checkout uses 80% of regional usdCents when membership enabled",
+      "gccCheckoutUsdCents": "single global usdCents per offering",
+      "consultationApproval": "manual dashboard before mastery checkout"
+    },
+    "overview": {
+      "rules": [
+        {
+          "rule": "Course creation",
+          "decision": "One global course catalogue; do not create separate regional course copies."
+        },
+        {
+          "rule": "Pricing",
+          "decision": "Regional pricing by residence + billing country; checkout processed in USD equivalent."
+        },
+        {
+          "rule": "Foundation",
+          "decision": "Self-paced; direct checkout where available."
+        },
+        {
+          "rule": "Professional",
+          "decision": "Exam-focused; direct checkout or light verification depending region."
+        },
+        {
+          "rule": "Mastery",
+          "decision": "Mentor-led; consultation required. South Asia scholarship unavailable by default."
+        },
+        {
+          "rule": "Fallback",
+          "decision": "If regional pricing unavailable, offer Global price, scholarship review, or waitlist."
+        },
+        {
+          "rule": "Verification",
+          "decision": "Use IP + selected region + billing country + residence; phone number is not enough."
+        }
+      ],
+      "recommendedMessage": "Regional pricing is based on current country of residence and billing country, not nationality. South Asia pricing is offered as regional scholarship pricing for learners residing and billing from India or Pakistan. Some mentor-led Mastery tiers may not be available under regional scholarship pricing; learners may request a scholarship review, join the waitlist, or enroll at the Global price."
+    }
+  },
+  "regions": [
+    {
+      "id": "global",
+      "label": "Global / Unknown",
+      "defaultPriceDisplay": "Global USD",
+      "canChangeRegion": true,
+      "mismatchRule": "Use Global price unless validated otherwise",
+      "checkoutRule": "USD checkout",
+      "websiteMessage": "Your price is shown in Global USD."
+    },
+    {
+      "id": "europe",
+      "label": "Europe",
+      "defaultPriceDisplay": "Europe EUR",
+      "canChangeRegion": true,
+      "mismatchRule": "Switch to billing-country region or review",
+      "checkoutRule": "USD equivalent checkout",
+      "websiteMessage": "Europe price shown. Taxes/vat may apply depending billing country."
+    },
+    {
+      "id": "uk",
+      "label": "UK",
+      "defaultPriceDisplay": "UK GBP",
+      "canChangeRegion": true,
+      "mismatchRule": "Switch to billing-country region or review",
+      "checkoutRule": "USD equivalent checkout",
+      "websiteMessage": "UK price shown. Taxes may apply depending billing country."
+    },
+    {
+      "id": "gcc",
+      "label": "GCC",
+      "defaultPriceDisplay": "GCC currency by country: AED/SAR/QAR/BHD/KWD/OMR",
+      "canChangeRegion": true,
+      "mismatchRule": "South Asia selection requires verification; otherwise switch back to GCC",
+      "checkoutRule": "USD equivalent checkout",
+      "websiteMessage": "GCC regional price is based on residence and billing country."
+    },
+    {
+      "id": "india",
+      "label": "India",
+      "defaultPriceDisplay": "India Regional Scholarship",
+      "canChangeRegion": true,
+      "mismatchRule": "If billing country is not India, switch to correct region or review",
+      "checkoutRule": "USD equivalent checkout",
+      "websiteMessage": "India Regional Scholarship Pricing applies only to learners residing and billing from India."
+    },
+    {
+      "id": "pakistan",
+      "label": "Pakistan",
+      "defaultPriceDisplay": "Pakistan Regional Scholarship",
+      "canChangeRegion": true,
+      "mismatchRule": "If billing country is not Pakistan, switch to correct region or review",
+      "checkoutRule": "USD equivalent checkout",
+      "websiteMessage": "Pakistan Regional Scholarship Pricing applies only to learners residing and billing from Pakistan."
+    }
+  ],
+  "regionIds": [
+    "global",
+    "europe",
+    "uk",
+    "gcc",
+    "india",
+    "pakistan"
+  ],
+  "websiteCopy": {
+    "pricing_selector": "Regional pricing is based on current country of residence and billing country, not nationality.",
+    "south_asia_pricing_note": "South Asia pricing is offered as regional scholarship pricing for learners residing and billing from India or Pakistan.",
+    "mastery_unavailable_notice": "This mentor-led Mastery tier is not currently available under your regional scholarship pricing. You may request a scholarship review, join the waitlist, or enroll at the Global price.",
+    "checkout_note": "Final checkout is processed in USD equivalent. Regional pricing is used to calculate the applicable checkout amount.",
+    "compliance_note": "Prices exclude official exam fees, certification-body fees, taxes, vouchers, membership fees, and third-party charges. PM Structure is currently an independent exam-prep and project management learning platform."
+  },
+  "offerings": [
+    {
+      "offeringId": "capm-preparation-professional",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "CAPM Preparation",
+      "courseSlug": "capm-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "3 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$399",
+          "usdCents": 39900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€349",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 39900
+        },
+        "uk": {
+          "display": "£299",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 39900
+        },
+        "gcc": {
+          "display": "AED 1,200 / SAR 1,250 / QAR 1,200 / BHD 125 / KWD 100 / OMR 125",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 1,200",
+            "SA": "SAR 1,250",
+            "QA": "QAR 1,200",
+            "BH": "BHD 125",
+            "KW": "KWD 100",
+            "OM": "OMR 125"
+          },
+          "isScholarship": true,
+          "usdCents": 39900
+        },
+        "india": {
+          "display": "₹14,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 39900
+        },
+        "pakistan": {
+          "display": "PKR 39,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 39900
+        }
+      }
+    },
+    {
+      "offeringId": "pmp-preparation-foundation",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMP Preparation",
+      "courseSlug": "pmp-preparation",
+      "tier": "Foundation",
+      "tierId": "foundation",
+      "length": "2 weeks",
+      "deliveryMode": "Self-paced LMS-only; direct checkout where available",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$299",
+          "usdCents": 29900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€249",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 29900
+        },
+        "uk": {
+          "display": "£229",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 29900
+        },
+        "gcc": {
+          "display": "AED 900 / SAR 900 / QAR 900 / BHD 90 / KWD 75 / OMR 95",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 900",
+            "SA": "SAR 900",
+            "QA": "QAR 900",
+            "BH": "BHD 90",
+            "KW": "KWD 75",
+            "OM": "OMR 95"
+          },
+          "isScholarship": true,
+          "usdCents": 29900
+        },
+        "india": {
+          "display": "₹9,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 29900
+        },
+        "pakistan": {
+          "display": "PKR 29,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 29900
+        }
+      }
+    },
+    {
+      "offeringId": "pmp-preparation-professional",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMP Preparation",
+      "courseSlug": "pmp-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "6 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$899",
+          "usdCents": 89900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€749",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 89900
+        },
+        "uk": {
+          "display": "£699",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 89900
+        },
+        "gcc": {
+          "display": "AED 2,650 / SAR 2,700 / QAR 2,650 / BHD 270 / KWD 220 / OMR 280",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,650",
+            "SA": "SAR 2,700",
+            "QA": "QAR 2,650",
+            "BH": "BHD 270",
+            "KW": "KWD 220",
+            "OM": "OMR 280"
+          },
+          "isScholarship": true,
+          "usdCents": 89900
+        },
+        "india": {
+          "display": "₹44,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 89900
+        },
+        "pakistan": {
+          "display": "PKR 119,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 89900
+        }
+      }
+    },
+    {
+      "offeringId": "pmp-preparation-mastery",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMP Preparation",
+      "courseSlug": "pmp-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "12 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,499",
+          "usdCents": 149900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,249",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 149900
+        },
+        "uk": {
+          "display": "£1,199",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 149900
+        },
+        "gcc": {
+          "display": "AED 4,400 / SAR 4,500 / QAR 4,350 / BHD 450 / KWD 370 / OMR 465",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 4,400",
+            "SA": "SAR 4,500",
+            "QA": "QAR 4,350",
+            "BH": "BHD 450",
+            "KW": "KWD 370",
+            "OM": "OMR 465"
+          },
+          "isScholarship": true,
+          "usdCents": 149900
+        },
+        "india": {
+          "display": "₹84,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 149900
+        },
+        "pakistan": {
+          "display": "PKR 219,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 149900
+        }
+      }
+    },
+    {
+      "offeringId": "pgmp-preparation-professional",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PgMP Preparation",
+      "courseSlug": "pgmp-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "8 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,299",
+          "usdCents": 129900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,099",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "uk": {
+          "display": "£999",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "gcc": {
+          "display": "AED 3,800 / SAR 3,900 / QAR 3,750 / BHD 390 / KWD 320 / OMR 400",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 3,800",
+            "SA": "SAR 3,900",
+            "QA": "QAR 3,750",
+            "BH": "BHD 390",
+            "KW": "KWD 320",
+            "OM": "OMR 400"
+          },
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "india": {
+          "display": "₹64,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "pakistan": {
+          "display": "PKR 169,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 129900
+        }
+      }
+    },
+    {
+      "offeringId": "pgmp-preparation-mastery",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PgMP Preparation",
+      "courseSlug": "pgmp-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "12–16 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$2,499",
+          "usdCents": 249900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,999",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 249900
+        },
+        "uk": {
+          "display": "£1,899",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 249900
+        },
+        "gcc": {
+          "display": "AED 7,350 / SAR 7,500 / QAR 7,300 / BHD 755 / KWD 610 / OMR 775",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 7,350",
+            "SA": "SAR 7,500",
+            "QA": "QAR 7,300",
+            "BH": "BHD 755",
+            "KW": "KWD 610",
+            "OM": "OMR 775"
+          },
+          "isScholarship": true,
+          "usdCents": 249900
+        },
+        "india": {
+          "display": "₹139,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 249900
+        },
+        "pakistan": {
+          "display": "PKR 349,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 249900
+        }
+      }
+    },
+    {
+      "offeringId": "pfmp-preparation-professional",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PfMP Preparation",
+      "courseSlug": "pfmp-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "8 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,499",
+          "usdCents": 149900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,249",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 149900
+        },
+        "uk": {
+          "display": "£1,199",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 149900
+        },
+        "gcc": {
+          "display": "AED 4,400 / SAR 4,500 / QAR 4,350 / BHD 450 / KWD 370 / OMR 465",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 4,400",
+            "SA": "SAR 4,500",
+            "QA": "QAR 4,350",
+            "BH": "BHD 450",
+            "KW": "KWD 370",
+            "OM": "OMR 465"
+          },
+          "isScholarship": true,
+          "usdCents": 149900
+        },
+        "india": {
+          "display": "₹79,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 149900
+        },
+        "pakistan": {
+          "display": "PKR 199,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 149900
+        }
+      }
+    },
+    {
+      "offeringId": "pfmp-preparation-mastery",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PfMP Preparation",
+      "courseSlug": "pfmp-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "16 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$2,999",
+          "usdCents": 299900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€2,499",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 299900
+        },
+        "uk": {
+          "display": "£2,299",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 299900
+        },
+        "gcc": {
+          "display": "AED 8,800 / SAR 9,000 / QAR 8,700 / BHD 900 / KWD 735 / OMR 930",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 8,800",
+            "SA": "SAR 9,000",
+            "QA": "QAR 8,700",
+            "BH": "BHD 900",
+            "KW": "KWD 735",
+            "OM": "OMR 930"
+          },
+          "isScholarship": true,
+          "usdCents": 299900
+        },
+        "india": {
+          "display": "₹149,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 299900
+        },
+        "pakistan": {
+          "display": "PKR 399,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 299900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-acp-preparation-foundation",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-ACP Preparation",
+      "courseSlug": "pmi-acp-preparation",
+      "tier": "Foundation",
+      "tierId": "foundation",
+      "length": "2 weeks",
+      "deliveryMode": "Self-paced LMS-only; direct checkout where available",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$249",
+          "usdCents": 24900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€199",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 24900
+        },
+        "uk": {
+          "display": "£179",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 24900
+        },
+        "gcc": {
+          "display": "AED 750 / SAR 750 / QAR 750 / BHD 75 / KWD 63 / OMR 80",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 750",
+            "SA": "SAR 750",
+            "QA": "QAR 750",
+            "BH": "BHD 75",
+            "KW": "KWD 63",
+            "OM": "OMR 80"
+          },
+          "isScholarship": true,
+          "usdCents": 24900
+        },
+        "india": {
+          "display": "₹8,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 24900
+        },
+        "pakistan": {
+          "display": "PKR 24,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 24900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-acp-preparation-professional",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-ACP Preparation",
+      "courseSlug": "pmi-acp-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "5 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$699",
+          "usdCents": 69900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€599",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 69900
+        },
+        "uk": {
+          "display": "£529",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 69900
+        },
+        "gcc": {
+          "display": "AED 2,050 / SAR 2,100 / QAR 2,050 / BHD 210 / KWD 170 / OMR 215",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,050",
+            "SA": "SAR 2,100",
+            "QA": "QAR 2,050",
+            "BH": "BHD 210",
+            "KW": "KWD 170",
+            "OM": "OMR 215"
+          },
+          "isScholarship": true,
+          "usdCents": 69900
+        },
+        "india": {
+          "display": "₹29,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 69900
+        },
+        "pakistan": {
+          "display": "PKR 74,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 69900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-acp-preparation-mastery",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-ACP Preparation",
+      "courseSlug": "pmi-acp-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "10 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,199",
+          "usdCents": 119900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€999",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 119900
+        },
+        "uk": {
+          "display": "£899",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 119900
+        },
+        "gcc": {
+          "display": "AED 3,500 / SAR 3,550 / QAR 3,450 / BHD 360 / KWD 290 / OMR 370",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 3,500",
+            "SA": "SAR 3,550",
+            "QA": "QAR 3,450",
+            "BH": "BHD 360",
+            "KW": "KWD 290",
+            "OM": "OMR 370"
+          },
+          "isScholarship": true,
+          "usdCents": 119900
+        },
+        "india": {
+          "display": "₹59,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 119900
+        },
+        "pakistan": {
+          "display": "PKR 149,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 119900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-rmp-preparation-foundation",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-RMP Preparation",
+      "courseSlug": "pmi-rmp-preparation",
+      "tier": "Foundation",
+      "tierId": "foundation",
+      "length": "10 days",
+      "deliveryMode": "Self-paced LMS-only; direct checkout where available",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$249",
+          "usdCents": 24900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€199",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 24900
+        },
+        "uk": {
+          "display": "£179",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 24900
+        },
+        "gcc": {
+          "display": "AED 750 / SAR 750 / QAR 750 / BHD 75 / KWD 63 / OMR 80",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 750",
+            "SA": "SAR 750",
+            "QA": "QAR 750",
+            "BH": "BHD 75",
+            "KW": "KWD 63",
+            "OM": "OMR 80"
+          },
+          "isScholarship": true,
+          "usdCents": 24900
+        },
+        "india": {
+          "display": "₹8,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 24900
+        },
+        "pakistan": {
+          "display": "PKR 24,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 24900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-rmp-preparation-professional",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-RMP Preparation",
+      "courseSlug": "pmi-rmp-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "6 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$799",
+          "usdCents": 79900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€699",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "uk": {
+          "display": "£599",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "gcc": {
+          "display": "AED 2,350 / SAR 2,400 / QAR 2,350 / BHD 240 / KWD 195 / OMR 250",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,350",
+            "SA": "SAR 2,400",
+            "QA": "QAR 2,350",
+            "BH": "BHD 240",
+            "KW": "KWD 195",
+            "OM": "OMR 250"
+          },
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "india": {
+          "display": "₹34,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "pakistan": {
+          "display": "PKR 89,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 79900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-rmp-preparation-mastery",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-RMP Preparation",
+      "courseSlug": "pmi-rmp-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "10 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,299",
+          "usdCents": 129900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,099",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "uk": {
+          "display": "£999",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "gcc": {
+          "display": "AED 3,800 / SAR 3,900 / QAR 3,750 / BHD 390 / KWD 320 / OMR 400",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 3,800",
+            "SA": "SAR 3,900",
+            "QA": "QAR 3,750",
+            "BH": "BHD 390",
+            "KW": "KWD 320",
+            "OM": "OMR 400"
+          },
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "india": {
+          "display": "₹64,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "pakistan": {
+          "display": "PKR 169,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 129900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-sp-preparation-professional",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-SP Preparation",
+      "courseSlug": "pmi-sp-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "6 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$799",
+          "usdCents": 79900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€699",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "uk": {
+          "display": "£599",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "gcc": {
+          "display": "AED 2,350 / SAR 2,400 / QAR 2,350 / BHD 240 / KWD 195 / OMR 250",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,350",
+            "SA": "SAR 2,400",
+            "QA": "QAR 2,350",
+            "BH": "BHD 240",
+            "KW": "KWD 195",
+            "OM": "OMR 250"
+          },
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "india": {
+          "display": "₹34,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "pakistan": {
+          "display": "PKR 89,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 79900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-sp-preparation-mastery",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-SP Preparation",
+      "courseSlug": "pmi-sp-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "10 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,299",
+          "usdCents": 129900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,099",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "uk": {
+          "display": "£999",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "gcc": {
+          "display": "AED 3,800 / SAR 3,900 / QAR 3,750 / BHD 390 / KWD 320 / OMR 400",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 3,800",
+            "SA": "SAR 3,900",
+            "QA": "QAR 3,750",
+            "BH": "BHD 390",
+            "KW": "KWD 320",
+            "OM": "OMR 400"
+          },
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "india": {
+          "display": "₹64,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "pakistan": {
+          "display": "PKR 169,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 129900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-pba-preparation-professional",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-PBA Preparation",
+      "courseSlug": "pmi-pba-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "6 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$799",
+          "usdCents": 79900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€699",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "uk": {
+          "display": "£599",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "gcc": {
+          "display": "AED 2,350 / SAR 2,400 / QAR 2,350 / BHD 240 / KWD 195 / OMR 250",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,350",
+            "SA": "SAR 2,400",
+            "QA": "QAR 2,350",
+            "BH": "BHD 240",
+            "KW": "KWD 195",
+            "OM": "OMR 250"
+          },
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "india": {
+          "display": "₹34,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "pakistan": {
+          "display": "PKR 89,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 79900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-pba-preparation-mastery",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-PBA Preparation",
+      "courseSlug": "pmi-pba-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "10 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,299",
+          "usdCents": 129900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,099",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "uk": {
+          "display": "£999",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "gcc": {
+          "display": "AED 3,800 / SAR 3,900 / QAR 3,750 / BHD 390 / KWD 320 / OMR 400",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 3,800",
+            "SA": "SAR 3,900",
+            "QA": "QAR 3,750",
+            "BH": "BHD 390",
+            "KW": "KWD 320",
+            "OM": "OMR 400"
+          },
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "india": {
+          "display": "₹64,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "pakistan": {
+          "display": "PKR 169,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 129900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-cp-preparation-foundation",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-CP Preparation",
+      "courseSlug": "pmi-cp-preparation",
+      "tier": "Foundation",
+      "tierId": "foundation",
+      "length": "2 weeks",
+      "deliveryMode": "Self-paced LMS-only; direct checkout where available",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$299",
+          "usdCents": 29900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€249",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 29900
+        },
+        "uk": {
+          "display": "£229",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 29900
+        },
+        "gcc": {
+          "display": "AED 900 / SAR 900 / QAR 900 / BHD 90 / KWD 75 / OMR 95",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 900",
+            "SA": "SAR 900",
+            "QA": "QAR 900",
+            "BH": "BHD 90",
+            "KW": "KWD 75",
+            "OM": "OMR 95"
+          },
+          "isScholarship": true,
+          "usdCents": 29900
+        },
+        "india": {
+          "display": "₹9,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 29900
+        },
+        "pakistan": {
+          "display": "PKR 29,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 29900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-cp-preparation-professional",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-CP Preparation",
+      "courseSlug": "pmi-cp-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "6 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$899",
+          "usdCents": 89900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€749",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 89900
+        },
+        "uk": {
+          "display": "£699",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 89900
+        },
+        "gcc": {
+          "display": "AED 2,650 / SAR 2,700 / QAR 2,650 / BHD 270 / KWD 220 / OMR 280",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,650",
+            "SA": "SAR 2,700",
+            "QA": "QAR 2,650",
+            "BH": "BHD 270",
+            "KW": "KWD 220",
+            "OM": "OMR 280"
+          },
+          "isScholarship": true,
+          "usdCents": 89900
+        },
+        "india": {
+          "display": "₹44,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 89900
+        },
+        "pakistan": {
+          "display": "PKR 119,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 89900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-cp-preparation-mastery",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-CP Preparation",
+      "courseSlug": "pmi-cp-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "12 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,499",
+          "usdCents": 149900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,249",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 149900
+        },
+        "uk": {
+          "display": "£1,199",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 149900
+        },
+        "gcc": {
+          "display": "AED 4,400 / SAR 4,500 / QAR 4,350 / BHD 450 / KWD 370 / OMR 465",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 4,400",
+            "SA": "SAR 4,500",
+            "QA": "QAR 4,350",
+            "BH": "BHD 450",
+            "KW": "KWD 370",
+            "OM": "OMR 465"
+          },
+          "isScholarship": true,
+          "usdCents": 149900
+        },
+        "india": {
+          "display": "₹84,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 149900
+        },
+        "pakistan": {
+          "display": "PKR 219,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 149900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-pmocp-preparation-professional",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-PMOCP Preparation",
+      "courseSlug": "pmi-pmocp-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "6 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$999",
+          "usdCents": 99900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€849",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 99900
+        },
+        "uk": {
+          "display": "£749",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 99900
+        },
+        "gcc": {
+          "display": "AED 2,950 / SAR 3,000 / QAR 2,900 / BHD 300 / KWD 245 / OMR 310",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,950",
+            "SA": "SAR 3,000",
+            "QA": "QAR 2,900",
+            "BH": "BHD 300",
+            "KW": "KWD 245",
+            "OM": "OMR 310"
+          },
+          "isScholarship": true,
+          "usdCents": 99900
+        },
+        "india": {
+          "display": "₹49,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 99900
+        },
+        "pakistan": {
+          "display": "PKR 129,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 99900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-pmocp-preparation-mastery",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-PMOCP Preparation",
+      "courseSlug": "pmi-pmocp-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "12 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,799",
+          "usdCents": 179900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,499",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 179900
+        },
+        "uk": {
+          "display": "£1,399",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 179900
+        },
+        "gcc": {
+          "display": "AED 5,300 / SAR 5,400 / QAR 5,250 / BHD 545 / KWD 440 / OMR 560",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 5,300",
+            "SA": "SAR 5,400",
+            "QA": "QAR 5,250",
+            "BH": "BHD 545",
+            "KW": "KWD 440",
+            "OM": "OMR 560"
+          },
+          "isScholarship": true,
+          "usdCents": 179900
+        },
+        "india": {
+          "display": "₹99,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 179900
+        },
+        "pakistan": {
+          "display": "PKR 249,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 179900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-cpmai-preparation-foundation",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-CPMAI Preparation",
+      "courseSlug": "pmi-cpmai-preparation",
+      "tier": "Foundation",
+      "tierId": "foundation",
+      "length": "2 weeks",
+      "deliveryMode": "Self-paced LMS-only; direct checkout where available",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$299",
+          "usdCents": 29900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€249",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 29900
+        },
+        "uk": {
+          "display": "£229",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 29900
+        },
+        "gcc": {
+          "display": "AED 900 / SAR 900 / QAR 900 / BHD 90 / KWD 75 / OMR 95",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 900",
+            "SA": "SAR 900",
+            "QA": "QAR 900",
+            "BH": "BHD 90",
+            "KW": "KWD 75",
+            "OM": "OMR 95"
+          },
+          "isScholarship": true,
+          "usdCents": 29900
+        },
+        "india": {
+          "display": "₹9,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 29900
+        },
+        "pakistan": {
+          "display": "PKR 29,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 29900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-cpmai-preparation-professional",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-CPMAI Preparation",
+      "courseSlug": "pmi-cpmai-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "5 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$699",
+          "usdCents": 69900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€599",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 69900
+        },
+        "uk": {
+          "display": "£529",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 69900
+        },
+        "gcc": {
+          "display": "AED 2,050 / SAR 2,100 / QAR 2,050 / BHD 210 / KWD 170 / OMR 215",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,050",
+            "SA": "SAR 2,100",
+            "QA": "QAR 2,050",
+            "BH": "BHD 210",
+            "KW": "KWD 170",
+            "OM": "OMR 215"
+          },
+          "isScholarship": true,
+          "usdCents": 69900
+        },
+        "india": {
+          "display": "₹29,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 69900
+        },
+        "pakistan": {
+          "display": "PKR 74,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 69900
+        }
+      }
+    },
+    {
+      "offeringId": "pmi-cpmai-preparation-mastery",
+      "familyId": "PMI",
+      "familyName": "PMI",
+      "courseName": "PMI-CPMAI Preparation",
+      "courseSlug": "pmi-cpmai-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "10 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,199",
+          "usdCents": 119900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€999",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 119900
+        },
+        "uk": {
+          "display": "£899",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 119900
+        },
+        "gcc": {
+          "display": "AED 3,500 / SAR 3,550 / QAR 3,450 / BHD 360 / KWD 290 / OMR 370",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 3,500",
+            "SA": "SAR 3,550",
+            "QA": "QAR 3,450",
+            "BH": "BHD 360",
+            "KW": "KWD 290",
+            "OM": "OMR 370"
+          },
+          "isScholarship": true,
+          "usdCents": 119900
+        },
+        "india": {
+          "display": "₹59,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 119900
+        },
+        "pakistan": {
+          "display": "PKR 149,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 119900
+        }
+      }
+    },
+    {
+      "offeringId": "prince2-7-foundation-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "PRINCE2 7 Foundation Preparation",
+      "courseSlug": "prince2-7-foundation-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "3 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$399",
+          "usdCents": 39900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€349",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 39900
+        },
+        "uk": {
+          "display": "£299",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 39900
+        },
+        "gcc": {
+          "display": "AED 1,200 / SAR 1,250 / QAR 1,200 / BHD 125 / KWD 100 / OMR 125",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 1,200",
+            "SA": "SAR 1,250",
+            "QA": "QAR 1,200",
+            "BH": "BHD 125",
+            "KW": "KWD 100",
+            "OM": "OMR 125"
+          },
+          "isScholarship": true,
+          "usdCents": 39900
+        },
+        "india": {
+          "display": "₹14,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 39900
+        },
+        "pakistan": {
+          "display": "PKR 39,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 39900
+        }
+      }
+    },
+    {
+      "offeringId": "prince2-7-practitioner-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "PRINCE2 7 Practitioner Preparation",
+      "courseSlug": "prince2-7-practitioner-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "4 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$599",
+          "usdCents": 59900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€499",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 59900
+        },
+        "uk": {
+          "display": "£449",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 59900
+        },
+        "gcc": {
+          "display": "AED 1,750 / SAR 1,800 / QAR 1,750 / BHD 180 / KWD 145 / OMR 185",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 1,750",
+            "SA": "SAR 1,800",
+            "QA": "QAR 1,750",
+            "BH": "BHD 180",
+            "KW": "KWD 145",
+            "OM": "OMR 185"
+          },
+          "isScholarship": true,
+          "usdCents": 59900
+        },
+        "india": {
+          "display": "₹24,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 59900
+        },
+        "pakistan": {
+          "display": "PKR 59,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 59900
+        }
+      }
+    },
+    {
+      "offeringId": "prince2-7-practitioner-preparation-mastery",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "PRINCE2 7 Practitioner Preparation",
+      "courseSlug": "prince2-7-practitioner-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "8 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$999",
+          "usdCents": 99900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€849",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 99900
+        },
+        "uk": {
+          "display": "£749",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 99900
+        },
+        "gcc": {
+          "display": "AED 2,950 / SAR 3,000 / QAR 2,900 / BHD 300 / KWD 245 / OMR 310",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,950",
+            "SA": "SAR 3,000",
+            "QA": "QAR 2,900",
+            "BH": "BHD 300",
+            "KW": "KWD 245",
+            "OM": "OMR 310"
+          },
+          "isScholarship": true,
+          "usdCents": 99900
+        },
+        "india": {
+          "display": "₹49,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 99900
+        },
+        "pakistan": {
+          "display": "PKR 119,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 99900
+        }
+      }
+    },
+    {
+      "offeringId": "prince2-agile-foundation-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "PRINCE2 Agile Foundation Preparation",
+      "courseSlug": "prince2-agile-foundation-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "3 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$399",
+          "usdCents": 39900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€349",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 39900
+        },
+        "uk": {
+          "display": "£299",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 39900
+        },
+        "gcc": {
+          "display": "AED 1,200 / SAR 1,250 / QAR 1,200 / BHD 125 / KWD 100 / OMR 125",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 1,200",
+            "SA": "SAR 1,250",
+            "QA": "QAR 1,200",
+            "BH": "BHD 125",
+            "KW": "KWD 100",
+            "OM": "OMR 125"
+          },
+          "isScholarship": true,
+          "usdCents": 39900
+        },
+        "india": {
+          "display": "₹14,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 39900
+        },
+        "pakistan": {
+          "display": "PKR 39,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 39900
+        }
+      }
+    },
+    {
+      "offeringId": "prince2-agile-practitioner-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "PRINCE2 Agile Practitioner Preparation",
+      "courseSlug": "prince2-agile-practitioner-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "4 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$599",
+          "usdCents": 59900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€499",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 59900
+        },
+        "uk": {
+          "display": "£449",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 59900
+        },
+        "gcc": {
+          "display": "AED 1,750 / SAR 1,800 / QAR 1,750 / BHD 180 / KWD 145 / OMR 185",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 1,750",
+            "SA": "SAR 1,800",
+            "QA": "QAR 1,750",
+            "BH": "BHD 180",
+            "KW": "KWD 145",
+            "OM": "OMR 185"
+          },
+          "isScholarship": true,
+          "usdCents": 59900
+        },
+        "india": {
+          "display": "₹24,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 59900
+        },
+        "pakistan": {
+          "display": "PKR 59,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 59900
+        }
+      }
+    },
+    {
+      "offeringId": "prince2-agile-practitioner-preparation-mastery",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "PRINCE2 Agile Practitioner Preparation",
+      "courseSlug": "prince2-agile-practitioner-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "8 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$999",
+          "usdCents": 99900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€849",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 99900
+        },
+        "uk": {
+          "display": "£749",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 99900
+        },
+        "gcc": {
+          "display": "AED 2,950 / SAR 3,000 / QAR 2,900 / BHD 300 / KWD 245 / OMR 310",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,950",
+            "SA": "SAR 3,000",
+            "QA": "QAR 2,900",
+            "BH": "BHD 300",
+            "KW": "KWD 245",
+            "OM": "OMR 310"
+          },
+          "isScholarship": true,
+          "usdCents": 99900
+        },
+        "india": {
+          "display": "₹49,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 99900
+        },
+        "pakistan": {
+          "display": "PKR 119,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 99900
+        }
+      }
+    },
+    {
+      "offeringId": "msp-foundation-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "MSP Foundation Preparation",
+      "courseSlug": "msp-foundation-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "4 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$599",
+          "usdCents": 59900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€499",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 59900
+        },
+        "uk": {
+          "display": "£449",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 59900
+        },
+        "gcc": {
+          "display": "AED 1,750 / SAR 1,800 / QAR 1,750 / BHD 180 / KWD 145 / OMR 185",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 1,750",
+            "SA": "SAR 1,800",
+            "QA": "QAR 1,750",
+            "BH": "BHD 180",
+            "KW": "KWD 145",
+            "OM": "OMR 185"
+          },
+          "isScholarship": true,
+          "usdCents": 59900
+        },
+        "india": {
+          "display": "₹24,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 59900
+        },
+        "pakistan": {
+          "display": "PKR 59,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 59900
+        }
+      }
+    },
+    {
+      "offeringId": "msp-practitioner-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "MSP Practitioner Preparation",
+      "courseSlug": "msp-practitioner-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "6 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$799",
+          "usdCents": 79900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€699",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "uk": {
+          "display": "£599",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "gcc": {
+          "display": "AED 2,350 / SAR 2,400 / QAR 2,350 / BHD 240 / KWD 195 / OMR 250",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,350",
+            "SA": "SAR 2,400",
+            "QA": "QAR 2,350",
+            "BH": "BHD 240",
+            "KW": "KWD 195",
+            "OM": "OMR 250"
+          },
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "india": {
+          "display": "₹34,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "pakistan": {
+          "display": "PKR 89,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 79900
+        }
+      }
+    },
+    {
+      "offeringId": "msp-practitioner-preparation-mastery",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "MSP Practitioner Preparation",
+      "courseSlug": "msp-practitioner-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "10 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,399",
+          "usdCents": 139900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,199",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 139900
+        },
+        "uk": {
+          "display": "£1,099",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 139900
+        },
+        "gcc": {
+          "display": "AED 4,100 / SAR 4,200 / QAR 4,050 / BHD 420 / KWD 340 / OMR 435",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 4,100",
+            "SA": "SAR 4,200",
+            "QA": "QAR 4,050",
+            "BH": "BHD 420",
+            "KW": "KWD 340",
+            "OM": "OMR 435"
+          },
+          "isScholarship": true,
+          "usdCents": 139900
+        },
+        "india": {
+          "display": "₹69,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 139900
+        },
+        "pakistan": {
+          "display": "PKR 179,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 139900
+        }
+      }
+    },
+    {
+      "offeringId": "mop-foundation-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "MoP Foundation Preparation",
+      "courseSlug": "mop-foundation-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "4 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$599",
+          "usdCents": 59900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€499",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 59900
+        },
+        "uk": {
+          "display": "£449",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 59900
+        },
+        "gcc": {
+          "display": "AED 1,750 / SAR 1,800 / QAR 1,750 / BHD 180 / KWD 145 / OMR 185",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 1,750",
+            "SA": "SAR 1,800",
+            "QA": "QAR 1,750",
+            "BH": "BHD 180",
+            "KW": "KWD 145",
+            "OM": "OMR 185"
+          },
+          "isScholarship": true,
+          "usdCents": 59900
+        },
+        "india": {
+          "display": "₹24,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 59900
+        },
+        "pakistan": {
+          "display": "PKR 59,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 59900
+        }
+      }
+    },
+    {
+      "offeringId": "mop-practitioner-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "MoP Practitioner Preparation",
+      "courseSlug": "mop-practitioner-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "6 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$799",
+          "usdCents": 79900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€699",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "uk": {
+          "display": "£599",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "gcc": {
+          "display": "AED 2,350 / SAR 2,400 / QAR 2,350 / BHD 240 / KWD 195 / OMR 250",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,350",
+            "SA": "SAR 2,400",
+            "QA": "QAR 2,350",
+            "BH": "BHD 240",
+            "KW": "KWD 195",
+            "OM": "OMR 250"
+          },
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "india": {
+          "display": "₹34,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "pakistan": {
+          "display": "PKR 89,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 79900
+        }
+      }
+    },
+    {
+      "offeringId": "mop-practitioner-preparation-mastery",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "MoP Practitioner Preparation",
+      "courseSlug": "mop-practitioner-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "10 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,399",
+          "usdCents": 139900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,199",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 139900
+        },
+        "uk": {
+          "display": "£1,099",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 139900
+        },
+        "gcc": {
+          "display": "AED 4,100 / SAR 4,200 / QAR 4,050 / BHD 420 / KWD 340 / OMR 435",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 4,100",
+            "SA": "SAR 4,200",
+            "QA": "QAR 4,050",
+            "BH": "BHD 420",
+            "KW": "KWD 340",
+            "OM": "OMR 435"
+          },
+          "isScholarship": true,
+          "usdCents": 139900
+        },
+        "india": {
+          "display": "₹69,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 139900
+        },
+        "pakistan": {
+          "display": "PKR 179,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 139900
+        }
+      }
+    },
+    {
+      "offeringId": "m-o-r-foundation-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "M_o_R Foundation Preparation",
+      "courseSlug": "m-o-r-foundation-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "4 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$549",
+          "usdCents": 54900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€449",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 54900
+        },
+        "uk": {
+          "display": "£399",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 54900
+        },
+        "gcc": {
+          "display": "AED 1,600 / SAR 1,650 / QAR 1,600 / BHD 165 / KWD 135 / OMR 170",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 1,600",
+            "SA": "SAR 1,650",
+            "QA": "QAR 1,600",
+            "BH": "BHD 165",
+            "KW": "KWD 135",
+            "OM": "OMR 170"
+          },
+          "isScholarship": true,
+          "usdCents": 54900
+        },
+        "india": {
+          "display": "₹21,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 54900
+        },
+        "pakistan": {
+          "display": "PKR 54,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 54900
+        }
+      }
+    },
+    {
+      "offeringId": "m-o-r-4-practitioner-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "M_o_R 4 Practitioner Preparation",
+      "courseSlug": "m-o-r-4-practitioner-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "6 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$799",
+          "usdCents": 79900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€699",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "uk": {
+          "display": "£599",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 79900
+        },
+        "gcc": {
+          "display": "AED 2,350 / SAR 2,400 / QAR 2,350 / BHD 240 / KWD 195 / OMR 250",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,350",
+            "SA": "SAR 2,400",
+            "QA": "QAR 2,350",
+            "BH": "BHD 240",
+            "KW": "KWD 195",
+            "OM": "OMR 250"
+          },
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "india": {
+          "display": "₹34,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 79900
+        },
+        "pakistan": {
+          "display": "PKR 89,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 79900
+        }
+      }
+    },
+    {
+      "offeringId": "m-o-r-4-practitioner-preparation-mastery",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "M_o_R 4 Practitioner Preparation",
+      "courseSlug": "m-o-r-4-practitioner-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "10 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,399",
+          "usdCents": 139900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,199",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 139900
+        },
+        "uk": {
+          "display": "£1,099",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 139900
+        },
+        "gcc": {
+          "display": "AED 4,100 / SAR 4,200 / QAR 4,050 / BHD 420 / KWD 340 / OMR 435",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 4,100",
+            "SA": "SAR 4,200",
+            "QA": "QAR 4,050",
+            "BH": "BHD 420",
+            "KW": "KWD 340",
+            "OM": "OMR 435"
+          },
+          "isScholarship": true,
+          "usdCents": 139900
+        },
+        "india": {
+          "display": "₹69,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 139900
+        },
+        "pakistan": {
+          "display": "PKR 179,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 139900
+        }
+      }
+    },
+    {
+      "offeringId": "p3o-foundation-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "P3O Foundation Preparation",
+      "courseSlug": "p3o-foundation-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "4 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$549",
+          "usdCents": 54900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€449",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 54900
+        },
+        "uk": {
+          "display": "£399",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 54900
+        },
+        "gcc": {
+          "display": "AED 1,600 / SAR 1,650 / QAR 1,600 / BHD 165 / KWD 135 / OMR 170",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 1,600",
+            "SA": "SAR 1,650",
+            "QA": "QAR 1,600",
+            "BH": "BHD 165",
+            "KW": "KWD 135",
+            "OM": "OMR 170"
+          },
+          "isScholarship": true,
+          "usdCents": 54900
+        },
+        "india": {
+          "display": "₹21,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 54900
+        },
+        "pakistan": {
+          "display": "PKR 54,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 54900
+        }
+      }
+    },
+    {
+      "offeringId": "p3o-practitioner-preparation-professional",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "P3O Practitioner Preparation",
+      "courseSlug": "p3o-practitioner-preparation",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "6 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$749",
+          "usdCents": 74900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€649",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 74900
+        },
+        "uk": {
+          "display": "£549",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 74900
+        },
+        "gcc": {
+          "display": "AED 2,200 / SAR 2,250 / QAR 2,200 / BHD 225 / KWD 185 / OMR 230",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,200",
+            "SA": "SAR 2,250",
+            "QA": "QAR 2,200",
+            "BH": "BHD 225",
+            "KW": "KWD 185",
+            "OM": "OMR 230"
+          },
+          "isScholarship": true,
+          "usdCents": 74900
+        },
+        "india": {
+          "display": "₹31,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 74900
+        },
+        "pakistan": {
+          "display": "PKR 79,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 74900
+        }
+      }
+    },
+    {
+      "offeringId": "p3o-practitioner-preparation-mastery",
+      "familyId": "PRINCE2",
+      "familyName": "PRINCE2",
+      "courseName": "P3O Practitioner Preparation",
+      "courseSlug": "p3o-practitioner-preparation",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "10 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,299",
+          "usdCents": 129900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,099",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "uk": {
+          "display": "£999",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "gcc": {
+          "display": "AED 3,800 / SAR 3,900 / QAR 3,750 / BHD 390 / KWD 320 / OMR 400",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 3,800",
+            "SA": "SAR 3,900",
+            "QA": "QAR 3,750",
+            "BH": "BHD 390",
+            "KW": "KWD 320",
+            "OM": "OMR 400"
+          },
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "india": {
+          "display": "₹64,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "pakistan": {
+          "display": "PKR 169,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 129900
+        }
+      }
+    },
+    {
+      "offeringId": "six-sigma-champion-professional",
+      "familyId": "SixSigma",
+      "familyName": "Six Sigma",
+      "courseName": "Six Sigma Champion",
+      "courseSlug": "six-sigma-champion",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "2 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$499",
+          "usdCents": 49900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€399",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 49900
+        },
+        "uk": {
+          "display": "£379",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 49900
+        },
+        "gcc": {
+          "display": "AED 1,500 / SAR 1,550 / QAR 1,500 / BHD 155 / KWD 125 / OMR 160",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 1,500",
+            "SA": "SAR 1,550",
+            "QA": "QAR 1,500",
+            "BH": "BHD 155",
+            "KW": "KWD 125",
+            "OM": "OMR 160"
+          },
+          "isScholarship": true,
+          "usdCents": 49900
+        },
+        "india": {
+          "display": "₹19,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 49900
+        },
+        "pakistan": {
+          "display": "PKR 49,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 49900
+        }
+      }
+    },
+    {
+      "offeringId": "six-sigma-champion-mastery_corporate",
+      "familyId": "SixSigma",
+      "familyName": "Six Sigma",
+      "courseName": "Six Sigma Champion",
+      "courseSlug": "six-sigma-champion",
+      "tier": "Mastery / Corporate",
+      "tierId": "mastery_corporate",
+      "length": "6 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,299",
+          "usdCents": 129900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,099",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "uk": {
+          "display": "£999",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 129900
+        },
+        "gcc": {
+          "display": "AED 3,800 / SAR 3,900 / QAR 3,750 / BHD 390 / KWD 320 / OMR 400",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 3,800",
+            "SA": "SAR 3,900",
+            "QA": "QAR 3,750",
+            "BH": "BHD 390",
+            "KW": "KWD 320",
+            "OM": "OMR 400"
+          },
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "india": {
+          "display": "₹64,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 129900
+        },
+        "pakistan": {
+          "display": "PKR 169,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 129900
+        }
+      }
+    },
+    {
+      "offeringId": "six-sigma-white-belt-foundation",
+      "familyId": "SixSigma",
+      "familyName": "Six Sigma",
+      "courseName": "Six Sigma White Belt",
+      "courseSlug": "six-sigma-white-belt",
+      "tier": "Foundation",
+      "tierId": "foundation",
+      "length": "1 week",
+      "deliveryMode": "Self-paced LMS-only; direct checkout where available",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$49",
+          "usdCents": 4900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€39",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 4900
+        },
+        "uk": {
+          "display": "£35",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 4900
+        },
+        "gcc": {
+          "display": "AED 150 / SAR 150 / QAR 150 / BHD 15 / KWD 12 / OMR 16",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 150",
+            "SA": "SAR 150",
+            "QA": "QAR 150",
+            "BH": "BHD 15",
+            "KW": "KWD 12",
+            "OM": "OMR 16"
+          },
+          "isScholarship": true,
+          "usdCents": 4900
+        },
+        "india": {
+          "display": "₹999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 4900
+        },
+        "pakistan": {
+          "display": "PKR 2,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 4900
+        }
+      }
+    },
+    {
+      "offeringId": "six-sigma-yellow-belt-foundation",
+      "familyId": "SixSigma",
+      "familyName": "Six Sigma",
+      "courseName": "Six Sigma Yellow Belt",
+      "courseSlug": "six-sigma-yellow-belt",
+      "tier": "Foundation",
+      "tierId": "foundation",
+      "length": "10 days",
+      "deliveryMode": "Self-paced LMS-only; direct checkout where available",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$149",
+          "usdCents": 14900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€119",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 14900
+        },
+        "uk": {
+          "display": "£99",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 14900
+        },
+        "gcc": {
+          "display": "AED 450 / SAR 450 / QAR 450 / BHD 45 / KWD 38 / OMR 48",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 450",
+            "SA": "SAR 450",
+            "QA": "QAR 450",
+            "BH": "BHD 45",
+            "KW": "KWD 38",
+            "OM": "OMR 48"
+          },
+          "isScholarship": true,
+          "usdCents": 14900
+        },
+        "india": {
+          "display": "₹4,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 14900
+        },
+        "pakistan": {
+          "display": "PKR 14,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 14900
+        }
+      }
+    },
+    {
+      "offeringId": "six-sigma-yellow-belt-professional",
+      "familyId": "SixSigma",
+      "familyName": "Six Sigma",
+      "courseName": "Six Sigma Yellow Belt",
+      "courseSlug": "six-sigma-yellow-belt",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "3 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$299",
+          "usdCents": 29900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€249",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 29900
+        },
+        "uk": {
+          "display": "£229",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 29900
+        },
+        "gcc": {
+          "display": "AED 900 / SAR 900 / QAR 900 / BHD 90 / KWD 75 / OMR 95",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 900",
+            "SA": "SAR 900",
+            "QA": "QAR 900",
+            "BH": "BHD 90",
+            "KW": "KWD 75",
+            "OM": "OMR 95"
+          },
+          "isScholarship": true,
+          "usdCents": 29900
+        },
+        "india": {
+          "display": "₹12,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 29900
+        },
+        "pakistan": {
+          "display": "PKR 29,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 29900
+        }
+      }
+    },
+    {
+      "offeringId": "six-sigma-green-belt-foundation",
+      "familyId": "SixSigma",
+      "familyName": "Six Sigma",
+      "courseName": "Six Sigma Green Belt",
+      "courseSlug": "six-sigma-green-belt",
+      "tier": "Foundation",
+      "tierId": "foundation",
+      "length": "2 weeks",
+      "deliveryMode": "Self-paced LMS-only; direct checkout where available",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$299",
+          "usdCents": 29900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€249",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 29900
+        },
+        "uk": {
+          "display": "£229",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 29900
+        },
+        "gcc": {
+          "display": "AED 900 / SAR 900 / QAR 900 / BHD 90 / KWD 75 / OMR 95",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 900",
+            "SA": "SAR 900",
+            "QA": "QAR 900",
+            "BH": "BHD 90",
+            "KW": "KWD 75",
+            "OM": "OMR 95"
+          },
+          "isScholarship": true,
+          "usdCents": 29900
+        },
+        "india": {
+          "display": "₹14,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 29900
+        },
+        "pakistan": {
+          "display": "PKR 29,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 29900
+        }
+      }
+    },
+    {
+      "offeringId": "six-sigma-green-belt-professional",
+      "familyId": "SixSigma",
+      "familyName": "Six Sigma",
+      "courseName": "Six Sigma Green Belt",
+      "courseSlug": "six-sigma-green-belt",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "6 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$699",
+          "usdCents": 69900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€599",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 69900
+        },
+        "uk": {
+          "display": "£529",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 69900
+        },
+        "gcc": {
+          "display": "AED 2,050 / SAR 2,100 / QAR 2,050 / BHD 210 / KWD 170 / OMR 215",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 2,050",
+            "SA": "SAR 2,100",
+            "QA": "QAR 2,050",
+            "BH": "BHD 210",
+            "KW": "KWD 170",
+            "OM": "OMR 215"
+          },
+          "isScholarship": true,
+          "usdCents": 69900
+        },
+        "india": {
+          "display": "₹34,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 69900
+        },
+        "pakistan": {
+          "display": "PKR 79,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 69900
+        }
+      }
+    },
+    {
+      "offeringId": "six-sigma-green-belt-mastery",
+      "familyId": "SixSigma",
+      "familyName": "Six Sigma",
+      "courseName": "Six Sigma Green Belt",
+      "courseSlug": "six-sigma-green-belt",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "10 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,199",
+          "usdCents": 119900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€999",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 119900
+        },
+        "uk": {
+          "display": "£899",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 119900
+        },
+        "gcc": {
+          "display": "AED 3,500 / SAR 3,550 / QAR 3,450 / BHD 360 / KWD 290 / OMR 370",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 3,500",
+            "SA": "SAR 3,550",
+            "QA": "QAR 3,450",
+            "BH": "BHD 360",
+            "KW": "KWD 290",
+            "OM": "OMR 370"
+          },
+          "isScholarship": true,
+          "usdCents": 119900
+        },
+        "india": {
+          "display": "₹69,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 119900
+        },
+        "pakistan": {
+          "display": "PKR 169,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 119900
+        }
+      }
+    },
+    {
+      "offeringId": "six-sigma-black-belt-professional",
+      "familyId": "SixSigma",
+      "familyName": "Six Sigma",
+      "courseName": "Six Sigma Black Belt",
+      "courseSlug": "six-sigma-black-belt",
+      "tier": "Professional",
+      "tierId": "professional",
+      "length": "8 weeks",
+      "deliveryMode": "Exam-focused LMS + mocks + templates + WhatsApp support + limited 1:1/review",
+      "adminNotes": "Foundation and Professional can be direct checkout when regional pricing is active. South Asia requires verification.",
+      "regional": {
+        "global": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "direct_checkout",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        },
+        "pakistan": {
+          "status": "scholarship_verify",
+          "primaryCta": "Enroll Now",
+          "secondaryCta": "Book Pathway Consultation",
+          "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$1,199",
+          "usdCents": 119900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€999",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 119900
+        },
+        "uk": {
+          "display": "£899",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 119900
+        },
+        "gcc": {
+          "display": "AED 3,500 / SAR 3,550 / QAR 3,450 / BHD 360 / KWD 290 / OMR 370",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 3,500",
+            "SA": "SAR 3,550",
+            "QA": "QAR 3,450",
+            "BH": "BHD 360",
+            "KW": "KWD 290",
+            "OM": "OMR 370"
+          },
+          "isScholarship": true,
+          "usdCents": 119900
+        },
+        "india": {
+          "display": "₹69,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 119900
+        },
+        "pakistan": {
+          "display": "PKR 169,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 119900
+        }
+      }
+    },
+    {
+      "offeringId": "six-sigma-black-belt-mastery",
+      "familyId": "SixSigma",
+      "familyName": "Six Sigma",
+      "courseName": "Six Sigma Black Belt",
+      "courseSlug": "six-sigma-black-belt",
+      "tier": "Mastery",
+      "tierId": "mastery",
+      "length": "12–16 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$2,499",
+          "usdCents": 249900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€1,999",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 249900
+        },
+        "uk": {
+          "display": "£1,899",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 249900
+        },
+        "gcc": {
+          "display": "AED 7,350 / SAR 7,500 / QAR 7,300 / BHD 755 / KWD 610 / OMR 775",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 7,350",
+            "SA": "SAR 7,500",
+            "QA": "QAR 7,300",
+            "BH": "BHD 755",
+            "KW": "KWD 610",
+            "OM": "OMR 775"
+          },
+          "isScholarship": true,
+          "usdCents": 249900
+        },
+        "india": {
+          "display": "₹139,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 249900
+        },
+        "pakistan": {
+          "display": "PKR 349,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 249900
+        }
+      }
+    },
+    {
+      "offeringId": "six-sigma-master-black-belt-mastery_advisory",
+      "familyId": "SixSigma",
+      "familyName": "Six Sigma",
+      "courseName": "Six Sigma Master Black Belt",
+      "courseSlug": "six-sigma-master-black-belt",
+      "tier": "Mastery / Advisory",
+      "tierId": "mastery_advisory",
+      "length": "16–24 weeks",
+      "deliveryMode": "Mentor-led; weekend/live sessions; WhatsApp support; consultation/review before access",
+      "adminNotes": "South Asia scholarship disabled by default for Mastery. GCC/Global/Europe/UK available with consultation.",
+      "regional": {
+        "global": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "europe": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "uk": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "gcc": {
+          "status": "consultation_required",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": null
+        },
+        "india": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        },
+        "pakistan": {
+          "status": "scholarship_unavailable",
+          "primaryCta": "Book Mastery Consultation",
+          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
+        }
+      },
+      "prices": {
+        "global": {
+          "display": "$3,999",
+          "usdCents": 399900,
+          "currencyCode": "USD",
+          "isScholarship": false
+        },
+        "europe": {
+          "display": "€2,999",
+          "currencyCode": "EUR",
+          "isScholarship": false,
+          "usdCents": 399900
+        },
+        "uk": {
+          "display": "£2,999",
+          "currencyCode": "GBP",
+          "isScholarship": false,
+          "usdCents": 399900
+        },
+        "gcc": {
+          "display": "AED 11,750 / SAR 12,000 / QAR 11,650 / BHD 1,205 / KWD 980 / OMR 1,240",
+          "currencyCode": "GCC",
+          "perCountry": {
+            "AE": "AED 11,750",
+            "SA": "SAR 12,000",
+            "QA": "QAR 11,650",
+            "BH": "BHD 1,205",
+            "KW": "KWD 980",
+            "OM": "OMR 1,240"
+          },
+          "isScholarship": true,
+          "usdCents": 399900
+        },
+        "india": {
+          "display": "₹199,999",
+          "currencyCode": "INR",
+          "isScholarship": true,
+          "usdCents": 399900
+        },
+        "pakistan": {
+          "display": "PKR 499,999",
+          "currencyCode": "PKR",
+          "isScholarship": true,
+          "usdCents": 399900
+        }
+      }
+    }
+  ]
+}

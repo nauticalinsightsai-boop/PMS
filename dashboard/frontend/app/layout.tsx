@@ -4,7 +4,7 @@ import { ClientProviders } from '@/components/ClientProviders';
 
 export const metadata: Metadata = {
   title: 'PMS Admin Dashboard',
-  description: 'PMStructure administration',
+  description: 'PM Structure administration',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

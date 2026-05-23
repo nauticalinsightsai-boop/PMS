@@ -1,5 +1,7 @@
 'use client';
+import { Suspense } from 'react';
 import { motion } from "motion/react";
+import { ContactRegionalExtras } from '@/components/ContactRegionalExtras';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,14 +9,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 import { useWebsiteData } from "@/services/WebsiteDataService";
+import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 
 export function Contact() {
   const { get } = useWebsiteData();
 
   return (
     <div className="flex flex-col min-h-screen">
-      <section className="bg-slate-50 py-16 md:py-24">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('blend', 'py-16 md:py-24')}>
+        <SectionAmbience tone="blend" />
+        <div className="container relative z-10 mx-auto">
           <div className="max-w-2xl mx-auto text-center">
             <h1 className="font-heading text-4xl font-bold text-slate-900 mb-6">
               {get('contact_title', 'Get in Touch')}
@@ -26,8 +30,9 @@ export function Contact() {
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('soft', 'py-20')}>
+        <SectionAmbience tone="soft" />
+        <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Contact Info */}
             <div className="lg:col-span-4 space-y-8">
@@ -102,6 +107,9 @@ export function Contact() {
                   </div>
                   <Button className="w-full h-12 bg-brand-purple hover:bg-brand-purple/90 text-lg">Send Message</Button>
                 </form>
+                <Suspense fallback={null}>
+                  <ContactRegionalExtras />
+                </Suspense>
               </Card>
             </div>
           </div>

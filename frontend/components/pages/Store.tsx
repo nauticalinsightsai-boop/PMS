@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 
 const products = [
   {
@@ -28,7 +29,7 @@ const products = [
     reviews: 1240,
     image: "https://picsum.photos/seed/exam/400/500",
     description: "5 full-length exams with detailed explanations for every question.",
-    badge: "Best Seller"
+    badge: "Popular"
   },
   {
     title: "PMO Governance Templates",
@@ -51,7 +52,7 @@ const products = [
     badge: ""
   },
   {
-    title: "Ultimate Exam Prep Bundle",
+    title: "Comprehensive Exam Prep Bundle",
     price: "$149.99",
     category: "Bundles",
     rating: 4.9,
@@ -90,44 +91,32 @@ const categories = [
   { name: "Bundles", icon: Package },
 ];
 
-export function Store() {
+/** Store sections used on /community (Resource Store tab) and legacy /store redirect target */
+export function StoreContent() {
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-slate-950">
-      {/* Hero Section */}
-      <section className="bg-slate-50 dark:bg-slate-900/50 py-24 border-b border-slate-100 dark:border-slate-800 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-purple/5 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-orange/5 rounded-full blur-[120px]" />
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl">
-            <Badge className="mb-6 bg-brand-purple/10 text-brand-purple border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">Resource Store</Badge>
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
-              Premium Tools for <span className="text-brand-purple">Project Leaders</span>
-            </h1>
-            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-12 leading-relaxed font-medium max-w-2xl">
-              Accelerate your career with our curated collection of mock exams, 
-              professional templates, and comprehensive study bundles.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-xl">
-              <div className="relative flex-1">
-                <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-                <Input 
-                  placeholder="Search resources..." 
-                  className="pl-12 h-14 bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm focus:ring-brand-purple text-base font-medium" 
-                />
-              </div>
-              <Button size="lg" className="bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-brand-purple dark:hover:bg-brand-purple dark:hover:text-white text-white h-14 px-8 rounded-2xl font-bold text-base transition-all">
-                Search
-              </Button>
+    <>
+      {/* Store search */}
+      <section className={sectionSurface('cool', 'py-12 border-b border-sandstone/60 dark:border-slate-800')}>
+        <SectionAmbience tone="cool" />
+        <div className="container relative z-10 mx-auto">
+          <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+            <div className="relative flex-1">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+              <Input
+                placeholder="Search resources..."
+                className="pl-12 h-14 bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm focus:ring-brand-purple text-base font-medium"
+              />
             </div>
+            <Button size="lg" className="bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-brand-purple dark:hover:bg-brand-purple dark:hover:text-white text-white h-14 px-8 rounded-2xl font-bold text-base transition-all">
+              Search
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Category Filter */}
-      <section className="py-6 bg-white/80 dark:bg-slate-950/80 border-b border-slate-100 dark:border-slate-800 sticky top-16 z-20 backdrop-blur-sm">
-        <div className="container mx-auto px-4">
+      <section className="py-6 bg-white/80 dark:bg-slate-950/80 border-b border-slate-100 dark:border-slate-800">
+        <div className="container mx-auto">
           <div className="flex items-center gap-4 overflow-x-auto pb-2 no-scrollbar">
             {categories.map((cat) => (
               <Button 
@@ -144,8 +133,9 @@ export function Store() {
       </section>
 
       {/* Product Grid */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('soft', 'py-20')}>
+        <SectionAmbience tone="soft" />
+        <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product, index) => (
               <motion.div
@@ -204,7 +194,7 @@ export function Store() {
       {/* Downloadable Resources Section */}
       <section className="py-32 bg-slate-900 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-purple/10 rounded-full blur-[160px] -mr-48 -mt-48 opacity-20" />
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div>
               <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">
@@ -256,6 +246,15 @@ export function Store() {
           </div>
         </div>
       </section>
+    </>
+  );
+}
+
+/** @deprecated Use Community page with Resource Store tab; /store redirects to /community */
+export function Store() {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <StoreContent />
     </div>
   );
 }

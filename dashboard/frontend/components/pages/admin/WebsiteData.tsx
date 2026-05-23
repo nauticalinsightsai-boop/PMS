@@ -244,7 +244,7 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
                       Snippet preview
                     </p>
                     <p className="text-blue-500 font-medium text-base leading-tight">
-                      {content[`${activePage}_meta_title`] || pageConfig.label} | PMStructure
+                      {content[`${activePage}_meta_title`] || pageConfig.label} | PM Structure
                     </p>
                     <p className="text-green-600 text-[10px]">{livePageUrl}</p>
                     <p className="text-gw-text-secondary text-[10px] line-clamp-2 mt-1">

@@ -22,9 +22,11 @@ Project Management certification platform — **Next.js** monorepo (TypeScript +
 
 ```bash
 cp .env.example .env
-# Add Supabase keys, then run migration SQL in supabase/migrations/
+# Add Supabase keys + DATABASE_URL (for migrations)
 
 npm install
+npm run db:migrate          # applies supabase/migrations/*.sql (needs DATABASE_URL)
+cp .env.example frontend/.env.local   # or set NEXT_PUBLIC_API_URL=http://localhost:3001
 npm run dev
 ```
 
@@ -36,7 +38,25 @@ npm run dev:frontend     # site only
 npm run dev:backend      # public API only
 npm run dev:dashboard    # dashboard UI + API
 npm run build            # production build all packages
+npm run import:regional  # Excel matrix → frontend/data/regional-catalogue.json
+npm run validate:regional
+npm run test:regional    # vitest: 55 offerings, PMP/CAPM/India rules
+npm run sync:regional    # optional: JSON → Supabase catalogue_meta (needs DATABASE_URL)
+npm run spot-check:india-pmp  # CLI: validate India PMP ₹ prices + membership math
+npm run spot-check:checkout-api  # CLI: checkout API 80% membership (needs backend :3001)
+npm run qa:regional         # CLI: 55 offerings × 6 regions
+npm run verify:regional-dev # spot-check + qa + optional :3000/:3050 + checkout API probes
+npm run setup:env           # copy .env.example → .env if missing
 ```
+
+### Regional pricing matrix
+
+1. Apply DB: `npm run db:migrate` (or run SQL files in Supabase SQL Editor in filename order).
+2. Set `NEXT_PUBLIC_API_URL=http://localhost:3001` in `frontend/.env.local` (see `.env.example`).
+3. Place `PM_Structure_Regional_Availability_Matrix.xlsx` (or set `REGIONAL_MATRIX_XLSX_PATH`).
+4. After Excel edits: `npm run import:regional` → `npm run validate:regional` → commit `frontend/data/regional-catalogue.json`.
+5. For live checkout: set `STRIPE_SECRET_KEY` in `backend/.env.local` (mock sessions when unset).
+6. Full spec: `docs/REGIONAL_AVAILABILITY_IMPLEMENTATION_PLAN.md`.
 
 ## URLs (local dev) — open the website, not the API
 

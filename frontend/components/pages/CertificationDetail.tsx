@@ -10,9 +10,24 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { cn } from "@/lib/utils";
 import { PathwayTier } from "@/types/site";
 import * as siteData from "@/data/siteData";
+import { BRAND, CERTIFICATIONS_COPY, CTAS } from "@/lib/brand-voice";
+import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
+import { useRegion } from "@/contexts/RegionContext";
+import { buildPathwayTiersForCert } from "@/lib/pathway-from-catalogue";
+import { getOfferingsForSiteCert } from "@/lib/regional-catalogue";
+import { PricingComplianceNote } from "@/components/PricingComplianceNote";
+
+function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
+  return getOfferingsForSiteCert(siteId).some((o) => {
+    const s = o.regional[regionId as keyof typeof o.regional]?.status;
+    return s === 'direct_checkout' || s === 'scholarship_verify';
+  });
+}
 
 export function CertificationDetail() {
   const { id } = useParams();
+  const { regionId, gccCountry } = useRegion();
   const containerRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -22,57 +37,30 @@ export function CertificationDetail() {
   const cert = siteData.certifications.find(c => c.id === id) || siteData.certifications[0];
   const certName = cert.name;
   const family = siteData.familyConfigs[cert.familyId] || siteData.familyConfigs["PMI"];
+  const enrollmentOpen = certHasOpenEnrollment(cert.id, regionId);
 
   // Parallax effects for 3D feel
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const rotateX = useTransform(scrollYProgress, [0, 0.2], [0, 10]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
 
-  const formatPrice = (price: number) => `$${price.toLocaleString()}`;
-  const calculateMembershipPrice = (price: number) => formatPrice(Math.round(price * 0.8));
-
-  const pathway: PathwayTier[] = [
-    {
-      level: "Foundation",
-      title: `${certName} Foundation`,
-      duration: cert.pricing.Foundation.duration,
-      details: "Fast-track, 4 days to 2 weeks. Master the core principles required for success.",
-      price: formatPrice(cert.pricing.Foundation.price),
-      membershipPrice: calculateMembershipPrice(cert.pricing.Foundation.price),
-      deliveryMode: "Self-Paced",
-      outcomes: cert.learningOutcomes?.slice(0, 3) || ["Understand Core Framework", "Master Key Principles", "Lifecycle Knowledge"],
-      ctaText: "Start Foundation"
-    },
-    {
-      level: "Professional",
-      title: `${certName} Professional`,
-      duration: cert.pricing.Professional.duration,
-      details: "Compressed, career-ready prep. Deep dive into all exam domains with intensive practice.",
-      price: formatPrice(cert.pricing.Professional.price),
-      membershipPrice: calculateMembershipPrice(cert.pricing.Professional.price),
-      deliveryMode: "Live Online",
-      outcomes: cert.learningOutcomes?.slice(0, 4) || ["Intensive Practice", "Domain Elite"],
-      ctaText: "Join Professional",
-      isPopular: true
-    },
-    {
-      level: "Elite",
-      title: `${certName} Elite`,
-      duration: cert.pricing.Elite.duration,
-      details: "Premium deep-dive with coaching. Personalized mentorship for senior leadership roles.",
-      price: formatPrice(cert.pricing.Elite.price),
-      membershipPrice: calculateMembershipPrice(cert.pricing.Elite.price),
-      deliveryMode: "Premium Coaching",
-      outcomes: cert.learningOutcomes || ["Application Support", "Leadership Readiness"],
-      ctaText: "Apply for Elite"
-    }
-  ];
+  const pathway: PathwayTier[] = React.useMemo(
+    () =>
+      buildPathwayTiersForCert(
+        cert.id,
+        certName,
+        regionId,
+        gccCountry,
+        cert.learningOutcomes ?? []
+      ),
+    [cert.id, certName, regionId, gccCountry, cert.learningOutcomes]
+  );
 
   return (
-    <div ref={containerRef} className="flex flex-col min-h-screen bg-white dark:bg-slate-950 selection:bg-brand-orange selection:text-white">
+    <div ref={containerRef} className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
       {/* Header / Breadcrumb */}
       <section className="py-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-slate-100 dark:border-slate-800">
-        <div className="container mx-auto px-4 flex justify-between items-center">
+        <div className="container mx-auto flex justify-between items-center">
           <Link href="/certifications">
             <Button variant="ghost" className="text-slate-500 hover:text-brand-orange -ml-4 font-bold transition-all">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Directory
@@ -88,22 +76,32 @@ export function CertificationDetail() {
       </section>
 
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 overflow-hidden bg-slate-50 dark:bg-slate-950">
+      <section className={sectionSurface('blend', 'relative pt-24 pb-32')}>
+        <SectionAmbience tone="blend" />
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-orange/5 rounded-full blur-[120px]" />
           <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-purple/5 rounded-full blur-[120px]" />
         </div>
 
-        <div className="container relative z-10 mx-auto px-4">
+        <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-                {family.name}
-              </Badge>
+              <div className="flex flex-wrap items-center gap-2 mb-6">
+                <Badge className="bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+                  {family.name}
+                </Badge>
+                <PathwayEnrollmentBadge certId={cert.id} />
+              </div>
+
+              {!enrollmentOpen && (
+                <p className="mb-8 max-w-xl rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm font-medium text-slate-600 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-300">
+                  {CERTIFICATIONS_COPY.nextCohortHint}
+                </p>
+              )}
               
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
                 {certName} <br />
@@ -171,8 +169,9 @@ export function CertificationDetail() {
       </section>
 
       {/* Pathway Component */}
-      <section className="py-32 bg-white dark:bg-slate-950">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('soft', 'py-32')}>
+        <SectionAmbience tone="soft" />
+        <div className="container mx-auto">
           <div className="text-center mb-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -194,12 +193,14 @@ export function CertificationDetail() {
             color={cert.color}
             gradient={cert.gradient}
           />
+          <PricingComplianceNote className="mt-12 max-w-3xl mx-auto text-center" />
         </div>
       </section>
 
       {/* Detailed Certification Dossier Info */}
-      <section className="py-32 bg-slate-50 dark:bg-slate-900/50 border-y border-slate-100 dark:border-slate-800">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('purple', 'py-32 border-y border-sandstone/60 dark:border-slate-800')}>
+        <SectionAmbience tone="purple" />
+        <div className="container mx-auto">
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               <div className="lg:col-span-2 space-y-12">
@@ -323,33 +324,34 @@ export function CertificationDetail() {
       </section>
 
       {/* Why Choose This Pathway */}
-      <section className="py-32 bg-slate-50 dark:bg-slate-900/30">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('cool', 'py-32')}>
+        <SectionAmbience tone="cool" />
+        <div className="container mx-auto">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-20">
               <h2 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight leading-none">Why Choose Our {certName} Pathway?</h2>
-              <p className="text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto">We provide more than just exam prep; we build project leaders through structured mentorship and real-world application.</p>
+              <p className="text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto">Independent exam prep focused on readiness and practical judgment.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[
                 {
-                  title: "Structured Progression",
-                  desc: "Our tiered approach ensures you don't get overwhelmed. Move from foundation to elite at your own pace with clear milestones.",
+                  title: "Structured progression",
+                  desc: "Foundation → Professional → Mastery with clear milestones.",
                   icon: Target
                 },
                 {
-                  title: "Expert Mentorship",
-                  desc: "Every tier includes access to certified mentors who have successfully navigated the certification journey and industry veterans.",
+                  title: "Expert mentorship",
+                  desc: "Certified mentors who have passed the exams you are targeting.",
                   icon: Sparkles
                 },
                 {
-                  title: "Real-World Application",
-                  desc: "We don't just teach for the exam. Our content focuses on how to apply these concepts in your daily projects for immediate ROI.",
+                  title: "Real-world application",
+                  desc: "Concepts you can use on active projects — not exam trivia alone.",
                   icon: Zap
                 },
                 {
-                  title: "Exam Pass Guarantee",
-                  desc: "Our Professional and Elite tiers include our 'Pass on First Try' guarantee. We are confident in our methodology and your success.",
+                  title: "Readiness focus",
+                  desc: "Mocks, weak-area diagnosis, and mentor review on higher tiers.",
                   icon: ShieldCheck
                 }
               ].map((item, i) => (
@@ -378,8 +380,9 @@ export function CertificationDetail() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-32 bg-white dark:bg-slate-950">
-        <div className="container mx-auto px-4">
+      <section className={sectionSurface('soft', 'py-32')}>
+        <SectionAmbience tone="soft" />
+        <div className="container mx-auto">
           <motion.div 
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -394,15 +397,25 @@ export function CertificationDetail() {
                 <span className="text-brand-orange">professional</span> journey?
               </h2>
               <p className="text-slate-400 text-lg md:text-xl mb-12 leading-relaxed font-medium max-w-2xl mx-auto">
-                Join 5,000+ students currently preparing for their {certName} certification with PMStructure.
+                Structured pathways, practice, and advisory support for {certName}.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
-                  Enroll in Foundation
-                </Button>
-                <Button size="lg" variant="outline" className="border-white/10 text-white hover:bg-white/5 h-14 px-10 rounded-2xl font-bold text-lg transition-all">
-                  Speak to an Advisor
-                </Button>
+                {enrollmentOpen ? (
+                  <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
+                    Enroll in Foundation
+                  </Button>
+                ) : (
+                  <Link href="/contact">
+                    <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
+                      Join waitlist — next cohort
+                    </Button>
+                  </Link>
+                )}
+                <Link href="/contact">
+                  <Button size="lg" variant="outline" className="border-white/10 text-white hover:bg-white/5 h-14 px-10 rounded-2xl font-bold text-lg transition-all">
+                    {CTAS.pathwayConsultation}
+                  </Button>
+                </Link>
               </div>
             </div>
           </motion.div>

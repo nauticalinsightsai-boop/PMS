@@ -79,17 +79,22 @@ export function Newsletter() {
   const [activeCategory, setActiveCategory] = React.useState("All");
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-slate-950">
+    <div className="flex flex-col min-h-screen">
       {/* 1. Newsletter Hero / Title Section */}
-      <section className="pt-20 pb-12 border-b border-slate-100 dark:border-slate-900">
-        <div className="container mx-auto px-4">
+      <section className="relative pt-20 pb-12 border-b border-slate-100 dark:border-slate-900 overflow-hidden bg-gradient-to-br from-cyan-50/70 via-slate-50 to-blue-50/50 dark:from-[#061628] dark:via-slate-950 dark:to-[#0a1535]">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-[-15%] right-[-8%] w-[45%] h-[48%] rounded-full blur-[120px] opacity-35 bg-pms-gradient-blue-cyan" />
+          <div className="absolute bottom-[-25%] left-[-12%] w-[42%] h-[45%] rounded-full blur-[120px] opacity-30 bg-pms-gradient-blue-purple dark:opacity-40" />
+          <div className="absolute top-[30%] left-[35%] w-[22%] h-[28%] rounded-full blur-[100px] opacity-15 bg-pms-gradient-blue-cyan dark:opacity-25" />
+        </div>
+        <div className="container relative z-10 mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div className="max-w-3xl">
-              <Badge variant="outline" className="mb-4 border-brand-purple/20 text-brand-purple bg-brand-purple/5 px-4 py-1 font-bold">
+              <Badge variant="outline" className="mb-4 border-[#0859b3]/25 text-[#0859b3] dark:text-[#57d5e2] bg-[#0859b3]/5 dark:bg-[#57d5e2]/10 px-4 py-1 font-bold">
                 Editorial & Insights
               </Badge>
               <h1 className="font-heading text-5xl md:text-7xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
-                The <span className="text-brand-purple">Structure</span> Report
+                The <span className="text-pms-gradient-blue-cyan">Structure</span> Report
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed">
                 Expert analysis, certification strategies, and the latest trends in global project leadership. Delivered weekly to 5,000+ professionals.
@@ -110,7 +115,7 @@ export function Newsletter() {
 
       {/* 3. Topics / Categories Grid */}
       <section className="py-8 bg-slate-50/50 dark:bg-slate-900/20 sticky top-16 z-40 backdrop-blur-md border-b border-slate-100 dark:border-slate-900">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <div className="flex items-center gap-3 overflow-x-auto pb-2 no-scrollbar">
             <span className="text-sm font-bold text-slate-400 uppercase tracking-widest shrink-0 mr-2">Topics:</span>
             {categories.map((cat) => (
@@ -125,7 +130,7 @@ export function Newsletter() {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto py-12">
         {/* 2. Featured Article */}
         <FeaturedPost article={articles[3]} />
 
@@ -219,17 +224,17 @@ export function Newsletter() {
         {/* 7. Join Newsletter CTA (Large) */}
         <CTABanner 
           title="Stay Ahead of the Curve" 
-          description="Join 5,000+ project professionals receiving our weekly deep-dives into methodology, leadership, and career growth."
+          description="Join 1,284+ project professionals receiving weekly deep-dives on methodology, leadership, and career growth."
           buttonText="Join the Newsletter"
-          variant="purple"
+          variant="orange"
         />
 
         {/* 8. Membership CTA */}
         <CTABanner 
-          title="Unlock Premium Insights" 
-          description="Members get exclusive access to our full archive of case studies, exam simulators, and expert-led webinars."
+          title="Join the PM Structure Newsletter" 
+          description="Members get access to case studies, exam simulators, and mentor-led sessions focused on readiness and practical project judgment."
           buttonText="Explore Membership"
-          variant="dark"
+          variant="purple"
         />
       </div>
     </div>

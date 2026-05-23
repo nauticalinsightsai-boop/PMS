@@ -1,5 +1,5 @@
-import { Store } from '@/components/pages/Store';
+import { redirect } from 'next/navigation';
 
-export default function Page() {
-  return <Store />;
+export default function StorePage() {
+  redirect('/community?view=store');
 }

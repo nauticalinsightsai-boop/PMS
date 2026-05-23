@@ -1,11 +1,9 @@
 import Link from 'next/link';
 import {
-  GraduationCap,
   Facebook,
   Twitter,
   Linkedin,
   Youtube,
-  Github,
   Mail,
   Phone,
   MapPin,
@@ -14,34 +12,22 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { dashboardLoginUrl } from '@/lib/site-config';
+import { BrandLogo } from '@/components/BrandLogo';
+import { BRAND, BRAND_LINES, DISCLAIMERS, REGION_COPY } from '@/lib/brand-voice';
+import { SectionAmbience } from '@/components/SectionAmbience';
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-sandstone dark:border-slate-800 bg-ivory dark:bg-obsidian">
-      <div className="container mx-auto px-4 py-16 md:py-24">
+    <footer className="relative w-full overflow-hidden border-t border-sandstone dark:border-slate-800 bg-gradient-to-b from-ivory via-porcelain to-orange-50/35 dark:from-obsidian dark:via-[#0a0f24] dark:to-[#120e28]">
+      <SectionAmbience tone="blend" />
+      <div className="container relative z-10 mx-auto py-16 md:py-24">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-col gap-6">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-orange text-white shadow-md">
-                <GraduationCap className="h-6 w-6" />
-              </div>
-              <span className="text-xl font-bold tracking-tight font-heading text-obsidian dark:text-white">
-                PMStructure
-              </span>
-            </Link>
+            <BrandLogo size="footer" />
             <p className="text-sm text-carbon dark:text-slate-400 leading-relaxed max-w-xs font-medium">
-              Empowering project professionals worldwide with structured certification pathways,
-              expert resources, and a global community.
+              {BRAND_LINES.promise}
             </p>
             <div className="flex gap-4">
-              <a
-                href="https://github.com/nauticalinsightsai-boop/PMS"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white dark:bg-slate-900 shadow-sm text-carbon dark:text-slate-400 hover:text-brand-orange transition-colors"
-              >
-                <Github className="h-5 w-5" />
-              </a>
               <a
                 href="#"
                 className="p-2 rounded-full bg-white dark:bg-slate-900 shadow-sm text-carbon dark:text-slate-400 hover:text-brand-orange transition-colors"
@@ -118,13 +104,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/store" className="hover:text-brand-orange transition-colors">
-                  Study Resources Store
+                <Link href="/community" className="hover:text-brand-orange transition-colors">
+                  Community & Resources
                 </Link>
               </li>
               <li>
-                <Link href="/community" className="hover:text-brand-orange transition-colors">
-                  Community Network
+                <Link href="/community?view=store" className="hover:text-brand-orange transition-colors">
+                  Study Resources Store
                 </Link>
               </li>
               <li>
@@ -188,7 +174,7 @@ export function Footer() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-6 text-xs text-carbon dark:text-slate-500 font-medium">
-            <span>© {new Date().getFullYear()} PMStructure. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} {BRAND.name}. All rights reserved.</span>
             <Link href="#" className="hover:text-brand-orange transition-colors">
               Privacy Policy
             </Link>
@@ -201,9 +187,11 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="mt-8 text-[10px] text-slate-400 max-w-3xl mx-auto text-center leading-tight font-medium">
-          PMI, PMP, CAPM, PMI-ACP, and PMI-RMP are registered marks of the Project Management Institute,
-          Inc. PRINCE2 is a registered trademark of AXELOS Limited.
+        <p className="mt-6 text-[10px] text-slate-400 max-w-3xl mx-auto text-center leading-relaxed font-medium">
+          {REGION_COPY.compliance}
+        </p>
+        <p className="mt-4 text-[10px] text-slate-400 max-w-3xl mx-auto text-center leading-relaxed font-medium">
+          {DISCLAIMERS.accreditation}
         </p>
       </div>
     </footer>

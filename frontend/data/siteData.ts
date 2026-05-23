@@ -13,53 +13,39 @@ export const familyConfigs: Record<string, FamilyConfig> = {
   PMI: {
     id: "PMI",
     name: "PMI® Certifications",
-    description: "The global standard for project management excellence.",
-    accent: "bg-brand-orange",
-    text: "text-brand-orange",
-    border: "border-brand-orange/20",
-    lightBg: "bg-brand-orange/5",
-    gradient: "from-brand-orange to-amber-600"
+    description: "Independent PMI exam-preparation and structured readiness pathways.",
+    accent: "bg-pms-gradient-blue-purple",
+    text: "text-brand-purple",
+    border: "border-brand-purple/20",
+    lightBg: "bg-brand-purple/5",
+    gradient: "from-[#2851b9] to-[#bc6ae2]"
   },
   PRINCE2: {
     id: "PRINCE2",
     name: "PRINCE2® / Governance",
-    description: "Process-based methods for effective project control.",
-    accent: "bg-teal-700",
-    text: "text-teal-700",
-    border: "border-teal-200",
-    lightBg: "bg-teal-50",
-    gradient: "from-teal-600 to-blue-700"
+    description: "Governance-led methodology preparation for controlled delivery.",
+    accent: "bg-pms-gradient-blue-cyan",
+    text: "text-brand-cyan",
+    border: "border-brand-cyan/30",
+    lightBg: "bg-brand-cyan/5",
+    gradient: "from-[#0859b3] to-[#57d5e2]"
   },
   SixSigma: {
     id: "SixSigma",
     name: "Lean Six Sigma",
-    description: "Data-driven methodologies for process improvement.",
-    accent: "bg-slate-700",
-    text: "text-slate-700",
-    border: "border-slate-200",
-    lightBg: "bg-slate-50",
-    gradient: "from-slate-600 to-slate-900"
-  },
-  FoundationDirect: {
-    id: "FoundationDirect",
-    name: "Foundation Direct",
-    description: "Accelerated foundational pathways for immediate career impact.",
-    accent: "bg-brand-orange",
-    text: "text-brand-orange",
-    border: "border-brand-orange/20",
-    lightBg: "bg-brand-orange/5",
-    gradient: "from-brand-orange to-brand-deep"
+    description: "Process-improvement pathways built on DMAIC and measurable outcomes.",
+    accent: "bg-pms-gradient-charcoal",
+    text: "text-pms-charcoal",
+    border: "border-pms-charcoal/20",
+    lightBg: "bg-pms-charcoal/5",
+    gradient: "from-[#262a33] to-[#434855]"
   }
 };
 
 export const featuredCertifications = [
-  { id: "pmp", title: "PMP®", desc: "Core flagship / strongest broad PM value. Full 2026 ECO coverage.", family: "PMI", color: "#6D28D9" },
-  { id: "capm", title: "CAPM®", desc: "Entry / junior PM signal. Perfect for starting your career.", family: "PMI", color: "#22C7F7" },
-  { id: "pmi-acp", title: "PMI-ACP®", desc: "Agile specialist / high practical value for modern teams.", family: "PMI", color: "#2563EB" },
-  { id: "pmi-rmp", title: "PMI-RMP®", desc: "Risk specialist / strong niche value for complex projects.", family: "PMI", color: "#A21CAF" },
-  { id: "prince2", title: "PRINCE2®", desc: "Core structured methodology value. Global governance standard.", family: "PRINCE2", color: "#0F766E" },
-  { id: "lss-green", title: "Lean Six Sigma", desc: "Applied improvement / strong practitioner value.", family: "SixSigma", color: "#15803D" },
-  { id: "foundation-direct", title: "Foundation Direct", desc: "Accelerated foundational pathways for immediate career impact.", family: "FoundationDirect", color: "#F97316" },
+  { id: "pmp", title: "PMP®", desc: "Flagship PMI readiness pathway with structured ECO coverage and scenario-based preparation.", family: "PMI", color: "#6D28D9" },
+  { id: "prince2", title: "PRINCE2®", desc: "Governance-led methodology preparation for controlled delivery through stages and tolerances.", family: "PRINCE2", color: "#0F766E" },
+  { id: "lss-green", title: "Lean Six Sigma", desc: "Process-improvement pathway built on DMAIC discipline and measurable operational outcomes.", family: "SixSigma", color: "#15803D" },
 ];
 
 export const certifications: CertificationSummary[] = [
@@ -92,7 +78,7 @@ export const certifications: CertificationSummary[] = [
     id: "pmp",
     name: "PMP®",
     familyId: "PMI",
-    desc: "Project Management Professional - The gold standard for PMs.",
+    desc: "Project Management Professional — structured PMI exam-preparation support for experienced project leaders.",
     outputValue: "Core flagship / strongest broad PM value",
     pricing: {
       Foundation: { duration: "2 wks", price: 250 },
@@ -528,7 +514,7 @@ export const certifications: CertificationSummary[] = [
     officialFee: "Unspecified.",
     trainingPriceRange: "Unspecified (varies widely; often free/low-cost in the market).",
     learningOutcomes: ["Vocabulary", "Role map", "Basic variation and waste concepts", "How to participate in projects"],
-    suggestedResources: ["PMStructure internal primer", "Aligned public BoK overviews"],
+    suggestedResources: ["PM Structure internal primer", "Aligned public BoK overviews"],
     recommendedCTA: "Get Six Sigma fluent — start with an executive-friendly White Belt foundation.",
     regionalDemand: "Useful as corporate enablement across regions; strongest when bundled into Yellow/Green adoption."
   },
@@ -648,7 +634,7 @@ export const certifications: CertificationSummary[] = [
     officialFee: "Unspecified.",
     trainingPriceRange: "Unspecified (provider-dependent; often corporate-only).",
     learningOutcomes: ["Project selection governance", "Benefits tracking", "Coaching cadence", "Barrier removal", "Adoption/standardization strategy"],
-    suggestedResources: ["PMStructure champion playbook", "ASQ/IASSC belt role definitions"],
+    suggestedResources: ["PM Structure champion playbook", "ASQ/IASSC belt role definitions"],
     recommendedCTA: "Sponsor transformation, not just training — become an effective Six Sigma Champion.",
     regionalDemand: "Highly relevant for enterprise transformation programs and consulting-led deployments."
   },
@@ -656,8 +642,8 @@ export const certifications: CertificationSummary[] = [
     id: "foundation-direct",
     name: "Foundation Direct Pathway",
     familyId: "FoundationDirect",
-    desc: "The ultimate fast-track to project management vocabulary and concepts. Covers essentials across multiple frameworks.",
-    outputValue: "Unified foundational value / multi-framework",
+    desc: "Foundational vocabulary across PMI, PRINCE2, and Six Sigma — best explored after a pathway consultation to confirm fit.",
+    outputValue: "Multi-framework foundation / career bridge",
     pricing: {
       Foundation: { duration: "2 days", price: 150 },
       Professional: { duration: "1 wk", price: 450 },
@@ -684,19 +670,19 @@ export const membershipTiers: MembershipTier[] = [
     name: "Professional",
     price: "$199",
     period: "/year",
-    description: "The complete toolkit for certification success.",
+    description: "Exam-focused tools, templates, and support for measurable certification readiness.",
     features: ["All Free Features", "Premium Exam Simulator", "Exclusive Weekly Sessions", "Private Slack Community", "AI-Powered CV Maker"],
     cta: "Join Professional",
     variant: "default",
     highlight: true
   },
   {
-    name: "Elite",
+    name: "Mastery",
     price: "$499",
     period: "/year",
-    description: "Advanced growth for senior project leaders.",
+    description: "Mentor-led support for senior professionals who need deeper accountability and readiness review.",
     features: ["All Professional Features", "1-on-1 Mentorship Session", "Priority Support", "Bulk Cert Licenses"],
-    cta: "Join Elite",
+    cta: "Join Mastery",
     variant: "outline"
   }
 ];
@@ -704,7 +690,7 @@ export const membershipTiers: MembershipTier[] = [
 export const newsletterPosts: NewsletterPost[] = [
   {
     id: "1",
-    title: "Mastering the 2026 PMP Exam Content Outline",
+    title: "Preparing for the 2026 PMP Exam Content Outline",
     excerpt: "Everything you need to know about the latest changes to the PMP exam and how to prepare effectively.",
     author: "Robert Vance",
     date: "Oct 12, 2024",
@@ -740,7 +726,7 @@ export const testimonials: Testimonial[] = [
     name: "Sarah Jenkins",
     role: "Senior PM at TechCorp",
     company: "Global Tech Solutions",
-    content: "The PMStructure PMP pathway was instrumental in my success. The structured tiers kept me focused and the community support was unmatched. I passed with Above Target in all domains!",
+    content: "The PM Structure PMP pathway gave me a structured study rhythm, weak-area tracking, and mentor-style review. I knew where I stood before exam day — and passed with Above Target in all domains.",
     avatar: "https://i.pravatar.cc/100?u=sarah"
   },
   {
@@ -748,7 +734,7 @@ export const testimonials: Testimonial[] = [
     name: "Michael Chen",
     role: "Agile Coach",
     company: "Innovate Corp",
-    content: "I've taken several certifications, but the depth of agile resources here is incredible. The PMI-ACP exam simulator felt exactly like the real thing. It's a game changer for practitioners.",
+    content: "The PMI-ACP readiness support focused on scenarios and weak-area revision, not random videos. The practice environment closely matched exam conditions, which built real confidence.",
     avatar: "https://i.pravatar.cc/100?u=michael"
   },
   {
@@ -756,7 +742,7 @@ export const testimonials: Testimonial[] = [
     name: "Elena Rodriguez",
     role: "Project Coordinator",
     company: "Future Build",
-    content: "Foundation Direct was the perfect bridge for my career change. It gave me the vocabulary and confidence to speak with senior PMs on day one of my new role. Highly recommended!",
+    content: "The Foundation pathway gave me structured vocabulary and a clear study rhythm during my career transition. I could speak with senior PMs with more confidence from week one.",
     avatar: "https://i.pravatar.cc/100?u=elena"
   },
   {
@@ -775,7 +761,6 @@ export const mainNav: NavLink[] = [
   { label: "Membership", href: "/membership" },
   { label: "Community", href: "/community" },
   { label: "Newsletter", href: "/newsletter" },
-  { label: "Store", href: "/store" },
   { label: "About", href: "/about" },
 ];
 
@@ -787,7 +772,7 @@ export const footerSections: FooterSection[] = [
       { label: "CAPM® Prep", href: "/certifications/capm" },
       { label: "Agile (ACP)®", href: "/certifications/pmi-acp" },
       { label: "PRINCE2®", href: "/certifications/prince2" },
-      { label: "Foundation Direct", href: "/certifications/foundation-direct" },
+      { label: "Compare pathways", href: "/compare" },
     ]
   },
   {
@@ -795,8 +780,8 @@ export const footerSections: FooterSection[] = [
     links: [
       { label: "Slack Channel", href: "/community" },
       { label: "Study Circles", href: "/community" },
+      { label: "Resource Store", href: "/community?view=store" },
       { label: "Events", href: "/community" },
-      { label: "Mentorship", href: "/community" },
     ]
   },
   {
@@ -811,8 +796,8 @@ export const footerSections: FooterSection[] = [
 ];
 
 export const heroCTA: SiteCTA = {
-  title: "Elevate Your Project Management Career",
-  subtitle: "Structured pathways, premium resources, and a global community to help you master the world's most recognized certifications.",
-  primaryButton: { label: "Register Now", href: "/membership" },
-  secondaryButton: { label: "Explore Certifications", href: "/certifications" }
+  title: "Structured project management capability",
+  subtitle: "Choose your pathway. Prepare with measurable readiness.",
+  primaryButton: { label: "Book consultation", href: "/contact" },
+  secondaryButton: { label: "Check readiness", href: "/certifications" }
 };

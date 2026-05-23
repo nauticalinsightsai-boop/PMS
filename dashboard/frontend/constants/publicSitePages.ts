@@ -24,11 +24,11 @@ export interface PublicSitePage {
 
 export const PUBLIC_SITE_PAGES: PublicSitePage[] = [
   { slug: 'home', label: 'Home', path: '/', icon: Home, inMainNav: true },
-  { slug: 'pm-service', label: 'PM Service', path: '/pm-service', icon: Briefcase, inMainNav: true },
   { slug: 'certifications', label: 'Certifications', path: '/certifications', icon: Award, inMainNav: true },
+  { slug: 'pm-service', label: 'Service', path: '/pm-service', icon: Briefcase, inMainNav: true },
   { slug: 'newsletter', label: 'Newsletter', path: '/newsletter', icon: Newspaper, inMainNav: true },
   { slug: 'community', label: 'Community', path: '/community', icon: Users, inMainNav: true },
-  { slug: 'store', label: 'Store', path: '/store', icon: ShoppingBag, inMainNav: true },
+  { slug: 'store', label: 'Resource Store', path: '/community?view=store', icon: ShoppingBag, inMainNav: false },
   { slug: 'about', label: 'About', path: '/about', icon: Info, inMainNav: false },
   { slug: 'compare', label: 'Compare Certifications', path: '/compare', icon: GitCompare, inMainNav: false },
   { slug: 'faq', label: 'FAQ', path: '/faq', icon: HelpCircle, inMainNav: false },

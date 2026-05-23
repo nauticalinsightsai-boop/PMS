@@ -186,23 +186,34 @@ export const FeaturedPost: React.FC<{ article: Article }> = ({ article }) => {
   );
 };
 
-export const CTABanner: React.FC<{ title: string; description: string; buttonText: string; variant?: "purple" | "orange" | "dark" }> = ({ title, description, buttonText, variant = "purple" }) => {
+export const CTABanner: React.FC<{
+  title: string;
+  description: string;
+  buttonText: string;
+  variant?: "orange" | "purple";
+}> = ({ title, description, buttonText, variant = "orange" }) => {
   const variants = {
-    purple: "from-brand-purple to-indigo-600",
-    orange: "from-brand-orange to-amber-500",
-    dark: "from-slate-900 to-slate-800"
+    orange: "bg-pms-gradient-orange",
+    purple: "bg-pms-gradient-blue-purple",
   };
 
   return (
     <section className="py-12">
-      <div className={cn("rounded-[3rem] p-8 md:p-16 text-center relative overflow-hidden bg-gradient-to-br", variants[variant])}>
-        <div className="absolute top-0 left-0 w-full h-full bg-white/5 pointer-events-none" />
+      <div
+        className={cn(
+          "rounded-[3rem] p-8 md:p-16 text-center relative overflow-hidden",
+          variants[variant],
+        )}
+      >
+        <div className="absolute inset-0 bg-white/5 pointer-events-none" />
+        <div className="absolute top-[-20%] right-[-10%] w-64 h-64 rounded-full blur-[80px] bg-white/10 pointer-events-none" />
         <div className="relative z-10 max-w-3xl mx-auto">
           <h3 className="font-heading text-3xl md:text-5xl font-bold text-white mb-6">{title}</h3>
-          <p className="text-white/80 text-lg md:text-xl mb-10 leading-relaxed">
-            {description}
-          </p>
-          <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 h-14 px-10 text-lg font-bold rounded-2xl shadow-xl">
+          <p className="text-white/90 text-lg md:text-xl mb-10 leading-relaxed">{description}</p>
+          <Button
+            size="lg"
+            className="bg-white text-slate-900 hover:bg-slate-100 h-14 px-10 text-lg font-bold rounded-2xl shadow-xl"
+          >
             {buttonText}
           </Button>
         </div>

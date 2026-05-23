@@ -1,12 +1,17 @@
 'use client';
 import * as React from "react";
+import Link from "next/link";
 import { motion } from "motion/react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, Clock, Globe, ArrowRight, Sparkles, Target, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PathwayTier, FamilyId } from "../types/site";
+import { RegionalPrice } from "@/components/RegionalPrice";
+import { RegionalStatusBanner } from "@/components/RegionalStatusBanner";
+import { OfferingCtaButtons } from "@/components/OfferingCtaButtons";
+import type { OfferingStatus } from "@/types/regional-catalogue";
 
 export interface CertificationPathwayProps {
   certificationName: string;
@@ -104,15 +109,19 @@ export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: str
 
         <CardContent className="px-6 pb-6 flex-1">
           <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center gap-2 text-[10px] font-black text-obsidian/70 dark:text-slate-300 uppercase tracking-tight">
-                <Clock className="h-4 w-4 text-brand-orange" />
-                {tier.duration}
-              </div>
-              <div className="flex items-center gap-2 text-[10px] font-black text-obsidian/70 dark:text-slate-300 uppercase tracking-tight">
-                <Globe className="h-4 w-4 text-brand-orange" />
-                {tier.deliveryMode}
-              </div>
+            <div className="space-y-3">
+              {tier.duration && (
+                <div className="flex items-center gap-2 text-[10px] font-black text-obsidian/70 dark:text-slate-300 uppercase tracking-tight">
+                  <Clock className="h-4 w-4 text-brand-orange shrink-0" />
+                  <span>{tier.duration}</span>
+                </div>
+              )}
+              {(tier.tierDelivery || tier.deliveryMode) && (
+                <div className="flex items-start gap-2 text-[10px] font-medium text-obsidian/70 dark:text-slate-300 leading-snug">
+                  <Globe className="h-4 w-4 text-brand-orange shrink-0 mt-0.5" />
+                  <span>{tier.tierDelivery ?? tier.deliveryMode}</span>
+                </div>
+              )}
             </div>
 
             <div className="h-px bg-gradient-to-r from-transparent via-sandstone/50 dark:via-slate-800 to-transparent w-full" />
@@ -135,31 +144,43 @@ export const PathwayCard: React.FC<{ tier: PathwayTier; config: any; color?: str
         </CardContent>
 
         <CardFooter className="p-6 pt-0 flex flex-col gap-4">
-          <div className="flex flex-col gap-1">
-            <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-black text-obsidian dark:text-white tracking-tighter">{tier.price}</span>
-              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Standard</span>
-            </div>
-            <div className="flex items-baseline gap-2">
-              <span 
-                className={cn("text-xl font-black tracking-tighter", !color && config.text)}
-                style={color ? { color: color } : {}}
-              >
-                {tier.membershipPrice}
-              </span>
-              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Membership (20% Off)</span>
-            </div>
-          </div>
-          <Button 
-            className={cn(
-              "w-full h-14 rounded-[1rem] font-black text-lg group/btn transition-all shadow-xl hover:shadow-brand-orange/20",
-              tier.isPopular ? (gradient ? cn("bg-gradient-to-r text-white", gradient) : cn(config.accent, "hover:opacity-90 text-white")) : "bg-obsidian hover:bg-brand-orange text-white dark:bg-slate-800 dark:hover:bg-brand-orange"
-            )}
-            style={tier.isPopular && !gradient && color ? { backgroundColor: color } : {}}
-          >
-            {tier.ctaText}
-            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
-          </Button>
+          {tier.regionMessage && tier.status && (
+            <RegionalStatusBanner
+              status={tier.status as OfferingStatus}
+              message={tier.regionMessage}
+            />
+          )}
+          <RegionalPrice
+            original={tier.originalPrice ?? null}
+            active={tier.price}
+            membership={tier.membershipPrice || null}
+            showScholarshipLabels={tier.showScholarshipLabels ?? false}
+            regionalLabel={tier.regionalLabel}
+            footnote={tier.priceFootnote ?? tier.regionMessage}
+            compact
+          />
+          {tier.ctas ? (
+            <OfferingCtaButtons
+              ctas={tier.ctas}
+              primaryHref={tier.primaryHref ?? '#'}
+              secondaryHref={tier.secondaryHref ?? '#'}
+              vertical
+              className="w-full [&_a]:w-full [&_a]:justify-center"
+            />
+          ) : (
+            <Link
+              href={tier.primaryHref ?? '#'}
+              className={cn(
+                buttonVariants(),
+                "w-full h-14 rounded-[1rem] font-black text-lg group/btn transition-all shadow-xl hover:shadow-brand-orange/20 inline-flex",
+                tier.isPopular ? (gradient ? cn("bg-gradient-to-r text-white", gradient) : cn(config.accent, "hover:opacity-90 text-white")) : "bg-obsidian hover:bg-brand-orange text-white dark:bg-slate-800 dark:hover:bg-brand-orange"
+              )}
+              style={tier.isPopular && !gradient && color ? { backgroundColor: color } : {}}
+            >
+              {tier.ctaText}
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
+            </Link>
+          )}
           <p className="text-[10px] text-slate-400 text-center font-medium leading-tight max-w-[180px] mx-auto">
             Tuition only. Official fees are separate.
           </p>
@@ -174,10 +195,17 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({ cert
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-stretch">
+      <div
+        className={cn(
+          'grid grid-cols-1 gap-10 items-stretch',
+          tiers.length === 1 && 'lg:grid-cols-1',
+          tiers.length === 2 && 'lg:grid-cols-2',
+          tiers.length >= 3 && 'lg:grid-cols-3'
+        )}
+      >
         {tiers.map((tier, index) => (
           <motion.div
-            key={tier.level}
+            key={tier.offeringId ?? tier.level}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
