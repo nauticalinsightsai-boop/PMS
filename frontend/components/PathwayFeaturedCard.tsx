@@ -20,8 +20,7 @@ import type { RegionId } from '@/types/regional-catalogue';
 function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
   const { regionId, gccCountry } = useRegion();
   const listing = getListingPriceForCert(certId, regionId, gccCountry);
-  const duration =
-    getCertDurationLabel(certId) ?? undefined;
+  const duration = getCertDurationLabel(certId) ?? undefined;
 
   if (!duration && !listing.active) return null;
 
@@ -101,7 +100,7 @@ export interface PathwayFeaturedCardProps {
   description?: string;
   /** Shown under the icon in the visual header */
   visualSubtitle?: string;
-  /** `visual` = gradient image header (Home). `catalog` = same listing card, no image (Certifications). */
+  /** `visual` = gradient image header (Home). `catalog` = listing card, no image (Certifications). */
   layout?: 'visual' | 'catalog';
   className?: string;
 }
@@ -113,7 +112,6 @@ function certAccentColor(cert: CertificationSummary): string | undefined {
   return cert.color?.trim() || undefined;
 }
 
-/** Featured pathway card — shared by Home and Certifications flagship grids */
 function PathwayCardCta({
   certId,
   regionId,
@@ -136,13 +134,13 @@ function PathwayCardCta({
   );
 }
 
-export function PathwayFeaturedCard({
+/** Home — original featured card with gradient visual header and brand accents */
+function PathwayFeaturedVisualCard({
   cert,
   familyLabel,
   title,
   description,
   visualSubtitle,
-  layout = 'visual',
   className,
 }: PathwayFeaturedCardProps) {
   const { regionId } = useRegion();
@@ -156,10 +154,71 @@ export function PathwayFeaturedCard({
       'Mock exam practice',
       'Weak-area tracking',
     ];
-  const accent = certAccentColor(cert);
 
-  const cardBody = (
-    <>
+  return (
+    <Card className={cn(featuredCardShell, className)}>
+      <CertificationPathwayVisual cert={cert} subtitle={subtitle} />
+      <CardHeader className="p-5 pb-2">
+        <div className="flex flex-wrap items-center justify-start gap-2 mb-3">
+          <Badge className="inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1 text-center">
+            {badgeLabel}
+          </Badge>
+          <PathwayEnrollmentBadge certId={cert.id} />
+        </div>
+        <CardTitle className="text-2xl font-bold tracking-tight mb-3 leading-tight">{displayTitle}</CardTitle>
+        <div className="flex items-center justify-center gap-2 mb-4 p-2.5 rounded-xl bg-brand-orange/5 border border-brand-orange/10 text-center">
+          <Zap className="h-3 w-3 text-brand-orange shrink-0" />
+          <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight leading-snug">
+            {cert.outputValue}
+          </span>
+        </div>
+        <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
+          {displayDesc}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="px-5 pb-5 flex-1">
+        <PathwayFeaturedPricingChips certId={cert.id} />
+        <ul className="space-y-3">
+          {outcomes.map((item) => (
+            <li key={item} className="flex items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
+              <CheckCircle2 className="h-3 w-3 mr-2 text-brand-orange shrink-0" />
+              <span className="line-clamp-1">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+      <CardFooter className="border-t border-border bg-muted/50 px-5 pb-5 pt-6">
+        <PathwayCardCta certId={cert.id} regionId={regionId} />
+      </CardFooter>
+    </Card>
+  );
+}
+
+/** Certifications listing — catalog card with cert-colored accents, no visual header */
+function PathwayFeaturedCatalogCard({
+  cert,
+  familyLabel,
+  title,
+  description,
+  className,
+}: PathwayFeaturedCardProps) {
+  const { regionId } = useRegion();
+  const displayTitle = title ?? cert.name;
+  const displayDesc = description ?? cert.desc;
+  const badgeLabel = familyLabel ?? cert.familyId;
+  const accent = certAccentColor(cert);
+  const outcomes =
+    cert.learningOutcomes?.slice(0, 3) ?? [
+      'Structured study plan',
+      'Mock exam practice',
+      'Weak-area tracking',
+    ];
+
+  return (
+    <Card className={cn(featuredCardShell, className)}>
+      {accent ? (
+        <div className="h-1.5 w-full shrink-0" style={{ backgroundColor: accent }} aria-hidden />
+      ) : null}
       <CardHeader className="p-5 pb-2">
         <div className="flex flex-wrap items-center justify-start gap-2 mb-3">
           <Badge className="inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1 text-center">
@@ -169,7 +228,10 @@ export function PathwayFeaturedCard({
         </div>
         <CardTitle className="text-2xl font-bold tracking-tight mb-3 leading-tight">{displayTitle}</CardTitle>
         <div
-          className="flex items-center justify-center gap-2 mb-4 p-2.5 rounded-xl border text-center"
+          className={cn(
+            'flex items-center justify-center gap-2 mb-4 p-2.5 rounded-xl border text-center',
+            !accent && 'bg-brand-orange/5 border-brand-orange/10',
+          )}
           style={
             accent
               ? { backgroundColor: `${accent}12`, borderColor: `${accent}28` }
@@ -205,27 +267,16 @@ export function PathwayFeaturedCard({
       <CardFooter className="border-t border-border bg-muted/50 px-5 pb-5 pt-6">
         <PathwayCardCta certId={cert.id} regionId={regionId} accentColor={accent} />
       </CardFooter>
-    </>
-  );
-
-  if (layout === 'catalog') {
-    return (
-      <Card className={cn(featuredCardShell, className)}>
-        {accent ? (
-          <div className="h-1.5 w-full shrink-0" style={{ backgroundColor: accent }} aria-hidden />
-        ) : null}
-        {cardBody}
-      </Card>
-    );
-  }
-
-  return (
-    <Card className={cn(featuredCardShell, className)}>
-      {accent ? (
-        <div className="h-1.5 w-full shrink-0" style={{ backgroundColor: accent }} aria-hidden />
-      ) : null}
-      <CertificationPathwayVisual cert={cert} subtitle={subtitle} />
-      {cardBody}
     </Card>
   );
+}
+
+export function PathwayFeaturedCard(props: PathwayFeaturedCardProps) {
+  const layout = props.layout ?? 'visual';
+
+  if (layout === 'catalog') {
+    return <PathwayFeaturedCatalogCard {...props} />;
+  }
+
+  return <PathwayFeaturedVisualCard {...props} />;
 }

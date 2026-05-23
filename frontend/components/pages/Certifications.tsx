@@ -243,7 +243,6 @@ export function Certifications() {
                                     <PathwayFeaturedCard
                                       cert={cert}
                                       familyLabel={cert.familyId}
-                                      layout="catalog"
                                     />
                                   </motion.div>
                                 ))}

@@ -4,16 +4,12 @@ import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Zap, Users, Globe, BookOpen, Sparkles, MessageCircle, FileText, Gift, ArrowRight } from "lucide-react";
+import { Check, Users, BookOpen, Sparkles, MessageCircle, FileText, Gift } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import Link from "next/link";
-import { BRAND, HOME_COPY, REGION_COPY } from "@/lib/brand-voice";
+import { BRAND, HOME_COPY } from "@/lib/brand-voice";
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
-import { PricingComplianceNote } from "@/components/PricingComplianceNote";
-import { RegionalPrice } from "@/components/RegionalPrice";
-import { useRegion } from "@/contexts/RegionContext";
-import { getListingPriceForCert } from "@/lib/regional-catalogue";
 import {
   type BillingCycle,
   formatMembershipUsd,
@@ -28,31 +24,6 @@ const MAX_ANNUAL_SAVINGS = membershipAnnualSavingsUsd(
   MEMBERSHIP_PRICING.mastery.monthlyUsd,
   MEMBERSHIP_PRICING.mastery.yearlyUsd,
 );
-
-const MEMBER_CERT_SAMPLES = ['pmp', 'capm', 'prince2'] as const;
-
-function MemberCertPricing({ certId }: { certId: string }) {
-  const { regionId, gccCountry } = useRegion();
-  const listing = getListingPriceForCert(certId, regionId, gccCountry);
-  if (!listing.active) return null;
-  return (
-    <div className="rounded-2xl border border-slate-100 dark:border-slate-800 p-4 bg-white dark:bg-slate-900">
-      <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">{certId.toUpperCase()}</p>
-      <RegionalPrice
-        original={listing.original}
-        active={listing.active}
-        membership={listing.membership}
-        showScholarshipLabels={listing.showScholarship}
-        regionalLabel={listing.regionalLabel}
-        variant="tier"
-        footnote={null}
-      />
-      <Link href={`/certifications/${certId}`} className="text-xs text-brand-orange font-bold mt-2 inline-block">
-        View pathway →
-      </Link>
-    </div>
-  );
-}
 
 const benefits = [
   {
@@ -166,22 +137,8 @@ export function Membership() {
         </div>
       </section>
 
-      <section className="py-12 border-b border-slate-100 dark:border-slate-800 bg-brand-purple/5">
-        <div className="container mx-auto max-w-4xl text-center space-y-6">
-          <p className="text-sm text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
-            {REGION_COPY.membershipDiscountNote} Certification tuition uses regional pricing from the matrix — select your region on any pathway page.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
-            {MEMBER_CERT_SAMPLES.map((id) => (
-              <MemberCertPricing key={id} certId={id} />
-            ))}
-          </div>
-          <PricingComplianceNote className="text-left" />
-        </div>
-      </section>
-
       {/* Pricing Tiers */}
-      <section className="py-20 -mt-20 relative z-20">
+      <section className="py-20 -mt-12 relative z-20">
         <div className="container mx-auto">
           <MembershipBillingToggle billing={billing} onChange={setBilling} />
           <p className="text-center text-sm text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto -mt-6 mb-10">
