@@ -3,6 +3,16 @@
  * Logo/icon gradients (user-specified) + approved PMS palette.
  */
 
+import type { CSSProperties } from 'react';
+import { cn } from '@/lib/utils';
+
+/** Family default gradients — keep in sync with `familyConfigs` in siteData. */
+const FAMILY_GRADIENT_CLASSES: Record<string, string> = {
+  PMI: 'bg-gradient-to-r from-[#2851b9] to-[#bc6ae2]',
+  PRINCE2: 'bg-gradient-to-r from-[#0859b3] to-[#57d5e2]',
+  SixSigma: 'bg-gradient-to-r from-[#262a33] to-[#434855]',
+};
+
 /** Full wordmark PNGs — `frontend/public/brand/` */
 export const BRAND_LOGO = {
   light: '/brand/pms-logo-light.png',
@@ -72,4 +82,26 @@ export function familyGradientKey(familyId: string): PmsGradientKey {
 
 export function getFamilyGradient(familyId: string): string {
   return PMS_GRADIENTS[familyGradientKey(familyId)];
+}
+
+/** Tailwind gradient classes for a cert (per-cert `gradient` in siteData, else family default). */
+export function getCertGradientClassName(cert: {
+  gradient?: string;
+  familyId: string;
+}): string | undefined {
+  const gradient = cert.gradient?.trim();
+  if (gradient) return cn('bg-gradient-to-r', gradient);
+  const family = FAMILY_GRADIENT_CLASSES[cert.familyId];
+  if (family) return family;
+  return undefined;
+}
+
+/** Pathway card / visual header background — cert-specific when defined. */
+export function getCertHeaderBackground(cert: {
+  gradient?: string;
+  familyId: string;
+}): { className?: string; style?: CSSProperties } {
+  const className = getCertGradientClassName(cert);
+  if (className) return { className };
+  return { style: { background: getFamilyGradient(cert.familyId) } };
 }

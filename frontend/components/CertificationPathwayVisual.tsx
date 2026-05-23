@@ -1,6 +1,6 @@
 import { CertFamilyMark } from '@/components/CertFamilyMark';
 import { cn } from '@/lib/utils';
-import { getFamilyGradient } from '@/lib/brand-visual';
+import { getCertHeaderBackground } from '@/lib/brand-visual';
 import type { CertificationSummary } from '@/types/site';
 
 interface CertificationPathwayVisualProps {
@@ -16,7 +16,7 @@ export function CertificationPathwayVisual({
   subtitle,
   className,
 }: CertificationPathwayVisualProps) {
-  const headerGradient = getFamilyGradient(cert.familyId);
+  const headerBg = getCertHeaderBackground(cert);
   const accent = cert.color ?? '#2851b9';
   const isPmi = cert.familyId === 'PMI';
   const isPrince2 = cert.familyId === 'PRINCE2';
@@ -27,7 +27,7 @@ export function CertificationPathwayVisual({
 
   return (
     <div className={cn('relative h-36 w-full shrink-0 overflow-hidden', className)}>
-      <div className="absolute inset-0" style={{ background: headerGradient }} />
+      <div className={cn('absolute inset-0', headerBg.className)} style={headerBg.style} />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-900/10 to-white/10" />
       <div className="relative flex h-full flex-col items-center justify-center gap-2.5 px-4">
         <div

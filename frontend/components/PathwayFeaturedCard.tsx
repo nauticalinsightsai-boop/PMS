@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils';
 import { useRegion } from '@/contexts/RegionContext';
 import { isEnrollmentOpen } from '@/lib/certification-enrollment';
 import { REGION_COPY } from '@/lib/brand-voice';
+import { getCertGradientClassName } from '@/lib/brand-visual';
 import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import { getCertDurationLabel, getListingPriceForCert } from '@/lib/regional-catalogue';
 import type { CertificationSummary } from '@/types/site';
@@ -206,6 +207,7 @@ function PathwayFeaturedCatalogCard({
   const displayDesc = description ?? cert.desc;
   const badgeLabel = familyLabel ?? cert.familyId;
   const accent = certAccentColor(cert);
+  const gradientBar = getCertGradientClassName(cert);
   const outcomes =
     cert.learningOutcomes?.slice(0, 3) ?? [
       'Structured study plan',
@@ -215,7 +217,11 @@ function PathwayFeaturedCatalogCard({
 
   return (
     <Card className={cn(featuredCardShell, className)}>
-      {accent ? (
+      {gradientBar ? (
+        <div className="h-1.5 w-full shrink-0" aria-hidden>
+          <div className={cn('h-full w-full', gradientBar)} />
+        </div>
+      ) : accent ? (
         <div className="h-1.5 w-full shrink-0" style={{ backgroundColor: accent }} aria-hidden />
       ) : null}
       <CardHeader className="p-5 pb-2">

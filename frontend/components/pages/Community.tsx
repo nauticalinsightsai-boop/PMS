@@ -337,15 +337,6 @@ export function Community() {
             >
               Browse Resources
             </Button>
-            <Link
-              href="/membership"
-              className={cn(
-                'inline-flex min-h-11 h-12 items-center justify-center px-6 rounded-xl font-bold text-base transition-all',
-                'border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-brand-orange/10 hover:text-brand-orange dark:hover:bg-brand-orange/10',
-              )}
-            >
-              Membership
-            </Link>
           </div>
         </div>
       </section>

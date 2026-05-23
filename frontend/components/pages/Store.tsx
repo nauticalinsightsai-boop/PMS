@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { 
   ShoppingCart, 
   Star, 
-  Filter, 
   Search, 
   Download, 
   BookOpen, 
@@ -113,51 +112,50 @@ export function StoreContent() {
 
   return (
     <>
-      {/* Store search */}
-      <section className={sectionSurface('cool', 'py-12 border-b border-sandstone/60 dark:border-slate-800')}>
-        <SectionAmbience tone="cool" />
-        <div className="container relative z-10 mx-auto">
-          <form
-            className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <div className="relative flex-1">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-              <Input
-                placeholder="Search resources..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-14 bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm focus:ring-brand-orange text-base font-medium"
-              />
-            </div>
-            <Button type="submit" size="lg" variant="brand" className="h-14 px-8 rounded-2xl font-bold text-base transition-all">
-              Search
-            </Button>
-          </form>
-        </div>
-      </section>
-
-      {/* Category Filter */}
+      {/* Category filter + search */}
       <section className="py-6 bg-white/80 dark:bg-slate-950/80 border-b border-slate-100 dark:border-slate-800">
         <div className="container mx-auto">
-          <div className="flex items-center gap-4 overflow-x-auto pb-2 no-scrollbar">
-            {categories.map((cat) => (
-              <Button 
-                key={cat.name}
-                type="button"
-                variant={activeCategory === cat.name ? "secondary" : "ghost"}
-                onClick={() => setActiveCategory(cat.name)}
-                className={cn(
-                  "whitespace-nowrap rounded-xl font-bold px-6 h-10 text-sm transition-all",
-                  activeCategory === cat.name
-                    ? "bg-brand-orange/10 text-brand-orange"
-                    : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900",
-                )}
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex min-w-0 flex-1 items-center gap-4 overflow-x-auto pb-2 no-scrollbar lg:pb-0">
+              {categories.map((cat) => (
+                <Button
+                  key={cat.name}
+                  type="button"
+                  variant={activeCategory === cat.name ? 'secondary' : 'ghost'}
+                  onClick={() => setActiveCategory(cat.name)}
+                  className={cn(
+                    'h-10 shrink-0 whitespace-nowrap rounded-xl px-6 text-sm font-bold transition-all',
+                    activeCategory === cat.name
+                      ? 'bg-brand-orange/10 text-brand-orange'
+                      : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900',
+                  )}
+                >
+                  <cat.icon className="mr-2 h-4 w-4 text-brand-orange" />
+                  {cat.name}
+                </Button>
+              ))}
+            </div>
+            <form
+              className="flex w-full shrink-0 gap-2 sm:max-w-sm lg:ml-4 lg:w-auto"
+              onSubmit={(e) => e.preventDefault()}
+            >
+              <div className="relative min-w-0 flex-1">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <Input
+                  placeholder="Search resources..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="h-10 rounded-xl border-slate-100 bg-white pl-10 text-sm font-medium shadow-sm focus:ring-brand-orange dark:border-slate-800 dark:bg-slate-900"
+                />
+              </div>
+              <Button
+                type="submit"
+                variant="brand"
+                className="h-10 shrink-0 rounded-xl px-5 text-sm font-bold"
               >
-                <cat.icon className="h-4 w-4 mr-2 text-brand-orange" />
-                {cat.name}
+                Search
               </Button>
-            ))}
+            </form>
           </div>
         </div>
       </section>
