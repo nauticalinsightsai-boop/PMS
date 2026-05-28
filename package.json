@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "clean:next": "node scripts/clean-next-cache.mjs",
+    "sync:portal-data": "node -e \"const fs=require('fs');const s='data/channel-landing-pages.json';const d='packages/booking-crm/data/channel-landing-pages.json';fs.copyFileSync(s,d);console.log('Synced portal data to booking-crm package');\"",
     "dev": "concurrently -n site,api,dash,dash-api,gw -c blue,green,magenta,yellow,cyan \"npm run dev -w @pms/frontend\" \"npm run dev -w @pms/backend\" \"npm run dev -w @pms/dashboard-frontend\" \"npm run dev -w @pms/dashboard-backend\" \"node scripts/dev-gateway.mjs\"",
     "dev:fresh": "node scripts/clean-next-cache.mjs --kill-ports && npm run dev",
     "dev:all": "npm run dev",

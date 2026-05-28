@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { getPublishedGoChannelSlugs } from '@pms/booking-crm';
 import { resolveChannelLandingPageForGo } from '@pms/booking-crm/repository';
 import ChannelConsultationPortalView from '@/components/channel-landing/ChannelConsultationPortalView';
 
@@ -7,6 +8,10 @@ type Props = {
   params: Promise<{ channel: string }>;
   searchParams: Promise<{ preview?: string }>;
 };
+
+export function generateStaticParams() {
+  return getPublishedGoChannelSlugs().map((channel) => ({ channel }));
+}
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { channel } = await params;

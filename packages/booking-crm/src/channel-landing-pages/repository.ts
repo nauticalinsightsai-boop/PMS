@@ -5,6 +5,7 @@ import {
 import {
   type ChannelLandingPage,
   defaultChannelLandingPage,
+  publicSlugForChannel,
   slugifyChannelKey,
 } from '../types/channelLandingPage'
 import { enrichChannelLandingPage, mergeChannelLandingPage } from './portalDefaults'
@@ -70,6 +71,17 @@ export function resolveChannelLandingPageForGo(
 ): ChannelLandingPage | null {
   const normalized = slug.toLowerCase().trim()
   const channelId = resolveChannelIdFromLegacyKey(normalized) ?? normalized
+
+  const pages = loadPages()
+  for (const page of Object.values(pages)) {
+    const matchesSlug =
+      page.slug.toLowerCase() === normalized ||
+      publicSlugForChannel(page.channelId, page.slug) === normalized
+    if (!matchesSlug) continue
+    if (options.preview || page.status === 'published') {
+      return enrichChannelLandingPage(page)
+    }
+  }
 
   if (options.preview) {
     const saved = getChannelLandingPageBySlug(normalized) ?? getChannelLandingPageByKey(channelId)

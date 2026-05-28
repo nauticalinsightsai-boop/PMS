@@ -1,13 +1,21 @@
 import type { NextConfig } from 'next';
 import path from 'path';
+import { getGoSlugRedirects } from './lib/go-slug-redirects';
 
 const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, '..'),
   transpilePackages: ['@pms/booking-crm'],
+  outputFileTracingIncludes: {
+    '/go/[channel]': [
+      './packages/booking-crm/data/channel-landing-pages.json',
+      './data/channel-landing-pages.json',
+    ],
+  },
   async redirects() {
     return [
+      ...getGoSlugRedirects(),
       {
         source: '/store',
         destination: '/community?view=store',

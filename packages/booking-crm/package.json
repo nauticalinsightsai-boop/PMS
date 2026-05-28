@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "files": [
+    "src",
+    "data"
+  ],
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {

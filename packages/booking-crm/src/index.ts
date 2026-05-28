@@ -10,4 +10,8 @@ export * from './channel-landing-pages/migrateChannelPages';
 export * from './channel-landing-pages/portalDefaults';
 export * from './channel-landing-pages/portalPersonaLint';
 export { getPublishedPortalSitemapPaths } from './channel-landing-pages/portalSitemap';
+export {
+  buildLegacyGoSlugRedirects,
+  getPublishedGoChannelSlugs,
+} from './channel-landing-pages/goSlugRedirects';
 export { assertTierDurationsValid } from './channel-landing-pages/tierDuration';
