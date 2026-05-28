@@ -43,11 +43,13 @@ export const ADMIN_CMS_FILTER_TOOLBAR_FILTERS_WRAP_CLASS =
 export const ADMIN_CMS_FILTER_TOOLBAR_ACTIONS_CLASS =
   'flex items-center gap-2 flex-nowrap whitespace-nowrap shrink-0 ml-auto';
 
+/** Matches shadcn `Input` + search icon padding for filter toolbars. */
 export const ADMIN_CMS_FILTER_INPUT_CLASS =
-  'w-56 pl-9 pr-3 py-2 r-input bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-ring';
+  'h-8 w-56 min-w-0 rounded-lg border border-input bg-background pl-9 pr-3 text-sm focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50';
 
+/** Matches shadcn select height and focus ring for filter toolbars. */
 export const ADMIN_CMS_FILTER_SELECT_CLASS =
-  'px-3 py-2 r-input bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-ring';
+  'h-8 rounded-lg border border-input bg-background px-3 text-sm focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50';
 
 export const ADMIN_CMS_PREVIEW_BUTTON_CLASS =
   'px-4 py-2 brand-surface r-card-sm hover:bg-muted transition-colors duration-200 whitespace-nowrap text-sm font-medium';

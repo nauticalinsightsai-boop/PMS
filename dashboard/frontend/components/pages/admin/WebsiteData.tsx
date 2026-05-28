@@ -99,7 +99,7 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gw-accent-primary" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-orange" />
       </div>
     );
   }
@@ -109,14 +109,14 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="text-4xl font-black tracking-tight mb-2">{pageConfig.label}</h1>
-          <p className="text-gw-text-secondary font-medium uppercase tracking-widest text-[10px] flex items-center gap-2">
-            <Globe size={12} className="text-gw-accent-primary" />
+          <p className="text-muted-foreground font-medium uppercase tracking-widest text-[10px] flex items-center gap-2">
+            <Globe size={12} className="text-brand-orange" />
             Edits content for{' '}
             <a
               href={livePageUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gw-accent-primary hover:underline inline-flex items-center gap-1"
+              className="text-brand-orange hover:underline inline-flex items-center gap-1"
             >
               {pageConfig.publicPath}
               <ExternalLink size={10} />
@@ -128,7 +128,7 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
             href={livePageUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border-2 border-gw-accent-primary text-gw-accent-primary hover:bg-gw-accent-primary hover:text-white px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-all"
+            className="inline-flex items-center gap-2 rounded-full border-2 border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-white px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-all"
           >
             View live page <ExternalLink size={12} />
           </a>
@@ -162,11 +162,11 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
                 <GlassCard key={section.id} variant="raised" className="p-8">
                   <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
                     <h3 className="text-xl font-bold flex items-center gap-2 uppercase tracking-tight">
-                      <Settings2 size={20} className="text-gw-accent-primary" /> {section.label}
+                      <Settings2 size={20} className="text-brand-orange" /> {section.label}
                     </h3>
                     <button
                       type="button"
-                      className="text-[10px] font-bold text-gw-text-secondary hover:text-gw-text-primary flex items-center gap-1 uppercase tracking-widest"
+                      className="text-[10px] font-bold text-muted-foreground hover:text-foreground flex items-center gap-1 uppercase tracking-widest"
                     >
                       <History size={12} /> Restore
                     </button>
@@ -175,7 +175,7 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
                   <div className="space-y-6">
                     {section.fields.map((field) => (
                       <div key={field.key} className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-gw-text-secondary ml-1">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">
                           {field.label}
                         </label>
                         {field.type === 'textarea' ? (
@@ -183,7 +183,7 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
                             value={content[field.key] || ''}
                             placeholder={`Enter ${field.label}...`}
                             onChange={(e) => handleChange(field.key, e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm leading-relaxed focus:ring-2 focus:ring-gw-accent-primary outline-none transition-all h-32"
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm leading-relaxed focus:ring-2 focus:ring-brand-orange outline-none transition-all h-32"
                           />
                         ) : (
                           <input
@@ -191,7 +191,7 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
                             value={content[field.key] || ''}
                             placeholder={`Enter ${field.label}...`}
                             onChange={(e) => handleChange(field.key, e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm font-bold focus:ring-2 focus:ring-gw-accent-primary outline-none transition-all"
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm font-bold focus:ring-2 focus:ring-brand-orange outline-none transition-all"
                           />
                         )}
                       </div>
@@ -202,7 +202,7 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
 
               {activePage === 'certifications' && (
                 <GlassCard className="p-6" variant="surface">
-                  <p className="text-sm text-gw-text-secondary">
+                  <p className="text-sm text-muted-foreground">
                     Individual certification detail pages (<code>/certifications/[id]</code>) use
                     pathway data from the certifications catalog. Edit listing copy here; detail
                     layouts are driven by site data.
@@ -212,42 +212,42 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
 
               <GlassCard className="p-8" variant="surface">
                 <div className="flex items-center gap-3 mb-6">
-                  <FileText className="text-gw-accent-primary" size={20} />
+                  <FileText className="text-brand-orange" size={20} />
                   <h3 className="text-xl font-bold">Search visibility</h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-gw-text-secondary ml-1">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">
                         Meta title
                       </label>
                       <input
                         type="text"
                         value={content[`${activePage}_meta_title`] || ''}
                         onChange={(e) => handleChange(`${activePage}_meta_title`, e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs focus:ring-1 focus:ring-gw-accent-primary outline-none"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs focus:ring-1 focus:ring-brand-orange outline-none"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-gw-text-secondary ml-1">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">
                         Meta description
                       </label>
                       <textarea
                         value={content[`${activePage}_meta_desc`] || ''}
                         onChange={(e) => handleChange(`${activePage}_meta_desc`, e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs focus:ring-1 focus:ring-gw-accent-primary outline-none h-24"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs focus:ring-1 focus:ring-brand-orange outline-none h-24"
                       />
                     </div>
                   </div>
                   <div className="p-6 bg-white/5 rounded-2xl border border-white/5">
-                    <p className="text-[10px] text-gw-text-secondary font-bold uppercase tracking-widest mb-4">
+                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-4">
                       Snippet preview
                     </p>
                     <p className="text-blue-500 font-medium text-base leading-tight">
                       {content[`${activePage}_meta_title`] || pageConfig.label} | PM Structure
                     </p>
                     <p className="text-green-600 text-[10px]">{livePageUrl}</p>
-                    <p className="text-gw-text-secondary text-[10px] line-clamp-2 mt-1">
+                    <p className="text-muted-foreground text-[10px] line-clamp-2 mt-1">
                       {content[`${activePage}_meta_desc`] ||
                         'Certification pathways for project professionals.'}
                     </p>

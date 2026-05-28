@@ -92,6 +92,26 @@ function solidHex(color: string, fallback: string): string {
   return color.startsWith('#') && color.length === 7 ? color : fallback
 }
 
+function isSolidHex(color: string): boolean {
+  return color.startsWith('#') && color.length === 7
+}
+
+function resolveBadgeText(
+  theme: PlatformPortalTheme,
+  bgKey: 'freeBadgeBg' | 'priceBadgeBg',
+  textKey: 'freeBadgeText' | 'priceBadgeText'
+): string {
+  const bg = theme[bgKey]
+  if (isSolidHex(bg)) {
+    return pickReadableForeground(bg)
+  }
+  if (theme[textKey]) {
+    return theme[textKey]
+  }
+  const underlay = solidHex(theme.cardBg, solidHex(theme.background, theme.surface))
+  return pickReadableForeground(solidHex(underlay, '#0F172A'))
+}
+
 function finalizeThemeTokens(theme: PlatformPortalTheme): PlatformPortalTheme {
   const primaryBg = solidHex(theme.primary, '#0A66C2')
   const recBg = solidHex(
@@ -109,8 +129,8 @@ function finalizeThemeTokens(theme: PlatformPortalTheme): PlatformPortalTheme {
     accentForeground: pickButtonForeground(solidHex(theme.accent, primaryBg)),
     recommendedText: pickButtonForeground(recBg),
     heroText: pickButtonForeground(heroBg),
-    freeBadgeText: pickReadableForeground(solidHex(theme.freeBadgeBg, theme.surface)),
-    priceBadgeText: pickReadableForeground(solidHex(theme.priceBadgeBg, theme.surface)),
+    freeBadgeText: resolveBadgeText(theme, 'freeBadgeBg', 'freeBadgeText'),
+    priceBadgeText: resolveBadgeText(theme, 'priceBadgeBg', 'priceBadgeText'),
   }
 }
 

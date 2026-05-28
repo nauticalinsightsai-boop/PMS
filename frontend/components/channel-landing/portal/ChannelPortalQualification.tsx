@@ -2,6 +2,7 @@
 
 import PortalExpandableSection from '@/components/channel-landing/portal/primitives/PortalExpandableSection'
 import PortalValueAccordionItem from '@/components/channel-landing/portal/primitives/PortalValueAccordionItem'
+import PortalSiteChips from '@/components/channel-landing/portal/PortalSiteChips'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 import { isConversionEnabledForChannel } from '@/lib/channel-landing-pages/portalConversionPacks'
 
@@ -53,6 +54,11 @@ export default function ChannelPortalQualification({ page, theme, sectionOrder }
       label="Who this is for"
       hint="Certification goals · mentor fit · what is included"
       defaultExpanded={false}
+      afterLabel={
+        page.channelId === 'website' ? (
+          <PortalSiteChips page={page} theme={theme} includeCompare />
+        ) : undefined
+      }
     >
       {riskLine ? (
         <p className="text-body-sm mb-4 leading-relaxed" style={{ color: theme.textMuted }}>
@@ -119,4 +125,4 @@ export default function ChannelPortalQualification({ page, theme, sectionOrder }
     </PortalExpandableSection>
   )
 }
-
+

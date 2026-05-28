@@ -84,8 +84,8 @@ export const UpdatePassword: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gw-bg-primary p-4 relative overflow-hidden">
-      <div className="absolute top-0 -left-20 w-96 h-96 bg-gw-accent-primary/10 rounded-full blur-[100px]" />
+    <div className="min-h-screen flex items-center justify-center bg-shell-gradient p-4 relative overflow-hidden">
+      <div className="absolute top-0 -left-20 w-96 h-96 bg-brand-orange/10 rounded-full blur-[100px]" />
       <div className="absolute bottom-0 -right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px]" />
 
       <motion.div
@@ -97,13 +97,13 @@ export const UpdatePassword: React.FC = () => {
           <div className="flex flex-col items-center mb-8">
             <BrandLogo size="lg" />
             <h1 className="text-2xl font-black mt-6">Set new password</h1>
-            <p className="text-gw-text-secondary text-sm mt-2 text-center">
+            <p className="text-muted-foreground text-sm mt-2 text-center">
               Choose a new password for your admin account
             </p>
           </div>
 
           {checking ? (
-            <p className="text-sm text-gw-text-secondary text-center">Verifying reset link…</p>
+            <p className="text-sm text-muted-foreground text-center">Verifying reset link…</p>
           ) : !ready ? (
             <div className="space-y-4 text-center">
               <p className="text-sm text-red-500 font-medium">
@@ -111,7 +111,7 @@ export const UpdatePassword: React.FC = () => {
               </p>
               <Link
                 href="/login"
-                className="inline-block text-sm font-semibold text-gw-accent-primary hover:underline"
+                className="inline-block text-sm font-semibold text-brand-orange hover:underline"
               >
                 Back to sign in
               </Link>
@@ -149,11 +149,11 @@ export const UpdatePassword: React.FC = () => {
             </form>
           )}
 
-          <div className="mt-8 pt-6 border-t border-white/5 flex flex-col items-center gap-3 text-gw-text-secondary text-xs">
+          <div className="mt-8 pt-6 border-t border-white/5 flex flex-col items-center gap-3 text-muted-foreground text-xs">
             <p className="flex items-center gap-2">
               <ShieldCheck size={14} /> Secured by Supabase Auth
             </p>
-            <Link href={siteUrl} className="hover:text-gw-accent-primary font-semibold transition-colors">
+            <Link href={siteUrl} className="hover:text-brand-orange font-semibold transition-colors">
               ← Back to main website
             </Link>
           </div>
@@ -180,7 +180,7 @@ function PasswordField({
 }) {
   return (
     <div className="space-y-2">
-      <label className="text-xs font-bold uppercase tracking-widest text-gw-text-secondary flex items-center gap-2">
+      <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
         <Lock size={14} /> {label}
       </label>
       <div className="relative">
@@ -188,7 +188,7 @@ function PasswordField({
           type={show ? 'text' : 'password'}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-gw-accent-primary/50"
+          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
           placeholder="••••••••"
           required
           minLength={8}
@@ -197,7 +197,7 @@ function PasswordField({
         <button
           type="button"
           onClick={onToggle}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gw-text-secondary hover:text-gw-accent-primary transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-brand-orange transition-colors"
           aria-label={show ? 'Hide password' : 'Show password'}
         >
           {show ? <EyeOff size={16} /> : <Eye size={16} />}

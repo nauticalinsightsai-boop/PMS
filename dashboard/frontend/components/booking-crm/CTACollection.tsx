@@ -32,6 +32,14 @@ import ChannelLandingEditor, {
   type ChannelLandingEditorMeta,
 } from '@/components/booking-crm/ChannelLandingEditor'
 import { BOOKING_CRM_CTA_PATH } from '@/lib/dashboard/bookingCrmRedirects'
+import { ConfirmDialog } from '@/components/shared/ConfirmDialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 const DEFAULT_CATEGORY = CTA_PLATFORM_CATEGORY_TABS[0].id
 const CTA_COLLECTION_UI_PREFS_KEY = 'cta-collection-ui-prefs-v1'
@@ -55,11 +63,6 @@ export default function CTACollection() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const editorRef = useRef<ChannelLandingEditorHandle>(null)
-  const categoryPopupRef = useRef<HTMLDivElement | null>(null)
-  const categoryPopupButtonRef = useRef<HTMLButtonElement | null>(null)
-  const channelPopupRef = useRef<HTMLDivElement | null>(null)
-  const channelPopupButtonRef = useRef<HTMLButtonElement | null>(null)
-
   const channelFromUrl = searchParams?.get('channel') ?? null
   const categoryFromUrl = searchParams?.get('category') as PlatformCategory | null
 
@@ -93,10 +96,8 @@ export default function CTACollection() {
     Partial<Record<PlatformCategory, string[]>>
   >({})
   const [showCategoryAddControls, setShowCategoryAddControls] = useState(false)
-  const [categoryPopupPosition, setCategoryPopupPosition] = useState<{ top: number; left: number } | null>(null)
   const [categoryVisibilityDraft, setCategoryVisibilityDraft] = useState<PlatformCategory[] | null>(null)
   const [showChannelAddControls, setShowChannelAddControls] = useState(false)
-  const [channelPopupPosition, setChannelPopupPosition] = useState<{ top: number; left: number } | null>(null)
   const [channelVisibilityDraft, setChannelVisibilityDraft] = useState<string[] | null>(null)
   const [newCategoryLabel, setNewCategoryLabel] = useState('')
   const [customCategoryLabels, setCustomCategoryLabels] = useState<string[]>([])
@@ -298,98 +299,20 @@ export default function CTACollection() {
   }, [filteredChannels, activeChannelId])
 
   useEffect(() => {
-    if (!showCategoryAddControls) return
-    setCategoryVisibilityDraft([...hiddenCategories])
-
-    const updatePopupPosition = () => {
-      const button = categoryPopupButtonRef.current
-      if (!button) return
-      const rect = button.getBoundingClientRect()
-      const popupWidth = 384
-      const margin = 8
-      const left = Math.min(
-        Math.max(margin, rect.right - popupWidth),
-        window.innerWidth - popupWidth - margin
-      )
-      const top = rect.bottom + 8
-      setCategoryPopupPosition({ top, left })
-    }
-
-    updatePopupPosition()
-
-    const onPointerDown = (event: MouseEvent) => {
-      const target = event.target as Node
-      if (categoryPopupRef.current?.contains(target)) return
-      if (categoryPopupButtonRef.current?.contains(target)) return
-      setShowCategoryAddControls(false)
+    if (!showCategoryAddControls) {
       setCategoryVisibilityDraft(null)
+      return
     }
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setShowCategoryAddControls(false)
-        setCategoryVisibilityDraft(null)
-      }
-    }
-
-    window.addEventListener('resize', updatePopupPosition)
-    window.addEventListener('scroll', updatePopupPosition, true)
-    document.addEventListener('mousedown', onPointerDown)
-    document.addEventListener('keydown', onKeyDown)
-    return () => {
-      window.removeEventListener('resize', updatePopupPosition)
-      window.removeEventListener('scroll', updatePopupPosition, true)
-      document.removeEventListener('mousedown', onPointerDown)
-      document.removeEventListener('keydown', onKeyDown)
-    }
-  }, [showCategoryAddControls])
+    setCategoryVisibilityDraft([...hiddenCategories])
+  }, [showCategoryAddControls, hiddenCategories])
 
   useEffect(() => {
-    if (!showChannelAddControls) return
-    setChannelVisibilityDraft([...(hiddenChannelsByCategory[activeCategory] ?? [])])
-
-    const updatePopupPosition = () => {
-      const button = channelPopupButtonRef.current
-      if (!button) return
-      const rect = button.getBoundingClientRect()
-      const popupWidth = 352
-      const margin = 8
-      const left = Math.min(
-        Math.max(margin, rect.right - popupWidth),
-        window.innerWidth - popupWidth - margin
-      )
-      const top = rect.bottom + 8
-      setChannelPopupPosition({ top, left })
-    }
-
-    updatePopupPosition()
-
-    const onPointerDown = (event: MouseEvent) => {
-      const target = event.target as Node
-      if (channelPopupRef.current?.contains(target)) return
-      if (channelPopupButtonRef.current?.contains(target)) return
-      setShowChannelAddControls(false)
+    if (!showChannelAddControls) {
       setChannelVisibilityDraft(null)
+      return
     }
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setShowChannelAddControls(false)
-        setChannelVisibilityDraft(null)
-      }
-    }
-
-    window.addEventListener('resize', updatePopupPosition)
-    window.addEventListener('scroll', updatePopupPosition, true)
-    document.addEventListener('mousedown', onPointerDown)
-    document.addEventListener('keydown', onKeyDown)
-    return () => {
-      window.removeEventListener('resize', updatePopupPosition)
-      window.removeEventListener('scroll', updatePopupPosition, true)
-      document.removeEventListener('mousedown', onPointerDown)
-      document.removeEventListener('keydown', onKeyDown)
-    }
-  }, [showChannelAddControls])
+    setChannelVisibilityDraft([...(hiddenChannelsByCategory[activeCategory] ?? [])])
+  }, [showChannelAddControls, hiddenChannelsByCategory, activeCategory])
 
   const onCategoryChange = (categoryId: string) => {
     const category = categoryId as PlatformCategory
@@ -611,7 +534,7 @@ export default function CTACollection() {
                     <button
                       type="button"
                       onClick={() => removeCategoryTab(tab.id as PlatformCategory)}
-                      className="ml-0 w-0 overflow-hidden p-0 rounded hover:bg-gw-bg-secondary text-gw-text-secondary opacity-0 pointer-events-none group-hover:w-5 group-hover:ml-1 group-hover:p-1 group-hover:opacity-100 group-hover:pointer-events-auto focus-visible:w-5 focus-visible:ml-1 focus-visible:p-1 focus-visible:opacity-100 focus-visible:pointer-events-auto transition-all duration-200"
+                      className="ml-0 w-0 overflow-hidden p-0 rounded hover:bg-card text-muted-foreground opacity-0 pointer-events-none group-hover:w-5 group-hover:ml-1 group-hover:p-1 group-hover:opacity-100 group-hover:pointer-events-auto focus-visible:w-5 focus-visible:ml-1 focus-visible:p-1 focus-visible:opacity-100 focus-visible:pointer-events-auto transition-all duration-200"
                       title={`Remove ${tab.label}`}
                       aria-label={`Remove ${tab.label}`}
                       disabled={categoryTabItems.length <= 1}
@@ -623,13 +546,13 @@ export default function CTACollection() {
               })}
               {customCategoryLabels.map((label) => (
                 <div key={`custom-category-${label}`} className="inline-flex items-center group">
-                  <span className="px-3 py-2 text-label whitespace-nowrap text-gw-text-secondary border border-dashed border-gw-text-secondary/35 rounded">
+                  <span className="px-3 py-2 text-label whitespace-nowrap text-muted-foreground border border-dashed border-muted-foreground/35 rounded">
                     {label}
                   </span>
                   <button
                     type="button"
                     onClick={() => removeCustomCategoryLabel(label)}
-                    className="ml-1 p-1 rounded hover:bg-gw-bg-secondary text-gw-text-secondary opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
+                    className="ml-1 p-1 rounded hover:bg-card text-muted-foreground opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
                     title={`Remove ${label}`}
                     aria-label={`Remove ${label}`}
                   >
@@ -642,114 +565,15 @@ export default function CTACollection() {
           trailing={
             <div className="flex items-center gap-2">
               <button
-                ref={categoryPopupButtonRef}
                 type="button"
                 onClick={() => setShowCategoryAddControls((v) => !v)}
-                className="inline-flex items-center justify-center w-8 h-8 rounded border border-gw-text-secondary/25 text-gw-accent-primary hover:bg-gw-bg-secondary"
+                className="inline-flex items-center justify-center w-8 h-8 rounded border border-muted-foreground/25 text-brand-orange hover:bg-card"
                 aria-label="Show add category controls"
                 title="Add category"
                 aria-haspopup="dialog"
               >
                 <Plus size={14} />
               </button>
-              {showCategoryAddControls ? (
-                <div
-                  ref={categoryPopupRef}
-                  role="dialog"
-                  aria-label="Add and manage categories"
-                  className="fixed z-[80] w-[24rem] max-w-[min(28rem,calc(100vw-1rem))] max-h-[min(60vh,26rem)] overflow-y-auto p-3 rounded-lg border border-slate-300/70 dark:border-slate-700/70 bg-gw-bg-primary shadow-modal"
-                  style={{
-                    top: categoryPopupPosition?.top ?? 0,
-                    left: categoryPopupPosition?.left ?? 8,
-                  }}
-                >
-                  <div className="flex items-center justify-between gap-2 pb-2 border-b border-gw-text-secondary/15">
-                    <p className="text-body-sm font-semibold text-gw-text-primary">Manage categories</p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowCategoryAddControls(false)
-                        setCategoryVisibilityDraft(null)
-                      }}
-                      className="p-1 rounded hover:bg-gw-bg-secondary text-gw-text-secondary"
-                      aria-label="Close category popup"
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-
-                  <div className="mt-3">
-                    <p className="text-meta text-gw-text-secondary mb-1">Create new</p>
-                    <div className="flex items-center gap-2">
-                      <input
-                        value={newCategoryLabel}
-                        onChange={(e) => setNewCategoryLabel(e.target.value)}
-                        placeholder="Add new category"
-                        className={`${ADMIN_CMS_FILTER_INPUT_CLASS} flex-1 min-w-0`}
-                      />
-                      <button
-                        type="button"
-                        onClick={addCustomCategoryLabel}
-                        disabled={!newCategoryLabel.trim()}
-                        className="px-2.5 py-2 rounded border border-gw-accent-primary/35 text-body-sm text-gw-accent-primary disabled:opacity-50"
-                      >
-                        Create
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="mt-3">
-                    <div className="max-h-40 overflow-y-auto pr-1 scrollbar-hide">
-                      <div className="flex flex-col gap-2">
-                      {CTA_PLATFORM_CATEGORY_TABS.filter((tab) => !deletedCategories.includes(tab.id)).map((tab) => {
-                        const hidden = (categoryVisibilityDraft ?? hiddenCategories).includes(tab.id)
-                        return (
-                          <button
-                            key={`manage-${tab.id}`}
-                            type="button"
-                            onClick={() => toggleCategoryVisibility(tab.id)}
-                            className={`inline-flex items-center justify-between gap-2 w-full px-1 py-1.5 border-0 border-b rounded-none text-body-sm ${
-                              hidden
-                                ? 'border-gw-text-secondary/25 text-gw-text-secondary'
-                                : 'border-gw-accent-primary/30 text-gw-accent-primary'
-                            }`}
-                            title={hidden ? `Show ${tab.label}` : `Hide ${tab.label}`}
-                          >
-                            <span>{tab.label}</span>
-                            {hidden ? <EyeOff size={12} /> : <Eye size={12} />}
-                          </button>
-                        )
-                      })}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 flex items-center justify-end gap-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCategoryVisibilityDraft([...hiddenCategories])
-                        setShowCategoryAddControls(false)
-                        setCategoryVisibilityDraft(null)
-                      }}
-                      className="px-3 py-2 text-body-sm text-gw-text-secondary hover:text-gw-text-primary"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={saveCategoryVisibilityChanges}
-                      disabled={
-                        JSON.stringify((categoryVisibilityDraft ?? []).slice().sort()) ===
-                        JSON.stringify(hiddenCategories.slice().sort())
-                      }
-                      className="px-3 py-2 rounded border border-gw-accent-primary/35 text-body-sm text-gw-accent-primary disabled:opacity-50"
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-              ) : null}
             </div>
           }
         />
@@ -764,7 +588,7 @@ export default function CTACollection() {
               <div className="relative flex-1 min-w-[10rem]">
                 <Search
                   size={14}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gw-text-secondary pointer-events-none"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
                 />
                 <input
                   value={query}
@@ -778,7 +602,7 @@ export default function CTACollection() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
-                className="px-3 py-2 text-body-sm text-gw-accent-primary bg-transparent border-0 focus:outline-none"
+                className="px-3 py-2 text-body-sm text-brand-orange bg-transparent border-0 focus:outline-none"
                 aria-label="Filter by publish status"
               >
                 <option value="all">All statuses</option>
@@ -793,7 +617,7 @@ export default function CTACollection() {
                   setQuery('')
                   setStatusFilter('all')
                 }}
-                className="px-3 py-2 text-body-sm text-gw-accent-primary hover:text-gw-text-primary transition-colors whitespace-nowrap"
+                className="px-3 py-2 text-body-sm text-brand-orange hover:text-foreground transition-colors whitespace-nowrap"
               >
                 Clear filters
           </button>
@@ -821,7 +645,7 @@ export default function CTACollection() {
                       <button
                         type="button"
                         onClick={() => removeChannelChip(ch.channelId)}
-                        className="ml-0 w-0 overflow-hidden p-0 rounded hover:bg-gw-bg-secondary text-gw-text-secondary opacity-0 pointer-events-none group-hover:w-5 group-hover:ml-1 group-hover:p-1 group-hover:opacity-100 group-hover:pointer-events-auto focus-visible:w-5 focus-visible:ml-1 focus-visible:p-1 focus-visible:opacity-100 focus-visible:pointer-events-auto transition-all duration-200"
+                        className="ml-0 w-0 overflow-hidden p-0 rounded hover:bg-card text-muted-foreground opacity-0 pointer-events-none group-hover:w-5 group-hover:ml-1 group-hover:p-1 group-hover:opacity-100 group-hover:pointer-events-auto focus-visible:w-5 focus-visible:ml-1 focus-visible:p-1 focus-visible:opacity-100 focus-visible:pointer-events-auto transition-all duration-200"
                         title={`Remove ${ch.label}`}
                         aria-label={`Remove ${ch.label}`}
                         disabled={channelsInCategory.length <= 1}
@@ -835,121 +659,15 @@ export default function CTACollection() {
             ) : null}
             <div className="inline-flex items-center gap-2 ml-auto relative">
               <button
-                ref={channelPopupButtonRef}
                 type="button"
-                onClick={() =>
-                  setShowChannelAddControls((v) => {
-                    if (v) setChannelVisibilityDraft(null)
-                    return !v
-                  })
-                }
-                className="inline-flex items-center justify-center w-8 h-8 rounded border border-gw-text-secondary/25 text-gw-accent-primary hover:bg-gw-bg-secondary"
+                onClick={() => setShowChannelAddControls(true)}
+                className="inline-flex items-center justify-center w-8 h-8 rounded border border-muted-foreground/25 text-brand-orange hover:bg-card"
                 aria-label="Show add channel controls"
                 title="Add channel"
                 aria-haspopup="dialog"
               >
                 <Plus size={14} />
               </button>
-              {showChannelAddControls ? (
-                <div
-                  ref={channelPopupRef}
-                  role="dialog"
-                  aria-label="Add and manage channels"
-                  className="fixed z-[80] w-[24rem] max-w-[min(28rem,calc(100vw-1rem))] max-h-[min(60vh,26rem)] overflow-y-auto p-3 rounded-lg border border-slate-300/70 dark:border-slate-700/70 bg-gw-bg-primary shadow-modal"
-                  style={{
-                    top: channelPopupPosition?.top ?? 0,
-                    left: channelPopupPosition?.left ?? 8,
-                  }}
-                >
-                  <div className="flex items-center justify-between gap-2 pb-2 border-b border-gw-text-secondary/15">
-                    <p className="text-body-sm font-semibold text-gw-text-primary">Manage channels</p>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowChannelAddControls(false)
-                        setChannelVisibilityDraft(null)
-                      }}
-                      className="p-1 rounded hover:bg-gw-bg-secondary text-gw-text-secondary"
-                      aria-label="Close channel popup"
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-
-                  <div className="mt-3">
-                    <p className="text-meta text-gw-text-secondary mb-1">Create new</p>
-                    <div className="flex items-center gap-2">
-                      <input
-                        value={newChannelLabel}
-                        onChange={(e) => setNewChannelLabel(e.target.value)}
-                        placeholder="Add new channel"
-                        className={`${ADMIN_CMS_FILTER_INPUT_CLASS} flex-1 min-w-0`}
-                      />
-                      <button
-                        type="button"
-                        onClick={addCustomChannelLabel}
-                        disabled={!newChannelLabel.trim()}
-                        className="px-2.5 py-2 rounded border border-gw-accent-primary/35 text-body-sm text-gw-accent-primary disabled:opacity-50"
-                      >
-                        Create
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="mt-3">
-                    <div className="max-h-40 overflow-y-auto pr-1 scrollbar-hide">
-                      <div className="flex flex-col gap-2">
-                      {allChannelsInCategory.map((ch) => {
-                        const hidden = (channelVisibilityDraft ?? hiddenChannelsForActiveCategory).includes(
-                          ch.channelId
-                        )
-                        return (
-                          <button
-                            key={`manage-channel-${ch.channelId}`}
-                            type="button"
-                            onClick={() => toggleChannelVisibility(ch.channelId)}
-                            className={`inline-flex items-center justify-between gap-2 w-full px-1 py-1.5 border-0 border-b rounded-none text-body-sm ${
-                              hidden
-                                ? 'border-gw-text-secondary/25 text-gw-text-secondary'
-                                : 'border-gw-accent-primary/30 text-gw-accent-primary'
-                            }`}
-                            title={hidden ? `Show ${ch.label}` : `Hide ${ch.label}`}
-                          >
-                            <span className="text-left">{ch.label}</span>
-                            {hidden ? <EyeOff size={12} /> : <Eye size={12} />}
-                          </button>
-                        )
-                      })}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 flex items-center justify-end gap-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setChannelVisibilityDraft([...(hiddenChannelsByCategory[activeCategory] ?? [])])
-                        setShowChannelAddControls(false)
-                        setChannelVisibilityDraft(null)
-                      }}
-                      className="px-3 py-2 text-body-sm text-gw-text-secondary hover:text-gw-text-primary"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={saveChannelVisibilityChanges}
-                      disabled={
-                        JSON.stringify((channelVisibilityDraft ?? []).slice().sort()) ===
-                        JSON.stringify((hiddenChannelsByCategory[activeCategory] ?? []).slice().sort())
-                      }
-                      className="px-3 py-2 rounded border border-gw-accent-primary/35 text-body-sm text-gw-accent-primary disabled:opacity-50"
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-              ) : null}
             </div>
           </div>
         }
@@ -979,14 +697,14 @@ export default function CTACollection() {
 
       {filteredChannels.length === 0 ? (
         <div className="px-2 py-12 text-center">
-          <p className="text-body text-gw-text-secondary">
+          <p className="text-body text-muted-foreground">
             No channels match your filters in{' '}
             {CTA_PLATFORM_CATEGORY_TABS.find((c) => c.id === activeCategory)?.label ?? 'this category'}.
           </p>
           {(query || statusFilter !== 'all') && (
             <button
               type="button"
-              className="mt-4 text-body-sm text-gw-accent-primary hover:underline"
+              className="mt-4 text-body-sm text-brand-orange hover:underline"
               onClick={() => {
                 setQuery('')
                 setStatusFilter('all')
@@ -997,12 +715,12 @@ export default function CTACollection() {
            )}
         </div>
       ) : !activePlatform ? (
-        <p className="text-body-sm text-gw-text-secondary px-2 py-8">Select a channel to edit.</p>
+        <p className="text-body-sm text-muted-foreground px-2 py-8">Select a channel to edit.</p>
       ) : (
         <GlassCard
           hover={false}
           liquid={false}
-          className="p-4 md:p-6 bg-gw-bg-secondary/90 border border-gw-text-secondary/20"
+          className="p-4 md:p-6 bg-card/90 border border-muted-foreground/20"
         >
           <ChannelLandingEditor
             key={effectiveChannelId}
@@ -1014,106 +732,258 @@ export default function CTACollection() {
       </GlassCard>
       )}
 
-      {pendingDeleteCategory ? (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-lg border border-slate-300/70 dark:border-slate-700/70 bg-gw-bg-primary p-4 shadow-modal">
-            <h3 className="text-body font-semibold text-gw-text-primary">Delete category</h3>
-            <p className="mt-2 text-body-sm text-gw-text-secondary">
-              Are you sure you want to delete <strong>{pendingDeleteCategory.categoryLabel}</strong>?
-            </p>
-            <p className="mt-2 text-body-sm text-gw-text-secondary">
-              To confirm, type:{' '}
-              <code className="text-meta">
-                {expectedDeleteCategoryPhrase(pendingDeleteCategory.categoryLabel)}
-              </code>
-            </p>
-            <input
-              value={pendingDeleteCategory.typed}
-              onChange={(e) =>
-                setPendingDeleteCategory((prev) =>
-                  prev ? { ...prev, typed: e.target.value } : prev
-                )
-              }
-              placeholder="Type confirmation phrase"
-              className={`${ADMIN_CMS_FILTER_INPUT_CLASS} mt-3 w-full`}
-              aria-label="Delete category confirmation text"
-            />
-            <div className="mt-4 flex items-center justify-end gap-2">
+      <Dialog
+        open={showCategoryAddControls}
+        onOpenChange={(open) => {
+          setShowCategoryAddControls(open)
+          if (!open) setCategoryVisibilityDraft(null)
+        }}
+      >
+        <DialogContent className="max-h-[min(60vh,26rem)] max-w-md overflow-y-auto sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Manage categories</DialogTitle>
+            <DialogDescription>Create categories and toggle visibility in the tab bar.</DialogDescription>
+          </DialogHeader>
+          <div>
+            <p className="text-meta text-muted-foreground mb-1">Create new</p>
+            <div className="flex items-center gap-2">
+              <input
+                value={newCategoryLabel}
+                onChange={(e) => setNewCategoryLabel(e.target.value)}
+                placeholder="Add new category"
+                className={`${ADMIN_CMS_FILTER_INPUT_CLASS} min-w-0 flex-1`}
+              />
               <button
                 type="button"
-                onClick={() => setPendingDeleteCategory(null)}
-                className="px-3 py-2 text-body-sm text-gw-text-secondary hover:text-gw-text-primary"
+                onClick={addCustomCategoryLabel}
+                disabled={!newCategoryLabel.trim()}
+                className="rounded border border-brand-orange/35 px-2.5 py-2 text-body-sm text-brand-orange disabled:opacity-50"
               >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  if (!pendingDeleteCategory) return
-                  performRemoveCategoryTab(pendingDeleteCategory.categoryId)
-                  setPendingDeleteCategory(null)
-                }}
-                disabled={
-                  pendingDeleteCategory.typed.trim().toLowerCase() !==
-                  expectedDeleteCategoryPhrase(pendingDeleteCategory.categoryLabel).toLowerCase()
-                }
-                className="px-3 py-2 rounded bg-red-600 text-white text-body-sm disabled:opacity-50"
-              >
-                Delete
+                Create
               </button>
             </div>
           </div>
-        </div>
-      ) : null}
+          <div className="max-h-40 overflow-y-auto pr-1 scrollbar-hide">
+            <div className="flex flex-col gap-2">
+              {CTA_PLATFORM_CATEGORY_TABS.filter((tab) => !deletedCategories.includes(tab.id)).map((tab) => {
+                const hidden = (categoryVisibilityDraft ?? hiddenCategories).includes(tab.id)
+                return (
+                  <button
+                    key={`manage-${tab.id}`}
+                    type="button"
+                    onClick={() => toggleCategoryVisibility(tab.id)}
+                    className={`inline-flex w-full items-center justify-between gap-2 rounded-none border-0 border-b px-1 py-1.5 text-body-sm ${
+                      hidden
+                        ? 'border-muted-foreground/25 text-muted-foreground'
+                        : 'border-brand-orange/30 text-brand-orange'
+                    }`}
+                    title={hidden ? `Show ${tab.label}` : `Hide ${tab.label}`}
+                  >
+                    <span>{tab.label}</span>
+                    {hidden ? <EyeOff size={12} /> : <Eye size={12} />}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+          <div className="flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setCategoryVisibilityDraft([...hiddenCategories])
+                setShowCategoryAddControls(false)
+                setCategoryVisibilityDraft(null)
+              }}
+              className="px-3 py-2 text-body-sm text-muted-foreground hover:text-foreground"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={saveCategoryVisibilityChanges}
+              disabled={
+                JSON.stringify((categoryVisibilityDraft ?? []).slice().sort()) ===
+                JSON.stringify(hiddenCategories.slice().sort())
+              }
+              className="rounded border border-brand-orange/35 px-3 py-2 text-body-sm text-brand-orange disabled:opacity-50"
+            >
+              Save
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
-      {pendingDeleteChannel ? (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-lg border border-slate-300/70 dark:border-slate-700/70 bg-gw-bg-primary p-4 shadow-modal">
-            <h3 className="text-body font-semibold text-gw-text-primary">Delete channel</h3>
-            <p className="mt-2 text-body-sm text-gw-text-secondary">
-              Are you sure you want to delete <strong>{pendingDeleteChannel.channelLabel}</strong>?
-            </p>
-            <p className="mt-2 text-body-sm text-gw-text-secondary">
-              To confirm, type: <code className="text-meta">{expectedDeletePhrase(pendingDeleteChannel.channelLabel)}</code>
-            </p>
-            <input
-              value={pendingDeleteChannel.typed}
-              onChange={(e) =>
-                setPendingDeleteChannel((prev) =>
-                  prev ? { ...prev, typed: e.target.value } : prev
-                )
-              }
-              placeholder="Type confirmation phrase"
-              className={`${ADMIN_CMS_FILTER_INPUT_CLASS} mt-3 w-full`}
-              aria-label="Delete confirmation text"
-            />
-            <div className="mt-4 flex items-center justify-end gap-2">
+      <Dialog
+        open={showChannelAddControls}
+        onOpenChange={(open) => {
+          setShowChannelAddControls(open)
+          if (!open) setChannelVisibilityDraft(null)
+        }}
+      >
+        <DialogContent className="max-h-[min(60vh,26rem)] max-w-md overflow-y-auto sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Manage channels</DialogTitle>
+            <DialogDescription>
+              Create channels and toggle visibility for{' '}
+              {CTA_PLATFORM_CATEGORY_TABS.find((c) => c.id === activeCategory)?.label ?? 'this category'}.
+            </DialogDescription>
+          </DialogHeader>
+          <div>
+            <p className="text-meta text-muted-foreground mb-1">Create new</p>
+            <div className="flex items-center gap-2">
+              <input
+                value={newChannelLabel}
+                onChange={(e) => setNewChannelLabel(e.target.value)}
+                placeholder="Add new channel"
+                className={`${ADMIN_CMS_FILTER_INPUT_CLASS} min-w-0 flex-1`}
+              />
               <button
                 type="button"
-                onClick={() => setPendingDeleteChannel(null)}
-                className="px-3 py-2 text-body-sm text-gw-text-secondary hover:text-gw-text-primary"
+                onClick={addCustomChannelLabel}
+                disabled={!newChannelLabel.trim()}
+                className="rounded border border-brand-orange/35 px-2.5 py-2 text-body-sm text-brand-orange disabled:opacity-50"
               >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  if (!pendingDeleteChannel) return
-                  performRemoveChannelChip(pendingDeleteChannel.channelId)
-                  setPendingDeleteChannel(null)
-                }}
-                disabled={
-                  pendingDeleteChannel.typed.trim().toLowerCase() !==
-                  expectedDeletePhrase(pendingDeleteChannel.channelLabel).toLowerCase()
-                }
-                className="px-3 py-2 rounded bg-red-600 text-white text-body-sm disabled:opacity-50"
-              >
-                Delete
+                Create
               </button>
             </div>
           </div>
-        </div>
-      ) : null}
+          <div className="max-h-40 overflow-y-auto pr-1 scrollbar-hide">
+            <div className="flex flex-col gap-2">
+              {allChannelsInCategory.map((ch) => {
+                const hidden = (channelVisibilityDraft ?? hiddenChannelsForActiveCategory).includes(
+                  ch.channelId,
+                )
+                return (
+                  <button
+                    key={`manage-channel-${ch.channelId}`}
+                    type="button"
+                    onClick={() => toggleChannelVisibility(ch.channelId)}
+                    className={`inline-flex w-full items-center justify-between gap-2 rounded-none border-0 border-b px-1 py-1.5 text-body-sm ${
+                      hidden
+                        ? 'border-muted-foreground/25 text-muted-foreground'
+                        : 'border-brand-orange/30 text-brand-orange'
+                    }`}
+                    title={hidden ? `Show ${ch.label}` : `Hide ${ch.label}`}
+                  >
+                    <span className="text-left">{ch.label}</span>
+                    {hidden ? <EyeOff size={12} /> : <Eye size={12} />}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+          <div className="flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setChannelVisibilityDraft([...(hiddenChannelsByCategory[activeCategory] ?? [])])
+                setShowChannelAddControls(false)
+                setChannelVisibilityDraft(null)
+              }}
+              className="px-3 py-2 text-body-sm text-muted-foreground hover:text-foreground"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={saveChannelVisibilityChanges}
+              disabled={
+                JSON.stringify((channelVisibilityDraft ?? []).slice().sort()) ===
+                JSON.stringify((hiddenChannelsByCategory[activeCategory] ?? []).slice().sort())
+              }
+              className="rounded border border-brand-orange/35 px-3 py-2 text-body-sm text-brand-orange disabled:opacity-50"
+            >
+              Save
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <ConfirmDialog
+        open={!!pendingDeleteCategory}
+        onOpenChange={(open) => !open && setPendingDeleteCategory(null)}
+        title="Delete category"
+        description={
+          pendingDeleteCategory ? (
+            <>
+              Are you sure you want to delete <strong>{pendingDeleteCategory.categoryLabel}</strong>?
+              <span className="mt-2 block">
+                To confirm, type:{' '}
+                <code className="text-meta">
+                  {expectedDeleteCategoryPhrase(pendingDeleteCategory.categoryLabel)}
+                </code>
+              </span>
+            </>
+          ) : undefined
+        }
+        confirmLabel="Delete"
+        confirmVariant="destructive"
+        confirmDisabled={
+          !pendingDeleteCategory ||
+          pendingDeleteCategory.typed.trim().toLowerCase() !==
+            expectedDeleteCategoryPhrase(pendingDeleteCategory.categoryLabel).toLowerCase()
+        }
+        onConfirm={() => {
+          if (!pendingDeleteCategory) return
+          performRemoveCategoryTab(pendingDeleteCategory.categoryId)
+          setPendingDeleteCategory(null)
+        }}
+      >
+        {pendingDeleteCategory ? (
+          <input
+            value={pendingDeleteCategory.typed}
+            onChange={(e) =>
+              setPendingDeleteCategory((prev) => (prev ? { ...prev, typed: e.target.value } : prev))
+            }
+            placeholder="Type confirmation phrase"
+            className={`${ADMIN_CMS_FILTER_INPUT_CLASS} w-full`}
+            aria-label="Delete category confirmation text"
+          />
+        ) : null}
+      </ConfirmDialog>
+
+      <ConfirmDialog
+        open={!!pendingDeleteChannel}
+        onOpenChange={(open) => !open && setPendingDeleteChannel(null)}
+        title="Delete channel"
+        description={
+          pendingDeleteChannel ? (
+            <>
+              Are you sure you want to delete <strong>{pendingDeleteChannel.channelLabel}</strong>?
+              <span className="mt-2 block">
+                To confirm, type:{' '}
+                <code className="text-meta">
+                  {expectedDeletePhrase(pendingDeleteChannel.channelLabel)}
+                </code>
+              </span>
+            </>
+          ) : undefined
+        }
+        confirmLabel="Delete"
+        confirmVariant="destructive"
+        confirmDisabled={
+          !pendingDeleteChannel ||
+          pendingDeleteChannel.typed.trim().toLowerCase() !==
+            expectedDeletePhrase(pendingDeleteChannel.channelLabel).toLowerCase()
+        }
+        onConfirm={() => {
+          if (!pendingDeleteChannel) return
+          performRemoveChannelChip(pendingDeleteChannel.channelId)
+          setPendingDeleteChannel(null)
+        }}
+      >
+        {pendingDeleteChannel ? (
+          <input
+            value={pendingDeleteChannel.typed}
+            onChange={(e) =>
+              setPendingDeleteChannel((prev) => (prev ? { ...prev, typed: e.target.value } : prev))
+            }
+            placeholder="Type confirmation phrase"
+            className={`${ADMIN_CMS_FILTER_INPUT_CLASS} w-full`}
+            aria-label="Delete confirmation text"
+          />
+        ) : null}
+      </ConfirmDialog>
     </AdminCmsEditorShell>
   )
 }

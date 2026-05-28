@@ -78,9 +78,9 @@ export const HERO_CARD_BY_CHANNEL: Record<
       'Watch the webinar overview, then book a free mentor intro or a paid pathway session. Certification guidance from Project Management Structure.',
   },
   website: {
-    heroCardTitle: 'Talk to a mentor',
+    heroCardTitle: 'Site-native consultation booking',
     heroCardBody:
-      'Mentor-led guidance on certification fit, prep options, and membership. Cite the page or asset that brought you here.',
+      'Principal advisory for projects, deliverables, and execution — booked from pages and assets on this site.',
   },
   medium: {
     heroCardTitle: 'Publication-to-session booking',
@@ -256,10 +256,13 @@ export const CHANNEL_PORTAL_COPY: Record<string, ChannelPortalCopy> = {
     contextLabel: 'OWNED WEB PROPERTY',
     headline: 'Project Management Structure: certification and career guidance',
     subheadline:
-      'Book a free mentor intro or a paid pathway session. Pathway choice, prep options, and regional pricing for your credential goal.',
-    targetMessage: 'Name the page or asset you came from so we align the session to your certification goal.',
+      'Request advisory or a discovery call. Book a free mentor intro or a paid pathway session.',
+    targetMessage: 'Name the page or asset you came from so we align the session to your intent.',
     availabilityLabel: 'Mentor sessions open',
     schedulingTitle: 'Book a session',
+    heroCardTitle: 'Site-native consultation booking',
+    heroCardBody:
+      'Principal advisory for projects, deliverables, and execution — booked from pages and assets on this site.',
   },
   webinar: {
     scheduleTierCta: 'Talk to a mentor',

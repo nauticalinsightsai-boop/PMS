@@ -111,7 +111,11 @@ export default function ChannelPortalHeroHeader({
               )}
             </div>
           </div>
-          <PortalHeaderUtilities page={page} theme={theme} />
+          <PortalHeaderUtilities
+            page={page}
+            theme={theme}
+            engagementLinks={page.channelId !== 'website'}
+          />
         </div>
         {onBookMentor ? (
           <PortalButton theme={theme} variant="recommended" className="w-full sm:w-auto" onClick={onBookMentor}>
@@ -172,7 +176,11 @@ export default function ChannelPortalHeroHeader({
             </p>
           </div>
         </div>
-        <PortalHeaderUtilities page={page} theme={theme} />
+        <PortalHeaderUtilities
+          page={page}
+          theme={theme}
+          engagementLinks={page.channelId !== 'website'}
+        />
       </div>
       {onBookMentor ? (
         <PortalButton theme={theme} variant="recommended" className="w-full sm:w-auto" onClick={onBookMentor}>

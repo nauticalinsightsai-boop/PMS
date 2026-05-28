@@ -17,6 +17,8 @@ import {
 } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { CTAButton } from '@/components/ui/CTAButton';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SyncStatusIndicator, SyncStatus } from '@/components/shared/SyncStatusIndicator';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
 import { siteUrl } from '@/lib/site-config';
@@ -348,7 +350,7 @@ export function HomeCmsEditor() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gw-accent-primary" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-orange" />
       </div>
     );
   }
@@ -361,37 +363,37 @@ export function HomeCmsEditor() {
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6 space-y-4 pb-8">
         <header className="pt-2">
           <h1 className="text-3xl font-black tracking-tight">Homepage CMS</h1>
-          <p className="text-gw-text-secondary text-sm mt-1">
+          <p className="text-muted-foreground text-sm mt-1">
             Edit public homepage sections. Draft saves to Supabase; Publish makes them live.
           </p>
         </header>
 
-        <div className="sticky top-0 z-20 bg-gw-bg-primary py-3 border-b border-white/10">
+        <div className="sticky top-0 z-20 bg-background py-3 border-b border-white/10">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex gap-2 overflow-x-auto no-scrollbar min-w-0">
-              {tabItems.map((tab) => {
-                const Icon = tab.icon;
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => {
-                      setActiveTab(tab.id);
-                      setSearch('');
-                    }}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest whitespace-nowrap transition-colors ${
-                      isActive
-                        ? 'bg-gw-accent-primary/15 text-gw-accent-primary'
-                        : 'text-gw-text-secondary hover:text-gw-text-primary hover:bg-white/5'
-                    }`}
-                  >
-                    <Icon size={14} />
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </div>
+            <Tabs
+              value={activeTab}
+              onValueChange={(value) => {
+                setActiveTab(value as CmsTab);
+                setSearch('');
+              }}
+              className="min-w-0 flex-1"
+            >
+              <TabsList variant="line" className="h-auto w-full justify-start gap-1 overflow-x-auto bg-transparent p-0 no-scrollbar">
+                {tabItems.map((tab) => {
+                  const Icon = tab.icon;
+                  return (
+                    <TabsTrigger
+                      key={tab.id}
+                      value={tab.id}
+                      className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold uppercase tracking-widest text-muted-foreground data-active:bg-brand-orange/15 data-active:text-brand-orange"
+                    >
+                      <Icon size={14} />
+                      {tab.label}
+                    </TabsTrigger>
+                  );
+                })}
+              </TabsList>
+            </Tabs>
 
             <div className="flex flex-wrap items-center gap-2 shrink-0">
               <SyncStatusIndicator status={syncStatus} lastSynced={lastSynced} onManualSync={handleSaveDraft} />
@@ -421,13 +423,13 @@ export function HomeCmsEditor() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search in current tab..."
-            className="w-56 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+            className="w-56 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
           />
           {search ? (
             <button
               type="button"
               onClick={() => setSearch('')}
-              className="text-xs font-bold text-gw-text-secondary hover:text-gw-text-primary"
+              className="text-xs font-bold text-muted-foreground hover:text-foreground"
             >
               Clear
             </button>
@@ -438,7 +440,7 @@ export function HomeCmsEditor() {
           {activeTab === 'hero' && (
             <div className="space-y-3">
               {filteredHeroSlides.length === 0 ? (
-                <p className="text-sm text-gw-text-secondary">No hero slides match your search.</p>
+                <p className="text-sm text-muted-foreground">No hero slides match your search.</p>
               ) : (
                 filteredHeroSlides.map((slide) => (
                   <div key={slide.id} className="p-4 rounded-2xl border border-white/10 bg-white/5 space-y-4">
@@ -447,7 +449,7 @@ export function HomeCmsEditor() {
                       <button
                         type="button"
                         onClick={() => updateHeroSlide(slide.id, { visible: !slide.visible })}
-                        className="inline-flex items-center gap-2 text-xs font-bold text-gw-text-secondary hover:text-gw-text-primary"
+                        className="inline-flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-foreground"
                       >
                         {slide.visible ? <Eye size={14} /> : <EyeOff size={14} />}
                         {slide.visible ? 'Visible' : 'Hidden'}
@@ -457,38 +459,38 @@ export function HomeCmsEditor() {
                       value={slide.heading}
                       onChange={(e) => updateHeroSlide(slide.id, { heading: e.target.value })}
                       placeholder="Heading"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                     />
                     <textarea
                       value={slide.description}
                       onChange={(e) => updateHeroSlide(slide.id, { description: e.target.value })}
                       placeholder="Description"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm h-24 outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm h-24 outline-none focus:ring-1 focus:ring-brand-orange"
                     />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <input
                         value={slide.primaryCta}
                         onChange={(e) => updateHeroSlide(slide.id, { primaryCta: e.target.value })}
                         placeholder="Primary CTA"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                       />
                       <input
                         value={slide.primaryLink}
                         onChange={(e) => updateHeroSlide(slide.id, { primaryLink: e.target.value })}
                         placeholder="Primary Link"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                       />
                       <input
                         value={slide.secondaryCta}
                         onChange={(e) => updateHeroSlide(slide.id, { secondaryCta: e.target.value })}
                         placeholder="Secondary CTA"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                       />
                       <input
                         value={slide.secondaryLink}
                         onChange={(e) => updateHeroSlide(slide.id, { secondaryLink: e.target.value })}
                         placeholder="Secondary Link"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                       />
                     </div>
                   </div>
@@ -512,12 +514,12 @@ export function HomeCmsEditor() {
                     }
                     className={`text-left p-4 rounded-2xl border transition-colors ${
                       activeCtaType === key
-                        ? 'border-gw-accent-primary bg-gw-accent-primary/10'
-                        : 'border-white/10 bg-white/5 hover:border-gw-accent-primary/40'
+                        ? 'border-brand-orange bg-brand-orange/10'
+                        : 'border-white/10 bg-white/5 hover:border-brand-orange/40'
                     }`}
                   >
                     <p className="text-xs font-bold uppercase tracking-widest">{key}</p>
-                    <p className="text-sm text-gw-text-secondary mt-2 line-clamp-2">
+                    <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
                       {config.instituteSection[key].title || 'No title set yet'}
                     </p>
                   </button>
@@ -529,32 +531,32 @@ export function HomeCmsEditor() {
                   value={activeCtaBlock.subtitle}
                   onChange={(e) => updateCtaBlock(activeCtaType, { subtitle: e.target.value })}
                   placeholder="Subtitle"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <input
                   value={activeCtaBlock.title}
                   onChange={(e) => updateCtaBlock(activeCtaType, { title: e.target.value })}
                   placeholder="Title"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <textarea
                   value={activeCtaBlock.description}
                   onChange={(e) => updateCtaBlock(activeCtaType, { description: e.target.value })}
                   placeholder="Description"
-                  className="w-full h-24 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="w-full h-24 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <input
                     value={activeCtaBlock.ctaLink}
                     onChange={(e) => updateCtaBlock(activeCtaType, { ctaLink: e.target.value })}
                     placeholder="CTA link"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                   />
                   <input
                     value={activeCtaBlock.ctaText}
                     onChange={(e) => updateCtaBlock(activeCtaType, { ctaText: e.target.value })}
                     placeholder="CTA text"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                   />
                 </div>
               </div>
@@ -604,7 +606,7 @@ export function HomeCmsEditor() {
                   Show Ventures
                 </label>
               </div>
-              <p className="text-xs text-gw-text-secondary">
+              <p className="text-xs text-muted-foreground">
                 Comma-separated IDs (portfolio catalog wiring can replace this later).
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -620,7 +622,7 @@ export function HomeCmsEditor() {
                     }))
                   }
                   placeholder="Project IDs"
-                  className="w-full h-28 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="w-full h-28 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <textarea
                   value={config.featuredItems.selectedConsultancyIds.join(', ')}
@@ -634,7 +636,7 @@ export function HomeCmsEditor() {
                     }))
                   }
                   placeholder="Consultancy IDs"
-                  className="w-full h-28 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="w-full h-28 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <textarea
                   value={config.featuredItems.selectedVentureIds.join(', ')}
@@ -648,7 +650,7 @@ export function HomeCmsEditor() {
                     }))
                   }
                   placeholder="Venture IDs"
-                  className="w-full h-28 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="w-full h-28 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
               </div>
             </div>
@@ -661,29 +663,29 @@ export function HomeCmsEditor() {
                 <button
                   type="button"
                   onClick={() => setConfig((prev) => ({ ...prev, latestNewsVisible: !prev.latestNewsVisible }))}
-                  className="text-xs font-bold text-gw-text-secondary hover:text-gw-text-primary"
+                  className="text-xs font-bold text-muted-foreground hover:text-foreground"
                 >
                   {config.latestNewsVisible ? 'Visible' : 'Hidden'}
                 </button>
               </div>
-              <div className="p-4 rounded-2xl border border-gw-accent-primary/40 bg-gw-accent-primary/5 space-y-3">
+              <div className="p-4 rounded-2xl border border-brand-orange/40 bg-brand-orange/5 space-y-3">
                 <input
                   value={newNews.title}
                   onChange={(e) => setNewNews((prev) => ({ ...prev, title: e.target.value }))}
                   placeholder="Title"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <textarea
                   value={newNews.description}
                   onChange={(e) => setNewNews((prev) => ({ ...prev, description: e.target.value }))}
                   placeholder="Description"
-                  className="w-full h-20 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="w-full h-20 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <input
                   value={newNews.link}
                   onChange={(e) => setNewNews((prev) => ({ ...prev, link: e.target.value }))}
                   placeholder="Optional Link"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <CTAButton size="sm" onClick={addNewsItem}>
                   <Plus size={14} className="mr-2" />
@@ -696,8 +698,8 @@ export function HomeCmsEditor() {
                     <div className="flex justify-between items-start gap-3">
                       <div>
                         <p className="font-bold">{item.title}</p>
-                        <p className="text-sm text-gw-text-secondary mt-1">{item.description}</p>
-                        {item.link ? <p className="text-xs mt-2 text-gw-accent-primary">{item.link}</p> : null}
+                        <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                        {item.link ? <p className="text-xs mt-2 text-brand-orange">{item.link}</p> : null}
                       </div>
                       <button
                         type="button"
@@ -725,25 +727,25 @@ export function HomeCmsEditor() {
                   value={newFootprint.category}
                   onChange={(e) => setNewFootprint((prev) => ({ ...prev, category: e.target.value }))}
                   placeholder="Category"
-                  className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <input
                   value={newFootprint.item}
                   onChange={(e) => setNewFootprint((prev) => ({ ...prev, item: e.target.value }))}
                   placeholder="Item"
-                  className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <input
                   value={newFootprint.location}
                   onChange={(e) => setNewFootprint((prev) => ({ ...prev, location: e.target.value }))}
                   placeholder="Location"
-                  className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <input
                   value={newFootprint.year}
                   onChange={(e) => setNewFootprint((prev) => ({ ...prev, year: e.target.value }))}
                   placeholder="Year"
-                  className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-gw-accent-primary"
+                  className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
                 />
                 <CTAButton size="sm" onClick={addFootprint}>
                   <Plus size={14} className="mr-2" />
@@ -757,9 +759,9 @@ export function HomeCmsEditor() {
                     className="grid grid-cols-1 md:grid-cols-6 gap-2 p-3 rounded-xl border border-white/10 bg-white/5 items-center"
                   >
                     <p className="text-sm md:col-span-2">{entry.item}</p>
-                    <p className="text-xs text-gw-text-secondary">{entry.category || '-'}</p>
-                    <p className="text-xs text-gw-text-secondary">{entry.location}</p>
-                    <p className="text-xs text-gw-text-secondary">{entry.year || '-'}</p>
+                    <p className="text-xs text-muted-foreground">{entry.category || '-'}</p>
+                    <p className="text-xs text-muted-foreground">{entry.location}</p>
+                    <p className="text-xs text-muted-foreground">{entry.year || '-'}</p>
                     <div className="flex items-center justify-end gap-2">
                       <button
                         type="button"
@@ -771,7 +773,7 @@ export function HomeCmsEditor() {
                             ),
                           }))
                         }
-                        className="text-xs font-bold text-gw-text-secondary hover:text-gw-text-primary"
+                        className="text-xs font-bold text-muted-foreground hover:text-foreground"
                       >
                         {entry.isActive ? 'On map' : 'Hidden'}
                       </button>
@@ -796,35 +798,41 @@ export function HomeCmsEditor() {
         </GlassCard>
       </div>
 
-      {isPreviewOpen ? (
-        <div className="fixed inset-0 z-[10000] bg-black/60 backdrop-blur-sm p-4 md:p-8">
-          <div className="mx-auto h-full max-w-7xl rounded-2xl border border-white/10 bg-gw-bg-secondary overflow-hidden flex flex-col">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-              <p className="text-sm font-bold uppercase tracking-widest">Home Preview</p>
-              <div className="flex items-center gap-2">
-                <CTAButton size="sm" variant="outline" onClick={() => setPreviewKey((prev) => prev + 1)}>
-                  Refresh
-                </CTAButton>
-                <CTAButton size="sm" variant="outline" onClick={handleSaveDraft}>
-                  Save Draft
-                </CTAButton>
-                <CTAButton size="sm" onClick={handlePublish}>
-                  Publish
-                </CTAButton>
-                <button type="button" onClick={closePreview} className="p-2 rounded-lg hover:bg-white/10">
-                  <X size={16} />
-                </button>
-              </div>
+      <Dialog open={isPreviewOpen} onOpenChange={(open) => !open && closePreview()}>
+        <DialogContent
+          showCloseButton={false}
+          className="flex h-[min(92vh,900px)] w-[min(96vw,80rem)] max-w-none flex-col gap-0 overflow-hidden p-0 sm:max-w-none"
+        >
+          <DialogHeader className="flex flex-row items-center justify-between gap-4 border-b border-border px-4 py-3">
+            <DialogTitle className="text-sm font-bold uppercase tracking-widest">Home Preview</DialogTitle>
+            <div className="flex items-center gap-2">
+              <CTAButton size="sm" variant="outline" onClick={() => setPreviewKey((prev) => prev + 1)}>
+                Refresh
+              </CTAButton>
+              <CTAButton size="sm" variant="outline" onClick={handleSaveDraft}>
+                Save Draft
+              </CTAButton>
+              <CTAButton size="sm" onClick={handlePublish}>
+                Publish
+              </CTAButton>
+              <button
+                type="button"
+                onClick={closePreview}
+                className="rounded-lg p-2 hover:bg-muted"
+                aria-label="Close preview"
+              >
+                <X size={16} />
+              </button>
             </div>
-            <iframe
-              key={previewKey}
-              src={`${siteUrl.replace(/\/$/, '')}/?homePreview=1`}
-              title="Home preview"
-              className="flex-1 bg-white"
-            />
-          </div>
-        </div>
-      ) : null}
+          </DialogHeader>
+          <iframe
+            key={previewKey}
+            src={`${siteUrl.replace(/\/$/, '')}/?homePreview=1`}
+            title="Home preview"
+            className="min-h-0 flex-1 bg-white"
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

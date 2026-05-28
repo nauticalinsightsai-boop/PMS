@@ -20,7 +20,7 @@ export function AdminCmsPageHeader({ title, leading, trailing }: AdminCmsPageHea
       <div className={ADMIN_CMS_TAB_BAR_INNER_CLASS}>
         <div className={`${ADMIN_CMS_TAB_LIST_CLASS} min-h-[58px]`}>
           {leading}
-          <span className="px-3 py-2 text-label text-gw-accent-primary whitespace-nowrap">{title}</span>
+          <span className="px-3 py-2 text-label text-brand-orange whitespace-nowrap">{title}</span>
         </div>
         {trailing ? (
           <div className="flex items-center justify-center gap-3 shrink-0 h-[58px]">

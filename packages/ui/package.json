@@ -7,9 +7,21 @@
   "exports": {
     "./globals.css": "./src/globals.css",
     "./fonts": "./src/fonts.ts",
-    "./utils": "./src/utils.ts"
+    "./utils": "./src/utils.ts",
+    "./button": "./src/button.tsx",
+    "./stat-chip": "./src/stat-chip.tsx",
+    "./alert-dialog": "./src/alert-dialog.tsx",
+    "./glass-card": "./src/glass-card.tsx",
+    "./cta-button": "./src/cta-button.tsx"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.0.2"
   },
   "peerDependencies": {
+    "motion": ">=12.0.0",
     "next": ">=15.0.0",
     "react": ">=19.0.0",
     "react-dom": ">=19.0.0"

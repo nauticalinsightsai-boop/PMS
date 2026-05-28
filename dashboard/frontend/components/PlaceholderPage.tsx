@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { GlassCard } from '@/components/ui/GlassCard';
 export function PlaceholderPage({ title }: { title: string }) {

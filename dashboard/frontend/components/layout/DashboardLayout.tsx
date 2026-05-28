@@ -21,8 +21,14 @@ import { useTheme } from '@/components/shared/ThemeProvider';
 import { DASHBOARD_ROUTES } from '@/constants/dashboardRoutes';
 import { cn } from '@/lib/utils';
 import { DashboardNavLink } from '@/components/DashboardNavLink';
-import { GlassCard } from '@/components/ui/GlassCard';
 import { BrandLogo } from '@/components/shared/BrandLogo';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
@@ -104,7 +110,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           <button
             type="button"
             onClick={() => setSidebarOpen(false)}
-            className="p-2 lg:hidden text-gw-text-secondary hover:text-gw-text-primary"
+            className="p-2 lg:hidden text-muted-foreground hover:text-foreground"
             aria-label="Close menu"
           >
             <X size={20} />
@@ -163,7 +169,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="p-2 lg:hidden text-gw-text-secondary hover:text-gw-text-primary"
+              className="p-2 lg:hidden text-muted-foreground hover:text-foreground"
             >
               <Menu size={24} />
             </button>
@@ -196,14 +202,20 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           </div>
 
           <div className="flex items-center gap-2 md:gap-4">
-            <a
-              href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-xl border border-border bg-background hover:bg-muted transition-colors text-foreground"
+            <Button
+              variant="brandOutline"
+              size="sm"
+              className="hidden lg:inline-flex gap-2"
+              render={
+                <a
+                  href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              }
             >
               View Site <ExternalLink size={12} />
-            </a>
+            </Button>
 
             <button
               type="button"
@@ -222,22 +234,24 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                   {(user?.user_metadata as { role?: string })?.role || 'Administrator'}
                 </p>
               </div>
-              <div className="relative group">
-                <div className="w-10 h-10 rounded-full cta-consultation text-white flex items-center justify-center font-bold text-sm premium-shadow">
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  className="flex h-10 w-10 items-center justify-center rounded-full cta-consultation text-sm font-bold text-white premium-shadow outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  aria-label="Account menu"
+                >
                   {user?.email?.charAt(0).toUpperCase() || 'A'}
-                </div>
-                <div className="absolute right-0 top-full pt-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-200">
-                  <GlassCard variant="raised" className="p-2 w-48">
-                    <button
-                      type="button"
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
-                    >
-                      <LogOut size={16} /> Log Out
-                    </button>
-                  </GlassCard>
-                </div>
-              </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem
+                    variant="destructive"
+                    onClick={() => void handleLogout()}
+                    className="cursor-pointer"
+                  >
+                    <LogOut size={16} />
+                    Log Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </header>

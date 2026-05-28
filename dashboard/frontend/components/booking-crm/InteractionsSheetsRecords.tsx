@@ -22,7 +22,14 @@ import { CTAButton } from '@/components/ui/CTAButton';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { SkeletonBar } from '@/components/shared/PageSkeleton';
 import EmptyState from '@/components/shared/EmptyState';
-import { ModalPortal } from '@/components/shared/ModalPortal';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
 import { useInteractionBroadcast } from '@/hooks/useInteractionBroadcast';
 import { useDashboardApiAuth } from '@/hooks/useDashboardApiAuth';
 import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
@@ -73,15 +80,14 @@ function cellPreview(value: string, max = 100): string {
   return `${t.slice(0, max)}…`;
 }
 
-function SheetRecordDetailModal({
+function SheetRecordDetailPanel({
   record,
   onClose,
 }: {
-  record: SheetRecord | null;
+  record: SheetRecord;
   onClose: () => void;
 }) {
   const [copied, setCopied] = useState(false);
-  if (!record) return null;
 
   const copyId = async () => {
     if (!record.submissionId) return;
@@ -95,87 +101,62 @@ function SheetRecordDetailModal({
   };
 
   return (
-    <ModalPortal>
-      <div
-        className="fixed inset-0 z-modal flex items-center justify-center modal-scrim p-4"
-        onClick={onClose}
-        role="presentation"
-      >
-        <GlassCard
-          variant="modal"
-          hover={false}
-          className="w-full max-w-2xl max-h-[min(90vh,720px)] flex flex-col"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="flex justify-between items-start gap-4 p-4 border-b border-gw-border">
-            <div>
-              <span className="text-meta text-gw-text-secondary block mb-1">Sheet row</span>
-              <h3 className="text-h4 text-gw-text-primary">{record.subject || 'Submission'}</h3>
-              <p className="text-body-sm text-gw-text-secondary mt-1">{formatDate(record.createdAt)}</p>
-            </div>
-            <button
-              type="button"
-              onClick={onClose}
-              className="p-2 rounded-full hover:bg-gw-subtle text-gw-text-secondary"
-              aria-label="Close"
-            >
-              <X size={20} />
-            </button>
+    <>
+      <SheetHeader className="border-b border-border">
+        <span className="text-meta text-muted-foreground">Sheet row</span>
+        <SheetTitle>{record.subject || 'Submission'}</SheetTitle>
+        <SheetDescription>{formatDate(record.createdAt)}</SheetDescription>
+      </SheetHeader>
+      <div className="flex-1 space-y-4 overflow-y-auto px-4 text-body-sm">
+        <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div>
+            <dt className="text-meta text-muted-foreground">Source</dt>
+            <dd className="text-foreground">{sourceLabel(record.source)}</dd>
           </div>
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 text-body-sm">
-            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <dt className="text-meta text-gw-text-secondary">Source</dt>
-                <dd className="text-gw-text-primary">{sourceLabel(record.source)}</dd>
-              </div>
-              <div>
-                <dt className="text-meta text-gw-text-secondary">Email</dt>
-                <dd className="text-gw-text-primary break-all">{record.email || '—'}</dd>
-              </div>
-              <div className="sm:col-span-2">
-                <dt className="text-meta text-gw-text-secondary">Origin</dt>
-                <dd className="text-gw-text-primary">
-                  {originLabelFromPayload(record.payload) || '—'}
-                </dd>
-              </div>
-              <div className="sm:col-span-2">
-                <dt className="text-meta text-gw-text-secondary mb-1">Submission ID</dt>
-                <dd className="flex items-center gap-2 font-mono text-meta break-all">
-                  {record.submissionId || '—'}
-                  {record.submissionId && (
-                    <button
-                      type="button"
-                      onClick={() => void copyId()}
-                      className="inline-flex items-center gap-1 text-gw-accent-primary hover:underline shrink-0"
-                    >
-                      {copied ? <Check size={14} /> : <Copy size={14} />}
-                      {copied ? 'Copied' : 'Copy'}
-                    </button>
-                  )}
-                </dd>
-              </div>
-            </dl>
-            <div>
-              <h4 className="text-label text-gw-text-primary mb-2">Payload</h4>
-              <pre className="text-meta font-mono p-3 rounded-lg bg-gw-subtle/80 overflow-x-auto whitespace-pre-wrap break-all">
-                {JSON.stringify(record.payload, null, 2)}
-              </pre>
-            </div>
-            <div>
-              <h4 className="text-label text-gw-text-primary mb-2">Metadata</h4>
-              <pre className="text-meta font-mono p-3 rounded-lg bg-gw-subtle/80 overflow-x-auto whitespace-pre-wrap break-all">
-                {JSON.stringify(record.metadata, null, 2)}
-              </pre>
-            </div>
+          <div>
+            <dt className="text-meta text-muted-foreground">Email</dt>
+            <dd className="break-all text-foreground">{record.email || '—'}</dd>
           </div>
-          <div className="p-4 border-t border-gw-border flex justify-end gap-2">
-            <CTAButton variant="secondary" size="sm" type="button" onClick={onClose}>
-              Close
-            </CTAButton>
+          <div className="sm:col-span-2">
+            <dt className="text-meta text-muted-foreground">Origin</dt>
+            <dd className="text-foreground">{originLabelFromPayload(record.payload) || '—'}</dd>
           </div>
-        </GlassCard>
+          <div className="sm:col-span-2">
+            <dt className="mb-1 text-meta text-muted-foreground">Submission ID</dt>
+            <dd className="flex items-center gap-2 break-all font-mono text-meta">
+              {record.submissionId || '—'}
+              {record.submissionId ? (
+                <button
+                  type="button"
+                  onClick={() => void copyId()}
+                  className="inline-flex shrink-0 items-center gap-1 text-brand-orange hover:underline"
+                >
+                  {copied ? <Check size={14} /> : <Copy size={14} />}
+                  {copied ? 'Copied' : 'Copy'}
+                </button>
+              ) : null}
+            </dd>
+          </div>
+        </dl>
+        <div>
+          <h4 className="mb-2 text-label text-foreground">Payload</h4>
+          <pre className="overflow-x-auto whitespace-pre-wrap break-all rounded-lg bg-muted/80 p-3 font-mono text-meta">
+            {JSON.stringify(record.payload, null, 2)}
+          </pre>
+        </div>
+        <div>
+          <h4 className="mb-2 text-label text-foreground">Metadata</h4>
+          <pre className="overflow-x-auto whitespace-pre-wrap break-all rounded-lg bg-muted/80 p-3 font-mono text-meta">
+            {JSON.stringify(record.metadata, null, 2)}
+          </pre>
+        </div>
       </div>
-    </ModalPortal>
+      <SheetFooter className="border-t border-border sm:flex-row sm:justify-end">
+        <CTAButton variant="secondary" size="sm" type="button" onClick={onClose}>
+          Close
+        </CTAButton>
+      </SheetFooter>
+    </>
   );
 }
 
@@ -326,7 +307,7 @@ export default function InteractionsSheetsRecords() {
               href={spreadsheetUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gw-border text-body-sm text-gw-text-primary hover:bg-gw-subtle transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border text-body-sm text-foreground hover:bg-muted transition-colors"
             >
               <ExternalLink size={16} />
               Open sheet
@@ -337,17 +318,17 @@ export default function InteractionsSheetsRecords() {
 
       {configured && records.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 mb-6">
-          <div className="p-3 r-card border border-slate-300/60 dark:border-slate-700/60 bg-gw-bg-secondary/30">
-            <p className="text-meta text-gw-text-secondary">Total rows</p>
-            <p className="text-h4 text-gw-text-primary">{stats.total}</p>
+          <div className="p-3 r-card border border-slate-300/60 dark:border-slate-700/60 bg-card/30">
+            <p className="text-meta text-muted-foreground">Total rows</p>
+            <p className="text-h4 text-foreground">{stats.total}</p>
           </div>
           {INTERACTION_SOURCES.map((src) => (
             <div
               key={src}
-              className="p-3 r-card border border-slate-300/60 dark:border-slate-700/60 bg-gw-bg-secondary/30"
+              className="p-3 r-card border border-slate-300/60 dark:border-slate-700/60 bg-card/30"
             >
-              <p className="text-meta text-gw-text-secondary truncate">{SOURCE_LABEL[src]}</p>
-              <p className="text-h4 text-gw-text-primary">{stats.bySource[src] ?? 0}</p>
+              <p className="text-meta text-muted-foreground truncate">{SOURCE_LABEL[src]}</p>
+              <p className="text-h4 text-foreground">{stats.bySource[src] ?? 0}</p>
             </div>
           ))}
         </div>
@@ -357,27 +338,27 @@ export default function InteractionsSheetsRecords() {
         <div className="relative flex-1 min-w-[260px] max-w-md shrink-0">
           <Search
             size={16}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gw-text-secondary pointer-events-none"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
           />
           <input
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search email, subject, ID, payload…"
-            className="w-full pl-9 pr-3 py-2 rounded-lg border border-slate-300/70 dark:border-slate-600 bg-gw-bg-primary text-body-sm text-gw-text-primary placeholder:text-gw-text-secondary"
+            className="w-full pl-9 pr-3 py-2 rounded-lg border border-slate-300/70 dark:border-slate-600 bg-background text-body-sm text-foreground placeholder:text-muted-foreground"
           />
         </div>
         <select
           value={sourceFilter}
           onChange={(e) => setSourceFilter(e.target.value as InteractionSource | '')}
           aria-label="Filter by source"
-          className="text-body-sm bg-gw-bg-primary border border-slate-300/70 dark:border-slate-600 rounded-lg px-3 py-2 text-gw-text-primary min-w-[200px]"
+          className="text-body-sm bg-background border border-slate-300/70 dark:border-slate-600 rounded-lg px-3 py-2 text-foreground min-w-[200px]"
         >
-          <option value="" className="bg-gw-bg-primary text-gw-text-primary">
+          <option value="" className="bg-background text-foreground">
             All sources
           </option>
           {INTERACTION_SOURCES.map((s) => (
-            <option key={s} value={s} className="bg-gw-bg-primary text-gw-text-primary">
+            <option key={s} value={s} className="bg-background text-foreground">
               {SOURCE_LABEL[s]}
             </option>
           ))}
@@ -385,12 +366,12 @@ export default function InteractionsSheetsRecords() {
         <button
           type="button"
           onClick={() => setOrderAsc((v) => !v)}
-          className="inline-flex items-center gap-2 text-label text-gw-accent-primary hover:underline py-2"
+          className="inline-flex items-center gap-2 text-label text-brand-orange hover:underline py-2"
         >
           <ArrowUpDown size={14} />
           Date {orderAsc ? 'asc' : 'desc'}
         </button>
-        <label className="inline-flex items-center gap-2 text-body-sm text-gw-text-secondary cursor-pointer py-2">
+        <label className="inline-flex items-center gap-2 text-body-sm text-muted-foreground cursor-pointer py-2">
           <input
             type="checkbox"
             checked={autoRefresh}
@@ -431,7 +412,7 @@ export default function InteractionsSheetsRecords() {
         </CTAButton>
       </div>
 
-      <div className="text-meta text-gw-text-secondary mb-3 flex flex-wrap items-center gap-2">
+      <div className="text-meta text-muted-foreground mb-3 flex flex-wrap items-center gap-2">
         <Layers size={14} />
         {loading ? (
           <span>Loading…</span>
@@ -476,9 +457,9 @@ export default function InteractionsSheetsRecords() {
         )}
       </div>
 
-      <div className="overflow-x-auto border border-slate-300/60 dark:border-slate-700/60 r-card bg-gw-bg-secondary/20">
+      <div className="overflow-x-auto border border-slate-300/60 dark:border-slate-700/60 r-card bg-card/20">
         <table className="min-w-full text-left text-body-sm">
-          <thead className="bg-gw-bg-secondary/80 text-meta uppercase tracking-wide text-gw-text-secondary sticky top-0 z-[1]">
+          <thead className="bg-card/80 text-meta uppercase tracking-wide text-muted-foreground sticky top-0 z-[1]">
             <tr>
               <th className="px-3 py-3 font-medium">Date</th>
               <th className="px-3 py-3 font-medium">Source</th>
@@ -489,7 +470,7 @@ export default function InteractionsSheetsRecords() {
               <th className="px-3 py-3 font-medium w-[88px]">View</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200/60 dark:divide-slate-700/60 text-gw-text-primary">
+          <tbody className="divide-y divide-slate-200/60 dark:divide-slate-700/60 text-foreground">
             {loading &&
               Array.from({ length: 8 }).map((_, i) => (
                 <tr key={i}>
@@ -502,14 +483,14 @@ export default function InteractionsSheetsRecords() {
               ))}
             {!loading &&
               pageRows.map((r) => (
-                <tr key={`${r.rowIndex}-${r.submissionId || r.createdAt}`} className="hover:bg-gw-bg-secondary/40 align-top">
-                  <td className="px-3 py-2 whitespace-nowrap text-gw-text-secondary">
+                <tr key={`${r.rowIndex}-${r.submissionId || r.createdAt}`} className="hover:bg-card/40 align-top">
+                  <td className="px-3 py-2 whitespace-nowrap text-muted-foreground">
                     {formatDate(r.createdAt)}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-gw-text-primary">{sourceLabel(r.source)}</td>
-                  <td className="px-3 py-2 max-w-[200px] text-gw-text-primary">{r.subject || '—'}</td>
-                  <td className="px-3 py-2 whitespace-nowrap text-gw-text-primary">{r.email || '—'}</td>
-                  <td className="px-3 py-2 max-w-[160px] text-meta text-gw-text-secondary">
+                  <td className="px-3 py-2 whitespace-nowrap text-foreground">{sourceLabel(r.source)}</td>
+                  <td className="px-3 py-2 max-w-[200px] text-foreground">{r.subject || '—'}</td>
+                  <td className="px-3 py-2 whitespace-nowrap text-foreground">{r.email || '—'}</td>
+                  <td className="px-3 py-2 max-w-[160px] text-meta text-muted-foreground">
                     {cellPreview(originLabelFromPayload(r.payload), 48)}
                   </td>
                   <td className="px-3 py-2 max-w-[240px] font-mono text-meta line-clamp-2 break-all opacity-90">
@@ -519,7 +500,7 @@ export default function InteractionsSheetsRecords() {
                     <button
                       type="button"
                       onClick={() => setDetail(r)}
-                      className="inline-flex items-center gap-1 text-meta text-gw-accent-primary hover:underline"
+                      className="inline-flex items-center gap-1 text-meta text-brand-orange hover:underline"
                     >
                       <Eye size={14} /> Details
                     </button>
@@ -551,25 +532,29 @@ export default function InteractionsSheetsRecords() {
             type="button"
             disabled={page <= 0}
             onClick={() => setPage((p) => Math.max(0, p - 1))}
-            className="inline-flex items-center gap-1 text-label text-gw-accent-primary disabled:opacity-40 hover:underline"
+            className="inline-flex items-center gap-1 text-label text-brand-orange disabled:opacity-40 hover:underline"
           >
             <ChevronLeft size={16} /> Previous
           </button>
-          <span className="text-meta text-gw-text-secondary">
+          <span className="text-meta text-muted-foreground">
             Page {page + 1} / {totalPages}
           </span>
           <button
             type="button"
             disabled={page >= totalPages - 1}
             onClick={() => setPage((p) => p + 1)}
-            className="inline-flex items-center gap-1 text-label text-gw-accent-primary disabled:opacity-40 hover:underline"
+            className="inline-flex items-center gap-1 text-label text-brand-orange disabled:opacity-40 hover:underline"
           >
             Next <ChevronRight size={16} />
           </button>
         </div>
       )}
 
-      <SheetRecordDetailModal record={detail} onClose={() => setDetail(null)} />
+      <Sheet open={!!detail} onOpenChange={(open) => !open && setDetail(null)}>
+        <SheetContent side="right" className="flex w-full flex-col gap-0 overflow-hidden sm:max-w-2xl">
+          {detail ? <SheetRecordDetailPanel record={detail} onClose={() => setDetail(null)} /> : null}
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

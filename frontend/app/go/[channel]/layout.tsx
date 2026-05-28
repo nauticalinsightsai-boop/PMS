@@ -1,5 +1,5 @@
-import { RegionProvider } from '@/contexts/RegionContext';
+import { PortalRegionShell } from '@/app/go/[channel]/PortalRegionShell';
 
 export default function GoChannelLayout({ children }: { children: React.ReactNode }) {
-  return <RegionProvider portalDefaults>{children}</RegionProvider>;
+  return <PortalRegionShell>{children}</PortalRegionShell>;
 }

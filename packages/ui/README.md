@@ -15,3 +15,16 @@ Shared design tokens and utilities for `@pms/frontend` and `@pms/dashboard-front
 | `gw-*` | Maps to shadcn `--background`, `--primary`, etc. |
 
 Import styles: `@import "@pms/ui/globals.css";` in app `globals.css`.
+
+## Package exports
+
+| Export | Description |
+|--------|-------------|
+| `@pms/ui/globals.css` | Shared design tokens and utilities |
+| `@pms/ui/fonts` | Montserrat `next/font` setup |
+| `@pms/ui/utils` | `cn()` helper |
+| `@pms/ui/button` | shadcn Button + `brand` / `brandOutline` |
+| `@pms/ui/stat-chip` | Marketing-style stat chip |
+| `@pms/ui/alert-dialog` | Accessible confirm dialogs |
+| `@pms/ui/glass-card` | Glass surface card |
+| `@pms/ui/cta-button` | Rounded CTA button |

@@ -437,6 +437,9 @@
   .z-sidebar {
     z-index: 50;
   }
+  .modal-scrim {
+    @apply bg-background/80 backdrop-blur-sm;
+  }
 
   /* /go/website — match marketing home hero shell */
   .portal-website {
