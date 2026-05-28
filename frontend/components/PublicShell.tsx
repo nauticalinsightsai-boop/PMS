@@ -8,6 +8,7 @@ import { RegionProvider } from '@/contexts/RegionContext';
 import { RegionGate } from '@/components/RegionGate';
 import { ScrollToTop } from '@/components/ScrollToTop';
 import { CookieConsent } from '@/components/CookieConsent';
+import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 
 /** Matches Navbar inner `h-16` — keep main padding and fixed subnav offset in sync */
 export const PUBLIC_NAVBAR_HEIGHT_CLASS = 'pt-16';
@@ -35,6 +36,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
 
   return (
     <RegionProvider>
+      <OrganizationJsonLd />
       <RegionGate>
         <div className="min-h-screen flex flex-col bg-gradient-to-b from-[var(--shell-gradient-from)] via-[var(--shell-gradient-via)] to-[var(--shell-gradient-to)] dark:from-[var(--shell-gradient-dark-from)] dark:via-[var(--shell-gradient-dark-via)] dark:to-[var(--shell-gradient-dark-to)] text-foreground">
           <Navbar toggleTheme={() => setIsDarkMode((v) => !v)} isDarkMode={isDarkMode} />

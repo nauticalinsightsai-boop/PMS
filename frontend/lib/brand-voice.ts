@@ -14,6 +14,9 @@
 
 export const BRAND = {
 
+  /** Legal / formal name for portal headers */
+  fullName: 'Project Management Structure',
+
   name: 'PM Structure',
 
   short: 'PMS',

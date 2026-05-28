@@ -3,23 +3,23 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { readCookieConsent, writeCookieConsent } from '@/lib/cookie-consent';
+import { acceptAllConsent, rejectNonEssentialConsent, readStoredConsent } from '@/lib/legal/consent';
 import { BRAND } from '@/lib/brand-voice';
 
 export function CookieConsent() {
   const [visible, setVisible] = React.useState(false);
 
   React.useEffect(() => {
-    if (!readCookieConsent()) setVisible(true);
+    if (!readStoredConsent()) setVisible(true);
   }, []);
 
   const acceptAll = () => {
-    writeCookieConsent('all');
+    acceptAllConsent();
     setVisible(false);
   };
 
   const rejectNonEssential = () => {
-    writeCookieConsent('necessary');
+    rejectNonEssentialConsent();
     setVisible(false);
   };
 

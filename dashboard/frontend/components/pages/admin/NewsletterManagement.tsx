@@ -76,7 +76,7 @@ export const NewsletterManagement: React.FC = () => {
               <FileText size={24} />
             </div>
             <Link 
-              href="/dashboard/members-revenue/blogs"
+              href="/dashboard/booking-crm/blogs"
               className="text-[10px] font-black uppercase tracking-widest text-gw-accent-primary hover:underline flex items-center gap-2"
             >
               GO TO BLOGS <ArrowRight size={12} />
@@ -100,7 +100,7 @@ export const NewsletterManagement: React.FC = () => {
             </div>
           </div>
 
-          <Link href="/dashboard/members-revenue/blogs" className="block mt-8">
+          <Link href="/dashboard/booking-crm/blogs" className="block mt-8">
             <CTAButton className="w-full">
               Open Content Editor <ArrowRight size={18} className="ml-2" />
             </CTAButton>

@@ -1,6 +1,5 @@
 import type { LegalDocument } from '../types';
-import { LEGAL_CONTACT_EMAIL, LEGAL_LAST_UPDATED, section } from '../shared';
-import { REGION_COPY } from '@/lib/brand-voice';
+import { LEGAL_LAST_UPDATED, legalSupportSection, section } from '../shared';
 
 export const privacyPakistanDocument: LegalDocument = {
   slug: 'privacy-pakistan',
@@ -9,24 +8,34 @@ export const privacyPakistanDocument: LegalDocument = {
   jurisdictionNote: 'Addendum for individuals in Pakistan.',
   sections: [
     section(
-      'notice',
-      '1. Notice',
-      'We process personal data to deliver preparation services, verify regional scholarship eligibility, and respond to your enquiries.',
-    ),
-    section(
-      'scholarship',
-      '2. Regional scholarship pricing',
-      REGION_COPY.southAsiaNote,
+      'scope',
+      '1. Scope',
+      'This supplement applies when you access PM Structure from Pakistan or when Pakistani law applies to our processing.',
     ),
     section(
       'rights',
-      '3. Rights',
-      'You may request access, correction, or deletion of your personal data subject to applicable Pakistani law.',
+      '2. Your rights',
+      'You may have rights regarding access, correction, and objection to processing under applicable Pakistani law. Our [Global Privacy Policy](/legal/privacy) describes what we collect and why.',
+    ),
+    section(
+      'scholarship',
+      '3. Regional scholarship pricing',
+      'South Asia regional scholarship pricing applies when residence and billing country match Pakistan, as described in [Regional pricing](/legal/regional-pricing).',
+    ),
+    section(
+      'retention',
+      '4. Retention',
+      'We retain personal data only as long as needed for the purposes described globally, unless law requires longer retention.',
+    ),
+    section(
+      'requests',
+      '5. Privacy requests',
+      'Email support with subject “Pakistan privacy request” and enough detail to identify your account.',
     ),
     section(
       'contact',
-      '4. Contact',
-      `Pakistan-related requests: ${LEGAL_CONTACT_EMAIL}.`,
+      '6. Contact',
+      legalSupportSection('Pakistan privacy'),
     ),
   ],
 };

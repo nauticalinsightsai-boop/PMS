@@ -36,7 +36,7 @@ export interface DashboardNavSection {
   }[];
 }
 
-export const BOOKINGS_ROUTE_PREFIXES = ['/dashboard/members-revenue'];
+export const BOOKINGS_ROUTE_PREFIXES = ['/dashboard/booking-crm'];
 
 export const WEBSITE_ROUTE_PREFIXES = ['/dashboard/site-system'];
 
@@ -60,39 +60,30 @@ export const DASHBOARD_ROUTES: Record<'social' | 'bookings' | 'website', Dashboa
   ],
   bookings: [
     {
-      title: 'Operations',
+      title: 'Booking CRM',
       items: [
-        { name: 'Overview', path: '/dashboard/members-revenue', icon: LayoutDashboard },
-        { name: 'Users & Leads', path: '/dashboard/members-revenue/users', icon: UserRound },
-        { name: 'Members', path: '/dashboard/members-revenue/members', icon: Users },
-        { name: 'Bookings', path: '/dashboard/members-revenue/bookings', icon: CalendarCheck },
-        { name: 'Scholarship queue', path: '/dashboard/members-revenue/scholarship-review', icon: ShieldCheck },
-        { name: 'Consultations', path: '/dashboard/members-revenue/consultations', icon: ShieldCheck },
-        { name: 'Verification log', path: '/dashboard/members-revenue/verification-logs', icon: ShieldAlert },
+        { name: 'CTA Management', path: '/dashboard/booking-crm/cta', icon: MousePointer2 },
+        { name: 'Sheets records', path: '/dashboard/booking-crm/interactions/sheets', icon: Inbox },
+        { name: 'Bookings', path: '/dashboard/booking-crm/bookings', icon: CalendarCheck },
+        { name: 'Consultations', path: '/dashboard/booking-crm/consultations', icon: ShieldCheck },
+        { name: 'Scholarship queue', path: '/dashboard/booking-crm/scholarship-review', icon: ShieldCheck },
+        { name: 'Verification log', path: '/dashboard/booking-crm/verification-logs', icon: ShieldAlert },
         { name: 'Account region', path: '/dashboard/account/region', icon: Map },
-        { name: 'Interactions', path: '/dashboard/members-revenue/interactions', icon: Inbox },
       ],
     },
     {
-      title: 'Growth',
+      title: 'Legacy & growth',
       items: [
-        { name: 'Monetization', path: '/dashboard/members-revenue/monetization', icon: Banknote },
+        { name: 'Users & Leads', path: '/dashboard/booking-crm/users', icon: UserRound },
+        { name: 'Members', path: '/dashboard/booking-crm/members', icon: Users },
+        { name: 'Monetization', path: '/dashboard/booking-crm/monetization', icon: Banknote },
         {
           name: 'Newsletter',
-          path: '/dashboard/members-revenue/newsletter',
+          path: '/dashboard/booking-crm/newsletter',
           icon: Newspaper,
           subItems: [
-            { name: 'Blogs Editor', path: '/dashboard/members-revenue/blogs', icon: Newspaper },
-            { name: 'Campaigns', path: '/dashboard/members-revenue/newsletter/campaigns', icon: Mail },
-          ],
-        },
-        {
-          name: 'CTA Management',
-          path: '/dashboard/members-revenue/cta',
-          icon: MousePointer2,
-          subItems: [
-            { name: 'Analytics', path: '/dashboard/members-revenue/cta/analytics', icon: BarChart3 },
-            { name: 'Audit', path: '/dashboard/members-revenue/cta/audit', icon: ShieldCheck },
+            { name: 'Blogs Editor', path: '/dashboard/booking-crm/blogs', icon: Newspaper },
+            { name: 'Campaigns', path: '/dashboard/booking-crm/newsletter/campaigns', icon: Mail },
           ],
         },
       ],

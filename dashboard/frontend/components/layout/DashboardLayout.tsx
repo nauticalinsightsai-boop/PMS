@@ -162,7 +162,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           <div className="hidden md:flex items-center bg-white/5 dark:bg-black/20 p-1 rounded-2xl border border-white/5">
             {[
               { id: 'social', label: 'Social Media', icon: Share2 },
-              { id: 'bookings', label: 'Members & Revenue', icon: CalendarRange },
+              { id: 'bookings', label: 'Booking CRM', icon: CalendarRange },
               { id: 'website', label: 'Admin Controls', icon: Monitor },
             ].map((t) => (
               <button
@@ -184,7 +184,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
 
           <div className="flex items-center gap-2 md:gap-4">
             <a
-              href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3050'}
+              href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs font-medium bg-white/5 hover:bg-white/10 rounded-xl transition-colors border border-white/10"

@@ -14,6 +14,13 @@ import { Button } from '@/components/ui/button';
 import { dashboardLoginUrl } from '@/lib/site-config';
 import { BrandLogo } from '@/components/BrandLogo';
 import { BRAND, BRAND_LINES } from '@/lib/brand-voice';
+import {
+  isContactPhoneConfigured,
+  isLegalEntityConfigured,
+  PMS_CONTACT_PHONE,
+  PMS_LEGAL_ENTITY_ADDRESS,
+  PMS_SUPPORT_EMAIL,
+} from '@/config/pms-site';
 import { SectionAmbience } from '@/components/SectionAmbience';
 
 export function Footer() {
@@ -52,38 +59,26 @@ export function Footer() {
             </h3>
             <ul className="flex flex-col gap-3 text-sm text-carbon dark:text-slate-400 font-medium">
               <li>
-                <Link href="/certifications" className="hover:text-brand-orange transition-colors">
+                <Link href="/certifications/pmp" className="hover:text-brand-orange transition-colors">
                   PMP® Certification
                 </Link>
               </li>
               <li>
-                <Link href="/certifications" className="hover:text-brand-orange transition-colors">
+                <Link href="/certifications/capm" className="hover:text-brand-orange transition-colors">
                   CAPM® Certification
                 </Link>
               </li>
               <li>
-                <Link href="/certifications" className="hover:text-brand-orange transition-colors">
-                  PMI-ACP® Agile
+                <Link href="/certifications/prince2" className="hover:text-brand-orange transition-colors">
+                  PRINCE2®
                 </Link>
               </li>
               <li>
-                <Link href="/certifications" className="hover:text-brand-orange transition-colors">
-                  PRINCE2® Foundation
-                </Link>
-              </li>
-              <li>
-                <Link href="/certifications" className="hover:text-brand-orange transition-colors">
-                  Six Sigma Green Belt
-                </Link>
-              </li>
-              <li>
-                <Link href="/certifications/compare" className="hover:text-brand-orange font-bold text-brand-orange/80">
-                  Compare All Certs
-                </Link>
-              </li>
-              <li>
-                <Link href="/membership" className="hover:text-brand-orange transition-colors">
-                  Membership
+                <Link
+                  href="/certifications/compare"
+                  className="hover:text-brand-orange font-bold text-brand-orange/80"
+                >
+                  Compare pathways
                 </Link>
               </li>
             </ul>
@@ -95,23 +90,18 @@ export function Footer() {
             </h3>
             <ul className="flex flex-col gap-3 text-sm text-carbon dark:text-slate-400 font-medium">
               <li>
-                <Link href="/newsletter" className="hover:text-brand-orange transition-colors">
-                  Newsletter & Insights
+                <Link href="/faq" className="hover:text-brand-orange transition-colors">
+                  Help &amp; FAQ
                 </Link>
               </li>
               <li>
                 <Link href="/community" className="hover:text-brand-orange transition-colors">
-                  Community & Resources
+                  Community
                 </Link>
               </li>
               <li>
-                <Link href="/community?view=store" className="hover:text-brand-orange transition-colors">
-                  Study Resources Store
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="hover:text-brand-orange transition-colors">
-                  Help & FAQ
+                <Link href="/newsletter" className="hover:text-brand-orange transition-colors">
+                  Newsletter
                 </Link>
               </li>
               <li>
@@ -119,39 +109,35 @@ export function Footer() {
                   Policies &amp; legal
                 </Link>
               </li>
-              <li>
-                <a
-                  href={dashboardLoginUrl}
-                  className="inline-flex items-center gap-2 hover:text-brand-orange transition-colors font-semibold text-brand-orange"
-                >
-                  <LayoutDashboard className="h-4 w-4" />
-                  Admin Dashboard
-                </a>
-              </li>
             </ul>
           </div>
 
           <div>
             <h3 className="mb-6 text-sm font-bold uppercase tracking-widest text-obsidian dark:text-white">
-              Contact Us
+              Support
             </h3>
             <ul className="flex flex-col gap-4 text-sm text-carbon dark:text-slate-400 font-medium">
               <li className="flex items-start gap-3">
                 <Mail className="h-5 w-5 text-brand-orange shrink-0" />
-                <span>support@pmstructure.com</span>
+                <a
+                  href={`mailto:${PMS_SUPPORT_EMAIL}`}
+                  className="hover:text-brand-orange transition-colors"
+                >
+                  {PMS_SUPPORT_EMAIL}
+                </a>
               </li>
-              <li className="flex items-start gap-3">
-                <Phone className="h-5 w-5 text-brand-orange shrink-0" />
-                <span>+1 (555) 123-4567</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-brand-orange shrink-0" />
-                <span>
-                  123 Project Way, Suite 400
-                  <br />
-                  London, UK EC1A 1BB
-                </span>
-              </li>
+              {isContactPhoneConfigured() ? (
+                <li className="flex items-start gap-3">
+                  <Phone className="h-5 w-5 text-brand-orange shrink-0" />
+                  <span>{PMS_CONTACT_PHONE}</span>
+                </li>
+              ) : null}
+              {isLegalEntityConfigured() ? (
+                <li className="flex items-start gap-3">
+                  <MapPin className="h-5 w-5 text-brand-orange shrink-0" />
+                  <span>{PMS_LEGAL_ENTITY_ADDRESS}</span>
+                </li>
+              ) : null}
             </ul>
           </div>
         </div>

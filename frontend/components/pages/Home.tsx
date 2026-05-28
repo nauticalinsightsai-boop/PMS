@@ -125,7 +125,7 @@ export function Home() {
                 <div className="flex -space-x-3">
                   {[1, 2, 3, 4].map((i) => (
                     <div key={i} className="h-10 w-10 rounded-full border-2 border-white dark:border-slate-950 overflow-hidden shadow-sm">
-                      <img src={`https://i.pravatar.cc/100?u=${i + 20}`} alt="User" className="h-full w-full object-cover" />
+                      <img src={`https://i.pravatar.cc/100?u=${i + 20}`} alt="" aria-hidden className="h-full w-full object-cover" />
                     </div>
                   ))}
                 </div>
@@ -142,11 +142,10 @@ export function Home() {
               className="relative z-30 isolate hidden lg:block"
             >
               <div className="relative z-0 aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800">
-                <img 
-                  src="https://picsum.photos/seed/pmgrowth/1000/1250" 
-                  alt="Professional Growth" 
-                  className="object-cover w-full h-full"
-                  referrerPolicy="no-referrer"
+                <div
+                  className="w-full h-full bg-gradient-to-br from-brand-purple/20 via-slate-100 to-brand-orange/20 dark:from-brand-purple/30 dark:via-slate-800 dark:to-brand-orange/20"
+                  role="img"
+                  aria-label="Professional growth and certification readiness"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent" />
               </div>
@@ -290,11 +289,10 @@ export function Home() {
               viewport={{ once: true }}
             >
               <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl border border-slate-700 dark:border-slate-200 group">
-                <img 
-                  src="https://picsum.photos/seed/future/800/1000" 
-                  alt="Future of PM" 
-                  className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-700"
-                  referrerPolicy="no-referrer"
+                <div
+                  className="object-cover w-full h-full bg-gradient-to-tr from-brand-cyan/20 to-brand-purple/30 dark:from-slate-800 dark:to-brand-purple/40 transition-all duration-700"
+                  role="img"
+                  aria-label="Future of project management learning"
                 />
               </div>
               <div className="absolute -bottom-8 -left-8 bg-white text-slate-900 dark:bg-slate-900 dark:text-white p-8 rounded-3xl shadow-xl max-w-xs hidden xl:block border border-slate-200 dark:border-slate-700">
@@ -446,18 +444,18 @@ export function Home() {
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-6">
                   <div className="rounded-3xl overflow-hidden shadow-lg aspect-square">
-                    <img src="https://picsum.photos/seed/comm1/400/400" className="object-cover w-full h-full" referrerPolicy="no-referrer" />
+                    <div className="w-full h-full bg-brand-purple/10 dark:bg-brand-purple/20" aria-hidden />
                   </div>
                   <div className="rounded-3xl overflow-hidden shadow-lg aspect-[4/3]">
-                    <img src="https://picsum.photos/seed/comm2/400/300" className="object-cover w-full h-full" referrerPolicy="no-referrer" />
+                    <div className="w-full h-full bg-brand-orange/10 dark:bg-brand-orange/20" aria-hidden />
                   </div>
                 </div>
                 <div className="space-y-6 mt-12">
                   <div className="rounded-3xl overflow-hidden shadow-lg aspect-[4/3]">
-                    <img src="https://picsum.photos/seed/comm3/400/300" className="object-cover w-full h-full" referrerPolicy="no-referrer" />
+                    <div className="w-full h-full bg-brand-cyan/10 dark:bg-brand-cyan/20" aria-hidden />
                   </div>
                   <div className="rounded-3xl overflow-hidden shadow-lg aspect-square">
-                    <img src="https://picsum.photos/seed/comm4/400/400" className="object-cover w-full h-full" referrerPolicy="no-referrer" />
+                    <div className="w-full h-full bg-slate-200/50 dark:bg-slate-700/50" aria-hidden />
                   </div>
                 </div>
               </div>
@@ -619,7 +617,7 @@ export function Home() {
                 <div className="flex -space-x-3">
                   {[1, 2, 3, 4].map((i) => (
                     <div key={i} className="h-12 w-12 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 overflow-hidden shadow-sm">
-                      <img src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="User" className="object-cover w-full h-full" />
+                      <img src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="" aria-hidden className="object-cover w-full h-full" />
                     </div>
                   ))}
                 </div>

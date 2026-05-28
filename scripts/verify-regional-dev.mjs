@@ -7,8 +7,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const sitePorts = [3000, 3050];
-const apiBase = process.env.NEXT_PUBLIC_API_URL || process.env.BACKEND_URL || 'http://localhost:3001';
+const sitePorts = [3000];
+const apiBase = process.env.BACKEND_URL || 'http://localhost:3001';
 
 function runNodeScript(name) {
   const scriptPath = path.join(root, 'scripts', name);
@@ -52,7 +52,7 @@ for (const port of sitePorts) {
 
 if (!siteOk) {
   console.log(
-    '\nNote: start frontend with `npm run dev:3000 -w @pms/frontend` (or default :3050) for browser QA.',
+    '\nNote: start dev with `npm run dev` and open http://localhost:3000 for browser QA.',
   );
 }
 

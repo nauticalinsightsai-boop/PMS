@@ -156,6 +156,10 @@ export function CheckoutForm() {
           <Link href="/legal/pricing-disclaimers" className="text-brand-orange font-bold hover:underline">
             details
           </Link>
+          ; see also{' '}
+          <Link href="/legal/refunds" className="text-brand-orange font-bold hover:underline">
+            refunds
+          </Link>
           ).
         </span>
       </label>

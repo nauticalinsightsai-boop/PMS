@@ -1,32 +1,42 @@
 import type { LegalDocument } from '../types';
-import { LEGAL_LAST_UPDATED, section } from '../shared';
+import { LEGAL_LAST_UPDATED, legalSupportSection, section } from '../shared';
 
 export const privacyGccDocument: LegalDocument = {
   slug: 'privacy-gcc',
   title: 'Privacy Policy (GCC)',
   lastUpdated: LEGAL_LAST_UPDATED,
   jurisdictionNote:
-    'Addendum for Gulf Cooperation Council countries. Country-specific supplements are available for UAE, Saudi Arabia, Qatar, Bahrain, Kuwait, and Oman.',
+    'Overview for Gulf Cooperation Council countries. Select your country in the region switcher for country-specific supplements.',
   sections: [
     section(
-      'overview',
-      '1. Overview',
-      'This addendum applies when you select a GCC region or reside in a GCC member state. National personal data protection laws may apply in addition to this notice.',
+      'scope',
+      '1. Scope',
+      'This page applies when you select a GCC country in the region modal (UAE, Saudi Arabia, Qatar, Bahrain, Kuwait, Oman). National data protection laws vary; country pages below summarise local considerations.',
+    ),
+    section(
+      'processing',
+      '2. What we process',
+      'We process contact, transaction, technical, and regional pricing data as described in our [Global Privacy Policy](/legal/privacy) when you use PM Structure from the GCC.',
     ),
     section(
       'rights',
-      '2. Your rights',
-      'Depending on your country you may have rights to access, correct, delete, or restrict processing of your personal data, and to withdraw consent where processing is consent-based.',
+      '3. Your rights',
+      'Depending on your country you may have rights to access, correct, or object to certain processing. Email support to exercise rights.',
     ),
     section(
-      'country',
-      '3. Country supplements',
-      'Select your country from the region switcher or visit the country-specific pages linked below for additional local references (template — counsel to confirm per jurisdiction).',
+      'countries',
+      '4. Country supplements',
+      'Visit your country page from the privacy hub: UAE, Saudi Arabia, Qatar, Bahrain, Kuwait, and Oman each have a short supplement linked from [/legal/privacy](/legal/privacy).',
     ),
     section(
       'transfers',
-      '4. Cross-border processing',
-      'Your data may be processed on servers outside your country with safeguards appropriate to local law.',
+      '5. Cross-border processing',
+      'Data may be processed on cloud infrastructure outside your country with contractual safeguards where required.',
+    ),
+    section(
+      'contact',
+      '6. Contact',
+      legalSupportSection('GCC privacy'),
     ),
   ],
 };

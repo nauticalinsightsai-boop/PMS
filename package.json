@@ -6,10 +6,12 @@
     "frontend",
     "backend",
     "dashboard/frontend",
-    "dashboard/backend"
+    "dashboard/backend",
+    "packages/booking-crm",
+    "packages/regional-catalogue"
   ],
   "scripts": {
-    "dev": "concurrently -n site,api,dash,dash-api -c blue,green,magenta,yellow \"npm run dev -w @pms/frontend\" \"npm run dev -w @pms/backend\" \"npm run dev -w @pms/dashboard-frontend\" \"npm run dev -w @pms/dashboard-backend\"",
+    "dev": "concurrently -n site,api,dash,dash-api,gw -c blue,green,magenta,yellow,cyan \"npm run dev -w @pms/frontend\" \"npm run dev -w @pms/backend\" \"npm run dev -w @pms/dashboard-frontend\" \"npm run dev -w @pms/dashboard-backend\" \"node scripts/dev-gateway.mjs\"",
     "dev:all": "npm run dev",
     "dev:website": "npm run dev -w @pms/frontend",
     "open:site": "npm run dev:website",
@@ -27,10 +29,13 @@
     "spot-check:checkout-api": "node scripts/spot-check-checkout-api.mjs",
     "qa:regional": "node scripts/qa-regional-matrix.mjs",
     "setup:env": "node scripts/setup-regional-env.mjs",
-    "verify:regional-dev": "node scripts/verify-regional-dev.mjs"
+    "verify:regional-dev": "node scripts/verify-regional-dev.mjs",
+    "test:legal-seo": "npm run test -w @pms/frontend -- lib/legal-seo.test.ts content/legal/index.test.ts",
+    "audit:images": "node scripts/audit-images.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
+    "http-proxy": "^1.18.1",
     "pg": "^8.21.0",
     "xlsx": "^0.18.5"
   }

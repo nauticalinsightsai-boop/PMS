@@ -16,6 +16,8 @@ import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
 import { useRegion } from "@/contexts/RegionContext";
 import { buildPathwayTiersForCert } from "@/lib/pathway-from-catalogue";
 import { getOfferingsForSiteCert } from "@/lib/regional-catalogue";
+import { CertFamilyMark } from "@/components/CertFamilyMark";
+import { PricingComplianceNote } from "@/components/PricingComplianceNote";
 import { hrefForCtaAction } from "@/lib/cta-router";
 import { canCheckout } from "@/lib/status-normalize";
 import type { RegionId } from "@/types/regional-catalogue";
@@ -178,13 +180,18 @@ export function CertificationDetail() {
               transition={{ duration: 0.8 }}
               className="relative hidden lg:block"
             >
-              <div className="aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800">
-                <img 
-                  src={`https://picsum.photos/seed/${id}/1000/1250`} 
-                  alt={certName} 
-                  className="object-cover w-full h-full"
-                  referrerPolicy="no-referrer"
-                />
+              <div
+                className="aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800 bg-gradient-to-br from-brand-purple/10 via-white to-brand-orange/10 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 flex flex-col items-center justify-center p-12"
+                role="img"
+                aria-label={`${certName} exam preparation pathway`}
+              >
+                <CertFamilyMark familyId={cert.familyId} className="mb-8 scale-150" />
+                <p className="text-center font-heading text-2xl font-bold text-slate-900 dark:text-white">
+                  {certName}
+                </p>
+                <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium">
+                  Structured exam preparation pathway
+                </p>
               </div>
 
               {/* Minimal Career Growth Card */}
@@ -434,6 +441,17 @@ export function CertificationDetail() {
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      <section className="py-16 border-t border-slate-100 dark:border-slate-800">
+        <div className="container mx-auto max-w-3xl">
+          <PricingComplianceNote className="text-center" />
+          <p className="text-center mt-4 text-sm">
+            <Link href="/legal/pricing-disclaimers" className="text-brand-orange font-bold hover:underline">
+              Full pricing & certification disclaimers
+            </Link>
+          </p>
         </div>
       </section>
     </div>

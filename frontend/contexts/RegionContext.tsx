@@ -28,22 +28,55 @@ const REGION_LABELS: Record<RegionId, string> = {
   pakistan: 'Pakistan',
 };
 
-export function RegionProvider({ children }: { children: React.ReactNode }) {
+type RegionProviderProps = {
+  children: React.ReactNode;
+  /** Channel portals: default USD/global, no blocking modal; optional IP region hint. */
+  portalDefaults?: boolean;
+};
+
+export function RegionProvider({ children, portalDefaults = false }: RegionProviderProps) {
   const [regionId, setRegionId] = React.useState<RegionId>('global');
   const [gccCountry, setGccCountry] = React.useState<GccCountryCode | null>(null);
   const [isReady, setIsReady] = React.useState(false);
   const [modalOpen, setModalOpen] = React.useState(false);
 
   React.useEffect(() => {
-    const stored = readStoredRegion();
-    if (stored) {
-      setRegionId(stored.regionId);
-      setGccCountry(stored.gccCountry);
-    } else {
+    let cancelled = false;
+
+    async function bootstrap() {
+      const stored = readStoredRegion();
+      if (stored) {
+        setRegionId(stored.regionId);
+        setGccCountry(stored.gccCountry);
+        setIsReady(true);
+        return;
+      }
+
+      if (portalDefaults) {
+        setRegionId('global');
+        setGccCountry(null);
+        setModalOpen(false);
+        setIsReady(true);
+
+        const { fetchPortalRegionHint } = await import('@/lib/portal-region-geo');
+        const hint = await fetchPortalRegionHint();
+        if (!cancelled && hint && !readStoredRegion()) {
+          setRegionId(hint.regionId);
+          setGccCountry(hint.gccCountry);
+          writeStoredRegion(hint.regionId, hint.gccCountry);
+        }
+        return;
+      }
+
       setModalOpen(true);
+      setIsReady(true);
     }
-    setIsReady(true);
-  }, []);
+
+    void bootstrap();
+    return () => {
+      cancelled = true;
+    };
+  }, [portalDefaults]);
 
   const setRegion = React.useCallback((id: RegionId, gcc?: GccCountryCode | null) => {
     setRegionId(id);

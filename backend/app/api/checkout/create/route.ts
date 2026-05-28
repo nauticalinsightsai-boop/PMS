@@ -72,7 +72,7 @@ export async function POST(request: Request) {
     if (memberCents != null) usdCents = memberCents;
   }
 
-  const origin = request.headers.get('origin') ?? 'http://localhost:3050';
+  const origin = request.headers.get('origin') ?? 'http://localhost:3000';
   const session = await createStripeCheckoutSession({
     offeringId,
     usdCents,

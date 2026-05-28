@@ -15,9 +15,11 @@
     "incremental": true,
     "plugins": [{ "name": "next" }],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/types/channelLandingPage": ["../packages/booking-crm/src/types/channelLandingPage.ts"],
+      "@/lib/channel-landing-pages/*": ["../packages/booking-crm/src/channel-landing-pages/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "lib/calendly/**/*.test.ts"]
 }

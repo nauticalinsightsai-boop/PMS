@@ -5,6 +5,10 @@ import { cn } from '@/lib/utils';
 interface GlassCardProps extends HTMLMotionProps<'div'> {
   variant?: 'surface' | 'raised' | 'modal';
   children: React.ReactNode;
+  /** X1 compat — ignored on PMS GlassCard */
+  hover?: boolean;
+  /** X1 compat — ignored on PMS GlassCard */
+  liquid?: boolean;
 }
 
 export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(

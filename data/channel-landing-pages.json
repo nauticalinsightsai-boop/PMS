@@ -1,0 +1,2911 @@
+{
+  "pages": {
+    "website": {
+      "channelKey": "website",
+      "channelId": "website",
+      "label": "Website",
+      "slug": "website",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.912Z",
+      "updatedAt": "2026-05-28T16:20:00.544Z",
+      "contextLabel": "OWNED WEB PROPERTY",
+      "headline": "Project Management Structure: certification and career guidance",
+      "subheadline": "Book a free mentor intro or a paid pathway session. Cite the page or asset on the site when you schedule.",
+      "body": "",
+      "targetMessage": "Name the page or asset you came from so we align the session to your certification goal.",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Mentor sessions open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "15-minute conversation on certification goal, timeline, and which pathway fits. Cite the site page or asset when you book.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor",
+          "scheduleUrl": "https://calendly.com/booking-sh3ikhmabz/go-website-discovery"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "Structured mentor block for exam prep, pathway depth, or services you chose on the website.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$299",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session",
+          "scheduleUrl": "https://calendly.com/booking-sh3ikhmabz/go-website-executive"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.544Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "medium": {
+      "channelKey": "medium",
+      "channelId": "medium",
+      "label": "Medium",
+      "slug": "medium",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.913Z",
+      "updatedAt": "2026-05-28T16:20:00.555Z",
+      "contextLabel": "FROM MEDIUM",
+      "headline": "Medium · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.555Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "substack": {
+      "channelKey": "substack",
+      "channelId": "substack",
+      "label": "Substack",
+      "slug": "substack",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.914Z",
+      "updatedAt": "2026-05-28T16:20:00.564Z",
+      "contextLabel": "FROM SUBSTACK",
+      "headline": "Substack · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.564Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "beehiiv": {
+      "channelKey": "beehiiv",
+      "channelId": "beehiiv",
+      "label": "Beehiiv",
+      "slug": "beehiiv",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.914Z",
+      "updatedAt": "2026-05-28T16:20:00.573Z",
+      "contextLabel": "FROM BEEHIIV",
+      "headline": "Beehiiv · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.573Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "ghost": {
+      "channelKey": "ghost",
+      "channelId": "ghost",
+      "label": "Ghost",
+      "slug": "ghost",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.915Z",
+      "updatedAt": "2026-05-28T16:20:00.582Z",
+      "contextLabel": "FROM GHOST",
+      "headline": "Ghost · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.582Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "hashnode": {
+      "channelKey": "hashnode",
+      "channelId": "hashnode",
+      "label": "Hashnode",
+      "slug": "hashnode",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.916Z",
+      "updatedAt": "2026-05-28T16:20:00.592Z",
+      "contextLabel": "FROM HASHNODE",
+      "headline": "Hashnode · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.592Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "notion-public": {
+      "channelKey": "notion-public",
+      "channelId": "notion-public",
+      "label": "Notion",
+      "slug": "notion",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.916Z",
+      "updatedAt": "2026-05-28T16:20:00.600Z",
+      "contextLabel": "FROM NOTION",
+      "headline": "Notion · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.600Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "linkedin": {
+      "channelKey": "linkedin",
+      "channelId": "linkedin",
+      "label": "LinkedIn",
+      "slug": "linkedin",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.917Z",
+      "updatedAt": "2026-05-28T16:20:00.610Z",
+      "contextLabel": "FROM LINKEDIN",
+      "headline": "LinkedIn · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.610Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "twitter": {
+      "channelKey": "twitter",
+      "channelId": "twitter",
+      "label": "X",
+      "slug": "x",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.918Z",
+      "updatedAt": "2026-05-28T16:20:00.618Z",
+      "contextLabel": "FROM X",
+      "headline": "X · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.618Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "instagram": {
+      "channelKey": "instagram",
+      "channelId": "instagram",
+      "label": "Instagram",
+      "slug": "instagram",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.919Z",
+      "updatedAt": "2026-05-28T16:20:00.626Z",
+      "contextLabel": "INSTAGRAM REFERRAL",
+      "headline": "Instagram · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "Name the reel, story, or post that sent you here so we match the session.",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor",
+          "scheduleUrl": "https://calendly.com/booking-sh3ikhmabz/strategic-awareness-99-30"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "Move from reels, stories, or feed to a live session — brand partnerships, creator strategy, or project sponsorship.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$129",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session",
+          "scheduleUrl": "https://calendly.com/booking-sh3ikhmabz/project-idea-review-199-60"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.626Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "facebook": {
+      "channelKey": "facebook",
+      "channelId": "facebook",
+      "label": "Facebook",
+      "slug": "facebook",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.920Z",
+      "updatedAt": "2026-05-28T16:20:00.638Z",
+      "contextLabel": "FROM FACEBOOK",
+      "headline": "Facebook · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.638Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "reddit": {
+      "channelKey": "reddit",
+      "channelId": "reddit",
+      "label": "Reddit",
+      "slug": "reddit",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.921Z",
+      "updatedAt": "2026-05-28T16:20:00.647Z",
+      "contextLabel": "FROM REDDIT",
+      "headline": "Reddit · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.647Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "threads": {
+      "channelKey": "threads",
+      "channelId": "threads",
+      "label": "Threads",
+      "slug": "threads",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.921Z",
+      "updatedAt": "2026-05-28T16:20:00.655Z",
+      "contextLabel": "FROM THREADS",
+      "headline": "Threads · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.655Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "quora": {
+      "channelKey": "quora",
+      "channelId": "quora",
+      "label": "Quora",
+      "slug": "quora",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.922Z",
+      "updatedAt": "2026-05-28T16:20:00.664Z",
+      "contextLabel": "FROM QUORA",
+      "headline": "Quora · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.664Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "bluesky": {
+      "channelKey": "bluesky",
+      "channelId": "bluesky",
+      "label": "Bluesky",
+      "slug": "bluesky",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.923Z",
+      "updatedAt": "2026-05-28T16:20:00.673Z",
+      "contextLabel": "OPEN SKY REFERRAL",
+      "headline": "Bluesky · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "Mention the Bluesky post or thread that brought you here when you book.",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor",
+          "scheduleUrl": "https://calendly.com/booking-sh3ikhmabz/strategic-awareness-99-30"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "Continue the Bluesky conversation with a booked block — fit, project scope, or career guidance after posts or threads.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$175",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session",
+          "scheduleUrl": "https://calendly.com/booking-sh3ikhmabz/project-idea-review-199-60"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.673Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "mastodon": {
+      "channelKey": "mastodon",
+      "channelId": "mastodon",
+      "label": "Mastodon",
+      "slug": "mastodon",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.923Z",
+      "updatedAt": "2026-05-28T16:20:00.683Z",
+      "contextLabel": "FROM MASTODON",
+      "headline": "Mastodon · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.683Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "pinterest": {
+      "channelKey": "pinterest",
+      "channelId": "pinterest",
+      "label": "Pinterest",
+      "slug": "pinterest",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.924Z",
+      "updatedAt": "2026-05-28T16:20:00.691Z",
+      "contextLabel": "FROM PINTEREST",
+      "headline": "Pinterest · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.691Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "youtube": {
+      "channelKey": "youtube",
+      "channelId": "youtube",
+      "label": "YouTube",
+      "slug": "youtube",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.925Z",
+      "updatedAt": "2026-05-28T16:20:00.702Z",
+      "contextLabel": "FROM YOUTUBE",
+      "headline": "YouTube · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.702Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "tiktok": {
+      "channelKey": "tiktok",
+      "channelId": "tiktok",
+      "label": "TikTok",
+      "slug": "tiktok",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.926Z",
+      "updatedAt": "2026-05-28T16:20:00.710Z",
+      "contextLabel": "FROM TIKTOK",
+      "headline": "TikTok · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.710Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "snapchat": {
+      "channelKey": "snapchat",
+      "channelId": "snapchat",
+      "label": "Snapchat",
+      "slug": "snapchat",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.927Z",
+      "updatedAt": "2026-05-28T16:20:00.719Z",
+      "contextLabel": "FROM SNAPCHAT",
+      "headline": "Snapchat · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.719Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "vimeo": {
+      "channelKey": "vimeo",
+      "channelId": "vimeo",
+      "label": "Vimeo",
+      "slug": "vimeo",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.928Z",
+      "updatedAt": "2026-05-28T16:20:00.732Z",
+      "contextLabel": "FROM VIMEO",
+      "headline": "Vimeo · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.732Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "spotify": {
+      "channelKey": "spotify",
+      "channelId": "spotify",
+      "label": "Spotify",
+      "slug": "spotify",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.929Z",
+      "updatedAt": "2026-05-28T16:20:00.741Z",
+      "contextLabel": "FROM SPOTIFY",
+      "headline": "Spotify · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.741Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "apple-podcasts": {
+      "channelKey": "apple-podcasts",
+      "channelId": "apple-podcasts",
+      "label": "Apple Podcasts",
+      "slug": "apple-podcasts",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.930Z",
+      "updatedAt": "2026-05-28T16:20:00.753Z",
+      "contextLabel": "FROM APPLE PODCASTS",
+      "headline": "Apple Podcasts · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.753Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "amazon-audible": {
+      "channelKey": "amazon-audible",
+      "channelId": "amazon-audible",
+      "label": "Amazon Music / Audible",
+      "slug": "amazon-audible",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.931Z",
+      "updatedAt": "2026-05-28T16:20:00.767Z",
+      "contextLabel": "FROM AMAZON MUSIC / AUDIBLE",
+      "headline": "Amazon Music / Audible · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.767Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "google-podcasts": {
+      "channelKey": "google-podcasts",
+      "channelId": "google-podcasts",
+      "label": "Google Podcasts",
+      "slug": "google-podcasts",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.933Z",
+      "updatedAt": "2026-05-28T16:20:00.781Z",
+      "contextLabel": "FROM GOOGLE PODCASTS",
+      "headline": "Google Podcasts · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.781Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "podbean": {
+      "channelKey": "podbean",
+      "channelId": "podbean",
+      "label": "Podbean",
+      "slug": "podbean",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.934Z",
+      "updatedAt": "2026-05-28T16:20:00.791Z",
+      "contextLabel": "FROM PODBEAN",
+      "headline": "Podbean · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.791Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "soundcloud": {
+      "channelKey": "soundcloud",
+      "channelId": "soundcloud",
+      "label": "SoundCloud",
+      "slug": "soundcloud",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.935Z",
+      "updatedAt": "2026-05-28T16:20:00.801Z",
+      "contextLabel": "FROM SOUNDCLOUD",
+      "headline": "SoundCloud · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.801Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "email": {
+      "channelKey": "email",
+      "channelId": "email",
+      "label": "Email",
+      "slug": "email",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.936Z",
+      "updatedAt": "2026-05-28T16:20:00.810Z",
+      "contextLabel": "FROM EMAIL",
+      "headline": "Email · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.810Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "whatsapp": {
+      "channelKey": "whatsapp",
+      "channelId": "whatsapp",
+      "label": "WhatsApp Channels",
+      "slug": "whatsapp",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.937Z",
+      "updatedAt": "2026-05-28T16:20:00.820Z",
+      "contextLabel": "FROM WHATSAPP CHANNELS",
+      "headline": "WhatsApp Channels · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.820Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "telegram": {
+      "channelKey": "telegram",
+      "channelId": "telegram",
+      "label": "Telegram",
+      "slug": "telegram",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.938Z",
+      "updatedAt": "2026-05-28T16:20:00.829Z",
+      "contextLabel": "FROM TELEGRAM",
+      "headline": "Telegram · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.829Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "discord": {
+      "channelKey": "discord",
+      "channelId": "discord",
+      "label": "Discord",
+      "slug": "discord",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.939Z",
+      "updatedAt": "2026-05-28T16:20:00.838Z",
+      "contextLabel": "DISCORD SERVER REFERRAL",
+      "headline": "Discord · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "Name the server channel or thread that linked you here.",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor",
+          "scheduleUrl": "https://calendly.com/booking-sh3ikhmabz/strategic-awareness-99-30"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "For server members — channel strategy, community programs, or project direction after Discord engagement.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$159",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session",
+          "scheduleUrl": "https://calendly.com/booking-sh3ikhmabz/project-idea-review-199-60"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Server calendar",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.838Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "slack": {
+      "channelKey": "slack",
+      "channelId": "slack",
+      "label": "Slack",
+      "slug": "slack",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.940Z",
+      "updatedAt": "2026-05-28T16:20:00.849Z",
+      "contextLabel": "FROM SLACK",
+      "headline": "Slack · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.849Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "google-search": {
+      "channelKey": "google-search",
+      "channelId": "google-search",
+      "label": "Google Search",
+      "slug": "google-search",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.941Z",
+      "updatedAt": "2026-05-28T16:20:00.858Z",
+      "contextLabel": "FROM GOOGLE SEARCH",
+      "headline": "Google Search · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.858Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "youtube-search": {
+      "channelKey": "youtube-search",
+      "channelId": "youtube-search",
+      "label": "YouTube Search",
+      "slug": "youtube-search",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.942Z",
+      "updatedAt": "2026-05-28T16:20:00.868Z",
+      "contextLabel": "FROM YOUTUBE SEARCH",
+      "headline": "YouTube Search · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.868Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "podcast-directories": {
+      "channelKey": "podcast-directories",
+      "channelId": "podcast-directories",
+      "label": "Podcast Directories",
+      "slug": "podcast-directories",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.944Z",
+      "updatedAt": "2026-05-28T16:20:00.880Z",
+      "contextLabel": "FROM PODCAST DIRECTORIES",
+      "headline": "Podcast Directories · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.880Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "bing-search": {
+      "channelKey": "bing-search",
+      "channelId": "bing-search",
+      "label": "Bing Search",
+      "slug": "bing-search",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.945Z",
+      "updatedAt": "2026-05-28T16:20:00.889Z",
+      "contextLabel": "FROM BING SEARCH",
+      "headline": "Bing Search · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.889Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "ai-visibility": {
+      "channelKey": "ai-visibility",
+      "channelId": "ai-visibility",
+      "label": "AI Visibility",
+      "slug": "ai-visibility",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.947Z",
+      "updatedAt": "2026-05-28T16:20:00.899Z",
+      "contextLabel": "FROM AI VISIBILITY",
+      "headline": "AI Visibility · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.899Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "rss-feeds": {
+      "channelKey": "rss-feeds",
+      "channelId": "rss-feeds",
+      "label": "RSS Feeds",
+      "slug": "rss-feeds",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.948Z",
+      "updatedAt": "2026-05-28T16:20:00.907Z",
+      "contextLabel": "FROM RSS FEEDS",
+      "headline": "RSS Feeds · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.907Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "content-aggregators": {
+      "channelKey": "content-aggregators",
+      "channelId": "content-aggregators",
+      "label": "Content Aggregators",
+      "slug": "content-aggregators",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.950Z",
+      "updatedAt": "2026-05-28T16:20:00.917Z",
+      "contextLabel": "FROM CONTENT AGGREGATORS",
+      "headline": "Content Aggregators · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.917Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "api-ai-fed": {
+      "channelKey": "api-ai-fed",
+      "channelId": "api-ai-fed",
+      "label": "API / AI-fed Systems",
+      "slug": "api-ai-fed",
+      "status": "published",
+      "createdAt": "2026-05-22T12:08:14.951Z",
+      "updatedAt": "2026-05-28T16:20:00.928Z",
+      "contextLabel": "FROM API / AI-FED SYSTEMS",
+      "headline": "API / AI-fed Systems · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.928Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "webinar": {
+      "channelKey": "webinar",
+      "channelId": "webinar",
+      "label": "Webinar",
+      "slug": "webinar",
+      "status": "published",
+      "createdAt": "2026-05-28T11:54:35.579Z",
+      "updatedAt": "2026-05-28T16:20:00.936Z",
+      "contextLabel": "WEBINAR REGISTRATION",
+      "headline": "Live webinar — book your session",
+      "subheadline": "Watch the briefing, understand what we cover, then choose a free intro seat or a paid working session.",
+      "body": "",
+      "targetMessage": "Name the webinar title or replay when you book so we align the session to what you watched.",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Free & paid webinar seats open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Join the intro seat — session overview, Q&A framing, and whether the paid working session fits your situation.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor",
+          "scheduleUrl": "https://calendly.com/booking-sh3ikhmabz/strategic-awareness-99-30"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "Extended working block after the webinar — implementation depth, program questions, and structured next steps with principal advisory.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$199",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session",
+          "scheduleUrl": "https://calendly.com/booking-sh3ikhmabz/project-idea-review-199-60"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "publishedAt": "2026-05-28T16:20:00.936Z",
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    },
+    "vk": {
+      "channelKey": "vk",
+      "channelId": "vk",
+      "label": "VK",
+      "slug": "vk",
+      "status": "draft",
+      "createdAt": "2026-05-28T16:20:00.528Z",
+      "updatedAt": "2026-05-28T16:20:00.532Z",
+      "contextLabel": "FROM VK",
+      "headline": "VK · Pathway session",
+      "subheadline": "Independent exam prep and structured certification readiness.",
+      "body": "",
+      "targetMessage": "",
+      "showSyncBanner": false,
+      "syncBannerLabel": "Sync system",
+      "availabilityLabel": "Next cohort intakes open",
+      "consultationTiers": [
+        {
+          "id": "mentor-intro",
+          "title": "Free Mentor Intro",
+          "description": "Brief initial conversation to analyze high-level fit, project alignment, or provide quick career guidance. No financial investment required.",
+          "durationLabel": "15 Minutes",
+          "priceLabel": "Free",
+          "isFree": true,
+          "recommended": false,
+          "ctaLabel": "Talk to a mentor"
+        },
+        {
+          "id": "career-pathway",
+          "title": "Career & Pathway Session",
+          "description": "In-depth structural consultation for sponsors planning offshore engineering, digital-twin setups, or risk-velocity assessment.",
+          "durationLabel": "30 Minutes",
+          "priceLabel": "$250",
+          "recommended": true,
+          "badge": "Most Popular",
+          "ctaLabel": "Book pathway session"
+        },
+        {
+          "id": "services-detail",
+          "title": "Services Discussion",
+          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "durationLabel": "45 Minutes",
+          "priceLabel": "Paid",
+          "isFree": false,
+          "recommended": false,
+          "ctaLabel": "Discuss services"
+        }
+      ],
+      "primaryButtonText": "Talk to a mentor",
+      "primaryAction": "booking_form",
+      "contactService": "Advisory",
+      "showBookingForm": false,
+      "collectCompany": false,
+      "theme": "brand",
+      "showLogo": true,
+      "portalEngagement": {
+        "templateVersion": 4,
+        "featuredCertIds": [
+          "pmp",
+          "pmi-rmp"
+        ],
+        "showExplorePathways": false,
+        "showComparePathways": false,
+        "showCommunityLink": false,
+        "showMembershipLink": true,
+        "showStoreLink": true
+      }
+    }
+  }
+}

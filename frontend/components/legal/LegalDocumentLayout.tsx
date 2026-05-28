@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import type { LegalDocument } from '@/content/legal/types';
-import { LegalDraftBanner } from './LegalDraftBanner';
 import { LegalSectionList } from './LegalSectionList';
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { cn } from '@/lib/utils';
+import { LegalRelatedLinks } from './LegalRelatedLinks';
 
 export function LegalDocumentLayout({
   document,
@@ -79,9 +79,9 @@ export function LegalDocumentLayout({
               </nav>
             )}
             <div className="flex-1 min-w-0 max-w-3xl">
-              <LegalDraftBanner />
               <LegalSectionList sections={document.sections} />
               {children}
+              <LegalRelatedLinks />
             </div>
           </div>
         </div>

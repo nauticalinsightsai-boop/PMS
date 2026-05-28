@@ -1,12 +1,9 @@
 import type { Metadata } from 'next';
 import { montserrat } from '@/lib/fonts';
+import { defaultSiteMetadata } from '@/lib/site-metadata';
 import './globals.css';
 
-export const metadata: Metadata = {
-  title: 'PM Structure — Project readiness',
-  description:
-    'Independent exam prep across PMI, PRINCE2, and Six Sigma. Prepare with structure. Manage with discipline. Deliver with control.',
-};
+export const metadata: Metadata = defaultSiteMetadata;
 
 const themeScript = `
 (function() {

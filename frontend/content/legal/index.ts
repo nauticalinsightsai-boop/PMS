@@ -18,7 +18,7 @@ import type { RegionId } from '@/types/regional-catalogue';
 import type { GccCountryCode } from '@/types/regional-catalogue';
 
 export * from './types';
-export { LEGAL_DRAFT_NOTICE, LEGAL_LAST_UPDATED } from './shared';
+export { LEGAL_LAST_UPDATED, LEGAL_SUPPORT_EMAIL, LEGAL_CONTROLLER_LINE } from './shared';
 
 const privacyRegionalAddenda: Record<LegalRegionSlug, LegalDocument | null> = {
   global: null,
@@ -57,6 +57,76 @@ export const legalHubCards: LegalHubCard[] = [
     href: '/legal/pricing-disclaimers',
   },
 ];
+
+export type LegalHubSection = { title: string; cards: LegalHubCard[] };
+
+export const legalHubSections: LegalHubSection[] = [
+  {
+    title: 'Core policies',
+    cards: [
+      legalHubCards[0],
+      legalHubCards[1],
+      legalHubCards[2],
+      legalHubCards[3],
+    ],
+  },
+  {
+    title: 'Commerce & pricing',
+    cards: [
+      legalHubCards[4],
+      {
+        title: 'Regional pricing & scholarship',
+        description: 'Residence, billing country, and scholarship rules.',
+        href: '/legal/regional-pricing',
+      },
+      {
+        title: 'Refunds & cancellations',
+        description: 'Pathway, membership, and service refunds.',
+        href: '/legal/refunds',
+      },
+      {
+        title: 'Membership terms',
+        description: 'Plans, renewal, and certification tuition benefit.',
+        href: '/legal/membership-terms',
+      },
+      { title: 'Tax & invoicing', description: 'Taxes and checkout currency.', href: '/legal/tax' },
+    ],
+  },
+  {
+    title: 'Trust & safety',
+    cards: [
+      {
+        title: 'Acceptable use',
+        description: 'Community guidelines and exam integrity.',
+        href: '/legal/acceptable-use',
+      },
+      {
+        title: 'Accessibility',
+        description: 'WCAG commitment and feedback.',
+        href: '/legal/accessibility',
+      },
+      { title: 'Security', description: 'Security practices and reporting.', href: '/legal/security' },
+      { title: 'Subprocessors', description: 'Third-party data processors.', href: '/legal/subprocessors' },
+      { title: 'DMCA / copyright', description: 'Copyright complaints.', href: '/legal/dmca' },
+      { title: 'Complaints', description: 'Escalation and disputes.', href: '/legal/complaints' },
+    ],
+  },
+  {
+    title: 'Communications & enterprise',
+    cards: [
+      { title: 'Marketing', description: 'Newsletter and email.', href: '/legal/marketing' },
+      { title: 'AI use', description: 'AI features disclosure.', href: '/legal/ai' },
+      { title: 'DPA (B2B)', description: 'Enterprise data processing.', href: '/legal/dpa' },
+    ],
+  },
+];
+
+export {
+  DYNAMIC_LEGAL_SLUGS,
+  getLegalDocumentBySlug,
+  getAllLegalDocumentPaths,
+} from './registry';
+export type { DynamicLegalSlug } from './registry';
 
 export function getTermsDocument(): LegalDocument {
   return termsDocument;

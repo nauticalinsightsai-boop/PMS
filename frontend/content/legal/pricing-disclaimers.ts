@@ -1,5 +1,5 @@
 import type { LegalDocument } from './types';
-import { LEGAL_LAST_UPDATED, section } from './shared';
+import { LEGAL_LAST_UPDATED, legalSupportSection, section } from './shared';
 import { BRAND, DISCLAIMERS, REGION_COPY } from '@/lib/brand-voice';
 
 export const pricingDisclaimersDocument: LegalDocument = {
@@ -32,6 +32,21 @@ export const pricingDisclaimersDocument: LegalDocument = {
       'exam',
       '5. Official exams',
       'Official exam registration, scheduling, and fees are handled by the relevant certification bodies (e.g. PMI, PeopleCert, IASSC). Always verify eligibility, fees, and policies on the official body website before registering.',
+    ),
+    section(
+      'verification',
+      '6. Scholarship verification',
+      'For certain offerings we verify residence and billing country before checkout. See [Regional pricing policy](/legal/regional-pricing).',
+    ),
+    section(
+      'parity',
+      '7. Access framing',
+      `${BRAND.name} offers regional scholarship pricing to improve access to exam preparation in selected markets based on verifiable residence and billing location, not nationality alone.`,
+    ),
+    section(
+      'contact',
+      '8. Contact',
+      legalSupportSection('pricing and certification disclaimers'),
     ),
   ],
 };

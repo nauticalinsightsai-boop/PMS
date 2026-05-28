@@ -152,11 +152,10 @@ function CommunityNetworkContent() {
               className="relative"
             >
               <div className="aspect-square rounded-[3rem] bg-slate-100 dark:bg-slate-800 overflow-hidden relative shadow-2xl border-4 border-white dark:border-slate-900">
-                <img 
-                  src="https://picsum.photos/seed/community/800/800" 
-                  alt="Community interaction" 
-                  className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-1000"
-                  referrerPolicy="no-referrer"
+                <div
+                  className="w-full h-full bg-gradient-to-br from-brand-purple/15 to-brand-orange/15 dark:from-slate-800 dark:to-slate-900"
+                  role="img"
+                  aria-label="Community and study collaboration"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
                 <div className="absolute bottom-8 left-8 right-8 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm p-8 rounded-3xl border border-white/20 dark:border-slate-800 shadow-xl">

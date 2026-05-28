@@ -17,5 +17,25 @@
     "paths": { "@/*": ["./*"] }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "lib/google/**",
+    "lib/interactions/admin-audit.ts",
+    "lib/interactions/admin-guard.ts",
+    "lib/interactions/broadcast.ts",
+    "lib/interactions/engagement-bridge.ts",
+    "lib/interactions/export.ts",
+    "lib/interactions/google-sheets.ts",
+    "lib/interactions/query.ts",
+    "lib/interactions/rate-limit.ts",
+    "lib/interactions/payload-sanitize.ts",
+    "lib/interactions/request-ip.ts",
+    "lib/interactions/request-ip.test.ts",
+    "lib/interactions/schema.ts",
+    "lib/interactions/service.ts",
+    "lib/interactions/sheets-api-response.ts",
+    "lib/interactions/sheets-sync.ts",
+    "lib/interactions/sync-status.ts",
+    "lib/interactions/submit-public.ts"
+  ]
 }

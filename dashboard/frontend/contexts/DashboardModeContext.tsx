@@ -35,7 +35,7 @@ export const DashboardModeProvider: React.FC<{ children: React.ReactNode }> = ({
   const handleSetMode = (newMode: DashboardMode) => {
     setMode(newMode);
     if (newMode === 'social') router.push('/dashboard/control-tower');
-    if (newMode === 'bookings') router.push('/dashboard/members-revenue');
+    if (newMode === 'bookings') router.push('/dashboard/booking-crm/cta');
     if (newMode === 'website') router.push('/dashboard/site-system/home');
   };
 

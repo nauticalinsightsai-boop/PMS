@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
 import { LegalHub } from '@/components/pages/legal/LegalHub';
-import { BRAND } from '@/lib/brand-voice';
+import { buildPageMetadata } from '@/lib/site-metadata';
 
-export const metadata: Metadata = {
-  title: `Legal & compliance | ${BRAND.name}`,
-  description: 'Terms, privacy, cookies, services, and pricing policies.',
-};
+export const metadata = buildPageMetadata({
+  title: 'Legal & compliance',
+  description: 'Terms, privacy, cookies, services, regional pricing, refunds, and compliance policies.',
+  path: '/legal',
+});
 
 export default function Page() {
   return <LegalHub />;

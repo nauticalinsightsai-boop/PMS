@@ -22,6 +22,7 @@ import {
 import { getRegionalMembershipAmounts } from '@/lib/membership-regional-pricing';
 
 import * as siteData from "@/data/siteData";
+import { PricingComplianceNote } from '@/components/PricingComplianceNote';
 
 function useMaxAnnualSavingsPercent() {
   const { regionId, gccCountry } = useRegion();
@@ -371,6 +372,21 @@ export function Membership() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="py-16 border-t border-slate-100 dark:border-slate-800">
+        <div className="container mx-auto max-w-3xl px-4">
+          <PricingComplianceNote />
+          <p className="text-center mt-4 text-sm text-slate-500">
+            <Link href="/legal/membership-terms" className="text-brand-orange font-bold hover:underline">
+              Membership terms
+            </Link>
+            {' · '}
+            <Link href="/legal/regional-pricing" className="text-brand-orange font-bold hover:underline">
+              Regional pricing policy
+            </Link>
+          </p>
         </div>
       </section>
     </div>
