@@ -62,6 +62,7 @@ export default function ChannelPortalHeroHeader({
   isImpulseFlow,
   isLeadHero = false,
   onBookMentor,
+  topBar = false,
 }: PortalSectionProps) {
   if (isImpulseFlow) {
     return (
@@ -124,9 +125,9 @@ export default function ChannelPortalHeroHeader({
   return (
     <header
       className={`flex flex-col gap-4 w-full${
-        isLeadHero ? ' mb-6 sm:mb-8' : ' mb-8 sm:mb-10'
+        topBar ? '' : isLeadHero ? ' mb-6 sm:mb-8' : ' mb-8 sm:mb-10'
       }`}
-      style={{ order: sectionOrder }}
+      style={{ order: topBar ? undefined : sectionOrder }}
     >
       <div className="flex items-start justify-between gap-3 w-full">
         <div className="flex gap-4 min-w-0 flex-1">

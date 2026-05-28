@@ -17,4 +17,6 @@ export type PortalSectionProps = {
   onSetColorMode?: (mode: PortalColorMode) => void
   /** Primary hero CTA — book free mentor intro or scroll to tiers. */
   onBookMentor?: () => void
+  /** Sticky top bar (professional portals) — tighter spacing, no section margin. */
+  topBar?: boolean
 }

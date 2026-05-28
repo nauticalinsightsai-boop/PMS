@@ -19,7 +19,7 @@ const buttonVariants = cva(
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
         brand:
-          "bg-brand-orange text-white shadow-md shadow-brand-orange/20 hover:bg-brand-hover dark:bg-brand-orange dark:hover:bg-brand-hover dark:text-white",
+          "cta-consultation shadow-md shadow-brand-orange/20 hover:bg-brand-hover dark:text-white",
         brandOutline:
           "border-brand-orange/40 bg-transparent text-brand-orange hover:bg-brand-orange/10 dark:border-brand-orange/50 dark:text-brand-orange dark:hover:bg-brand-orange/15",
       },

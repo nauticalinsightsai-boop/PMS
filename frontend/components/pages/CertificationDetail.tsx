@@ -18,6 +18,7 @@ import { buildPathwayTiersForCert } from "@/lib/pathway-from-catalogue";
 import { getOfferingsForSiteCert } from "@/lib/regional-catalogue";
 import { CertFamilyMark } from "@/components/CertFamilyMark";
 import { PricingComplianceNote } from "@/components/PricingComplianceNote";
+import { RegisterModal } from "@/components/RegisterModal";
 import { hrefForCtaAction } from "@/lib/cta-router";
 import { canCheckout } from "@/lib/status-normalize";
 import type { RegionId } from "@/types/regional-catalogue";
@@ -429,15 +430,17 @@ export function CertificationDetail() {
                     </Button>
                   </Link>
                 )}
-                <Link href="/contact">
-                  <Button
-                    size="lg"
-                    variant="ghost"
-                    className="h-14 px-10 rounded-2xl font-bold text-lg transition-all border border-slate-900/15 dark:border-white/10 bg-white dark:bg-transparent text-black dark:text-white hover:bg-slate-50 dark:hover:bg-white/5"
-                  >
-                    {CTAS.pathwayConsultation}
-                  </Button>
-                </Link>
+                <RegisterModal
+                  trigger={
+                    <Button
+                      size="lg"
+                      variant="brand"
+                      className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all"
+                    >
+                      {CTAS.pathwayConsultation}
+                    </Button>
+                  }
+                />
               </div>
             </div>
           </motion.div>

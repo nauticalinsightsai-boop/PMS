@@ -16,6 +16,7 @@ import { Search, HelpCircle, Mail } from 'lucide-react';
 import { useWebsiteData } from '@/services/WebsiteDataService';
 import { CTAS } from '@/lib/brand-voice';
 import { PMS_SUPPORT_EMAIL } from '@/config/pms-site';
+import { RegisterModal } from '@/components/RegisterModal';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PricingComplianceNote } from '@/components/PricingComplianceNote';
 import {
@@ -183,9 +184,9 @@ export function FAQ() {
                 Email support
               </Button>
             </a>
-            <Link href="/contact">
-              <Button variant="outline">{CTAS.navConsultation}</Button>
-            </Link>
+            <RegisterModal
+              trigger={<Button variant="brand">{CTAS.navConsultation}</Button>}
+            />
           </div>
         </div>
       </section>

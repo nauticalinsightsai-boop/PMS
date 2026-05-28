@@ -10,37 +10,43 @@ interface SyncStatusIndicatorProps {
   onManualSync?: () => void;
 }
 
-export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({ 
-  status, 
-  lastSynced, 
-  onManualSync 
+export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
+  status,
+  lastSynced,
+  onManualSync,
 }) => {
   const configs = {
-    synced: { icon: CloudCheck, text: 'Changes Saved', class: 'text-green-500' },
-    syncing: { icon: RefreshCw, text: 'Syncing...', class: 'text-gw-accent-primary animate-spin' },
-    error: { icon: AlertCircle, text: 'Sync Error', class: 'text-red-500' },
-    pending: { icon: CloudOff, text: 'Unsaved Changes', class: 'text-yellow-500' },
+    synced: { icon: CloudCheck, text: 'Changes Saved', class: 'text-emerald-600 dark:text-emerald-400' },
+    syncing: { icon: RefreshCw, text: 'Syncing...', class: 'text-brand-orange animate-spin' },
+    error: { icon: AlertCircle, text: 'Sync Error', class: 'text-destructive' },
+    pending: { icon: CloudOff, text: 'Unsaved Changes', class: 'text-amber-600 dark:text-amber-400' },
   };
 
   const config = configs[status];
 
   return (
-    <div className="flex items-center gap-4 bg-white/5 dark:bg-black/20 px-4 py-2 rounded-2xl border border-white/5">
-      <div className={cn("flex items-center gap-2 text-[10px] font-black uppercase tracking-widest", config.class)}>
+    <div className="flex items-center gap-4 bg-card/80 backdrop-blur-sm px-4 py-2 rounded-2xl border border-border">
+      <div
+        className={cn(
+          'flex items-center gap-2 text-label normal-case tracking-wide',
+          config.class,
+        )}
+      >
         <config.icon size={14} className={status === 'syncing' ? 'animate-spin' : ''} />
         {config.text}
       </div>
-      
+
       {lastSynced && status === 'synced' && (
-        <span className="text-[10px] text-gw-text-secondary font-medium">
+        <span className="text-xs text-muted-foreground font-medium">
           Last sync: {lastSynced.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </span>
       )}
 
       {onManualSync && (
-        <button 
+        <button
+          type="button"
           onClick={onManualSync}
-          className="p-1 hover:bg-white/10 rounded-lg transition-colors text-gw-text-secondary"
+          className="p-1 hover:bg-muted rounded-lg transition-colors text-muted-foreground"
           title="Force Sync"
         >
           <RefreshCw size={12} />

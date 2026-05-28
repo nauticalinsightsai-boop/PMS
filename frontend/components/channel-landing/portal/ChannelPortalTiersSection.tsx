@@ -167,8 +167,8 @@ export default function ChannelPortalTiersSection({
                       onClick={() => scheduleTierClick(page, tier)}
                       className={
                         useBold
-                          ? `portal-schedule-btn-bold w-full px-4 py-3 text-body-sm font-semibold hover:opacity-90 transition-opacity${useWebsitePrimary ? ' home-btn-primary bg-brand-accent text-white' : ''}`
-                          : `portal-schedule-btn w-full sm:w-auto shrink-0 px-4 py-2.5 text-body-sm font-semibold hover:opacity-90 transition-opacity${useWebsitePrimary ? ' home-btn-primary bg-brand-accent text-white' : ''}`
+                          ? `portal-schedule-btn-bold w-full px-4 py-3 text-body-sm font-semibold hover:opacity-90 transition-opacity${useWebsitePrimary ? ' home-btn-primary cta-consultation text-white' : ''}`
+                          : `portal-schedule-btn w-full sm:w-auto shrink-0 px-4 py-2.5 text-body-sm font-semibold hover:opacity-90 transition-opacity${useWebsitePrimary ? ' home-btn-primary cta-consultation text-white' : ''}`
                       }
                       style={{
                         borderRadius: theme.radius,

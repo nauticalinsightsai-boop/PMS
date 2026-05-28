@@ -73,6 +73,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   const layoutVariant = pack?.layoutVariant ?? 'minimal'
   const isImpulseFlow = isImpulseLayoutChannel(page.channelId)
   const isWebinarPortal = page.channelId === 'webinar'
+  const isWebsitePortal = page.channelId === 'website'
 
   const discoveryTier =
     tiers.find((t) => t.id === 'mentor-intro') ??
@@ -95,6 +96,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   }, [page, discoveryTier, scrollToTiers])
 
   const isLeadHero = sectionOrder('hero') < sectionOrder('context')
+  const stickyTopHero = !isImpulseFlow
 
   const sectionProps = {
     page,
@@ -119,10 +121,10 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
 
   return (
     <div
-      className={`portal-root relative z-10 min-h-screen flex flex-col overflow-x-hidden pb-20 sm:pb-0${isImpulseFlow ? ' portal-impulse-flow' : ''}${page.channelId === 'website' ? ' portal-website' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}`}
+      className={`portal-root relative z-10 min-h-screen flex flex-col overflow-x-hidden pb-20 sm:pb-0${isImpulseFlow ? ' portal-impulse-flow' : ''}${isWebsitePortal ? ' portal-website selection:bg-brand-orange selection:text-white' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}`}
       style={{
-        fontFamily: theme.fontFamily,
-        backgroundColor: theme.background,
+        fontFamily: isWebsitePortal ? undefined : theme.fontFamily,
+        backgroundColor: isWebsitePortal ? undefined : theme.background,
         color: theme.text,
         ...cssVars,
       }}
@@ -130,19 +132,54 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
       data-layout={layoutVariant}
       data-color-mode={colorMode}
     >
+      {isWebsitePortal ? (
+        <div className="portal-website-ambience" aria-hidden>
+          <div className="portal-website-orb portal-website-orb--orange" />
+          <div className="portal-website-orb portal-website-orb--purple" />
+          <div className="portal-website-orb portal-website-orb--purple-soft" />
+          <div className="portal-website-orb portal-website-orb--cyan" />
+        </div>
+      ) : null}
       {isPreview && (
         <div
-          className="portal-preview-banner sticky top-0 z-50 text-center text-meta font-medium py-2.5 px-4"
+          className={`portal-preview-banner z-50 text-center text-meta font-medium py-2.5 px-4${
+            stickyTopHero ? ' relative' : ' sticky top-0'
+          }`}
           role="status"
         >
           Draft preview — not visible to the public until you publish.
         </div>
       )}
 
-      <ChannelPortalPresenceStrip {...sectionProps} sectionOrder={sectionOrder('presence')} />
+      {stickyTopHero ? (
+        <div
+          className={`portal-top-hero sticky top-0 z-[60] shrink-0 border-b${isWebsitePortal ? ' portal-website-top-bar' : ''}`}
+          style={
+            isWebsitePortal
+              ? {
+                  backgroundColor:
+                    colorMode === 'dark' ? 'rgba(15, 14, 56, 0.78)' : 'rgba(255, 255, 255, 0.82)',
+                  borderColor:
+                    colorMode === 'dark' ? 'rgba(38, 42, 51, 0.85)' : 'rgba(230, 231, 239, 0.95)',
+                }
+              : {
+                  backgroundColor: theme.surface,
+                  borderColor: theme.cardBorder,
+                }
+          }
+        >
+          <div className={`${contentWidth} px-4 sm:px-5 py-3 sm:py-4`}>
+            <ChannelPortalHeroHeader {...sectionProps} sectionOrder={0} topBar />
+          </div>
+        </div>
+      ) : (
+        <ChannelPortalPresenceStrip {...sectionProps} sectionOrder={sectionOrder('presence')} />
+      )}
 
       <div className={`${contentWidth} px-4 sm:px-5 py-6 sm:py-10 flex flex-col`}>
-        <ChannelPortalHeroHeader {...sectionProps} sectionOrder={sectionOrder('hero')} />
+        {!stickyTopHero ? (
+          <ChannelPortalHeroHeader {...sectionProps} sectionOrder={sectionOrder('hero')} />
+        ) : null}
         <ChannelPortalContextSection {...sectionProps} sectionOrder={sectionOrder('context')} />
         {isWebinarPortal ? (
           <ChannelPortalWebinarMedia
