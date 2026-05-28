@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowRight,
   Eye,
@@ -83,6 +83,7 @@ interface HomePageConfig {
 
 const HOME_CONFIG_KEY = 'home_page_config';
 const PREVIEW_KEY = 'home_page_preview_config_v1';
+const HOME_PREVIEW_MESSAGE = 'pms:home-preview-config';
 
 const defaultCtaBlock = (title: string): CtaBlock => ({
   title,
@@ -202,6 +203,7 @@ export function HomeCmsEditor() {
   const [previewKey, setPreviewKey] = useState(0);
   const [newNews, setNewNews] = useState({ title: '', description: '', link: '' });
   const [newFootprint, setNewFootprint] = useState({ category: '', item: '', location: '', year: '' });
+  const previewIframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -302,6 +304,19 @@ export function HomeCmsEditor() {
     setPreviewKey((prev) => prev + 1);
     setIsPreviewOpen(true);
   };
+
+  const postPreviewConfig = () => {
+    previewIframeRef.current?.contentWindow?.postMessage(
+      { type: HOME_PREVIEW_MESSAGE, config },
+      siteUrl.replace(/\/$/, ''),
+    );
+  };
+
+  useEffect(() => {
+    if (!isPreviewOpen) return;
+    const timer = window.setTimeout(postPreviewConfig, 300);
+    return () => window.clearTimeout(timer);
+  }, [config, isPreviewOpen, previewKey]);
 
   const closePreview = () => {
     localStorage.removeItem(PREVIEW_KEY);
@@ -817,9 +832,11 @@ export function HomeCmsEditor() {
               </div>
             </div>
             <iframe
+              ref={previewIframeRef}
               key={previewKey}
               src={`${siteUrl.replace(/\/$/, '')}/?homePreview=1`}
               title="Home preview"
+              onLoad={postPreviewConfig}
               className="flex-1 bg-white"
             />
           </div>

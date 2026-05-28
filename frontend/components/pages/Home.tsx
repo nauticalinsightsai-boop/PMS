@@ -37,6 +37,7 @@ import { FamilyExploreCard } from "@/components/FamilyExploreCard";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { MembershipDualPrice } from '@/components/MembershipDualPrice';
 import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
+import { useHomePageConfig } from '@/lib/home-config';
 
 import * as siteData from "@/data/siteData";
 
@@ -45,6 +46,7 @@ const featuredPathways = siteData.featuredCertifications;
 
 export function Home() {
   const { get } = useWebsiteData();
+  const homeCms = useHomePageConfig();
   const [reduceMotion, setReduceMotion] = React.useState(false);
   React.useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -76,6 +78,25 @@ export function Home() {
     window.location.href = "/newsletter";
   };
 
+  const featuredFromCms = homeCms.featuredIds
+    .map((id) => {
+      const featured = siteData.featuredCertifications.find((item) => item.id === id);
+      if (featured) return featured;
+      const cert = siteData.certifications.find((item) => item.id === id);
+      if (!cert) return null;
+      return {
+        id: cert.id,
+        title: cert.name,
+        desc: cert.desc,
+        family: cert.familyId,
+        color: cert.color,
+      };
+    })
+    .filter((item): item is (typeof siteData.featuredCertifications)[number] => Boolean(item));
+  const featuredPathwaysResolved =
+    featuredFromCms.length > 0 ? featuredFromCms.slice(0, 6) : featuredPathways;
+  const finalCta = homeCms.activeCta;
+
   return (
     <div className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
       {/* Hero Section */}
@@ -101,22 +122,22 @@ export function Home() {
               </Badge>
               
               <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-[1.1]">
-                {get('hero_title', HOME_COPY.heroTitle)}
+                {homeCms.heroTitle || get('hero_title', HOME_COPY.heroTitle)}
               </h1>
               
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-lg leading-relaxed font-medium">
-                {get('hero_subtitle', HOME_COPY.heroSubtitle)}
+                {homeCms.heroSubtitle || get('hero_subtitle', HOME_COPY.heroSubtitle)}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <RegisterModal trigger={
                   <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-8 rounded-full font-bold text-lg shadow-lg shadow-brand-orange/20 transition-all">
-                    {CTAS.pathwayConsultation}
+                    {homeCms.ctaPrimary || get('cta_primary', CTAS.pathwayConsultation)}
                   </Button>
                 } />
-                <Link href="/certifications">
+                <Link href={homeCms.ctaSecondaryLink || '/certifications'}>
                   <Button size="lg" variant="outline" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-900 h-14 px-8 rounded-full font-bold text-lg transition-all">
-                    {CTAS.findPathway}
+                    {homeCms.ctaSecondary || get('cta_secondary', CTAS.findPathway)}
                   </Button>
                 </Link>
               </div>
@@ -165,6 +186,52 @@ export function Home() {
         </div>
       </section>
 
+      {homeCms.latestNews.length > 0 && (
+        <section className="py-24 bg-white dark:bg-slate-950">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+              <div>
+                <Badge className="mb-4 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+                  Latest News
+                </Badge>
+                <h2 className="font-heading text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">
+                  From the PMStructure desk
+                </h2>
+              </div>
+              <Link href="/newsletter">
+                <Button variant="ghost" className="text-brand-orange font-bold rounded-full px-6">
+                  View Newsletter <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {homeCms.latestNews.map((item) => (
+                <Card key={item.id} className="rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-6">
+                  <CardHeader className="p-0 mb-4">
+                    <CardTitle className="text-2xl font-bold tracking-tight">{item.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                      {item.description}
+                    </p>
+                  </CardContent>
+                  {item.link && (
+                    <CardFooter className="p-0 pt-6">
+                      <Link href={item.link}>
+                        <Button variant="link" className="p-0 h-auto text-brand-orange font-bold">
+                          Read More <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </Link>
+                    </CardFooter>
+                  )}
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Featured Pathways Section */}
       <section className={sectionSurface('soft', 'py-32')}>
         <SectionAmbience tone="soft" />
@@ -191,7 +258,7 @@ export function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredPathways.map((featured, index) => {
+            {featuredPathwaysResolved.map((featured, index) => {
               const cert = siteData.certifications.find(c => c.id === featured.id) || siteData.certifications[0];
               
               return (
@@ -688,6 +755,43 @@ export function Home() {
         </div>
       </section>
 
+      {homeCms.activeFootprint.length > 0 && (
+        <section className="py-32 bg-white dark:bg-slate-950">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mb-16">
+              <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+                Global Footprint
+              </Badge>
+              <h2 className="font-heading text-4xl md:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-6">
+                Work, learning, and impact across regions
+              </h2>
+              <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                Published locations from the homepage CMS appear here when marked visible on the map.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {homeCms.activeFootprint.map((entry) => (
+                <Card key={entry.id} className="rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-6">
+                  <CardHeader className="p-0 mb-4">
+                    <Badge className="w-fit bg-white dark:bg-slate-800 text-slate-500 border-none text-[10px] font-bold uppercase tracking-widest">
+                      {entry.category || 'Footprint'}
+                    </Badge>
+                    <CardTitle className="text-2xl font-bold tracking-tight mt-4">{entry.item}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    <p className="text-sm font-bold text-brand-orange">{entry.location}</p>
+                    {entry.year && (
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 font-medium">{entry.year}</p>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Final CTA Section */}
       <section className={sectionSurface('warm', 'py-32')}>
         <SectionAmbience tone="warm" />
@@ -701,17 +805,29 @@ export function Home() {
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-brand-orange/10 to-transparent pointer-events-none" />
             
             <div className="relative z-10 max-w-4xl mx-auto">
-              <h2 className="font-heading text-4xl md:text-7xl font-bold text-white mb-8 tracking-tight leading-tight">Ready to Start Your <span className="text-brand-orange">Journey?</span></h2>
+              <h2 className="font-heading text-4xl md:text-7xl font-bold text-white mb-8 tracking-tight leading-tight">
+                {finalCta?.title || <>Ready to Start Your <span className="text-brand-orange">Journey?</span></>}
+              </h2>
               <p className="text-slate-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
-                Start with eligibility, timeline, and weekly study capacity.
+                {finalCta?.description ||
+                  'Start with eligibility, timeline, and weekly study capacity.'}
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <RegisterModal trigger={
-                  <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 text-lg font-bold rounded-2xl shadow-xl transition-all group/btn">
-                    Create Free Account
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
-                  </Button>
-                } />
+                {finalCta?.ctaLink ? (
+                  <Link href={finalCta.ctaLink}>
+                    <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 text-lg font-bold rounded-2xl shadow-xl transition-all group/btn">
+                      {finalCta.ctaText || 'Learn More'}
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
+                    </Button>
+                  </Link>
+                ) : (
+                  <RegisterModal trigger={
+                    <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 text-lg font-bold rounded-2xl shadow-xl transition-all group/btn">
+                      Create Free Account
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
+                    </Button>
+                  } />
+                )}
                 <Link href="/certifications">
                   <Button
                     size="lg"
