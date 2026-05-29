@@ -10,6 +10,7 @@ import PortalPathwayCard from '@/components/channel-landing/portal/PortalPathway
 type Props = {
   page: ChannelLandingPage;
   theme: PlatformPortalTheme;
+  sectionOrder?: number;
 };
 
 function certFor(id: string) {
@@ -22,7 +23,7 @@ function portalPathwayTitle(certId: string, fallback: string) {
   return fallback;
 }
 
-export default function PortalFeaturedPathways({ page, theme }: Props) {
+export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }: Props) {
   const engagement = page.portalEngagement;
   const ids = engagement?.featuredCertIds?.length
     ? engagement.featuredCertIds
@@ -39,6 +40,7 @@ export default function PortalFeaturedPathways({ page, theme }: Props) {
   return (
     <section
       className="portal-featured-pathways mb-6 sm:mb-8"
+      style={{ order: sectionOrder }}
       aria-label="Featured certification pathways"
     >
       <div className="portal-tier-section-head mb-4 space-y-1">

@@ -1,5 +1,6 @@
 /**
- * Generates 82 placeholder learner headshots (96x96 WebP) for portal credibility tabs.
+ * Ensures 82 learner headshot files exist under frontend/public/portal/learners/.
+ * Skips files that already exist (keeps curated photos). Pass --force to overwrite all.
  * Run: node scripts/ensure-learner-headshots.mjs
  */
 import fs from 'fs'
@@ -23,13 +24,21 @@ const MINI_WEBP_B64 =
   'UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAQAcJaQAA3AA/vuUAAA='
 const buf = Buffer.from(MINI_WEBP_B64, 'base64')
 
-let count = 0
+const force = process.argv.includes('--force')
+let wrote = 0
+let skipped = 0
 for (const channelId of channelIds) {
   for (const n of [1, 2]) {
     const file = path.join(outDir, `${channelId}-${n}.webp`)
+    if (!force && fs.existsSync(file) && fs.statSync(file).size > 500) {
+      skipped++
+      continue
+    }
     fs.writeFileSync(file, buf)
-    count++
+    wrote++
   }
 }
 
-console.log(`Wrote ${count} placeholder webp files to ${outDir}`)
+console.log(
+  `Learner headshots: ${wrote} placeholder(s) written, ${skipped} kept, dir ${outDir}`,
+)

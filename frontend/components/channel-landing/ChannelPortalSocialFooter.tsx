@@ -22,7 +22,7 @@ export default function ChannelPortalSocialFooter({ theme }: Props) {
       >
         Sheikh M. Abdullah · via {theme.platformName}
       </p>
-      <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
+      <div className="portal-social-footer-links mb-4 flex w-full flex-nowrap items-center justify-center gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {MEDIA_SOCIAL_GRID.map((item) => (
           <a
             key={item.name}
@@ -30,7 +30,7 @@ export default function ChannelPortalSocialFooter({ theme }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={item.ariaLabel ?? getMediaSocialAriaLabel(item.name)}
-            className="text-meta px-3 py-1.5 hover:opacity-80 transition-opacity"
+            className="shrink-0 whitespace-nowrap text-meta px-2.5 py-1.5 hover:opacity-80 transition-opacity"
             style={{
               borderRadius: theme.radius,
               border: `1px solid ${theme.cardBorder}`,
@@ -42,7 +42,7 @@ export default function ChannelPortalSocialFooter({ theme }: Props) {
         ))}
       </div>
       <PortalLegalLinks linkColor={theme.linkColor} className="mb-4" />
-      <p className="text-center">
+      <p className="text-center flex flex-col items-center gap-2 sm:flex-row sm:justify-center sm:gap-4">
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-body-sm font-medium hover:opacity-80"

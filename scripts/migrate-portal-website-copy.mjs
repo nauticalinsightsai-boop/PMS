@@ -34,7 +34,7 @@ Object.assign(page, {
   subheadline:
     'Book a free mentor intro or a paid pathway session. Cite the page or asset on the site when you schedule.',
   targetMessage:
-    'Name the page or asset you came from so we align the session to your certification goal.',
+    'Reading a cert page or article? Mention it when you book. We will pick up where you left off.',
   availabilityLabel: 'Mentor sessions open',
   primaryButtonText: 'Talk to a mentor',
   consultationTiers: [

@@ -58,7 +58,7 @@ export default function ChannelPortalHeroCard({ page, theme, sectionOrder, proPo
         elevation="raised"
         liquid
         liquidIntensity={0.9}
-        className="mb-10 sm:mb-12 p-6 sm:p-8 portal-website-hero-card portal-hero-card"
+        className="mb-2 sm:mb-2.5 p-6 sm:p-8 portal-website-hero-card portal-hero-card"
         style={{ order: sectionOrder }}
         data-portal-glass="true"
       >
@@ -69,7 +69,7 @@ export default function ChannelPortalHeroCard({ page, theme, sectionOrder, proPo
 
   return (
     <div
-      className="portal-hero-card p-6 sm:p-8 mb-10 sm:mb-12 shadow-xl"
+      className="portal-hero-card p-6 sm:p-8 mb-2 sm:mb-2.5 shadow-xl"
       style={{
         order: sectionOrder,
         borderRadius: theme.radiusLg,

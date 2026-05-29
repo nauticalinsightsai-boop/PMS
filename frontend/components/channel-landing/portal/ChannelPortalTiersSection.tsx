@@ -9,6 +9,7 @@ import { getTierSchedulingLine } from '@/lib/channel-landing-pages/channelPortal
 import { isConversionEnabledForChannel } from '@/lib/channel-landing-pages/portalConversionPacks'
 import { getLegalDocumentPath } from '@/constants/legal'
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
+import PortalAdvisoryServicesReveal from '@/components/channel-landing/portal/PortalAdvisoryServicesReveal'
 
 type Props = PortalSectionProps & {
   tiers: ConsultationTier[]
@@ -112,12 +113,16 @@ export default function ChannelPortalTiersSection({
                 {tier.title}
               </h4>
 
-              <p
-                className="portal-tier-desc text-body-sm leading-relaxed"
-                style={{ color: theme.textMuted, fontFamily: theme.fontFamily }}
-              >
-                {tier.description}
-              </p>
+              {tier.id === 'services-detail' && showConversionHints ? (
+                <PortalAdvisoryServicesReveal theme={theme} description={tier.description} />
+              ) : (
+                <p
+                  className="portal-tier-desc text-body-sm leading-relaxed"
+                  style={{ color: theme.textMuted, fontFamily: theme.fontFamily }}
+                >
+                  {tier.description}
+                </p>
+              )}
 
               <div
                 className={`portal-tier-footer flex flex-col gap-3 pt-1 w-full${!isImpulseFlow ? ' sm:flex-row sm:items-center sm:justify-between' : ''}`}

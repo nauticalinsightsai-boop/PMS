@@ -40,11 +40,18 @@ export default function ChannelPortalFinalCta({
           </p>
         ) : null}
         {proPortalShell ? (
-          <PortalSiteChips page={page} theme={theme} includeCompare />
-        ) : null}
-        <PortalButton theme={theme} variant="recommended" onClick={onPrimaryClick}>
-          {label}
-        </PortalButton>
+          <PortalSiteChips
+            page={page}
+            theme={theme}
+            includeCompare
+            proFinalRow
+            mentorCta={{ label, onClick: onPrimaryClick }}
+          />
+        ) : (
+          <PortalButton theme={theme} variant="recommended" onClick={onPrimaryClick}>
+            {label}
+          </PortalButton>
+        )}
       </div>
     </PortalSection>
   )

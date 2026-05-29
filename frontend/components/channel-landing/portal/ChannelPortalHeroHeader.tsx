@@ -177,9 +177,12 @@ export default function ChannelPortalHeroHeader({
             <p className="mt-0.5 w-full text-body-sm leading-relaxed" style={{ color: theme.textMuted }}>
               Mentor-led certification preparation &amp; career guidance
             </p>
-            <p className="mt-1 flex w-full flex-wrap items-center gap-2 text-meta" style={{ color: theme.textMuted }}>
-              <span className="inline-flex w-full items-center gap-1 sm:w-auto">
-                <MapPin size={12} className="shrink-0" aria-hidden />
+            <p className="mt-1 flex w-full flex-wrap items-center gap-2">
+              <span
+                className="inline-flex w-full items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider sm:w-auto"
+                style={{ color: theme.textMuted }}
+              >
+                <MapPin size={10} className="shrink-0 opacity-90" aria-hidden />
                 Global learners
               </span>
             </p>

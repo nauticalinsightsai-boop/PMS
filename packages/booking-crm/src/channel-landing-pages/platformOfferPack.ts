@@ -30,6 +30,8 @@ export type PortalSectionId =
   | 'presence'
   | 'hero'
   | 'context'
+  | 'webinar_media'
+  | 'featured_pathways'
   | 'trust'
   | 'hero_card'
   | 'tiers'
@@ -37,6 +39,7 @@ export type PortalSectionId =
   | 'social_proof'
   | 'credibility'
   | 'faq'
+  | 'pathway_actions'
   | 'risk_reversal'
   | 'payment_trust'
   | 'form'
@@ -123,18 +126,24 @@ const LAYOUT_BY_CATEGORY: Record<string, PortalLayoutVariant> = {
   'Syndication / Automation': 'minimal',
 }
 
-/** Conversion order: hook → book early → proof/offer → objections (FAQ) → final CTA */
-const PROFESSIONAL_FLOW: PortalSectionId[] = [
+/**
+ * Canonical portal section order (website reference). All /go/{slug} pages use this
+ * structure; per-slug theming and copy only.
+ */
+export const PROFESSIONAL_FLOW: PortalSectionId[] = [
   'presence',
   'hero',
   'context',
-  'trust',
+  'webinar_media',
+  'featured_pathways',
   'hero_card',
+  'trust',
   'tiers',
   'social_proof',
   'credibility',
   'qualification',
   'faq',
+  'pathway_actions',
   'form',
   'final_cta',
   'social_footer',

@@ -57,9 +57,9 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Structured mentor block for exam prep, pathway choice, and career direction from the site.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: 'Expert consultation',
       description:
-        'Deep review of architecture, compliance, or delivery plans tied to what you read on the site. Send summaries ahead of the call.',
+        'Principal advisory for pathways, governance, training, and exam readiness.',
     },
   },
   medium: {
@@ -397,7 +397,7 @@ const DISCOVERY_BY_CHANNEL: Partial<Record<string, DiscoveryCopy>> = {
     description: 'After a Medium article. cite the post and your certification question when you book.',
   },
   website: {
-    title: 'Free Mentor Intro',
+    title: 'Mentorship session',
     description: 'From a site page, newsletter, or knowledge asset. cite what you read when you book.',
   },
   twitter: {
@@ -468,15 +468,19 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
       : packCta ?? 'Book a mentor intro'
   const executiveBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'executive')!
   const designBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'design-review')!
+  const servicesTitle = paid.designReview.title || 'Expert consultation'
+  const servicesDescription =
+    paid.designReview.description ||
+    'Principal advisory for pathways, governance, training, and exam readiness. Hover to view services.'
+  const servicesCta = 'Talk to an expert'
+
   const servicesTier: ConsultationTier = {
     ...buildTier(designBase, paid.designReview, SCHEDULE_URLS.designReview),
     id: 'services-detail',
-    title: 'Services Discussion',
-    description:
-      paid.designReview.description ||
-      'Review services you selected on the website. Cite the page or package when you book.',
+    title: servicesTitle,
+    description: servicesDescription,
     recommended: false,
-    ctaLabel: 'Discuss services',
+    ctaLabel: servicesCta,
   }
 
   if (channelId === 'webinar') {
@@ -531,6 +535,8 @@ const LEGACY_PAID_TITLES = new Set([
   'Paid Executive Strategy & Feasibility Review',
   'Project Design Review & Compliance Advisory',
   'Design & Compliance Review',
+  'Services Discussion',
+  'Certification depth session',
 ])
 
 const LEGACY_PAID_TITLE =
@@ -591,7 +597,7 @@ export function applyPlatformConsultationTiers(
         id: 'services-detail',
         scheduleUrl: s.scheduleUrl?.trim() || pt.scheduleUrl,
         recommended: false,
-        ctaLabel: s.ctaLabel?.trim() || 'Discuss services',
+        ctaLabel: s.ctaLabel?.trim() || pt.ctaLabel || 'Talk to an expert',
       }
     }
 

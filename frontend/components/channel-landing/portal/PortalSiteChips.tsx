@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import Link from 'next/link';
-import { ChevronDown, Crown, GitCompare, ShoppingBag } from 'lucide-react';
+import { Award, ChevronDown, Crown, GitCompare, ShoppingBag } from 'lucide-react';
+import { pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils';
 import type { ChannelLandingPage } from '@/types/channelLandingPage';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
 import { useRegion } from '@/contexts/RegionContext';
@@ -16,9 +17,12 @@ type Props = {
   theme: PlatformPortalTheme;
   /** Website portal always surfaces compare alongside store/membership. */
   includeCompare?: boolean;
+  /** Pro final CTA row: mentor + certificates, compare, membership (no store). */
+  proFinalRow?: boolean;
+  mentorCta?: { label: string; onClick: () => void };
 };
 
-type ChipId = 'store' | 'compare' | 'membership';
+type ChipId = 'store' | 'certificates' | 'compare' | 'membership';
 
 type ChipConfig = {
   id: ChipId;
@@ -30,7 +34,13 @@ type ChipConfig = {
   price?: string;
 };
 
-export default function PortalSiteChips({ page, theme, includeCompare = false }: Props) {
+export default function PortalSiteChips({
+  page,
+  theme,
+  includeCompare = false,
+  proFinalRow = false,
+  mentorCta,
+}: Props) {
   const e = page.portalEngagement;
   const { regionId, gccCountry } = useRegion();
   const [active, setActive] = useState<ChipId | null>(null);
@@ -68,7 +78,16 @@ export default function PortalSiteChips({ page, theme, includeCompare = false }:
   const membershipPrice = proMembership?.monthly?.trim() || 'N/A';
 
   const chips: ChipConfig[] = [];
-  if (showStore) {
+  if (proFinalRow) {
+    chips.push({
+      id: 'certificates',
+      label: 'Certificates',
+      icon: <Award size={14} aria-hidden />,
+      body: 'View PMI, PRINCE2, and Six Sigma pathways with cohort timing and regional tuition on PM Structure.',
+      href: '/certifications',
+      cta: 'Browse certifications →',
+    });
+  } else if (showStore) {
     chips.push({
       id: 'store',
       label: 'Store',
@@ -100,10 +119,15 @@ export default function PortalSiteChips({ page, theme, includeCompare = false }:
     });
   }
 
-  if (!chips.length) return null;
+  if (!chips.length && !mentorCta) return null;
 
   const toggle = (id: ChipId) => setActive((cur) => (cur === id ? null : id));
   const panel = chips.find((chip) => chip.id === active);
+  const mentorBg =
+    typeof theme.recommendedBg === 'string' && !theme.recommendedBg.includes('gradient')
+      ? theme.recommendedBg
+      : theme.primary;
+  const mentorFg = theme.recommendedText ?? pickReadableForeground(mentorBg);
 
   return (
     <div
@@ -112,15 +136,34 @@ export default function PortalSiteChips({ page, theme, includeCompare = false }:
       onPointerEnter={clearCloseTimer}
       onPointerLeave={scheduleClose}
     >
-      <div className="flex w-full items-stretch gap-2" role="tablist" aria-label="Site shortcuts">
+      <div
+        className="flex w-full items-stretch gap-2"
+        role={mentorCta ? 'group' : 'tablist'}
+        aria-label={mentorCta ? 'Booking and site shortcuts' : 'Site shortcuts'}
+      >
+        {mentorCta ? (
+          <button
+            type="button"
+            onClick={mentorCta.onClick}
+            className="flex flex-1 min-w-0 items-center justify-center gap-1.5 text-meta font-semibold px-3 py-1.5 transition-opacity hover:opacity-90"
+            style={{
+              borderRadius: theme.radius,
+              border: 'none',
+              color: mentorFg,
+              backgroundColor: mentorBg,
+            }}
+          >
+            {mentorCta.label}
+          </button>
+        ) : null}
         {chips.map((chip) => {
           const isOpen = active === chip.id;
           return (
             <button
               key={chip.id}
               type="button"
-              role="tab"
-              aria-selected={isOpen}
+              role={mentorCta ? undefined : 'tab'}
+              aria-selected={mentorCta ? undefined : isOpen}
               aria-expanded={isOpen}
               aria-controls={`portal-site-chip-panel-${chip.id}`}
               onClick={() => toggle(chip.id)}

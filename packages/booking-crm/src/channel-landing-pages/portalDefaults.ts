@@ -135,7 +135,9 @@ function mergeTierCtaLabels(tiers: ChannelLandingPage['consultationTiers'], chan
       return { ...t, ctaLabel: 'Book pathway session', badge: t.badge ?? 'Most Popular' }
     }
     if (t.id === 'design-review' || t.id === 'services-detail') {
-      return { ...t, ctaLabel: t.ctaLabel ?? 'Discuss services' }
+      const servicesCta =
+        channelId === 'website' || channelId === 'webinar' ? 'Talk to an expert' : 'Book a consultation'
+      return { ...t, ctaLabel: t.ctaLabel ?? servicesCta }
     }
     return t
   })

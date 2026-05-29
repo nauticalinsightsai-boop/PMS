@@ -5,6 +5,7 @@ import type { ChannelLandingPage } from '@/types/channelLandingPage'
 import { usePortalThemeMode } from '@/hooks/usePortalThemeMode'
 import {
   getPlatformOfferPack,
+  PROFESSIONAL_FLOW,
   usesProConsultationPortalLayout,
   type PortalSectionId,
 } from '@/lib/channel-landing-pages/platformOfferPack'
@@ -32,22 +33,12 @@ import PortalFeaturedPathways from '@/components/channel-landing/portal/PortalFe
 import PortalPathwayActions from '@/components/channel-landing/portal/PortalPathwayActions'
 import ChannelPortalHeroCard from '@/components/channel-landing/portal/ChannelPortalHeroCard'
 import { scheduleTierClick } from '@/components/channel-landing/portal/scheduleTierClick'
+import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 
 type Props = {
   page: ChannelLandingPage
   isPreview?: boolean
 }
-
-const LEGACY_FLOW: PortalSectionId[] = [
-  'presence',
-  'hero',
-  'context',
-  'tiers',
-  'social_proof',
-  'faq',
-  'final_cta',
-  'social_footer',
-]
 
 function flowSectionOrder(flow: PortalSectionId[], id: PortalSectionId): number {
   const i = flow.indexOf(id)
@@ -55,8 +46,8 @@ function flowSectionOrder(flow: PortalSectionId[], id: PortalSectionId): number 
 }
 
 /**
- * Conversion flow: presence → hero → context → pathways → hero card → trust → tiers → proof → FAQ.
- * Pro shell (website/webinar) uses marketing gradient + glass; other slugs use platform theme.
+ * All /go/{slug} portals: same PROFESSIONAL_FLOW DOM order; website/webinar use pro shell
+ * (gradient + glass). Per-slug theme and copy only — no cross-slug navigation hub.
  */
 export default function ChannelConsultationPortalView({ page, isPreview }: Props) {
   const { colorMode, setColorMode } = usePortalThemeMode(page.channelId)
@@ -67,7 +58,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   )
   const cssVars = useMemo(() => portalThemeToCssVars(theme), [theme])
   const pack = useMemo(() => getPlatformOfferPack(page.channelId), [page.channelId])
-  const flow = pack?.flowOrder ?? LEGACY_FLOW
+  const flow = pack?.flowOrder ?? PROFESSIONAL_FLOW
   const sectionOrder = (id: PortalSectionId) => flowSectionOrder(flow, id)
   const tiers = page.consultationTiers ?? []
   const scheduleCta = resolveScheduleTierCta(page.channelId, page.primaryButtonText ?? theme.scheduleTierCta)
@@ -96,10 +87,9 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   }, [page, discoveryTier, scrollToTiers])
 
   const isLeadHero = sectionOrder('hero') < sectionOrder('context')
-  const heroCardOrder = sectionOrder('hero_card')
-  const showHeroCard = heroCardOrder < 99
+  const showHeroCard = sectionOrder('hero_card') < 99
 
-  const sectionProps = {
+  const sectionProps: PortalSectionProps = {
     page,
     theme,
     sectionOrder: 0,
@@ -115,6 +105,63 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   }
 
   const contentWidth = portalShellMaxWidthClass(layoutVariant)
+
+  const renderFlowSection = (id: PortalSectionId): React.ReactNode => {
+    const order = sectionOrder(id)
+    const props: PortalSectionProps = { ...sectionProps, sectionOrder: order }
+
+    switch (id) {
+      case 'presence':
+        return null
+      case 'hero':
+        return <ChannelPortalHeroHeader key={id} {...props} />
+      case 'context':
+        return <ChannelPortalContextSection key={id} {...props} />
+      case 'webinar_media':
+        return isWebinarPortal ? <ChannelPortalWebinarMedia key={id} {...props} /> : null
+      case 'featured_pathways':
+        return <PortalFeaturedPathways key={id} page={page} theme={theme} sectionOrder={order} />
+      case 'trust':
+        return <ChannelPortalTrustLine key={id} {...props} />
+      case 'hero_card':
+        return showHeroCard ? <ChannelPortalHeroCard key={id} {...props} /> : null
+      case 'tiers':
+        return (
+          <div key={id} ref={tiersRef} style={{ order }}>
+            <ChannelPortalTiersSection {...props} tiers={tiers} scheduleCta={scheduleCta} />
+          </div>
+        )
+      case 'social_proof':
+        return <ChannelPortalSocialProof key={id} {...props} />
+      case 'credibility':
+        return <ChannelPortalCredibility key={id} {...props} />
+      case 'qualification':
+        return <ChannelPortalQualification key={id} {...props} />
+      case 'faq':
+        return <ChannelPortalFaq key={id} {...props} />
+      case 'pathway_actions':
+        return <PortalPathwayActions key={id} page={page} theme={theme} sectionOrder={order} />
+      case 'form':
+        return <ChannelPortalBookingForm key={id} {...props} />
+      case 'final_cta':
+        return (
+          <ChannelPortalFinalCta
+            key={id}
+            {...props}
+            onPrimaryClick={bookFinalCtaTier}
+            scheduleCta={scheduleCta}
+          />
+        )
+      case 'social_footer':
+        return (
+          <div key={id} style={{ order }}>
+            <ChannelPortalSocialFooter theme={theme} />
+          </div>
+        )
+      default:
+        return null
+    }
+  }
 
   return (
     <div
@@ -150,44 +197,8 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
 
       <ChannelPortalPresenceStrip {...sectionProps} sectionOrder={sectionOrder('presence')} />
 
-      <div className={`${contentWidth} px-4 sm:px-5 py-6 sm:py-10 flex flex-col`}>
-        <div className="flex flex-col">
-          <ChannelPortalHeroHeader {...sectionProps} sectionOrder={0} />
-          <ChannelPortalContextSection {...sectionProps} sectionOrder={0} />
-          {isWebinarPortal ? (
-            <ChannelPortalWebinarMedia {...sectionProps} sectionOrder={0} />
-          ) : null}
-          <PortalFeaturedPathways page={page} theme={theme} />
-          {showHeroCard ? <ChannelPortalHeroCard {...sectionProps} sectionOrder={0} /> : null}
-          <ChannelPortalTrustLine {...sectionProps} sectionOrder={0} />
-          <div ref={tiersRef}>
-            <ChannelPortalTiersSection
-              {...sectionProps}
-              sectionOrder={0}
-              tiers={tiers}
-              scheduleCta={scheduleCta}
-            />
-          </div>
-        </div>
-        <ChannelPortalSocialProof {...sectionProps} sectionOrder={sectionOrder('social_proof')} />
-        <ChannelPortalCredibility {...sectionProps} sectionOrder={sectionOrder('credibility')} />
-        <ChannelPortalQualification {...sectionProps} sectionOrder={sectionOrder('qualification')} />
-        <ChannelPortalFaq {...sectionProps} sectionOrder={sectionOrder('faq')} />
-        <PortalPathwayActions
-          page={page}
-          theme={theme}
-          sectionOrder={sectionOrder('faq') + 0.5}
-        />
-        <ChannelPortalBookingForm {...sectionProps} sectionOrder={sectionOrder('form')} />
-        <ChannelPortalFinalCta
-          {...sectionProps}
-          sectionOrder={sectionOrder('final_cta')}
-          onPrimaryClick={bookFinalCtaTier}
-          scheduleCta={scheduleCta}
-        />
-        <div style={{ order: sectionOrder('social_footer') }}>
-          <ChannelPortalSocialFooter theme={theme} />
-        </div>
+      <div className={`${contentWidth} flex flex-col px-4 sm:px-5 py-6 sm:py-10`}>
+        {flow.map((id) => renderFlowSection(id))}
       </div>
 
       <ChannelPortalStickyCta
