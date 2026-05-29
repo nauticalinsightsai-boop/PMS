@@ -140,23 +140,6 @@ const PROFESSIONAL_FLOW: PortalSectionId[] = [
   'social_footer',
 ]
 
-const IMPULSE_FLOW: PortalSectionId[] = [
-  'presence',
-  'hero',
-  'context',
-  'trust',
-  'hero_card',
-  'tiers',
-  'social_proof',
-  'qualification',
-  'faq',
-  'form',
-  'final_cta',
-  'social_footer',
-]
-
-const DEFAULT_FLOW = PROFESSIONAL_FLOW
-
 export function pricingTierForChannel(channelId: string): PricingTier {
   return CHANNEL_PRICING_TIER[channelId] ?? 'casual_social'
 }
@@ -174,26 +157,21 @@ function layoutForChannel(channelId: string): PortalLayoutVariant {
   return (cat && LAYOUT_BY_CATEGORY[cat]) || 'minimal'
 }
 
-function flowForChannel(channelId: string): PortalSectionId[] {
-  const tier = pricingTierForChannel(channelId)
-  if (isImpulseLayoutChannel(channelId)) return IMPULSE_FLOW
-  if (channelId === 'linkedin' || channelId === 'website' || channelId === 'webinar') return PROFESSIONAL_FLOW
-  const cat = getChannelById(channelId)?.platformCategory
-  if (cat === 'Writing / Publishing') {
-    return PROFESSIONAL_FLOW
-  }
-  return DEFAULT_FLOW
+function flowForChannel(_channelId: string): PortalSectionId[] {
+  return PROFESSIONAL_FLOW
 }
 
-/** Compact, mobile-first tier stack (Instagram, TikTok, etc.) — not all conversion pages. */
-export function isImpulseLayoutChannel(channelId: string): boolean {
-  const tier = pricingTierForChannel(channelId)
-  return (
-    tier === 'genz' ||
-    channelId === 'snapchat' ||
-    channelId === 'tiktok' ||
-    channelId === 'instagram'
-  )
+/**
+ * Website-style consultation portal: presence strip, in-column hero stack,
+ * marketing shell (gradient + glass), site chips in qualification.
+ */
+export function usesProConsultationPortalLayout(_channelId: string): boolean {
+  return true
+}
+
+/** @deprecated Impulse layout retired — all `/go/*` portals use {@link usesProConsultationPortalLayout}. */
+export function isImpulseLayoutChannel(_channelId: string): boolean {
+  return false
 }
 
 /** Paid clarity call price by pricing tier (tier-1 when not free). */

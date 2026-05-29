@@ -60,10 +60,12 @@ export default function ChannelPortalHeroHeader({
   theme,
   sectionOrder,
   isImpulseFlow,
+  proPortalShell,
   isLeadHero = false,
   onBookMentor,
   topBar = false,
 }: PortalSectionProps) {
+  const showEngagementLinks = !proPortalShell
   if (isImpulseFlow) {
     return (
       <header
@@ -75,8 +77,8 @@ export default function ChannelPortalHeroHeader({
           borderColor: theme.cardBorder,
         }}
       >
-        <div className="flex w-full items-start justify-between gap-3">
-          <div className="flex gap-3 min-w-0 flex-1">
+        <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex min-w-0 w-full gap-3 sm:flex-1">
             <div className="portal-story-ring shrink-0">
               <div
                 className="portal-story-ring-inner flex items-center justify-center"
@@ -91,21 +93,21 @@ export default function ChannelPortalHeroHeader({
                 <PlatformChannelIcon name={theme.iconName} size={24} />
               </div>
             </div>
-            <div className="min-w-0 flex-1 flex flex-col items-start">
-              <div className="flex items-center justify-start gap-1.5 flex-wrap">
+            <div className="flex min-w-0 w-full max-w-full flex-1 flex-col items-start">
+              <div className="flex w-full flex-wrap items-center justify-start gap-1.5">
                 <span
-                  className="text-body font-semibold truncate"
+                  className="text-body font-semibold"
                   style={{ color: theme.text, fontFamily: theme.fontFamily }}
                 >
                   {BRAND.fullName}
                 </span>
                 <BadgeCheck size={16} style={{ color: theme.verifiedColor }} aria-label="Verified" />
               </div>
-              <p className="text-body-sm mt-0.5" style={{ color: theme.textMuted }}>
+              <p className="mt-0.5 w-full text-body-sm leading-relaxed" style={{ color: theme.textMuted }}>
                 Mentor-led certification preparation &amp; career guidance
               </p>
               {page.availabilityLabel && (
-                <p className="text-[11px] mt-1" style={{ color: pickReadableForeground(theme.surface) }}>
+                <p className="mt-1 w-full text-[11px]" style={{ color: pickReadableForeground(theme.surface) }}>
                   {page.availabilityLabel}
                 </p>
               )}
@@ -114,7 +116,8 @@ export default function ChannelPortalHeroHeader({
           <PortalHeaderUtilities
             page={page}
             theme={theme}
-            engagementLinks={page.channelId !== 'website'}
+            engagementLinks={showEngagementLinks}
+            className="w-full sm:w-auto"
           />
         </div>
         {onBookMentor ? (
@@ -133,8 +136,8 @@ export default function ChannelPortalHeroHeader({
       }`}
       style={{ order: topBar ? undefined : sectionOrder }}
     >
-      <div className="flex items-start justify-between gap-3 w-full">
-        <div className="flex gap-4 min-w-0 flex-1">
+      <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex min-w-0 w-full gap-3 sm:gap-4 sm:flex-1">
           <div className="shrink-0">
             <div
               className="flex items-center justify-center"
@@ -150,8 +153,8 @@ export default function ChannelPortalHeroHeader({
               <PlatformChannelIcon name={theme.iconName} size={24} />
             </div>
           </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-1.5">
+          <div className="min-w-0 w-full max-w-full flex-1">
+            <div className="flex w-full flex-wrap items-center gap-1.5">
               <p
                 className="text-body-lg font-semibold"
                 style={{ color: theme.text, fontFamily: theme.fontFamily }}
@@ -165,12 +168,12 @@ export default function ChannelPortalHeroHeader({
                 aria-label="Verified"
               />
             </div>
-            <p className="text-body-sm mt-0.5" style={{ color: theme.textMuted }}>
+            <p className="mt-0.5 w-full text-body-sm leading-relaxed" style={{ color: theme.textMuted }}>
               Mentor-led certification preparation &amp; career guidance
             </p>
-            <p className="text-meta mt-1 flex flex-wrap items-center gap-2" style={{ color: theme.textMuted }}>
-              <span className="inline-flex items-center gap-1">
-                <MapPin size={12} aria-hidden />
+            <p className="mt-1 flex w-full flex-wrap items-center gap-2 text-meta" style={{ color: theme.textMuted }}>
+              <span className="inline-flex w-full items-center gap-1 sm:w-auto">
+                <MapPin size={12} className="shrink-0" aria-hidden />
                 Global learners
               </span>
             </p>
@@ -179,7 +182,8 @@ export default function ChannelPortalHeroHeader({
         <PortalHeaderUtilities
           page={page}
           theme={theme}
-          engagementLinks={page.channelId !== 'website'}
+          engagementLinks={showEngagementLinks}
+          className="w-full sm:w-auto"
         />
       </div>
       {onBookMentor ? (

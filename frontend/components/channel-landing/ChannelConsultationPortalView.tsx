@@ -5,7 +5,7 @@ import type { ChannelLandingPage } from '@/types/channelLandingPage'
 import { usePortalThemeMode } from '@/hooks/usePortalThemeMode'
 import {
   getPlatformOfferPack,
-  isImpulseLayoutChannel,
+  usesProConsultationPortalLayout,
   type PortalSectionId,
 } from '@/lib/channel-landing-pages/platformOfferPack'
 import { portalShellMaxWidthClass } from '@/lib/channel-landing-pages/portalLayoutClasses'
@@ -55,8 +55,8 @@ function flowSectionOrder(flow: PortalSectionId[], id: PortalSectionId): number 
 }
 
 /**
- * Conversion flow: presence → hero (Region/Store/Member) → context → certs → hero card → tiers → proof → FAQ.
- * Website uses presence strip + in-flow hero (not sticky top bar). No hero CTA when a free intro tier exists.
+ * Conversion flow: presence → hero → context → pathways → hero card → trust → tiers → proof → FAQ.
+ * All published `/go/{slug}` portals share the website shell and in-column section stack.
  */
 export default function ChannelConsultationPortalView({ page, isPreview }: Props) {
   const { colorMode, setColorMode } = usePortalThemeMode(page.channelId)
@@ -72,9 +72,8 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   const tiers = page.consultationTiers ?? []
   const scheduleCta = resolveScheduleTierCta(page.channelId, page.primaryButtonText ?? theme.scheduleTierCta)
   const layoutVariant = pack?.layoutVariant ?? 'minimal'
-  const isImpulseFlow = isImpulseLayoutChannel(page.channelId)
+  const proPortalShell = usesProConsultationPortalLayout(page.channelId)
   const isWebinarPortal = page.channelId === 'webinar'
-  const isWebsitePortal = page.channelId === 'website'
 
   const discoveryTier =
     tiers.find((t) => t.id === 'mentor-intro') ??
@@ -97,9 +96,6 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   }, [page, discoveryTier, scrollToTiers])
 
   const isLeadHero = sectionOrder('hero') < sectionOrder('context')
-  /** Website: presence strip + in-column hero per wireframe. Other pro portals: sticky top hero bar. */
-  const stickyTopHero = !isImpulseFlow && !isWebsitePortal
-  const pinHeroToViewport = stickyTopHero
   const heroCardOrder = sectionOrder('hero_card')
   const showHeroCard = heroCardOrder < 99
 
@@ -109,7 +105,8 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
     sectionOrder: 0,
     channelId: page.channelId,
     layoutVariant,
-    isImpulseFlow,
+    isImpulseFlow: false,
+    proPortalShell,
     isLeadHero,
     colorMode,
     onSetColorMode: setColorMode,
@@ -118,18 +115,12 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
 
   const contentWidth = portalShellMaxWidthClass(layoutVariant)
 
-  const contextOrder = sectionOrder('context')
-  const afterContextOrder = contextOrder + (isWebinarPortal ? 1 : 0.5)
-  const pathwaysOrder = isWebsitePortal && showHeroCard ? heroCardOrder - 0.5 : afterContextOrder
-  const trustOrder = isWebsitePortal ? sectionOrder('trust') : afterContextOrder + 0.45
-  const tiersOrder = isWebsitePortal ? sectionOrder('tiers') : afterContextOrder + 0.5
-
   return (
     <div
-      className={`portal-root relative z-10 min-h-screen flex flex-col overflow-x-hidden pb-20 sm:pb-0${isImpulseFlow ? ' portal-impulse-flow' : ''}${isWebsitePortal ? ' portal-website selection:bg-brand-orange selection:text-white' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}`}
+      className={`portal-root relative z-10 min-h-screen flex flex-col overflow-x-hidden pb-20 sm:pb-0${proPortalShell ? ' portal-website selection:bg-brand-orange selection:text-white' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}`}
       style={{
-        fontFamily: isWebsitePortal ? undefined : theme.fontFamily,
-        backgroundColor: isWebsitePortal ? undefined : theme.background,
+        fontFamily: proPortalShell ? undefined : theme.fontFamily,
+        backgroundColor: proPortalShell ? undefined : theme.background,
         color: theme.text,
         ...cssVars,
       }}
@@ -137,7 +128,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
       data-layout={layoutVariant}
       data-color-mode={colorMode}
     >
-      {isWebsitePortal ? (
+      {proPortalShell ? (
         <div className="portal-website-ambience" aria-hidden>
           <div className="portal-website-orb portal-website-orb--orange" />
           <div className="portal-website-orb portal-website-orb--purple" />
@@ -148,7 +139,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
       {isPreview && (
         <div
           className={`portal-preview-banner z-50 text-center text-meta font-medium py-2.5 px-4${
-            pinHeroToViewport || isWebsitePortal ? ' relative' : ' sticky top-0'
+            proPortalShell ? ' relative' : ' sticky top-0'
           }`}
           role="status"
         >
@@ -156,68 +147,27 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
         </div>
       )}
 
-      {stickyTopHero ? (
-        <div
-          className={`portal-top-hero shrink-0 border-b${pinHeroToViewport ? ' sticky top-0 z-[60]' : ''}`}
-          style={{
-            backgroundColor: theme.surface,
-            borderColor: theme.cardBorder,
-          }}
-        >
-          <div className={`${contentWidth} px-4 sm:px-5 py-3 sm:py-4`}>
-            <ChannelPortalHeroHeader {...sectionProps} sectionOrder={0} topBar />
-          </div>
-        </div>
-      ) : (
-        <ChannelPortalPresenceStrip {...sectionProps} sectionOrder={sectionOrder('presence')} />
-      )}
+      <ChannelPortalPresenceStrip {...sectionProps} sectionOrder={sectionOrder('presence')} />
 
       <div className={`${contentWidth} px-4 sm:px-5 py-6 sm:py-10 flex flex-col`}>
-        {isWebsitePortal ? (
-          <div className="flex flex-col">
-            <ChannelPortalHeroHeader {...sectionProps} sectionOrder={0} />
-            <ChannelPortalContextSection {...sectionProps} sectionOrder={0} />
-            <PortalFeaturedPathways page={page} theme={theme} />
-            {showHeroCard ? <ChannelPortalHeroCard {...sectionProps} sectionOrder={0} /> : null}
-            <ChannelPortalTrustLine {...sectionProps} sectionOrder={0} />
-            <div ref={tiersRef}>
-              <ChannelPortalTiersSection
-                {...sectionProps}
-                sectionOrder={0}
-                tiers={tiers}
-                scheduleCta={scheduleCta}
-              />
-            </div>
+        <div className="flex flex-col">
+          <ChannelPortalHeroHeader {...sectionProps} sectionOrder={0} />
+          <ChannelPortalContextSection {...sectionProps} sectionOrder={0} />
+          {isWebinarPortal ? (
+            <ChannelPortalWebinarMedia {...sectionProps} sectionOrder={0} />
+          ) : null}
+          <PortalFeaturedPathways page={page} theme={theme} />
+          {showHeroCard ? <ChannelPortalHeroCard {...sectionProps} sectionOrder={0} /> : null}
+          <ChannelPortalTrustLine {...sectionProps} sectionOrder={0} />
+          <div ref={tiersRef}>
+            <ChannelPortalTiersSection
+              {...sectionProps}
+              sectionOrder={0}
+              tiers={tiers}
+              scheduleCta={scheduleCta}
+            />
           </div>
-        ) : (
-          <>
-            {!stickyTopHero ? (
-              <ChannelPortalHeroHeader {...sectionProps} sectionOrder={sectionOrder('hero')} />
-            ) : null}
-            <ChannelPortalContextSection {...sectionProps} sectionOrder={sectionOrder('context')} />
-            {isWebinarPortal ? (
-              <ChannelPortalWebinarMedia
-                {...sectionProps}
-                sectionOrder={sectionOrder('context') + 0.5}
-              />
-            ) : null}
-            <div style={{ order: pathwaysOrder }}>
-              <PortalFeaturedPathways page={page} theme={theme} />
-            </div>
-            {showHeroCard ? (
-              <ChannelPortalHeroCard {...sectionProps} sectionOrder={heroCardOrder} />
-            ) : null}
-            <ChannelPortalTrustLine {...sectionProps} sectionOrder={trustOrder} />
-            <div ref={tiersRef} style={{ order: tiersOrder }}>
-              <ChannelPortalTiersSection
-                {...sectionProps}
-                sectionOrder={0}
-                tiers={tiers}
-                scheduleCta={scheduleCta}
-              />
-            </div>
-          </>
-        )}
+        </div>
         <ChannelPortalSocialProof {...sectionProps} sectionOrder={sectionOrder('social_proof')} />
         <ChannelPortalCredibility {...sectionProps} sectionOrder={sectionOrder('credibility')} />
         <ChannelPortalQualification {...sectionProps} sectionOrder={sectionOrder('qualification')} />

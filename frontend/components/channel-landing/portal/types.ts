@@ -19,4 +19,6 @@ export type PortalSectionProps = {
   onBookMentor?: () => void
   /** Sticky top bar (professional portals) — tighter spacing, no section margin. */
   topBar?: boolean
+  /** Website-style shell: marketing gradient, glass cards, site chips (all `/go/*` slugs). */
+  proPortalShell?: boolean
 }

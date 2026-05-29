@@ -7,12 +7,14 @@ import { useRegion } from '@/contexts/RegionContext';
 import PortalMembershipPopout from '@/components/channel-landing/portal/PortalMembershipPopout';
 import { membershipTiers } from '@/data/siteData';
 import { getRegionalMembershipAmounts } from '@/lib/membership-regional-pricing';
+import { cn } from '@/lib/utils';
 
 type Props = {
   page: ChannelLandingPage;
   theme: PlatformPortalTheme;
   /** When false, only the region chip is shown (Store/Membership live in {@link PortalSiteChips}). */
   engagementLinks?: boolean;
+  className?: string;
 };
 
 function PortalRegionChip({
@@ -30,7 +32,9 @@ function PortalRegionChip({
       onClick={onChange}
       aria-label={`Region: ${regionLabel}. Click to change region.`}
       title="Change pricing region"
-      className="inline-flex shrink-0 items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 transition-opacity hover:opacity-90"
+      className={cn(
+        'inline-flex w-full items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 transition-opacity hover:opacity-90 sm:w-auto sm:shrink-0 sm:justify-start',
+      )}
       style={{
         borderRadius: theme.radius,
         border: `1px solid ${theme.cardBorder}`,
@@ -46,7 +50,12 @@ function PortalRegionChip({
   );
 }
 
-export default function PortalHeaderUtilities({ page, theme, engagementLinks = true }: Props) {
+export default function PortalHeaderUtilities({
+  page,
+  theme,
+  engagementLinks = true,
+  className,
+}: Props) {
   const e = page.portalEngagement;
   const { regionId, gccCountry, regionLabel, openRegionModal } = useRegion();
   const showStore = e?.showStoreLink !== false;
@@ -61,11 +70,16 @@ export default function PortalHeaderUtilities({ page, theme, engagementLinks = t
   );
 
   if (!engagementLinks || (!showStore && !showMembership)) {
-    return regionChip;
+    return <div className={cn('w-full sm:w-auto sm:flex sm:justify-end', className)}>{regionChip}</div>;
   }
 
   return (
-    <div className="flex flex-wrap items-center justify-end gap-2 shrink-0">
+    <div
+      className={cn(
+        'flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:shrink-0',
+        className,
+      )}
+    >
       {regionChip}
       {showStore ? (
         <Link

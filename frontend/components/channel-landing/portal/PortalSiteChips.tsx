@@ -83,7 +83,7 @@ export default function PortalSiteChips({ page, theme, includeCompare = false }:
 
   return (
     <div className="portal-site-chips w-full">
-      <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Site shortcuts">
+      <div className="flex w-full items-stretch gap-2" role="tablist" aria-label="Site shortcuts">
         {chips.map((chip) => {
           const isOpen = active === chip.id;
           return (
@@ -95,7 +95,7 @@ export default function PortalSiteChips({ page, theme, includeCompare = false }:
               aria-expanded={isOpen}
               aria-controls={`portal-site-chip-panel-${chip.id}`}
               onClick={() => toggle(chip.id)}
-              className="inline-flex items-center gap-1.5 text-meta font-medium px-3 py-1.5 transition-opacity hover:opacity-90"
+              className="flex flex-1 min-w-0 items-center justify-center gap-1.5 text-meta font-medium px-3 py-1.5 transition-opacity hover:opacity-90"
               style={{
                 borderRadius: theme.radius,
                 border: isOpen ? `2px solid ${theme.primary}` : `1px solid ${theme.cardBorder}`,

@@ -6,8 +6,8 @@ import { BRAND } from '@/lib/brand-voice'
 import { getChannelPortalCopy } from '@/lib/channel-landing-pages/channelPortalCopy'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 
-export default function ChannelPortalHeroCard({ page, theme, sectionOrder }: PortalSectionProps) {
-  const useSiteGlass = page.channelId === 'website'
+export default function ChannelPortalHeroCard({ page, theme, sectionOrder, proPortalShell }: PortalSectionProps) {
+  const useSiteGlass = Boolean(proPortalShell)
   const channelCopy = getChannelPortalCopy(page.channelId)
   const heroTitle = channelCopy?.heroCardTitle ?? theme.heroCardTitle
   const heroBody = channelCopy?.heroCardBody ?? theme.heroCardBody
