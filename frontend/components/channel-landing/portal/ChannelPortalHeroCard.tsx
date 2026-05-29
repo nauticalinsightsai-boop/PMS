@@ -4,6 +4,7 @@ import { Star } from 'lucide-react'
 import GlassCard from '@/components/ui/cards/GlassCard'
 import { BRAND } from '@/lib/brand-voice'
 import { getChannelPortalCopy } from '@/lib/channel-landing-pages/channelPortalCopy'
+import { meetsContrast, pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 
 export default function ChannelPortalHeroCard({ page, theme, sectionOrder, portalLayoutChrome }: PortalSectionProps) {
@@ -11,6 +12,17 @@ export default function ChannelPortalHeroCard({ page, theme, sectionOrder, porta
   const channelCopy = getChannelPortalCopy(page.channelId)
   const heroTitle = channelCopy?.heroCardTitle ?? theme.heroCardTitle
   const heroBody = channelCopy?.heroCardBody ?? theme.heroCardBody
+  const badgeBg = theme.cardBg.startsWith('#') && theme.cardBg.length === 7 ? theme.cardBg : '#0F172A'
+  const badgeText =
+    theme.primary.startsWith('#') &&
+    theme.primary.length === 7 &&
+    meetsContrast(theme.primary, badgeBg, 4.5)
+      ? theme.primary
+      : pickReadableForeground(badgeBg)
+  const badgeBorder =
+    theme.cardBorder.startsWith('#') && theme.cardBorder.length === 7
+      ? theme.cardBorder
+      : `${badgeText}66`
 
   const inner = (
     <>
@@ -20,8 +32,10 @@ export default function ChannelPortalHeroCard({ page, theme, sectionOrder, porta
           useSiteGlass
             ? {
                 borderRadius: theme.radius,
-                border: '1px solid var(--glass-border-light)',
-                color: theme.primary,
+                border: `1px solid ${theme.cardBorder}`,
+                color: badgeText,
+                backgroundColor: `${badgeBg}80`,
+                borderColor: badgeBorder,
               }
             : {
                 borderRadius: theme.radius,
@@ -59,7 +73,12 @@ export default function ChannelPortalHeroCard({ page, theme, sectionOrder, porta
         liquid
         liquidIntensity={0.9}
         className="mb-2 sm:mb-2.5 p-6 sm:p-8 portal-website-hero-card portal-hero-card"
-        style={{ order: sectionOrder }}
+        style={{
+          order: sectionOrder,
+          borderRadius: theme.radiusLg,
+          backgroundColor: theme.cardBg,
+          border: `1px solid ${theme.cardBorder}`,
+        }}
         data-portal-glass="true"
       >
         {inner}

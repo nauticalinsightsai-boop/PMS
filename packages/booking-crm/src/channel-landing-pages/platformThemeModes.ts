@@ -257,6 +257,8 @@ export const PLATFORM_DARK_OVERRIDES: Record<string, Partial<PlatformPortalTheme
     textMuted: '#8696A0',
     cardBg: '#1F2C34',
     cardBorder: '#2A3942',
+    quoteBg: '#1F2C34',
+    quoteBorder: '#25D366',
   },
 }
 
