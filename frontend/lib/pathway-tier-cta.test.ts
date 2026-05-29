@@ -11,7 +11,7 @@ describe('pathway-tier-cta', () => {
       'Enroll Now',
     );
     expect(cta.modalMode).toBe('enroll');
-    expect(cta.label).toMatch(/enroll/i);
+    expect(cta.label).toBe('View and enroll');
     expect(cta.proceedHref).toContain('checkout');
   });
 
@@ -24,11 +24,11 @@ describe('pathway-tier-cta', () => {
       'Enroll Now',
     );
     expect(cta.modalMode).toBe('consultation');
-    expect(cta.label).toMatch(/consultation/i);
+    expect(cta.label).toBe('Book consultation');
     expect(cta.proceedHref).toContain('consultation');
   });
 
-  it('mastery uses consultation label', () => {
+  it('mastery uses the same consultation label as professional', () => {
     const cta = resolveTierPathwayCta(
       'mastery',
       'pmp-preparation-mastery',
@@ -37,7 +37,7 @@ describe('pathway-tier-cta', () => {
       'Book Mastery Consultation',
     );
     expect(cta.modalMode).toBe('consultation');
-    expect(cta.label).toMatch(/consultation/i);
+    expect(cta.label).toBe('Book consultation');
   });
 
   it('tier summaries are distinct from raw delivery mode', () => {

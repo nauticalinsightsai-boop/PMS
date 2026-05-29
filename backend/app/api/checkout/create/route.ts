@@ -82,7 +82,7 @@ export async function POST(request: Request) {
   });
 
   if (isSupabaseConfigured) {
-    await supabaseAdmin.from('orders').insert({
+    const { error } = await supabaseAdmin.from('orders').insert({
       offering_id: offeringId,
       region_id: regionId,
       email,
@@ -96,6 +96,10 @@ export async function POST(request: Request) {
         hasMembership: !!hasMembership,
       },
     });
+    if (error) {
+      console.error('[checkout/create] orders insert failed:', error.message);
+      return jsonError('Could not create order record', 503);
+    }
   }
 
   return jsonOk({ session, usdCents, hasMembership: !!hasMembership });

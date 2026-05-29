@@ -26,23 +26,23 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ className, size = 'md' }) 
     <div className={cn("flex items-center gap-3 font-black tracking-tighter group select-none", className)}>
       <div className="relative">
         <div className={cn(
-          "bg-gw-accent-primary flex items-center justify-center text-white shadow-lg shadow-gw-accent-primary/20 transition-all duration-500 group-hover:rotate-12 group-hover:scale-110",
+          "cta-consultation flex items-center justify-center text-white shadow-lg shadow-brand-orange/20 transition-all duration-500 group-hover:rotate-12 group-hover:scale-110",
           sizeClasses[size]
         )}>
           <span>P</span>
         </div>
         {/* Ambient Glow in Dark Mode */}
         <div className={cn(
-          "absolute inset-0 bg-gw-accent-primary blur-md opacity-0 transition-opacity duration-500 group-hover:opacity-40 rounded-[10px]",
+          "absolute inset-0 bg-brand-orange blur-md opacity-0 transition-opacity duration-500 group-hover:opacity-40 rounded-[10px]",
           sizeClasses[size]
         )} />
       </div>
       <div className="flex flex-col -space-y-1">
         <span className={cn("leading-none transition-colors duration-300", textClasses[size])}>
-          PMS<span className="text-gw-accent-primary">.OS</span>
+          PMS<span className="text-brand-orange">.OS</span>
         </span>
         {size !== 'sm' && (
-          <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-gw-text-secondary opacity-60">
+          <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-muted-foreground opacity-60">
             Certification Platform
           </span>
         )}

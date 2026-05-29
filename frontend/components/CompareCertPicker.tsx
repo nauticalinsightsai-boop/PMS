@@ -32,11 +32,6 @@ export function CompareCertPicker({
   selectedIds: string[];
   onChange: (ids: string[]) => void;
 }) {
-  const allowedIds = React.useMemo(
-    () => new Set(certifications.map((c) => c.id)),
-    [certifications],
-  );
-
   const [query, setQuery] = React.useState('');
   const [familyFilter, setFamilyFilter] = React.useState<PathwayFamilyTab>(() =>
     inferCompareFamilyFromSelection(selectedIds, certifications),

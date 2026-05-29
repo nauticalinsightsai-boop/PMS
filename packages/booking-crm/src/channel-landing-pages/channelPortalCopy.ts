@@ -78,9 +78,9 @@ export const HERO_CARD_BY_CHANNEL: Record<
       'Watch the webinar overview, then book a free mentor intro or a paid pathway session. Certification guidance from Project Management Structure.',
   },
   website: {
-    heroCardTitle: 'Talk to a mentor',
+    heroCardTitle: 'Site-native consultation booking',
     heroCardBody:
-      'Mentor-led guidance on certification fit, prep options, and membership. Cite the page or asset that brought you here.',
+      'Principal advisory for projects, deliverables, and execution. Booked from pages and assets on this site.',
   },
   medium: {
     heroCardTitle: 'Publication-to-session booking',
@@ -146,6 +146,10 @@ export const HERO_CARD_BY_CHANNEL: Record<
   pinterest: {
     heroCardTitle: 'Pin-to-advisory',
     heroCardBody: 'Align visual research with delivery and program decisions.',
+  },
+  vk: {
+    heroCardTitle: 'VK community booking',
+    heroCardBody: 'Readers from VK communities and feeds. Book with post context.',
   },
   youtube: {
     heroCardTitle: 'Creator & sponsor calls',
@@ -254,17 +258,20 @@ export const CHANNEL_PORTAL_COPY: Record<string, ChannelPortalCopy> = {
   website: {
     scheduleTierCta: 'Talk to a mentor',
     contextLabel: 'OWNED WEB PROPERTY',
-    headline: 'Project Management Structure: certification and career guidance',
+    headline: 'PM Structure: certification and career guidance',
     subheadline:
-      'Book a free mentor intro or a paid pathway session. Pathway choice, prep options, and regional pricing for your credential goal.',
-    targetMessage: 'Name the page or asset you came from so we align the session to your certification goal.',
+      'Request advisory or a discovery call. Book a free mentor intro or a paid pathway session.',
+    targetMessage: 'Name the page or asset you came from so we align the session to your intent.',
     availabilityLabel: 'Mentor sessions open',
     schedulingTitle: 'Book a session',
+    heroCardTitle: 'Site-native consultation booking',
+    heroCardBody:
+      'Principal advisory for projects, deliverables, and execution. Booked from pages and assets on this site.',
   },
   webinar: {
     scheduleTierCta: 'Talk to a mentor',
     contextLabel: 'WEBINAR REGISTRATION',
-    headline: 'Project Management Structure. Webinar to mentor call',
+    headline: 'PM Structure. Webinar to mentor call',
     subheadline:
       'Watch the briefing, see which certifications we cover, then book a free mentor intro or a paid pathway session.',
     targetMessage:
@@ -405,6 +412,14 @@ export const CHANNEL_PORTAL_COPY: Record<string, ChannelPortalCopy> = {
     subheadline: 'Pin or board referral. Align visual research with delivery decisions.',
     targetMessage: 'Which pin or board led you to book?',
     availabilityLabel: 'Visual-referral sessions',
+  },
+  vk: {
+    scheduleTierCta: 'Book from VK',
+    contextLabel: 'VK REFERRAL',
+    headline: 'Advisory after VK',
+    subheadline: 'Community or feed referral. Book principal time from your VK source.',
+    targetMessage: 'Name the VK community, post, or feed that referred you.',
+    availabilityLabel: 'VK referral sessions',
   },
   youtube: {
     scheduleTierCta: 'Beyond the video',

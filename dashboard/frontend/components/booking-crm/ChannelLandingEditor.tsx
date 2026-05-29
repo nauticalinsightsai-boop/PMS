@@ -271,7 +271,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
   }
 
   if (loading) {
-    return <p className="text-body text-gw-text-secondary py-8">Loading channel settings…</p>
+    return <p className="text-body text-muted-foreground py-8">Loading channel settings…</p>
   }
 
   return (
@@ -285,7 +285,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
             <PlatformChannelIcon name={channel?.icon} size={24} />
           </div>
           <div className="flex-1 min-w-0">
-            <h1 className="text-h1 text-gw-text-primary">{platform.label}</h1>
+            <h1 className="text-h1 text-foreground">{platform.label}</h1>
           </div>
         </header>
       )}
@@ -304,7 +304,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
       )}
 
       {embedded && (
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gw-text-secondary/10">
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-muted-foreground/10">
           <div
             className="flex items-center justify-center shrink-0"
             style={{
@@ -318,12 +318,12 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
             <PlatformChannelIcon name={channel?.icon} size={22} />
           </div>
           <div>
-            <h2 className="text-h3 text-gw-text-primary">{platform.label}</h2>
-            <p className="text-meta text-gw-text-secondary mt-0.5">
+            <h2 className="text-h3 text-foreground">{platform.label}</h2>
+            <p className="text-meta text-muted-foreground mt-0.5">
               Status:{' '}
               <span
                 className={
-                  draft.status === 'published' ? 'text-emerald-600 font-medium' : 'text-gw-text-primary'
+                  draft.status === 'published' ? 'text-emerald-600 font-medium' : 'text-foreground'
                 }
               >
                 {draft.status === 'published' ? 'Published' : 'Draft'}
@@ -336,16 +336,16 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
 
       {resolvedShareUrl && (
         <div className="mb-6 p-4 r-card border border-emerald-500/30 bg-emerald-500/5">
-          <p className="text-label font-medium text-gw-text-primary mb-2 flex items-center gap-2">
+          <p className="text-label font-medium text-foreground mb-2 flex items-center gap-2">
             <Globe size={16} className="text-emerald-600" aria-hidden />
             Portal link
           </p>
-          <p className="text-meta text-gw-text-secondary mb-2">
+          <p className="text-meta text-muted-foreground mb-2">
             Canonical /go/ URL for this channel. Use Preview in the toolbar to see draft changes;
             publish before visitors see live content on this link.
           </p>
           <div className="flex flex-wrap gap-2 items-center">
-            <code className="flex-1 min-w-0 text-meta break-all text-gw-accent-primary">
+            <code className="flex-1 min-w-0 text-meta break-all text-brand-orange">
               {resolvedShareUrl}
             </code>
             <button
@@ -353,7 +353,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
               onClick={copyPublicLink}
               aria-label={copied ? 'Link copied' : 'Copy portal link'}
               title={copied ? 'Copied' : 'Copy link'}
-              className="inline-flex items-center justify-center shrink-0 p-2 r-card-sm text-label bg-gw-bg-secondary hover:bg-gw-accent-primary/10 text-gw-accent-primary"
+              className="inline-flex items-center justify-center shrink-0 p-2 r-card-sm text-label bg-card hover:bg-brand-orange/10 text-brand-orange"
             >
               {copied ? <Check size={16} aria-hidden /> : <Copy size={16} aria-hidden />}
             </button>
@@ -362,7 +362,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
                 href={resolvedShareUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3 py-2 r-card-sm text-label text-gw-accent-primary hover:bg-gw-accent-primary/10"
+                className="inline-flex items-center gap-2 px-3 py-2 r-card-sm text-label text-brand-orange hover:bg-brand-orange/10"
               >
                 Open
                 <ExternalLink size={14} aria-hidden />
@@ -374,86 +374,86 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
 
       <div className="space-y-8">
         <section className="space-y-4">
-          <h3 className="text-h4 text-gw-text-primary">Consultation portal</h3>
-          <p className="text-body-sm text-gw-text-secondary">
+          <h3 className="text-h4 text-foreground">Consultation portal</h3>
+          <p className="text-body-sm text-muted-foreground">
             Only the fields below appear on the live /go/ page. Context label and headline are stored
             for legacy data but not rendered.
           </p>
           <label className="block">
-            <span className="text-meta text-gw-text-secondary">Subheadline (shown under profile)</span>
+            <span className="text-meta text-muted-foreground">Subheadline (shown under profile)</span>
             <input
               value={draft.subheadline}
               onChange={(e) => update('subheadline', e.target.value)}
-              className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary"
+              className="mt-1 w-full p-3 r-input bg-card text-foreground"
             />
           </label>
           {platform.channelId === 'webinar' ? (
             <>
               <label className="block">
-                <span className="text-meta text-gw-text-secondary">
+                <span className="text-meta text-muted-foreground">
                   Webinar overview (what it covers — shown on /go/webinar)
                 </span>
                 <textarea
                   value={draft.webinarAbout ?? ''}
                   onChange={(e) => update('webinarAbout', e.target.value)}
                   rows={5}
-                  className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary resize-y"
+                  className="mt-1 w-full p-3 r-input bg-card text-foreground resize-y"
                   placeholder="Topic, audience, outcomes, and what attendees should prepare."
                 />
               </label>
               <label className="block">
-                <span className="text-meta text-gw-text-secondary">
+                <span className="text-meta text-muted-foreground">
                   Briefing video URL (YouTube or Vimeo)
                 </span>
                 <input
                   value={draft.webinarVideoUrl ?? ''}
                   onChange={(e) => update('webinarVideoUrl', e.target.value)}
-                  className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary font-mono text-meta"
+                  className="mt-1 w-full p-3 r-input bg-card text-foreground font-mono text-meta"
                   placeholder="https://www.youtube.com/watch?v=..."
                 />
               </label>
             </>
           ) : (
             <label className="block">
-              <span className="text-meta text-gw-text-secondary">Body (optional)</span>
+              <span className="text-meta text-muted-foreground">Body (optional)</span>
               <textarea
                 value={draft.body}
                 onChange={(e) => update('body', e.target.value)}
                 rows={5}
-                className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary resize-y"
+                className="mt-1 w-full p-3 r-input bg-card text-foreground resize-y"
               />
             </label>
           )}
           <label className="block">
-            <span className="text-meta text-gw-text-secondary">Target message (callout box)</span>
+            <span className="text-meta text-muted-foreground">Target message (callout box)</span>
             <textarea
               value={draft.targetMessage}
               onChange={(e) => update('targetMessage', e.target.value)}
               rows={2}
-              className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary resize-y"
+              className="mt-1 w-full p-3 r-input bg-card text-foreground resize-y"
             />
           </label>
           <label className="block">
-            <span className="text-meta text-gw-text-secondary">Availability pill</span>
+            <span className="text-meta text-muted-foreground">Availability pill</span>
             <input
               value={draft.availabilityLabel}
               onChange={(e) => update('availabilityLabel', e.target.value)}
-              className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary"
+              className="mt-1 w-full p-3 r-input bg-card text-foreground"
             />
           </label>
           <label className="block">
-            <span className="text-meta text-gw-text-secondary">URL slug (path after /go/)</span>
+            <span className="text-meta text-muted-foreground">URL slug (path after /go/)</span>
             <input
               value={draft.slug}
               onChange={(e) => update('slug', e.target.value)}
-              className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary font-mono text-meta"
+              className="mt-1 w-full p-3 r-input bg-card text-foreground font-mono text-meta"
             />
           </label>
         </section>
 
         <section className="space-y-4">
-          <h3 className="text-h4 text-gw-text-primary">Consultation tiers</h3>
-          <p className="text-body-sm text-gw-text-secondary">
+          <h3 className="text-h4 text-foreground">Consultation tiers</h3>
+          <p className="text-body-sm text-muted-foreground">
             {platform.channelId === 'webinar'
               ? 'Webinar portals use three tiers: Free Mentor Intro, Career & Pathway Session, and Services Discussion. Pack prices apply on publish.'
               : 'Pack prices and durations apply on publish. Override titles, descriptions, and optional tier CTA labels below.'}
@@ -461,8 +461,8 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
           {(draft.consultationTiers ?? [])
             .filter((t) => platform.channelId !== 'webinar' || t.id !== 'design-review')
             .map((tier) => (
-            <div key={tier.id} className="p-4 r-card border border-gw-text-secondary/15 space-y-3">
-              <p className="text-label text-gw-text-primary">
+            <div key={tier.id} className="p-4 r-card border border-muted-foreground/15 space-y-3">
+              <p className="text-label text-foreground">
                 {platform.channelId === 'webinar'
                   ? tier.id === 'discovery'
                     ? 'Free webinar session'
@@ -479,45 +479,45 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
               <input
                 value={tier.title}
                 onChange={(e) => updateTier(tier.id, { title: e.target.value })}
-                className="w-full p-2 r-input bg-gw-bg-secondary text-gw-text-primary text-body-sm"
+                className="w-full p-2 r-input bg-card text-foreground text-body-sm"
                 placeholder="Title"
               />
               <textarea
                 value={tier.description}
                 onChange={(e) => updateTier(tier.id, { description: e.target.value })}
                 rows={2}
-                className="w-full p-2 r-input bg-gw-bg-secondary text-gw-text-primary text-body-sm resize-y"
+                className="w-full p-2 r-input bg-card text-foreground text-body-sm resize-y"
                 placeholder="Description"
               />
               <input
                 value={tier.bestFor ?? ''}
                 onChange={(e) => updateTier(tier.id, { bestFor: e.target.value })}
-                className="w-full p-2 r-input bg-gw-bg-secondary text-gw-text-primary text-body-sm"
+                className="w-full p-2 r-input bg-card text-foreground text-body-sm"
                 placeholder="Best for"
               />
               <input
                 value={tier.outcome ?? ''}
                 onChange={(e) => updateTier(tier.id, { outcome: e.target.value })}
-                className="w-full p-2 r-input bg-gw-bg-secondary text-gw-text-primary text-body-sm"
+                className="w-full p-2 r-input bg-card text-foreground text-body-sm"
                 placeholder="Outcome"
               />
               <input
                 value={tier.ctaLabel ?? ''}
                 onChange={(e) => updateTier(tier.id, { ctaLabel: e.target.value })}
-                className="w-full p-2 r-input bg-gw-bg-secondary text-gw-text-primary text-body-sm"
+                className="w-full p-2 r-input bg-card text-foreground text-body-sm"
                 placeholder="Tier CTA label"
               />
               <input
                 value={tier.scheduleUrl ?? ''}
                 onChange={(e) => updateTier(tier.id, { scheduleUrl: e.target.value })}
-                className="w-full p-2 r-input bg-gw-bg-secondary text-gw-text-primary text-body-sm font-mono"
+                className="w-full p-2 r-input bg-card text-foreground text-body-sm font-mono"
                 placeholder="Calendly URL (optional)"
               />
               <div className="grid grid-cols-2 gap-2">
                 <input
                   value={tier.durationLabel}
                   onChange={(e) => updateTier(tier.id, { durationLabel: e.target.value })}
-                  className="p-2 r-input bg-gw-bg-secondary text-gw-text-primary text-body-sm"
+                  className="p-2 r-input bg-card text-foreground text-body-sm"
                   placeholder="Duration"
                 />
                 {(() => {
@@ -536,7 +536,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
                 <input
                   value={tier.priceLabel}
                   onChange={(e) => updateTier(tier.id, { priceLabel: e.target.value })}
-                  className="p-2 r-input bg-gw-bg-secondary text-gw-text-primary text-body-sm"
+                  className="p-2 r-input bg-card text-foreground text-body-sm"
                   placeholder="Price label"
                 />
               </div>
@@ -545,24 +545,24 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
         </section>
 
         <section className="space-y-4">
-          <h3 className="text-h4 text-gw-text-primary">Action & booking</h3>
+          <h3 className="text-h4 text-foreground">Action & booking</h3>
           <label className="block">
-            <span className="text-meta text-gw-text-secondary">
+            <span className="text-meta text-muted-foreground">
               Stored primary button text (legacy — tier buttons use pack CTA)
             </span>
             <input
               value={draft.primaryButtonText}
               onChange={(e) => update('primaryButtonText', e.target.value)}
-              className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary"
+              className="mt-1 w-full p-3 r-input bg-card text-foreground"
               placeholder="Reserve your slot"
             />
           </label>
           <label className="block">
-            <span className="text-meta text-gw-text-secondary">What happens when visitors click</span>
+            <span className="text-meta text-muted-foreground">What happens when visitors click</span>
             <select
               value={draft.primaryAction}
               onChange={(e) => update('primaryAction', e.target.value as ChannelLandingPrimaryAction)}
-              className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary"
+              className="mt-1 w-full p-3 r-input bg-card text-foreground"
             >
               <option value="booking_form">Show booking form on this page</option>
               <option value="contact_link">Link to site contact page</option>
@@ -571,26 +571,26 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
           </label>
           {draft.primaryAction === 'external_link' && (
             <label className="block">
-              <span className="text-meta text-gw-text-secondary">External URL</span>
+              <span className="text-meta text-muted-foreground">External URL</span>
               <input
                 value={draft.externalUrl ?? ''}
                 onChange={(e) => update('externalUrl', e.target.value)}
-                className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary"
+                className="mt-1 w-full p-3 r-input bg-card text-foreground"
                 placeholder="https://"
               />
             </label>
           )}
           {draft.primaryAction === 'contact_link' && (
             <label className="block">
-              <span className="text-meta text-gw-text-secondary">Contact service preset</span>
+              <span className="text-meta text-muted-foreground">Contact service preset</span>
               <input
                 value={draft.contactService ?? ''}
                 onChange={(e) => update('contactService', e.target.value)}
-                className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary"
+                className="mt-1 w-full p-3 r-input bg-card text-foreground"
               />
             </label>
           )}
-          <label className="flex items-center gap-2 text-body-sm text-gw-text-primary">
+          <label className="flex items-center gap-2 text-body-sm text-foreground">
             <input
               type="checkbox"
               checked={draft.showBookingForm}
@@ -598,7 +598,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
             />
             Show optional booking form below tier cards
           </label>
-          <label className="flex items-center gap-2 text-body-sm text-gw-text-primary">
+          <label className="flex items-center gap-2 text-body-sm text-foreground">
             <input
               type="checkbox"
               checked={draft.collectCompany}
@@ -609,13 +609,13 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
         </section>
 
         <section className="space-y-4">
-          <h3 className="text-h4 text-gw-text-primary">Conversion sections</h3>
-          <p className="text-body-sm text-gw-text-secondary">
+          <h3 className="text-h4 text-foreground">Conversion sections</h3>
+          <p className="text-body-sm text-muted-foreground">
             Credibility tabs, Before you book, FAQ, assurances under tiers, and final CTA come from the
             pack. Trust line is no longer shown. Risk reversal lives inside Before you book.
           </p>
           <label className="block">
-            <span className="text-meta text-gw-text-secondary">Final CTA label (sticky + footer button)</span>
+            <span className="text-meta text-muted-foreground">Final CTA label (sticky + footer button)</span>
             <input
               value={draft.conversion?.finalCtaLabel ?? ''}
               onChange={(e) =>
@@ -624,11 +624,11 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
                   conversion: { ...d.conversion, finalCtaLabel: e.target.value },
                 }))
               }
-              className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary"
+              className="mt-1 w-full p-3 r-input bg-card text-foreground"
             />
           </label>
           <label className="block">
-            <span className="text-meta text-gw-text-secondary">Risk reversal</span>
+            <span className="text-meta text-muted-foreground">Risk reversal</span>
             <textarea
               value={draft.conversion?.riskReversal ?? ''}
               onChange={(e) =>
@@ -638,26 +638,26 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
                 }))
               }
               rows={2}
-              className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary text-body-sm resize-y"
+              className="mt-1 w-full p-3 r-input bg-card text-foreground text-body-sm resize-y"
             />
           </label>
         </section>
 
         <section className="space-y-4">
-          <h3 className="text-h4 text-gw-text-primary">Display</h3>
+          <h3 className="text-h4 text-foreground">Display</h3>
           <label className="block">
-            <span className="text-meta text-gw-text-secondary">Theme</span>
+            <span className="text-meta text-muted-foreground">Theme</span>
             <select
               value={draft.theme}
               onChange={(e) => update('theme', e.target.value as ChannelLandingPage['theme'])}
-              className="mt-1 w-full p-3 r-input bg-gw-bg-secondary text-gw-text-primary"
+              className="mt-1 w-full p-3 r-input bg-card text-foreground"
             >
               <option value="brand">Brand</option>
               <option value="light">Light</option>
               <option value="dark">Dark</option>
             </select>
           </label>
-          <label className="flex items-center gap-2 text-body-sm text-gw-text-primary">
+          <label className="flex items-center gap-2 text-body-sm text-foreground">
             <input
               type="checkbox"
               checked={draft.showLogo}
@@ -669,11 +669,11 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
       </div>
 
       {!embedded && (
-        <div className="flex flex-wrap gap-3 mt-10 pt-8 border-t border-gw-text-secondary/15">
+        <div className="flex flex-wrap gap-3 mt-10 pt-8 border-t border-muted-foreground/15">
           <button type="button" className="px-4 py-2 r-card-sm text-label" disabled={saving} onClick={() => save('saveDraft')}>
             Save draft
           </button>
-          <button type="button" className="px-4 py-2 r-card-sm text-label bg-gw-accent-primary text-white" disabled={saving} onClick={() => save('publish')}>
+          <button type="button" className="px-4 py-2 r-card-sm text-label bg-brand-orange text-white" disabled={saving} onClick={() => save('publish')}>
             Publish
           </button>
         </div>

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { ALL_CHANNELS } from '../constants/channelGroups'
+import { IMPLEMENTATION_SCOPE_41 } from './platformBrandSources'
 import {
   PORTAL_CONVERSION_PACKS,
   getPortalConversionPack,
@@ -30,21 +31,27 @@ describe('portalConversionPacks', () => {
   it('uses certification-focused value cards', () => {
     const substack = getPortalConversionPack('substack')?.valueCards?.[0]?.title
     const linkedin = getPortalConversionPack('linkedin')?.valueCards?.[0]?.title
-    expect(substack).toBe('Reading → exam plan')
+    expect(substack).toBe('Reading to exam plan')
     expect(linkedin).toBe('Certification fit first')
   })
 
-  it('has learner-voice social proof per channel', () => {
+  it('has learner-voice social proof per scope-41 channel', () => {
     const quotes = new Set<string>()
-    for (const ch of ALL_CHANNELS) {
-      const proof = getPortalConversionPack(ch.id)?.socialProof
-      expect(proof?.length).toBeGreaterThanOrEqual(2)
+    const names = new Set<string>()
+    for (const channelId of IMPLEMENTATION_SCOPE_41) {
+      const proof = getPortalConversionPack(channelId)?.socialProof
+      expect(proof?.length, channelId).toBe(2)
       for (const item of proof ?? []) {
         expect(item.quote.length).toBeGreaterThan(20)
+        expect(item.name).toBeTruthy()
+        expect(item.title).toBeTruthy()
+        expect(item.avatarUrl).toMatch(/^\/portal\/learners\//)
         quotes.add(item.quote)
+        names.add(item.name!)
       }
     }
-    expect(quotes.size).toBeGreaterThanOrEqual(10)
+    expect(quotes.size).toBe(82)
+    expect(names.size).toBe(82)
   })
 
   it('uses learner voices before platform track record tab labels', () => {

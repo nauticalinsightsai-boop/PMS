@@ -30,8 +30,8 @@ const CTAButton: React.FC<CTAButtonProps> = ({
 }) => {
  const variantClasses = {
   primary: noHoverEffect
-   ? 'bg-brand-accent active:brightness-95 shadow-none hover:shadow-none active:shadow-surface font-medium'
-   : 'bg-brand-accent !text-white hover:!text-white active:!text-white active:brightness-95 shadow-raised hover:shadow-modal active:shadow-surface font-medium',
+   ? 'cta-consultation active:brightness-95 shadow-none hover:shadow-none active:shadow-surface font-medium'
+   : 'cta-consultation !text-white hover:!text-white active:!text-white active:brightness-95 shadow-raised hover:shadow-modal active:shadow-surface font-medium',
   secondary: 'bg-brand-subtle !text-slate-900 dark:!text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:!text-black dark:hover:!text-black active:bg-neutral-200 dark:active:bg-neutral-700 shadow-surface hover:shadow-raised active:shadow-surface font-medium',
   ghost: 'bg-transparent !text-slate-900 dark:!text-white hover:bg-brand-subtle active:bg-brand-subtle/80 font-medium',
   glass: 'bg-white/70 dark:bg-slate-800/45 backdrop-blur-md !text-slate-900 dark:!text-white shadow-surface hover:shadow-raised active:shadow-surface hover:bg-white/85 dark:hover:bg-slate-800/60 active:bg-white/95 dark:active:bg-slate-800/70 font-medium',

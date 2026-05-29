@@ -48,6 +48,7 @@ const EVIDENCE_REF: Record<string, string> = {
   bluesky: 'the Bluesky post or thread',
   mastodon: 'your instance and the referring post',
   pinterest: 'the pin or board',
+  vk: 'the VK post or community thread',
   youtube: 'the video or series title',
   tiktok: 'the TikTok link or hook',
   snapchat: 'the Snap or story',

@@ -84,6 +84,7 @@ const PROGRAMME_PREVIEW_BY_OFFERING: Partial<
         description: 'Chapter 0 — programme foundation (read in this window).',
         available: true,
         pdfSrc: '/programme/pmp-foundation-program-guide.pdf',
+        inlineSections: PMP_FOUNDATION_GUIDE,
       },
       {
         id: 'slides',
@@ -126,7 +127,7 @@ function defaultInfographic(programmeTitle: string, offeringId: string): Program
   };
 }
 
-function defaultPanels(programmeTitle: string, slug: string): ProgrammePreviewPanel[] {
+function defaultPanels(programmeTitle: string): ProgrammePreviewPanel[] {
   return [
     {
       id: 'guide',
@@ -174,12 +175,11 @@ export function getProgrammePreviewContent(
   offeringId: string,
   programmeTitle: string,
 ): ProgrammePreviewContent {
-  const slug = offeringId.replace(/[^a-z0-9-]+/gi, '-').toLowerCase();
   const override = PROGRAMME_PREVIEW_BY_OFFERING[offeringId];
 
   return {
     infographic: override?.infographic ?? defaultInfographic(programmeTitle, offeringId),
-    panels: override?.panels ?? defaultPanels(programmeTitle, slug),
+    panels: override?.panels ?? defaultPanels(programmeTitle),
   };
 }
 

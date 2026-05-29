@@ -13,6 +13,23 @@ import { resolveScheduleTierCta } from './channelPortalCopy'
 import { getPackConsultationTiers } from './platformOfferPack'
 import { mergePortalConversion } from './portalConversionPacks'
 import { getChannelPortalCopy } from './channelPortalCopy'
+import { usesProConsultationPortalLayout } from './platformOfferPack'
+
+const GENERIC_INTRO_CTAS = new Set([
+  'talk to a mentor',
+  'book a mentor intro',
+  'schedule inline',
+  'schedule consultation',
+  'book a call',
+  'book a session',
+])
+
+function isGenericIntroCta(label: string | undefined, channelId: string): boolean {
+  const trimmed = label?.trim()
+  if (!trimmed) return true
+  if (usesProConsultationPortalLayout(channelId)) return false
+  return GENERIC_INTRO_CTAS.has(trimmed.toLowerCase())
+}
 import { migratePageToPmsPortalTemplate } from '../pmsPortalTemplate'
 import { getLearnerPortalSurfaceCopy } from './portalLearnerCopy'
 import { normalizePortalCopyDeep } from './copyNormalize'
@@ -100,17 +117,19 @@ function consultationTiersForChannel(
 
 function mergeTierCtaLabels(tiers: ChannelLandingPage['consultationTiers'], channelId: string) {
   const copy = getChannelPortalCopy(channelId)
-  const baseCta = copy?.scheduleTierCta
+  const baseCta = copy?.scheduleTierCta ?? resolveScheduleTierCta(channelId)
+  const proShell = usesProConsultationPortalLayout(channelId)
+  const introCta = proShell ? 'Talk to a mentor' : baseCta
   return consultationTiersForChannel(tiers, channelId).map((t) => {
-    if (t.ctaLabel) return t
+    if (t.ctaLabel && !isGenericIntroCta(t.ctaLabel, channelId)) return t
     if (channelId === 'webinar') {
       if (t.id === 'discovery' || t.id === 'mentor-intro')
-        return { ...t, ctaLabel: 'Talk to a mentor' }
+        return { ...t, ctaLabel: introCta }
       if (t.id === 'executive' || t.id === 'career-pathway')
         return { ...t, ctaLabel: 'Book pathway session', badge: t.badge ?? 'Most Popular' }
     }
     if (t.id === 'discovery' || t.id === 'mentor-intro') {
-      return { ...t, ctaLabel: baseCta ?? 'Talk to a mentor' }
+      return { ...t, ctaLabel: introCta }
     }
     if (t.id === 'executive' || t.id === 'career-pathway') {
       return { ...t, ctaLabel: 'Book pathway session', badge: t.badge ?? 'Most Popular' }

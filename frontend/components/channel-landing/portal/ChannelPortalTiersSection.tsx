@@ -8,10 +8,26 @@ import { pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtil
 import { getTierSchedulingLine } from '@/lib/channel-landing-pages/channelPortalCopy'
 import { isConversionEnabledForChannel } from '@/lib/channel-landing-pages/portalConversionPacks'
 import { getLegalDocumentPath } from '@/constants/legal'
+import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
 
 type Props = PortalSectionProps & {
   tiers: ConsultationTier[]
   scheduleCta: string
+}
+
+function solidHex(color: string, fallback: string): string {
+  return color.startsWith('#') && color.length === 7 ? color : fallback
+}
+
+/** Tinted (rgba) badges use the theme token; solid fills get contrast-safe text. */
+function portalTintBadgeText(bg: string, token: string, underlay: string): string {
+  if (!solidHex(bg, '')) return token
+  return pickReadableForeground(solidHex(bg, underlay))
+}
+
+function portalMutedChipText(theme: PlatformPortalTheme): string {
+  const chipBg = solidHex(theme.surfaceMuted, solidHex(theme.cardBg, solidHex(theme.background, '#0F172A')))
+  return pickReadableForeground(chipBg)
 }
 
 export default function ChannelPortalTiersSection({
@@ -22,6 +38,7 @@ export default function ChannelPortalTiersSection({
   scheduleCta,
   layoutVariant,
   isImpulseFlow,
+  proPortalShell,
 }: Props) {
   const tierHeading =
     page.channelId === 'webinar'
@@ -114,7 +131,11 @@ export default function ChannelPortalTiersSection({
                       style={{
                         borderRadius: theme.radius,
                         backgroundColor: theme.freeBadgeBg,
-                        color: theme.freeBadgeText,
+                        color: portalTintBadgeText(
+                          theme.freeBadgeBg,
+                          theme.freeBadgeText,
+                          theme.background
+                        ),
                         border: `1px solid ${theme.cardBorder}`,
                       }}
                     >
@@ -128,7 +149,11 @@ export default function ChannelPortalTiersSection({
                         style={{
                           borderRadius: theme.radius,
                           backgroundColor: theme.priceBadgeBg,
-                          color: theme.priceBadgeText,
+                          color: portalTintBadgeText(
+                            theme.priceBadgeBg,
+                            theme.priceBadgeText,
+                            theme.background
+                          ),
                         }}
                       >
                         {tier.priceLabel}
@@ -137,8 +162,9 @@ export default function ChannelPortalTiersSection({
                         className="inline-flex items-center gap-1.5 text-meta px-3 py-1.5"
                         style={{
                           borderRadius: theme.radius,
-                          color: theme.textMuted,
+                          color: portalMutedChipText(theme),
                           backgroundColor: theme.surfaceMuted,
+                          border: `1px solid ${theme.cardBorder}`,
                         }}
                       >
                         <Clock size={14} aria-hidden />
@@ -150,7 +176,7 @@ export default function ChannelPortalTiersSection({
 
                 {(() => {
                   const useBold = layoutVariant === 'bold' && isImpulseFlow
-                  const useWebsitePrimary = page.channelId === 'website'
+                  const useWebsitePrimary = Boolean(proPortalShell)
                   const recBg =
                     typeof theme.recommendedBg === 'string' && !theme.recommendedBg.includes('gradient')
                       ? theme.recommendedBg
@@ -167,8 +193,8 @@ export default function ChannelPortalTiersSection({
                       onClick={() => scheduleTierClick(page, tier)}
                       className={
                         useBold
-                          ? `portal-schedule-btn-bold w-full px-4 py-3 text-body-sm font-semibold hover:opacity-90 transition-opacity${useWebsitePrimary ? ' home-btn-primary bg-brand-accent text-white' : ''}`
-                          : `portal-schedule-btn w-full sm:w-auto shrink-0 px-4 py-2.5 text-body-sm font-semibold hover:opacity-90 transition-opacity${useWebsitePrimary ? ' home-btn-primary bg-brand-accent text-white' : ''}`
+                          ? `portal-schedule-btn-bold w-full px-4 py-3 text-body-sm font-semibold hover:opacity-90 transition-opacity${useWebsitePrimary ? ' home-btn-primary cta-consultation text-white' : ''}`
+                          : `portal-schedule-btn w-full sm:w-auto shrink-0 px-4 py-2.5 text-body-sm font-semibold hover:opacity-90 transition-opacity${useWebsitePrimary ? ' home-btn-primary cta-consultation text-white' : ''}`
                       }
                       style={{
                         borderRadius: theme.radius,
@@ -187,7 +213,10 @@ export default function ChannelPortalTiersSection({
         ))}
       </ul>
 
-      <p className="text-meta w-full mt-4 text-center leading-relaxed" style={{ color: theme.textMuted }}>
+      <p
+        className="text-[10px] sm:text-[11px] w-full mt-4 text-center leading-snug font-normal normal-case tracking-normal opacity-90"
+        style={{ color: theme.textMuted }}
+      >
         Prices are indicative. Scheduling via Calendly. See{' '}
         <a href={getLegalDocumentPath('privacy')} className="underline hover:opacity-80" style={{ color: theme.linkColor }} target="_blank" rel="noopener noreferrer">
           Privacy

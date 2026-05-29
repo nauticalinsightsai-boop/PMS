@@ -6,8 +6,8 @@ import {
   ADMIN_CMS_TAB_BAR_INNER_CLASS,
   ADMIN_CMS_TAB_BAR_OUTER_CLASS,
   ADMIN_CMS_TAB_LIST_CLASS,
-  adminCmsTabButtonClass,
 } from '@/components/admin/layout/adminCmsLayoutClasses';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export interface AdminCmsTabItem {
   id: string;
@@ -28,30 +28,33 @@ export interface AdminCmsTabBarProps {
 export function AdminCmsTabBar({ tabs, tabItems, activeTabId, onTabChange, trailing }: AdminCmsTabBarProps) {
   const tabContent =
     tabs ??
-    (tabItems && onTabChange ? (
-      <>
-        {tabItems.map((tab) => {
-          const Icon = tab.icon;
-          const active = activeTabId === tab.id;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => onTabChange(tab.id)}
-              className={adminCmsTabButtonClass(active)}
-            >
-              {Icon ? <Icon size={14} /> : null}
-              {tab.label}
-            </button>
-          );
-        })}
-      </>
+    (tabItems && onTabChange && activeTabId ? (
+      <Tabs value={activeTabId} onValueChange={onTabChange} className="min-w-0 flex-1">
+        <TabsList
+          variant="line"
+          className={`${ADMIN_CMS_TAB_LIST_CLASS} h-auto w-full justify-start gap-1 bg-transparent p-0`}
+        >
+          {tabItems.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <TabsTrigger
+                key={tab.id}
+                value={tab.id}
+                className="gap-2 px-3 py-2 text-label data-active:text-brand-orange data-active:font-semibold"
+              >
+                {Icon ? <Icon size={14} /> : null}
+                {tab.label}
+              </TabsTrigger>
+            );
+          })}
+        </TabsList>
+      </Tabs>
     ) : null);
 
   return (
     <div className={ADMIN_CMS_TAB_BAR_OUTER_CLASS}>
       <div className={ADMIN_CMS_TAB_BAR_INNER_CLASS}>
-        <div className={ADMIN_CMS_TAB_LIST_CLASS}>{tabContent}</div>
+        {tabs ? <div className={ADMIN_CMS_TAB_LIST_CLASS}>{tabContent}</div> : tabContent}
         {trailing ? <div className="shrink-0">{trailing}</div> : null}
       </div>
     </div>

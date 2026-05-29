@@ -11,11 +11,9 @@ import {
   Sun,
   Moon,
   LogOut,
-  ChevronRight,
-  ChevronDown,
-  Share2,
   CalendarRange,
   Monitor,
+  Newspaper,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDashboardMode, DashboardMode } from '@/contexts/DashboardModeContext';
@@ -23,16 +21,24 @@ import { useTheme } from '@/components/shared/ThemeProvider';
 import { DASHBOARD_ROUTES } from '@/constants/dashboardRoutes';
 import { cn } from '@/lib/utils';
 import { DashboardNavLink } from '@/components/DashboardNavLink';
-import { GlassCard } from '@/components/ui/GlassCard';
 import { BrandLogo } from '@/components/shared/BrandLogo';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
   const { mode, setMode } = useDashboardMode();
   const { theme, setTheme } = useTheme();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [isSidebarHovered, setSidebarHovered] = useState(false);
   const pathname = usePathname();
+
+  const isSidebarExpanded = isSidebarOpen || isSidebarHovered;
 
   const currentRoutes = DASHBOARD_ROUTES[mode];
 
@@ -48,13 +54,24 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
   const navItemClasses = (isActive: boolean) =>
     cn(
       'group flex items-center px-3 py-2 text-sm font-medium rounded-xl transition-all duration-200',
+      !isSidebarExpanded && 'lg:justify-center lg:px-2',
       isActive
-        ? 'bg-gw-accent-primary/10 text-gw-accent-primary'
-        : 'text-gw-text-secondary hover:bg-white/10 dark:hover:bg-black/20 hover:text-gw-text-primary',
+        ? 'bg-brand-orange/10 text-brand-orange font-semibold border-l-2 border-brand-orange'
+        : 'text-muted-foreground hover:bg-muted/80 hover:text-foreground',
     );
 
+  const handleSidebarMouseEnter = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches) {
+      setSidebarHovered(true);
+    }
+  };
+
+  const handleSidebarMouseLeave = () => {
+    setSidebarHovered(false);
+  };
+
   return (
-    <div className="flex h-screen overflow-hidden bg-gw-bg-primary text-gw-text-primary" id="dashboard-root">
+    <div className="flex h-screen overflow-hidden bg-background text-foreground" id="dashboard-root">
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
@@ -68,32 +85,43 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
       </AnimatePresence>
 
       <aside
+        onMouseEnter={handleSidebarMouseEnter}
+        onMouseLeave={handleSidebarMouseLeave}
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex flex-col bg-gw-bg-secondary border-r border-white/10 transition-all duration-300 transform lg:translate-x-0 lg:static',
-          isSidebarOpen ? 'translate-x-0 w-72' : '-translate-x-full lg:w-72',
-          isSidebarCollapsed ? 'lg:w-20' : 'lg:w-72',
+          'fixed inset-y-0 left-0 z-sidebar flex flex-col bg-background/95 backdrop-blur-md border-r border-border transition-all duration-300 transform lg:translate-x-0 lg:static',
+          isSidebarExpanded ? 'w-72' : '-translate-x-full lg:translate-x-0 lg:w-[4.5rem]',
         )}
       >
-        <div className="flex items-center justify-between h-[75px] px-6 border-b border-white/5">
-          {!isSidebarCollapsed && (
-            <Link href="/dashboard" className="flex items-center gap-2">
+        <div
+          className={cn(
+            'flex items-center h-[75px] border-b border-border shrink-0',
+            isSidebarExpanded ? 'justify-between px-6' : 'justify-center px-2 lg:px-2',
+          )}
+        >
+          {isSidebarExpanded ? (
+            <Link href="/dashboard" className="flex items-center gap-2 min-w-0">
               <BrandLogo />
+            </Link>
+          ) : (
+            <Link href="/dashboard" className="hidden lg:flex items-center justify-center" title="Dashboard">
+              <BrandLogo size="sm" />
             </Link>
           )}
           <button
             type="button"
             onClick={() => setSidebarOpen(false)}
-            className="p-2 lg:hidden text-gw-text-secondary hover:text-gw-text-primary"
+            className="p-2 lg:hidden text-muted-foreground hover:text-foreground"
+            aria-label="Close menu"
           >
             <X size={20} />
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-8 no-scrollbar">
+        <nav className="flex-1 overflow-y-auto overflow-x-hidden py-6 px-2 lg:px-2 space-y-8 no-scrollbar">
           {currentRoutes.map((section) => (
             <div key={section.title} className="space-y-1">
-              {!isSidebarCollapsed && (
-                <h3 className="px-3 text-xs font-bold text-gw-text-secondary uppercase tracking-widest mb-3">
+              {isSidebarExpanded && (
+                <h3 className="px-3 text-label mb-3">
                   {section.title}
                 </h3>
               )}
@@ -103,11 +131,12 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                     href={item.path}
                     exact={item.path.endsWith('/dashboard')}
                     className={navItemClasses}
+                    title={!isSidebarExpanded ? item.name : undefined}
                   >
-                    <item.icon size={20} className={cn(!isSidebarCollapsed && 'mr-3')} />
-                    {!isSidebarCollapsed && <span>{item.name}</span>}
+                    <item.icon size={20} className={cn('shrink-0', isSidebarExpanded && 'mr-3')} />
+                    {isSidebarExpanded && <span className="truncate">{item.name}</span>}
                   </DashboardNavLink>
-                  {item.subItems && !isSidebarCollapsed && pathname.startsWith(item.path) && (
+                  {item.subItems && isSidebarExpanded && pathname.startsWith(item.path) && (
                     <div className="ml-9 mt-1 space-y-1">
                       {item.subItems.map((sub) => (
                         <DashboardNavLink
@@ -117,8 +146,8 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                             cn(
                               'flex items-center text-xs py-1.5 px-3 rounded-lg transition-colors',
                               isActive
-                                ? 'text-gw-accent-primary'
-                                : 'text-gw-text-secondary hover:text-gw-text-primary',
+                                ? 'text-brand-orange font-semibold'
+                                : 'text-muted-foreground hover:text-foreground',
                             )
                           }
                         >
@@ -132,25 +161,15 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
             </div>
           ))}
         </nav>
-
-        <div className="p-4 border-t border-white/5">
-          <button
-            type="button"
-            onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
-            className="hidden lg:flex w-full items-center justify-center p-2 rounded-xl text-gw-text-secondary hover:bg-white/5 transition-colors"
-          >
-            {isSidebarCollapsed ? <ChevronRight size={20} /> : <ChevronDown size={20} className="rotate-90" />}
-          </button>
-        </div>
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <header className="h-[75px] flex items-center justify-between px-4 md:px-8 border-b border-white/5 bg-gw-bg-secondary/50 backdrop-blur-xl sticky top-0 z-30">
+        <header className="h-[75px] flex items-center justify-between px-4 md:px-8 border-b border-border bg-background/95 backdrop-blur-md sticky top-0 z-30">
           <div className="flex items-center gap-4">
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="p-2 lg:hidden text-gw-text-secondary hover:text-gw-text-primary"
+              className="p-2 lg:hidden text-muted-foreground hover:text-foreground"
             >
               <Menu size={24} />
             </button>
@@ -159,9 +178,9 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center bg-white/5 dark:bg-black/20 p-1 rounded-2xl border border-white/5">
+          <div className="flex items-center bg-muted/50 p-1 rounded-2xl border border-border max-w-full overflow-x-auto">
             {[
-              { id: 'social', label: 'Social Media', icon: Share2 },
+              { id: 'publisher', label: 'Publisher', icon: Newspaper },
               { id: 'bookings', label: 'Booking CRM', icon: CalendarRange },
               { id: 'website', label: 'Admin Controls', icon: Monitor },
             ].map((t) => (
@@ -172,90 +191,100 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                 className={cn(
                   'px-4 py-1.5 text-xs font-semibold rounded-xl transition-all duration-300 flex items-center gap-2',
                   mode === t.id
-                    ? 'bg-gw-accent-primary text-white shadow-lg shadow-gw-accent-primary/20'
-                    : 'text-gw-text-secondary hover:text-gw-text-primary',
+                    ? 'cta-consultation text-white shadow-lg shadow-brand-orange/20'
+                    : 'text-muted-foreground hover:text-foreground',
                 )}
               >
-                <t.icon size={14} />
-                {t.label}
+                <t.icon size={14} className="shrink-0" />
+                <span className="hidden sm:inline">{t.label}</span>
               </button>
             ))}
           </div>
 
           <div className="flex items-center gap-2 md:gap-4">
-            <a
-              href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs font-medium bg-white/5 hover:bg-white/10 rounded-xl transition-colors border border-white/10"
+            <Button
+              variant="brandOutline"
+              size="sm"
+              className="hidden lg:inline-flex gap-2"
+              render={
+                <a
+                  href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              }
             >
               View Site <ExternalLink size={12} />
-            </a>
+            </Button>
 
             <button
               type="button"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+              className="p-2 rounded-xl border border-border bg-background hover:bg-muted transition-colors"
             >
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
 
-            <div className="flex items-center gap-3 pl-2 md:pl-4 border-l border-white/10">
+            <div className="flex items-center gap-3 pl-2 md:pl-4 border-l border-border">
               <div className="hidden sm:block text-right">
                 <p className="text-sm font-bold truncate max-w-[120px]">
                   {user?.email?.split('@')[0] || 'Admin'}
                 </p>
-                <p className="text-[10px] text-gw-text-secondary uppercase tracking-widest font-bold">
+                <p className="text-label">
                   {(user?.user_metadata as { role?: string })?.role || 'Administrator'}
                 </p>
               </div>
-              <div className="relative group">
-                <div className="w-10 h-10 rounded-full bg-gw-accent-primary text-white flex items-center justify-center font-bold text-sm premium-shadow">
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  className="flex h-10 w-10 items-center justify-center rounded-full cta-consultation text-sm font-bold text-white premium-shadow outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  aria-label="Account menu"
+                >
                   {user?.email?.charAt(0).toUpperCase() || 'A'}
-                </div>
-                <div className="absolute right-0 top-full pt-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-200">
-                  <GlassCard variant="raised" className="p-2 w-48">
-                    <button
-                      type="button"
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
-                    >
-                      <LogOut size={16} /> Log Out
-                    </button>
-                  </GlassCard>
-                </div>
-              </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem
+                    variant="destructive"
+                    onClick={() => void handleLogout()}
+                    className="cursor-pointer"
+                  >
+                    <LogOut size={16} />
+                    Log Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto no-scrollbar relative p-4 md:p-8 bg-gw-bg-primary">
+        <main className="flex-1 overflow-y-auto scrollbar-thin relative p-4 md:p-8 bg-shell-gradient">
           <motion.div
             key={pathname}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="max-w-7xl mx-auto"
+            transition={{ duration: 0.3 }}
+            className="max-w-7xl mx-auto motion-reduce:transition-none"
           >
             {children}
           </motion.div>
 
-          <footer className="mt-20 py-8 border-t border-white/5 bg-gw-bg-primary">
+          <footer className="mt-20 py-8 border-t border-border bg-transparent">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 <Link href="/dashboard">
                   <BrandLogo size="sm" />
                 </Link>
-                <div className="flex items-center gap-2 md:gap-8 text-[10px] font-bold uppercase tracking-widest text-gw-text-secondary">
-                  <span className="opacity-40">© {new Date().getFullYear()} PMS.OS</span>
+                <div className="flex items-center gap-2 md:gap-8 text-label text-muted-foreground">
+                  <span className="opacity-60 normal-case tracking-normal font-medium">
+                    © {new Date().getFullYear()} PMS.OS
+                  </span>
                   <div className="flex items-center gap-6">
-                    <Link href="/dashboard/site-system/security" className="hover:text-gw-accent-primary transition-colors">
+                    <Link href="/dashboard/site-system/security" className="hover:text-brand-orange transition-colors">
                       Security Audit
                     </Link>
-                    <Link href="/dashboard/site-system/settings" className="hover:text-gw-accent-primary transition-colors">
+                    <Link href="/dashboard/site-system/settings" className="hover:text-brand-orange transition-colors">
                       Platform Config
                     </Link>
-                    <Link href="/dashboard/site-system/analytics" className="hover:text-gw-accent-primary transition-colors">
+                    <Link href="/dashboard/site-system/analytics" className="hover:text-brand-orange transition-colors">
                       System Logs
                     </Link>
                   </div>

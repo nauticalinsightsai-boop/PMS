@@ -9,11 +9,13 @@ export function DashboardNavLink({
   children,
   className,
   exact,
+  title,
 }: {
   href: string;
   children: React.ReactNode;
   className?: string | ((active: boolean) => string);
   exact?: boolean;
+  title?: string;
 }) {
   const pathname = usePathname();
   const isActive = exact
@@ -23,7 +25,7 @@ export function DashboardNavLink({
   const resolvedClass = typeof className === 'function' ? className(isActive) : className;
 
   return (
-    <Link href={href} className={cn(resolvedClass)}>
+    <Link href={href} className={cn(resolvedClass)} title={title}>
       {children}
     </Link>
   );

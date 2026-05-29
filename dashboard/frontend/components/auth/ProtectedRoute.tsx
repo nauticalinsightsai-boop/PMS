@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import PageSkeleton from '@/components/shared/PageSkeleton';
 
 export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -18,8 +19,8 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
 
   if (loading) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center bg-gw-bg-primary">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-gw-accent-primary border-t-transparent" />
+      <div className="flex h-screen w-screen flex-col items-center justify-center bg-shell-gradient p-8">
+        <PageSkeleton className="w-full max-w-md" />
       </div>
     );
   }

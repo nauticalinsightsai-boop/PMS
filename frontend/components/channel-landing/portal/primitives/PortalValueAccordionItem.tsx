@@ -30,7 +30,7 @@ export default function PortalValueAccordionItem({ theme, title, body, groupName
           +
         </span>
       </summary>
-      <p className="pb-4 text-body-sm leading-relaxed w-full" style={{ color: theme.textMuted }}>
+      <p className="pb-4 text-body-sm leading-relaxed w-full" style={{ color: theme.text }}>
         {body}
       </p>
     </details>

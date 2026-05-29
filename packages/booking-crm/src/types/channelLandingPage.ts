@@ -29,8 +29,10 @@ export type PortalSocialProofItem = {
   quote: string
   /** @deprecated Use name + title */
   role?: string
-  name?: string
-  title?: string
+  name: string
+  title: string
+  avatarUrl: string
+  credential?: string
 }
 
 export type PortalProofMetric = {

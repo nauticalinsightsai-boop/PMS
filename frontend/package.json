@@ -11,9 +11,10 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@pms/booking-crm": "file:../packages/booking-crm",
     "@base-ui/react": "^1.3.0",
     "@fontsource-variable/geist": "^5.2.8",
+    "@pms/booking-crm": "file:../packages/booking-crm",
+    "@pms/ui": "file:../packages/ui",
     "@supabase/supabase-js": "^2.105.4",
     "@tailwindcss/postcss": "^4.1.14",
     "class-variance-authority": "^0.7.1",
@@ -36,6 +37,8 @@
     "@types/node": "^22.14.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^15.2.4",
     "tailwindcss": "^4.1.14",
     "typescript": "~5.8.2",
     "vitest": "^3.2.4"

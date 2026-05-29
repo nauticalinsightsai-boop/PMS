@@ -4,6 +4,7 @@ import type { ChannelLandingPage } from '@/types/channelLandingPage';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
 import { certifications } from '@/data/siteData';
 import { BRAND } from '@/lib/brand-voice';
+import { usesProConsultationPortalLayout } from '@/lib/channel-landing-pages/platformOfferPack';
 import PortalPathwayCard from '@/components/channel-landing/portal/PortalPathwayCard';
 
 type Props = {
@@ -15,6 +16,12 @@ function certFor(id: string) {
   return certifications.find((c) => c.id === id) ?? certifications[0];
 }
 
+/** Compact portal card titles — drop redundant family prefix where the badge already shows PMI. */
+function portalPathwayTitle(certId: string, fallback: string) {
+  if (certId === 'pmi-rmp') return 'RMP®';
+  return fallback;
+}
+
 export default function PortalFeaturedPathways({ page, theme }: Props) {
   const engagement = page.portalEngagement;
   const ids = engagement?.featuredCertIds?.length
@@ -23,6 +30,11 @@ export default function PortalFeaturedPathways({ page, theme }: Props) {
 
   const featured = ids.slice(0, 2);
   if (featured.length === 0) return null;
+
+  const proShell = usesProConsultationPortalLayout(page.channelId);
+  const subtitle = proShell
+    ? `${BRAND.name}: view pathways, cohort timing, and regional tuition on the website.`
+    : `${BRAND.name}: view pathways, cohort timing, and regional tuition for your certification track.`;
 
   return (
     <section
@@ -40,7 +52,7 @@ export default function PortalFeaturedPathways({ page, theme }: Props) {
           className="text-body-sm max-w-2xl leading-relaxed"
           style={{ color: theme.textMuted, fontFamily: theme.fontFamily }}
         >
-          {BRAND.fullName} — view pathways, cohort timing, and regional tuition on the website.
+          {subtitle}
         </p>
       </div>
 
@@ -53,7 +65,7 @@ export default function PortalFeaturedPathways({ page, theme }: Props) {
               cert={cert}
               theme={theme}
               familyLabel={index === 0 ? 'PMI' : cert.familyId}
-              title={cert.name}
+              title={portalPathwayTitle(certId, cert.name)}
               description={cert.desc}
               layout="compact"
               collapsible

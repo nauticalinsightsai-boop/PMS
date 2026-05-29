@@ -7,8 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { 
   Briefcase, 
   Settings, 
-  Users, 
-  BarChart, 
   CheckCircle2, 
   ArrowRight,
   ShieldCheck,

@@ -5,7 +5,7 @@ import type { ChannelLandingPage } from '@/types/channelLandingPage'
 import { usePortalThemeMode } from '@/hooks/usePortalThemeMode'
 import {
   getPlatformOfferPack,
-  isImpulseLayoutChannel,
+  usesProConsultationPortalLayout,
   type PortalSectionId,
 } from '@/lib/channel-landing-pages/platformOfferPack'
 import { portalShellMaxWidthClass } from '@/lib/channel-landing-pages/portalLayoutClasses'
@@ -30,6 +30,7 @@ import ChannelPortalFinalCta from '@/components/channel-landing/portal/ChannelPo
 import ChannelPortalStickyCta from '@/components/channel-landing/portal/ChannelPortalStickyCta'
 import PortalFeaturedPathways from '@/components/channel-landing/portal/PortalFeaturedPathways'
 import PortalPathwayActions from '@/components/channel-landing/portal/PortalPathwayActions'
+import ChannelPortalHeroCard from '@/components/channel-landing/portal/ChannelPortalHeroCard'
 import { scheduleTierClick } from '@/components/channel-landing/portal/scheduleTierClick'
 
 type Props = {
@@ -54,8 +55,8 @@ function flowSectionOrder(flow: PortalSectionId[], id: PortalSectionId): number 
 }
 
 /**
- * Conversion flow: brand → context → explore certs → book (3 tiers) → proof → FAQ.
- * No duplicate Store/Membership chips (header utilities only). No hero CTA when a free intro tier exists.
+ * Conversion flow: presence → hero → context → pathways → hero card → trust → tiers → proof → FAQ.
+ * Pro shell (website/webinar) uses marketing gradient + glass; other slugs use platform theme.
  */
 export default function ChannelConsultationPortalView({ page, isPreview }: Props) {
   const { colorMode, setColorMode } = usePortalThemeMode(page.channelId)
@@ -71,7 +72,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   const tiers = page.consultationTiers ?? []
   const scheduleCta = resolveScheduleTierCta(page.channelId, page.primaryButtonText ?? theme.scheduleTierCta)
   const layoutVariant = pack?.layoutVariant ?? 'minimal'
-  const isImpulseFlow = isImpulseLayoutChannel(page.channelId)
+  const proPortalShell = usesProConsultationPortalLayout(page.channelId)
   const isWebinarPortal = page.channelId === 'webinar'
 
   const discoveryTier =
@@ -95,6 +96,8 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   }, [page, discoveryTier, scrollToTiers])
 
   const isLeadHero = sectionOrder('hero') < sectionOrder('context')
+  const heroCardOrder = sectionOrder('hero_card')
+  const showHeroCard = heroCardOrder < 99
 
   const sectionProps = {
     page,
@@ -102,27 +105,23 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
     sectionOrder: 0,
     channelId: page.channelId,
     layoutVariant,
-    isImpulseFlow,
+    isImpulseFlow: false,
+    proPortalShell,
     isLeadHero,
     colorMode,
     onSetColorMode: setColorMode,
     onBookMentor: hasFreeIntroTier ? undefined : bookDiscovery,
+    scheduleCta,
   }
 
   const contentWidth = portalShellMaxWidthClass(layoutVariant)
 
-  const contextOrder = sectionOrder('context')
-  const afterContextOrder = contextOrder + (isWebinarPortal ? 1 : 0.5)
-  const pathwaysOrder = afterContextOrder
-  const tiersOrder = afterContextOrder + 0.5
-  const trustOrder = tiersOrder - 0.05
-
   return (
     <div
-      className={`portal-root relative z-10 min-h-screen flex flex-col overflow-x-hidden pb-20 sm:pb-0${isImpulseFlow ? ' portal-impulse-flow' : ''}${page.channelId === 'website' ? ' portal-website' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}`}
+      className={`portal-root relative z-10 min-h-screen flex flex-col overflow-x-hidden pb-20 sm:pb-0${proPortalShell ? ' portal-website selection:bg-brand-orange selection:text-white' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}`}
       style={{
-        fontFamily: theme.fontFamily,
-        backgroundColor: theme.background,
+        fontFamily: proPortalShell ? undefined : theme.fontFamily,
+        backgroundColor: proPortalShell ? undefined : theme.background,
         color: theme.text,
         ...cssVars,
       }}
@@ -130,9 +129,19 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
       data-layout={layoutVariant}
       data-color-mode={colorMode}
     >
+      {proPortalShell ? (
+        <div className="portal-website-ambience" aria-hidden>
+          <div className="portal-website-orb portal-website-orb--orange" />
+          <div className="portal-website-orb portal-website-orb--purple" />
+          <div className="portal-website-orb portal-website-orb--purple-soft" />
+          <div className="portal-website-orb portal-website-orb--cyan" />
+        </div>
+      ) : null}
       {isPreview && (
         <div
-          className="portal-preview-banner sticky top-0 z-50 text-center text-meta font-medium py-2.5 px-4"
+          className={`portal-preview-banner z-50 text-center text-meta font-medium py-2.5 px-4${
+            proPortalShell ? ' relative' : ' sticky top-0'
+          }`}
           role="status"
         >
           Draft preview — not visible to the public until you publish.
@@ -142,25 +151,23 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
       <ChannelPortalPresenceStrip {...sectionProps} sectionOrder={sectionOrder('presence')} />
 
       <div className={`${contentWidth} px-4 sm:px-5 py-6 sm:py-10 flex flex-col`}>
-        <ChannelPortalHeroHeader {...sectionProps} sectionOrder={sectionOrder('hero')} />
-        <ChannelPortalContextSection {...sectionProps} sectionOrder={sectionOrder('context')} />
-        {isWebinarPortal ? (
-          <ChannelPortalWebinarMedia
-            {...sectionProps}
-            sectionOrder={sectionOrder('context') + 0.5}
-          />
-        ) : null}
-        <div style={{ order: pathwaysOrder }}>
+        <div className="flex flex-col">
+          <ChannelPortalHeroHeader {...sectionProps} sectionOrder={0} />
+          <ChannelPortalContextSection {...sectionProps} sectionOrder={0} />
+          {isWebinarPortal ? (
+            <ChannelPortalWebinarMedia {...sectionProps} sectionOrder={0} />
+          ) : null}
           <PortalFeaturedPathways page={page} theme={theme} />
-        </div>
-        <ChannelPortalTrustLine {...sectionProps} sectionOrder={trustOrder} />
-        <div ref={tiersRef} style={{ order: tiersOrder }}>
-          <ChannelPortalTiersSection
-            {...sectionProps}
-            sectionOrder={0}
-            tiers={tiers}
-            scheduleCta={scheduleCta}
-          />
+          {showHeroCard ? <ChannelPortalHeroCard {...sectionProps} sectionOrder={0} /> : null}
+          <ChannelPortalTrustLine {...sectionProps} sectionOrder={0} />
+          <div ref={tiersRef}>
+            <ChannelPortalTiersSection
+              {...sectionProps}
+              sectionOrder={0}
+              tiers={tiers}
+              scheduleCta={scheduleCta}
+            />
+          </div>
         </div>
         <ChannelPortalSocialProof {...sectionProps} sectionOrder={sectionOrder('social_proof')} />
         <ChannelPortalCredibility {...sectionProps} sectionOrder={sectionOrder('credibility')} />
@@ -176,6 +183,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
           {...sectionProps}
           sectionOrder={sectionOrder('final_cta')}
           onPrimaryClick={bookFinalCtaTier}
+          scheduleCta={scheduleCta}
         />
         <div style={{ order: sectionOrder('social_footer') }}>
           <ChannelPortalSocialFooter theme={theme} />
@@ -185,7 +193,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
       <ChannelPortalStickyCta
         channelId={page.channelId}
         theme={theme}
-        label="Talk to a mentor"
+        label={scheduleCta}
         onClick={bookDiscovery}
       />
     </div>

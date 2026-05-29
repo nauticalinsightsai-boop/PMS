@@ -15,14 +15,6 @@ export interface VerifyRegionResult {
   scholarshipEligible: boolean;
 }
 
-const REGION_COUNTRY: Record<string, string[]> = {
-  india: ['IN', 'IND', 'India'],
-  pakistan: ['PK', 'PAK', 'Pakistan'],
-  uk: ['GB', 'UK', 'United Kingdom'],
-  europe: ['EU'],
-  gcc: ['AE', 'SA', 'QA', 'BH', 'KW', 'OM', 'UAE', 'Saudi Arabia', 'Qatar', 'Bahrain', 'Kuwait', 'Oman'],
-};
-
 function norm(c: string) {
   return c.trim().toUpperCase();
 }
