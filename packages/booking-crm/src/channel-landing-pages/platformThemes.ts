@@ -8,6 +8,8 @@ import {
 import { IMPLEMENTATION_SCOPE_41 } from './platformBrandSources'
 import { getPortalCopyForChannel } from './portalCopyFromContext'
 import { getPlatformOfferPack } from './platformOfferPack'
+import { PLATFORM_THEME_SCOPE_EXTENDED } from './platformScopePalettes'
+import { applyPlatformDesignLanguage } from './platformDesignLanguage'
 
 export type PlatformPortalTheme = {
   channelId: string
@@ -773,14 +775,21 @@ export function getScheduleTierCta(channelId: string): string {
   return getScheduleTierCtaFromCopy(channelId)
 }
 
+export function getPortalLightPaletteTier(channelId: string): 'full' | 'extended' | 'baseline' {
+  if (PLATFORM_THEME_OVERRIDES[channelId]) return 'full'
+  if (PLATFORM_THEME_SCOPE_EXTENDED[channelId]) return 'extended'
+  return 'baseline'
+}
+
 export function getPlatformPortalTheme(
   channelId: string,
   typeLabel?: string
 ): PlatformPortalTheme {
   const base = buildBaseTheme(channelId, typeLabel)
   const scopedBaseline = getScopeThemeBaseline(channelId)
+  const scopeExtended = PLATFORM_THEME_SCOPE_EXTENDED[channelId]
   const override = PLATFORM_THEME_OVERRIDES[channelId]
-  let theme = { ...base, ...scopedBaseline, ...override }
+  let theme = { ...base, ...scopedBaseline, ...scopeExtended, ...override }
   const copy = getChannelPortalCopy(channelId)
   if (copy) {
     theme = {
@@ -793,8 +802,9 @@ export function getPlatformPortalTheme(
     }
   }
   const pack = getPlatformOfferPack(channelId)
-  if (pack?.layoutVariant === 'bold') {
+  if (pack?.layoutVariant === 'bold' && !scopeExtended && !override?.radius) {
     theme = { ...theme, radius: '1rem', radiusLg: '1.25rem' }
   }
+  theme = applyPlatformDesignLanguage(channelId, theme)
   return theme
 }

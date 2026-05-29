@@ -69,6 +69,40 @@ function getActivePortalRoot(): HTMLElement | null {
  return visible ?? roots[0] ?? null;
 }
 
+type PortalCalendlyPalette = {
+ background: string;
+ text: string;
+ primary: string;
+ surface: string;
+ border: string;
+};
+
+function getPortalCalendlyPalette(): PortalCalendlyPalette | null {
+ const portalRoot = getActivePortalRoot();
+ if (!portalRoot) return null;
+ const background = getComputedColorVarFromElement(portalRoot, '--portal-bg');
+ const text = getComputedColorVarFromElement(portalRoot, '--portal-text');
+ const primary = getComputedColorVarFromElement(portalRoot, '--portal-primary');
+ if (!background && !text && !primary) return null;
+ const surface =
+  getComputedColorVarFromElement(portalRoot, '--portal-card-bg') ||
+  getComputedColorVarFromElement(portalRoot, '--portal-surface') ||
+  background;
+ const border = getComputedColorVarFromElement(portalRoot, '--portal-card-border') || surface;
+ return {
+  background: background || surface,
+  text: text || (getCalendlySurfaceMode() === 'dark' ? 'f4f4f5' : '0f172a'),
+  primary: primary || '0a66c2',
+  surface: surface || background,
+  border,
+ };
+}
+
+function hexForCalendlyParam(hex: string, fallback: string): string {
+ const normalized = normalizeHexColor(hex);
+ return (normalized || fallback).replace('#', '');
+}
+
 function getVisibleAccentElement(): HTMLElement | null {
  if (typeof document === 'undefined') return null;
  const candidates = Array.from(
@@ -140,6 +174,10 @@ export function getCalendlyOverlayCloseButtonColors(): { background: string; col
 
 export function getCalendlyOverlayScrimColor(): string {
  if (typeof document === 'undefined') return 'rgba(0, 0, 0, 0.65)';
+ const portal = getPortalCalendlyPalette();
+ if (portal?.background) {
+  return withAlpha(portal.background, getCalendlySurfaceMode() === 'dark' ? 0.88 : 0.45, 'rgba(0, 0, 0, 0.65)');
+ }
  const isDark = getCalendlySurfaceMode() === 'dark';
  return isDark ? 'rgba(2, 6, 23, 0.84)' : 'rgba(15, 23, 42, 0.42)';
 }
@@ -260,6 +298,7 @@ export function getCalendlyPopupThemeTokens(pathname?: string): CalendlyPopupThe
  const mode = getCalendlySurfaceMode();
  const base = CALENDLY_POPUP_THEME_BASE[mode];
  const accent = getActiveAccentOrFallback(mode);
+ const portal = getPortalCalendlyPalette();
  const derived: CalendlyPopupThemeTokens = {
   ...base,
   closeBg: accent,
@@ -269,6 +308,13 @@ export function getCalendlyPopupThemeTokens(pathname?: string): CalendlyPopupThe
   closeActiveBg: adjustHex(accent, mode === 'dark' ? -14 : -22),
   closeBorder: withAlpha(accent, mode === 'dark' ? 0.42 : 0.32, base.closeBorder),
   closeFocusRing: withAlpha(accent, mode === 'dark' ? 0.48 : 0.42, base.closeFocusRing),
+  overlayScrim: getCalendlyOverlayScrimColor(),
+  ...(portal
+   ? {
+      popupSurface: withAlpha(portal.surface, mode === 'dark' ? 0.96 : 0.98, base.popupSurface),
+      popupBorder: withAlpha(portal.border, mode === 'dark' ? 0.55 : 0.35, base.popupBorder),
+     }
+   : {}),
  };
  const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
  const override = getRoutePopupThemeOverride(route, mode);
@@ -322,11 +368,21 @@ export function buildCalendlyIframeEmbedUrl(
   u.searchParams.set('embed_type', 'Inline');
   if (opts.name?.trim()) u.searchParams.set('name', opts.name.trim());
   if (opts.email?.trim()) u.searchParams.set('email', opts.email.trim());
-  const theme = opts.theme ?? 'light';
+  const theme = opts.theme ?? getCalendlySurfaceMode();
   const pal = CALENDLY_EMBED_BRAND[theme];
-  u.searchParams.set('background_color', pal.background);
-  u.searchParams.set('text_color', pal.text);
-  u.searchParams.set('primary_color', pal.primary);
+  const portal = getPortalCalendlyPalette();
+  u.searchParams.set(
+   'background_color',
+   portal ? hexForCalendlyParam(portal.background, pal.background) : pal.background
+  );
+  u.searchParams.set(
+   'text_color',
+   portal ? hexForCalendlyParam(portal.text, pal.text) : pal.text
+  );
+  u.searchParams.set(
+   'primary_color',
+   portal ? hexForCalendlyParam(portal.primary, pal.primary) : pal.primary
+  );
   return u.toString();
  } catch {
   return cleaned;
@@ -365,12 +421,23 @@ export function buildCalendlyPopupWidgetUrl(
  try {
   const u = new URL(cleaned);
   u.searchParams.set('embed_domain', opts.host);
-  const theme = opts.theme ?? 'light';
+  const theme = opts.theme ?? getCalendlySurfaceMode();
   const pal = CALENDLY_EMBED_BRAND[theme];
+  const portal = getPortalCalendlyPalette();
   const accent = normalizeHexColor(getActiveBrandAccentColor());
-  const popupPrimary = accent ? accent.slice(1) : pal.primary;
-  u.searchParams.set('background_color', pal.background);
-  u.searchParams.set('text_color', pal.text);
+  const popupPrimary = portal
+   ? hexForCalendlyParam(portal.primary, pal.primary)
+   : accent
+     ? accent.slice(1)
+     : pal.primary;
+  u.searchParams.set(
+   'background_color',
+   portal ? hexForCalendlyParam(portal.background, pal.background) : pal.background
+  );
+  u.searchParams.set(
+   'text_color',
+   portal ? hexForCalendlyParam(portal.text, pal.text) : pal.text
+  );
   u.searchParams.set('primary_color', popupPrimary);
   applyCalendlyUtm(u, opts.utm);
   return u.toString();

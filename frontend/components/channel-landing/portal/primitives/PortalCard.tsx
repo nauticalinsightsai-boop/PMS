@@ -2,7 +2,6 @@
 
 import type { ReactNode } from 'react'
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
-import GlassCard from '@/components/ui/cards/GlassCard'
 
 type Props = {
   theme: PlatformPortalTheme
@@ -12,32 +11,25 @@ type Props = {
   className?: string
 }
 
+/** Theme-tinted card surface (replaces site GlassCard on portal layout chrome). */
 export default function PortalCard({ theme, portalLayoutChrome, children, className = '' }: Props) {
-  const useSiteGlass = Boolean(portalLayoutChrome)
-
-  if (useSiteGlass) {
-    return (
-      <GlassCard
-        elevation="surface"
-        liquid
-        liquidIntensity={0.85}
-        hover={false}
-        className={`p-4 sm:p-5 ${className}`.trim()}
-        data-portal-glass="true"
-      >
-        {children}
-      </GlassCard>
-    )
-  }
+  const usePortalSurface = Boolean(portalLayoutChrome)
 
   return (
     <div
       className={`p-4 sm:p-5 ${className}`.trim()}
+      data-portal-glass={usePortalSurface ? 'true' : undefined}
       style={{
         borderRadius: theme.radiusLg,
         border: `1px solid ${theme.cardBorder}`,
         backgroundColor: theme.cardBg,
         color: theme.text,
+        ...(usePortalSurface
+          ? {
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+            }
+          : {}),
       }}
     >
       {children}
