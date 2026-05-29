@@ -25,7 +25,12 @@ export function DashboardNavLink({
   const resolvedClass = typeof className === 'function' ? className(isActive) : className;
 
   return (
-    <Link href={href} className={cn(resolvedClass)} title={title}>
+    <Link
+      href={href}
+      className={cn(resolvedClass)}
+      title={title}
+      aria-current={isActive ? 'page' : undefined}
+    >
       {children}
     </Link>
   );
