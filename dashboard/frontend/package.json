@@ -15,6 +15,7 @@
     "@fontsource-variable/geist": "^5.2.8",
     "@pms/booking-crm": "file:../../packages/booking-crm",
     "@pms/regional-catalogue": "file:../../packages/regional-catalogue",
+    "@pms/site-content": "file:../../packages/site-content",
     "@pms/ui": "file:../../packages/ui",
     "@supabase/supabase-js": "^2.105.4",
     "@tailwindcss/postcss": "^4.1.14",

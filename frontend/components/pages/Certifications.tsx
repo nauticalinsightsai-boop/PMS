@@ -28,6 +28,13 @@ import {
   pickFeaturedPathwayCerts,
   type PathwayFamilyTab,
 } from "@/lib/certification-enrollment";
+import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
+import {
+  FIELD_KEYS,
+  defaultCertificationsHubConfig,
+  parseCertificationsHubConfig,
+  parseCertificationsRegistry,
+} from "@pms/site-content";
 
 const FAMILY_TAB_LABEL: Record<PathwayFamilyTab, string> = {
   PMI: "PMI®",
@@ -86,12 +93,23 @@ function CertificationFamilyTabs({
     </div>
   );
 }
-const certifications = siteData.certifications.filter((c) =>
+const certificationsBase = siteData.certifications.filter((c) =>
   PATHWAY_FAMILY_TABS.includes(c.familyId as PathwayFamilyTab),
 );
 
 export function Certifications() {
   const { regionId } = useRegion();
+  const { data: hubConfig } = usePublishedSiteDocument(FIELD_KEYS.CERTIFICATIONS_HUB_CONFIG, {
+    parse: (raw) => (raw ? parseCertificationsHubConfig(raw) : null),
+  });
+  const { data: registry } = usePublishedSiteDocument(FIELD_KEYS.CERTIFICATIONS_REGISTRY, {
+    parse: (raw) => (raw ? parseCertificationsRegistry(raw) : null),
+  });
+  const hub = hubConfig ?? defaultCertificationsHubConfig();
+  const hiddenIds = new Set(
+    (registry?.entries ?? []).filter((e) => e.hidden || e.archived).map((e) => e.id),
+  );
+  const certifications = certificationsBase.filter((c) => !hiddenIds.has(c.id));
   const sortByEnrollmentThenName = React.useCallback(
     (a: CertificationSummary, b: CertificationSummary) => {
       const aOpen = isEnrollmentOpen(a.id, regionId) ? 0 : 1;
@@ -139,13 +157,13 @@ export function Certifications() {
             transition={{ duration: 0.6 }}
           >
             <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              {CERTIFICATIONS_COPY.heroBadge}
+              {hub.hero.badge || CERTIFICATIONS_COPY.heroBadge}
             </Badge>
             <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
-              Find your <span className="text-pms-gradient-orange">pathway</span>
+              {hub.hero.title || (<>Find your <span className="text-pms-gradient-orange">pathway</span></>)}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-              {CERTIFICATIONS_COPY.heroSubtitle}
+              {hub.hero.subtitle || CERTIFICATIONS_COPY.heroSubtitle}
             </p>
 
             <div className="mt-10 max-w-3xl mx-auto space-y-4">
@@ -193,12 +211,17 @@ export function Certifications() {
               />
             </div>
 
-              {PATHWAY_FAMILY_TABS.map((familyId) => {
+              {PATHWAY_FAMILY_TABS.filter((familyId) => hub.families[familyId]?.visible !== false).map((familyId) => {
                 const family = siteData.familyConfigs[familyId];
                 const certs = familyCerts(familyId);
                 const openCerts = certs.filter((c) => isEnrollmentOpen(c.id, regionId));
                 const closedCerts = certs.filter((c) => !isEnrollmentOpen(c.id, regionId));
-                const featuredTop = pickFeaturedPathwayCerts(certs, familyId);
+                const featuredTop = pickFeaturedPathwayCerts(
+                  certs,
+                  familyId,
+                  3,
+                  hub.families[familyId]?.flagshipCertIds,
+                );
                 const featuredIds = new Set(featuredTop.map((c) => c.id));
                 const moreOpen = openCerts.filter((c) => !featuredIds.has(c.id));
                 const closedRest = closedCerts.filter((c) => !featuredIds.has(c.id));

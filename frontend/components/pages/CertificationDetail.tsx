@@ -28,6 +28,9 @@ import {
   PUBLIC_NAVBAR_TOP_CLASS,
   PUBLIC_SUBNAV_SPACER_CLASS,
 } from "@/components/PublicShell";
+import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
+import { FIELD_KEYS, parseCertificationsRegistry } from "@pms/site-content";
+import { resolveCertMarketing } from "@/lib/cert-detail";
 import {
   DossierBulletList,
   DossierCard,
@@ -45,7 +48,12 @@ function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
 export function CertificationDetail() {
   const { id } = useParams();
   const { regionId, gccCountry } = useRegion();
-  const cert = siteData.certifications.find(c => c.id === id) || siteData.certifications[0];
+  const { data: registry } = usePublishedSiteDocument(FIELD_KEYS.CERTIFICATIONS_REGISTRY, {
+    parse: (raw) => (raw ? parseCertificationsRegistry(raw) : null),
+  });
+  const siteCert = siteData.certifications.find((c) => c.id === id) || siteData.certifications[0];
+  const registryEntry = registry?.entries.find((e) => e.id === siteCert.id && !e.archived);
+  const cert = resolveCertMarketing(siteCert, registryEntry);
   const certName = cert.name;
   const family = siteData.familyConfigs[cert.familyId] || siteData.familyConfigs["PMI"];
   const enrollmentOpen = certHasOpenEnrollment(cert.id, regionId);
@@ -143,12 +151,18 @@ export function CertificationDetail() {
               </div>
 
               <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
-                {certName} <br />
-                <span className="text-brand-orange">Pathway</span>
+                {cert.detailHeroTitle.includes('Pathway') ? (
+                  cert.detailHeroTitle
+                ) : (
+                  <>
+                    {certName} <br />
+                    <span className="text-brand-orange">Pathway</span>
+                  </>
+                )}
               </h1>
 
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-xl leading-relaxed font-medium">
-                {cert.desc}
+                {cert.detailHeroSubtitle}
               </p>
 
               <div className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm mb-10">
@@ -156,7 +170,7 @@ export function CertificationDetail() {
                   <Zap className="h-5 w-5 text-brand-orange" />
                   <div className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Primary Value</div>
                 </div>
-                <div className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">{cert.outputValue}</div>
+                <div className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">{cert.outputValueDisplay}</div>
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -231,7 +245,8 @@ export function CertificationDetail() {
             </motion.div>
           </div>
           <CertificationPathway 
-            certificationName={certName} 
+            certificationName={certName}
+            siteCertId={cert.id}
             family={cert.familyId} 
             tiers={pathway} 
             color={cert.color}

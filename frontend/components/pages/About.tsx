@@ -3,11 +3,19 @@ import { motion } from "motion/react";
 import { Badge } from "@/components/ui/badge";
 import { Users, Target, Award, Heart } from "lucide-react";
 import { useWebsiteData } from "@/services/WebsiteDataService";
+import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
+import { FIELD_KEYS, defaultAboutPageConfig, parseAboutPageConfig } from "@pms/site-content";
 import { BRAND, BRAND_LINES } from "@/lib/brand-voice";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 
 export function About() {
   const { get } = useWebsiteData();
+  const fallback = defaultAboutPageConfig();
+  const { data: pageConfig } = usePublishedSiteDocument(FIELD_KEYS.ABOUT_PAGE_CONFIG, {
+    parse: (raw) => (raw ? parseAboutPageConfig(raw) : null),
+  });
+  const hero = pageConfig?.hero ?? fallback.hero;
+  const mission = pageConfig?.mission ?? fallback.mission;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -16,13 +24,13 @@ export function About() {
         <div className="container relative z-10 mx-auto">
           <div className="max-w-3xl mx-auto text-center">
             <Badge className="mb-6 bg-brand-purple/10 text-brand-purple border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              {get('mission_badge', 'Our Mission')}
+              {hero.badge || get('mission_badge', 'Our Mission')}
             </Badge>
             <h1 className="font-heading text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
-              {get('mission_title', 'Structured project management education and advisory')}
+              {hero.title || get('mission_title', 'Structured project management education and advisory')}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-              {get('mission_subtitle', BRAND_LINES.positioning)}
+              {mission.subtitle || get('mission_subtitle', BRAND_LINES.positioning)}
             </p>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import type { OfferingStatus } from '@/types/regional-catalogue';
+import { enrollmentPathForOffering } from '@/lib/enrollment-routes';
 
 export type CtaAction =
   | 'checkout'
@@ -65,8 +66,11 @@ export function hrefForCtaAction(
   switch (action) {
     case 'checkout':
     case 'verify_first':
-    case 'global_checkout':
+    case 'global_checkout': {
+      const enrollPath = enrollmentPathForOffering(offeringId);
+      if (enrollPath) return enrollPath;
       return `/checkout?offering=${encodeURIComponent(offeringId)}`;
+    }
     case 'consultation':
       return `/contact?topic=consultation&offering=${encodeURIComponent(offeringId)}`;
     case 'scholarship_review':

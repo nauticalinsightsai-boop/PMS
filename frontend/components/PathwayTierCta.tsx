@@ -8,16 +8,19 @@ import type { PathwayTier } from '@/types/site';
 import type { TierPathwayCta } from '@/lib/pathway-tier-cta';
 import { tierDeliveryLine } from '@/lib/pathway-tier-cta';
 import { PathwayOfferingModal } from '@/components/PathwayOfferingModal';
+import { getOfferingById } from '@/lib/regional-catalogue';
 
 export function PathwayTierCta({
   tier,
   pathwayCta,
+  siteCertId,
   className,
   gradient,
   color,
 }: {
   tier: PathwayTier;
   pathwayCta: TierPathwayCta;
+  siteCertId: string;
   className?: string;
   popular?: boolean;
   gradient?: string;
@@ -26,6 +29,8 @@ export function PathwayTierCta({
 }) {
   const [open, setOpen] = React.useState(false);
   const offeringId = tier.offeringId ?? 'pathway';
+  const offering = getOfferingById(offeringId);
+  const tierId = offering?.tierId ?? 'foundation';
 
   const buttonStyle: React.CSSProperties | undefined =
     !gradient && color ? { backgroundColor: color } : undefined;
@@ -51,11 +56,11 @@ export function PathwayTierCta({
         onOpenChange={setOpen}
         programmeTitle={tier.title}
         offeringId={offeringId}
+        siteCertId={siteCertId}
+        tierId={tierId}
         duration={tier.duration}
         deliveryLine={tierDeliveryLine(tier.tierDelivery ?? tier.deliveryMode)}
-        modalMode={pathwayCta.modalMode}
-        proceedHref={pathwayCta.proceedHref}
-        proceedLabel={pathwayCta.proceedLabel}
+        pathwayCta={pathwayCta}
         outcomes={tier.outcomes}
       />
     </>

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { resolveTierPathwayCta, tierDeliveryLine, tierPathwaySummary } from './pathway-tier-cta';
 
 describe('pathway-tier-cta', () => {
-  it('foundation with direct checkout opens enroll modal flow', () => {
+  it('foundation with direct checkout uses Enroll now and enroll path', () => {
     const cta = resolveTierPathwayCta(
       'foundation',
       'pmp-preparation-foundation',
@@ -11,11 +11,26 @@ describe('pathway-tier-cta', () => {
       'Enroll Now',
     );
     expect(cta.modalMode).toBe('enroll');
-    expect(cta.label).toBe('View and enroll');
-    expect(cta.proceedHref).toContain('checkout');
+    expect(cta.label).toBe('Enroll now');
+    expect(cta.proceedHref).toContain('/certifications/pmp/foundation/enroll');
+    expect(cta.enrollHref).toContain('/enroll');
+    expect(cta.showConsultationInModal).toBe(false);
   });
 
-  it('professional always uses consultation flow', () => {
+  it('foundation scholarship_verify still enrolls with Enroll now label', () => {
+    const cta = resolveTierPathwayCta(
+      'foundation',
+      'pmp-preparation-foundation',
+      'pmp',
+      'scholarship_verify',
+      'Enroll Now',
+    );
+    expect(cta.label).toBe('Enroll now');
+    expect(cta.proceedLabel).toBe('Enroll now');
+    expect(cta.enrollHref).toContain('/enroll');
+  });
+
+  it('professional offers dual modal actions', () => {
     const cta = resolveTierPathwayCta(
       'professional',
       'pmp-preparation-professional',
@@ -23,12 +38,12 @@ describe('pathway-tier-cta', () => {
       'direct_checkout',
       'Enroll Now',
     );
-    expect(cta.modalMode).toBe('consultation');
-    expect(cta.label).toBe('Book consultation');
-    expect(cta.proceedHref).toContain('consultation');
+    expect(cta.label).toBe('View pathway');
+    expect(cta.showConsultationInModal).toBe(true);
+    expect(cta.enrollHref).toContain('/certifications/pmp/professional/enroll');
   });
 
-  it('mastery uses the same consultation label as professional', () => {
+  it('mastery offers consultation in modal', () => {
     const cta = resolveTierPathwayCta(
       'mastery',
       'pmp-preparation-mastery',
@@ -37,7 +52,7 @@ describe('pathway-tier-cta', () => {
       'Book Mastery Consultation',
     );
     expect(cta.modalMode).toBe('consultation');
-    expect(cta.label).toBe('Book consultation');
+    expect(cta.showConsultationInModal).toBe(true);
   });
 
   it('tier summaries are distinct from raw delivery mode', () => {

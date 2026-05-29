@@ -29,6 +29,21 @@ export const PMS_LEGAL_ENTITY_ADDRESS =
 export const PMS_CONTACT_PHONE =
   process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || '';
 
+/** WhatsApp chat link (wa.me or api.whatsapp.com). Shown on enrollment success when configured. */
+export const PMS_WHATSAPP_URL =
+  process.env.NEXT_PUBLIC_WHATSAPP_URL?.trim() || '';
+
+export function isWhatsAppConfigured(): boolean {
+  const url = PMS_WHATSAPP_URL;
+  if (!url) return false;
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    return host.includes('whatsapp.com') || host.includes('wa.me');
+  } catch {
+    return false;
+  }
+}
+
 /** Regional presence shown in footer and contact surfaces (not full street addresses). */
 export type PmsOfficeLocation = {
   city: string;

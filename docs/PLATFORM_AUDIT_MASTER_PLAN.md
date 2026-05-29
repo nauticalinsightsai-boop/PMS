@@ -1,5 +1,7 @@
 # Platform Audit Master Plan (v3 — complete)
 
+> **Site Content Platform (CMS):** [`plan.md`](../plan.md) — living implementation plan for marketing CMS (`@pms/site-content`, Site System editors).
+
 > **Repo mirror** of Cursor plan [`platform_audit_master_fbbe4d03.plan.md`](file:///c:/Users/Sh3ik/.cursor/plans/platform_audit_master_fbbe4d03.plan.md) — **989 checkboxes**, **968 todos** in plan frontmatter.  
 > **Scorecard:** `docs/audits/PLATFORM_AUDIT_SCORECARD.md` (create in Phase 0)
 

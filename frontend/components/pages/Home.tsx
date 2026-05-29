@@ -77,7 +77,7 @@ export function Home() {
     window.location.href = "/newsletter";
   };
 
-  const featuredFromCms = homeCms.featuredIds
+  const featuredFromCms = homeCms.featuredCertIds
     .map((id) => {
       const featured = siteData.featuredCertifications.find((item) => item.id === id);
       if (featured) return featured;
@@ -95,6 +95,44 @@ export function Home() {
   const featuredPathwaysResolved =
     featuredFromCms.length > 0 ? featuredFromCms.slice(0, 6) : featuredPathways;
   const finalCta = homeCms.activeCta;
+  const sections = homeCms.sections;
+  const statsCount = homeCms.stats?.professionalsCount ?? 1284;
+  const statsLabel = homeCms.stats?.professionalsLabel ?? 'professionals in the network';
+  const testimonials =
+    homeCms.visibleTestimonials.length > 0
+      ? homeCms.visibleTestimonials.map((t) => ({
+          id: t.id,
+          name: t.name,
+          role: t.role,
+          content: t.quote,
+          avatar: t.avatarUrl ?? `https://i.pravatar.cc/100?u=${t.id}`,
+          company: '',
+        }))
+      : siteData.testimonials;
+  const insightsItems = homeCms.insightsBand?.items ?? [
+    { title: "AI in Project Management", desc: "How to leverage generative AI for planning and risk assessment.", href: "/newsletter/ai-augmented-project-manager" },
+    { title: "2026 Salary Trends", desc: "The latest data on certification ROI across global markets.", href: "/newsletter/2026-pmp-exam-changes" },
+    { title: "Hybrid Leadership", desc: "Mastering the balance between predictive and agile frameworks.", href: "/newsletter/hybrid-methodologies-enterprise" },
+  ];
+
+  const renderPrimaryCta = () => {
+    const label = homeCms.ctaPrimary || get('cta_primary', CTAS.pathwayConsultation);
+    const btnClass = "bg-brand-orange hover:bg-brand-hover text-white h-14 px-8 rounded-full font-bold text-lg shadow-lg shadow-brand-orange/20 transition-all";
+    const action = homeCms.primaryAction;
+    if (action === 'register_modal') {
+      return (
+        <RegisterModal trigger={
+          <Button size="lg" className={btnClass}>{label}</Button>
+        } />
+      );
+    }
+    const href = action === 'contact' ? (homeCms.ctaPrimaryLink || '/contact?topic=consultation') : (homeCms.ctaPrimaryLink || '/membership');
+    return (
+      <Link href={href}>
+        <Button size="lg" className={btnClass}>{label}</Button>
+      </Link>
+    );
+  };
 
   return (
     <div className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
@@ -129,11 +167,7 @@ export function Home() {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <RegisterModal trigger={
-                  <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-8 rounded-full font-bold text-lg shadow-lg shadow-brand-orange/20 transition-all">
-                    {homeCms.ctaPrimary || get('cta_primary', CTAS.pathwayConsultation)}
-                  </Button>
-                } />
+                {renderPrimaryCta()}
                 <Link href={homeCms.ctaSecondaryLink || '/certifications'}>
                   <Button size="lg" variant="outline" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-900 h-14 px-8 rounded-full font-bold text-lg transition-all">
                     {homeCms.ctaSecondary || get('cta_secondary', CTAS.findPathway)}
@@ -150,7 +184,7 @@ export function Home() {
                   ))}
                 </div>
                 <div className="text-sm font-medium text-slate-500">
-                  <span className="text-slate-900 dark:text-white font-bold">1,284</span> professionals in the network
+                  <span className="text-slate-900 dark:text-white font-bold">{statsCount.toLocaleString()}</span> {statsLabel}
                 </div>
               </div>
             </motion.div>
@@ -162,11 +196,19 @@ export function Home() {
               className="relative z-30 isolate hidden lg:block"
             >
               <div className="relative z-0 aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800">
+                {homeCms.activeSlide?.heroImage?.url ? (
+                  <img
+                    src={homeCms.activeSlide.heroImage.url}
+                    alt={homeCms.activeSlide.heroImage.alt ?? homeCms.heroTitle}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
                 <div
                   className="w-full h-full bg-gradient-to-br from-brand-purple/20 via-slate-100 to-brand-orange/20 dark:from-brand-purple/30 dark:via-slate-800 dark:to-brand-orange/20"
                   role="img"
                   aria-label="Professional growth and certification readiness"
                 />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent" />
               </div>
 
@@ -185,7 +227,7 @@ export function Home() {
         </div>
       </section>
 
-      {homeCms.latestNews.length > 0 && (
+      {(sections?.latestNews !== false) && homeCms.latestNews.length > 0 && (
         <section className="py-24 bg-white dark:bg-slate-950">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
@@ -231,7 +273,7 @@ export function Home() {
         </section>
       )}
 
-      {/* Featured Pathways Section */}
+      {(sections?.featuredPathways !== false) && (
       <section className={sectionSurface('soft', 'py-32')}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
@@ -281,8 +323,9 @@ export function Home() {
           </div>
         </div>
       </section>
+      )}
 
-      {/* Certification Families Section */}
+      {(sections?.programFamilies !== false) && (
       <section className={sectionSurface('purple', 'py-32')}>
         <SectionAmbience tone="purple" />
         <div className="container relative z-10 mx-auto">
@@ -302,7 +345,12 @@ export function Home() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {(["PMI", "PRINCE2", "SixSigma"] as const).map((familyId, index) => (
+            {(["PMI", "PRINCE2", "SixSigma"] as const)
+              .filter((familyId) => {
+                const cfg = homeCms.programFamilies.find((f) => f.familyId === familyId);
+                return cfg ? cfg.visible : true;
+              })
+              .map((familyId, index) => (
               <FamilyExploreCard
                 key={familyId}
                 family={siteData.familyConfigs[familyId]}
@@ -312,8 +360,9 @@ export function Home() {
           </div>
         </div>
       </section>
+      )}
 
-      {/* Stay Ahead — inverted band: dark when site is light, light when site is dark */}
+      {(sections?.insightsBand !== false) && (
       <section className="py-32 bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 relative overflow-hidden [&_h2]:!text-white dark:[&_h2]:!text-slate-900 [&_h4]:!text-white dark:[&_h4]:!text-pms-navy">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[-10%] right-[-5%] w-[35%] h-[35%] rounded-full blur-[100px] opacity-30 dark:opacity-50 bg-pms-gradient-blue-purple" />
@@ -327,17 +376,13 @@ export function Home() {
               viewport={{ once: true }}
             >
               <h2 className="font-heading text-4xl md:text-6xl font-bold text-white dark:text-slate-900 mb-8 tracking-tight leading-tight">
-                Insights for the Future of <span className="text-pms-gradient-orange">Project Leadership</span>
+                {homeCms.insightsBand?.title ?? (<>Insights for the Future of <span className="text-pms-gradient-orange">Project Leadership</span></>)}
               </h2>
               <p className="text-lg text-slate-300 dark:text-slate-600 mb-12 leading-relaxed font-medium">
-                The project management landscape is evolving. We provide the guidance you need to navigate AI integration and hybrid methodologies.
+                {homeCms.insightsBand?.subtitle ?? 'The project management landscape is evolving. We provide the guidance you need to navigate AI integration and hybrid methodologies.'}
               </p>
               <div className="space-y-8">
-                {[
-                  { title: "AI in Project Management", desc: "How to leverage generative AI for planning and risk assessment.", href: "/newsletter/ai-augmented-project-manager" },
-                  { title: "2026 Salary Trends", desc: "The latest data on certification ROI across global markets.", href: "/newsletter/2026-pmp-exam-changes" },
-                  { title: "Hybrid Leadership", desc: "Mastering the balance between predictive and agile frameworks.", href: "/newsletter/hybrid-methodologies-enterprise" },
-                ].map((item) => (
+                {insightsItems.map((item) => (
                   <Link key={item.title} href={item.href} className="flex gap-6 group">
                     <div className="h-1 w-12 bg-brand-orange mt-4 group-hover:w-16 transition-all duration-500 rounded-full shrink-0" />
                     <div>
@@ -376,8 +421,9 @@ export function Home() {
           </div>
         </div>
       </section>
+      )}
 
-      {/* Membership Section */}
+      {(sections?.membership !== false) && (
       <section className={sectionSurface('warm', 'py-32')}>
         <SectionAmbience tone="warm" />
         <div className="container relative z-10 mx-auto">
@@ -388,24 +434,27 @@ export function Home() {
               viewport={{ once: true }}
             >
               <h2 className="font-heading text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight leading-none">
-                {get('membership_title', 'Membership Plans')}
+                {homeCms.membership?.sectionTitle ?? get('membership_title', 'Membership Plans')}
               </h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                {get('membership_subtitle', HOME_COPY.membershipSubtitle)}
+                {homeCms.membership?.sectionSubtitle ?? get('membership_subtitle', HOME_COPY.membershipSubtitle)}
               </p>
             </motion.div>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {[
-                { title: "Course Discounts", desc: "Up to 30% off all certification prep courses.", icon: Trophy },
-                { title: "Premium Resources", desc: "Access to 500+ templates and study guides.", icon: BookOpen },
-                { title: "CV Maker Access", desc: "Professional PM-focused resume builder.", icon: FileText },
-                { title: "Member-Only Tools", desc: "Advanced study planners and ROI calculators.", icon: LayoutDashboard },
-                { title: "Community Access", desc: "Priority entry to private study circles.", icon: Users },
-                { title: "Expert Webinars", desc: "Monthly live sessions with industry veterans.", icon: Zap },
-              ].map((benefit, i) => (
+              {(homeCms.membership?.benefits ?? [
+                { title: "Course Discounts", desc: "Up to 30% off all certification prep courses.", iconKey: "trophy" },
+                { title: "Premium Resources", desc: "Access to 500+ templates and study guides.", iconKey: "book" },
+                { title: "CV Maker Access", desc: "Professional PM-focused resume builder.", iconKey: "file" },
+                { title: "Member-Only Tools", desc: "Advanced study planners and ROI calculators.", iconKey: "layout" },
+                { title: "Community Access", desc: "Priority entry to private study circles.", iconKey: "users" },
+                { title: "Expert Webinars", desc: "Monthly live sessions with industry veterans.", iconKey: "zap" },
+              ]).map((benefit, i) => {
+                const iconMap: Record<string, typeof Trophy> = { trophy: Trophy, book: BookOpen, file: FileText, layout: LayoutDashboard, users: Users, zap: Zap };
+                const Icon = iconMap[benefit.iconKey] ?? Trophy;
+                return (
                 <motion.div 
                   key={benefit.title} 
                   className="flex gap-6 p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-all group"
@@ -415,14 +464,14 @@ export function Home() {
                   transition={{ delay: i * 0.05 }}
                 >
                   <div className="p-4 rounded-xl bg-white dark:bg-slate-800 text-brand-orange h-fit shadow-sm group-hover:scale-110 transition-transform duration-300">
-                    <benefit.icon className="h-6 w-6" />
+                    <Icon className="h-6 w-6" />
                   </div>
                   <div>
                     <h4 className="text-xl font-bold mb-2 tracking-tight">{benefit.title}</h4>
                     <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">{benefit.desc}</p>
                   </div>
                 </motion.div>
-              ))}
+              );})}
             </div>
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
@@ -464,8 +513,9 @@ export function Home() {
           </div>
         </div>
       </section>
+      )}
 
-      {/* Community Section */}
+      {(sections?.community !== false) && (
       <section className={sectionSurface('blend', 'py-32')}>
         <SectionAmbience tone="blend" />
         <div className="container relative z-10 mx-auto">
@@ -529,6 +579,7 @@ export function Home() {
           </motion.div>
         </div>
       </section>
+      )}
 
       {/* Newsletter Section */}
       <section className={sectionSurface('cool', 'py-32')}>
@@ -667,7 +718,7 @@ export function Home() {
         </div>
       </section>
 
-      {/* Student Success / Carousel Section */}
+      {(sections?.testimonials !== false) && (
       <section className={sectionSurface('cool', 'py-32 overflow-hidden')}>
         <SectionAmbience tone="cool" />
         <div className="container relative z-10 mx-auto">
@@ -698,7 +749,7 @@ export function Home() {
               </div>
 
               <div className="flex gap-2">
-                {siteData.testimonials.map((_, idx) => (
+                {testimonials.map((_, idx) => (
                   <button
                     key={idx}
                     type="button"
@@ -723,7 +774,7 @@ export function Home() {
             <div className="lg:w-2/3 w-full">
               <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
                 <div className="flex">
-                  {siteData.testimonials.map((testimonial) => (
+                  {testimonials.map((testimonial) => (
                     <div key={testimonial.id} className="flex-[0_0_100%] md:flex-[0_0_50%] min-w-0 pl-6">
                       <Card className="h-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm p-8 rounded-[2.5rem] relative overflow-hidden group hover:shadow-xl transition-all duration-500">
                         <Quote className="absolute top-8 right-8 h-12 w-12 text-slate-50 dark:text-slate-800/50 -rotate-12 transition-transform group-hover:rotate-0" />
@@ -753,8 +804,9 @@ export function Home() {
           </div>
         </div>
       </section>
+      )}
 
-      {homeCms.activeFootprint.length > 0 && (
+      {(sections?.globalFootprint !== false) && homeCms.activeFootprint.length > 0 && (
         <section className="py-32 bg-white dark:bg-slate-950">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mb-16">
@@ -791,7 +843,7 @@ export function Home() {
         </section>
       )}
 
-      {/* Final CTA Section */}
+      {(sections?.finalCta !== false) && (
       <section className={sectionSurface('warm', 'py-32')}>
         <SectionAmbience tone="warm" />
         <div className="container relative z-10 mx-auto">
@@ -841,6 +893,7 @@ export function Home() {
           </motion.div>
         </div>
       </section>
+      )}
     </div>
   );
 }

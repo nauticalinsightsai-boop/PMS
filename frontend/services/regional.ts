@@ -40,6 +40,8 @@ export async function createCheckoutSession(payload: {
   email: string;
   gccCountry?: string | null;
   hasMembership?: boolean;
+  successUrl?: string;
+  cancelUrl?: string;
 }) {
   const res = await fetch(`${API_BASE}/api/checkout/create`, {
     method: 'POST',

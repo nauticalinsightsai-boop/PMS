@@ -9,6 +9,7 @@
     "dashboard/backend",
     "packages/booking-crm",
     "packages/regional-catalogue",
+    "packages/site-content",
     "packages/ui"
   ],
   "scripts": {
@@ -35,13 +36,20 @@
     "setup:env": "node scripts/setup-regional-env.mjs",
     "verify:regional-dev": "node scripts/verify-regional-dev.mjs",
     "test:legal-seo": "npm run test -w @pms/frontend -- lib/legal-seo.test.ts content/legal/index.test.ts",
-    "audit:images": "node scripts/audit-images.mjs"
+    "audit:images": "node scripts/audit-images.mjs",
+    "export:website-data": "node --import tsx scripts/export-website-data-snapshot.mjs",
+    "seed:site-content": "node --import tsx scripts/seed-site-content.mjs",
+    "build:cert-registry": "node --import tsx scripts/build-cert-registry-from-sitedata.mjs",
+    "print:pathway-calendly-env": "node scripts/print-pathway-calendly-env-keys.mjs",
+    "print:pathway-calendly-env:dotenv": "node scripts/print-pathway-calendly-env-keys.mjs --dotenv",
+    "print:pathway-calendly-env:md": "node scripts/print-pathway-calendly-env-keys.mjs --markdown"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
     "http-proxy": "^1.18.1",
     "pg": "^8.21.0",
     "sharp": "^0.34.5",
+    "tsx": "^4.19.4",
     "xlsx": "^0.18.5"
   }
 }

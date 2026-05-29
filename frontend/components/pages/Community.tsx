@@ -19,6 +19,8 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useWebsiteData } from "@/services/WebsiteDataService";
+import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
+import { FIELD_KEYS, defaultCommunityPageConfig, parseCommunityPageConfig } from "@pms/site-content";
 import { StoreContent } from "@/components/pages/Store";
 import { BRAND, COMMUNITY_COPY } from "@/lib/brand-voice";
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
@@ -256,6 +258,12 @@ function CommunityNetworkContent() {
 
 export function Community() {
   const { get } = useWebsiteData();
+  const fallback = defaultCommunityPageConfig();
+  const { data: pageConfig } = usePublishedSiteDocument(FIELD_KEYS.COMMUNITY_PAGE_CONFIG, {
+    parse: (raw) => (raw ? parseCommunityPageConfig(raw) : null),
+  });
+  const hero = pageConfig?.hero ?? fallback.hero;
+  const network = pageConfig?.network ?? fallback.network;
   const router = useRouter();
   const searchParams = useSearchParams();
   const contentRef = React.useRef<HTMLDivElement>(null);
@@ -295,14 +303,19 @@ export function Community() {
             transition={{ duration: 0.6 }}
           >
             <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              {get('community_badge', COMMUNITY_COPY.heroBadge)}
+              {hero.badge || get('community_badge', COMMUNITY_COPY.heroBadge)}
             </Badge>
             <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
-              {get('community_title', COMMUNITY_COPY.heroTitle)}
+              {hero.title || get('community_title', COMMUNITY_COPY.heroTitle)}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-              {get('community_subtitle', COMMUNITY_COPY.heroSubtitle)}
+              {hero.subtitle || get('community_subtitle', COMMUNITY_COPY.heroSubtitle)}
             </p>
+            {network.memberCount ? (
+              <p className="mt-4 text-sm font-bold text-brand-orange">
+                {network.memberCount.toLocaleString()}+ professionals in the network
+              </p>
+            ) : null}
           </motion.div>
         </div>
       </section>

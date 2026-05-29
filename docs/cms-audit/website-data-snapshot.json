@@ -1,0 +1,627 @@
+{
+  "meta": {
+    "exportedAt": "2026-05-29T12:02:28.409Z",
+    "source": "bundled-seeds",
+    "rowCount": 9,
+    "note": "DATABASE_URL unavailable or empty table"
+  },
+  "rows": [
+    {
+      "field_key": "home_page_config",
+      "content": {
+        "version": 2,
+        "heroSlides": [
+          {
+            "id": 1,
+            "visible": true,
+            "heading": "Prepare with structure. Lead with confidence.",
+            "description": "Independent certification readiness pathways across PMI, PRINCE2, and Lean Six Sigma — built for professionals who want clarity, not chaos.",
+            "primaryCta": "Book a consultation",
+            "primaryAction": "contact",
+            "primaryLink": "/contact?topic=consultation",
+            "secondaryCta": "Find a pathway",
+            "secondaryLink": "/certifications"
+          }
+        ],
+        "stats": {
+          "professionalsCount": 1284,
+          "professionalsLabel": "professionals in the network"
+        },
+        "sections": {
+          "latestNews": true,
+          "featuredPathways": true,
+          "programFamilies": true,
+          "insightsBand": true,
+          "membership": true,
+          "community": true,
+          "testimonials": true,
+          "globalFootprint": true,
+          "finalCta": true
+        },
+        "featuredPathways": {
+          "title": "Featured Pathways",
+          "subtitle": "Structured readiness routes across PMI, PRINCE2, and Lean Six Sigma.",
+          "certIds": [
+            "pmp",
+            "prince2",
+            "lss-green"
+          ]
+        },
+        "programFamilies": [
+          {
+            "familyId": "PMI",
+            "visible": true
+          },
+          {
+            "familyId": "PRINCE2",
+            "visible": true
+          },
+          {
+            "familyId": "SixSigma",
+            "visible": true
+          }
+        ],
+        "membership": {
+          "sectionTitle": "Membership Plans",
+          "sectionSubtitle": "Unlock structured tools, community access, and certification discounts.",
+          "highlightedTierId": "professional",
+          "visibleTierIds": [
+            "starter",
+            "professional",
+            "mastery"
+          ],
+          "showBenefitsGrid": true,
+          "benefits": [
+            {
+              "title": "Course Discounts",
+              "desc": "Up to 30% off all certification prep courses.",
+              "iconKey": "trophy"
+            },
+            {
+              "title": "Premium Resources",
+              "desc": "Access to 500+ templates and study guides.",
+              "iconKey": "book"
+            },
+            {
+              "title": "CV Maker Access",
+              "desc": "Professional PM-focused resume builder.",
+              "iconKey": "file"
+            },
+            {
+              "title": "Member-Only Tools",
+              "desc": "Advanced study planners and ROI calculators.",
+              "iconKey": "layout"
+            },
+            {
+              "title": "Community Access",
+              "desc": "Priority entry to private study circles.",
+              "iconKey": "users"
+            },
+            {
+              "title": "Expert Webinars",
+              "desc": "Monthly live sessions with industry veterans.",
+              "iconKey": "zap"
+            }
+          ]
+        },
+        "testimonials": [
+          {
+            "id": "1",
+            "quote": "The PM Structure PMP pathway gave me a structured study rhythm, weak-area tracking, and mentor-style review.",
+            "name": "Sarah Jenkins",
+            "role": "Senior PM at TechCorp",
+            "visible": true
+          },
+          {
+            "id": "2",
+            "quote": "The PMI-ACP readiness support focused on scenarios and weak-area revision, not random videos.",
+            "name": "Michael Chen",
+            "role": "Agile Coach",
+            "visible": true
+          }
+        ],
+        "insightsBand": {
+          "title": "Insights for the Future of Project Leadership",
+          "subtitle": "The project management landscape is evolving. We provide the guidance you need to navigate AI integration and hybrid methodologies.",
+          "items": [
+            {
+              "title": "AI in Project Management",
+              "desc": "How to leverage generative AI for planning and risk assessment.",
+              "href": "/newsletter/ai-augmented-project-manager"
+            },
+            {
+              "title": "2026 Salary Trends",
+              "desc": "The latest data on certification ROI across global markets.",
+              "href": "/newsletter/2026-pmp-exam-changes"
+            },
+            {
+              "title": "Hybrid Leadership",
+              "desc": "Mastering the balance between predictive and agile frameworks.",
+              "href": "/newsletter/hybrid-methodologies-enterprise"
+            }
+          ]
+        },
+        "instituteSection": {
+          "type": "institute",
+          "institute": {
+            "title": "Institute",
+            "subtitle": "",
+            "description": "",
+            "ctaText": "",
+            "ctaLink": ""
+          },
+          "engagement": {
+            "title": "Engagement",
+            "subtitle": "",
+            "description": "",
+            "ctaText": "",
+            "ctaLink": ""
+          },
+          "speaking": {
+            "title": "Speaking",
+            "subtitle": "",
+            "description": "",
+            "ctaText": "",
+            "ctaLink": ""
+          }
+        },
+        "featuredItems": {
+          "showProjects": true,
+          "showConsultancies": true,
+          "showVentures": false,
+          "selectedProjectIds": [],
+          "selectedConsultancyIds": [],
+          "selectedVentureIds": []
+        },
+        "latestNewsVisible": true,
+        "latestNews": [],
+        "globalFootprint": []
+      },
+      "is_published": false,
+      "updated_at": "2026-05-29T12:02:28.409Z"
+    },
+    {
+      "field_key": "certifications_hub_config",
+      "content": {
+        "version": 1,
+        "hero": {
+          "badge": "Certification pathways",
+          "title": "Find your certification pathway",
+          "subtitle": "Structured readiness across PMI, PRINCE2, and Lean Six Sigma."
+        },
+        "listing": {
+          "title": "All pathways",
+          "subtitle": "Browse flagship routes and extended options by family."
+        },
+        "families": {
+          "PMI": {
+            "visible": true,
+            "flagshipCertIds": [
+              "pmp",
+              "pmi-rmp",
+              "capm"
+            ],
+            "sortOrder": "flagship-first"
+          },
+          "PRINCE2": {
+            "visible": true,
+            "flagshipCertIds": [
+              "prince2",
+              "prince2-practitioner",
+              "prince2-agile"
+            ],
+            "sortOrder": "flagship-first"
+          },
+          "SixSigma": {
+            "visible": true,
+            "flagshipCertIds": [
+              "lss-green",
+              "lss-yellow",
+              "lss-black"
+            ],
+            "sortOrder": "flagship-first"
+          }
+        }
+      },
+      "is_published": false,
+      "updated_at": "2026-05-29T12:02:28.409Z"
+    },
+    {
+      "field_key": "certifications_registry",
+      "content": {
+        "version": 1,
+        "entries": [
+          {
+            "id": "capm",
+            "name": "CAPM®",
+            "familyId": "PMI",
+            "desc": "Entry level fundamentals.",
+            "hidden": false,
+            "archived": false
+          },
+          {
+            "id": "pmp",
+            "name": "PMP®",
+            "familyId": "PMI",
+            "desc": "Project Management Professional.",
+            "hidden": false,
+            "archived": false
+          },
+          {
+            "id": "pmi-rmp",
+            "name": "PMI-RMP®",
+            "familyId": "PMI",
+            "desc": "Risk Management Professional.",
+            "hidden": false,
+            "archived": false
+          },
+          {
+            "id": "prince2",
+            "name": "PRINCE2®",
+            "familyId": "PRINCE2",
+            "desc": "Governance-led methodology.",
+            "hidden": false,
+            "archived": false
+          },
+          {
+            "id": "prince2-practitioner",
+            "name": "PRINCE2 Practitioner",
+            "familyId": "PRINCE2",
+            "desc": "Advanced PRINCE2.",
+            "hidden": false,
+            "archived": false
+          },
+          {
+            "id": "prince2-agile",
+            "name": "PRINCE2 Agile",
+            "familyId": "PRINCE2",
+            "desc": "Agile governance blend.",
+            "hidden": false,
+            "archived": false
+          },
+          {
+            "id": "lss-green",
+            "name": "Lean Six Sigma Green Belt",
+            "familyId": "SixSigma",
+            "desc": "DMAIC process improvement.",
+            "hidden": false,
+            "archived": false
+          },
+          {
+            "id": "lss-yellow",
+            "name": "Lean Six Sigma Yellow Belt",
+            "familyId": "SixSigma",
+            "desc": "Foundational LSS.",
+            "hidden": false,
+            "archived": false
+          },
+          {
+            "id": "lss-black",
+            "name": "Lean Six Sigma Black Belt",
+            "familyId": "SixSigma",
+            "desc": "Advanced LSS leadership.",
+            "hidden": false,
+            "archived": false
+          }
+        ]
+      },
+      "is_published": false,
+      "updated_at": "2026-05-29T12:02:28.409Z"
+    },
+    {
+      "field_key": "services_page_config",
+      "content": {
+        "version": 1,
+        "hero": {
+          "badge": "Advisory & delivery",
+          "title": "Project management services",
+          "subtitle": "Pathway consultation, governance, corporate training, and exam readiness."
+        },
+        "services": [
+          {
+            "id": "pathway-consultation",
+            "title": "Pathway consultation",
+            "description": "Map experience, timeline, and goals to the right PMI, PRINCE2, or Six Sigma route.",
+            "benefits": [
+              "Portfolio Strategy",
+              "Risk Assessment",
+              "Resource Optimization"
+            ],
+            "iconKey": "briefcase",
+            "visible": true,
+            "sortOrder": 0,
+            "ctaHref": "/contact?topic=consultation"
+          },
+          {
+            "id": "governance-pmo",
+            "title": "Governance & PMO",
+            "description": "Clear roles, reporting, escalation, and control rhythms.",
+            "benefits": [
+              "Framework Design",
+              "Standardized Reporting",
+              "Maturity Assessment"
+            ],
+            "iconKey": "settings",
+            "visible": true,
+            "sortOrder": 1
+          },
+          {
+            "id": "corporate-training",
+            "title": "Corporate training",
+            "description": "Cohort pathways with shared language and governance — not content-only delivery.",
+            "benefits": [
+              "Custom Curriculum",
+              "Interactive Workshops",
+              "Post-Training Support"
+            ],
+            "iconKey": "globe",
+            "visible": true,
+            "sortOrder": 2
+          },
+          {
+            "id": "exam-readiness",
+            "title": "Exam readiness",
+            "description": "Mocks, weak-area tracking, revision, and mentor review.",
+            "benefits": [
+              "Mock Exams",
+              "Weak-Area Tracking",
+              "Mentor Review"
+            ],
+            "iconKey": "zap",
+            "visible": true,
+            "sortOrder": 3
+          }
+        ],
+        "caseStudies": [
+          {
+            "id": "case-1",
+            "title": "Global PMO governance rollout",
+            "client": "Enterprise client",
+            "industry": "Technology",
+            "summary": "Designed stage-gate reporting and escalation paths across three regions.",
+            "published": true
+          }
+        ]
+      },
+      "is_published": false,
+      "updated_at": "2026-05-29T12:02:28.409Z"
+    },
+    {
+      "field_key": "store_catalog",
+      "content": {
+        "version": 1,
+        "hero": {
+          "badge": "Resource store",
+          "title": "Professional PM resources",
+          "subtitle": "Mock exams, templates, planners, and study packs."
+        },
+        "categories": [
+          {
+            "id": "all",
+            "name": "All Resources",
+            "sortOrder": 0
+          },
+          {
+            "id": "mock-exams",
+            "name": "Mock Exams",
+            "sortOrder": 1
+          },
+          {
+            "id": "templates",
+            "name": "Templates",
+            "sortOrder": 2
+          },
+          {
+            "id": "planners",
+            "name": "Planners",
+            "sortOrder": 3
+          },
+          {
+            "id": "bundles",
+            "name": "Bundles",
+            "sortOrder": 4
+          },
+          {
+            "id": "study-packs",
+            "name": "Study Packs",
+            "sortOrder": 5
+          }
+        ],
+        "products": [
+          {
+            "id": "pmp-mock-pack",
+            "title": "PMP® 2026 Mock Exam Pack",
+            "description": "5 full-length exams with detailed explanations for every question.",
+            "categoryId": "mock-exams",
+            "price": 49.99,
+            "currency": "USD",
+            "displayPrice": "$49.99",
+            "badge": "Popular",
+            "rating": 4.9,
+            "reviewCount": 1240,
+            "imageUrl": "https://picsum.photos/seed/exam/400/500",
+            "visible": true,
+            "sortOrder": 0
+          },
+          {
+            "id": "pmo-templates",
+            "title": "PMO Governance Templates",
+            "description": "50+ professional templates for reporting, risk, and stakeholder management.",
+            "categoryId": "templates",
+            "price": 79.99,
+            "currency": "USD",
+            "displayPrice": "$79.99",
+            "badge": "New",
+            "rating": 4.8,
+            "reviewCount": 850,
+            "imageUrl": "https://picsum.photos/seed/templates/400/500",
+            "visible": true,
+            "sortOrder": 1
+          },
+          {
+            "id": "agile-planner",
+            "title": "Agile Career Planner 2026",
+            "description": "Digital planner designed for Scrum Masters and Agile Coaches.",
+            "categoryId": "planners",
+            "price": 24.99,
+            "currency": "USD",
+            "displayPrice": "$24.99",
+            "rating": 4.7,
+            "reviewCount": 420,
+            "imageUrl": "https://picsum.photos/seed/planner/400/500",
+            "visible": true,
+            "sortOrder": 2
+          },
+          {
+            "id": "exam-bundle",
+            "title": "Comprehensive Exam Prep Bundle",
+            "description": "Includes Mock Exams, Study Guides, and Flashcards for PMP & CAPM.",
+            "categoryId": "bundles",
+            "price": 149.99,
+            "currency": "USD",
+            "displayPrice": "$149.99",
+            "badge": "Save 30%",
+            "rating": 4.9,
+            "reviewCount": 2100,
+            "imageUrl": "https://picsum.photos/seed/bundle/400/500",
+            "visible": true,
+            "sortOrder": 3
+          },
+          {
+            "id": "risk-pack",
+            "title": "Risk Management Study Pack",
+            "description": "Specialized resources for the PMI-RMP certification exam.",
+            "categoryId": "study-packs",
+            "price": 34.99,
+            "currency": "USD",
+            "displayPrice": "$34.99",
+            "rating": 4.8,
+            "reviewCount": 310,
+            "imageUrl": "https://picsum.photos/seed/risk/400/500",
+            "visible": true,
+            "sortOrder": 4
+          },
+          {
+            "id": "lss-green-kit",
+            "title": "Six Sigma Green Belt Kit",
+            "description": "Complete toolkit for Lean Six Sigma Green Belt candidates.",
+            "categoryId": "study-packs",
+            "price": 59.99,
+            "currency": "USD",
+            "displayPrice": "$59.99",
+            "rating": 4.6,
+            "reviewCount": 180,
+            "imageUrl": "https://picsum.photos/seed/sigma/400/500",
+            "visible": true,
+            "sortOrder": 5
+          }
+        ]
+      },
+      "is_published": false,
+      "updated_at": "2026-05-29T12:02:28.409Z"
+    },
+    {
+      "field_key": "community_page_config",
+      "content": {
+        "version": 1,
+        "hero": {
+          "badge": "Community",
+          "title": "Join the Global PM Network",
+          "subtitle": "Connect with professionals in our Slack-based community."
+        },
+        "network": {
+          "title": "Join the Global PM Network",
+          "subtitle": "Don't study in isolation. Connect with professionals in our Slack-based community.",
+          "memberCount": 1284,
+          "features": [
+            {
+              "title": "Slack Community",
+              "iconKey": "message"
+            },
+            {
+              "title": "Study Circles",
+              "iconKey": "users"
+            },
+            {
+              "title": "Peer Discussions",
+              "iconKey": "message"
+            },
+            {
+              "title": "Live Sessions",
+              "iconKey": "calendar"
+            }
+          ],
+          "ctaText": "Join Community",
+          "ctaHref": "/community"
+        },
+        "storeIntro": {
+          "title": "Resource Store",
+          "subtitle": "Mock exams, templates, and study packs for certification prep.",
+          "visible": true
+        }
+      },
+      "is_published": false,
+      "updated_at": "2026-05-29T12:02:28.409Z"
+    },
+    {
+      "field_key": "membership_page_config",
+      "content": {
+        "version": 1,
+        "hero": {
+          "badge": "Membership",
+          "title": "Membership Plans",
+          "subtitle": "Unlock structured tools, community access, and certification discounts."
+        },
+        "tiers": [
+          {
+            "id": "starter",
+            "visible": true
+          },
+          {
+            "id": "professional",
+            "visible": true,
+            "highlight": true
+          },
+          {
+            "id": "mastery",
+            "visible": true
+          }
+        ]
+      },
+      "is_published": false,
+      "updated_at": "2026-05-29T12:02:28.409Z"
+    },
+    {
+      "field_key": "about_page_config",
+      "content": {
+        "version": 1,
+        "hero": {
+          "badge": "About",
+          "title": "About PM Structure",
+          "subtitle": "Independent certification readiness and structured project leadership."
+        },
+        "mission": {
+          "title": "Our mission",
+          "subtitle": "Prepare professionals with structure — not shortcuts."
+        },
+        "blocks": []
+      },
+      "is_published": false,
+      "updated_at": "2026-05-29T12:02:28.409Z"
+    },
+    {
+      "field_key": "newsletter_hub_config",
+      "content": {
+        "version": 1,
+        "hero": {
+          "badge": "Newsletter",
+          "title": "The Structure Report",
+          "subtitle": "Weekly deep-dives on methodology, leadership, and career growth."
+        },
+        "source": "file"
+      },
+      "is_published": false,
+      "updated_at": "2026-05-29T12:02:28.409Z"
+    }
+  ]
+}

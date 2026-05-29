@@ -7,7 +7,6 @@ import {
   ShoppingBag,
   Briefcase,
   Award,
-  Newspaper,
   GitCompare,
 } from 'lucide-react';
 
@@ -15,7 +14,6 @@ export type WebsitePageSlug =
   | 'home'
   | 'pm-service'
   | 'certifications'
-  | 'newsletter'
   | 'community'
   | 'store'
   | 'about'
@@ -87,12 +85,6 @@ export const WEBSITE_PAGE_CONFIGS: Record<WebsitePageSlug, WebsitePageConfig> = 
         ],
       },
     ],
-  },
-  newsletter: {
-    label: 'Newsletter',
-    icon: Newspaper,
-    publicPath: '/newsletter',
-    sections: [{ id: 'hero', label: 'Hero', fields: heroFields('newsletter') }],
   },
   community: {
     label: 'Community',

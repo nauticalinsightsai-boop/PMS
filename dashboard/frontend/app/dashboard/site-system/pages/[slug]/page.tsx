@@ -1,6 +1,11 @@
 import { notFound, redirect } from 'next/navigation';
 import { WebsiteDataEditor } from '@/components/pages/admin/WebsiteData';
-import { isWebsitePageSlug } from '@/constants/websitePageConfigs';
+import { CertificationsHubEditor } from '@/components/pages/admin/CertificationsHubEditor';
+import { ServicesPageEditor } from '@/components/pages/admin/ServicesPageEditor';
+import { StoreCatalogEditor } from '@/components/pages/admin/StoreCatalogEditor';
+import { CommunityPageEditor } from '@/components/pages/admin/CommunityPageEditor';
+import { MembershipPageEditor } from '@/components/pages/admin/MembershipPageEditor';
+import { isWebsitePageSlug, type WebsitePageSlug } from '@/constants/websitePageConfigs';
 
 export default async function SitePageEditorRoute({
   params,
@@ -17,5 +22,11 @@ export default async function SitePageEditorRoute({
     redirect('/dashboard/site-system/home');
   }
 
-  return <WebsiteDataEditor initialPage={slug} />;
+  if (slug === 'certifications') return <CertificationsHubEditor />;
+  if (slug === 'pm-service') return <ServicesPageEditor />;
+  if (slug === 'store') return <StoreCatalogEditor />;
+  if (slug === 'community') return <CommunityPageEditor />;
+  if (slug === 'membership') return <MembershipPageEditor />;
+
+  return <WebsiteDataEditor initialPage={slug as WebsitePageSlug} />;
 }

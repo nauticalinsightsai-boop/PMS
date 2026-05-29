@@ -26,6 +26,7 @@ import type { OfferingStatus } from '@/types/regional-catalogue';
 
 export interface CertificationPathwayProps {
   certificationName: string;
+  siteCertId: string;
   family: FamilyId;
   tiers: PathwayTier[];
   color?: string;
@@ -140,10 +141,11 @@ function PathwayTierPricingChips({
 
 export const PathwayCard: React.FC<{
   tier: PathwayTier;
+  siteCertId: string;
   family: FamilyId;
   color?: string;
   gradient?: string;
-}> = ({ tier, family, color, gradient }) => {
+}> = ({ tier, siteCertId, family, color, gradient }) => {
   const accent = tierAccentColor(color, family);
 
   const ctaButtonStyle: React.CSSProperties | undefined = gradient
@@ -253,6 +255,7 @@ export const PathwayCard: React.FC<{
           {tier.pathwayCta ? (
             <PathwayTierCta
               tier={tier}
+              siteCertId={siteCertId}
               pathwayCta={tier.pathwayCta}
               popular={tier.isPopular}
               gradient={gradient}
@@ -277,6 +280,7 @@ export const PathwayCard: React.FC<{
 };
 
 export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
+  siteCertId,
   family,
   tiers,
   color,
@@ -301,7 +305,13 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
             transition={{ delay: index * 0.1, duration: 0.6 }}
             className="h-full"
           >
-            <PathwayCard tier={tier} family={family} color={color} gradient={gradient} />
+            <PathwayCard
+              tier={tier}
+              siteCertId={siteCertId}
+              family={family}
+              color={color}
+              gradient={gradient}
+            />
           </motion.div>
         ))}
       </div>

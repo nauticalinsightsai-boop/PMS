@@ -5,54 +5,38 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
-  Briefcase, 
-  Settings, 
   CheckCircle2, 
   ArrowRight,
   ShieldCheck,
-  Zap,
-  Globe
 } from "lucide-react";
 import Link from "next/link";
 import { SERVICES_COPY, CTAS } from "@/lib/brand-voice";
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
+import {
+  FIELD_KEYS,
+  defaultServicesPageConfig,
+  parseServicesPageConfig,
+} from "@pms/site-content";
+import { serviceIcon } from "@/lib/service-icons";
 
-const services = [
-  {
-    title: "Pathway consultation",
-    description: "Map experience, timeline, and goals to the right PMI, PRINCE2, or Six Sigma route.",
-    icon: Briefcase,
-    benefits: ["Portfolio Strategy", "Risk Assessment", "Resource Optimization"],
-    color: "text-brand-orange",
-    bg: "bg-brand-orange/10"
-  },
-  {
-    title: "Governance & PMO",
-    description: "Clear roles, reporting, escalation, and control rhythms.",
-    icon: Settings,
-    benefits: ["Framework Design", "Standardized Reporting", "Maturity Assessment"],
-    color: "text-brand-purple",
-    bg: "bg-brand-purple/10"
-  },
-  {
-    title: "Corporate training",
-    description: "Cohort pathways with shared language and governance — not content-only delivery.",
-    icon: Globe,
-    benefits: ["Custom Curriculum", "Interactive Workshops", "Post-Training Support"],
-    color: "text-blue-600",
-    bg: "bg-blue-50 dark:bg-blue-900/10"
-  },
-  {
-    title: "Exam readiness",
-    description: "Mocks, weak-area tracking, revision, and mentor review.",
-    icon: Zap,
-    benefits: ["Scrum Implementation", "Kanban Optimization", "Cultural Alignment"],
-    color: "text-amber-600",
-    bg: "bg-amber-50 dark:bg-amber-900/10"
-  }
+const SERVICE_COLORS = [
+  { color: "text-brand-orange", bg: "bg-brand-orange/10" },
+  { color: "text-brand-purple", bg: "bg-brand-purple/10" },
+  { color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-900/10" },
+  { color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-900/10" },
 ];
 
 export function PMService() {
+  const fallback = defaultServicesPageConfig();
+  const { data: pageConfig } = usePublishedSiteDocument(FIELD_KEYS.SERVICES_PAGE_CONFIG, {
+    parse: (raw) => (raw ? parseServicesPageConfig(raw) : null),
+  });
+  const hero = pageConfig?.hero ?? fallback.hero;
+  const services = (pageConfig?.services ?? fallback.services)
+    .filter((s) => s.visible)
+    .sort((a, b) => a.sortOrder - b.sortOrder);
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -61,13 +45,13 @@ export function PMService() {
         <div className="container relative z-10 mx-auto text-center md:text-left">
           <div className="max-w-4xl mx-auto md:mx-0">
             <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              {SERVICES_COPY.heroBadge}
+              {hero.badge || SERVICES_COPY.heroBadge}
             </Badge>
             <h1 className="font-heading text-hero font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-8">
-              {SERVICES_COPY.heroTitle}
+              {hero.title || SERVICES_COPY.heroTitle}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-2xl font-medium md:mx-0 mx-auto">
-              {SERVICES_COPY.heroSubtitle}
+              {hero.subtitle || SERVICES_COPY.heroSubtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <Link href="/contact?topic=consultation">
@@ -90,9 +74,12 @@ export function PMService() {
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {services.map((service, index) => (
+            {services.map((service, index) => {
+              const Icon = serviceIcon(service.iconKey);
+              const palette = SERVICE_COLORS[index % SERVICE_COLORS.length];
+              return (
               <motion.div
-                key={service.title}
+                key={service.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -100,8 +87,8 @@ export function PMService() {
               >
                 <Card className="h-full border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden flex flex-col p-8">
                   <div className="flex items-start justify-between mb-8">
-                    <div className={cn("p-5 rounded-3xl", service.bg, service.color)}>
-                      <service.icon className="h-8 w-8" />
+                    <div className={cn("p-5 rounded-3xl", palette.bg, palette.color)}>
+                      <Icon className="h-8 w-8" />
                     </div>
                     <Badge variant="outline" className="text-[10px] uppercase font-black tracking-widest text-slate-400 px-3 py-1">
                       Service {index + 1}
@@ -119,21 +106,21 @@ export function PMService() {
                     <ul className="space-y-4 mb-8">
                       {service.benefits.map((benefit) => (
                         <li key={benefit} className="flex items-center gap-3 text-sm font-bold text-slate-900 dark:text-slate-200">
-                          <CheckCircle2 className={cn("h-5 w-5 shrink-0", service.color)} />
+                          <CheckCircle2 className={cn("h-5 w-5 shrink-0", palette.color)} />
                           {benefit}
                         </li>
                       ))}
                     </ul>
                   </CardContent>
                   
-                  <Link href="/contact" className="w-full">
+                  <Link href={service.ctaHref ?? '/contact'} className="w-full">
                     <Button variant="brand" className="w-full h-14 rounded-2xl font-bold group">
                       Learn More <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
                 </Card>
               </motion.div>
-            ))}
+            );})}
           </div>
         </div>
       </section>

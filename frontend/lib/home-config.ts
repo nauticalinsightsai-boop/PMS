@@ -2,83 +2,24 @@
 
 import { useEffect, useState } from 'react';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
+import {
+  FIELD_KEYS,
+  normalizeHomeConfigV1ToV2,
+  type HomePageConfigV2,
+} from '@pms/site-content';
 
-const HOME_CONFIG_KEY = 'home_page_config';
+const HOME_CONFIG_KEY = FIELD_KEYS.HOME_PAGE_CONFIG;
 export const HOME_PREVIEW_KEY = 'home_page_preview_config_v1';
 const HOME_PREVIEW_MESSAGE = 'pms:home-preview-config';
 
-export interface HomeHeroSlide {
-  id: number;
-  visible: boolean;
-  heading: string;
-  description: string;
-  primaryCta: string;
-  primaryLink: string;
-  secondaryCta: string;
-  secondaryLink: string;
-}
-
-export interface HomeCtaBlock {
-  title: string;
-  subtitle: string;
-  description: string;
-  ctaText: string;
-  ctaLink: string;
-}
-
-export interface HomeLatestNewsItem {
-  id: string;
-  title: string;
-  description: string;
-  link?: string;
-  visible: boolean;
-}
-
-export interface HomeFootprintEntry {
-  id: string;
-  category: string;
-  item: string;
-  location: string;
-  year?: string;
-  isActive: boolean;
-}
-
-export interface HomePageConfig {
-  heroSlides: HomeHeroSlide[];
-  instituteSection?: {
-    type: 'institute' | 'engagement' | 'speaking';
-    institute: HomeCtaBlock;
-    engagement: HomeCtaBlock;
-    speaking: HomeCtaBlock;
-  };
-  featuredItems?: {
-    showProjects: boolean;
-    showConsultancies: boolean;
-    showVentures: boolean;
-    selectedProjectIds: string[];
-    selectedConsultancyIds: string[];
-    selectedVentureIds: string[];
-  };
-  latestNewsVisible?: boolean;
-  latestNews?: HomeLatestNewsItem[];
-  globalFootprint?: HomeFootprintEntry[];
-}
-
-function parseConfig(raw: unknown): HomePageConfig | null {
-  if (!raw || typeof raw !== 'object') return null;
-  const c = raw as HomePageConfig;
-  if (!Array.isArray(c.heroSlides)) return null;
-  return c;
-}
-
-function readPreviewConfig(): HomePageConfig | null {
+function readPreviewConfig(): HomePageConfigV2 | null {
   if (typeof window === 'undefined') return null;
   const params = new URLSearchParams(window.location.search);
   if (params.get('homePreview') !== '1') return null;
   try {
     const raw = localStorage.getItem(HOME_PREVIEW_KEY);
     if (!raw) return null;
-    return parseConfig(JSON.parse(raw));
+    return normalizeHomeConfigV1ToV2(JSON.parse(raw));
   } catch {
     return null;
   }
@@ -86,12 +27,11 @@ function readPreviewConfig(): HomePageConfig | null {
 
 function isPreviewRequest() {
   if (typeof window === 'undefined') return false;
-  const params = new URLSearchParams(window.location.search);
-  return params.get('homePreview') === '1';
+  return new URLSearchParams(window.location.search).get('homePreview') === '1';
 }
 
 export function useHomePageConfig() {
-  const [config, setConfig] = useState<HomePageConfig | null>(null);
+  const [config, setConfig] = useState<HomePageConfigV2 | null>(null);
   const [isPreview, setIsPreview] = useState(false);
 
   useEffect(() => {
@@ -106,7 +46,7 @@ export function useHomePageConfig() {
       try {
         const rows = await WebsiteDataService.getData('published');
         const row = rows.find((item) => item.field_key === HOME_CONFIG_KEY);
-        setConfig(parseConfig(row?.content));
+        setConfig(normalizeHomeConfigV1ToV2(row?.content));
       } catch (err) {
         console.error('Failed to load home page config', err);
       }
@@ -119,8 +59,7 @@ export function useHomePageConfig() {
 
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type !== HOME_PREVIEW_MESSAGE) return;
-      const nextConfig = parseConfig(event.data.config);
-      if (!nextConfig) return;
+      const nextConfig = normalizeHomeConfigV1ToV2(event.data.config);
       setConfig(nextConfig);
       setIsPreview(true);
       try {
@@ -140,12 +79,10 @@ export function useHomePageConfig() {
   const ctaType = config?.instituteSection?.type ?? 'institute';
   const activeCta = config?.instituteSection?.[ctaType] ?? null;
   const latestNews = (config?.latestNews ?? []).filter((item) => item.visible);
-  const featuredIds = [
-    ...(config?.featuredItems?.selectedProjectIds ?? []),
-    ...(config?.featuredItems?.selectedConsultancyIds ?? []),
-    ...(config?.featuredItems?.selectedVentureIds ?? []),
-  ];
+  const featuredCertIds = config?.featuredPathways?.certIds ?? [];
   const activeFootprint = (config?.globalFootprint ?? []).filter((entry) => entry.isActive);
+  const visibleTestimonials = (config?.testimonials ?? []).filter((t) => t.visible);
+  const sections = config?.sections;
 
   return {
     config,
@@ -153,14 +90,24 @@ export function useHomePageConfig() {
     activeSlide,
     activeCta,
     latestNews,
-    featuredIds,
+    featuredCertIds,
     activeFootprint,
+    visibleTestimonials,
+    sections,
+    stats: config?.stats,
+    featuredPathways: config?.featuredPathways,
+    programFamilies: config?.programFamilies ?? [],
+    membership: config?.membership,
+    insightsBand: config?.insightsBand,
     heroBadge: 'Prepare with structure',
     heroTitle: activeSlide?.heading ?? '',
     heroSubtitle: activeSlide?.description ?? '',
     ctaPrimary: activeSlide?.primaryCta ?? '',
     ctaSecondary: activeSlide?.secondaryCta ?? '',
-    ctaPrimaryLink: activeSlide?.primaryLink ?? '/membership',
+    primaryAction: activeSlide?.primaryAction ?? 'register_modal',
+    ctaPrimaryLink: activeSlide?.primaryLink ?? '/contact?topic=consultation',
     ctaSecondaryLink: activeSlide?.secondaryLink ?? '/certifications',
   };
 }
+
+export type { HomePageConfigV2 };

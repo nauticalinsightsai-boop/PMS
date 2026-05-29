@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
 export default function LegacyRoute() {
-  redirect('/dashboard/site-system/pages/newsletter');
+  redirect('/dashboard/site-system/pages/community');
 }

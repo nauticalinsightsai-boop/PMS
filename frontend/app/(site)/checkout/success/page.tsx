@@ -1,17 +1,28 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
+import { enrollmentSuccessPathForOffering } from '@/lib/enrollment-routes';
 import { getOfferingById } from '@/lib/regional-catalogue';
 import { cn } from '@/lib/utils';
 
 function CheckoutSuccessContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const offeringId = searchParams.get('offering');
   const offering = offeringId ? getOfferingById(offeringId) : undefined;
+  const enrollSuccess = offeringId ? enrollmentSuccessPathForOffering(offeringId) : null;
+
+  useEffect(() => {
+    if (enrollSuccess) router.replace(`${enrollSuccess}?offering=${encodeURIComponent(offeringId!)}`);
+  }, [enrollSuccess, offeringId, router]);
+
+  if (enrollSuccess) {
+    return <p className="text-slate-500">Redirecting to enrollment confirmation…</p>;
+  }
 
   return (
     <section className={sectionSurface('blend', 'py-24')}>
@@ -30,14 +41,6 @@ function CheckoutSuccessContent() {
           <Link href="/certifications" className={cn(buttonVariants({ size: 'lg', variant: 'brand' }))}>
             Back to pathways
           </Link>
-          {offeringId && (
-            <Link
-              href={`/checkout?offering=${encodeURIComponent(offeringId)}`}
-              className={cn(buttonVariants({ variant: 'outline', size: 'lg' }))}
-            >
-              View checkout
-            </Link>
-          )}
         </div>
       </div>
     </section>

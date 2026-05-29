@@ -1,6 +1,7 @@
 import type { OfferingStatus, TierId } from '@/types/regional-catalogue';
 import { canCheckout } from '@/lib/status-normalize';
 import { hrefForCtaAction, type CtaAction } from '@/lib/cta-router';
+import { enrollPath, enrollTierSlugFromTierId, enrollmentPathForOffering } from '@/lib/enrollment-routes';
 
 export type PathwayModalMode =
   | 'enroll'
@@ -11,16 +12,148 @@ export type PathwayModalMode =
   | 'global';
 
 export interface TierPathwayCta {
+  /** Primary label on the pathway tier card. */
   label: string;
   modalMode: PathwayModalMode;
+  /** Legacy single-action href (contact / waitlist / enroll). */
   proceedHref: string;
   proceedLabel: string;
+  /** Program enrollment page when checkout is available. */
+  enrollHref: string | null;
+  enrollLabel: string;
+  /** Show “Book consultation now” alongside enroll in the preview modal. */
+  showConsultationInModal: boolean;
 }
 
 const MASTERY_TIERS: TierId[] = ['mastery', 'mastery_corporate', 'mastery_advisory'];
 
 export function isMasteryTierId(tierId: string): boolean {
   return MASTERY_TIERS.includes(tierId as TierId);
+}
+
+function enrollHrefForTier(siteCertId: string, tierId: string, offeringId: string): string {
+  return enrollmentPathForOffering(offeringId) ?? enrollPath(siteCertId, enrollTierSlugFromTierId(tierId));
+}
+
+function foundationCta(
+  siteCertId: string,
+  tierId: string,
+  offeringId: string,
+  status: OfferingStatus,
+): TierPathwayCta {
+  const enrollHref = enrollHrefForTier(siteCertId, tierId, offeringId);
+  const consultationHref = hrefForCtaAction('consultation', offeringId, siteCertId);
+  const waitlistHref = hrefForCtaAction('waitlist', offeringId, siteCertId);
+  const globalHref = hrefForCtaAction('global_checkout', offeringId, siteCertId);
+
+  if (status === 'consultation_required') {
+    return {
+      label: 'Enroll now',
+      modalMode: 'consultation',
+      proceedHref: consultationHref,
+      proceedLabel: 'Book a consultation',
+      enrollHref: null,
+      enrollLabel: 'Enroll now',
+      showConsultationInModal: true,
+    };
+  }
+  if (status === 'scholarship_unavailable') {
+    return {
+      label: 'Enroll now',
+      modalMode: 'global',
+      proceedHref: globalHref,
+      proceedLabel: 'Proceed with global pricing',
+      enrollHref: enrollHref,
+      enrollLabel: 'Enroll now',
+      showConsultationInModal: false,
+    };
+  }
+  if (status === 'waitlist') {
+    return {
+      label: 'Join waitlist',
+      modalMode: 'waitlist',
+      proceedHref: waitlistHref,
+      proceedLabel: 'Join waitlist',
+      enrollHref: null,
+      enrollLabel: 'Enroll now',
+      showConsultationInModal: false,
+    };
+  }
+
+  return {
+    label: 'Enroll now',
+    modalMode: status === 'scholarship_verify' ? 'verify' : 'enroll',
+    proceedHref: enrollHref,
+    proceedLabel: 'Enroll now',
+    enrollHref,
+    enrollLabel: 'Enroll now',
+    showConsultationInModal: false,
+  };
+}
+
+function professionalOrMasteryCta(
+  tierId: string,
+  offeringId: string,
+  siteCertId: string,
+  status: OfferingStatus,
+  matrixPrimary: string | null,
+): TierPathwayCta {
+  const enrollHref = canCheckout(status) || status === 'global_only'
+    ? enrollHrefForTier(siteCertId, tierId, offeringId)
+    : status === 'scholarship_unavailable'
+      ? enrollHrefForTier(siteCertId, tierId, offeringId)
+      : null;
+  const consultationHref = hrefForCtaAction('consultation', offeringId, siteCertId);
+  const scholarshipHref = hrefForCtaAction('scholarship_review', offeringId, siteCertId);
+  const waitlistHref = hrefForCtaAction('waitlist', offeringId, siteCertId);
+  const globalHref = hrefForCtaAction('global_checkout', offeringId, siteCertId);
+
+  if (status === 'scholarship_verify') {
+    return {
+      label: 'View pathway',
+      modalMode: 'scholarship',
+      proceedHref: scholarshipHref,
+      proceedLabel: 'Request scholarship review',
+      enrollHref,
+      enrollLabel: 'Enroll now',
+      showConsultationInModal: true,
+    };
+  }
+  if (status === 'waitlist') {
+    return {
+      label: 'Join waitlist',
+      modalMode: 'waitlist',
+      proceedHref: waitlistHref,
+      proceedLabel: 'Join waitlist',
+      enrollHref: null,
+      enrollLabel: 'Enroll now',
+      showConsultationInModal: false,
+    };
+  }
+  if (status === 'scholarship_unavailable') {
+    const lower = (matrixPrimary ?? '').toLowerCase();
+    if (lower.includes('global')) {
+      return {
+        label: 'View pathway',
+        modalMode: 'global',
+        proceedHref: globalHref,
+        proceedLabel: 'Proceed with global pricing',
+        enrollHref,
+        enrollLabel: 'Enroll now',
+        showConsultationInModal: true,
+      };
+    }
+  }
+
+  return {
+    label: 'View pathway',
+    modalMode: 'consultation',
+    proceedHref: consultationHref,
+    proceedLabel: 'Book consultation now',
+    enrollHref,
+    enrollLabel: 'Enroll now',
+    showConsultationInModal: true,
+  };
 }
 
 /** Human-readable pathway blurb (not raw matrix delivery string). */
@@ -49,8 +182,7 @@ export function tierDeliveryLine(deliveryMode: string | null | undefined): strin
 }
 
 /**
- * One primary action per tier — opens programme preview modal, then checkout or contact.
- * Professional / mastery never use direct “Enroll now” on the card (consultation-first).
+ * Primary pathway CTA per tier — opens programme preview modal, then enrollment and/or Calendly.
  */
 export function resolveTierPathwayCta(
   tierId: string,
@@ -59,120 +191,24 @@ export function resolveTierPathwayCta(
   status: OfferingStatus,
   matrixPrimary: string | null,
 ): TierPathwayCta {
-  const checkoutHref = hrefForCtaAction('checkout', offeringId, siteCertId);
-  const verifyHref = hrefForCtaAction('verify_first', offeringId, siteCertId);
-  const consultationHref = hrefForCtaAction('consultation', offeringId, siteCertId);
-  const scholarshipHref = hrefForCtaAction('scholarship_review', offeringId, siteCertId);
-  const waitlistHref = hrefForCtaAction('waitlist', offeringId, siteCertId);
-  const globalHref = hrefForCtaAction('global_checkout', offeringId, siteCertId);
-
   if (tierId === 'foundation') {
-    if (status === 'scholarship_verify') {
-      return {
-        label: 'Verify eligibility',
-        modalMode: 'verify',
-        proceedHref: verifyHref,
-        proceedLabel: 'Continue to eligibility check',
-      };
-    }
-    if (status === 'consultation_required') {
-      return {
-        label: 'Book consultation',
-        modalMode: 'consultation',
-        proceedHref: consultationHref,
-        proceedLabel: 'Book a consultation',
-      };
-    }
-    if (status === 'scholarship_unavailable') {
-      return {
-        label: 'View and enroll',
-        modalMode: 'global',
-        proceedHref: globalHref,
-        proceedLabel: 'Proceed with global pricing',
-      };
-    }
-    if (status === 'waitlist') {
-      return {
-        label: 'Join waitlist',
-        modalMode: 'waitlist',
-        proceedHref: waitlistHref,
-        proceedLabel: 'Join waitlist',
-      };
-    }
-    return {
-      label: 'View and enroll',
-      modalMode: 'enroll',
-      proceedHref: checkoutHref,
-      proceedLabel: 'Proceed to checkout',
-    };
+    return foundationCta(siteCertId, tierId, offeringId, status);
   }
 
-  if (tierId === 'professional') {
-    if (status === 'scholarship_verify') {
-      return {
-        label: 'Request scholarship',
-        modalMode: 'scholarship',
-        proceedHref: scholarshipHref,
-        proceedLabel: 'Request scholarship review',
-      };
-    }
-    if (status === 'waitlist') {
-      return {
-        label: 'Join waitlist',
-        modalMode: 'waitlist',
-        proceedHref: waitlistHref,
-        proceedLabel: 'Join waitlist',
-      };
-    }
-    if (status === 'scholarship_unavailable') {
-      const lower = (matrixPrimary ?? '').toLowerCase();
-      if (lower.includes('global')) {
-        return {
-          label: 'View and enroll',
-          modalMode: 'global',
-          proceedHref: globalHref,
-          proceedLabel: 'Proceed with global pricing',
-        };
-      }
-    }
-    return {
-      label: 'Book consultation',
-      modalMode: 'consultation',
-      proceedHref: consultationHref,
-      proceedLabel: 'Book a consultation call',
-    };
-  }
-
-  if (isMasteryTierId(tierId)) {
-    if (status === 'scholarship_verify') {
-      return {
-        label: 'Request scholarship',
-        modalMode: 'scholarship',
-        proceedHref: scholarshipHref,
-        proceedLabel: 'Request scholarship review',
-      };
-    }
-    if (status === 'waitlist') {
-      return {
-        label: 'Join waitlist',
-        modalMode: 'waitlist',
-        proceedHref: waitlistHref,
-        proceedLabel: 'Join waitlist',
-      };
-    }
-    return {
-      label: 'Book consultation',
-      modalMode: 'consultation',
-      proceedHref: consultationHref,
-      proceedLabel: 'Book a consultation call',
-    };
+  if (tierId === 'professional' || isMasteryTierId(tierId)) {
+    return professionalOrMasteryCta(tierId, offeringId, siteCertId, status, matrixPrimary);
   }
 
   const fallbackAction: CtaAction = canCheckout(status) ? 'checkout' : 'consultation';
+  const enrollHref =
+    fallbackAction === 'checkout' ? enrollHrefForTier(siteCertId, tierId, offeringId) : null;
   return {
-    label: fallbackAction === 'checkout' ? 'View and enroll' : 'Book consultation',
+    label: fallbackAction === 'checkout' ? 'Enroll now' : 'View pathway',
     modalMode: fallbackAction === 'checkout' ? 'enroll' : 'consultation',
     proceedHref: hrefForCtaAction(fallbackAction, offeringId, siteCertId),
-    proceedLabel: fallbackAction === 'checkout' ? 'Proceed to checkout' : 'Book a consultation',
+    proceedLabel: fallbackAction === 'checkout' ? 'Enroll now' : 'Book consultation now',
+    enrollHref,
+    enrollLabel: 'Enroll now',
+    showConsultationInModal: fallbackAction !== 'checkout',
   };
 }

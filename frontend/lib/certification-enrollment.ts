@@ -32,8 +32,9 @@ export function pickFeaturedPathwayCerts<T extends { id: string }>(
   certsInFamily: T[],
   familyId: PathwayFamilyTab,
   limit = FEATURED_ROW_LIMIT,
+  preferredIds?: readonly string[],
 ): T[] {
-  const preferred = FAMILY_FEATURED_CERT_IDS[familyId];
+  const preferred = preferredIds ?? FAMILY_FEATURED_CERT_IDS[familyId];
   const picked: T[] = [];
 
   for (const id of preferred) {

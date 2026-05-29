@@ -1,5 +1,5 @@
-import { PlaceholderPage } from '@/components/PlaceholderPage';
+import { SiteContentMigratePage } from '@/components/pages/admin/SiteContentMigratePage';
 
 export default function Page() {
-  return <PlaceholderPage title="System Migration" />;
+  return <SiteContentMigratePage />;
 }

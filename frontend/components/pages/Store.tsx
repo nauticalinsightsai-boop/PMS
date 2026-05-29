@@ -19,80 +19,45 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
+import { FIELD_KEYS, defaultStoreCatalog, parseStoreCatalog } from "@pms/site-content";
 
-const products = [
-  {
-    title: "PMP® 2026 Mock Exam Pack",
-    price: "$49.99",
-    category: "Mock Exams",
-    rating: 4.9,
-    reviews: 1240,
-    image: "https://picsum.photos/seed/exam/400/500",
-    description: "5 full-length exams with detailed explanations for every question.",
-    badge: "Popular"
-  },
-  {
-    title: "PMO Governance Templates",
-    price: "$79.99",
-    category: "Templates",
-    rating: 4.8,
-    reviews: 850,
-    image: "https://picsum.photos/seed/templates/400/500",
-    description: "50+ professional templates for reporting, risk, and stakeholder management.",
-    badge: "New"
-  },
-  {
-    title: "Agile Career Planner 2026",
-    price: "$24.99",
-    category: "Planners",
-    rating: 4.7,
-    reviews: 420,
-    image: "https://picsum.photos/seed/planner/400/500",
-    description: "Digital planner designed for Scrum Masters and Agile Coaches.",
-    badge: ""
-  },
-  {
-    title: "Comprehensive Exam Prep Bundle",
-    price: "$149.99",
-    category: "Bundles",
-    rating: 4.9,
-    reviews: 2100,
-    image: "https://picsum.photos/seed/bundle/400/500",
-    description: "Includes Mock Exams, Study Guides, and Flashcards for PMP & CAPM.",
-    badge: "Save 30%"
-  },
-  {
-    title: "Risk Management Study Pack",
-    price: "$34.99",
-    category: "Study Packs",
-    rating: 4.8,
-    reviews: 310,
-    image: "https://picsum.photos/seed/risk/400/500",
-    description: "Specialized resources for the PMI-RMP certification exam.",
-    badge: ""
-  },
-  {
-    title: "Six Sigma Green Belt Kit",
-    price: "$59.99",
-    category: "Study Packs",
-    rating: 4.6,
-    reviews: 180,
-    image: "https://picsum.photos/seed/sigma/400/500",
-    description: "Complete toolkit for Lean Six Sigma Green Belt candidates.",
-    badge: ""
-  }
-];
-
-const categories = [
-  { name: "All Resources", icon: Package },
-  { name: "Mock Exams", icon: BookOpen },
-  { name: "Templates", icon: FileText },
-  { name: "Planners", icon: Layout },
-  { name: "Bundles", icon: Package },
-];
+const categoryIcons: Record<string, typeof Package> = {
+  'All Resources': Package,
+  'Mock Exams': BookOpen,
+  Templates: FileText,
+  Planners: Layout,
+  Bundles: Package,
+  'Study Packs': BookOpen,
+};
 
 /** Store sections used on /community (Resource Store tab) and legacy /store redirect target */
 export function StoreContent() {
+  const fallback = defaultStoreCatalog();
+  const { data: catalog } = usePublishedSiteDocument(FIELD_KEYS.STORE_CATALOG, {
+    parse: (raw) => (raw ? parseStoreCatalog(raw) : null),
+  });
+  const products = (catalog?.products ?? fallback.products)
+    .filter((p) => p.visible)
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map((p) => ({
+      title: p.title,
+      price: p.displayPrice,
+      category: catalog?.categories.find((c) => c.id === p.categoryId)?.name ?? p.categoryId,
+      rating: p.rating ?? 4.5,
+      reviews: p.reviewCount ?? 0,
+      image: p.image?.url ?? p.imageUrl ?? 'https://picsum.photos/seed/product/400/500',
+      description: p.description,
+      badge: p.badge ?? '',
+    }));
+  const categories = [
+    { name: 'All Resources', icon: Package },
+    ...(catalog?.categories ?? fallback.categories)
+      .filter((c) => c.id !== 'all')
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((c) => ({ name: c.name, icon: categoryIcons[c.name] ?? Package })),
+  ];
+
   const [searchQuery, setSearchQuery] = React.useState("");
   const [activeCategory, setActiveCategory] = React.useState("All Resources");
 

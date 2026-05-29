@@ -21,6 +21,8 @@ export async function POST(request: Request) {
     email,
     gccCountry,
     hasMembership,
+    successUrl,
+    cancelUrl,
   } = body as {
     offeringId?: string;
     regionId?: RegionId;
@@ -29,6 +31,8 @@ export async function POST(request: Request) {
     email?: string;
     gccCountry?: string | null;
     hasMembership?: boolean;
+    successUrl?: string;
+    cancelUrl?: string;
   };
 
   if (!offeringId || !regionId || !email) {
@@ -73,12 +77,28 @@ export async function POST(request: Request) {
   }
 
   const origin = request.headers.get('origin') ?? 'http://localhost:3000';
+
+  function safeRedirectUrl(candidate: string | undefined, fallback: string): string {
+    if (!candidate?.trim()) return fallback;
+    try {
+      const parsed = new URL(candidate);
+      const base = new URL(origin);
+      if (parsed.origin !== base.origin) return fallback;
+      return parsed.toString();
+    } catch {
+      return fallback;
+    }
+  }
+
+  const defaultSuccess = `${origin}/checkout/success?offering=${offeringId}`;
+  const defaultCancel = `${origin}/checkout/cancel?offering=${offeringId}`;
+
   const session = await createStripeCheckoutSession({
     offeringId,
     usdCents,
     email,
-    successUrl: `${origin}/checkout/success?offering=${offeringId}`,
-    cancelUrl: `${origin}/checkout/cancel?offering=${offeringId}`,
+    successUrl: safeRedirectUrl(successUrl, defaultSuccess),
+    cancelUrl: safeRedirectUrl(cancelUrl, defaultCancel),
   });
 
   if (isSupabaseConfigured) {

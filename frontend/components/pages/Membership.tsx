@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Check, Users, BookOpen, Sparkles, FileText, Gift } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
+import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
+import { FIELD_KEYS, defaultMembershipPageConfig, parseMembershipPageConfig } from "@pms/site-content";
 import Link from "next/link";
 import { BRAND, HOME_COPY } from "@/lib/brand-voice";
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
@@ -125,8 +127,19 @@ function MembershipBillingToggle({
 
 export function Membership() {
   const { get } = useWebsiteData();
+  const fallback = defaultMembershipPageConfig();
+  const { data: pageConfig } = usePublishedSiteDocument(FIELD_KEYS.MEMBERSHIP_PAGE_CONFIG, {
+    parse: (raw) => (raw ? parseMembershipPageConfig(raw) : null),
+  });
+  const hero = pageConfig?.hero ?? fallback.hero;
+  const tierVisibility = pageConfig?.tiers ?? fallback.tiers;
   const { regionId, gccCountry, regionLabel } = useRegion();
-  const tiers = siteData.membershipTiers;
+  const tiers = siteData.membershipTiers.filter((tier) => {
+    const cfg = tierVisibility.find(
+      (t) => t.id === (tier.name === 'Free Tier' ? 'starter' : tier.name === 'Professional' ? 'professional' : 'mastery'),
+    );
+    return cfg ? cfg.visible : true;
+  });
   const [billing, setBilling] = useState<BillingCycle>('monthly');
   const maxAnnualSavingsPercent = useMaxAnnualSavingsPercent();
   const proRegional = getRegionalMembershipAmounts(
@@ -155,13 +168,13 @@ export function Membership() {
             transition={{ duration: 0.6 }}
           >
             <Badge className="mb-6 bg-brand-purple/10 text-brand-purple border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              {get('membership_hero_badge', 'Membership Plans')}
+              {hero.badge || get('membership_hero_badge', 'Membership Plans')}
             </Badge>
             <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
-              {get('membership_hero_title', 'Invest in Your Future Self')}
+              {hero.title || get('membership_hero_title', 'Invest in Your Future Self')}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-              {get('membership_hero_subtitle', HOME_COPY.membershipSubtitle)}
+              {hero.subtitle || get('membership_hero_subtitle', HOME_COPY.membershipSubtitle)}
             </p>
           </motion.div>
         </div>
