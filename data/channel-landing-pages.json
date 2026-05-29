@@ -12,7 +12,7 @@
       "headline": "Project Management Structure: certification and career guidance",
       "subheadline": "Book a free mentor intro or a paid pathway session. Cite the page or asset on the site when you schedule.",
       "body": "",
-      "targetMessage": "Name the page or asset you came from so we align the session to your certification goal.",
+      "targetMessage": "Reading a cert page or article? Mention it when you book. We will pick up where you left off.",
       "showSyncBanner": false,
       "syncBannerLabel": "Sync system",
       "availabilityLabel": "Mentor sessions open",
@@ -41,13 +41,13 @@
         },
         {
           "id": "services-detail",
-          "title": "Services Discussion",
-          "description": "Review services you selected on the Project Management Structure website. Cite the page or package when you book.",
+          "title": "Expert consultation",
+          "description": "Principal advisory for pathways, governance, training, and exam readiness.",
           "durationLabel": "45 Minutes",
           "priceLabel": "Paid",
           "isFree": false,
           "recommended": false,
-          "ctaLabel": "Discuss services",
+          "ctaLabel": "Talk to an expert",
           "scheduleUrl": "https://calendly.com/booking-sh3ikhmabz/go-website-services"
         }
       ],

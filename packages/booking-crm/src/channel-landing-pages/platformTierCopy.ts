@@ -6,7 +6,7 @@ import {
 } from '../types/channelLandingPage'
 import { CALENDLY_DEFAULT_SCHEDULING_URLS } from '../calendly/scheduling-urls'
 import { getChannelPortalCopy } from './channelPortalCopy'
-import { usesProConsultationPortalLayout } from './platformOfferPack'
+import { usesPortalWebsiteLayoutChrome } from './platformOfferPack'
 
 const GENERIC_INTRO_CTAS = new Set([
   'talk to a mentor',
@@ -20,7 +20,7 @@ const GENERIC_INTRO_CTAS = new Set([
 function isGenericIntroCta(label: string | undefined, channelId: string): boolean {
   const trimmed = label?.trim()
   if (!trimmed) return true
-  if (usesProConsultationPortalLayout(channelId)) return false
+  if (usesPortalWebsiteLayoutChrome(channelId)) return false
   return GENERIC_INTRO_CTAS.has(trimmed.toLowerCase())
 }
 
@@ -30,6 +30,7 @@ type PaidTierCopy = {
 }
 
 const DISCOVERY_TIER = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'discovery')!
+const DISCOVERY_TITLE = 'Certification Fit Session'
 
 const SCHEDULE_URLS = {
   discovery: CALENDLY_DEFAULT_SCHEDULING_URLS.guideDownload,
@@ -57,9 +58,9 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Structured mentor block for exam prep, pathway choice, and career direction from the site.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: 'Expert consultation',
       description:
-        'Deep review of architecture, compliance, or delivery plans tied to what you read on the site. Send summaries ahead of the call.',
+        'Principal advisory for pathways, governance, training, and exam readiness.',
     },
   },
   medium: {
@@ -376,32 +377,32 @@ type DiscoveryCopy = Pick<ConsultationTier, 'title' | 'description' | 'bestFor' 
 
 const DISCOVERY_BY_CHANNEL: Partial<Record<string, DiscoveryCopy>> = {
   webinar: {
-    title: 'Free Mentor Intro',
+    title: DISCOVERY_TITLE,
     description:
       'After the briefing. orientation on pathways, prep options, and whether a paid working session fits. Cite the webinar title or replay when you book.',
   },
   linkedin: {
-    title: '15-Min Executive Fit Check',
+    title: DISCOVERY_TITLE,
     description: 'Quick alignment on sponsor context, LinkedIn article, or connection before a deeper session.',
     bestFor: 'One executive decision or intro fit',
     outcome: 'Clear next step or longer session recommendation',
   },
   instagram: {
-    title: '15-Min Reel & Story Follow-Up',
+    title: DISCOVERY_TITLE,
     description: 'Short call after a reel, story, or feed link. name what you watched when you book.',
     bestFor: 'Quick direction after visual content',
     outcome: 'Focused next step from the clip or story',
   },
   medium: {
-    title: 'Free Mentor Intro',
+    title: DISCOVERY_TITLE,
     description: 'After a Medium article. cite the post and your certification question when you book.',
   },
   website: {
-    title: 'Free Mentor Intro',
+    title: DISCOVERY_TITLE,
     description: 'From a site page, newsletter, or knowledge asset. cite what you read when you book.',
   },
   twitter: {
-    title: '15-Min Thread Follow-Up',
+    title: DISCOVERY_TITLE,
     description: 'Expand a post or thread into structured guidance. drop the URL in your booking note.',
     bestFor: 'One thread or post you want vetted',
     outcome: 'Direction beyond what fits in a post',
@@ -410,23 +411,23 @@ const DISCOVERY_BY_CHANNEL: Partial<Record<string, DiscoveryCopy>> = {
 
 const DISCOVERY_CATEGORY_DEFAULT: Partial<Record<PlatformCategory, DiscoveryCopy>> = {
   'Writing / Publishing': {
-    title: 'Free Mentor Intro',
+    title: DISCOVERY_TITLE,
     description: 'After long-form content. Cite what you read when you book.',
   },
   'Social Distribution': {
-    title: 'Free Mentor Intro',
+    title: DISCOVERY_TITLE,
     description: 'Share which post, feed, or referral brought you here.',
   },
   'Video Platform': {
-    title: 'Free Mentor Intro',
+    title: DISCOVERY_TITLE,
     description: 'After a video. Name the title or series when you book.',
   },
   'Audio / Podcast': {
-    title: 'Free Mentor Intro',
+    title: DISCOVERY_TITLE,
     description: 'After an episode. Cite the show or episode when you book.',
   },
   'Discovery / Search': {
-    title: 'Free Mentor Intro',
+    title: DISCOVERY_TITLE,
     description: 'Clarify the problem you found via search before committing further.',
   },
 }
@@ -438,7 +439,7 @@ function discoveryCopyForChannel(channelId: string): DiscoveryCopy {
   if (cat && DISCOVERY_CATEGORY_DEFAULT[cat]) return DISCOVERY_CATEGORY_DEFAULT[cat]!
   const label = getChannelPortalCopy(channelId)?.scheduleTierCta ?? 'Book'
   return {
-    title: 'Free Mentor Intro',
+    title: DISCOVERY_TITLE,
     description: `Structured session for referrals from this channel. Use "${label}" when you schedule.`,
     bestFor: 'One focused question',
     outcome: 'Clear next step',
@@ -462,21 +463,24 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
   const paid = paidCopyForChannel(channelId)
   const discovery = discoveryCopyForChannel(channelId)
   const packCta = getChannelPortalCopy(channelId)?.scheduleTierCta
-  const introCta =
-    channelId === 'webinar' || usesProConsultationPortalLayout(channelId)
-      ? 'Talk to a mentor'
-      : packCta ?? 'Book a mentor intro'
+  const introCta = usesPortalWebsiteLayoutChrome(channelId)
+    ? 'Talk to a mentor'
+    : packCta ?? 'Book a mentor intro'
   const executiveBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'executive')!
   const designBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'design-review')!
+  const servicesTitle = paid.designReview.title || 'Expert consultation'
+  const servicesDescription =
+    paid.designReview.description ||
+    'Principal advisory for pathways, governance, training, and exam readiness. Hover to view services.'
+  const servicesCta = 'Talk to an expert'
+
   const servicesTier: ConsultationTier = {
     ...buildTier(designBase, paid.designReview, SCHEDULE_URLS.designReview),
     id: 'services-detail',
-    title: 'Services Discussion',
-    description:
-      paid.designReview.description ||
-      'Review services you selected on the website. Cite the page or package when you book.',
+    title: servicesTitle,
+    description: servicesDescription,
     recommended: false,
-    ctaLabel: 'Discuss services',
+    ctaLabel: servicesCta,
   }
 
   if (channelId === 'webinar') {
@@ -485,7 +489,7 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
         ...DISCOVERY_TIER,
         id: 'mentor-intro',
         ...discovery,
-        title: 'Free Mentor Intro',
+        title: DISCOVERY_TITLE,
         isFree: true,
         ctaLabel: introCta,
         scheduleUrl: SCHEDULE_URLS.discovery,
@@ -509,7 +513,7 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
       ...DISCOVERY_TIER,
       id: 'mentor-intro',
       ...discovery,
-      title: discovery.title === 'Free mentor intro' ? 'Free Mentor Intro' : discovery.title,
+      title: DISCOVERY_TITLE,
       isFree: true,
       ctaLabel: introCta,
       scheduleUrl: SCHEDULE_URLS.discovery,
@@ -531,6 +535,8 @@ const LEGACY_PAID_TITLES = new Set([
   'Paid Executive Strategy & Feasibility Review',
   'Project Design Review & Compliance Advisory',
   'Design & Compliance Review',
+  'Services Discussion',
+  'Certification depth session',
 ])
 
 const LEGACY_PAID_TITLE =
@@ -591,7 +597,7 @@ export function applyPlatformConsultationTiers(
         id: 'services-detail',
         scheduleUrl: s.scheduleUrl?.trim() || pt.scheduleUrl,
         recommended: false,
-        ctaLabel: s.ctaLabel?.trim() || 'Discuss services',
+        ctaLabel: s.ctaLabel?.trim() || pt.ctaLabel || 'Talk to an expert',
       }
     }
 

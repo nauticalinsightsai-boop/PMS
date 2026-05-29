@@ -4,15 +4,24 @@ import type { PortalSectionProps } from '@/components/channel-landing/portal/typ
 import { isConversionEnabledForChannel } from '@/lib/channel-landing-pages/portalConversionPacks'
 
 /** Slim trust row shown above session tiers. */
-export default function ChannelPortalTrustLine({ page, theme, sectionOrder }: PortalSectionProps) {
+export default function ChannelPortalTrustLine({
+  page,
+  theme,
+  sectionOrder,
+  portalLayoutChrome,
+}: PortalSectionProps) {
   if (!isConversionEnabledForChannel(page.channelId)) return null
 
   const items = page.conversion?.paymentMicrocopy?.slice(0, 4) ?? []
   if (!items.length) return null
 
+  const spacing = portalLayoutChrome
+    ? 'mb-6 sm:mb-8'
+    : 'mb-4 sm:mb-5'
+
   return (
     <div
-      className="portal-trust-line w-full mb-4 sm:mb-5"
+      className={`portal-trust-line w-full ${spacing}`}
       style={{ order: sectionOrder }}
       aria-label="Booking assurances"
     >

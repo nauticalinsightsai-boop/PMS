@@ -4,12 +4,13 @@ import type { ChannelLandingPage } from '@/types/channelLandingPage';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
 import { certifications } from '@/data/siteData';
 import { BRAND } from '@/lib/brand-voice';
-import { usesProConsultationPortalLayout } from '@/lib/channel-landing-pages/platformOfferPack';
+import { usesPortalWebsiteLayoutChrome } from '@/lib/channel-landing-pages/platformOfferPack';
 import PortalPathwayCard from '@/components/channel-landing/portal/PortalPathwayCard';
 
 type Props = {
   page: ChannelLandingPage;
   theme: PlatformPortalTheme;
+  sectionOrder?: number;
 };
 
 function certFor(id: string) {
@@ -22,7 +23,7 @@ function portalPathwayTitle(certId: string, fallback: string) {
   return fallback;
 }
 
-export default function PortalFeaturedPathways({ page, theme }: Props) {
+export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }: Props) {
   const engagement = page.portalEngagement;
   const ids = engagement?.featuredCertIds?.length
     ? engagement.featuredCertIds
@@ -31,14 +32,15 @@ export default function PortalFeaturedPathways({ page, theme }: Props) {
   const featured = ids.slice(0, 2);
   if (featured.length === 0) return null;
 
-  const proShell = usesProConsultationPortalLayout(page.channelId);
-  const subtitle = proShell
+  const layoutChrome = usesPortalWebsiteLayoutChrome(page.channelId);
+  const subtitle = layoutChrome
     ? `${BRAND.name}: view pathways, cohort timing, and regional tuition on the website.`
     : `${BRAND.name}: view pathways, cohort timing, and regional tuition for your certification track.`;
 
   return (
     <section
       className="portal-featured-pathways mb-6 sm:mb-8"
+      style={{ order: sectionOrder }}
       aria-label="Featured certification pathways"
     >
       <div className="portal-tier-section-head mb-4 space-y-1">

@@ -1,5 +1,6 @@
 import type { PortalConversionContent, PortalSocialProofItem } from '../types/channelLandingPage'
 import { BRAND_FULL_NAME } from './portalBrandConstants'
+import { getChannelConversionOverride } from './portalChannelConversionOverrides'
 import { getPortalLearnerStories } from './portalLearnerStories'
 
 export type LearnerAudienceTone = 'executive' | 'creator' | 'reader' | 'community' | 'search'
@@ -21,9 +22,16 @@ export function learnerAudienceTone(channelId: string, label: string): LearnerAu
 
 /** Quotes tab first in UI — learner voices before platform stats. */
 export function getCredibilityTabLabels(
-  _channelId: string,
+  channelId: string,
   _label = ''
 ): { metrics: string; quotes: string } {
+  const override = getChannelConversionOverride(channelId)
+  if (override) {
+    return {
+      quotes: override.credibilityTabLabels.quotes,
+      metrics: override.credibilityTabLabels.metrics,
+    }
+  }
   return { quotes: 'Learner voices', metrics: 'Platform track record' }
 }
 
@@ -55,6 +63,9 @@ export function buildLearnerValueCards(
   evidence: string,
   tone: LearnerAudienceTone
 ): NonNullable<PortalConversionContent['valueCards']> {
+  const override = getChannelConversionOverride(channelId)
+  if (override?.valueCards.length) return override.valueCards
+
   const label = channelLabel || channelId
   const siteLine =
     channelId === 'website' || channelId === 'webinar'

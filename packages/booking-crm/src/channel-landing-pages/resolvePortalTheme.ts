@@ -11,57 +11,6 @@ import {
   pickReadableForeground,
 } from './contrastUtils'
 
-function isDarkHex(hex: string): boolean {
-  const h = hex.replace('#', '')
-  if (h.length !== 6) return false
-  const r = parseInt(h.slice(0, 2), 16)
-  const g = parseInt(h.slice(2, 4), 16)
-  const b = parseInt(h.slice(4, 6), 16)
-  const luma = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-  return luma < 0.45
-}
-
-function deriveDarkFromLight(light: PlatformPortalTheme): Partial<PlatformPortalTheme> {
-  const primaryFg = pickReadableForeground(light.primary)
-  const recommendedBg =
-    typeof light.recommendedBg === 'string' && !light.recommendedBg.includes('gradient')
-      ? light.recommendedBg
-      : light.primary
-  const recommendedText = pickReadableForeground(
-    typeof recommendedBg === 'string' && !recommendedBg.includes('gradient')
-      ? recommendedBg
-      : light.primary
-  )
-  const heroBg =
-    typeof light.heroBg === 'string' && !light.heroBg.includes('gradient')
-      ? light.heroBg
-      : light.primary
-  const heroText = pickReadableForeground(
-    typeof heroBg === 'string' && !heroBg.includes('gradient') ? heroBg : light.primary
-  )
-
-  return {
-    background: isDarkHex(light.background) ? light.background : '#0A0A0B',
-    surface: isDarkHex(light.surface) ? light.surface : '#141416',
-    surfaceMuted: isDarkHex(light.surfaceMuted) ? light.surfaceMuted : '#1C1C1F',
-    text: '#F4F4F5',
-    textMuted: '#A1A1AA',
-    cardBg: isDarkHex(light.cardBg) ? light.cardBg : '#18181B',
-    cardBorder: '#27272A',
-    quoteBg: '#18181B',
-    heroBg,
-    heroText,
-    primaryForeground: primaryFg,
-    accentForeground: pickReadableForeground(light.accent),
-    recommendedBg,
-    recommendedText,
-    freeBadgeBg: '#14291F',
-    freeBadgeText: '#4ADE80',
-    priceBadgeBg: '#27272A',
-    linkColor: '#F4F4F5',
-  }
-}
-
 /** Replace light-mode tints that survive partial dark overrides (e.g. Medium price pills). */
 function harmonizeDarkPortalTheme(theme: PlatformPortalTheme): PlatformPortalTheme {
   const pageBg = solidHex(theme.background, '#0A0A0B')
@@ -165,5 +114,8 @@ export function portalThemeToCssVars(theme: PlatformPortalTheme): Record<string,
     '--portal-recommended-fg': theme.recommendedText ?? theme.primaryForeground,
     '--portal-quote-bg': theme.quoteBg,
     '--portal-quote-border': theme.quoteBorder,
+    '--portal-radius': theme.radius,
+    '--portal-radius-lg': theme.radiusLg,
+    '--portal-font': theme.fontFamily,
   }
 }

@@ -4,11 +4,12 @@ import { Clock } from 'lucide-react'
 import type { ConsultationTier } from '@/types/channelLandingPage'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 import { scheduleTierClick } from '@/components/channel-landing/portal/scheduleTierClick'
-import { pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils'
+import { meetsContrast, pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils'
 import { getTierSchedulingLine } from '@/lib/channel-landing-pages/channelPortalCopy'
 import { isConversionEnabledForChannel } from '@/lib/channel-landing-pages/portalConversionPacks'
 import { getLegalDocumentPath } from '@/constants/legal'
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
+import PortalAdvisoryServicesReveal from '@/components/channel-landing/portal/PortalAdvisoryServicesReveal'
 
 type Props = PortalSectionProps & {
   tiers: ConsultationTier[]
@@ -19,10 +20,26 @@ function solidHex(color: string, fallback: string): string {
   return color.startsWith('#') && color.length === 7 ? color : fallback
 }
 
+function cssColorToHex(color: string): string | null {
+  const c = color.trim()
+  if (/^#[0-9a-fA-F]{6}$/.test(c)) return c
+  const m = c.match(
+    /^rgba?\(\s*([01]?\d?\d|2[0-4]\d|25[0-5])\s*,\s*([01]?\d?\d|2[0-4]\d|25[0-5])\s*,\s*([01]?\d?\d|2[0-4]\d|25[0-5])(?:\s*,\s*(0|1|0?\.\d+))?\s*\)$/i
+  )
+  if (!m) return null
+  const r = Number(m[1]).toString(16).padStart(2, '0')
+  const g = Number(m[2]).toString(16).padStart(2, '0')
+  const b = Number(m[3]).toString(16).padStart(2, '0')
+  return `#${r}${g}${b}`
+}
+
 /** Tinted (rgba) badges use the theme token; solid fills get contrast-safe text. */
 function portalTintBadgeText(bg: string, token: string, underlay: string): string {
-  if (!solidHex(bg, '')) return token
-  return pickReadableForeground(solidHex(bg, underlay))
+  const bgHex = cssColorToHex(bg) ?? cssColorToHex(underlay)
+  if (!bgHex) return token
+  const tokenHex = cssColorToHex(token)
+  if (tokenHex && meetsContrast(tokenHex, bgHex, 4.5)) return tokenHex
+  return pickReadableForeground(bgHex)
 }
 
 function portalMutedChipText(theme: PlatformPortalTheme): string {
@@ -38,7 +55,7 @@ export default function ChannelPortalTiersSection({
   scheduleCta,
   layoutVariant,
   isImpulseFlow,
-  proPortalShell,
+  marketingAmbience,
 }: Props) {
   const tierHeading =
     page.channelId === 'webinar'
@@ -112,12 +129,16 @@ export default function ChannelPortalTiersSection({
                 {tier.title}
               </h4>
 
-              <p
-                className="portal-tier-desc text-body-sm leading-relaxed"
-                style={{ color: theme.textMuted, fontFamily: theme.fontFamily }}
-              >
-                {tier.description}
-              </p>
+              {tier.id === 'services-detail' && showConversionHints ? (
+                <PortalAdvisoryServicesReveal theme={theme} description={tier.description} />
+              ) : (
+                <p
+                  className="portal-tier-desc text-body-sm leading-relaxed"
+                  style={{ color: theme.textMuted, fontFamily: theme.fontFamily }}
+                >
+                  {tier.description}
+                </p>
+              )}
 
               <div
                 className={`portal-tier-footer flex flex-col gap-3 pt-1 w-full${!isImpulseFlow ? ' sm:flex-row sm:items-center sm:justify-between' : ''}`}
@@ -176,7 +197,7 @@ export default function ChannelPortalTiersSection({
 
                 {(() => {
                   const useBold = layoutVariant === 'bold' && isImpulseFlow
-                  const useWebsitePrimary = Boolean(proPortalShell)
+                  const useWebsitePrimary = Boolean(marketingAmbience)
                   const recBg =
                     typeof theme.recommendedBg === 'string' && !theme.recommendedBg.includes('gradient')
                       ? theme.recommendedBg

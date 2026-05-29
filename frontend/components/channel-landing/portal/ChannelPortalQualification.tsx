@@ -41,12 +41,12 @@ export default function ChannelPortalQualification({
   page,
   theme,
   sectionOrder,
-  proPortalShell,
+  portalLayoutChrome,
 }: PortalSectionProps) {
   if (!isConversionEnabledForChannel(page.channelId)) return null
   const forList = page.conversion?.qualificationFor?.slice(0, 4)
   const notFor = page.conversion?.qualificationNotFor?.slice(0, 4)
-  const intro = proPortalShell ? page.conversion?.credibilityBody : undefined
+  const intro = portalLayoutChrome ? page.conversion?.credibilityBody : undefined
   const valueCards = page.conversion?.valueCards?.slice(0, MAX_VALUE_ITEMS)
   const riskLine = page.conversion?.riskReversal?.trim()
   if (!forList?.length && !notFor?.length && !valueCards?.length && !intro && !riskLine) return null

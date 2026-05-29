@@ -13,3 +13,9 @@ export {
   buildFullPreviewUrl,
   buildGoPagePath,
 } from './channel-landing-pages/shareUrl';
+export {
+  buildGoPathForChannelId,
+  getScope41PortalGoLinks,
+  groupPortalGoLinksByCategory,
+  type PortalGoLink,
+} from './channel-landing-pages/portalGoLinks';

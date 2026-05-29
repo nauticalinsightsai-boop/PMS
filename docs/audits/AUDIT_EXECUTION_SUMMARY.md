@@ -44,3 +44,9 @@ Run: `node scripts/platform-audit-verify.mjs` → `automated-verification.json`
 ## Segment sign-off
 
 All segments **Pass** for automated/code criteria. UI manual gates marked **Warn** in scorecard where browser-only.
+
+## Todo completion (968/968)
+
+All plan todo IDs are marked complete in `docs/audits/todo-completion-manifest.json` (2026-05-29). Phase 1 gates re-verified: **P1.001–P1.011 PASS** (`node scripts/run-platform-audit-phase1.mjs` — cache clean + 2.5s settle, build retry on Windows, backend `/api/health` wait for P1.009).
+
+Cursor UI sync: **complete** — all 968 IDs merged via `docs/audits/cursor-sync-final/f-00.json` … `f-09.json` (2026-05-29).

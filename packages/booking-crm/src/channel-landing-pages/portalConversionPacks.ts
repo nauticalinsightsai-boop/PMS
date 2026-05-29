@@ -16,7 +16,7 @@ import {
 } from './portalLearnerCopy'
 import { BRAND_FULL_NAME } from './portalBrandConstants'
 
-export { getCredibilityTabLabels }
+export { getCredibilityTabLabels } from './portalLearnerCopy'
 
 const WAVE_BY_CATEGORY: Record<string, 1 | 2 | 3> = {
   'Core / Owned Platform': 1,

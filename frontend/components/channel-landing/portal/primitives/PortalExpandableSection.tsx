@@ -45,7 +45,16 @@ export default function PortalExpandableSection({
         <button
           type="button"
           onClick={onToggleClick}
-          className="group flex flex-col items-start gap-1 text-left cursor-pointer w-full bg-transparent border-0 pb-2 pt-0 px-0 outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/40 rounded-sm"
+          className="group flex flex-col items-start gap-1 text-left cursor-pointer w-full bg-transparent border-0 pb-2 pt-0 px-0 outline-none focus:outline-none rounded-sm"
+          style={{
+            boxShadow: 'none',
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.boxShadow = `0 0 0 2px ${theme.primary}66`
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.boxShadow = 'none'
+          }}
           aria-expanded={isExpanded}
         >
           <div className="flex items-center gap-2 w-full">

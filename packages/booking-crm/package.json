@@ -15,7 +15,8 @@
     "./migrateChannelPages": "./src/channel-landing-pages/migrateChannelPages.ts",
     "./lead-attribution": "./src/channel-landing-pages/lead-attribution.ts",
     "./constants/channelGroups": "./src/constants/channelGroups.ts",
-    "./repository": "./src/channel-landing-pages/repository.ts"
+    "./repository": "./src/channel-landing-pages/repository.ts",
+    "./channel-landing-pages/portalGoLinks": "./src/channel-landing-pages/portalGoLinks.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

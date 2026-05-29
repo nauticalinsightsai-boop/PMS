@@ -1,5 +1,7 @@
 import type { PlatformPortalTheme } from './platformThemes'
 import { IMPLEMENTATION_SCOPE_41 } from './platformBrandSources'
+import { deriveDarkFromLight } from './platformThemeDerive'
+import { PLATFORM_DARK_SCOPE_EXTENDED } from './platformScopePalettes'
 
 export type PortalColorMode = 'dark' | 'light'
 
@@ -255,6 +257,8 @@ export const PLATFORM_DARK_OVERRIDES: Record<string, Partial<PlatformPortalTheme
     textMuted: '#8696A0',
     cardBg: '#1F2C34',
     cardBorder: '#2A3942',
+    quoteBg: '#1F2C34',
+    quoteBorder: '#25D366',
   },
 }
 
@@ -278,26 +282,6 @@ function genericDarkPalette(theme: PlatformPortalTheme): Partial<PlatformPortalT
   }
 }
 
-function scopedDarkBaseline(theme: PlatformPortalTheme): Partial<PlatformPortalTheme> {
-  return {
-    background: '#0B1018',
-    surface: '#121A26',
-    surfaceMuted: '#1B2635',
-    text: '#E6EDF7',
-    textMuted: '#A8B6CC',
-    cardBg: '#121A26',
-    cardBorder: '#253247',
-    quoteBg: '#141E2B',
-    quoteBorder: theme.primary,
-    freeBadgeBg: '#1B2A20',
-    freeBadgeText: '#7EE2A8',
-    priceBadgeBg: '#1F2534',
-    priceBadgeText: '#E6EDF7',
-    primaryForeground: '#FFFFFF',
-    accentForeground: '#FFFFFF',
-  }
-}
-
 /** @deprecated Use resolvePortalTheme(channelId, mode) for full palettes. */
 export function applyPortalColorMode(
   theme: PlatformPortalTheme,
@@ -306,8 +290,17 @@ export function applyPortalColorMode(
   if (mode === 'light') return theme
   const darkPartial =
     PLATFORM_DARK_OVERRIDES[theme.channelId] ??
+    PLATFORM_DARK_SCOPE_EXTENDED[theme.channelId] ??
     (IMPLEMENTATION_SCOPE_41_SET.has(theme.channelId)
-      ? scopedDarkBaseline(theme)
+      ? deriveDarkFromLight(theme)
       : genericDarkPalette(theme))
   return { ...theme, ...darkPartial }
+}
+
+/** True when dark mode would use the legacy bluish scoped baseline (must stay false for scope-41). */
+export function usesBluishScopedDarkBaseline(channelId: string, light: PlatformPortalTheme): boolean {
+  if (PLATFORM_DARK_OVERRIDES[channelId] || PLATFORM_DARK_SCOPE_EXTENDED[channelId]) return false
+  if (!IMPLEMENTATION_SCOPE_41_SET.has(channelId)) return false
+  const derived = deriveDarkFromLight(light)
+  return derived.background === '#0B1018'
 }

@@ -29,10 +29,10 @@ export default function ChannelPortalContextSection({
   sectionOrder,
   channelId,
   isImpulseFlow,
-  proPortalShell,
+  portalLayoutChrome,
 }: PortalSectionProps) {
   const isInstagram = channelId === 'instagram'
-  const useSiteGlass = Boolean(proPortalShell)
+  const useSiteGlass = Boolean(portalLayoutChrome)
 
   if (isImpulseFlow) {
     return (
@@ -77,6 +77,11 @@ export default function ChannelPortalContextSection({
             liquid
             hover={false}
             className="p-5 sm:p-6 mb-4 w-full portal-website-target-message"
+            style={{
+              borderRadius: theme.radiusLg,
+              backgroundColor: theme.quoteBg,
+              border: `1px solid ${theme.quoteBorder}`,
+            }}
             data-portal-glass="true"
           >
             <p className={targetMessageClass} style={{ color: theme.text, fontFamily: theme.fontFamily }}>

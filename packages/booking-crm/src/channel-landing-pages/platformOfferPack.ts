@@ -11,6 +11,7 @@ import {
   applyPlatformConsultationTiers,
   getConsultationTiersForChannel,
 } from './platformTierCopy'
+import { IMPLEMENTATION_SCOPE_41 } from './platformBrandSources'
 
 export type PricingTier =
   | 'genz'
@@ -30,6 +31,8 @@ export type PortalSectionId =
   | 'presence'
   | 'hero'
   | 'context'
+  | 'webinar_media'
+  | 'featured_pathways'
   | 'trust'
   | 'hero_card'
   | 'tiers'
@@ -37,6 +40,7 @@ export type PortalSectionId =
   | 'social_proof'
   | 'credibility'
   | 'faq'
+  | 'pathway_actions'
   | 'risk_reversal'
   | 'payment_trust'
   | 'form'
@@ -123,18 +127,24 @@ const LAYOUT_BY_CATEGORY: Record<string, PortalLayoutVariant> = {
   'Syndication / Automation': 'minimal',
 }
 
-/** Conversion order: hook → book early → proof/offer → objections (FAQ) → final CTA */
-const PROFESSIONAL_FLOW: PortalSectionId[] = [
+/**
+ * Canonical portal section order (website reference). All /go/{slug} pages use this
+ * structure; per-slug theming and copy only.
+ */
+export const PROFESSIONAL_FLOW: PortalSectionId[] = [
   'presence',
   'hero',
   'context',
-  'trust',
+  'webinar_media',
+  'featured_pathways',
   'hero_card',
+  'trust',
   'tiers',
   'social_proof',
   'credibility',
   'qualification',
   'faq',
+  'pathway_actions',
   'form',
   'final_cta',
   'social_footer',
@@ -161,18 +171,28 @@ function flowForChannel(_channelId: string): PortalSectionId[] {
   return PROFESSIONAL_FLOW
 }
 
-/** Channels that use the marketing home shell (gradient, glass cards, footer site chips). */
+const IMPLEMENTATION_SCOPE_41_SET = new Set(IMPLEMENTATION_SCOPE_41)
+
+/**
+ * Website reference layout for every scope-41 `/go/{slug}`: glass cards, footer site
+ * chips, hero region-only utilities, qualification intro — platform theme/colors unchanged.
+ */
+export function usesPortalWebsiteLayoutChrome(channelId: string): boolean {
+  return IMPLEMENTATION_SCOPE_41_SET.has(channelId)
+}
+
+/** Channels that use the marketing home gradient + orbs (`portal-website` shell). */
 export const PRO_CONSULTATION_PORTAL_CHANNELS = new Set<string>(['website', 'webinar'])
 
 /**
- * Website-style consultation portal: presence strip, in-column hero stack,
- * marketing shell (gradient + glass), site chips in final CTA footer.
+ * Marketing ambience only (gradient background, site font stack). Layout chrome is
+ * {@link usesPortalWebsiteLayoutChrome} for all 41 slugs.
  */
 export function usesProConsultationPortalLayout(channelId: string): boolean {
   return PRO_CONSULTATION_PORTAL_CHANNELS.has(channelId)
 }
 
-/** @deprecated Impulse layout retired — all `/go/*` portals use {@link usesProConsultationPortalLayout}. */
+/** @deprecated Impulse layout retired — all `/go/*` portals share {@link PROFESSIONAL_FLOW}. */
 export function isImpulseLayoutChannel(_channelId: string): boolean {
   return false
 }

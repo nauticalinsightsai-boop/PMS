@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import type { PortalProofMetric, PortalSocialProofItem } from '@/types/channelLandingPage'
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
-import { getCredibilityTabLabels } from '@/lib/channel-landing-pages/portalConversionPacks'
+import { getCredibilityTabLabels } from '@/lib/channel-landing-pages/portalLearnerCopy'
 
 type TabId = 'metrics' | 'quotes'
 
@@ -16,18 +16,22 @@ function initialsFromName(name: string): string {
 function LearnerAvatar({
   item,
   theme,
+  channelId,
 }: {
   item: PortalSocialProofItem
   theme: PlatformPortalTheme
+  channelId?: string
 }) {
+  const avatarRadius = channelId === 'snapchat' ? theme.radiusLg : '9999px'
   const [failed, setFailed] = useState(false)
   const initials = initialsFromName(item.name)
 
   if (!item.avatarUrl || failed) {
     return (
       <div
-        className="w-12 h-12 rounded-full flex items-center justify-center text-meta font-semibold shrink-0"
+        className="w-12 h-12 flex items-center justify-center text-meta font-semibold shrink-0"
         style={{
+          borderRadius: avatarRadius,
           border: `1px solid ${theme.cardBorder}`,
           backgroundColor: theme.surfaceMuted,
           color: theme.text,
@@ -42,11 +46,11 @@ function LearnerAvatar({
   return (
     <img
       src={item.avatarUrl}
-      alt=""
+      alt={item.name}
       width={48}
       height={48}
-      className="w-12 h-12 rounded-full object-cover shrink-0"
-      style={{ border: `1px solid ${theme.cardBorder}` }}
+      className="w-12 h-12 object-cover shrink-0"
+      style={{ borderRadius: avatarRadius, border: `1px solid ${theme.cardBorder}` }}
       onError={() => setFailed(true)}
     />
   )
@@ -148,11 +152,11 @@ export default function PortalCredibilityTabs({
                   className="m-0 h-full p-4 sm:p-5 flex gap-3 sm:gap-4"
                   style={{
                     borderRadius: theme.radiusLg,
-                    backgroundColor: theme.surface,
-                    border: `1px solid ${theme.cardBorder}`,
+                    backgroundColor: theme.quoteBg,
+                    border: `1px solid ${theme.quoteBorder}`,
                   }}
                 >
-                  <LearnerAvatar item={q} theme={theme} />
+                  <LearnerAvatar item={q} theme={theme} channelId={channelId} />
                   <div className="min-w-0 flex-1">
                     <blockquote className="m-0">
                       <p className="text-body-sm leading-relaxed" style={{ color: theme.text }}>

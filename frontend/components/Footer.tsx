@@ -23,10 +23,10 @@ import {
 import { SectionAmbience } from '@/components/SectionAmbience';
 
 const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
-  { label: 'Membership', href: '/membership' },
   { label: 'Certifications', href: '/certifications' },
   { label: 'Compare pathways', href: '/certifications/compare', highlight: true },
   { label: 'Resource store', href: '/community?view=store' },
+  { label: 'Membership', href: '/membership' },
 ];
 
 export function Footer() {

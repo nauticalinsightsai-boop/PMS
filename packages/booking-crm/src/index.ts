@@ -14,4 +14,10 @@ export {
   buildLegacyGoSlugRedirects,
   getPublishedGoChannelSlugs,
 } from './channel-landing-pages/goSlugRedirects';
+export {
+  buildGoPathForChannelId,
+  getScope41PortalGoLinks,
+  groupPortalGoLinksByCategory,
+  type PortalGoLink,
+} from './channel-landing-pages/portalGoLinks';
 export { assertTierDurationsValid } from './channel-landing-pages/tierDuration';
