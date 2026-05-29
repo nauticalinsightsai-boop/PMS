@@ -1,28 +1,63 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Plus, Trash2 } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
-import { FIELD_KEYS, defaultStoreCatalog, parseStoreCatalog, type StoreCatalog } from '@pms/site-content';
-import { WebsiteDataService } from '@/services/WebsiteDataService';
+import {
+  FIELD_KEYS,
+  defaultStoreCatalog,
+  parseStoreCatalog,
+  type StoreCatalog,
+} from '@pms/site-content';
+import { useSiteDocumentDraft } from '@/hooks/useSiteDocumentDraft';
 import { SiteDocumentEditorShell } from './site-content/SiteDocumentEditorShell';
 
-export function StoreCatalogEditor() {
-  const defaultValue = defaultStoreCatalog();
-  const [config, setConfig] = useState<StoreCatalog>(defaultValue);
-  const [baseline, setBaseline] = useState(JSON.stringify(defaultValue));
-  const [isLoading, setIsLoading] = useState(true);
-  const [updatedAt, setUpdatedAt] = useState<Date>();
+function defaultCategoryId(catalog: StoreCatalog): string {
+  const first = catalog.categories.find((c) => c.id !== 'all');
+  return first?.id ?? catalog.categories[0]?.id ?? 'mock-exams';
+}
 
-  useEffect(() => {
-    WebsiteDataService.getData('draft').then((rows) => {
-      const row = rows.find((r) => r.field_key === FIELD_KEYS.STORE_CATALOG);
-      const next = row?.content ? parseStoreCatalog(row.content) : defaultValue;
-      setConfig(next);
-      setBaseline(JSON.stringify(next));
-      setUpdatedAt(row?.updated_at ? new Date(row.updated_at) : undefined);
-      setIsLoading(false);
-    });
-  }, [defaultValue]);
+function newStoreProduct(catalog: StoreCatalog) {
+  const sortOrder = catalog.products.length;
+  return {
+    id: `product-${Date.now()}`,
+    title: 'New product',
+    description: '',
+    categoryId: defaultCategoryId(catalog),
+    price: 0,
+    currency: 'USD',
+    displayPrice: '$0.00',
+    visible: true,
+    sortOrder,
+  };
+}
+
+export function StoreCatalogEditor() {
+  const { config, setConfig, baseline, setBaseline, isLoading, loadError, updatedAt } =
+    useSiteDocumentDraft(FIELD_KEYS.STORE_CATALOG, defaultStoreCatalog, parseStoreCatalog);
+
+  const addProduct = () => {
+    setConfig((c) => ({
+      ...c,
+      products: [...c.products, newStoreProduct(c)],
+    }));
+  };
+
+  const removeProduct = (idx: number) => {
+    const product = config.products[idx];
+    if (
+      product &&
+      !window.confirm(`Remove "${product.title || product.id}" from the catalog?`)
+    ) {
+      return;
+    }
+    setConfig((c) => ({
+      ...c,
+      products: c.products
+        .filter((_, i) => i !== idx)
+        .map((p, i) => ({ ...p, sortOrder: i })),
+    }));
+  };
 
   return (
     <SiteDocumentEditorShell
@@ -33,12 +68,44 @@ export function StoreCatalogEditor() {
       baseline={baseline}
       setBaseline={setBaseline}
       isLoading={isLoading}
+      loadError={loadError}
       lastSynced={updatedAt}
       publicPreviewPath="/community?view=store"
     >
       <GlassCard className="p-6 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-muted-foreground">
+            {config.products.length} product{config.products.length === 1 ? '' : 's'}
+          </p>
+          <button
+            type="button"
+            onClick={addProduct}
+            className="text-sm font-bold text-brand-orange flex items-center gap-1"
+          >
+            <Plus className="h-4 w-4" aria-hidden />
+            Add product
+          </button>
+        </div>
+
+        {config.products.length === 0 && (
+          <p className="text-sm text-slate-500 py-6 text-center rounded-xl border border-dashed">
+            No products yet. Click Add product to create one.
+          </p>
+        )}
+
         {config.products.map((product, idx) => (
           <div key={product.id} className="p-4 border rounded-2xl space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-mono text-muted-foreground">{product.id}</span>
+              <button
+                type="button"
+                onClick={() => removeProduct(idx)}
+                className="text-xs text-red-500 flex items-center gap-1 font-semibold hover:text-red-600"
+              >
+                <Trash2 className="h-3 w-3" aria-hidden />
+                Remove
+              </button>
+            </div>
             <input
               value={product.title}
               onChange={(e) =>
@@ -48,6 +115,7 @@ export function StoreCatalogEditor() {
                   return { ...c, products };
                 })
               }
+              placeholder="Product title"
               className="w-full border rounded-xl px-3 py-2 text-sm font-bold"
             />
             <textarea
@@ -59,27 +127,55 @@ export function StoreCatalogEditor() {
                   return { ...c, products };
                 })
               }
+              placeholder="Description"
               className="w-full border rounded-xl px-3 py-2 text-sm h-16"
             />
-            <div className="grid grid-cols-2 gap-2">
-              <input
-                type="number"
-                value={product.price}
+            <label className="block space-y-1">
+              <span className="text-xs font-bold uppercase text-muted-foreground">Category</span>
+              <select
+                value={product.categoryId}
                 onChange={(e) =>
                   setConfig((c) => {
                     const products = [...c.products];
-                    const price = Number(e.target.value) || 0;
-                    products[idx] = {
-                      ...products[idx],
-                      price,
-                      displayPrice: `$${price.toFixed(2)}`,
-                    };
+                    products[idx] = { ...products[idx], categoryId: e.target.value };
                     return { ...c, products };
                   })
                 }
-                className="border rounded-xl px-3 py-2 text-sm"
-              />
-              <label className="flex items-center gap-2 text-sm">
+                className="w-full border rounded-xl px-3 py-2 text-sm bg-transparent"
+              >
+                {config.categories
+                  .filter((cat) => cat.id !== 'all')
+                  .map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
+                  ))}
+              </select>
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <label className="block space-y-1">
+                <span className="text-xs font-bold uppercase text-muted-foreground">Price (USD)</span>
+                <input
+                  type="number"
+                  min={0}
+                  step={0.01}
+                  value={product.price}
+                  onChange={(e) =>
+                    setConfig((c) => {
+                      const products = [...c.products];
+                      const price = Number(e.target.value) || 0;
+                      products[idx] = {
+                        ...products[idx],
+                        price,
+                        displayPrice: `$${price.toFixed(2)}`,
+                      };
+                      return { ...c, products };
+                    })
+                  }
+                  className="w-full border rounded-xl px-3 py-2 text-sm"
+                />
+              </label>
+              <label className="flex items-end gap-2 pb-2 text-sm">
                 <input
                   type="checkbox"
                   checked={product.visible}
@@ -91,7 +187,7 @@ export function StoreCatalogEditor() {
                     })
                   }
                 />
-                Visible
+                Visible in store
               </label>
             </div>
           </div>

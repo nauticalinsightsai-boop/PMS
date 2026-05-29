@@ -1,33 +1,22 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import {
   FIELD_KEYS,
   defaultMembershipPageConfig,
   parseMembershipPageConfig,
-  type MembershipPageConfig,
 } from '@pms/site-content';
-import { WebsiteDataService } from '@/services/WebsiteDataService';
+import { useSiteDocumentDraft } from '@/hooks/useSiteDocumentDraft';
 import { SiteDocumentEditorShell } from './site-content/SiteDocumentEditorShell';
 
 export function MembershipPageEditor() {
-  const defaultValue = defaultMembershipPageConfig();
-  const [config, setConfig] = useState<MembershipPageConfig>(defaultValue);
-  const [baseline, setBaseline] = useState(JSON.stringify(defaultValue));
-  const [isLoading, setIsLoading] = useState(true);
-  const [updatedAt, setUpdatedAt] = useState<Date>();
-
-  useEffect(() => {
-    WebsiteDataService.getData('draft').then((rows) => {
-      const row = rows.find((r) => r.field_key === FIELD_KEYS.MEMBERSHIP_PAGE_CONFIG);
-      const next = row?.content ? parseMembershipPageConfig(row.content) : defaultValue;
-      setConfig(next);
-      setBaseline(JSON.stringify(next));
-      setUpdatedAt(row?.updated_at ? new Date(row.updated_at) : undefined);
-      setIsLoading(false);
-    });
-  }, [defaultValue]);
+  const { config, setConfig, baseline, setBaseline, isLoading, loadError, updatedAt } =
+    useSiteDocumentDraft(
+      FIELD_KEYS.MEMBERSHIP_PAGE_CONFIG,
+      defaultMembershipPageConfig,
+      parseMembershipPageConfig,
+    );
 
   return (
     <SiteDocumentEditorShell
@@ -38,6 +27,7 @@ export function MembershipPageEditor() {
       baseline={baseline}
       setBaseline={setBaseline}
       isLoading={isLoading}
+      loadError={loadError}
       lastSynced={updatedAt}
       publicPreviewPath="/membership"
     >

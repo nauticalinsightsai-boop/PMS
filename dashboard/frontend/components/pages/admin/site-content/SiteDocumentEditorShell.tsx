@@ -17,6 +17,7 @@ type Props<T> = {
   baseline: string;
   setBaseline: (v: string) => void;
   isLoading: boolean;
+  loadError?: string | null;
   lastSynced?: Date;
   publicPreviewPath: string;
   previewMessageType?: string;
@@ -31,6 +32,7 @@ export function SiteDocumentEditorShell<T extends Record<string, unknown>>({
   baseline,
   setBaseline,
   isLoading,
+  loadError,
   lastSynced,
   publicPreviewPath,
   previewMessageType,
@@ -85,6 +87,11 @@ export function SiteDocumentEditorShell<T extends Record<string, unknown>>({
 
   return (
     <div className="space-y-6">
+      {loadError && (
+        <p className="rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
+          {loadError}
+        </p>
+      )}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
         <div className="flex flex-wrap items-center gap-3">
