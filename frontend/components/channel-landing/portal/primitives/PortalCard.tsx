@@ -7,13 +7,13 @@ import GlassCard from '@/components/ui/cards/GlassCard'
 type Props = {
   theme: PlatformPortalTheme
   channelId?: string
-  proPortalShell?: boolean
+  portalLayoutChrome?: boolean
   children: ReactNode
   className?: string
 }
 
-export default function PortalCard({ theme, proPortalShell, children, className = '' }: Props) {
-  const useSiteGlass = Boolean(proPortalShell)
+export default function PortalCard({ theme, portalLayoutChrome, children, className = '' }: Props) {
+  const useSiteGlass = Boolean(portalLayoutChrome)
 
   if (useSiteGlass) {
     return (

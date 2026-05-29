@@ -8,14 +8,14 @@ export default function ChannelPortalTrustLine({
   page,
   theme,
   sectionOrder,
-  proPortalShell,
+  portalLayoutChrome,
 }: PortalSectionProps) {
   if (!isConversionEnabledForChannel(page.channelId)) return null
 
   const items = page.conversion?.paymentMicrocopy?.slice(0, 4) ?? []
   if (!items.length) return null
 
-  const spacing = proPortalShell
+  const spacing = portalLayoutChrome
     ? 'mb-6 sm:mb-8'
     : 'mb-4 sm:mb-5'
 

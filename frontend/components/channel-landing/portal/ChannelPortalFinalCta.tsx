@@ -15,7 +15,7 @@ export default function ChannelPortalFinalCta({
   page,
   theme,
   sectionOrder,
-  proPortalShell,
+  portalLayoutChrome,
   onPrimaryClick,
   scheduleCta,
 }: Props) {
@@ -39,7 +39,7 @@ export default function ChannelPortalFinalCta({
             {body}
           </p>
         ) : null}
-        {proPortalShell ? (
+        {portalLayoutChrome ? (
           <PortalSiteChips
             page={page}
             theme={theme}

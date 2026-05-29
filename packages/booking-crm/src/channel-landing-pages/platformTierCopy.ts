@@ -6,7 +6,7 @@ import {
 } from '../types/channelLandingPage'
 import { CALENDLY_DEFAULT_SCHEDULING_URLS } from '../calendly/scheduling-urls'
 import { getChannelPortalCopy } from './channelPortalCopy'
-import { usesProConsultationPortalLayout } from './platformOfferPack'
+import { usesPortalWebsiteLayoutChrome } from './platformOfferPack'
 
 const GENERIC_INTRO_CTAS = new Set([
   'talk to a mentor',
@@ -20,7 +20,7 @@ const GENERIC_INTRO_CTAS = new Set([
 function isGenericIntroCta(label: string | undefined, channelId: string): boolean {
   const trimmed = label?.trim()
   if (!trimmed) return true
-  if (usesProConsultationPortalLayout(channelId)) return false
+  if (usesPortalWebsiteLayoutChrome(channelId)) return false
   return GENERIC_INTRO_CTAS.has(trimmed.toLowerCase())
 }
 
@@ -462,10 +462,9 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
   const paid = paidCopyForChannel(channelId)
   const discovery = discoveryCopyForChannel(channelId)
   const packCta = getChannelPortalCopy(channelId)?.scheduleTierCta
-  const introCta =
-    channelId === 'webinar' || usesProConsultationPortalLayout(channelId)
-      ? 'Talk to a mentor'
-      : packCta ?? 'Book a mentor intro'
+  const introCta = usesPortalWebsiteLayoutChrome(channelId)
+    ? 'Talk to a mentor'
+    : packCta ?? 'Book a mentor intro'
   const executiveBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'executive')!
   const designBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'design-review')!
   const servicesTitle = paid.designReview.title || 'Expert consultation'

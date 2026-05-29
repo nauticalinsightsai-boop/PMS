@@ -19,8 +19,10 @@ export type PortalSectionProps = {
   onBookMentor?: () => void
   /** Sticky top bar (professional portals) — tighter spacing, no section margin. */
   topBar?: boolean
-  /** Website + webinar only: marketing gradient, glass cards, footer site chips. */
-  proPortalShell?: boolean
+  /** Scope-41 slugs: website section structure (glass, footer chips, hero utilities). */
+  portalLayoutChrome?: boolean
+  /** Website + webinar only: marketing gradient + orbs (`portal-website`). */
+  marketingAmbience?: boolean
   /** Platform-native tier CTA label from channel copy pack. */
   scheduleCta?: string
 }

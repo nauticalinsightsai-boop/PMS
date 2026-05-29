@@ -39,7 +39,7 @@ export default function ChannelPortalTiersSection({
   scheduleCta,
   layoutVariant,
   isImpulseFlow,
-  proPortalShell,
+  marketingAmbience,
 }: Props) {
   const tierHeading =
     page.channelId === 'webinar'
@@ -181,7 +181,7 @@ export default function ChannelPortalTiersSection({
 
                 {(() => {
                   const useBold = layoutVariant === 'bold' && isImpulseFlow
-                  const useWebsitePrimary = Boolean(proPortalShell)
+                  const useWebsitePrimary = Boolean(marketingAmbience)
                   const recBg =
                     typeof theme.recommendedBg === 'string' && !theme.recommendedBg.includes('gradient')
                       ? theme.recommendedBg

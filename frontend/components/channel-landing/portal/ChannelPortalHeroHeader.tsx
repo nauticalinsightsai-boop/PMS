@@ -61,13 +61,13 @@ export default function ChannelPortalHeroHeader({
   theme,
   sectionOrder,
   isImpulseFlow,
-  proPortalShell,
+  portalLayoutChrome,
   isLeadHero = false,
   onBookMentor,
   scheduleCta: scheduleCtaProp,
   topBar = false,
 }: PortalSectionProps) {
-  const showEngagementLinks = !proPortalShell
+  const showEngagementLinks = !portalLayoutChrome
   const scheduleCta =
     scheduleCtaProp ??
     resolveScheduleTierCta(page.channelId, page.primaryButtonText ?? theme.scheduleTierCta)

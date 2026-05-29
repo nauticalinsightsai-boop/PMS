@@ -13,7 +13,7 @@ import { resolveScheduleTierCta } from './channelPortalCopy'
 import { getPackConsultationTiers } from './platformOfferPack'
 import { mergePortalConversion } from './portalConversionPacks'
 import { getChannelPortalCopy } from './channelPortalCopy'
-import { usesProConsultationPortalLayout } from './platformOfferPack'
+import { usesPortalWebsiteLayoutChrome } from './platformOfferPack'
 
 const GENERIC_INTRO_CTAS = new Set([
   'talk to a mentor',
@@ -27,7 +27,7 @@ const GENERIC_INTRO_CTAS = new Set([
 function isGenericIntroCta(label: string | undefined, channelId: string): boolean {
   const trimmed = label?.trim()
   if (!trimmed) return true
-  if (usesProConsultationPortalLayout(channelId)) return false
+  if (usesPortalWebsiteLayoutChrome(channelId)) return false
   return GENERIC_INTRO_CTAS.has(trimmed.toLowerCase())
 }
 import { migratePageToPmsPortalTemplate } from '../pmsPortalTemplate'
@@ -118,8 +118,8 @@ function consultationTiersForChannel(
 function mergeTierCtaLabels(tiers: ChannelLandingPage['consultationTiers'], channelId: string) {
   const copy = getChannelPortalCopy(channelId)
   const baseCta = copy?.scheduleTierCta ?? resolveScheduleTierCta(channelId)
-  const proShell = usesProConsultationPortalLayout(channelId)
-  const introCta = proShell ? 'Talk to a mentor' : baseCta
+  const layoutChrome = usesPortalWebsiteLayoutChrome(channelId)
+  const introCta = layoutChrome ? 'Talk to a mentor' : baseCta
   return consultationTiersForChannel(tiers, channelId).map((t) => {
     if (t.ctaLabel && !isGenericIntroCta(t.ctaLabel, channelId)) return t
     if (channelId === 'webinar') {
@@ -135,8 +135,9 @@ function mergeTierCtaLabels(tiers: ChannelLandingPage['consultationTiers'], chan
       return { ...t, ctaLabel: 'Book pathway session', badge: t.badge ?? 'Most Popular' }
     }
     if (t.id === 'design-review' || t.id === 'services-detail') {
-      const servicesCta =
-        channelId === 'website' || channelId === 'webinar' ? 'Talk to an expert' : 'Book a consultation'
+      const servicesCta = usesPortalWebsiteLayoutChrome(channelId)
+        ? 'Talk to an expert'
+        : 'Book a consultation'
       return { ...t, ctaLabel: t.ctaLabel ?? servicesCta }
     }
     return t

@@ -29,10 +29,10 @@ export default function ChannelPortalContextSection({
   sectionOrder,
   channelId,
   isImpulseFlow,
-  proPortalShell,
+  portalLayoutChrome,
 }: PortalSectionProps) {
   const isInstagram = channelId === 'instagram'
-  const useSiteGlass = Boolean(proPortalShell)
+  const useSiteGlass = Boolean(portalLayoutChrome)
 
   if (isImpulseFlow) {
     return (

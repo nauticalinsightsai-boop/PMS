@@ -1,11 +1,13 @@
 'use client'
 
-import React, { useCallback, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useSetPortalRegionTheme } from '@/contexts/PortalRegionThemeContext'
 import type { ChannelLandingPage } from '@/types/channelLandingPage'
 import { usePortalThemeMode } from '@/hooks/usePortalThemeMode'
 import {
   getPlatformOfferPack,
   PROFESSIONAL_FLOW,
+  usesPortalWebsiteLayoutChrome,
   usesProConsultationPortalLayout,
   type PortalSectionId,
 } from '@/lib/channel-landing-pages/platformOfferPack'
@@ -46,16 +48,22 @@ function flowSectionOrder(flow: PortalSectionId[], id: PortalSectionId): number 
 }
 
 /**
- * All /go/{slug} portals: same PROFESSIONAL_FLOW DOM order; website/webinar use pro shell
- * (gradient + glass). Per-slug theme and copy only — no cross-slug navigation hub.
+ * All scope-41 /go/{slug} portals: same PROFESSIONAL_FLOW + layout chrome (glass, footer chips).
+ * Marketing gradient/orbs only on website/webinar. Per-slug theme and copy only.
  */
 export default function ChannelConsultationPortalView({ page, isPreview }: Props) {
   const { colorMode, setColorMode } = usePortalThemeMode(page.channelId)
+  const setPortalRegionTheme = useSetPortalRegionTheme()
   const tiersRef = useRef<HTMLDivElement>(null)
   const theme = useMemo(
     () => resolvePortalTheme(page.channelId, colorMode, page.subtitle),
     [page.channelId, page.subtitle, colorMode]
   )
+
+  useEffect(() => {
+    setPortalRegionTheme(theme)
+    return () => setPortalRegionTheme(null)
+  }, [theme, setPortalRegionTheme])
   const cssVars = useMemo(() => portalThemeToCssVars(theme), [theme])
   const pack = useMemo(() => getPlatformOfferPack(page.channelId), [page.channelId])
   const flow = pack?.flowOrder ?? PROFESSIONAL_FLOW
@@ -63,7 +71,8 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   const tiers = page.consultationTiers ?? []
   const scheduleCta = resolveScheduleTierCta(page.channelId, page.primaryButtonText ?? theme.scheduleTierCta)
   const layoutVariant = pack?.layoutVariant ?? 'minimal'
-  const proPortalShell = usesProConsultationPortalLayout(page.channelId)
+  const portalLayoutChrome = usesPortalWebsiteLayoutChrome(page.channelId)
+  const marketingAmbience = usesProConsultationPortalLayout(page.channelId)
   const isWebinarPortal = page.channelId === 'webinar'
 
   const discoveryTier =
@@ -96,7 +105,8 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
     channelId: page.channelId,
     layoutVariant,
     isImpulseFlow: false,
-    proPortalShell,
+    portalLayoutChrome,
+    marketingAmbience,
     isLeadHero,
     colorMode,
     onSetColorMode: setColorMode,
@@ -165,10 +175,10 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
 
   return (
     <div
-      className={`portal-root relative z-10 min-h-screen flex flex-col overflow-x-hidden pb-20 sm:pb-0${proPortalShell ? ' portal-website selection:bg-brand-orange selection:text-white' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}`}
+      className={`portal-root relative z-10 min-h-screen flex flex-col overflow-x-hidden pb-20 sm:pb-0${marketingAmbience ? ' portal-website selection:bg-brand-orange selection:text-white' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}`}
       style={{
-        fontFamily: proPortalShell ? undefined : theme.fontFamily,
-        backgroundColor: proPortalShell ? undefined : theme.background,
+        fontFamily: marketingAmbience ? undefined : theme.fontFamily,
+        backgroundColor: marketingAmbience ? undefined : theme.background,
         color: theme.text,
         ...cssVars,
       }}
@@ -176,7 +186,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
       data-layout={layoutVariant}
       data-color-mode={colorMode}
     >
-      {proPortalShell ? (
+      {marketingAmbience ? (
         <div className="portal-website-ambience" aria-hidden>
           <div className="portal-website-orb portal-website-orb--orange" />
           <div className="portal-website-orb portal-website-orb--purple" />
@@ -187,7 +197,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
       {isPreview && (
         <div
           className={`portal-preview-banner z-50 text-center text-meta font-medium py-2.5 px-4${
-            proPortalShell ? ' relative' : ' sticky top-0'
+            portalLayoutChrome ? ' relative' : ' sticky top-0'
           }`}
           role="status"
         >
