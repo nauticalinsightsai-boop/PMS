@@ -816,7 +816,7 @@ export function HomeCmsEditor() {
       <Dialog open={isPreviewOpen} onOpenChange={(open) => !open && closePreview()}>
         <DialogContent
           showCloseButton={false}
-          className="flex h-[min(92vh,900px)] w-[min(96vw,80rem)] max-w-none flex-col gap-0 overflow-hidden p-0 sm:max-w-none"
+          className="flex h-[min(85vh,760px)] w-[min(96vw,80rem)] max-w-none flex-col gap-0 overflow-hidden p-0 sm:max-w-none"
         >
           <DialogHeader className="flex flex-row items-center justify-between gap-4 border-b border-border px-4 py-3">
             <DialogTitle className="text-sm font-bold uppercase tracking-widest">Home Preview</DialogTitle>

@@ -10,7 +10,7 @@ import { REGION_COPY } from '@/lib/brand-voice';
 const HINT_HIDE_DELAY_MS = 650;
 
 const CHIP_SHELL =
-  'group/member-chip relative flex min-h-[5rem] min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-xl border border-transparent px-2 py-2 text-center transition-all duration-300 sm:px-2.5 bg-slate-50 dark:bg-slate-800 hover:border-brand-purple/25 hover:bg-brand-purple/5 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/40';
+  'group/member-chip relative flex min-h-[4.5rem] min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-xl border border-transparent px-2 py-1.5 text-center transition-all duration-300 sm:px-2.5 bg-slate-50 dark:bg-slate-800 hover:border-brand-purple/25 hover:bg-brand-purple/5 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/40';
 
 export function MembershipPriceChip({
   price,
@@ -53,7 +53,7 @@ export function MembershipPriceChip({
       className={cn(
         CHIP_SHELL,
         showHint &&
-          'z-30 min-h-[8.25rem] border-brand-purple/40 bg-brand-purple/10 shadow-md ring-1 ring-brand-purple/20 dark:bg-brand-purple/15',
+          'z-30 min-h-[6.75rem] border-brand-purple/40 bg-brand-purple/10 shadow-md ring-1 ring-brand-purple/20 dark:bg-brand-purple/15',
         className,
       )}
       title={`${REGION_COPY.membershipDiscountNote} View membership plans.`}
@@ -82,7 +82,7 @@ export function MembershipPriceChip({
         role="tooltip"
         className={cn(
           'w-full overflow-hidden transition-all duration-300 ease-out',
-          showHint ? 'max-h-28 opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0 pointer-events-none',
+          showHint ? 'max-h-20 opacity-100 mt-1.5' : 'max-h-0 opacity-0 mt-0 pointer-events-none',
         )}
       >
         <p className="text-[11px] font-semibold leading-snug text-slate-700 dark:text-slate-200">

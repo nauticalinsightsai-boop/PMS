@@ -92,17 +92,17 @@ export function RegionSelectorModal() {
 
   return (
     <Dialog open={modalOpen} onOpenChange={(open) => !open && closeRegionModal()}>
-      <DialogContent className="sm:max-w-[512px] border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-950">
-        <DialogHeader className="space-y-2 text-left">
-          <DialogTitle className="text-lg font-bold leading-snug pr-8">
+      <DialogContent className="sm:max-w-[512px] max-h-[min(78vh,620px)] border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-950">
+        <DialogHeader className="space-y-1.5 px-5 pt-5 text-left">
+          <DialogTitle className="text-base font-bold leading-snug pr-8">
             Select your region for a personalized website experience.
           </DialogTitle>
-          <DialogDescription>{REGION_COPY.pricingSelector}</DialogDescription>
+          <DialogDescription className="text-xs">{REGION_COPY.pricingSelector}</DialogDescription>
         </DialogHeader>
 
-        <DialogBody className="space-y-6 py-1">
+        <DialogBody className="space-y-4 px-5 py-2">
           {SECTIONS.map((section) => (
-            <div key={section.title} className="space-y-3">
+            <div key={section.title} className="space-y-2">
               <SectionDivider title={section.title} />
               <div
                 className={cn(
@@ -141,18 +141,18 @@ export function RegionSelectorModal() {
           ))}
 
           {overview && (
-            <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400 border-t border-slate-100 pt-4 dark:border-slate-800">
+            <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 border-t border-slate-100 pt-3 dark:border-slate-800">
               {overview}
             </p>
           )}
         </DialogBody>
 
-        <DialogFooter className="sm:justify-stretch">
+        <DialogFooter className="px-5 py-3 sm:justify-stretch">
           <button
             type="button"
             disabled={!selected}
             onClick={confirm}
-            className="w-full rounded-full bg-brand-orange py-3 text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-95 disabled:opacity-40 min-h-11"
+            className="w-full rounded-full bg-brand-orange py-2.5 text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-95 disabled:opacity-40 min-h-10"
           >
             Confirm region
           </button>

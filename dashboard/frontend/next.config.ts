@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   // Monorepo: resolve modules from repo root (avoids stale/missing chunks in dev)
   outputFileTracingRoot: path.join(__dirname, '../..'),
 
-  transpilePackages: ['@pms/booking-crm'],
+  transpilePackages: ['@pms/booking-crm', '@pms/ui'],
   experimental: {
     optimizePackageImports: ['lucide-react', 'date-fns', 'motion'],
   },
