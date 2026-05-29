@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { Search, ArrowRight, TrendingUp } from "lucide-react";
+import { Search, ArrowRight, TrendingUp, Loader2 } from "lucide-react";
 import { 
   CategoryChip, 
   ArticleCard, 
@@ -13,29 +13,36 @@ import {
   CTABanner 
 } from "@/components/NewsletterComponents";
 import { PAGE_HERO_PADDING } from "@/components/SectionAmbience";
-import { newsletterArticles } from "@/data/newsletterArticles";
-import { getNewsletterArticleHref } from "@/data/newsletterArticles";
+import { useNewsletterArticles } from "@/hooks/useNewsletterArticles";
+import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
 
 const categories = [
   "All", "PMP", "CAPM", "Agile", "Risk", "Business Analysis", 
   "PRINCE2", "PMO", "Six Sigma", "Career Growth", "Exam Strategies"
 ];
 
-const articles = newsletterArticles;
-
 const SUBSCRIBER_COUNT = "5,000+";
 
 export function Newsletter() {
+  const { articles, isLoading } = useNewsletterArticles();
   const [activeCategory, setActiveCategory] = React.useState("All");
   const [visibleCount, setVisibleCount] = React.useState(4);
 
   const filteredArticles = React.useMemo(() => {
     if (activeCategory === "All") return articles;
     return articles.filter((a) => a.category === activeCategory);
-  }, [activeCategory]);
+  }, [activeCategory, articles]);
 
   const featuredArticle = filteredArticles[0] ?? articles[0];
   const visibleArticles = filteredArticles.slice(0, visibleCount);
+
+  if (isLoading && articles.length === 0) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center text-muted-foreground">
+        <Loader2 className="h-8 w-8 animate-spin" aria-hidden />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen">

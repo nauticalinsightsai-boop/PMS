@@ -17,6 +17,8 @@
     "./membership": "./src/membership-page.ts",
     "./about": "./src/about.ts",
     "./newsletter": "./src/newsletter.ts",
+    "./newsletter-posts": "./src/newsletter-posts.ts",
+    "./cms-posts": "./src/cms-posts.ts",
     "./seeds": "./src/seeds/index.ts",
     "./hooks": "./src/hooks/usePublishedSiteDocument.ts"
   },

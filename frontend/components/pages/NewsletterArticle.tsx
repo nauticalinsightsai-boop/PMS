@@ -5,17 +5,15 @@ import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { ArticleCard, CTABanner } from '@/components/NewsletterComponents';
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
-import { newsletterArticles, type NewsletterArticle } from '@/data/newsletterArticles';
+import type { NewsletterArticle } from '@pms/site-content/newsletter-posts';
 
-export function NewsletterArticlePage({ article }: { article: NewsletterArticle }) {
-  const related = newsletterArticles
-    .filter((a) => a.slug !== article.slug && a.category === article.category)
-    .slice(0, 2);
-  const more =
-    related.length > 0
-      ? related
-      : newsletterArticles.filter((a) => a.slug !== article.slug).slice(0, 2);
-
+export function NewsletterArticlePage({
+  article,
+  relatedArticles,
+}: {
+  article: NewsletterArticle;
+  relatedArticles: NewsletterArticle[];
+}) {
   return (
     <article className="flex flex-col min-h-screen">
       <section
@@ -78,39 +76,34 @@ export function NewsletterArticlePage({ article }: { article: NewsletterArticle 
             certification-body guidance. For pathway and readiness support,{' '}
             <Link href="/certifications" className="text-brand-orange font-bold hover:underline">
               explore certifications
-            </Link>{' '}
-            or{' '}
-            <Link href="/contact" className="text-brand-orange font-bold hover:underline">
-              book a consultation
             </Link>
             .
           </p>
         </div>
       </div>
 
-      {more.length > 0 && (
-        <section className={sectionSurface('soft', 'py-16 border-t border-slate-100 dark:border-slate-800')}>
-          <SectionAmbience tone="soft" />
-          <div className="container relative z-10 mx-auto max-w-5xl">
-            <h2 className="font-heading text-3xl font-bold mb-10">Related reading</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {more.map((a) => (
-                <ArticleCard key={a.slug} article={a} />
+      {relatedArticles.length > 0 ? (
+        <section className={sectionSurface('cool', 'py-20 border-t border-slate-100 dark:border-slate-900')}>
+          <SectionAmbience tone="cool" />
+          <div className="container relative z-10 mx-auto">
+            <h2 className="font-heading text-3xl font-bold mb-10 text-slate-900 dark:text-white">
+              Related Articles
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {relatedArticles.map((related) => (
+                <ArticleCard key={related.slug} article={related} variant="horizontal" />
               ))}
             </div>
           </div>
         </section>
-      )}
+      ) : null}
 
-      <div className="container mx-auto max-w-5xl pb-16">
-        <CTABanner
-          title="Stay Ahead of the Curve"
-          description="Join project professionals receiving weekly deep-dives on methodology, leadership, and certification strategy."
-          buttonText="Browse all articles"
-          buttonHref="/newsletter"
-          variant="orange"
-        />
-      </div>
+      <CTABanner
+        title="Stay ahead of the curve"
+        description="Get weekly insights on certification strategy, agile leadership, and career growth."
+        buttonText="View all articles"
+        buttonHref="/newsletter"
+      />
     </article>
   );
 }

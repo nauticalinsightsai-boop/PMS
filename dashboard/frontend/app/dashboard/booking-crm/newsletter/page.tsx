@@ -1,5 +1,5 @@
-import { NewsletterManagement } from '@/components/pages/admin/NewsletterManagement';
+import { NewsletterPostsList } from '@/components/pages/admin/NewsletterPostsList';
 
-export default function Page() {
-  return <NewsletterManagement />;
+export default function NewsletterPage() {
+  return <NewsletterPostsList />;
 }

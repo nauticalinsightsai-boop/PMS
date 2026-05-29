@@ -1,16 +1,10 @@
-export interface NewsletterArticle {
-  slug: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  date: string;
-  author: string;
-  readTime: string;
-  image: string;
-  /** Article body paragraphs */
-  body: string[];
-}
+import type { NewsletterArticle } from '@pms/site-content/newsletter-posts';
+import { getNewsletterArticleHref } from '@pms/site-content/newsletter-posts';
 
+export type { NewsletterArticle };
+export { getNewsletterArticleHref };
+
+/** File-based seed articles — merged with published CMS posts on the public site. */
 export const newsletterArticles: NewsletterArticle[] = [
   {
     slug: '2026-pmp-exam-changes',
@@ -110,10 +104,7 @@ export const newsletterArticles: NewsletterArticle[] = [
   },
 ];
 
+/** @deprecated Use getNewsletterArticle from @/lib/newsletter/articles on the server. */
 export function getNewsletterArticle(slug: string): NewsletterArticle | undefined {
   return newsletterArticles.find((a) => a.slug === slug);
-}
-
-export function getNewsletterArticleHref(article: Pick<NewsletterArticle, 'slug'>): string {
-  return `/newsletter/${article.slug}`;
 }

@@ -25,6 +25,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SyncStatusIndicator, SyncStatus } from '@/components/shared/SyncStatusIndicator';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
+import { CmsSaveNotice } from '@/components/pages/admin/CmsSaveNotice';
+import { getCmsSaveBlockReason, toSyncErrorMessage } from '@/lib/cms/save-guard';
 import { siteUrl } from '@/lib/site-config';
 import { HOME_COPY, CTAS } from '@/lib/brand-voice';
 import { MediaPicker } from './site-content/MediaPicker';
@@ -90,6 +92,7 @@ export function HomeCmsEditor() {
   const [baseline, setBaseline] = useState<string>(JSON.stringify(defaultConfig));
   const [isLoading, setIsLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState<SyncStatus>('synced');
+  const [syncErrorDetail, setSyncErrorDetail] = useState<string | null>(null);
   const [lastSynced, setLastSynced] = useState<Date | undefined>(undefined);
   const [search, setSearch] = useState('');
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -111,6 +114,7 @@ export function HomeCmsEditor() {
         setSyncStatus('synced');
       } catch (error) {
         console.error('Failed to load home config', error);
+        setSyncErrorDetail(toSyncErrorMessage(error, 'Could not load home config from Supabase.'));
         setSyncStatus('error');
       } finally {
         setIsLoading(false);
@@ -170,7 +174,14 @@ export function HomeCmsEditor() {
   };
 
   const handleSaveDraft = async () => {
+    const blockReason = getCmsSaveBlockReason();
+    if (blockReason) {
+      setSyncErrorDetail(blockReason);
+      setSyncStatus('error');
+      return;
+    }
     setSyncStatus('syncing');
+    setSyncErrorDetail(null);
     try {
       await WebsiteDataService.saveDraft(HOME_CONFIG_KEY, config as unknown as Record<string, unknown>);
       setBaseline(JSON.stringify(config));
@@ -178,18 +189,27 @@ export function HomeCmsEditor() {
       setLastSynced(new Date());
     } catch (error) {
       console.error('Failed to save draft', error);
+      setSyncErrorDetail(toSyncErrorMessage(error, 'Failed to save draft.'));
       setSyncStatus('error');
     }
   };
 
   const handlePublish = async () => {
+    const blockReason = getCmsSaveBlockReason();
+    if (blockReason) {
+      setSyncErrorDetail(blockReason);
+      setSyncStatus('error');
+      return;
+    }
     const check = validateFieldContent(HOME_CONFIG_KEY, config);
     if (!check.success) {
+      setSyncErrorDetail('Publish blocked: home config failed validation.');
       setSyncStatus('error');
       alert('Publish blocked: home config failed validation.');
       return;
     }
     setSyncStatus('syncing');
+    setSyncErrorDetail(null);
     try {
       await WebsiteDataService.saveDraft(HOME_CONFIG_KEY, config as unknown as Record<string, unknown>);
       await WebsiteDataService.publish(HOME_CONFIG_KEY);
@@ -198,6 +218,7 @@ export function HomeCmsEditor() {
       setLastSynced(new Date());
     } catch (error) {
       console.error('Failed to publish', error);
+      setSyncErrorDetail(toSyncErrorMessage(error, 'Failed to publish.'));
       setSyncStatus('error');
     }
   };
@@ -284,6 +305,8 @@ export function HomeCmsEditor() {
           </p>
         </header>
 
+        <CmsSaveNotice />
+
         <div className="sticky top-0 z-20 bg-background py-3 border-b border-white/10">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <Tabs
@@ -312,7 +335,12 @@ export function HomeCmsEditor() {
             </Tabs>
 
             <div className="flex flex-wrap items-center gap-2 shrink-0">
-              <SyncStatusIndicator status={syncStatus} lastSynced={lastSynced} onManualSync={handleSaveDraft} />
+              <SyncStatusIndicator
+                status={syncStatus}
+                lastSynced={lastSynced}
+                onManualSync={handleSaveDraft}
+                errorDetail={syncErrorDetail}
+              />
               <CTAButton size="sm" variant="secondary" onClick={openPreview}>
                 Preview
               </CTAButton>

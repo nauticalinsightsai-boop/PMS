@@ -76,16 +76,16 @@ export const NewsletterManagement: React.FC = () => {
               <FileText size={24} />
             </div>
             <Link 
-              href="/dashboard/booking-crm/blogs"
+              href="/dashboard/booking-crm/newsletter"
               className="text-[10px] font-black uppercase tracking-widest text-brand-orange hover:underline flex items-center gap-2"
             >
-              GO TO BLOGS <ArrowRight size={12} />
+              GO TO POSTS <ArrowRight size={12} />
             </Link>
           </div>
           
-          <h2 className="text-2xl font-black mb-4">Blogs & Insights Editor</h2>
+          <h2 className="text-2xl font-black mb-4">Newsletter Posts</h2>
           <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-            Manage your articles, certification guides, and community insights. All published articles are automatically synced with your next newsletter campaign to keep your audience updated.
+            Manage newsletter articles with SEO fields, publish settings, and rich content blocks. Published posts can be synced with campaigns.
           </p>
           
           <div className="space-y-4">
@@ -100,9 +100,9 @@ export const NewsletterManagement: React.FC = () => {
             </div>
           </div>
 
-          <Link href="/dashboard/booking-crm/blogs" className="block mt-8">
+          <Link href="/dashboard/booking-crm/newsletter/posts" className="block mt-8">
             <CTAButton className="w-full">
-              Open Content Editor <ArrowRight size={18} className="ml-2" />
+              Open Posts Editor <ArrowRight size={18} className="ml-2" />
             </CTAButton>
           </Link>
         </GlassCard>

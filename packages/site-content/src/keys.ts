@@ -9,6 +9,9 @@ export const FIELD_KEYS = {
   ABOUT_PAGE_CONFIG: 'about_page_config',
   NEWSLETTER_HUB_CONFIG: 'newsletter_hub_config',
   GLOBAL_CONTENT: 'global_content',
+  CMS_POSTS_REGISTRY: 'cms_posts_registry',
+  CMS_TOPICS_REGISTRY: 'cms_topics_registry',
+  NEWSLETTER_POSTS_REGISTRY: 'newsletter_posts_registry',
   SITE_SETTINGS: 'site_settings',
 } as const;
 

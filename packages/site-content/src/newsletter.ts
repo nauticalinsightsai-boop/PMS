@@ -7,8 +7,8 @@ export const newsletterHubConfigSchema = z.object({
     title: z.string(),
     subtitle: z.string(),
   }),
-  /** Phase 7: when deferred, articles stay file-based */
-  source: z.enum(['file', 'supabase']).default('file'),
+  /** Published articles load from Supabase `newsletter_posts_registry` when set. */
+  source: z.enum(['file', 'supabase']).default('supabase'),
 });
 
 export type NewsletterHubConfig = z.infer<typeof newsletterHubConfigSchema>;
@@ -21,7 +21,7 @@ export function defaultNewsletterHubConfig(): NewsletterHubConfig {
       title: 'The Structure Report',
       subtitle: 'Weekly deep-dives on methodology, leadership, and career growth.',
     },
-    source: 'file',
+    source: 'supabase',
   };
 }
 

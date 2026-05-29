@@ -25,22 +25,22 @@ export const DashboardModeProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (PUBLISHER_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
       setMode('publisher');
-    } else if (BOOKINGS_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
-      setMode('bookings');
     } else if (
       WEBSITE_ROUTE_PREFIXES.some((prefix) =>
         prefix === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(prefix),
       )
     ) {
       setMode('website');
+    } else if (BOOKINGS_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
+      setMode('bookings');
     }
   }, [pathname]);
 
   const handleSetMode = (newMode: DashboardMode) => {
     setMode(newMode);
-    if (newMode === 'publisher') router.push('/dashboard/booking-crm/newsletter');
+    if (newMode === 'publisher') router.push('/dashboard/control-tower');
     if (newMode === 'bookings') router.push('/dashboard/booking-crm/cta');
-    if (newMode === 'website') router.push('/dashboard/site-system/home');
+    if (newMode === 'website') router.push('/dashboard');
   };
 
   return (

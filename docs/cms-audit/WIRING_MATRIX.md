@@ -21,12 +21,16 @@
 | Services | `/pm-service` | WebsiteDataEditor | ❌ | 🔧 `pm_service_*` unused | `PMService.tsx` services array |
 | Community | `/community` | WebsiteDataEditor | ❌ | ⚠️ Hero + mentorship | Feature cards, stats |
 | Store | `/community?view=store` | WebsiteDataEditor (store slug) | ❌ | 🔧 `store_*` unused | `Store.tsx` products |
-| Newsletter | `/newsletter` | Publisher (separate) | ❌ | ❌ | `newsletterArticles.ts` |
+| Newsletter | `/newsletter` | `/dashboard/booking-crm/newsletter` | ⚠️ | ❌ | `newsletter_posts_registry` (published) merged with `newsletterArticles.ts` seed |
+| Posts (CMS) | `/blog` | `/dashboard/cms/posts` | ❌ | ❌ | `cms_posts_registry` (published) merged with `blogArticles.ts` seed |
+| Topics (CMS) | — | `/dashboard/cms/topics` | ❌ | ❌ | `cms_topics_registry` (topic labels on blog) |
+| Blogs editor | — | `/dashboard/booking-crm/blogs` | ❌ | ❌ | same as `cms_posts_registry` |
+| Subscribers | — | `/dashboard/booking-crm/newsletter/subscribers` | — | — | `form_submissions` via dashboard API |
 | Membership | `/membership` | WebsiteDataEditor | ❌ | ⚠️ Hero + benefits titles | `membershipTiers`, pricing libs |
 | About | `/about` | WebsiteDataEditor | ❌ | ⚠️ Mission + story | Layout/images |
-| FAQ | `/faq` | WebsiteDataEditor | ❌ | ⚠️ Title only | `content/faq/data.ts` |
-| Contact | `/contact` | WebsiteDataEditor | ❌ | ⚠️ Title/subtitle | Form structure |
-| Compare | `/certifications/compare` | WebsiteDataEditor | ❌ | 🔧 `compare_*` likely unused | Compare lib + siteData |
+| FAQ | `/faq` | WebsiteDataEditor | ❌ | ✅ Title, subtitle, badge | `content/faq/data.ts` body |
+| Contact | `/contact` | WebsiteDataEditor | ❌ | ✅ Title/subtitle | Form structure |
+| Compare | `/certifications/compare` | WebsiteDataEditor | ❌ | ✅ Hero badge/title/subtitle | Compare lib + siteData |
 
 ## `global_content` keys used on frontend
 
@@ -41,7 +45,8 @@
 | `membership_hero_*`, `membership_benefits_*` | Membership |
 | `mission_*`, `story_*` | About |
 | `contact_*` | Contact |
-| `faq_title` | FAQ |
+| `faq_title`, `faq_subtitle`, `faq_badge` | FAQ |
+| `compare_badge`, `compare_title`, `compare_subtitle` | Compare |
 
 ## Dashboard-only keys (not read by frontend)
 
@@ -51,7 +56,7 @@ From `websitePageConfigs.ts` — saved to `global_content` but **not referenced 
 - `pm_service_badge`, `pm_service_title`, `pm_service_subtitle`
 - `newsletter_badge`, `newsletter_title`, `newsletter_subtitle`
 - `store_badge`, `store_title`, `store_subtitle`
-- `compare_*`, `membership_hero_*` (partial — some membership keys used, compare hero not verified)
+- `compare_*`, `membership_hero_*` (partial — some membership keys used)
 
 ## Priority fixes
 

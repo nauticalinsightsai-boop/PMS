@@ -75,6 +75,11 @@ export function FAQ() {
             <div className="inline-flex p-3 rounded-2xl bg-brand-purple/10 text-brand-purple mb-6">
               <HelpCircle className="h-8 w-8" />
             </div>
+            {get('faq_badge', '') ? (
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-purple mb-4">
+                {get('faq_badge')}
+              </p>
+            ) : null}
             <h1 className="font-heading text-4xl font-bold text-slate-900 dark:text-white mb-6">
               {get('faq_title', 'Frequently Asked Questions')}
             </h1>

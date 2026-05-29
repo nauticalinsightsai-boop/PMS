@@ -13,6 +13,10 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { CTAButton } from '@/components/ui/CTAButton';
 import { SyncStatusIndicator, SyncStatus } from '@/components/shared/SyncStatusIndicator';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
+import { useWebsiteDataRealtime } from '@/hooks/useWebsiteDataRealtime';
+import { FIELD_KEYS } from '@pms/site-content/keys';
+import { CmsSaveNotice } from '@/components/pages/admin/CmsSaveNotice';
+import { getCmsSaveBlockReason, toSyncErrorMessage } from '@/lib/cms/save-guard';
 import { motion, AnimatePresence } from 'motion/react';
 import { siteUrl } from '@/lib/site-config';
 import {
@@ -30,6 +34,7 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
   const [activePage, setActivePage] = useState<WebsitePageSlug>(initialPage);
   const [content, setContent] = useState<Record<string, string>>({});
   const [syncStatus, setSyncStatus] = useState<SyncStatus>('synced');
+  const [syncErrorDetail, setSyncErrorDetail] = useState<string | null>(null);
   const [lastSynced, setLastSynced] = useState<Date | undefined>(new Date());
   const [isLoading, setIsLoading] = useState(true);
 
@@ -37,38 +42,49 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
     setActivePage(initialPage);
   }, [initialPage]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const data = await WebsiteDataService.getData('draft');
-        const contentMap: Record<string, string> = {};
-        data.forEach((item) => {
-          if (typeof item.content === 'object' && item.content !== null) {
-            Object.assign(contentMap, item.content as Record<string, string>);
-          }
-        });
-        setContent(contentMap);
-        setSyncStatus('synced');
-        setLastSynced(new Date());
-      } catch (err) {
-        console.error('Error fetching website data:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
+  const fetchData = React.useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const data = await WebsiteDataService.getData('draft');
+      const contentMap: Record<string, string> = {};
+      data.forEach((item) => {
+        if (item.field_key === FIELD_KEYS.GLOBAL_CONTENT && typeof item.content === 'object' && item.content !== null) {
+          Object.assign(contentMap, item.content as Record<string, string>);
+        }
+      });
+      setContent(contentMap);
+      setSyncStatus('synced');
+      setLastSynced(new Date());
+    } catch (err) {
+      console.error('Error fetching website data:', err);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    void fetchData();
+  }, [fetchData]);
+
+  useWebsiteDataRealtime(FIELD_KEYS.GLOBAL_CONTENT, fetchData);
 
   useEffect(() => {
     const timer = setTimeout(async () => {
       if (syncStatus === 'pending') {
+        const blockReason = getCmsSaveBlockReason();
+        if (blockReason) {
+          setSyncErrorDetail(blockReason);
+          setSyncStatus('error');
+          return;
+        }
         setSyncStatus('syncing');
+        setSyncErrorDetail(null);
         try {
           await WebsiteDataService.saveDraft('global_content', content);
           setSyncStatus('synced');
           setLastSynced(new Date());
-        } catch {
+        } catch (err) {
+          setSyncErrorDetail(toSyncErrorMessage(err, 'Failed to save draft.'));
           setSyncStatus('error');
         }
       }
@@ -82,13 +98,21 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
   };
 
   const handlePublish = async () => {
+    const blockReason = getCmsSaveBlockReason();
+    if (blockReason) {
+      setSyncErrorDetail(blockReason);
+      setSyncStatus('error');
+      return;
+    }
     setSyncStatus('syncing');
+    setSyncErrorDetail(null);
     try {
       await WebsiteDataService.publish('global_content');
       setSyncStatus('synced');
       setLastSynced(new Date());
       alert('Website content published successfully!');
-    } catch {
+    } catch (err) {
+      setSyncErrorDetail(toSyncErrorMessage(err, 'Failed to publish.'));
       setSyncStatus('error');
     }
   };
@@ -106,6 +130,7 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
 
   return (
     <div className="space-y-8">
+      <CmsSaveNotice />
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="text-4xl font-black tracking-tight mb-2">{pageConfig.label}</h1>
@@ -136,6 +161,7 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
             status={syncStatus}
             lastSynced={lastSynced}
             onManualSync={() => setSyncStatus('pending')}
+            errorDetail={syncErrorDetail}
           />
           <CTAButton
             size="sm"

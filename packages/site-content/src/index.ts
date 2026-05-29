@@ -8,6 +8,7 @@ export * from './community';
 export * from './membership-page';
 export * from './about';
 export * from './newsletter';
+export * from './newsletter-posts';
 export * from './seeds/index';
 export { FIELD_KEYS as SITE_CONTENT_FIELD_KEYS } from './keys';
 

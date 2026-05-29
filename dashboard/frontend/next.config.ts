@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   // Monorepo: resolve modules from repo root (avoids stale/missing chunks in dev)
   outputFileTracingRoot: path.join(__dirname, '../..'),
 
-  transpilePackages: ['@pms/booking-crm', '@pms/ui'],
+  transpilePackages: ['@pms/booking-crm', '@pms/ui', '@pms/site-content'],
   experimental: {
     optimizePackageImports: ['lucide-react', 'date-fns', 'motion'],
   },
@@ -33,7 +33,6 @@ const nextConfig: NextConfig = {
       { source: '/dashboard/booking-crm/members', destination: cta, permanent: false },
       { source: '/dashboard/booking-crm/members/:id', destination: cta, permanent: false },
       { source: '/dashboard/booking-crm/monetization', destination: cta, permanent: false },
-      { source: '/dashboard/booking-crm/newsletter', destination: cta, permanent: false },
       { source: '/dashboard/booking-crm/cta/analytics', destination: cta, permanent: false },
       { source: '/dashboard/booking-crm/cta/audit', destination: cta, permanent: false },
       { source: '/dashboard/booking-crm/interactions', destination: sheets, permanent: false },
@@ -43,7 +42,10 @@ const nextConfig: NextConfig = {
       { source: '/dashboard/members/:id', destination: cta, permanent: true },
       { source: '/dashboard/bookings', destination: '/dashboard/booking-crm/bookings', permanent: true },
       { source: '/dashboard/monetization', destination: cta, permanent: true },
-      { source: '/dashboard/newsletter', destination: cta, permanent: true },
+      { source: '/dashboard/newsletter', destination: '/dashboard/booking-crm/newsletter', permanent: true },
+      { source: '/dashboard/booking-crm/newsletter/posts', destination: '/dashboard/booking-crm/newsletter', permanent: true },
+      { source: '/dashboard/booking-crm/newsletter/posts/new', destination: '/dashboard/booking-crm/newsletter/new', permanent: true },
+      { source: '/dashboard/booking-crm/newsletter/posts/:id/edit', destination: '/dashboard/booking-crm/newsletter/:id/edit', permanent: true },
       { source: '/dashboard/cta', destination: cta, permanent: true },
       { source: '/dashboard/cta/analytics', destination: cta, permanent: true },
       { source: '/dashboard/cta/audit', destination: cta, permanent: true },

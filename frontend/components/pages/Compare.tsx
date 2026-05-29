@@ -15,8 +15,10 @@ import {
   getCompareableCertifications,
   parseCompareCertIds,
 } from '@/lib/compare-certifications';
+import { useWebsiteData } from '@/services/WebsiteDataService';
 
 export function Compare() {
+  const { get } = useWebsiteData();
   const router = useRouter();
   const searchParams = useSearchParams();
   const compareable = React.useMemo(() => getCompareableCertifications(), []);
@@ -75,14 +77,16 @@ export function Compare() {
         <SectionAmbience tone="purple" />
         <div className="container relative z-10 mx-auto text-center">
           <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-            Comparison matrix
+            {get('compare_badge', 'Comparison matrix')}
           </Badge>
           <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
-            Compare <span className="text-brand-orange">certifications</span>
+            {get('compare_title', 'Compare certifications')}
           </h1>
           <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-            Pick up to three pathways from any mix of PMI®, PRINCE2®, and Lean Six Sigma, then
-            review tiers, prep time, and regional tuition in one matrix.
+            {get(
+              'compare_subtitle',
+              'Pick up to three pathways from any mix of PMI®, PRINCE2®, and Lean Six Sigma, then review tiers, prep time, and regional tuition in one matrix.',
+            )}
           </p>
         </div>
       </section>

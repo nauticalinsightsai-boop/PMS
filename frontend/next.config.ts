@@ -6,7 +6,7 @@ const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, '..'),
-  transpilePackages: ['@pms/booking-crm', '@pms/ui'],
+  transpilePackages: ['@pms/booking-crm', '@pms/ui', '@pms/site-content'],
   outputFileTracingIncludes: {
     '/go/[channel]': [
       './packages/booking-crm/data/channel-landing-pages.json',

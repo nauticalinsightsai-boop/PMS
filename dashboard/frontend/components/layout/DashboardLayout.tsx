@@ -169,7 +169,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                 >
                   <DashboardNavLink
                     href={item.path}
-                    exact={item.path.endsWith('/dashboard')}
+                    exact={item.path === '/dashboard' || item.path.endsWith('/dashboard')}
                     className={navItemClasses}
                     title={!isSidebarExpanded ? item.name : undefined}
                   >

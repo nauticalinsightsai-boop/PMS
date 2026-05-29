@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
+import { MediaLibraryPage } from '@/components/pages/admin/MediaLibraryPage';
 
-export default function LegacyRoute() {
-  redirect('/dashboard/site-system');
+export default function Page() {
+  return <MediaLibraryPage />;
 }

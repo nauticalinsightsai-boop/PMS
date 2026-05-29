@@ -8,12 +8,14 @@ interface SyncStatusIndicatorProps {
   status: SyncStatus;
   lastSynced?: Date;
   onManualSync?: () => void;
+  errorDetail?: string | null;
 }
 
 export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
   status,
   lastSynced,
   onManualSync,
+  errorDetail,
 }) => {
   const configs = {
     synced: { icon: CloudCheck, text: 'Changes Saved', class: 'text-emerald-600 dark:text-emerald-400' },
@@ -25,33 +27,38 @@ export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
   const config = configs[status];
 
   return (
-    <div className="flex items-center gap-4 bg-card/80 backdrop-blur-sm px-4 py-2 rounded-2xl border border-border">
-      <div
-        className={cn(
-          'flex items-center gap-2 text-label normal-case tracking-wide',
-          config.class,
-        )}
-      >
-        <config.icon size={14} className={status === 'syncing' ? 'animate-spin' : ''} />
-        {config.text}
-      </div>
-
-      {lastSynced && status === 'synced' && (
-        <span className="text-xs text-muted-foreground font-medium">
-          Last sync: {lastSynced.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-        </span>
-      )}
-
-      {onManualSync && (
-        <button
-          type="button"
-          onClick={onManualSync}
-          className="p-1 hover:bg-muted rounded-lg transition-colors text-muted-foreground"
-          title="Force Sync"
+    <div className="flex flex-col gap-1">
+      <div className="flex items-center gap-4 bg-card/80 backdrop-blur-sm px-4 py-2 rounded-2xl border border-border">
+        <div
+          className={cn(
+            'flex items-center gap-2 text-label normal-case tracking-wide',
+            config.class,
+          )}
         >
-          <RefreshCw size={12} />
-        </button>
-      )}
+          <config.icon size={14} className={status === 'syncing' ? 'animate-spin' : ''} />
+          {config.text}
+        </div>
+
+        {lastSynced && status === 'synced' && (
+          <span className="text-xs text-muted-foreground font-medium">
+            Last sync: {lastSynced.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </span>
+        )}
+
+        {onManualSync && (
+          <button
+            type="button"
+            onClick={onManualSync}
+            className="p-1 hover:bg-muted rounded-lg transition-colors text-muted-foreground"
+            title="Force Sync"
+          >
+            <RefreshCw size={12} />
+          </button>
+        )}
+      </div>
+      {status === 'error' && errorDetail ? (
+        <p className="text-xs text-destructive max-w-md px-1">{errorDetail}</p>
+      ) : null}
     </div>
   );
 };

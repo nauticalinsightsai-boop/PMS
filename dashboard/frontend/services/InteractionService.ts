@@ -10,8 +10,9 @@ export interface Interaction {
 }
 
 export const InteractionService = {
-  async getInteractions(page = 0, limit = 50) {
+  async getInteractions(page = 0, limit = 50, source?: string) {
     const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+    if (source) params.set('source', source);
     const response = await fetch(`/api/interactions?${params}`);
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
@@ -31,5 +32,14 @@ export const InteractionService = {
 
   async exportCSV() {
     window.location.href = '/api/interactions/export';
+  },
+
+  async deleteInteraction(interactionId: string) {
+    const response = await fetch(`/api/interactions/${interactionId}`, { method: 'DELETE' });
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error((err as { error?: string }).error || 'Delete failed');
+    }
+    return response.json();
   },
 };

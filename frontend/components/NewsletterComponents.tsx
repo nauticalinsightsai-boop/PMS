@@ -7,8 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import type { NewsletterArticle } from "@/data/newsletterArticles";
-import { getNewsletterArticleHref } from "@/data/newsletterArticles";
+import type { NewsletterArticle } from "@pms/site-content/newsletter-posts";
+import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
 
 interface CategoryChipProps {
   label: string;
@@ -34,11 +34,12 @@ export const CategoryChip: React.FC<CategoryChipProps> = ({ label, active, onCli
 
 interface ArticleCardProps {
   article: NewsletterArticle;
+  href?: string;
   variant?: "default" | "compact" | "horizontal";
 }
 
-export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = "default" }) => {
-  const href = getNewsletterArticleHref(article);
+export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant = "default" }) => {
+  const linkHref = href ?? getNewsletterArticleHref(article);
 
   if (variant === "horizontal") {
     return (
@@ -47,7 +48,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = "de
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <Link href={href} className="flex gap-6 group">
+        <Link href={linkHref} className="flex gap-6 group">
         <div className="w-1/3 aspect-[4/3] rounded-2xl overflow-hidden shrink-0">
           <img 
             src={article.image} 
@@ -81,7 +82,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = "de
       viewport={{ once: true }}
       className="group"
     >
-      <Link href={href} className="block">
+      <Link href={linkHref} className="block">
       <Card className="h-full border-none shadow-none bg-transparent overflow-hidden">
         <div className="aspect-video rounded-3xl overflow-hidden mb-6">
           <img 
