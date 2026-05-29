@@ -7,6 +7,51 @@ import { getCredibilityTabLabels } from '@/lib/channel-landing-pages/portalConve
 
 type TabId = 'metrics' | 'quotes'
 
+function initialsFromName(name: string): string {
+  const parts = name.trim().split(/\s+/)
+  if (parts.length >= 2) return `${parts[0]![0] ?? ''}${parts[1]![0] ?? ''}`.toUpperCase()
+  return name.slice(0, 2).toUpperCase()
+}
+
+function LearnerAvatar({
+  item,
+  theme,
+}: {
+  item: PortalSocialProofItem
+  theme: PlatformPortalTheme
+}) {
+  const [failed, setFailed] = useState(false)
+  const initials = initialsFromName(item.name)
+
+  if (!item.avatarUrl || failed) {
+    return (
+      <div
+        className="w-12 h-12 rounded-full flex items-center justify-center text-meta font-semibold shrink-0"
+        style={{
+          border: `1px solid ${theme.cardBorder}`,
+          backgroundColor: theme.surfaceMuted,
+          color: theme.text,
+        }}
+        aria-hidden
+      >
+        {initials}
+      </div>
+    )
+  }
+
+  return (
+    <img
+      src={item.avatarUrl}
+      alt=""
+      width={48}
+      height={48}
+      className="w-12 h-12 rounded-full object-cover shrink-0"
+      style={{ border: `1px solid ${theme.cardBorder}` }}
+      onError={() => setFailed(true)}
+    />
+  )
+}
+
 type Props = {
   theme: PlatformPortalTheme
   channelId: string
@@ -98,38 +143,43 @@ export default function PortalCredibilityTabs({
             }`}
           >
             {quotes.map((q, i) => (
-              <li key={`${q.quote.slice(0, 24)}-${i}`}>
+              <li key={`${q.name}-${i}`}>
                 <figure
-                  className="m-0 h-full p-4 sm:p-5"
+                  className="m-0 h-full p-4 sm:p-5 flex gap-3 sm:gap-4"
                   style={{
                     borderRadius: theme.radiusLg,
                     backgroundColor: theme.surface,
                     border: `1px solid ${theme.cardBorder}`,
                   }}
                 >
-                  <blockquote className="m-0">
-                    <p className="text-body-sm leading-relaxed" style={{ color: theme.text }}>
-                      {q.quote}
-                    </p>
-                  </blockquote>
-                  {q.name || q.role ? (
-                    <figcaption className="mt-3 space-y-0.5">
-                      {q.name ? (
-                        <p className="text-meta font-medium" style={{ color: theme.text }}>
-                          {q.name}
-                        </p>
-                      ) : null}
-                      {q.title ? (
-                        <p className="text-meta" style={{ color: theme.textMuted }}>
-                          {q.title}
-                        </p>
-                      ) : q.role ? (
-                        <p className="text-meta" style={{ color: theme.textMuted }}>
-                          {q.role}
-                        </p>
+                  <LearnerAvatar item={q} theme={theme} />
+                  <div className="min-w-0 flex-1">
+                    <blockquote className="m-0">
+                      <p className="text-body-sm leading-relaxed" style={{ color: theme.text }}>
+                        {q.quote}
+                      </p>
+                    </blockquote>
+                    <figcaption className="mt-3 space-y-1">
+                      <p className="text-meta font-medium" style={{ color: theme.text }}>
+                        {q.name}
+                      </p>
+                      <p className="text-meta" style={{ color: theme.textMuted }}>
+                        {q.title}
+                      </p>
+                      {q.credential ? (
+                        <span
+                          className="inline-block text-[10px] font-mono uppercase tracking-wider px-2 py-0.5"
+                          style={{
+                            borderRadius: theme.radius,
+                            border: `1px solid ${theme.cardBorder}`,
+                            color: theme.primary,
+                          }}
+                        >
+                          {q.credential}
+                        </span>
                       ) : null}
                     </figcaption>
-                  ) : null}
+                  </div>
                 </figure>
               </li>
             ))}

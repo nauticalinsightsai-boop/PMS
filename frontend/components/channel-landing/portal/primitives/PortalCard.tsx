@@ -12,8 +12,8 @@ type Props = {
   className?: string
 }
 
-export default function PortalCard({ theme, channelId, proPortalShell, children, className = '' }: Props) {
-  const useSiteGlass = Boolean(proPortalShell ?? channelId === 'website')
+export default function PortalCard({ theme, proPortalShell, children, className = '' }: Props) {
+  const useSiteGlass = Boolean(proPortalShell)
 
   if (useSiteGlass) {
     return (

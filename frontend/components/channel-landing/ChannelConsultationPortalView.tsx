@@ -56,7 +56,7 @@ function flowSectionOrder(flow: PortalSectionId[], id: PortalSectionId): number 
 
 /**
  * Conversion flow: presence → hero → context → pathways → hero card → trust → tiers → proof → FAQ.
- * All published `/go/{slug}` portals share the website shell and in-column section stack.
+ * Pro shell (website/webinar) uses marketing gradient + glass; other slugs use platform theme.
  */
 export default function ChannelConsultationPortalView({ page, isPreview }: Props) {
   const { colorMode, setColorMode } = usePortalThemeMode(page.channelId)
@@ -111,6 +111,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
     colorMode,
     onSetColorMode: setColorMode,
     onBookMentor: hasFreeIntroTier ? undefined : bookDiscovery,
+    scheduleCta,
   }
 
   const contentWidth = portalShellMaxWidthClass(layoutVariant)
@@ -182,6 +183,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
           {...sectionProps}
           sectionOrder={sectionOrder('final_cta')}
           onPrimaryClick={bookFinalCtaTier}
+          scheduleCta={scheduleCta}
         />
         <div style={{ order: sectionOrder('social_footer') }}>
           <ChannelPortalSocialFooter theme={theme} />
@@ -191,7 +193,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
       <ChannelPortalStickyCta
         channelId={page.channelId}
         theme={theme}
-        label="Talk to a mentor"
+        label={scheduleCta}
         onClick={bookDiscovery}
       />
     </div>

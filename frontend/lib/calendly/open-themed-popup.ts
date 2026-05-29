@@ -60,16 +60,18 @@ export function loadCalendlyPopupWidget(): Promise<void> {
  calendlyScriptPromise = new Promise<void>((resolve, reject) => {
   let done = false;
   /** DOM returns `number`; Node typings use `NodeJS.Timeout` — union satisfies both. */
-  let pollId: number | NodeJS.Timeout | undefined;
-  let timeoutId: number | NodeJS.Timeout | undefined;
+  const timers: {
+    pollId?: number | NodeJS.Timeout;
+    timeoutId?: number | NodeJS.Timeout;
+  } = {};
 
   const finish = (ok: boolean, err?: Error) => {
    if (done) return;
    if (window.Calendly?.initPopupWidget) ok = true;
    if (!ok && !err) err = new Error('Calendly widget unavailable');
    done = true;
-   if (pollId !== undefined) window.clearInterval(pollId);
-   if (timeoutId !== undefined) window.clearTimeout(timeoutId);
+   if (timers.pollId !== undefined) window.clearInterval(timers.pollId);
+   if (timers.timeoutId !== undefined) window.clearTimeout(timers.timeoutId);
    if (ok) resolve();
    else reject(err);
   };
@@ -79,8 +81,8 @@ export function loadCalendlyPopupWidget(): Promise<void> {
   };
 
   check();
-  pollId = window.setInterval(check, 50);
-  timeoutId = window.setTimeout(() => finish(false, new Error('Calendly widget timeout')), 12000);
+  timers.pollId = window.setInterval(check, 50);
+  timers.timeoutId = window.setTimeout(() => finish(false, new Error('Calendly widget timeout')), 12000);
 
   const existing =
    document.querySelector<HTMLScriptElement>('script[data-calendly-widget="true"]') ||

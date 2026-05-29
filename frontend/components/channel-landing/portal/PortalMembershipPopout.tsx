@@ -17,7 +17,7 @@ type Props = {
 export default function PortalMembershipPopout({ theme, membershipPrice, className = '' }: Props) {
   const [open, setOpen] = useState(false);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const price = membershipPrice?.trim() || '—';
+  const price = membershipPrice?.trim() || 'N/A';
 
   const show = useCallback(() => {
     if (hideTimer.current) clearTimeout(hideTimer.current);

@@ -69,7 +69,7 @@ export function resolveTierPathwayCta(
   if (tierId === 'foundation') {
     if (status === 'scholarship_verify') {
       return {
-        label: 'View programme & verify eligibility',
+        label: 'Verify eligibility',
         modalMode: 'verify',
         proceedHref: verifyHref,
         proceedLabel: 'Continue to eligibility check',
@@ -77,7 +77,7 @@ export function resolveTierPathwayCta(
     }
     if (status === 'consultation_required') {
       return {
-        label: 'View programme details',
+        label: 'Book consultation',
         modalMode: 'consultation',
         proceedHref: consultationHref,
         proceedLabel: 'Book a consultation',
@@ -85,7 +85,7 @@ export function resolveTierPathwayCta(
     }
     if (status === 'scholarship_unavailable') {
       return {
-        label: 'View programme details',
+        label: 'View and enroll',
         modalMode: 'global',
         proceedHref: globalHref,
         proceedLabel: 'Proceed with global pricing',
@@ -93,14 +93,14 @@ export function resolveTierPathwayCta(
     }
     if (status === 'waitlist') {
       return {
-        label: 'View programme details',
+        label: 'Join waitlist',
         modalMode: 'waitlist',
         proceedHref: waitlistHref,
         proceedLabel: 'Join waitlist',
       };
     }
     return {
-      label: 'View programme & enroll',
+      label: 'View and enroll',
       modalMode: 'enroll',
       proceedHref: checkoutHref,
       proceedLabel: 'Proceed to checkout',
@@ -110,7 +110,7 @@ export function resolveTierPathwayCta(
   if (tierId === 'professional') {
     if (status === 'scholarship_verify') {
       return {
-        label: 'View programme & request scholarship review',
+        label: 'Request scholarship',
         modalMode: 'scholarship',
         proceedHref: scholarshipHref,
         proceedLabel: 'Request scholarship review',
@@ -118,7 +118,7 @@ export function resolveTierPathwayCta(
     }
     if (status === 'waitlist') {
       return {
-        label: 'View programme details',
+        label: 'Join waitlist',
         modalMode: 'waitlist',
         proceedHref: waitlistHref,
         proceedLabel: 'Join waitlist',
@@ -128,7 +128,7 @@ export function resolveTierPathwayCta(
       const lower = (matrixPrimary ?? '').toLowerCase();
       if (lower.includes('global')) {
         return {
-          label: 'View programme details',
+          label: 'View and enroll',
           modalMode: 'global',
           proceedHref: globalHref,
           proceedLabel: 'Proceed with global pricing',
@@ -146,7 +146,7 @@ export function resolveTierPathwayCta(
   if (isMasteryTierId(tierId)) {
     if (status === 'scholarship_verify') {
       return {
-        label: 'View programme & request scholarship review',
+        label: 'Request scholarship',
         modalMode: 'scholarship',
         proceedHref: scholarshipHref,
         proceedLabel: 'Request scholarship review',
@@ -154,18 +154,14 @@ export function resolveTierPathwayCta(
     }
     if (status === 'waitlist') {
       return {
-        label: 'View mastery programme',
+        label: 'Join waitlist',
         modalMode: 'waitlist',
         proceedHref: waitlistHref,
         proceedLabel: 'Join waitlist',
       };
     }
-    const label =
-      (matrixPrimary ?? '').toLowerCase().includes('mastery consultation')
-        ? 'Book mastery consultation'
-        : 'Book consultation';
     return {
-      label,
+      label: 'Book consultation',
       modalMode: 'consultation',
       proceedHref: consultationHref,
       proceedLabel: 'Book a consultation call',
@@ -174,7 +170,7 @@ export function resolveTierPathwayCta(
 
   const fallbackAction: CtaAction = canCheckout(status) ? 'checkout' : 'consultation';
   return {
-    label: matrixPrimary ?? 'View programme',
+    label: fallbackAction === 'checkout' ? 'View and enroll' : 'Book consultation',
     modalMode: fallbackAction === 'checkout' ? 'enroll' : 'consultation',
     proceedHref: hrefForCtaAction(fallbackAction, offeringId, siteCertId),
     proceedLabel: fallbackAction === 'checkout' ? 'Proceed to checkout' : 'Book a consultation',

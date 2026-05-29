@@ -91,7 +91,7 @@ export default function PortalPathwayCard({
   const outcomes =
     cert.learningOutcomes?.slice(0, 3) ?? ['Structured study plan', 'Mock exam practice'];
   const ctaLabel = isEnrollmentOpen(cert.id, regionId) ? 'View pathway' : 'View overview';
-  const tuitionSummary = listing.active ?? '—';
+  const tuitionSummary = listing.active ?? 'N/A';
 
   const shellStyle = {
     borderRadius: theme.radiusLg,

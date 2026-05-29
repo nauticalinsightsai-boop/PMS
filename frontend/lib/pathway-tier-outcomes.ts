@@ -1,5 +1,3 @@
-import type { TierId } from '@/types/regional-catalogue';
-
 export type PathwayOutcomeTier = 'foundation' | 'professional' | 'mastery';
 
 export type PathwayOutcomesByTier = Partial<Record<PathwayOutcomeTier, string[]>>;

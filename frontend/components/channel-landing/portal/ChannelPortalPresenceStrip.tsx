@@ -7,7 +7,6 @@ import { getChannelProfileUrl } from '@/constants/socialProfiles'
 import { portalPresenceStripWidthClass } from '@/lib/channel-landing-pages/portalLayoutClasses'
 
 export default function ChannelPortalPresenceStrip({
-  page,
   theme,
   sectionOrder,
   channelId,
@@ -76,11 +75,9 @@ export default function ChannelPortalPresenceStrip({
             >
               {presenceLabel}
             </p>
-            {isInstagram && (
-              <p className="text-[11px] mt-0.5" style={{ color: theme.textMuted }}>
-                Consultation booking
-              </p>
-            )}
+            <p className="text-[11px] mt-0.5" style={{ color: theme.textMuted }}>
+              Mentor-led certification prep
+            </p>
           </div>
         </a>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import { ChevronDown, Crown, GitCompare, ShoppingBag } from 'lucide-react';
 import type { ChannelLandingPage } from '@/types/channelLandingPage';
@@ -34,6 +34,30 @@ export default function PortalSiteChips({ page, theme, includeCompare = false }:
   const e = page.portalEngagement;
   const { regionId, gccCountry } = useRegion();
   const [active, setActive] = useState<ChipId | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearCloseTimer = useCallback(() => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }, []);
+
+  const scheduleClose = useCallback(() => {
+    clearCloseTimer();
+    closeTimer.current = setTimeout(() => setActive(null), 600);
+  }, [clearCloseTimer]);
+
+  const openChip = useCallback(
+    (id: ChipId) => {
+      clearCloseTimer();
+      setActive(id);
+    },
+    [clearCloseTimer]
+  );
+
+  useEffect(() => () => clearCloseTimer(), [clearCloseTimer]);
   const showStore = e?.showStoreLink !== false;
   const showMembership = e?.showMembershipLink !== false;
   const showCompare = includeCompare || e?.showComparePathways === true;
@@ -41,7 +65,7 @@ export default function PortalSiteChips({ page, theme, includeCompare = false }:
   const proMembership = proTier
     ? getRegionalMembershipAmounts(proTier.monthlyPriceUsd, proTier.yearlyPriceUsd, regionId, gccCountry)
     : null;
-  const membershipPrice = proMembership?.monthly?.trim() || '—';
+  const membershipPrice = proMembership?.monthly?.trim() || 'N/A';
 
   const chips: ChipConfig[] = [];
   if (showStore) {
@@ -59,7 +83,7 @@ export default function PortalSiteChips({ page, theme, includeCompare = false }:
       id: 'compare',
       label: 'Compare',
       icon: <GitCompare size={14} aria-hidden />,
-      body: 'Compare certification pathways side by side — credentials, cohort timing, and regional tuition.',
+      body: 'Compare certification pathways side by side: credentials, cohort timing, and regional tuition.',
       href: '/certifications/compare',
       cta: 'Compare pathways →',
     });
@@ -82,7 +106,12 @@ export default function PortalSiteChips({ page, theme, includeCompare = false }:
   const panel = chips.find((chip) => chip.id === active);
 
   return (
-    <div className="portal-site-chips w-full">
+    <div
+      ref={rootRef}
+      className="portal-site-chips w-full flex flex-col gap-3"
+      onPointerEnter={clearCloseTimer}
+      onPointerLeave={scheduleClose}
+    >
       <div className="flex w-full items-stretch gap-2" role="tablist" aria-label="Site shortcuts">
         {chips.map((chip) => {
           const isOpen = active === chip.id;
@@ -95,6 +124,7 @@ export default function PortalSiteChips({ page, theme, includeCompare = false }:
               aria-expanded={isOpen}
               aria-controls={`portal-site-chip-panel-${chip.id}`}
               onClick={() => toggle(chip.id)}
+              onPointerEnter={() => openChip(chip.id)}
               className="flex flex-1 min-w-0 items-center justify-center gap-1.5 text-meta font-medium px-3 py-1.5 transition-opacity hover:opacity-90"
               style={{
                 borderRadius: theme.radius,
@@ -128,7 +158,7 @@ export default function PortalSiteChips({ page, theme, includeCompare = false }:
             color: theme.text,
           }}
         >
-          <p className="text-body-sm leading-relaxed mb-2" style={{ color: theme.textMuted }}>
+          <p className="text-body-sm leading-relaxed mb-2" style={{ color: theme.text }}>
             {panel.body}
           </p>
           {panel.price ? (

@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { StoreContent } from "@/components/pages/Store";
-import { BRAND, COMMUNITY_COPY, CTAS } from "@/lib/brand-voice";
+import { BRAND, COMMUNITY_COPY } from "@/lib/brand-voice";
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 
 const communityChannels = [

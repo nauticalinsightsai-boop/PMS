@@ -5,6 +5,7 @@ import PlatformChannelIcon from '@/components/admin/PlatformChannelIcon'
 import PortalHeaderUtilities from '@/components/channel-landing/portal/PortalHeaderUtilities'
 import PortalButton from '@/components/channel-landing/portal/primitives/PortalButton'
 import { BRAND } from '@/lib/brand-voice'
+import { resolveScheduleTierCta } from '@/lib/channel-landing-pages/channelPortalCopy'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 import { pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils'
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
@@ -63,9 +64,14 @@ export default function ChannelPortalHeroHeader({
   proPortalShell,
   isLeadHero = false,
   onBookMentor,
+  scheduleCta: scheduleCtaProp,
   topBar = false,
 }: PortalSectionProps) {
   const showEngagementLinks = !proPortalShell
+  const scheduleCta =
+    scheduleCtaProp ??
+    resolveScheduleTierCta(page.channelId, page.primaryButtonText ?? theme.scheduleTierCta)
+  const brandLabel = BRAND.name
   if (isImpulseFlow) {
     return (
       <header
@@ -99,7 +105,7 @@ export default function ChannelPortalHeroHeader({
                   className="text-body font-semibold"
                   style={{ color: theme.text, fontFamily: theme.fontFamily }}
                 >
-                  {BRAND.fullName}
+                  {brandLabel}
                 </span>
                 <BadgeCheck size={16} style={{ color: theme.verifiedColor }} aria-label="Verified" />
               </div>
@@ -122,7 +128,7 @@ export default function ChannelPortalHeroHeader({
         </div>
         {onBookMentor ? (
           <PortalButton theme={theme} variant="recommended" className="w-full sm:w-auto" onClick={onBookMentor}>
-            Talk to a mentor
+            {scheduleCta}
           </PortalButton>
         ) : null}
       </header>
@@ -159,7 +165,7 @@ export default function ChannelPortalHeroHeader({
                 className="text-body-lg font-semibold"
                 style={{ color: theme.text, fontFamily: theme.fontFamily }}
               >
-                {BRAND.fullName}
+                {brandLabel}
               </p>
               <BadgeCheck
                 size={18}
@@ -188,7 +194,7 @@ export default function ChannelPortalHeroHeader({
       </div>
       {onBookMentor ? (
         <PortalButton theme={theme} variant="recommended" className="w-full sm:w-auto" onClick={onBookMentor}>
-          Talk to a mentor
+          {scheduleCta}
         </PortalButton>
       ) : null}
       {page.showSyncBanner ? <HeroSyncAside page={page} theme={theme} /> : null}

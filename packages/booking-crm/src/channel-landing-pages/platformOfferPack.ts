@@ -161,12 +161,15 @@ function flowForChannel(_channelId: string): PortalSectionId[] {
   return PROFESSIONAL_FLOW
 }
 
+/** Channels that use the marketing home shell (gradient, glass cards, footer site chips). */
+export const PRO_CONSULTATION_PORTAL_CHANNELS = new Set<string>(['website', 'webinar'])
+
 /**
  * Website-style consultation portal: presence strip, in-column hero stack,
- * marketing shell (gradient + glass), site chips in qualification.
+ * marketing shell (gradient + glass), site chips in final CTA footer.
  */
-export function usesProConsultationPortalLayout(_channelId: string): boolean {
-  return true
+export function usesProConsultationPortalLayout(channelId: string): boolean {
+  return PRO_CONSULTATION_PORTAL_CHANNELS.has(channelId)
 }
 
 /** @deprecated Impulse layout retired — all `/go/*` portals use {@link usesProConsultationPortalLayout}. */

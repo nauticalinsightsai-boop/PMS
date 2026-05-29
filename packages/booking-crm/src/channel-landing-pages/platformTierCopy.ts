@@ -6,6 +6,23 @@ import {
 } from '../types/channelLandingPage'
 import { CALENDLY_DEFAULT_SCHEDULING_URLS } from '../calendly/scheduling-urls'
 import { getChannelPortalCopy } from './channelPortalCopy'
+import { usesProConsultationPortalLayout } from './platformOfferPack'
+
+const GENERIC_INTRO_CTAS = new Set([
+  'talk to a mentor',
+  'book a mentor intro',
+  'schedule inline',
+  'schedule consultation',
+  'book a call',
+  'book a session',
+])
+
+function isGenericIntroCta(label: string | undefined, channelId: string): boolean {
+  const trimmed = label?.trim()
+  if (!trimmed) return true
+  if (usesProConsultationPortalLayout(channelId)) return false
+  return GENERIC_INTRO_CTAS.has(trimmed.toLowerCase())
+}
 
 type PaidTierCopy = {
   executive: Pick<ConsultationTier, 'title' | 'description'>
@@ -26,7 +43,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Paid mentor session',
       description:
-        'Extended mentor block after the webinar — pathway depth, prep planning, and certification questions with PM Structure.',
+        'Extended mentor block after the webinar. pathway depth, prep planning, and certification questions with PM Structure.',
     },
     designReview: {
       title: 'Paid mentor session',
@@ -49,7 +66,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Publication & defense discussion',
       description:
-        'Pressure-test ideas from Medium posts — publication strategy, peer-review defense, or translating articles into delivery plans.',
+        'Pressure-test ideas from Medium posts. publication strategy, peer-review defense, or translating articles into delivery plans.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -61,7 +78,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Newsletter & thesis discussion',
       description:
-        'Go beyond the newsletter — career direction, venture thesis, or how to operationalize what you subscribed to on Substack.',
+        'Go beyond the newsletter. career direction, venture thesis, or how to operationalize what you subscribed to on Substack.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -73,7 +90,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Career & project discussion',
       description:
-        'For Beehiiv readers ready to act — align career moves, publication strategy, or project sponsorship with a principal architect.',
+        'For Beehiiv readers ready to act. align career moves, publication strategy, or project sponsorship with a principal architect.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -85,7 +102,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Blog-to-project discussion',
       description:
-        'Bridge Ghost content to real decisions — feasibility, institutional strategy, or career pivots after reading the blog.',
+        'Bridge Ghost content to real decisions. feasibility, institutional strategy, or career pivots after reading the blog.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -97,7 +114,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Career & sponsor discussion',
       description:
-        'For LinkedIn connections — executive career guidance, sponsor conversations, or stakeholder alignment on complex programs.',
+        'For LinkedIn connections. executive career guidance, sponsor conversations, or stakeholder alignment on complex programs.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -109,7 +126,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Thread & project discussion',
       description:
-        'Expand an X thread or post into a structured call — project direction, public positioning, or quick executive alignment.',
+        'Expand an X thread or post into a structured call. project direction, public positioning, or quick executive alignment.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -121,7 +138,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Thread & project discussion',
       description:
-        'Continue the Bluesky conversation with a booked block — fit, project scope, or career guidance after posts or threads.',
+        'Continue the Bluesky conversation with a booked block. fit, project scope, or career guidance after posts or threads.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -133,7 +150,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Community & project discussion',
       description:
-        'For followers from pages or groups — discuss projects, collaborations, or advisory needs beyond the feed.',
+        'For followers from pages or groups. discuss projects, collaborations, or advisory needs beyond the feed.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -145,7 +162,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Creator & brand discussion',
       description:
-        'Move from reels, stories, or feed to a live session — brand partnerships, creator strategy, or project sponsorship.',
+        'Move from reels, stories, or feed to a live session. brand partnerships, creator strategy, or project sponsorship.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -157,7 +174,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Quick project discussion',
       description:
-        'Fast-track a Snap or story referral into a focused call — idea validation or next-step planning.',
+        'Fast-track a Snap or story referral into a focused call. idea validation or next-step planning.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -169,7 +186,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Creator & sponsor discussion',
       description:
-        'After watching on YouTube — sponsor calls, channel strategy, or translating video topics into delivery plans.',
+        'After watching on YouTube. sponsor calls, channel strategy, or translating video topics into delivery plans.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -181,7 +198,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Idea & project discussion',
       description:
-        'Book depth beyond the clip — stress-test an idea, career move, or venture theme from TikTok.',
+        'Book depth beyond the clip. stress-test an idea, career move, or venture theme from TikTok.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -193,7 +210,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Community & project discussion',
       description:
-        'From subreddit threads to a private advisory block — scope projects raised in discussion posts.',
+        'From subreddit threads to a private advisory block. scope projects raised in discussion posts.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -205,7 +222,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Listener & project discussion',
       description:
-        'Podcast listeners — discuss episodes, career paths, or projects inspired by the show.',
+        'Podcast listeners. discuss episodes, career paths, or projects inspired by the show.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -217,7 +234,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Community & project discussion',
       description:
-        'For server members — channel strategy, community programs, or project direction after Discord engagement.',
+        'For server members. channel strategy, community programs, or project direction after Discord engagement.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -229,7 +246,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
     executive: {
       title: 'Executive · Channel & project discussion',
       description:
-        'Telegram channel followers — project scope, broadcast strategy, or advisory on initiatives you follow.',
+        'Telegram channel followers. project scope, broadcast strategy, or advisory on initiatives you follow.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -257,7 +274,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
     executive: {
       title: 'Executive · Reader & project discussion',
       description:
-        'For publication readers — turn what you read into career guidance, project sponsorship, or delivery strategy.',
+        'For publication readers. turn what you read into career guidance, project sponsorship, or delivery strategy.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -269,7 +286,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
     executive: {
       title: 'Executive · Career & project discussion',
       description:
-        'Social referrals — career moves, project fit, or executive alignment after engaging on the platform.',
+        'Social referrals. career moves, project fit, or executive alignment after engaging on the platform.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -281,7 +298,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
     executive: {
       title: 'Executive · Creator & sponsor discussion',
       description:
-        'Video audience — sponsor strategy, production themes, or project direction after watching.',
+        'Video audience. sponsor strategy, production themes, or project direction after watching.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -293,7 +310,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
     executive: {
       title: 'Executive · Listener & project discussion',
       description:
-        'Listeners booking after an episode — careers, ventures, or programs inspired by the show.',
+        'Listeners booking after an episode. careers, ventures, or programs inspired by the show.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -305,7 +322,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
     executive: {
       title: 'Executive · Direct project discussion',
       description:
-        'Direct-channel subscribers — scope projects, lists, or community initiatives one-to-one.',
+        'Direct-channel subscribers. scope projects, lists, or community initiatives one-to-one.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -317,7 +334,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
     executive: {
       title: 'Executive · Search-intent discussion',
       description:
-        'You found this via search — discuss the problem you are trying to solve before committing further.',
+        'You found this via search. discuss the problem you are trying to solve before committing further.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -329,7 +346,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
     executive: {
       title: 'Executive · Syndicated referral discussion',
       description:
-        'Arrived via syndicated feed or API — align automation outputs with real advisory needs.',
+        'Arrived via syndicated feed or API. align automation outputs with real advisory needs.',
     },
     designReview: {
       title: 'Certification depth session',
@@ -361,7 +378,7 @@ const DISCOVERY_BY_CHANNEL: Partial<Record<string, DiscoveryCopy>> = {
   webinar: {
     title: 'Free Mentor Intro',
     description:
-      'After the briefing — orientation on pathways, prep options, and whether a paid working session fits. Cite the webinar title or replay when you book.',
+      'After the briefing. orientation on pathways, prep options, and whether a paid working session fits. Cite the webinar title or replay when you book.',
   },
   linkedin: {
     title: '15-Min Executive Fit Check',
@@ -371,21 +388,21 @@ const DISCOVERY_BY_CHANNEL: Partial<Record<string, DiscoveryCopy>> = {
   },
   instagram: {
     title: '15-Min Reel & Story Follow-Up',
-    description: 'Short call after a reel, story, or feed link — name what you watched when you book.',
+    description: 'Short call after a reel, story, or feed link. name what you watched when you book.',
     bestFor: 'Quick direction after visual content',
     outcome: 'Focused next step from the clip or story',
   },
   medium: {
     title: 'Free Mentor Intro',
-    description: 'After a Medium article — cite the post and your certification question when you book.',
+    description: 'After a Medium article. cite the post and your certification question when you book.',
   },
   website: {
     title: 'Free Mentor Intro',
-    description: 'From a site page, newsletter, or knowledge asset — cite what you read when you book.',
+    description: 'From a site page, newsletter, or knowledge asset. cite what you read when you book.',
   },
   twitter: {
     title: '15-Min Thread Follow-Up',
-    description: 'Expand a post or thread into structured guidance — drop the URL in your booking note.',
+    description: 'Expand a post or thread into structured guidance. drop the URL in your booking note.',
     bestFor: 'One thread or post you want vetted',
     outcome: 'Direction beyond what fits in a post',
   },
@@ -444,6 +461,11 @@ const DESIGN_TIER_META: Pick<ConsultationTier, 'bestFor' | 'outcome'> = {
 export function getConsultationTiersForChannel(channelId: string): ConsultationTier[] {
   const paid = paidCopyForChannel(channelId)
   const discovery = discoveryCopyForChannel(channelId)
+  const packCta = getChannelPortalCopy(channelId)?.scheduleTierCta
+  const introCta =
+    channelId === 'webinar' || usesProConsultationPortalLayout(channelId)
+      ? 'Talk to a mentor'
+      : packCta ?? 'Book a mentor intro'
   const executiveBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'executive')!
   const designBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'design-review')!
   const servicesTier: ConsultationTier = {
@@ -465,7 +487,7 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
         ...discovery,
         title: 'Free Mentor Intro',
         isFree: true,
-        ctaLabel: 'Talk to a mentor',
+        ctaLabel: introCta,
         scheduleUrl: SCHEDULE_URLS.discovery,
       },
       {
@@ -489,7 +511,7 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
       ...discovery,
       title: discovery.title === 'Free mentor intro' ? 'Free Mentor Intro' : discovery.title,
       isFree: true,
-      ctaLabel: 'Talk to a mentor',
+      ctaLabel: introCta,
       scheduleUrl: SCHEDULE_URLS.discovery,
     },
     {
@@ -545,7 +567,10 @@ export function applyPlatformConsultationTiers(
         id: 'mentor-intro',
         title: pt.title,
         description: pt.description,
-        ctaLabel: s.ctaLabel?.trim() || pt.ctaLabel || 'Talk to a mentor',
+        ctaLabel:
+          s.ctaLabel?.trim() && !isGenericIntroCta(s.ctaLabel, channelId)
+            ? s.ctaLabel.trim()
+            : pt.ctaLabel || 'Talk to a mentor',
         scheduleUrl: s.scheduleUrl?.trim() || pt.scheduleUrl,
         isFree: true,
         priceLabel: 'Free',

@@ -132,10 +132,7 @@ function findPopupScrollContainer(popup: HTMLElement): HTMLElement | null {
  return null;
 }
 
-function enforcePopupContainment(
- overlay: HTMLElement,
- popupTheme: ReturnType<typeof getCalendlyPopupThemeTokens>
-): void {
+function enforcePopupContainment(overlay: HTMLElement): void {
  const popup = overlay.querySelector<HTMLElement>('.calendly-popup');
  if (!popup) return;
  ensureHiddenScrollbarStyles();
@@ -244,7 +241,7 @@ function bindOverlay(overlay: HTMLElement): void {
  const enforceContainment = () => {
   overlay.style.setProperty('background-color', popupTheme.overlayScrim, 'important');
   enforceOuterScrollLock(overlay);
-  enforcePopupContainment(overlay, popupTheme);
+  enforcePopupContainment(overlay);
  };
 
  const onOverlayClick = (e: MouseEvent) => {

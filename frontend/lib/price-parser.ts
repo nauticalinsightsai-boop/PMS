@@ -31,8 +31,10 @@ export function resolveComparableGlobalReference(
   offering: CourseOffering,
   regionId: RegionId,
   activeDisplay: string | null,
-  _gccCountry?: string | null
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- reserved for GCC sub-region display
+  gccCountry?: string | null
 ): string | null {
+  void gccCountry;
   const globalDisplay = offering.prices.global.display;
   if (!globalDisplay || !activeDisplay) return null;
 
