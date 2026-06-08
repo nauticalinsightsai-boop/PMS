@@ -25,7 +25,9 @@ npm run db:migrate
 npm run db:check-supabase
 ```
 
-## `.env.local` (dashboard backend + frontend)
+## `.env.local` (repo root — all apps)
+
+Put **every key** in **repo root `.env.local`** only (not in `frontend/` or `dashboard/*` subfolders):
 
 ```env
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
@@ -71,17 +73,17 @@ curl -X POST http://localhost:3000/api/auth/bootstrap-password \
   -d '{"email":"nauticalinsights.ai@gmail.com","password":"YourSecurePassword12+"}'
 ```
 
-Then sign in at **http://localhost:3000/login**.
+Then sign in at **http://localhost:3000/admin/login** (or `/admin/login` on your production domain).
 
 ## SMTP setup (Gmail / Outlook)
 
-Edit **`dashboard/backend/.env.local`** (same file as Supabase keys). When `SMTP_HOST` is set, the app sends OTP and password-reset emails via SMTP instead of Resend.
+When `SMTP_HOST` is set in **repo root `.env.local`**, the app sends OTP and password-reset emails via SMTP instead of Resend.
 
 ### Gmail / Google Workspace
 
 1. Enable **2-Step Verification** on the Google account.
 2. Create an **App password**: [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) → Mail → generate.
-3. Add to `dashboard/backend/.env.local`:
+3. Add to **repo root `.env.local`**:
 
 ```env
 SMTP_HOST=smtp.gmail.com

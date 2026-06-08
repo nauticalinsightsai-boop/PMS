@@ -2,39 +2,17 @@
  * Test forgot-password + email OTP login flows (local dev).
  * Usage: node scripts/test-auth-email-flows.mjs
  */
-import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createHash, randomBytes } from 'node:crypto';
+import { loadMonorepoEnv, applyToProcessEnv } from './lib/monorepo-env.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const BASE = process.env.TEST_BASE_URL || 'http://127.0.0.1:3000';
 const EMAIL = process.env.TEST_ADMIN_EMAIL || 'nauticalinsights.ai@gmail.com';
 
-const ENV_FILES = [
-  path.join(ROOT, 'dashboard', 'backend', '.env.local'),
-  path.join(ROOT, '.env.local'),
-];
-
-function loadEnv(filePath) {
-  if (!fs.existsSync(filePath)) return {};
-  const env = {};
-  for (const line of fs.readFileSync(filePath, 'utf8').split('\n')) {
-    const t = line.trim();
-    if (!t || t.startsWith('#')) continue;
-    const eq = t.indexOf('=');
-    if (eq === -1) continue;
-    env[t.slice(0, eq).trim()] = t.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
-  }
-  return env;
-}
-
-const env = {};
-for (const f of ENV_FILES) Object.assign(env, loadEnv(f));
-for (const [k, v] of Object.entries(env)) {
-  if (!process.env[k]) process.env[k] = v;
-}
+applyToProcessEnv(loadMonorepoEnv());
 
 function hashResetToken(token) {
   return createHash('sha256').update(token).digest('hex');

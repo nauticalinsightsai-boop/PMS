@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { GlassCard } from '@/components/ui/GlassCard';
+import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 
 interface LogRow {
   id: string;
@@ -17,7 +18,7 @@ export function VerificationLogs() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/admin/verification-logs')
+    fetchDashboardApi('/api/admin/verification-logs')
       .then((r) => r.json())
       .then((body) => {
         if (body.error) setError(body.error);

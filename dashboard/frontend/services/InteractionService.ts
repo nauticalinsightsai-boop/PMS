@@ -1,3 +1,6 @@
+import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
+import { withBasePath } from '@/lib/base-path';
+
 export interface Interaction {
   id: string;
   created_at: string;
@@ -13,7 +16,7 @@ export const InteractionService = {
   async getInteractions(page = 0, limit = 50, source?: string) {
     const params = new URLSearchParams({ page: String(page), limit: String(limit) });
     if (source) params.set('source', source);
-    const response = await fetch(`/api/interactions?${params}`);
+    const response = await fetchDashboardApi(`/api/interactions?${params}`);
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
       throw new Error((err as { error?: string }).error || 'Failed to load interactions');
@@ -23,7 +26,7 @@ export const InteractionService = {
   },
 
   async retrySheetsSync(interactionId: string) {
-    const response = await fetch(`/api/interactions/${interactionId}/retry-sheets`, {
+    const response = await fetchDashboardApi(`/api/interactions/${interactionId}/retry-sheets`, {
       method: 'POST',
     });
     if (!response.ok) throw new Error('Retry failed');
@@ -31,11 +34,11 @@ export const InteractionService = {
   },
 
   async exportCSV() {
-    window.location.href = '/api/interactions/export';
+    window.location.href = withBasePath('/api/interactions/export');
   },
 
   async deleteInteraction(interactionId: string) {
-    const response = await fetch(`/api/interactions/${interactionId}`, { method: 'DELETE' });
+    const response = await fetchDashboardApi(`/api/interactions/${interactionId}`, { method: 'DELETE' });
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
       throw new Error((err as { error?: string }).error || 'Delete failed');

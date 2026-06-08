@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/button';
+import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 
 interface ConsultationRow {
   id: string;
@@ -18,7 +19,7 @@ export function ConsultationQueue() {
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
   const load = () => {
-    fetch('/api/admin/consultations')
+    fetchDashboardApi('/api/admin/consultations')
       .then((r) => r.json())
       .then((body) => {
         if (body.error) setError(body.error);
@@ -34,7 +35,7 @@ export function ConsultationQueue() {
   const approve = async (id: string) => {
     setLoadingId(id);
     try {
-      const res = await fetch(`/api/admin/consultations/${id}/approve`, { method: 'PATCH' });
+      const res = await fetchDashboardApi(`/api/admin/consultations/${id}/approve`, { method: 'PATCH' });
       const body = await res.json();
       if (body.error) setError(body.error);
       else load();

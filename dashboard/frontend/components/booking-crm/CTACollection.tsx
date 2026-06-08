@@ -32,6 +32,7 @@ import ChannelLandingEditor, {
   type ChannelLandingEditorMeta,
 } from '@/components/booking-crm/ChannelLandingEditor'
 import { BOOKING_CRM_CTA_PATH } from '@/lib/dashboard/bookingCrmRedirects'
+import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api'
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog'
 import {
   Dialog,
@@ -189,7 +190,7 @@ export default function CTACollection() {
 
   const loadAllStatuses = useCallback(async () => {
     try {
-      const res = await fetch('/api/channel-landing-pages', { credentials: 'include' })
+      const res = await fetchDashboardApi('/api/channel-landing-pages', { credentials: 'include' })
       const json = await res.json()
       if (json.pages && typeof json.pages === 'object') {
         const map: Record<string, ChannelLandingPageStatus> = {}

@@ -9,7 +9,7 @@ export function getCmsSaveBlockReason(): string | null {
     return 'Demo login cannot write to the CMS. Sign in with your real admin email and password.';
   }
   if (USE_API_LOGIN && !getDashboardSessionToken()) {
-    return 'Not signed in for CMS writes. Log in at /login with your admin password (API login).';
+    return 'Not signed in for CMS writes. Log in at /admin/login with your admin password (API login).';
   }
   return null;
 }

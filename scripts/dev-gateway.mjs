@@ -2,6 +2,10 @@
  * Unified dev entry: http://localhost:3000
  * Proxies to internal apps (start via `npm run dev` from repo root).
  */
+import { loadMonorepoEnvIntoProcess } from './lib/monorepo-env.mjs';
+
+loadMonorepoEnvIntoProcess();
+
 import http from 'http';
 import httpProxy from 'http-proxy';
 
@@ -14,12 +18,40 @@ const PORT = Number(process.env.DEV_GATEWAY_PORT || 3000);
 const proxy = httpProxy.createProxyServer({ ws: true, xfwd: true });
 
 function isDashboardReferer(referer) {
-  return referer.includes('/dashboard') || referer.includes('/login');
+  return referer.includes('/admin') || referer.includes('/dashboard') || referer.includes('/login');
+}
+
+function maybeRedirect(req, res) {
+  const raw = req.url ?? '/';
+  const q = raw.indexOf('?');
+  const path = q === -1 ? raw : raw.slice(0, q);
+  const qs = q === -1 ? '' : raw.slice(q);
+
+  if (path === '/login' || path.startsWith('/login/')) {
+    res.writeHead(308, { Location: `/admin${path}${qs}` });
+    res.end();
+    return true;
+  }
+  if (path === '/dashboard' || path.startsWith('/dashboard/')) {
+    res.writeHead(308, { Location: `/admin${path}${qs}` });
+    res.end();
+    return true;
+  }
+  if (path === '/admin' && !qs) {
+    res.writeHead(308, { Location: '/admin/login' });
+    res.end();
+    return true;
+  }
+  return false;
 }
 
 function targetFor(req) {
   const url = (req.url ?? '/').split('?')[0];
   const referer = req.headers.referer ?? '';
+
+  if (url.startsWith('/admin/api/channel-landing-pages')) return DASH;
+  if (url.startsWith('/admin/api/')) return DASH_API;
+  if (url.startsWith('/admin')) return DASH;
 
   if (url.startsWith('/api/channel-landing-pages')) return DASH;
   if (url.startsWith('/api/auth')) return DASH_API;
@@ -54,6 +86,7 @@ proxy.on('error', (err, req, res) => {
 });
 
 const server = http.createServer((req, res) => {
+  if (maybeRedirect(req, res)) return;
   proxy.web(req, res, { target: targetFor(req), changeOrigin: true });
 });
 
@@ -65,8 +98,8 @@ server.listen(PORT, () => {
   console.log(`\nPMS dev gateway  http://localhost:${PORT}`);
   console.log(`  Marketing   ${SITE}`);
   console.log(`  Public API  ${API}  (via /api)`);
-  console.log(`  Dashboard   ${DASH}  (via /dashboard, /login)`);
-  console.log(`  Dash API    ${DASH_API}  (GET /api/interactions, dashboard /api)\n`);
+  console.log(`  Dashboard   ${DASH}  (via /admin)`);
+  console.log(`  Dash API    ${DASH_API}  (via /admin/api)\n`);
 });
 
 server.on('error', (err) => {

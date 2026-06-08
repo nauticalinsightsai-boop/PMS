@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { CTAButton } from '@/components/ui/CTAButton';
-import { getDashboardApiHeaders } from '@/lib/auth/dashboard-api-headers';
+import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 
 type Settings = {
   password_login_enabled: boolean;
@@ -29,22 +29,14 @@ export function SecuritySettings() {
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const headers = useCallback(
-    () => ({
-      'Content-Type': 'application/json',
-      ...getDashboardApiHeaders(),
-    }),
-    [],
-  );
-
   const load = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
       const [cfg, phoneRes, auditRes] = await Promise.all([
-        fetch('/api/auth/security-config', { credentials: 'include', headers: headers() }),
-        fetch('/api/auth/my-phone', { credentials: 'include', headers: headers() }),
-        fetch('/api/auth/audit?limit=30', { credentials: 'include', headers: headers() }),
+        fetchDashboardApi('/api/auth/security-config', { credentials: 'include' }),
+        fetchDashboardApi('/api/auth/my-phone', { credentials: 'include' }),
+        fetchDashboardApi('/api/auth/audit?limit=30', { credentials: 'include' }),
       ]);
       const cfgJson = (await cfg.json()) as { settings?: Settings; error?: string };
       const phoneJson = (await phoneRes.json()) as { phone_e164?: string | null };
@@ -58,7 +50,7 @@ export function SecuritySettings() {
     } finally {
       setLoading(false);
     }
-  }, [headers]);
+  }, []);
 
   useEffect(() => {
     load();
@@ -67,10 +59,10 @@ export function SecuritySettings() {
   const saveSettings = async () => {
     if (!settings) return;
     setSaved(false);
-    const res = await fetch('/api/auth/security-config', {
+    const res = await fetchDashboardApi('/api/auth/security-config', {
       method: 'PUT',
       credentials: 'include',
-      headers: headers(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(settings),
     });
     if (!res.ok) {
@@ -82,10 +74,10 @@ export function SecuritySettings() {
   };
 
   const savePhone = async () => {
-    const res = await fetch('/api/auth/my-phone', {
+    const res = await fetchDashboardApi('/api/auth/my-phone', {
       method: 'PUT',
       credentials: 'include',
-      headers: headers(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ phone_e164: phone.trim() || null }),
     });
     if (!res.ok) {

@@ -6,41 +6,19 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createClient } from '@supabase/supabase-js';
+import { loadMonorepoEnv } from './lib/monorepo-env.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 
-const ENV_FILES = [
-  path.join(ROOT, '.env'),
-  path.join(ROOT, '.env.local'),
-  path.join(ROOT, 'frontend', '.env.local'),
-  path.join(ROOT, 'backend', '.env.local'),
-  path.join(ROOT, 'dashboard', 'frontend', '.env.local'),
-  path.join(ROOT, 'dashboard', 'backend', '.env.local'),
-];
-
-function loadEnv(filePath) {
-  if (!fs.existsSync(filePath)) return {};
-  const env = {};
-  for (const line of fs.readFileSync(filePath, 'utf8').split('\n')) {
-    const t = line.trim();
-    if (!t || t.startsWith('#')) continue;
-    const eq = t.indexOf('=');
-    if (eq === -1) continue;
-    env[t.slice(0, eq).trim()] = t.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
-  }
-  return env;
-}
-
-const env = {};
-for (const f of ENV_FILES) Object.assign(env, loadEnv(f));
+const env = loadMonorepoEnv();
 
 const url = env.NEXT_PUBLIC_SUPABASE_URL || env.SUPABASE_URL;
 const key = env.SUPABASE_SERVICE_ROLE_KEY;
 const ref = url?.match(/https:\/\/([^.]+)\.supabase\.co/)?.[1];
 
 if (!url || !key) {
-  console.error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in .env.local files');
+  console.error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in repo root .env.local');
   process.exit(1);
 }
 

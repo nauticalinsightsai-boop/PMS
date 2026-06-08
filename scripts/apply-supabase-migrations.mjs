@@ -2,47 +2,18 @@
  * Apply SQL files in supabase/migrations/ using DATABASE_URL.
  *
  * Usage: npm run db:migrate
- * Loads env from repo root + app .env.local files (see ENV_FILES below).
+ * Loads env from repo root `.env.local` only.
  */
 
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { loadMonorepoEnv } from './lib/monorepo-env.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 
-const ENV_FILES = [
-  path.join(ROOT, '.env'),
-  path.join(ROOT, '.env.local'),
-  path.join(ROOT, 'frontend', '.env.local'),
-  path.join(ROOT, 'backend', '.env.local'),
-  path.join(ROOT, 'dashboard', 'frontend', '.env.local'),
-  path.join(ROOT, 'dashboard', 'backend', '.env.local'),
-];
-
-function loadEnvFile(filePath) {
-  if (!fs.existsSync(filePath)) return {};
-  const env = {};
-  for (const line of fs.readFileSync(filePath, 'utf8').split('\n')) {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith('#')) continue;
-    const eq = trimmed.indexOf('=');
-    if (eq === -1) continue;
-    const key = trimmed.slice(0, eq).trim();
-    let val = trimmed.slice(eq + 1).trim();
-    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
-      val = val.slice(1, -1);
-    }
-    env[key] = val;
-  }
-  return env;
-}
-
-const env = {};
-for (const file of ENV_FILES) {
-  Object.assign(env, loadEnvFile(file));
-}
+const env = loadMonorepoEnv();
 
 function projectRefFromUrl(url) {
   const m = url?.match(/https:\/\/([^.]+)\.supabase\.co/);
@@ -78,8 +49,7 @@ Auth-only (if you already ran other migrations): paste
   supabase/manual-dashboard-one-auth.sql
 in Supabase SQL Editor instead.
 
-Env files checked:
-${ENV_FILES.map((f) => `  - ${path.relative(ROOT, f)}`).join('\n')}
+Env: repo root .env.local
 `);
   process.exit(1);
 }

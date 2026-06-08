@@ -16,6 +16,7 @@ import {
   Newspaper,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { withBasePath } from '@/lib/base-path';
 import { useDashboardMode, DashboardMode } from '@/contexts/DashboardModeContext';
 import { useTheme } from '@/components/shared/ThemeProvider';
 import { DASHBOARD_ROUTES } from '@/constants/dashboardRoutes';
@@ -80,7 +81,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
   const handleLogout = async () => {
     try {
       await logout();
-      window.location.href = '/login';
+      window.location.href = withBasePath('/login');
     } catch (error) {
       console.error('Logout failed:', error);
     }

@@ -5,36 +5,14 @@
  *   node scripts/test-smtp.mjs
  *   node scripts/test-smtp.mjs you@example.com
  */
-import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { loadMonorepoEnv, applyToProcessEnv } from './lib/monorepo-env.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 
-const ENV_FILES = [
-  path.join(ROOT, 'dashboard', 'backend', '.env.local'),
-  path.join(ROOT, '.env.local'),
-];
-
-function loadEnv(filePath) {
-  if (!fs.existsSync(filePath)) return {};
-  const env = {};
-  for (const line of fs.readFileSync(filePath, 'utf8').split('\n')) {
-    const t = line.trim();
-    if (!t || t.startsWith('#')) continue;
-    const eq = t.indexOf('=');
-    if (eq === -1) continue;
-    env[t.slice(0, eq).trim()] = t.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
-  }
-  return env;
-}
-
-const env = {};
-for (const f of ENV_FILES) Object.assign(env, loadEnv(f));
-for (const [k, v] of Object.entries(env)) {
-  if (process.env[k] == null || process.env[k] === '') process.env[k] = v;
-}
+applyToProcessEnv(loadMonorepoEnv());
 
 const to =
   process.argv[2]?.trim() ||
@@ -54,7 +32,7 @@ const subject = 'PM Structure — email test';
 const text = 'If you received this, dashboard auth email (OTP + password reset) is configured correctly.';
 
 if (!smtpHost && !resendKey) {
-  console.error('Set SMTP_HOST (or RESEND_API_KEY) in dashboard/backend/.env.local first.');
+  console.error('Set SMTP_HOST (or RESEND_API_KEY) in repo root .env.local first.');
   process.exit(1);
 }
 

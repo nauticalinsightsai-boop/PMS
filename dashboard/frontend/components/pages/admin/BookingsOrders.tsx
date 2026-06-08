@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { GlassCard } from '@/components/ui/GlassCard';
+import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 
 interface OrderRow {
   id: string;
@@ -18,7 +19,7 @@ export function BookingsOrders() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/admin/orders')
+    fetchDashboardApi('/api/admin/orders')
       .then((r) => r.json())
       .then((body) => {
         if (body.error) setError(body.error);

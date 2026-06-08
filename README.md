@@ -22,14 +22,16 @@ Project Management certification platform — **Next.js** monorepo (TypeScript +
 ## Setup
 
 ```bash
-cp .env.example .env
-# Add Supabase keys + DATABASE_URL (for migrations)
+cp .env.example .env.local
+# Add Supabase keys + DATABASE_URL + auth secrets (one file for the whole monorepo)
 
 npm install
-npm run db:migrate          # applies supabase/migrations/*.sql (needs DATABASE_URL)
-cp .env.example frontend/.env.local   # browser URLs use http://localhost:3000
+npm run env:link          # merge app env files → root .env.local + symlink all apps
+npm run db:migrate        # applies supabase/migrations/*.sql (needs DATABASE_URL)
 npm run dev
 ```
+
+**One env file locally:** edit **repo root `.env.local` only** — no `.env.local` in `frontend/`, `backend/`, or `dashboard/*`. All apps load it via `next.config.ts`. Run `npm run env:link` once to remove old per-folder copies. On Vercel, set vars per project — see `docs/DEPLOYMENT_VERCEL.md`.
 
 ## Scripts
 
@@ -66,10 +68,17 @@ Use **http://localhost:3000** for everything in the browser (`npm run dev` start
 | URL | Purpose |
 |-----|---------|
 | http://localhost:3000 | Main website |
-| http://localhost:3000/dashboard | Admin dashboard |
+| http://localhost:3000/admin | Admin login & dashboard |
+| http://localhost:3000/admin/login | Admin sign-in |
 | http://localhost:3000/go/[channel] | Booking CRM channel portals |
 
 Do not browse internal ports (3050, 5174, 3001, 3002) directly — they are proxied through :3000.
+
+## Production (Vercel)
+
+Admin lives at **`/admin`** on the main domain (e.g. `https://pmstructure.com/admin/login`). The marketing app rewrites that path to separately deployed dashboard services.
+
+Full setup: **`docs/DEPLOYMENT_VERCEL.md`**.
 
 ```bash
 npm run dev          # gateway + all services

@@ -53,7 +53,8 @@ export async function POST(request: NextRequest) {
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'http://localhost:3000';
-  const link = `${siteUrl}/login/update-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
+  const adminPrefix = (process.env.NEXT_PUBLIC_BASE_PATH ?? '/admin').replace(/\/$/, '');
+  const link = `${siteUrl}${adminPrefix}/login/update-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
 
   if (!isEmailConfigured()) {
     if (process.env.NODE_ENV === 'development' || process.env.AUTH_DEV_LOG_RESET_LINK === 'true') {

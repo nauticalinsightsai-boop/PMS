@@ -2,7 +2,14 @@ import type { NextConfig } from 'next';
 import path from 'path';
 import { getGoSlugRedirects } from './lib/go-slug-redirects';
 
+const { loadMonorepoEnv } = require('../scripts/load-monorepo-env.cjs');
+loadMonorepoEnv(__dirname);
+
 const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
+const dashboardFrontendUrl = process.env.DASHBOARD_FRONTEND_URL?.replace(/\/$/, '');
+const dashboardBackendUrl = process.env.DASHBOARD_BACKEND_URL?.replace(/\/$/, '');
+/** Local dev uses the gateway (:3000); production pmstructure.com proxies /admin via these URLs. */
+const productionAdminProxy = Boolean(dashboardFrontendUrl);
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, '..'),
@@ -46,15 +53,49 @@ const nextConfig: NextConfig = {
         destination: '/legal/pricing-disclaimers',
         permanent: true,
       },
+      { source: '/admin', destination: '/admin/login', permanent: false },
+      { source: '/login', destination: '/admin/login', permanent: true },
+      { source: '/login/:path*', destination: '/admin/login/:path*', permanent: true },
+      { source: '/dashboard', destination: '/admin/dashboard', permanent: true },
+      { source: '/dashboard/:path*', destination: '/admin/dashboard/:path*', permanent: true },
     ];
   },
   async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: `${backendUrl}/api/:path*`,
-      },
-    ];
+    const rules: { source: string; destination: string }[] = [];
+
+    if (productionAdminProxy && dashboardFrontendUrl) {
+      rules.push(
+        {
+          source: '/admin/api/channel-landing-pages',
+          destination: `${dashboardFrontendUrl}/admin/api/channel-landing-pages`,
+        },
+        {
+          source: '/admin/api/channel-landing-pages/:path*',
+          destination: `${dashboardFrontendUrl}/admin/api/channel-landing-pages/:path*`,
+        },
+      );
+    }
+
+    if (productionAdminProxy && dashboardBackendUrl) {
+      rules.push({
+        source: '/admin/api/:path*',
+        destination: `${dashboardBackendUrl}/api/:path*`,
+      });
+    }
+
+    if (productionAdminProxy && dashboardFrontendUrl) {
+      rules.push(
+        { source: '/admin', destination: `${dashboardFrontendUrl}/admin` },
+        { source: '/admin/:path*', destination: `${dashboardFrontendUrl}/admin/:path*` },
+      );
+    }
+
+    rules.push({
+      source: '/api/:path*',
+      destination: `${backendUrl}/api/:path*`,
+    });
+
+    return rules;
   },
 };
 

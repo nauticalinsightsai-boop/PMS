@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { GlassCard } from '@/components/ui/GlassCard';
+import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 
 interface Submission {
   id: string;
@@ -16,7 +17,7 @@ export function ScholarshipReviewQueue() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/admin/scholarship-review')
+    fetchDashboardApi('/api/admin/scholarship-review')
       .then((r) => r.json())
       .then((body) => {
         if (body.error) setError(body.error);

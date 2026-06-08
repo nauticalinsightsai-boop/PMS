@@ -20,6 +20,7 @@ import type {
   ConsultationTier,
 } from '@pms/booking-crm/client'
 import { mergeChannelLandingPage } from '@pms/booking-crm/client'
+import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api'
 import {
   assertTierDurationsValid,
   parseMinutesFromDurationLabel,
@@ -101,7 +102,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
   const load = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch(
+      const res = await fetchDashboardApi(
         `/api/channel-landing-pages?channelKey=${encodeURIComponent(platform.channelId)}`,
         { credentials: 'include' }
       )
@@ -157,7 +158,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
       }
       setSaving(true)
       try {
-        const res = await fetch('/api/channel-landing-pages', {
+        const res = await fetchDashboardApi('/api/channel-landing-pages', {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },

@@ -1,13 +1,18 @@
 import type { NextConfig } from 'next';
 import path from 'path';
 
+const { loadMonorepoEnv } = require('../../scripts/load-monorepo-env.cjs');
+loadMonorepoEnv(__dirname, '..', '..');
+
 const dashboardBackendUrl = process.env.DASHBOARD_BACKEND_URL || 'http://localhost:3002';
 const marketingSiteUrl =
   process.env.NEXT_PUBLIC_MARKETING_SITE_URL ||
   process.env.NEXT_PUBLIC_SITE_URL ||
   'http://localhost:3000';
+const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? '/admin').replace(/\/$/, '');
 
 const nextConfig: NextConfig = {
+  basePath: basePath || undefined,
   eslint: { ignoreDuringBuilds: true },
   // Monorepo: resolve modules from repo root (avoids stale/missing chunks in dev)
   outputFileTracingRoot: path.join(__dirname, '../..'),

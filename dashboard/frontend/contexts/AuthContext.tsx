@@ -12,7 +12,7 @@ import {
 } from '@/lib/demo-auth';
 import { AUTH_API_TOKEN_KEY } from '@/lib/auth/dashboard-api-headers';
 import { createAdminUser } from '@/lib/auth/admin-user';
-import { getDashboardApiHeaders } from '@/lib/auth/dashboard-api-headers';
+import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 
 const USE_API_LOGIN = process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN === 'true';
 
@@ -46,7 +46,7 @@ async function restoreApiSession(): Promise<User | null> {
     typeof window !== 'undefined' ? localStorage.getItem(AUTH_API_TOKEN_KEY)?.trim() : null;
   if (!token) return null;
   try {
-    const res = await fetch('/api/auth/session', {
+    const res = await fetchDashboardApi('/api/auth/session', {
       credentials: 'include',
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -110,7 +110,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       throw new Error('Set NEXT_PUBLIC_AUTH_USE_API_LOGIN=true for dashboard_one login');
     }
 
-    const res = await fetch('/api/auth/login', {
+    const res = await fetchDashboardApi('/api/auth/login', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -150,7 +150,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const verifyLoginSmsOtp = async (challengeId: string, code: string, email: string) => {
-    const res = await fetch('/api/auth/verify-login-sms', {
+    const res = await fetchDashboardApi('/api/auth/verify-login-sms', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -174,10 +174,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const requestPasswordReset = async (email: string) => {
-    const res = await fetch('/api/auth/forgot-password', {
+    const res = await fetchDashboardApi('/api/auth/forgot-password', {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json', ...getDashboardApiHeaders() },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email.trim() }),
     });
     if (!res.ok) {
@@ -193,7 +193,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!opts?.token || !opts?.email) {
       throw new Error('Reset token and email are required');
     }
-    const res = await fetch('/api/auth/reset-password', {
+    const res = await fetchDashboardApi('/api/auth/reset-password', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },

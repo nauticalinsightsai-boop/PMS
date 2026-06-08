@@ -11,6 +11,7 @@ import {
   findRegionSelectorOption,
   REGION_SELECTOR_SECTIONS,
 } from '@/lib/region-selector-sections';
+import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 
 type RegionId = 'global' | 'europe' | 'uk' | 'gcc' | 'india' | 'pakistan';
 
@@ -50,7 +51,7 @@ export default function AccountRegionPage() {
 
     const userId = localStorage.getItem('pms_supabase_user_id');
     if (userId) {
-      await fetch('/api/profile/region', {
+      await fetchDashboardApi('/api/profile/region', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, regionId, gccCountry: gccCountry ?? null }),

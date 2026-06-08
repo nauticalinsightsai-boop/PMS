@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getDashboardApiHeaders } from '@/lib/auth/dashboard-api-headers';
+import { withBasePath } from '@/lib/base-path';
 
 export interface WebsiteData {
   id: string;
@@ -23,7 +24,7 @@ function toErrorMessage(error: unknown, fallback: string): string {
 }
 
 async function cmsFetch(path: string, init?: RequestInit) {
-  const res = await fetch(path, {
+  const res = await fetch(withBasePath(path), {
     ...init,
     credentials: 'include',
     headers: {

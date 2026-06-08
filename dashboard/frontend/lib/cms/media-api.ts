@@ -1,6 +1,6 @@
 'use client';
 
-import { getDashboardApiHeaders } from '@/lib/auth/dashboard-api-headers';
+import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 
 export type MediaItem = {
   name: string;
@@ -12,9 +12,8 @@ const USE_MEDIA_API = process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN === 'true';
 
 export async function listMediaItems(): Promise<MediaItem[]> {
   if (USE_MEDIA_API) {
-    const res = await fetch('/api/cms/media', {
+    const res = await fetchDashboardApi('/api/cms/media', {
       credentials: 'include',
-      headers: getDashboardApiHeaders(),
     });
     const data = (await res.json().catch(() => ({}))) as { items?: MediaItem[]; error?: string };
     if (!res.ok) throw new Error(data.error || 'Failed to load media');
@@ -37,10 +36,9 @@ export async function uploadMediaFile(file: File): Promise<MediaItem> {
     const form = new FormData();
     form.append('file', file);
     form.append('filename', file.name);
-    const res = await fetch('/api/cms/media', {
+    const res = await fetchDashboardApi('/api/cms/media', {
       method: 'POST',
       credentials: 'include',
-      headers: getDashboardApiHeaders(),
       body: form,
     });
     const data = (await res.json().catch(() => ({}))) as {
@@ -62,10 +60,10 @@ export async function uploadMediaFile(file: File): Promise<MediaItem> {
 
 export async function deleteMediaItem(name: string): Promise<void> {
   if (USE_MEDIA_API) {
-    const res = await fetch('/api/cms/media', {
+    const res = await fetchDashboardApi('/api/cms/media', {
       method: 'DELETE',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json', ...getDashboardApiHeaders() },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name }),
     });
     const data = (await res.json().catch(() => ({}))) as { error?: string };
