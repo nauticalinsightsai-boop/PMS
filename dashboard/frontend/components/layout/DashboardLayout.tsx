@@ -124,8 +124,8 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           }
         }}
         className={cn(
-          'fixed inset-y-0 left-0 z-sidebar flex flex-col bg-background/95 backdrop-blur-md border-r border-border',
-          'transition-[width,transform] duration-300 ease-out motion-reduce:transition-none lg:translate-x-0 lg:static',
+          'fixed inset-y-0 left-0 z-sidebar flex shrink-0 flex-col bg-background/95 backdrop-blur-md border-r border-border',
+          'transition-[width,transform] duration-300 ease-out motion-reduce:transition-none lg:translate-x-0',
           isSidebarExpanded ? 'w-72 translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-[4.5rem]',
         )}
       >
@@ -242,7 +242,12 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
         </nav>
       </aside>
 
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div
+        className={cn(
+          'flex min-w-0 flex-1 flex-col overflow-hidden transition-[padding] duration-300 ease-out motion-reduce:transition-none',
+          isSidebarExpanded ? 'lg:pl-72' : 'lg:pl-[4.5rem]',
+        )}
+      >
         <header className="h-[75px] flex items-center justify-between px-4 md:px-8 border-b border-border bg-background/95 backdrop-blur-md sticky top-0 z-30">
           <div className="flex items-center gap-4">
             <button
@@ -344,13 +349,13 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: reduceMotion ? 0 : 0.3 }}
-            className="max-w-7xl mx-auto motion-reduce:transition-none"
+            className="w-full motion-reduce:transition-none"
           >
             {children}
           </motion.div>
 
           <footer className="mt-20 py-8 border-t border-border bg-transparent">
-            <div className="max-w-7xl mx-auto px-4 md:px-8">
+            <div className="w-full">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 <Link href="/dashboard">
                   <BrandLogo size="sm" />
