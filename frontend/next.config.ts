@@ -15,6 +15,9 @@ const dashFeRoot = path.join(__dirname, '../dashboard/frontend');
 const dashBeRoot = path.join(__dirname, '../dashboard/backend');
 
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_AUTH_USE_API_LOGIN: process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN ?? 'true',
+  },
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   outputFileTracingRoot: path.join(__dirname, '..'),

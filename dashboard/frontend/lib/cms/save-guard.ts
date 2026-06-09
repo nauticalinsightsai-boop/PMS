@@ -1,7 +1,9 @@
 import { getDashboardSessionToken } from '@/lib/auth/dashboard-api-headers';
 import { readDemoSessionEmail } from '@/lib/demo-auth';
 
-const USE_API_LOGIN = process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN === 'true';
+import { isApiLoginEnabled } from '@/lib/auth/api-login-config';
+
+const USE_API_LOGIN = isApiLoginEnabled();
 
 /** Returns a user-facing reason when CMS draft/publish cannot save. */
 export function getCmsSaveBlockReason(): string | null {

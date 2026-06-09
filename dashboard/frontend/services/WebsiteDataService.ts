@@ -12,7 +12,9 @@ export interface WebsiteData {
   updated_at: string;
 }
 
-const USE_CMS_API = process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN === 'true';
+import { isApiLoginEnabled } from '@/lib/auth/api-login-config';
+
+const USE_CMS_API = isApiLoginEnabled();
 
 function toErrorMessage(error: unknown, fallback: string): string {
   if (error instanceof Error && error.message) return error.message;

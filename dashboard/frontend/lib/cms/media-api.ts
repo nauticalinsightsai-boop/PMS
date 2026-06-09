@@ -8,7 +8,9 @@ export type MediaItem = {
   created_at: string;
 };
 
-const USE_MEDIA_API = process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN === 'true';
+import { isApiLoginEnabled } from '@/lib/auth/api-login-config';
+
+const USE_MEDIA_API = isApiLoginEnabled();
 
 export async function listMediaItems(): Promise<MediaItem[]> {
   if (USE_MEDIA_API) {

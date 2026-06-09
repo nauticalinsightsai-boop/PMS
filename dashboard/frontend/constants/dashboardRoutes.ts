@@ -10,8 +10,9 @@ import {
   History,
   ImageIcon,
   Newspaper,
-  Radio,
   ClipboardList,
+  Calendar,
+  MousePointerClick,
   ShoppingCart,
   FileCheck,
   GraduationCap,
@@ -49,10 +50,10 @@ export const WEBSITE_ROUTE_PREFIXES = [
   '/dashboard/booking-crm/blogs',
 ];
 
-export const PUBLISHER_ROUTE_PREFIXES = ['/dashboard/control-tower'];
+export const SOCIAL_ROUTE_PREFIXES = ['/dashboard/social-media-management', '/dashboard/control-tower'];
 
-/** @deprecated Use PUBLISHER_ROUTE_PREFIXES */
-export const SOCIAL_ROUTE_PREFIXES = PUBLISHER_ROUTE_PREFIXES;
+/** @deprecated Use SOCIAL_ROUTE_PREFIXES */
+export const PUBLISHER_ROUTE_PREFIXES = SOCIAL_ROUTE_PREFIXES;
 
 const NEWSLETTER_NAV_ITEM = {
   name: 'Newsletter',
@@ -83,12 +84,27 @@ const websitePageNavItems = PUBLIC_SITE_PAGES.map((page) => ({
   icon: page.icon,
 }));
 
-export const DASHBOARD_ROUTES: Record<'publisher' | 'bookings' | 'website', DashboardNavSection[]> = {
-  publisher: [
-    OVERVIEW_NAV,
+export const DASHBOARD_ROUTES: Record<'social' | 'bookings' | 'website', DashboardNavSection[]> = {
+  social: [
     {
-      title: 'Publisher',
-      items: [{ name: 'Control Tower', path: '/dashboard/control-tower', icon: Radio }],
+      title: 'Social Media Management',
+      items: [
+        {
+          name: 'Topic Planner',
+          path: '/dashboard/social-media-management/topic-planner',
+          icon: ClipboardList,
+        },
+        {
+          name: 'Schedule Calendar',
+          path: '/dashboard/social-media-management/schedule-calendar',
+          icon: Calendar,
+        },
+        {
+          name: 'Link Ups',
+          path: '/dashboard/social-media-management/link-ups',
+          icon: MousePointerClick,
+        },
+      ],
     },
   ],
   bookings: [

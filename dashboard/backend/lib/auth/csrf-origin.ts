@@ -27,6 +27,10 @@ function collectAllowedHosts(): Set<string> {
   if (process.env.NODE_ENV === 'development') {
     hosts.add('localhost:3000');
     hosts.add('127.0.0.1:3000');
+    hosts.add('localhost:3050');
+    hosts.add('127.0.0.1:3050');
+    hosts.add('localhost:5174');
+    hosts.add('127.0.0.1:5174');
     hosts.add('localhost:3002');
     hosts.add('127.0.0.1:3002');
   }

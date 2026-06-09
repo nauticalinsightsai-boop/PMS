@@ -13,8 +13,9 @@ import {
 import { AUTH_API_TOKEN_KEY } from '@/lib/auth/dashboard-api-headers';
 import { createAdminUser } from '@/lib/auth/admin-user';
 import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
+import { isApiLoginEnabled } from '@/lib/auth/api-login-config';
 
-const USE_API_LOGIN = process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN === 'true';
+const USE_API_LOGIN = isApiLoginEnabled();
 
 export const REQUIRES_LOGIN_OTP = 'REQUIRES_LOGIN_OTP';
 

@@ -13,7 +13,7 @@ import {
   LogOut,
   CalendarRange,
   Monitor,
-  Newspaper,
+  Share2,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { withBasePath } from '@/lib/base-path';
@@ -267,9 +267,9 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
 
           <div className="flex items-center bg-muted/50 p-1 rounded-2xl border border-border max-w-full overflow-x-auto">
             {[
-              { id: 'publisher', label: 'Publisher', icon: Newspaper },
-              { id: 'bookings', label: 'Booking CRM', icon: CalendarRange },
-              { id: 'website', label: 'Admin Controls', icon: Monitor },
+              { id: 'social', label: 'Social Media Management', mobileLabel: 'Social', icon: Share2 },
+              { id: 'bookings', label: 'Booking CRM', mobileLabel: 'Booking', icon: CalendarRange },
+              { id: 'website', label: 'Admin Controls', mobileLabel: 'Admin', icon: Monitor },
             ].map((t) => (
               <button
                 key={t.id}
@@ -283,6 +283,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                 )}
               >
                 <t.icon size={14} className="shrink-0" />
+                <span className="sm:hidden">{t.mobileLabel}</span>
                 <span className="hidden sm:inline">{t.label}</span>
               </button>
             ))}
@@ -343,7 +344,12 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto scrollbar-thin relative p-4 md:p-8 bg-shell-gradient">
+        <main
+          className={cn(
+            'flex-1 overflow-y-auto scrollbar-thin relative p-4 md:px-8 md:py-6',
+            mode === 'social' ? 'bg-background text-foreground' : 'bg-shell-gradient p-4 md:p-8',
+          )}
+        >
           <motion.div
             key={pathname}
             initial={{ opacity: 0, y: 12 }}
@@ -354,6 +360,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
             {children}
           </motion.div>
 
+          {mode !== 'social' && (
           <footer className="mt-20 py-8 border-t border-border bg-transparent">
             <div className="w-full">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
@@ -379,6 +386,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
               </div>
             </div>
           </footer>
+          )}
         </main>
       </div>
     </div>

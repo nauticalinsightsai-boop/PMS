@@ -1,5 +1,5 @@
-import { PlaceholderPage } from '@/components/PlaceholderPage';
+import { redirect } from 'next/navigation';
 
-export default function Page() {
-  return <PlaceholderPage title="Social Control Tower" />;
+export default function LegacyControlTowerPage() {
+  redirect('/dashboard/social-media-management/schedule-calendar');
 }

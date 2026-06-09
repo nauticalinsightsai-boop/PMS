@@ -3,12 +3,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  PUBLISHER_ROUTE_PREFIXES,
+  SOCIAL_ROUTE_PREFIXES,
   BOOKINGS_ROUTE_PREFIXES,
   WEBSITE_ROUTE_PREFIXES,
 } from '@/constants/dashboardRoutes';
 
-export type DashboardMode = 'publisher' | 'bookings' | 'website';
+export type DashboardMode = 'social' | 'bookings' | 'website';
 
 interface DashboardModeContextType {
   mode: DashboardMode;
@@ -23,8 +23,8 @@ export const DashboardModeProvider: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
 
   useEffect(() => {
-    if (PUBLISHER_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
-      setMode('publisher');
+    if (SOCIAL_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
+      setMode('social');
     } else if (
       WEBSITE_ROUTE_PREFIXES.some((prefix) =>
         prefix === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(prefix),
@@ -38,7 +38,7 @@ export const DashboardModeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleSetMode = (newMode: DashboardMode) => {
     setMode(newMode);
-    if (newMode === 'publisher') router.push('/dashboard/control-tower');
+    if (newMode === 'social') router.push('/dashboard/social-media-management/schedule-calendar');
     if (newMode === 'bookings') router.push('/dashboard/booking-crm/cta');
     if (newMode === 'website') router.push('/dashboard');
   };

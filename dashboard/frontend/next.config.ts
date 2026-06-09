@@ -12,6 +12,9 @@ const marketingSiteUrl =
 const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? '/admin').replace(/\/$/, '');
 
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_AUTH_USE_API_LOGIN: process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN ?? 'true',
+  },
   basePath: basePath || undefined,
   eslint: { ignoreDuringBuilds: true },
   // Monorepo: resolve modules from repo root (avoids stale/missing chunks in dev)
@@ -54,6 +57,16 @@ const nextConfig: NextConfig = {
       { source: '/dashboard/cta', destination: cta, permanent: true },
       { source: '/dashboard/cta/analytics', destination: cta, permanent: true },
       { source: '/dashboard/cta/audit', destination: cta, permanent: true },
+      {
+        source: '/dashboard/control-tower',
+        destination: '/dashboard/social-media-management/schedule-calendar',
+        permanent: true,
+      },
+      {
+        source: '/dashboard/social-media-management',
+        destination: '/dashboard/social-media-management/schedule-calendar',
+        permanent: false,
+      },
     ];
   },
 
