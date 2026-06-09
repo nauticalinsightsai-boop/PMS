@@ -44,7 +44,7 @@ function rmIfExists(target) {
 
 function importPath(stubFile, sourceFile) {
   const withoutExt = sourceFile.replace(/\.(tsx?|jsx?|mjs|cjs)$/, '');
-  const rel = path.relative(path.dirname(stubFile), withoutExt);
+  const rel = path.relative(path.dirname(stubFile), withoutExt).split(path.sep).join('/');
   return rel.startsWith('.') ? rel : `./${rel}`;
 }
 
