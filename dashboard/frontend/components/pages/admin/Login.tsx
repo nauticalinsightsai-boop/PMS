@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { motion } from 'motion/react';
 import { ShieldCheck, Mail, Lock, ArrowRight, Eye, EyeOff, Smartphone } from 'lucide-react';
 import { useAuth, REQUIRES_LOGIN_OTP } from '@/contexts/AuthContext';
@@ -9,6 +9,7 @@ import { GlassCard } from '@/components/ui/GlassCard';
 import { CTAButton } from '@/components/ui/CTAButton';
 import { BrandLogo } from '@/components/shared/BrandLogo';
 import { siteUrl } from '@/lib/site-config';
+import { withBasePath } from '@/lib/base-path';
 import Link from 'next/link';
 
 export const Login: React.FC = () => {
@@ -22,8 +23,39 @@ export const Login: React.FC = () => {
   const [isError, setIsError] = useState(false);
   const [formError, setFormError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login, verifyLoginSmsOtp, pendingOtp, clearPendingOtp, requestPasswordReset } = useAuth();
-  const router = useRouter();
+  const {
+    login,
+    verifyLoginSmsOtp,
+    pendingOtp,
+    clearPendingOtp,
+    requestPasswordReset,
+    isAuthenticated,
+    loading: authLoading,
+  } = useAuth();
+  const searchParams = useSearchParams();
+
+  const postLoginPath = (): string => {
+    const fromQuery = searchParams.get('next')?.trim();
+    if (fromQuery?.startsWith('/')) return withBasePath(fromQuery);
+    const fromStorage = sessionStorage.getItem('redirect_after_login');
+    sessionStorage.removeItem('redirect_after_login');
+    if (fromStorage?.startsWith('/')) return withBasePath(fromStorage);
+    return withBasePath('/dashboard');
+  };
+
+  const goAfterLogin = (path: string) => {
+    window.location.assign(path);
+  };
+
+  useEffect(() => {
+    if (pendingOtp) setOtpStep(true);
+  }, [pendingOtp]);
+
+  useEffect(() => {
+    if (authLoading || !isAuthenticated || otpStep || pendingOtp) return;
+    goAfterLogin(postLoginPath());
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- redirect once when session is restored
+  }, [authLoading, isAuthenticated, otpStep, pendingOtp]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,9 +65,7 @@ export const Login: React.FC = () => {
 
     try {
       await login(email, password);
-      const redirect = sessionStorage.getItem('redirect_after_login') || '/dashboard';
-      sessionStorage.removeItem('redirect_after_login');
-      router.replace(redirect);
+      goAfterLogin(postLoginPath());
     } catch (error) {
       if (
         error instanceof Error &&
@@ -65,9 +95,7 @@ export const Login: React.FC = () => {
     setFormError('');
     try {
       await verifyLoginSmsOtp(pendingOtp.challengeId, otpCode, pendingOtp.email);
-      const redirect = sessionStorage.getItem('redirect_after_login') || '/dashboard';
-      sessionStorage.removeItem('redirect_after_login');
-      router.replace(redirect);
+      goAfterLogin(postLoginPath());
     } catch (error) {
       setFormError(error instanceof Error ? error.message : 'Invalid code');
       setIsError(true);
@@ -125,7 +153,7 @@ export const Login: React.FC = () => {
             </p>
           </div>
 
-          {otpStep && pendingOtp ? (
+          {(otpStep || pendingOtp) && pendingOtp ? (
             <form onSubmit={handleOtp} className="space-y-5">
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">

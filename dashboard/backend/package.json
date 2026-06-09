@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "next dev -p 3002",
+    "dev": "node ../../scripts/dev-dashboard-backend.mjs",
     "build": "next build",
     "start": "next start -p 3002",
     "lint": "next lint"

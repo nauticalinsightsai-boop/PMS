@@ -4,6 +4,7 @@ import { isKnownAdminEmail } from '@/lib/auth/known-users';
 import { getUserCredentials } from '@/lib/auth/auth-db';
 import { getSupabaseDashboardOne } from '@/lib/auth/supabase-admin';
 import { generateResetToken, hashResetToken } from '@/lib/auth/password-crypto';
+import { buildPasswordResetLink } from '@/lib/auth/email-links';
 import { sendAuthEmail, isEmailConfigured } from '@/lib/auth/send-email';
 import { writeAuthAuditLog } from '@/lib/auth/audit-log';
 
@@ -52,9 +53,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Could not create reset token' }, { status: 503 });
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'http://localhost:3000';
-  const adminPrefix = (process.env.NEXT_PUBLIC_BASE_PATH ?? '/admin').replace(/\/$/, '');
-  const link = `${siteUrl}${adminPrefix}/login/update-password?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
+  const link = buildPasswordResetLink(token, email);
 
   if (!isEmailConfigured()) {
     if (process.env.NODE_ENV === 'development' || process.env.AUTH_DEV_LOG_RESET_LINK === 'true') {

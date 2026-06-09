@@ -6,6 +6,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, Eye, EyeOff, Lock, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import { withBasePath } from '@/lib/base-path';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { CTAButton } from '@/components/ui/CTAButton';
 import { BrandLogo } from '@/components/shared/BrandLogo';
@@ -47,7 +48,7 @@ export const UpdatePassword: React.FC = () => {
     setIsLoading(true);
     try {
       await updatePassword(password, { token, email });
-      router.replace('/login');
+      router.replace(withBasePath('/login'));
     } catch (err) {
       console.error('Password update failed:', err);
       setError(err instanceof Error ? err.message : 'Could not update password.');

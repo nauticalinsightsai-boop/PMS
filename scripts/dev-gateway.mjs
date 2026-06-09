@@ -85,13 +85,29 @@ proxy.on('error', (err, req, res) => {
   }
 });
 
+function rewriteDashApiUrl(req) {
+  const raw = req.url ?? '/';
+  if (!raw.startsWith('/admin/api/')) return raw;
+  return raw.replace(/^\/admin\/api/, '/api');
+}
+
+function proxyOptions(req) {
+  const target = targetFor(req);
+  const raw = req.url ?? '/';
+  // Dashboard backend serves /api/* — strip /admin prefix for gateway requests
+  if (target === DASH_API && raw.startsWith('/admin/api/')) {
+    req.url = rewriteDashApiUrl(req);
+  }
+  return { target, changeOrigin: true };
+}
+
 const server = http.createServer((req, res) => {
   if (maybeRedirect(req, res)) return;
-  proxy.web(req, res, { target: targetFor(req), changeOrigin: true });
+  proxy.web(req, res, proxyOptions(req));
 });
 
 server.on('upgrade', (req, socket, head) => {
-  proxy.ws(req, socket, head, { target: targetFor(req), changeOrigin: true });
+  proxy.ws(req, socket, head, proxyOptions(req));
 });
 
 server.listen(PORT, () => {

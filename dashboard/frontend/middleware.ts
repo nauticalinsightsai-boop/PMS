@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { BOOKING_CRM_CTA_PATH } from '@/lib/dashboard/bookingCrmRedirects';
-import { isDashboardRouteAuthorized } from '@/lib/auth/dashboard-page-auth';
 
 /** Canonical CTA admin URL — no category/channel query params. */
 export async function middleware(request: NextRequest) {
@@ -22,16 +21,6 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.search = '';
     return NextResponse.redirect(url);
-  }
-
-  if (pathname === '/dashboard' || pathname.startsWith('/dashboard/')) {
-    const authorized = await isDashboardRouteAuthorized(request);
-    if (!authorized) {
-      const login = request.nextUrl.clone();
-      login.pathname = '/login';
-      login.searchParams.set('next', pathname);
-      return NextResponse.redirect(login);
-    }
   }
 
   return NextResponse.next();

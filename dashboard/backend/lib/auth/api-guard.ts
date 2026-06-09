@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { assertSameOrigin } from '@/lib/auth/csrf-origin';
 import { isKnownAdminEmail } from '@/lib/auth/known-users';
-import { getSessionSecret, verifySignedSessionToken } from '@/lib/auth/session-token';
+import { getSessionSecret, verifySignedSessionToken, parseSignedSessionToken } from '@/lib/auth/session-token';
 
 export function getBearerSessionEmail(request: NextRequest): string | null {
   const auth = request.headers.get('authorization');
@@ -22,7 +22,8 @@ export function getBearerSessionEmail(request: NextRequest): string | null {
 
 function decodeJwtEmail(token: string): string | null {
   try {
-    const payload = token.split('.')[1];
+    const parsed = parseSignedSessionToken(token);
+    const payload = parsed?.payload ?? token.split('.')[1];
     if (!payload) return null;
     const data = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as {
       email?: string;
