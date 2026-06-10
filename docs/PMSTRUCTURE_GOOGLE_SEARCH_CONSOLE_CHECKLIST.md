@@ -11,7 +11,7 @@
 
 ## 2. Pre-submission
 
-- [ ] Homepage, sitemap, robots, `/pmp-faq`, AI files — run `npm run seo:production-check`
+- [x] COMPLETE — `npm run seo:production-check` PASS (2026-06-10): `/`, `/sitemap.xml`, `/robots.txt`, `/pmp-faq`, `/faq`, `/llms.txt` all 200
 
 ## 3. Sitemap submission (owner manual)
 

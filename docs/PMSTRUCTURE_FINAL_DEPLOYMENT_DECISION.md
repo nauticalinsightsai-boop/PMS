@@ -24,7 +24,7 @@ The v2 SEO/AEO/GEO stack is **implemented and passes local automated gates**. Pr
 |----|---------|--------|
 | — | None from automated code/SEO validation | **Clear** |
 
-**Note:** `npm run seo:production-check` fails today because `/pmp-faq` returns **404 on production**. This is expected **pre-deploy** and resolves after v2 deploy — it is not a reason to withhold the deploy decision for the codebase.
+**Update 2026-06-10:** `npm run seo:production-check` and `seo:smoke-live` now **PASS** on production (including `/pmp-faq` 200). GSC/Bing sitemap re-submission remains **owner manual**.
 
 ---
 
