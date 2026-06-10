@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
+import { CTAS } from '@/lib/brand-voice';
 import { PMP_INDEPENDENT_DISCLAIMER } from '@/content/pmp/disclaimer';
 import { PMP_ENROLL_LINKS } from '@/content/pmp/services';
 import type { PmpServiceContent } from '@/content/pmp/types';
@@ -59,7 +60,9 @@ export function PmpServicePage({ service }: { service: PmpServiceContent }) {
                         </Link>
                       </div>
                       <Link href={link.enrollPath} className={buttonVariants({ size: 'sm' })}>
-                        Continue to enrollment
+                        {link.tier === 'Foundation'
+                          ? 'Continue to enrollment'
+                          : CTAS.pathwayReserveSeat}
                       </Link>
                     </li>
                   ))}

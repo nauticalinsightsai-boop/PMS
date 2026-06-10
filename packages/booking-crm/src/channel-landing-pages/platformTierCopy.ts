@@ -4,7 +4,11 @@ import {
   DEFAULT_CONSULTATION_TIERS,
   type ConsultationTier,
 } from '../types/channelLandingPage'
-import { CALENDLY_DEFAULT_SCHEDULING_URLS } from '../calendly/scheduling-urls'
+import { resolveCalendlyEventUrl } from '../calendly/event-registry'
+import {
+  getCalendlyCtaForChannelTier,
+  getCalendlyUrlForChannelTier,
+} from '../calendly/event-registry'
 import { getChannelPortalCopy } from './channelPortalCopy'
 import { usesPortalWebsiteLayoutChrome } from './platformOfferPack'
 
@@ -32,10 +36,18 @@ type PaidTierCopy = {
 const DISCOVERY_TIER = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'discovery')!
 const DISCOVERY_TITLE = 'Certification Fit Session'
 
-const SCHEDULE_URLS = {
-  discovery: CALENDLY_DEFAULT_SCHEDULING_URLS.guideDownload,
-  executive: CALENDLY_DEFAULT_SCHEDULING_URLS.projectReview,
-  designReview: CALENDLY_DEFAULT_SCHEDULING_URLS.strategyAdvisory,
+function scheduleUrlFor(channelId: string, tierId: string, legacy: string): string {
+  return getCalendlyUrlForChannelTier(channelId, tierId) || legacy
+}
+
+function ctaFor(channelId: string, tierId: string, fallback: string): string {
+  return getCalendlyCtaForChannelTier(channelId, tierId) || fallback
+}
+
+const LEGACY_SCHEDULE_URLS = {
+  discovery: resolveCalendlyEventUrl('go-website-discovery'),
+  executive: resolveCalendlyEventUrl('go-website-executive'),
+  designReview: resolveCalendlyEventUrl('go-website-services'),
 } as const
 
 /** Paid-tier wording per platform channel (discovery stays generic). */
@@ -475,12 +487,16 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
   const servicesCta = 'Talk to an expert'
 
   const servicesTier: ConsultationTier = {
-    ...buildTier(designBase, paid.designReview, SCHEDULE_URLS.designReview),
+    ...buildTier(
+      designBase,
+      paid.designReview,
+      scheduleUrlFor(channelId, 'services-detail', LEGACY_SCHEDULE_URLS.designReview),
+    ),
     id: 'services-detail',
     title: servicesTitle,
     description: servicesDescription,
     recommended: false,
-    ctaLabel: servicesCta,
+    ctaLabel: ctaFor(channelId, 'services-detail', servicesCta),
   }
 
   if (channelId === 'webinar') {
@@ -491,11 +507,15 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
         ...discovery,
         title: DISCOVERY_TITLE,
         isFree: true,
-        ctaLabel: introCta,
-        scheduleUrl: SCHEDULE_URLS.discovery,
+        ctaLabel: ctaFor(channelId, 'mentor-intro', introCta),
+        scheduleUrl: scheduleUrlFor(channelId, 'mentor-intro', LEGACY_SCHEDULE_URLS.discovery),
       },
       {
-        ...buildTier(executiveBase, paid.executive, SCHEDULE_URLS.executive),
+        ...buildTier(
+          executiveBase,
+          paid.executive,
+          scheduleUrlFor(channelId, 'career-pathway', LEGACY_SCHEDULE_URLS.executive),
+        ),
         id: 'career-pathway',
         title: 'Career & Pathway Session',
         description: paid.executive.description,
@@ -503,6 +523,7 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
         recommended: true,
         badge: 'Most Popular',
         ctaLabel: 'Book pathway session',
+        scheduleUrl: scheduleUrlFor(channelId, 'career-pathway', LEGACY_SCHEDULE_URLS.executive),
       },
       servicesTier,
     ]
@@ -515,16 +536,20 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
       ...discovery,
       title: DISCOVERY_TITLE,
       isFree: true,
-      ctaLabel: introCta,
-      scheduleUrl: SCHEDULE_URLS.discovery,
+      ctaLabel: ctaFor(channelId, 'mentor-intro', introCta),
+      scheduleUrl: scheduleUrlFor(channelId, 'mentor-intro', LEGACY_SCHEDULE_URLS.discovery),
     },
     {
-      ...buildTier(executiveBase, paid.executive, SCHEDULE_URLS.executive),
+      ...buildTier(
+        executiveBase,
+        paid.executive,
+        scheduleUrlFor(channelId, 'career-pathway', LEGACY_SCHEDULE_URLS.executive),
+      ),
       id: 'career-pathway',
       title: 'Career & Pathway Session',
       description: paid.executive.description,
       ...EXECUTIVE_TIER_META,
-      ctaLabel: 'Book pathway session',
+      ctaLabel: ctaFor(channelId, 'career-pathway', 'Book pathway session'),
     },
     servicesTier,
   ]

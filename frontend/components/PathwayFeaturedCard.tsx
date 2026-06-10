@@ -43,9 +43,12 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
 
   return (
     <div className="mb-5 space-y-2">
-      <div className="grid grid-cols-2 gap-2 items-stretch overflow-visible sm:grid-cols-3">
-        <StatChip label="Prep time">
-          <p className="text-sm font-extrabold leading-tight tracking-tight text-slate-900 dark:text-white">
+      <div className="grid grid-cols-2 gap-1.5 items-stretch overflow-visible sm:grid-cols-3 sm:gap-2">
+        <StatChip
+          label="Prep time"
+          className="min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
+        >
+          <p className="text-xs font-extrabold leading-tight tracking-tight text-slate-900 dark:text-white sm:text-sm">
             {duration ?? 'Flexible'}
           </p>
         </StatChip>
@@ -55,11 +58,12 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
           subtitle={
             presentation?.kind === 'scholarship' ? REGION_COPY.scholarshipChipSubtitle : undefined
           }
+          className="min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
         >
           {listing.active ? (
             <p
               className={cn(
-                'text-sm font-extrabold leading-tight tracking-tight',
+                'text-xs font-extrabold leading-tight tracking-tight sm:text-sm',
                 presentation?.kind === 'scholarship'
                   ? 'text-brand-orange'
                   : 'text-slate-900 dark:text-white',
@@ -68,11 +72,14 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
               {listing.active}
             </p>
           ) : (
-            <p className="text-sm font-extrabold text-slate-400">—</p>
+            <p className="text-xs font-extrabold text-slate-400 sm:text-sm">—</p>
           )}
         </StatChip>
 
-        <MembershipPriceChip price={listing.membership} />
+        <MembershipPriceChip
+          price={listing.membership}
+          className="hidden min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[4.5rem] sm:px-2.5"
+        />
       </div>
 
       {showGlobalReference && listing.original && (

@@ -61,7 +61,7 @@ export const DISCLAIMERS = {
 
 export const CTAS = {
 
-  pathwayConsultation: 'Book consultation',
+  pathwayConsultation: 'Talk to Mentor',
 
   pmpConsultation: 'Book PMP consultation',
 
@@ -87,7 +87,18 @@ export const CTAS = {
 
   browseResources: 'Browse resources',
 
-  navConsultation: 'Book consultation',
+  navConsultation: 'Talk to Mentor',
+
+  talkToMentor: 'Talk to Mentor',
+
+  /** Professional & Mastery pathway modal — mentor scheduling (≤5 words). */
+  pathwayMentorCta: 'Talk to your mentor',
+
+  /** Professional & Mastery enrollment CTA (≤5 words). */
+  pathwayReserveSeat: 'Reserve your seat',
+
+  /** Home hero Calendly consultation (≤5 words). */
+  websiteHeroConsultation: 'Talk to Mentor',
 
 } as const;
 
@@ -113,7 +124,7 @@ export const HOME_COPY = {
 
   heroSubtitle: BRAND_LINES.promise,
 
-  ctaPrimary: 'Book consultation',
+  ctaPrimary: 'Talk to Mentor',
 
   ctaSecondary: 'Find your pathway',
 

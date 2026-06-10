@@ -34,13 +34,40 @@ export function originLabelFromPayload(payload: Record<string, unknown>): string
   }
   const attr = payload.attribution
   if (attr && typeof attr === 'object' && !Array.isArray(attr)) {
-    return attributionOriginLabel(attr as LeadAttribution)
+    const base = attributionOriginLabel(attr as LeadAttribution)
+    const path =
+      typeof payload.pagePath === 'string'
+        ? payload.pagePath
+        : (attr as LeadAttribution).pagePath
+    return path?.trim() ? `${base} · ${path.trim()}` : base
+  }
+  if (typeof payload.placement === 'string' || typeof payload.siteCertId === 'string') {
+    const cert =
+      typeof payload.certName === 'string'
+        ? payload.certName
+        : typeof payload.siteCertId === 'string'
+          ? payload.siteCertId
+          : ''
+    const interest =
+      typeof payload.certificationInterest === 'string' ? payload.certificationInterest : ''
+    const label = cert || interest || 'Roadmap form'
+    const place = typeof payload.placement === 'string' ? ` · ${payload.placement}` : ''
+    const path = typeof payload.pagePath === 'string' ? ` · ${payload.pagePath}` : ''
+    return `${label}${place}${path}`.trim()
+  }
+  if (typeof payload.formId === 'string' && payload.formId.trim()) {
+    const path = typeof payload.pagePath === 'string' ? ` · ${payload.pagePath}` : ''
+    return `${payload.formId}${path}`.trim()
   }
   if (typeof payload.channelKey === 'string' || typeof payload.channelId === 'string') {
     const ch = String(payload.channelKey ?? payload.channelId)
     const tier = typeof payload.tierId === 'string' ? ` · ${payload.tierId}` : ''
     const slug = typeof payload.landingSlug === 'string' ? ` /go/${payload.landingSlug}` : ''
-    return `Portal${slug} (${ch})${tier}`
+    const path = typeof payload.pagePath === 'string' ? ` · ${payload.pagePath}` : ''
+    return `Portal${slug} (${ch})${tier}${path}`
+  }
+  if (typeof payload.pagePath === 'string' && payload.pagePath.trim()) {
+    return `Website · ${payload.pagePath.trim()}`
   }
   if (typeof payload.sourcePage === 'string') {
     return `Contact · ${payload.sourcePage}`

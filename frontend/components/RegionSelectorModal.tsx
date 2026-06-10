@@ -70,7 +70,7 @@ export function RegionSelectorModal() {
             className="text-base font-bold leading-snug pr-8"
             style={portalTheme ? { color: portalTheme.text } : undefined}
           >
-            Select your region for a personalized website experience.
+            Confirm your region for a personalized website experience.
           </DialogTitle>
           <DialogDescription
             className="text-xs"

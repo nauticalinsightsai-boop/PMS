@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@pms/booking-crm": "file:../../packages/booking-crm",
     "@supabase/supabase-js": "^2.105.4",
     "nodemailer": "^6.10.1",
     "next": "^15.2.4",

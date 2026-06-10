@@ -43,11 +43,20 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
       landingSlug: page.slug,
       pagePath: typeof window !== 'undefined' ? window.location.pathname : undefined,
     })
+    const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined
     const res = await submitPublicInteraction({
       source: 'meeting_booking',
       subject: `Portal booking — ${page.label}${page.subtitle ? ` (${page.subtitle})` : ''}`,
       email,
       website: hp,
+      formContext: {
+        formId: 'channel_portal_booking',
+        formLabel: `Channel portal · ${page.label}`,
+        pagePath,
+        channelKey: page.channelKey,
+        landingSlug: page.slug,
+        attribution,
+      },
       payload: {
         firstName,
         lastName,

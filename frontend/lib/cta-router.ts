@@ -1,5 +1,6 @@
 import type { OfferingStatus } from '@/types/regional-catalogue';
 import { enrollmentPathForOffering } from '@/lib/enrollment-routes';
+import { CTAS } from '@/lib/brand-voice';
 
 export type CtaAction =
   | 'checkout'
@@ -22,7 +23,7 @@ function actionFromStatus(status: OfferingStatus, label: string): CtaAction {
   const lower = label.toLowerCase();
   if (status === 'hidden') return 'hidden';
   if (status === 'waitlist') return 'waitlist';
-  if (status === 'consultation_required' || lower.includes('mastery consultation')) {
+  if (status === 'consultation_required' || lower.includes('mastery consultation') || lower.includes('mentor')) {
     return 'consultation';
   }
   if (status === 'scholarship_unavailable') {
@@ -33,12 +34,12 @@ function actionFromStatus(status: OfferingStatus, label: string): CtaAction {
   }
   if (status === 'scholarship_verify') {
     if (lower.includes('enroll')) return 'verify_first';
-    if (lower.includes('consultation')) return 'consultation';
+    if (lower.includes('consultation') || lower.includes('mentor')) return 'consultation';
     return 'verify_first';
   }
   if (status === 'global_only') return 'global_checkout';
-  if (lower.includes('enroll')) return 'checkout';
-  if (lower.includes('consultation')) return 'consultation';
+  if (lower.includes('enroll') || lower.includes('reserve')) return 'checkout';
+  if (lower.includes('consultation') || lower.includes('mentor')) return 'consultation';
   return 'contact';
 }
 
@@ -48,7 +49,7 @@ export function routeOfferingCtas(
   secondaryCta: string | null
 ): CtaRoute {
   const primaryLabel = primaryCta ?? 'Enroll Now';
-  const secondaryLabel = secondaryCta ?? 'Book Pathway Consultation';
+  const secondaryLabel = secondaryCta ?? CTAS.pathwayMentorCta;
   return {
     primary: actionFromStatus(status, primaryLabel),
     secondary: actionFromStatus(status, secondaryLabel),

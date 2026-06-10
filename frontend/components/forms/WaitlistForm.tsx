@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { submitWaitlist } from '@/services/regional';
+import { submitPublicInteraction } from '@/lib/interactions/submit-public';
+import { offeringFormContext } from '@/lib/interactions/offering-form-context';
 import { useRegion } from '@/contexts/RegionContext';
 
 export function WaitlistForm({ offeringId }: { offeringId?: string }) {
@@ -16,7 +17,14 @@ export function WaitlistForm({ offeringId }: { offeringId?: string }) {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await submitWaitlist({ email, offeringId, regionId, message });
+    const ctx = offeringFormContext('waitlist', 'Waitlist', offeringId, regionId);
+    await submitPublicInteraction({
+      source: 'waitlist',
+      subject: `Waitlist — ${ctx.certName ?? offeringId ?? 'general'}`,
+      email,
+      formContext: ctx,
+      payload: { message, offeringId, regionId },
+    });
     setDone(true);
   };
 

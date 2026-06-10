@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { mediaRefSchema } from './media';
 
-export const primaryActionSchema = z.enum(['link', 'register_modal', 'contact']);
+export const primaryActionSchema = z.enum(['link', 'register_modal', 'contact', 'calendly']);
 
 export const homeHeroSlideSchema = z.object({
   id: z.number(),
@@ -157,7 +157,7 @@ export type HomePageConfigV1 = {
     primaryLink: string;
     secondaryCta: string;
     secondaryLink: string;
-    primaryAction?: 'link' | 'register_modal' | 'contact';
+    primaryAction?: 'link' | 'register_modal' | 'contact' | 'calendly';
   }>;
   instituteSection?: HomePageConfigV2['instituteSection'];
   featuredItems?: HomePageConfigV2['featuredItems'];
@@ -220,8 +220,8 @@ export function defaultHomePageConfigV2(): HomePageConfigV2 {
         heading: 'Prepare with structure. Lead with confidence.',
         description:
           'Independent certification readiness pathways across PMI, PRINCE2, and Lean Six Sigma — built for professionals who want clarity, not chaos.',
-        primaryCta: 'Book a consultation',
-        primaryAction: 'contact',
+        primaryCta: 'Talk to Mentor',
+        primaryAction: 'register_modal',
         primaryLink: '/contact?topic=consultation',
         secondaryCta: 'Find a pathway',
         secondaryLink: '/certifications',
@@ -346,8 +346,9 @@ export function normalizeHomeConfigV1ToV2(raw: unknown): HomePageConfigV2 {
   };
 }
 
-function inferPrimaryAction(link?: string): 'link' | 'register_modal' | 'contact' {
+function inferPrimaryAction(link?: string): 'link' | 'register_modal' | 'contact' | 'calendly' {
   if (!link) return 'register_modal';
+  if (link.includes('topic=consultation')) return 'calendly';
   if (link.includes('contact')) return 'contact';
   if (link.startsWith('/')) return 'link';
   return 'register_modal';

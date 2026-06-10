@@ -4,17 +4,13 @@ import {
   buildLeadAttribution,
 } from '@/lib/channel-landing-pages/lead-attribution'
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup'
-import { CALENDLY_DEFAULT_SCHEDULING_URLS } from '@/lib/calendly/scheduling-urls'
+import { getCalendlyUrlForChannelTier } from '@/lib/calendly/event-registry'
 import { FUNNEL_EVENTS, trackFunnelEvent } from '@/lib/analytics/funnel'
 
 export function scheduleTierClick(page: ChannelLandingPage, tier: ConsultationTier) {
   const url =
     tier.scheduleUrl?.trim() ||
-    (tier.isFree
-      ? CALENDLY_DEFAULT_SCHEDULING_URLS.guideDownload
-      : tier.recommended
-        ? CALENDLY_DEFAULT_SCHEDULING_URLS.projectReview
-        : CALENDLY_DEFAULT_SCHEDULING_URLS.strategyAdvisory)
+    getCalendlyUrlForChannelTier(page.channelId, tier.id)
   const attr = buildLeadAttribution({
     source: 'channel_portal',
     channelId: page.channelId,

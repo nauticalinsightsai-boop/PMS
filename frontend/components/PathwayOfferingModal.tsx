@@ -19,6 +19,7 @@ import { ProgrammePreviewExplorer } from '@/components/ProgrammePreviewExplorer'
 import { openPathwayConsultationCalendly } from '@/lib/pathway-consultation-scheduling';
 import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
 import { getPmpEnrollConversionEvent } from '@/lib/analytics/conversion-events';
+import { CTAS } from '@/lib/brand-voice';
 
 interface PathwayOfferingModalProps {
   open: boolean;
@@ -54,8 +55,12 @@ export function PathwayOfferingModal({
   const singleEnroll = pathwayCta.enrollHref && !pathwayCta.showConsultationInModal;
   const singleOther = !pathwayCta.enrollHref;
 
+  const mentorCtaLabel = pathwayCta.consultationLabel ?? CTAS.pathwayMentorCta;
+
+  const enrollCtaLabel = pathwayCta.enrollLabel;
+
   const intro = dualActions
-    ? 'Review the pathway map below, then enroll now or book a consultation with our team.'
+    ? `Review the pathway map below, then ${enrollCtaLabel.toLowerCase()} or ${mentorCtaLabel.toLowerCase()}.`
     : singleEnroll || pathwayCta.modalMode === 'enroll' || pathwayCta.modalMode === 'verify'
       ? 'Review the pathway map and materials below, then continue to secure your place.'
       : 'Review the pathway map and materials below, then take the next step with our team.';
@@ -142,7 +147,7 @@ export function PathwayOfferingModal({
               className="h-12 w-full rounded-2xl text-base border-brand-orange/30 text-brand-orange hover:bg-brand-orange/5"
               onClick={handleConsultation}
             >
-              Book consultation now
+              {mentorCtaLabel}
             </Button>
           )}
           {singleEnroll && pathwayCta.enrollHref && (

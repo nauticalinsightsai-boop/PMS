@@ -1,23 +1,42 @@
-import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
-import { jsonError, jsonOk } from '@/lib/response-helpers.js';
+import { insertFormSubmission } from '@/lib/insert-form-submission';
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}));
-  const { email, offeringId, regionId, residenceCountry, billingCountry, notes } =
-    body as Record<string, string>;
+  const {
+    email,
+    offeringId,
+    regionId,
+    residenceCountry,
+    billingCountry,
+    notes,
+    website,
+    company,
+    ...rest
+  } = body as Record<string, unknown> & {
+    email?: string;
+    offeringId?: string;
+    regionId?: string;
+    residenceCountry?: string;
+    billingCountry?: string;
+    notes?: string;
+    website?: string;
+    company?: string;
+  };
 
-  if (!email) return jsonError('Email is required', 400);
-
-  if (isSupabaseConfigured) {
-    const { error } = await supabaseAdmin.from('form_submissions').insert({
-      source: 'scholarship_review',
-      email,
-      subject: `Scholarship review: ${offeringId ?? 'general'}`,
-      payload: { offeringId, regionId, residenceCountry, billingCountry, notes },
-      metadata: { type: 'scholarship_review', status: 'pending' },
-    });
-    if (error) return jsonError(error.message, 500);
-  }
-
-  return jsonOk({ submitted: true }, 201);
+  return insertFormSubmission(request, {
+    source: 'scholarship_review',
+    email,
+    subject: `Scholarship review: ${offeringId ?? 'general'}`,
+    payload: {
+      ...rest,
+      offeringId,
+      regionId,
+      residenceCountry,
+      billingCountry,
+      notes,
+    },
+    metadata: { type: 'scholarship_review', status: 'pending' },
+    website: website as string | undefined,
+    company: company as string | undefined,
+  });
 }

@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { submitScholarshipReview } from '@/services/regional';
+import { submitPublicInteraction } from '@/lib/interactions/submit-public';
+import { offeringFormContext } from '@/lib/interactions/offering-form-context';
 import { useRegion } from '@/contexts/RegionContext';
 
 export function ScholarshipReviewForm({ offeringId }: { offeringId?: string }) {
@@ -16,7 +17,14 @@ export function ScholarshipReviewForm({ offeringId }: { offeringId?: string }) {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await submitScholarshipReview({ email, offeringId, regionId, notes });
+    const ctx = offeringFormContext('scholarship_review', 'Scholarship review', offeringId, regionId);
+    await submitPublicInteraction({
+      source: 'scholarship_review',
+      subject: `Scholarship review — ${ctx.certName ?? offeringId ?? 'general'}`,
+      email,
+      formContext: ctx,
+      payload: { notes, offeringId, regionId },
+    });
     setDone(true);
   };
 

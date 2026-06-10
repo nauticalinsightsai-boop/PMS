@@ -34,12 +34,17 @@ import { useInteractionBroadcast } from '@/hooks/useInteractionBroadcast';
 import { useDashboardApiAuth } from '@/hooks/useDashboardApiAuth';
 import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 import type { ClientSheetsEnvMeta } from '@/lib/google/sheets-env';
-import { INTERACTION_SOURCES, type InteractionSource } from '@/lib/interactions/types';
 import {
   sourceLabel,
   type SheetRecord,
 } from '@/lib/interactions/sheets-records';
 import { originLabelFromPayload } from '@pms/booking-crm/lead-attribution';
+import {
+  certNameFromPayload,
+  formFieldsFromPayload,
+  pagePathFromPayload,
+  submissionSourceLabel,
+} from '@pms/booking-crm/form-submissions';
 
 type SheetsResponse = {
   configured: boolean;
@@ -54,13 +59,6 @@ type SheetsResponse = {
 
 const PAGE_SIZE = 75;
 const AUTO_REFRESH_MS = 45_000;
-
-const SOURCE_LABEL: Record<InteractionSource, string> = {
-  contact: 'Contact',
-  subscription: 'Subscription',
-  meeting_booking: 'Meeting / booking',
-  documentation_request: 'Documentation',
-};
 
 function formatDate(iso: string): string {
   if (!iso.trim()) return '—';
@@ -88,6 +86,12 @@ function SheetRecordDetailPanel({
   onClose: () => void;
 }) {
   const [copied, setCopied] = useState(false);
+  const formFields = formFieldsFromPayload(record.payload);
+  const pagePath = pagePathFromPayload(record.payload);
+  const certName = certNameFromPayload(record.payload);
+  const origin =
+    originLabelFromPayload(record.payload) ||
+    (typeof record.payload.originLabel === 'string' ? record.payload.originLabel : '');
 
   const copyId = async () => {
     if (!record.submissionId) return;
@@ -117,9 +121,17 @@ function SheetRecordDetailPanel({
             <dt className="text-meta text-muted-foreground">Email</dt>
             <dd className="break-all text-foreground">{record.email || '—'}</dd>
           </div>
+          <div>
+            <dt className="text-meta text-muted-foreground">Page</dt>
+            <dd className="break-all text-foreground">{pagePath || '—'}</dd>
+          </div>
+          <div>
+            <dt className="text-meta text-muted-foreground">Certification</dt>
+            <dd className="text-foreground">{certName || '—'}</dd>
+          </div>
           <div className="sm:col-span-2">
             <dt className="text-meta text-muted-foreground">Origin</dt>
-            <dd className="text-foreground">{originLabelFromPayload(record.payload) || '—'}</dd>
+            <dd className="text-foreground">{origin || '—'}</dd>
           </div>
           <div className="sm:col-span-2">
             <dt className="mb-1 text-meta text-muted-foreground">Submission ID</dt>
@@ -138,6 +150,19 @@ function SheetRecordDetailPanel({
             </dd>
           </div>
         </dl>
+        {formFields.length > 0 && (
+          <div>
+            <h4 className="mb-2 text-label text-foreground">Form details</h4>
+            <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {formFields.map((field) => (
+                <div key={field.key} className={field.key === 'message' || field.key === 'notes' ? 'sm:col-span-2' : undefined}>
+                  <dt className="text-meta text-muted-foreground">{field.label}</dt>
+                  <dd className="break-words text-foreground">{field.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
         <div>
           <h4 className="mb-2 text-label text-foreground">Payload</h4>
           <pre className="overflow-x-auto whitespace-pre-wrap break-all rounded-lg bg-muted/80 p-3 font-mono text-meta">
@@ -171,7 +196,7 @@ export default function InteractionsSheetsRecords() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [q, setQ] = useState('');
-  const [sourceFilter, setSourceFilter] = useState<InteractionSource | ''>('');
+  const [sourceFilter, setSourceFilter] = useState('');
   const [orderAsc, setOrderAsc] = useState(false);
   const [page, setPage] = useState(0);
   const [autoRefresh, setAutoRefresh] = useState(true);
@@ -245,14 +270,22 @@ export default function InteractionsSheetsRecords() {
       list = list.filter((r) => r.source === sourceFilter);
     }
     if (needle) {
-      list = list.filter(
-        (r) =>
+      list = list.filter((r) => {
+        const pagePath = pagePathFromPayload(r.payload);
+        const certName = certNameFromPayload(r.payload);
+        const origin = originLabelFromPayload(r.payload);
+        return (
           r.subject.toLowerCase().includes(needle) ||
           r.email.toLowerCase().includes(needle) ||
           r.source.toLowerCase().includes(needle) ||
+          submissionSourceLabel(r.source).toLowerCase().includes(needle) ||
           r.submissionId.toLowerCase().includes(needle) ||
+          pagePath.toLowerCase().includes(needle) ||
+          certName.toLowerCase().includes(needle) ||
+          origin.toLowerCase().includes(needle) ||
           JSON.stringify(r.payload).toLowerCase().includes(needle)
-      );
+        );
+      });
     }
     const sorted = [...list].sort((a, b) => {
       const ta = Date.parse(a.createdAt) || 0;
@@ -270,6 +303,13 @@ export default function InteractionsSheetsRecords() {
     }
     return { total: records.length, bySource };
   }, [records]);
+
+  const sourceOptions = useMemo(() => {
+    const keys = Object.keys(stats.bySource).sort((a, b) =>
+      submissionSourceLabel(a).localeCompare(submissionSourceLabel(b)),
+    );
+    return keys;
+  }, [stats.bySource]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const pageRows = filtered.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE);
@@ -322,12 +362,12 @@ export default function InteractionsSheetsRecords() {
             <p className="text-meta text-muted-foreground">Total rows</p>
             <p className="text-h4 text-foreground">{stats.total}</p>
           </div>
-          {INTERACTION_SOURCES.map((src) => (
+          {sourceOptions.slice(0, 4).map((src) => (
             <div
               key={src}
               className="p-3 r-card border border-slate-300/60 dark:border-slate-700/60 bg-card/30"
             >
-              <p className="text-meta text-muted-foreground truncate">{SOURCE_LABEL[src]}</p>
+              <p className="text-meta text-muted-foreground truncate">{submissionSourceLabel(src)}</p>
               <p className="text-h4 text-foreground">{stats.bySource[src] ?? 0}</p>
             </div>
           ))}
@@ -344,22 +384,22 @@ export default function InteractionsSheetsRecords() {
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search email, subject, ID, payload…"
+            placeholder="Search email, page, cert, origin, payload…"
             className="w-full pl-9 pr-3 py-2 rounded-lg border border-slate-300/70 dark:border-slate-600 bg-background text-body-sm text-foreground placeholder:text-muted-foreground"
           />
         </div>
         <select
           value={sourceFilter}
-          onChange={(e) => setSourceFilter(e.target.value as InteractionSource | '')}
+          onChange={(e) => setSourceFilter(e.target.value)}
           aria-label="Filter by source"
           className="text-body-sm bg-background border border-slate-300/70 dark:border-slate-600 rounded-lg px-3 py-2 text-foreground min-w-[200px]"
         >
           <option value="" className="bg-background text-foreground">
             All sources
           </option>
-          {INTERACTION_SOURCES.map((s) => (
+          {sourceOptions.map((s) => (
             <option key={s} value={s} className="bg-background text-foreground">
-              {SOURCE_LABEL[s]}
+              {submissionSourceLabel(s)} ({stats.bySource[s] ?? 0})
             </option>
           ))}
         </select>
@@ -465,6 +505,8 @@ export default function InteractionsSheetsRecords() {
               <th className="px-3 py-3 font-medium">Source</th>
               <th className="px-3 py-3 font-medium">Subject</th>
               <th className="px-3 py-3 font-medium">Email</th>
+              <th className="px-3 py-3 font-medium">Page</th>
+              <th className="px-3 py-3 font-medium">Certification</th>
               <th className="px-3 py-3 font-medium">Origin</th>
               <th className="px-3 py-3 font-medium">Payload</th>
               <th className="px-3 py-3 font-medium w-[88px]">View</th>
@@ -474,7 +516,7 @@ export default function InteractionsSheetsRecords() {
             {loading &&
               Array.from({ length: 8 }).map((_, i) => (
                 <tr key={i}>
-                  {Array.from({ length: 7 }).map((__, j) => (
+                  {Array.from({ length: 9 }).map((__, j) => (
                     <td key={j} className="px-3 py-3">
                       <SkeletonBar />
                     </td>
@@ -490,6 +532,12 @@ export default function InteractionsSheetsRecords() {
                   <td className="px-3 py-2 whitespace-nowrap text-foreground">{sourceLabel(r.source)}</td>
                   <td className="px-3 py-2 max-w-[200px] text-foreground">{r.subject || '—'}</td>
                   <td className="px-3 py-2 whitespace-nowrap text-foreground">{r.email || '—'}</td>
+                  <td className="px-3 py-2 max-w-[120px] text-meta text-muted-foreground">
+                    {cellPreview(pagePathFromPayload(r.payload), 32)}
+                  </td>
+                  <td className="px-3 py-2 max-w-[120px] text-meta text-muted-foreground">
+                    {cellPreview(certNameFromPayload(r.payload), 32)}
+                  </td>
                   <td className="px-3 py-2 max-w-[160px] text-meta text-muted-foreground">
                     {cellPreview(originLabelFromPayload(r.payload), 48)}
                   </td>
@@ -509,7 +557,7 @@ export default function InteractionsSheetsRecords() {
               ))}
             {!loading && !error && filtered.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-3 py-8">
+                <td colSpan={9} className="px-3 py-8">
                   <EmptyState
                     icon={FileSpreadsheet}
                     title={records.length === 0 ? 'No sheet rows yet' : 'No matches'}

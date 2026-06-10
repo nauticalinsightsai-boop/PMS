@@ -23,6 +23,7 @@ import { PathwayTierCta } from '@/components/PathwayTierCta';
 import { REGION_COPY } from '@/lib/brand-voice';
 import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import type { OfferingStatus } from '@/types/regional-catalogue';
+import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 
 export interface CertificationPathwayProps {
   certificationName: string;
@@ -85,9 +86,12 @@ function PathwayTierPricingChips({
 
   return (
     <div className="mb-5 space-y-2">
-      <div className="grid grid-cols-2 gap-2 items-stretch overflow-visible sm:grid-cols-3">
-        <StatChip label="Prep time">
-          <p className="text-sm font-extrabold leading-tight tracking-tight text-slate-900 dark:text-white">
+      <div className="grid grid-cols-2 gap-1.5 items-stretch overflow-visible sm:grid-cols-3 sm:gap-2">
+        <StatChip
+          label="Prep time"
+          className="min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
+        >
+          <p className="text-xs font-extrabold leading-tight tracking-tight text-slate-900 dark:text-white sm:text-sm">
             {tier.duration?.trim() || 'Flexible'}
           </p>
         </StatChip>
@@ -95,22 +99,26 @@ function PathwayTierPricingChips({
         <StatChip
           label="Tuition"
           subtitle={isScholarship ? REGION_COPY.scholarshipChipSubtitle : undefined}
+          className="min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
         >
           {tier.price ? (
             <p
               className={cn(
-                'text-sm font-extrabold leading-tight tracking-tight',
+                'text-xs font-extrabold leading-tight tracking-tight sm:text-sm',
                 isScholarship ? 'text-brand-orange' : 'text-slate-900 dark:text-white',
               )}
             >
               {tier.price}
             </p>
           ) : (
-            <p className="text-sm font-extrabold text-slate-400">—</p>
+            <p className="text-xs font-extrabold text-slate-400 sm:text-sm">—</p>
           )}
         </StatChip>
 
-        <MembershipPriceChip price={tier.membershipPrice} />
+        <MembershipPriceChip
+          price={tier.membershipPrice}
+          className="hidden min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[4.5rem] sm:px-2.5"
+        />
       </div>
 
       {showGlobalReference && tier.originalPrice && (
@@ -286,15 +294,19 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
   color,
   gradient,
 }) => {
+  const desktopLayout = cn(
+    'md:grid md:items-stretch',
+    tiers.length === 1 && 'md:grid-cols-1 lg:max-w-xl lg:mx-auto',
+    tiers.length === 2 && 'md:grid-cols-2',
+    tiers.length >= 3 && 'md:grid-cols-2 lg:grid-cols-3',
+  );
+
   return (
     <div className="w-full">
-      <div
-        className={cn(
-          'grid grid-cols-1 gap-8 items-stretch',
-          tiers.length === 1 && 'lg:max-w-xl lg:mx-auto',
-          tiers.length === 2 && 'md:grid-cols-2',
-          tiers.length >= 3 && 'md:grid-cols-2 lg:grid-cols-3',
-        )}
+      <ResponsiveSnapScroll
+        desktopLayoutClassName={desktopLayout}
+        gapClassName="gap-6 md:gap-8"
+        mobileItemClassName="w-[min(92vw,19rem)]"
       >
         {tiers.map((tier, index) => (
           <motion.div
@@ -314,7 +326,7 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
             />
           </motion.div>
         ))}
-      </div>
+      </ResponsiveSnapScroll>
     </div>
   );
 };

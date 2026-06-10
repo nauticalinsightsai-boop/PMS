@@ -28,8 +28,9 @@ import {
   getRegisterCertOptions,
   getRegisterOfferingsForCert,
 } from '@/lib/register-catalogue-options';
-import { submitConsultation } from '@/services/regional';
+import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { trackConversionEvent, CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
+import { CTAS } from '@/lib/brand-voice';
 
 interface RegisterModalProps {
   trigger?: React.ReactElement;
@@ -59,12 +60,29 @@ export function RegisterModal({ trigger }: RegisterModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (offeringId) {
-      await submitConsultation({
+      const certLabel = certOptions.find((c) => c.siteCertId === certId)?.label ?? certId;
+      const tierLabel = tierOptions.find((t) => t.offeringId === offeringId)?.tierLabel;
+      const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined;
+      await submitPublicInteraction({
+        source: 'consultation',
+        subject: `Pathway request — ${certLabel}${tierLabel ? ` · ${tierLabel}` : ''}`,
         email,
-        offeringId,
-        regionId,
-        name,
-        message: `Pathway registration interest from ${regionLabel}`,
+        formContext: {
+          formId: 'register_modal',
+          formLabel: 'Talk to Mentor modal',
+          pagePath,
+          siteCertId: certId,
+          certName: certLabel,
+          offeringId,
+          tierLabel,
+          regionId,
+        },
+        payload: {
+          name,
+          offeringId,
+          regionId,
+          message: `Pathway registration interest from ${regionLabel}`,
+        },
       });
       trackConversionEvent(CONVERSION_EVENTS.CONSULTATION_BOOK, {
         cert_id: certId,
@@ -79,7 +97,7 @@ export function RegisterModal({ trigger }: RegisterModalProps) {
   return (
     <Dialog>
       <DialogTrigger
-        render={trigger || <Button variant="brand">Book consultation</Button>}
+        render={trigger || <Button variant="brand">{CTAS.talkToMentor}</Button>}
       />
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>

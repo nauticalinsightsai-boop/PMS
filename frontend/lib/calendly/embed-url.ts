@@ -4,6 +4,14 @@
  * users often pick light UI while the OS is still in dark mode, and we would wrongly
  * style Calendly with dark colors.
  */
+import { isLightHexColor, pickButtonForeground } from '@/lib/channel-landing-pages/contrastUtils';
+import { assertCalendlySchedulingUrl } from '@/lib/calendly/host-allowlist';
+import { getWebsiteHeroConsultationUrl } from '@/lib/calendly/event-registry';
+import {
+  ENGAGEMENT_SERVICE_TO_WEBSITE_TIER,
+  getWebsiteCalendlyUrl,
+} from '@/lib/calendly/website-events';
+
 export function getCalendlyEmbedTheme(): 'dark' | 'light' {
  return getCalendlySurfaceMode();
 }
@@ -341,10 +349,6 @@ const CALENDLY_EMBED_BRAND: Record<
  },
 };
 
-import { isLightHexColor, pickButtonForeground } from '@/lib/channel-landing-pages/contrastUtils';
-import { assertCalendlySchedulingUrl } from '@/lib/calendly/host-allowlist';
-import { CALENDLY_DEFAULT_SCHEDULING_URLS } from '@/lib/calendly/scheduling-urls';
-
 /** Strip quotes and allow only calendly.com scheduling URLs. */
 export function sanitizeCalendlySchedulingUrl(raw: string): string {
  return assertCalendlySchedulingUrl(raw) ?? '';
@@ -468,33 +472,40 @@ function resolveCalendlySchedulingUrl(
 }
 
 /**
- * Public scheduling URL per service (browser links). `NEXT_PUBLIC_*` overrides defaults in
- * {@link CALENDLY_DEFAULT_SCHEDULING_URLS} (same events as Home hero where applicable).
+ * Public scheduling URL per legacy engagement service id.
+ * Maps to website manifest events; env overrides still supported.
  */
 export function getCalendlySchedulingUrlForService(serviceId: string): string {
+ const tier = ENGAGEMENT_SERVICE_TO_WEBSITE_TIER[serviceId];
+ if (!tier) return '';
+
+ const manifestDefault = getWebsiteCalendlyUrl(tier);
+
  if (serviceId === 'guide-download') {
-  return resolveCalendlySchedulingUrl(
-   process.env.NEXT_PUBLIC_CALENDLY_EVENT_URL,
-   CALENDLY_DEFAULT_SCHEDULING_URLS.guideDownload
-  );
+  return resolveCalendlySchedulingUrl(process.env.NEXT_PUBLIC_CALENDLY_EVENT_URL, manifestDefault);
  }
  if (serviceId === 'project-review') {
   return resolveCalendlySchedulingUrl(
    process.env.NEXT_PUBLIC_CALENDLY_EVENT_URL_PROJECT_REVIEW,
-   CALENDLY_DEFAULT_SCHEDULING_URLS.projectReview
+   manifestDefault,
   );
  }
  if (serviceId === 'strategy-advisory') {
   return resolveCalendlySchedulingUrl(
    process.env.NEXT_PUBLIC_CALENDLY_EVENT_URL_STRATEGY_ADVISORY,
-   CALENDLY_DEFAULT_SCHEDULING_URLS.strategyAdvisory
+   manifestDefault,
   );
  }
  if (serviceId === 'consulting') {
   return resolveCalendlySchedulingUrl(
    process.env.NEXT_PUBLIC_CALENDLY_EVENT_URL_PREMIUM_CONSULTING,
-   CALENDLY_DEFAULT_SCHEDULING_URLS.premiumConsulting
+   manifestDefault,
   );
  }
- return '';
+ return manifestDefault;
+}
+
+/** Home hero primary CTA — Website Hero Book Consultation (20 min). */
+export function getWebsiteHeroConsultationCalendlyUrl(): string {
+ return sanitizeCalendlySchedulingUrl(getWebsiteHeroConsultationUrl()) || '';
 }

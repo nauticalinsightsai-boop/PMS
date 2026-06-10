@@ -33,6 +33,30 @@ describe('home config', () => {
     expect(v2.heroSlides[0].primaryAction).toBe('contact');
   });
 
+  it('infers calendly action for consultation contact links', () => {
+    const v2 = normalizeHomeConfigV1ToV2({
+      heroSlides: [
+        {
+          id: 1,
+          visible: true,
+          heading: 'Test',
+          description: 'Desc',
+          primaryCta: 'Reserve your consultation',
+          primaryLink: '/contact?topic=consultation',
+          secondaryCta: 'Find',
+          secondaryLink: '/certifications',
+        },
+      ],
+    });
+    expect(v2.heroSlides[0].primaryAction).toBe('calendly');
+  });
+
+  it('default hero opens register modal with mentor CTA', () => {
+    const cfg = defaultHomePageConfigV2();
+    expect(cfg.heroSlides[0].primaryAction).toBe('register_modal');
+    expect(cfg.heroSlides[0].primaryCta).toBe('Talk to Mentor');
+  });
+
   it('preserves featured cert ids from legacy featuredItems', () => {
     const v1 = {
       heroSlides: defaultHomePageConfigV2().heroSlides,

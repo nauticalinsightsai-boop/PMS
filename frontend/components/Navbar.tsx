@@ -81,7 +81,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
             </Button>
             <RegisterModal trigger={
               <Button variant="brand" className="font-semibold px-5 h-10 rounded-full">
-                {CTAS.navConsultation}
+                {CTAS.talkToMentor}
               </Button>
             } />
           </div>
@@ -103,7 +103,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
               <div className="mt-4 hidden md:block">
                 <RegionChip />
               </div>
-              <nav className="flex flex-col gap-1 mt-6" aria-label="Main">
+              <nav className="mt-6 flex flex-col gap-1 pl-4 sm:pl-5" aria-label="Main">
                 {MOBILE_NAV_LINKS.map((link) => {
                   const active = isNavLinkActive(pathname, link.href);
                   return (
@@ -118,7 +118,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
                   );
                 })}
                 <div className="mt-4 pt-4 border-t border-border">
-                  <RegisterModal trigger={<Button variant="brand" className="w-full min-h-11">Register Now</Button>} />
+                  <RegisterModal trigger={<Button variant="brand" className="w-full min-h-11">{CTAS.talkToMentor}</Button>} />
                 </div>
               </nav>
             </SheetContent>

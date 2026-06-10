@@ -26,6 +26,9 @@ export function MembershipPriceChip({
   const showHint = hintOpen;
 
   const openHint = useCallback(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 639px)').matches) {
+      return;
+    }
     if (hideTimerRef.current) {
       clearTimeout(hideTimerRef.current);
       hideTimerRef.current = null;
@@ -53,7 +56,7 @@ export function MembershipPriceChip({
       className={cn(
         CHIP_SHELL,
         showHint &&
-          'z-30 min-h-[6.75rem] border-brand-purple/40 bg-brand-purple/10 shadow-md ring-1 ring-brand-purple/20 dark:bg-brand-purple/15',
+          'sm:z-30 sm:min-h-[6.75rem] sm:border-brand-purple/40 sm:bg-brand-purple/10 sm:shadow-md sm:ring-1 sm:ring-brand-purple/20 dark:sm:bg-brand-purple/15',
         className,
       )}
       title={`${REGION_COPY.membershipDiscountNote} View membership plans.`}
@@ -64,14 +67,15 @@ export function MembershipPriceChip({
       onFocus={openHint}
       onBlur={scheduleCloseHint}
     >
-      <span className="flex w-full items-center justify-center gap-1 text-[10px] font-bold leading-none tracking-wide text-brand-purple normal-case">
-        <Crown className="h-3 w-3 shrink-0 opacity-80" aria-hidden />
-        <span>{REGION_COPY.membershipChipLabel}</span>
+      <span className="flex w-full items-center justify-center gap-0.5 text-[9px] font-bold leading-none tracking-wide text-brand-purple normal-case sm:gap-1 sm:text-[10px]">
+        <Crown className="h-2.5 w-2.5 shrink-0 opacity-80 sm:h-3 sm:w-3" aria-hidden />
+        <span className="sm:hidden">Member</span>
+        <span className="hidden sm:inline">{REGION_COPY.membershipChipLabel}</span>
       </span>
       <p
         className={cn(
-          'text-sm font-extrabold leading-tight tracking-tight text-brand-purple transition-all duration-300',
-          showHint && 'text-xs',
+          'text-xs font-extrabold leading-tight tracking-tight text-brand-purple transition-all duration-300 sm:text-sm',
+          showHint && 'sm:text-xs',
         )}
       >
         {displayPrice}
@@ -82,7 +86,9 @@ export function MembershipPriceChip({
         role="tooltip"
         className={cn(
           'w-full overflow-hidden transition-all duration-300 ease-out',
-          showHint ? 'max-h-20 opacity-100 mt-1.5' : 'max-h-0 opacity-0 mt-0 pointer-events-none',
+          showHint
+            ? 'max-h-0 opacity-0 mt-0 pointer-events-none sm:max-h-20 sm:opacity-100 sm:mt-1.5 sm:pointer-events-auto'
+            : 'max-h-0 opacity-0 mt-0 pointer-events-none',
         )}
       >
         <p className="text-[11px] font-semibold leading-snug text-slate-700 dark:text-slate-200">

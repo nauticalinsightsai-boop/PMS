@@ -18,6 +18,7 @@ import * as siteData from "@/data/siteData";
 import type { CertificationSummary } from "@/types/site";
 import { CERTIFICATIONS_COPY, CTAS } from "@/lib/brand-voice";
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
+import { ResponsiveSnapScroll } from "@/components/ResponsiveSnapScroll";
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
 import { CertificationHubActions } from "@/components/CertificationHubActions";
@@ -252,26 +253,27 @@ export function Certifications() {
                             <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 text-center md:text-left">
                               Flagship pathways
                             </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                              <AnimatePresence mode="popLayout">
-                                {featuredTop.map((cert) => (
-                                  <motion.div
-                                    key={cert.id}
-                                    layout
-                                    initial={{ opacity: 0, y: 12 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: 12 }}
-                                    transition={{ duration: 0.35 }}
-                                    className="h-full motion-reduce:transform-none"
-                                  >
-                                    <PathwayFeaturedCard
-                                      cert={cert}
-                                      familyLabel={cert.familyId}
-                                    />
-                                  </motion.div>
-                                ))}
-                              </AnimatePresence>
-                            </div>
+                            <ResponsiveSnapScroll
+                              desktopLayoutClassName="md:grid md:grid-cols-3"
+                              gapClassName="gap-6 md:gap-8"
+                              mobileItemClassName="w-[min(92vw,19rem)]"
+                            >
+                              {featuredTop.map((cert) => (
+                                <motion.div
+                                  key={cert.id}
+                                  initial={{ opacity: 0, y: 12 }}
+                                  whileInView={{ opacity: 1, y: 0 }}
+                                  viewport={{ once: true }}
+                                  transition={{ duration: 0.35 }}
+                                  className="h-full motion-reduce:transform-none"
+                                >
+                                  <PathwayFeaturedCard
+                                    cert={cert}
+                                    familyLabel={cert.familyId}
+                                  />
+                                </motion.div>
+                              ))}
+                            </ResponsiveSnapScroll>
                           </div>
                         )}
 

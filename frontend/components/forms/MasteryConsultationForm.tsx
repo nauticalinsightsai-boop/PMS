@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useRegion } from '@/contexts/RegionContext';
-import { submitConsultation } from '@/services/regional';
+import { submitPublicInteraction } from '@/lib/interactions/submit-public';
+import { offeringFormContext } from '@/lib/interactions/offering-form-context';
 
 export function MasteryConsultationForm({ offeringId }: { offeringId: string }) {
   const { regionId } = useRegion();
@@ -17,7 +18,14 @@ export function MasteryConsultationForm({ offeringId }: { offeringId: string }) 
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await submitConsultation({ email, name, notes, offeringId, regionId });
+    const ctx = offeringFormContext('mastery_consultation', 'Mastery consultation', offeringId, regionId);
+    await submitPublicInteraction({
+      source: 'consultation',
+      subject: `Mastery consultation — ${ctx.certName ?? offeringId}`,
+      email,
+      formContext: ctx,
+      payload: { name, notes, offeringId, regionId, topic: 'mastery_consultation' },
+    });
     setDone(true);
   };
 

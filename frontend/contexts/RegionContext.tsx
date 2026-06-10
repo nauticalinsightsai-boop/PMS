@@ -3,18 +3,30 @@
 import * as React from 'react';
 import type { GccCountryCode, RegionId } from '@/types/regional-catalogue';
 import { getCatalogue } from '@/lib/regional-catalogue';
-import { clearStoredRegion, readStoredRegion, writeStoredRegion } from '@/lib/region-storage';
+import {
+  clearStoredRegion,
+  readStoredRegion,
+  writeStoredRegion,
+  type RegionSource,
+} from '@/lib/region-storage';
+import { fetchBrowserGeolocationRegionHint, fetchIpRegionHint } from '@/lib/region-geo';
 import { syncProfileRegion } from '@/services/regional';
 
 interface RegionContextValue {
   regionId: RegionId;
   gccCountry: GccCountryCode | null;
   regionLabel: string;
+  regionSource: RegionSource | null;
+  /** True after the visitor shared browser location — unlocks manual region change. */
+  canChangeRegion: boolean;
   isReady: boolean;
+  isDetectingRegion: boolean;
   modalOpen: boolean;
   setRegion: (regionId: RegionId, gccCountry?: GccCountryCode | null) => void;
   openRegionModal: () => void;
   closeRegionModal: () => void;
+  /** Prompt for browser location; on success updates region and unlocks manual change. */
+  shareLocationForRegion: () => Promise<boolean>;
 }
 
 const RegionContext = React.createContext<RegionContextValue | null>(null);
@@ -28,6 +40,19 @@ const REGION_LABELS: Record<RegionId, string> = {
   pakistan: 'Pakistan',
 };
 
+function applyRegionHint(
+  hint: { regionId: RegionId; gccCountry: GccCountryCode | null },
+  source: RegionSource,
+  setRegionId: React.Dispatch<React.SetStateAction<RegionId>>,
+  setGccCountry: React.Dispatch<React.SetStateAction<GccCountryCode | null>>,
+  setRegionSource: React.Dispatch<React.SetStateAction<RegionSource | null>>,
+) {
+  setRegionId(hint.regionId);
+  setGccCountry(hint.gccCountry);
+  setRegionSource(source);
+  writeStoredRegion(hint.regionId, hint.gccCountry, source);
+}
+
 type RegionProviderProps = {
   children: React.ReactNode;
   /** Channel portals: default USD/global, no blocking modal; optional IP region hint. */
@@ -37,37 +62,48 @@ type RegionProviderProps = {
 export function RegionProvider({ children, portalDefaults = false }: RegionProviderProps) {
   const [regionId, setRegionId] = React.useState<RegionId>('global');
   const [gccCountry, setGccCountry] = React.useState<GccCountryCode | null>(null);
+  const [regionSource, setRegionSource] = React.useState<RegionSource | null>(null);
+  const [canChangeRegion, setCanChangeRegion] = React.useState(false);
   /** Default true so regional widgets use global fallback until bootstrap completes. */
   const [isReady, setIsReady] = React.useState(true);
+  const [isDetectingRegion, setIsDetectingRegion] = React.useState(false);
   const [modalOpen, setModalOpen] = React.useState(false);
 
   React.useEffect(() => {
     let cancelled = false;
 
     async function bootstrap() {
+      setRegionId('global');
+      setGccCountry(null);
+      setModalOpen(false);
+
       const stored = readStoredRegion();
-      if (stored) {
-        setRegionId(stored.regionId);
-        setGccCountry(stored.gccCountry);
-        return;
-      }
 
-      if (portalDefaults) {
-        setRegionId('global');
-        setGccCountry(null);
-        setModalOpen(false);
-
-        const { fetchPortalRegionHint } = await import('@/lib/portal-region-geo');
-        const hint = await fetchPortalRegionHint();
-        if (!cancelled && hint && !readStoredRegion()) {
-          setRegionId(hint.regionId);
-          setGccCountry(hint.gccCountry);
-          writeStoredRegion(hint.regionId, hint.gccCountry);
+      // Legacy manual picks (no source) — discard and re-detect from IP.
+      if (stored && !stored.source) {
+        clearStoredRegion();
+      } else if (stored?.source) {
+        if (!cancelled) {
+          setRegionId(stored.regionId);
+          setGccCountry(stored.gccCountry);
+          setRegionSource(stored.source);
+          setCanChangeRegion(stored.source === 'geolocation' || stored.source === 'manual');
         }
         return;
       }
 
-      setModalOpen(true);
+      if (portalDefaults) {
+        const hint = await fetchIpRegionHint();
+        if (!cancelled && hint && !readStoredRegion()) {
+          applyRegionHint(hint, 'ip', setRegionId, setGccCountry, setRegionSource);
+        }
+        return;
+      }
+
+      const hint = await fetchIpRegionHint();
+      if (!cancelled && hint) {
+        applyRegionHint(hint, 'ip', setRegionId, setGccCountry, setRegionSource);
+      }
     }
 
     void bootstrap();
@@ -79,7 +115,8 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
   const setRegion = React.useCallback((id: RegionId, gcc?: GccCountryCode | null) => {
     setRegionId(id);
     setGccCountry(gcc ?? null);
-    writeStoredRegion(id, gcc);
+    setRegionSource('manual');
+    writeStoredRegion(id, gcc, 'manual');
     setModalOpen(false);
 
     const userId =
@@ -89,14 +126,30 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
     }
   }, []);
 
-  const openRegionModal = React.useCallback(() => setModalOpen(true), []);
+  const openRegionModal = React.useCallback(() => {
+    if (!canChangeRegion) return;
+    setModalOpen(true);
+  }, [canChangeRegion]);
+
   const closeRegionModal = React.useCallback(() => {
-    if (!readStoredRegion()) {
-      writeStoredRegion('global');
-      setRegionId('global');
-    }
     setModalOpen(false);
   }, []);
+
+  const shareLocationForRegion = React.useCallback(async (): Promise<boolean> => {
+    if (isDetectingRegion) return false;
+    setIsDetectingRegion(true);
+    try {
+      const hint = await fetchBrowserGeolocationRegionHint();
+      if (!hint) return false;
+      applyRegionHint(hint, 'geolocation', setRegionId, setGccCountry, setRegionSource);
+      setCanChangeRegion(true);
+      return true;
+    } catch {
+      return false;
+    } finally {
+      setIsDetectingRegion(false);
+    }
+  }, [isDetectingRegion]);
 
   const regionConfig = getCatalogue().regions.find((r) => r.id === regionId);
   const regionLabel =
@@ -108,11 +161,15 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
     regionId,
     gccCountry,
     regionLabel,
+    regionSource,
+    canChangeRegion,
     isReady,
+    isDetectingRegion,
     modalOpen,
     setRegion,
     openRegionModal,
     closeRegionModal,
+    shareLocationForRegion,
   };
 
   return <RegionContext.Provider value={value}>{children}</RegionContext.Provider>;

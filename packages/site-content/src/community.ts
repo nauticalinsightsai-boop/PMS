@@ -32,14 +32,14 @@ export function defaultCommunityPageConfig(): CommunityPageConfig {
     hero: {
       badge: 'Community',
       title: 'Join the Global PM Network',
-      subtitle: 'Connect with professionals in our Slack-based community.',
+      subtitle: 'Connect with professionals in our Skool community.',
     },
     network: {
       title: 'Join the Global PM Network',
-      subtitle: "Don't study in isolation. Connect with professionals in our Slack-based community.",
+      subtitle: "Don't study in isolation. Connect with professionals in our Skool community.",
       memberCount: 1284,
       features: [
-        { title: 'Slack Community', iconKey: 'message' },
+        { title: 'Skool Community', iconKey: 'message' },
         { title: 'Study Circles', iconKey: 'users' },
         { title: 'Peer Discussions', iconKey: 'message' },
         { title: 'Live Sessions', iconKey: 'calendar' },

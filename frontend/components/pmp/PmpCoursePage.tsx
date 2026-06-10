@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
+import { pathwayEnrollLabelForTier } from '@/lib/pathway-tier-cta';
 import { PMP_INDEPENDENT_DISCLAIMER } from '@/content/pmp/disclaimer';
 import { PMP_LMS_NOTE, PMP_PRICING_NOTE } from '@/content/pmp/shared';
 import type { PmpCourseContent } from '@/content/pmp/courses';
@@ -117,7 +118,7 @@ export function PmpCoursePage({ course }: { course: PmpCourseContent }) {
                 event={PATHWAY_ENROLL_EVENTS[course.tier]}
                 className={buttonVariants({ size: 'lg' })}
               >
-                Enroll in {course.tier} tier
+                {pathwayEnrollLabelForTier(course.tier, 'pmp')}
               </TrackedConversionLink>
               <TrackedConversionLink
                 href="/pmp-readiness-diagnostic"

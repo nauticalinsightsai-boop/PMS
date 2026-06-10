@@ -4,6 +4,10 @@ import React, { useState } from 'react'
 import { Anchor, CheckCircle } from 'lucide-react'
 import type { ChannelLandingPage } from '@/types/channelLandingPage'
 import { submitPublicInteraction } from '@/lib/interactions/submit-public'
+import {
+  attributionOriginLabel,
+  buildLeadAttribution,
+} from '@/lib/channel-landing-pages/lead-attribution'
 import { BRAND_NAV_LOGO } from '@/lib/brand/site-logo'
 import CTAButton from '@/components/ui/buttons/CTAButton'
 
@@ -38,11 +42,27 @@ export default function ChannelLandingPublicView({ page }: Props) {
     e.preventDefault()
     if (!email || !firstName || !whatsapp) return
     setSubmitting(true)
+    const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined
+    const attribution = buildLeadAttribution({
+      source: 'channel_portal',
+      channelId: page.channelId,
+      channelKey: page.channelKey,
+      landingSlug: page.slug,
+      pagePath,
+    })
     const res = await submitPublicInteraction({
       source: 'contact',
       subject: `Channel landing — ${page.label}${page.subtitle ? ` (${page.subtitle})` : ''}`,
       email,
       website: hp,
+      formContext: {
+        formId: 'channel_landing',
+        formLabel: `Channel landing · ${page.label}`,
+        pagePath,
+        channelKey: page.channelKey,
+        landingSlug: page.slug,
+        attribution,
+      },
       payload: {
         firstName,
         lastName,
@@ -51,6 +71,8 @@ export default function ChannelLandingPublicView({ page }: Props) {
         message: message || `Booking request via ${page.label} landing page`,
         channelKey: page.channelKey,
         landingSlug: page.slug,
+        attribution,
+        originLabel: attributionOriginLabel(attribution),
       },
     })
     setSubmitting(false)

@@ -1,21 +1,39 @@
 'use client';
 
-import type { InteractionSource } from '@/lib/interactions/types';
+import type { WebsiteFormContextInput } from '@pms/booking-crm/form-submissions';
+import { buildWebsiteFormContext } from '@pms/booking-crm/form-submissions';
+
+export type InteractionSource =
+  | 'contact'
+  | 'meeting_booking'
+  | 'pmp_roadmap_lead'
+  | 'cert_roadmap_lead'
+  | 'consultation'
+  | 'waitlist'
+  | 'scholarship_review'
+  | 'subscription'
+  | string;
 
 export type ClientInteractionBody = {
   source: InteractionSource;
   subject: string;
   email: string;
   payload?: Record<string, unknown>;
+  /** Merged into payload for CRM origin / page tracking */
+  formContext?: WebsiteFormContextInput;
   /** Honeypot — leave empty */
   website?: string;
   company?: string;
 };
 
 export async function submitPublicInteraction(
-  data: ClientInteractionBody
+  data: ClientInteractionBody,
 ): Promise<{ ok: boolean; error?: string }> {
   try {
+    const contextFields = data.formContext
+      ? buildWebsiteFormContext(data.formContext)
+      : {};
+
     const res = await fetch('/api/interactions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -23,7 +41,13 @@ export async function submitPublicInteraction(
         source: data.source,
         subject: data.subject,
         email: data.email,
-        payload: data.payload ?? {},
+        payload: {
+          ...contextFields,
+          ...(data.payload ?? {}),
+        },
+        metadata: {
+          clientSubmittedAt: new Date().toISOString(),
+        },
         website: data.website ?? '',
         company: data.company ?? '',
       }),

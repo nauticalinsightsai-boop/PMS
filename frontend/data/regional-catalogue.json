@@ -129,38 +129,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -226,37 +226,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -321,38 +321,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -417,38 +417,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -513,38 +513,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -609,38 +609,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -705,38 +705,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -801,38 +801,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -897,38 +897,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -993,38 +993,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1089,38 +1089,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -1185,38 +1185,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1281,38 +1281,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1377,38 +1377,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -1473,38 +1473,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1569,38 +1569,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -1665,38 +1665,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1761,38 +1761,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -1857,38 +1857,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1953,38 +1953,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2049,38 +2049,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -2145,38 +2145,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2241,38 +2241,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -2337,38 +2337,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2433,38 +2433,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2529,38 +2529,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -2625,38 +2625,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2721,38 +2721,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2817,38 +2817,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -2913,38 +2913,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3009,38 +3009,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3105,38 +3105,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -3201,38 +3201,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3297,38 +3297,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3393,38 +3393,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -3489,38 +3489,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3585,38 +3585,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3681,38 +3681,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -3777,38 +3777,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3873,38 +3873,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3969,38 +3969,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -4065,38 +4065,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4161,38 +4161,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4257,38 +4257,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -4353,38 +4353,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4449,38 +4449,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -4545,38 +4545,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4641,38 +4641,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4737,38 +4737,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4833,38 +4833,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4929,38 +4929,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -5025,38 +5025,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -5121,38 +5121,38 @@
       "regional": {
         "global": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
-          "primaryCta": "Enroll Now",
-          "secondaryCta": "Book Pathway Consultation",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -5217,38 +5217,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -5313,38 +5313,38 @@
       "regional": {
         "global": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
-          "primaryCta": "Book Mastery Consultation",
-          "secondaryCta": "Request Scholarship Review / Enroll at Global Price",
+          "primaryCta": "Reserve your seat",
+          "secondaryCta": "Talk to your mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },

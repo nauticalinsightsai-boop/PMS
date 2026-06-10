@@ -4,21 +4,19 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CertificationPathway } from "@/components/CertificationPathway";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { ArrowLeft, BookOpen, Clock, Award, ShieldCheck, TrendingUp, Sparkles, Target, Zap } from "lucide-react";
+import { ArrowLeft, BookOpen, Clock, Award, ShieldCheck, TrendingUp, Target, Zap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { PathwayTier } from "@/types/site";
 import * as siteData from "@/data/siteData";
-import { CTAS } from "@/lib/brand-voice";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
 import { useRegion } from "@/contexts/RegionContext";
 import { buildPathwayTiersForCert } from "@/lib/pathway-from-catalogue";
 import { getOfferingsForSiteCert } from "@/lib/regional-catalogue";
-import { CertFamilyMark } from "@/components/CertFamilyMark";
 import { PricingComplianceNote } from "@/components/PricingComplianceNote";
-import { RegisterModal } from "@/components/RegisterModal";
+import { pathwayEnrollLabelForTier } from '@/lib/pathway-tier-cta';
 import { hrefForCtaAction } from "@/lib/cta-router";
 import { canCheckout } from "@/lib/status-normalize";
 import type { RegionId } from "@/types/regional-catalogue";
@@ -41,12 +39,14 @@ import { ConversionViewTracker } from '@/components/analytics/ConversionViewTrac
 import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
-import { PmpProgramOfferSections } from '@/components/pmp/PmpProgramOfferSections';
 import {
-  PMP_ROADMAP_FORM_ANCHOR,
-  PMP_UNTIL_YOU_PASS_HEADLINE,
-  PMP_UNTIL_YOU_PASS_SUBLINE,
-} from '@/content/pmp/program-offer';
+  CertProgramHighlightsContent,
+  CertRoadmapCta,
+} from '@/components/cert/CertProgramHighlightsSection';
+import {
+  CERT_ROADMAP_FORM_ANCHOR,
+  getCertProgramOffer,
+} from '@/lib/cert-program-offer';
 
 function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
   return getOfferingsForSiteCert(siteId).some((o) => {
@@ -75,6 +75,11 @@ export function CertificationDetail() {
     if (!canCheckout(status)) return null;
     return hrefForCtaAction("checkout", foundation.offeringId, cert.id);
   }, [cert.id, regionId]);
+
+  const programOffer = React.useMemo(
+    () => getCertProgramOffer(cert.id, certName, cert.familyId),
+    [cert.id, certName, cert.familyId],
+  );
 
   const pathway: PathwayTier[] = React.useMemo(
     () =>
@@ -182,22 +187,6 @@ export function CertificationDetail() {
               </p>
 
               {cert.id === 'pmp' ? (
-                <div className="mb-8 rounded-2xl border border-brand-orange/30 bg-brand-orange/5 p-5 sm:p-6">
-                  <div className="flex items-start gap-3">
-                    <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-brand-orange" aria-hidden />
-                    <div>
-                      <p className="text-sm font-bold uppercase tracking-wider text-brand-orange">
-                        {PMP_UNTIL_YOU_PASS_HEADLINE}
-                      </p>
-                      <p className="mt-1 text-sm font-medium leading-relaxed text-slate-600 dark:text-slate-400">
-                        {PMP_UNTIL_YOU_PASS_SUBLINE}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ) : null}
-
-              {cert.id === 'pmp' ? (
                 <div className="mb-8 rounded-2xl border border-brand-purple/25 bg-brand-purple/5 p-5">
                   <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">
                     PMP exam 2026 transition
@@ -221,7 +210,7 @@ export function CertificationDetail() {
                 </div>
                 <div className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">{cert.outputValueDisplay}</div>
               </div>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 {[
                   { icon: Clock, label: "Flexible Learning", color: "text-brand-orange" },
@@ -238,70 +227,41 @@ export function CertificationDetail() {
               </div>
             </motion.div>
 
-            {cert.id === 'pmp' ? (
-              <motion.div
-                id={PMP_ROADMAP_FORM_ANCHOR}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-                className="relative scroll-mt-40 lg:scroll-mt-48"
-              >
-                <div className="lg:hidden">
-                  <PmpRoadmapLeadForm placement="cert_pmp_mobile" variant="cert" />
-                </div>
-                <div className="hidden lg:block">
-                  <PmpRoadmapLeadForm placement="cert_pmp_hero" variant="cert" />
-                </div>
-              </motion.div>
-            ) : (
             <motion.div
+              id={CERT_ROADMAP_FORM_ANCHOR}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
-              className="relative hidden lg:block"
+              className="relative scroll-mt-40 lg:scroll-mt-48"
             >
-              {
-                <>
-                  <div
-                    className="aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800 bg-gradient-to-br from-brand-purple/10 via-white to-brand-orange/10 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 flex flex-col items-center justify-center p-12"
-                    role="img"
-                    aria-label={`${certName} exam preparation pathway`}
-                  >
-                    <CertFamilyMark familyId={cert.familyId} className="mb-8 scale-150" />
-                    <p className="text-center font-heading text-2xl font-bold text-slate-900 dark:text-white">
-                      {certName}
-                    </p>
-                    <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium">
-                      Structured exam preparation pathway
-                    </p>
-                  </div>
-
-                  <div className="absolute -bottom-8 -left-8 bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800 max-w-xs z-20">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="h-12 w-12 rounded-xl bg-brand-orange/10 flex items-center justify-center text-brand-orange">
-                        <TrendingUp className="h-6 w-6" />
-                      </div>
-                      <div className="font-bold text-xl tracking-tight">Career Growth</div>
-                    </div>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                      Certified professionals earn up to <span className="font-bold text-brand-orange">33% more</span> than their non-certified peers.
-                    </p>
-                  </div>
-                </>
-              }
+              <div className="lg:hidden">
+                <PmpRoadmapLeadForm
+                  placement="cert_mobile"
+                  variant="cert"
+                  certId={cert.id}
+                  certName={certName}
+                  familyId={cert.familyId}
+                />
+              </div>
+              <div className="hidden lg:block">
+                <PmpRoadmapLeadForm
+                  placement="cert_hero"
+                  variant="cert"
+                  certId={cert.id}
+                  certName={certName}
+                  familyId={cert.familyId}
+                />
+              </div>
             </motion.div>
-            )}
           </div>
         </div>
       </section>
 
-      {cert.id === 'pmp' ? <PmpProgramOfferSections roadmapAnchor={PMP_ROADMAP_FORM_ANCHOR} /> : null}
-
       {/* Pathway Component */}
-      <section className={sectionSurface('soft', 'py-32')}>
+      <section className={sectionSurface('soft', 'pt-10 pb-32')}>
         <SectionAmbience tone="soft" />
         <div className="container mx-auto">
-          <div className="text-center mb-20">
+          <div className="mb-20 pt-[40px] text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -326,13 +286,29 @@ export function CertificationDetail() {
         </div>
       </section>
 
-      {/* Detailed Certification Dossier Info */}
-      <section className={sectionSurface('purple', 'py-32 border-y border-sandstone/60 dark:border-slate-800')}>
+      {/* Programme highlights + certification dossier */}
+      <section
+        className={sectionSurface(
+          'purple',
+          'border-y border-sandstone/60 dark:border-slate-800 pt-10 pb-32',
+        )}
+      >
         <SectionAmbience tone="purple" />
         <div className="container mx-auto">
-          <div className="max-w-5xl mx-auto">
+          <CertProgramHighlightsContent
+            offer={programOffer}
+            roadmapAnchor={CERT_ROADMAP_FORM_ANCHOR}
+            embedded
+            className="mb-16 pt-[40px] sm:mb-20 md:mb-24"
+          />
+          <div className="mx-auto max-w-6xl">
             <h2 className="sr-only">Certification details</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div className="mb-10 border-t border-slate-200/80 pt-10 dark:border-slate-700/80 sm:mb-12 sm:pt-12">
+              <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
+                Eligibility, exam &amp; investment
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-3">
               <div className="lg:col-span-2 space-y-12">
                 {/* Core Details */}
                 <div>
@@ -371,21 +347,20 @@ export function CertificationDetail() {
                 )}
               </div>
 
-              <div className="space-y-8">
+              <div className="space-y-8 lg:-mt-[40px]">
                 {/* Fees & Costs */}
-                <div className="p-8 rounded-[2rem] bg-slate-900 text-white shadow-xl relative overflow-hidden">
+                <div className="rounded-[2rem] bg-slate-900 px-8 pb-8 pt-0 text-white shadow-xl relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-brand-orange/10 rounded-full blur-3xl" />
-                  <h3 className="text-xl font-bold mb-6 relative z-10">Investment Details</h3>
-                  <div className="space-y-6 relative z-10">
-                    <div>
+                  <div className="relative z-10 space-y-6">
+                    <div className="pt-[15px]">
                       <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Official Exam Fee</h4>
                       <div className="text-lg font-bold text-brand-orange">{cert.officialFee || "Varies by region"}</div>
                     </div>
-                    <div>
+                    <div className="mb-[-10px]">
                       <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Training Range</h4>
                       <div className="text-slate-300 text-sm">{cert.trainingPriceRange || "Market competitive rates"}</div>
                     </div>
-                    <div className="pt-6 border-t border-white/10">
+                    <div className="pt-[14px] border-t border-white/10">
                       <p className="text-xs text-slate-400 leading-relaxed italic">
                         * Prices are sourced from official handbooks and may vary based on membership status and location.
                       </p>
@@ -427,62 +402,6 @@ export function CertificationDetail() {
         </div>
       </section>
 
-      {/* Why Choose This Pathway */}
-      <section className={sectionSurface('cool', 'py-32')}>
-        <SectionAmbience tone="cool" />
-        <div className="container mx-auto">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-20">
-              <h2 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight leading-none">Why Choose Our {certName} Pathway?</h2>
-              <p className="text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto">Independent exam prep focused on readiness and practical judgment.</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {[
-                {
-                  title: "Structured progression",
-                  desc: "Foundation → Professional → Mastery with clear milestones.",
-                  icon: Target
-                },
-                {
-                  title: "Expert mentorship",
-                  desc: "Certified mentors who have passed the exams you are targeting.",
-                  icon: Sparkles
-                },
-                {
-                  title: "Real-world application",
-                  desc: "Concepts you can use on active projects — not exam trivia alone.",
-                  icon: Zap
-                },
-                {
-                  title: "Readiness focus",
-                  desc: "Mocks, weak-area diagnosis, and mentor review on higher tiers.",
-                  icon: ShieldCheck
-                }
-              ].map((item, i) => (
-                <motion.div 
-                  key={i} 
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex gap-6 p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300"
-                >
-                  <div className="shrink-0">
-                    <div className="h-14 w-14 rounded-xl bg-slate-50 dark:bg-slate-800 text-brand-orange flex items-center justify-center">
-                      <item.icon className="h-7 w-7" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">{item.title}</h3>
-                    <p className="text-base text-slate-500 dark:text-slate-400 leading-relaxed font-medium">{item.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Final CTA */}
       <section className={sectionSurface('soft', 'py-32')}>
         <SectionAmbience tone="soft" />
@@ -491,53 +410,49 @@ export function CertificationDetail() {
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="bg-slate-100 dark:bg-slate-900 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl border border-slate-200/80 dark:border-slate-800"
+            className="bg-slate-100 dark:bg-slate-900 rounded-[2rem] sm:rounded-[3rem] p-8 sm:p-12 md:p-24 text-center relative overflow-hidden shadow-2xl border border-slate-200/80 dark:border-slate-800"
           >
             <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-brand-orange/10 to-transparent pointer-events-none" />
             
             <div className="relative z-10 max-w-4xl mx-auto">
-              <h2 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
-                Ready to start your <br />
-                <span className="text-brand-orange">professional</span> journey?
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight leading-tight">
+                Ready for your{' '}
+                <span className="text-brand-orange">{certName} roadmap</span>?
               </h2>
-              <p className="text-slate-600 dark:text-slate-400 text-lg md:text-xl mb-12 leading-relaxed font-medium max-w-2xl mx-auto">
-                Structured pathways, practice, and advisory support for {certName}.
+              <p className="text-slate-600 dark:text-slate-400 text-lg mb-10 leading-relaxed font-medium max-w-2xl mx-auto">
+                {programOffer.finalCtaSubtitle}
               </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                {enrollmentOpen ? (
-                  cert.id === 'pmp' && foundationCheckoutHref ? (
+              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                <CertRoadmapCta
+                  anchor={CERT_ROADMAP_FORM_ANCHOR}
+                  label={programOffer.ctaLabel}
+                  rounded="2xl"
+                  className="shadow-xl transition-all"
+                />
+                {enrollmentOpen && foundationCheckoutHref ? (
+                  cert.id === 'pmp' ? (
                     <TrackedConversionLink
                       href={foundationCheckoutHref}
                       event={CONVERSION_EVENTS.CLICK_ENROLL_PMP_FOUNDATION}
-                      className={cn(buttonVariants({ size: 'lg', variant: 'brand' }), 'h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all inline-flex items-center')}
+                      className={cn(
+                        buttonVariants({ size: 'lg', variant: 'outline' }),
+                        'inline-flex min-h-14 h-auto w-full items-center justify-center whitespace-normal rounded-2xl border-2 px-5 py-3 text-center text-base font-bold leading-snug shadow-xl transition-all sm:w-auto sm:px-10 sm:py-0 sm:text-lg',
+                      )}
                     >
                       Enroll in Foundation
                     </TrackedConversionLink>
                   ) : (
-                    <Link href={foundationCheckoutHref ?? "/contact"}>
-                      <Button size="lg" variant="brand" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
-                        Enroll in Foundation
-                      </Button>
+                    <Link
+                      href={foundationCheckoutHref}
+                      className={cn(
+                        buttonVariants({ size: 'lg', variant: 'outline' }),
+                        'inline-flex min-h-14 h-auto w-full items-center justify-center whitespace-normal rounded-2xl border-2 px-5 py-3 text-center text-base font-bold leading-snug shadow-xl transition-all sm:w-auto sm:px-10 sm:py-0 sm:text-lg',
+                      )}
+                    >
+                      {pathwayEnrollLabelForTier('foundation', cert.id)}
                     </Link>
                   )
-                ) : (
-                  <Link href="/contact">
-                    <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
-                      Join waitlist — next cohort
-                    </Button>
-                  </Link>
-                )}
-                <RegisterModal
-                  trigger={
-                    <Button
-                      size="lg"
-                      variant="brand"
-                      className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all"
-                    >
-                      {CTAS.pathwayConsultation}
-                    </Button>
-                  }
-                />
+                ) : null}
               </div>
             </div>
           </motion.div>

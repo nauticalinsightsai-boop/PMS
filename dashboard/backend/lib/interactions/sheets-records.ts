@@ -1,5 +1,6 @@
 import * as XLSX from 'xlsx';
 
+import { submissionSourceLabel } from '@pms/booking-crm/form-submissions';
 import type { InteractionSource } from '@/lib/interactions/types';
 
 export const SHEET_SOURCE_LABEL: Record<InteractionSource, string> = {
@@ -99,8 +100,7 @@ export function parseSheetRows(headers: string[], dataRows: string[][]): SheetRe
 }
 
 export function sourceLabel(source: string): string {
-  const key = source.trim() as InteractionSource;
-  return (SHEET_SOURCE_LABEL[key] ?? source) || '—';
+  return submissionSourceLabel(source);
 }
 
 function escapeCsvCell(value: string): string {

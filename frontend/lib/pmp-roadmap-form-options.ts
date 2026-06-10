@@ -1,22 +1,16 @@
-export type PhoneDialOption = { code: string; label: string };
+import { PHONE_DIAL_CODES, type PhoneDialOption } from '@/lib/phone-dial-codes';
 
-export const PMP_ROADMAP_DIAL_CODES: readonly PhoneDialOption[] = [
-  { code: '+1', label: 'United States +1' },
-  { code: '+44', label: 'United Kingdom +44' },
-  { code: '+91', label: 'India +91' },
-  { code: '+92', label: 'Pakistan +92' },
-  { code: '+971', label: 'UAE +971' },
-  { code: '+966', label: 'Saudi Arabia +966' },
-  { code: '+974', label: 'Qatar +974' },
-  { code: '+965', label: 'Kuwait +965' },
-  { code: '+973', label: 'Bahrain +973' },
-  { code: '+968', label: 'Oman +968' },
-  { code: '+49', label: 'Germany +49' },
-  { code: '+33', label: 'France +33' },
-  { code: '+61', label: 'Australia +61' },
-  { code: '+65', label: 'Singapore +65' },
-  { code: '+27', label: 'South Africa +27' },
-] as const;
+export type { PhoneDialOption };
+
+export const PMP_ROADMAP_DIAL_CODES = PHONE_DIAL_CODES;
+
+export function resolveDialOption(value: string): PhoneDialOption {
+  return PMP_ROADMAP_DIAL_CODES.find((d) => d.value === value) ?? PMP_ROADMAP_DIAL_CODES[0];
+}
+
+export function formatDialPrefix(option: PhoneDialOption): string {
+  return `${option.prefix} ${option.code}`;
+}
 
 export const PMP_JOB_EXPERIENCE_OPTIONS = [
   { value: 'under-3', label: 'Under 3 years' },
@@ -24,6 +18,15 @@ export const PMP_JOB_EXPERIENCE_OPTIONS = [
   { value: '5-10', label: '5–10 years' },
   { value: '10-plus', label: '10+ years' },
 ] as const;
+
+/** Homepage lead form — primary certification family interest */
+export const HOME_CERT_INTEREST_OPTIONS = [
+  { value: 'pmp', label: 'PMP' },
+  { value: 'prince2', label: 'PRINCE2' },
+  { value: 'six-sigma', label: 'Six Sigma' },
+] as const;
+
+export type HomeCertInterestValue = (typeof HOME_CERT_INTEREST_OPTIONS)[number]['value'] | 'other';
 
 export const PMP_DAILY_STUDY_OPTIONS = [
   { value: 'under-1', label: 'Under 1 hour' },

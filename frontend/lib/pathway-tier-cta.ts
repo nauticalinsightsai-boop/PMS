@@ -2,6 +2,7 @@ import type { OfferingStatus, TierId } from '@/types/regional-catalogue';
 import { canCheckout } from '@/lib/status-normalize';
 import { hrefForCtaAction, type CtaAction } from '@/lib/cta-router';
 import { enrollPath, enrollTierSlugFromTierId, enrollmentPathForOffering } from '@/lib/enrollment-routes';
+import { CTAS } from '@/lib/brand-voice';
 
 export type PathwayModalMode =
   | 'enroll'
@@ -21,11 +22,32 @@ export interface TierPathwayCta {
   /** Program enrollment page when checkout is available. */
   enrollHref: string | null;
   enrollLabel: string;
-  /** Show “Book consultation now” alongside enroll in the preview modal. */
+  /** Show mentor scheduling alongside enroll in the preview modal. */
   showConsultationInModal: boolean;
+  /** Label for mentor scheduling in modal (Professional / Mastery). */
+  consultationLabel?: string;
 }
 
 const MASTERY_TIERS: TierId[] = ['mastery', 'mastery_corporate', 'mastery_advisory'];
+
+function mentorModalFields(showConsultation: boolean): Pick<TierPathwayCta, 'showConsultationInModal' | 'consultationLabel'> {
+  return showConsultation
+    ? { showConsultationInModal: true, consultationLabel: CTAS.pathwayMentorCta }
+    : { showConsultationInModal: false };
+}
+
+const PMP_FOUNDATION_ENROLL_LABEL = 'Enroll now';
+const PRO_MASTERY_ENROLL_LABEL = CTAS.pathwayReserveSeat;
+
+export function isPmpFoundationPathway(siteCertId: string, tierId: string): boolean {
+  return siteCertId === 'pmp' && tierId === 'foundation';
+}
+
+function foundationEnrollLabel(siteCertId: string): string {
+  return isPmpFoundationPathway(siteCertId, 'foundation')
+    ? PMP_FOUNDATION_ENROLL_LABEL
+    : PRO_MASTERY_ENROLL_LABEL;
+}
 
 export function isMasteryTierId(tierId: string): boolean {
   return MASTERY_TIERS.includes(tierId as TierId);
@@ -45,26 +67,27 @@ function foundationCta(
   const consultationHref = hrefForCtaAction('consultation', offeringId, siteCertId);
   const waitlistHref = hrefForCtaAction('waitlist', offeringId, siteCertId);
   const globalHref = hrefForCtaAction('global_checkout', offeringId, siteCertId);
+  const enrollLabel = foundationEnrollLabel(siteCertId);
 
   if (status === 'consultation_required') {
     return {
-      label: 'Enroll now',
+      label: enrollLabel,
       modalMode: 'consultation',
       proceedHref: consultationHref,
       proceedLabel: 'Book a consultation',
       enrollHref: null,
-      enrollLabel: 'Enroll now',
+      enrollLabel,
       showConsultationInModal: true,
     };
   }
   if (status === 'scholarship_unavailable') {
     return {
-      label: 'Enroll now',
+      label: enrollLabel,
       modalMode: 'global',
       proceedHref: globalHref,
       proceedLabel: 'Proceed with global pricing',
       enrollHref: enrollHref,
-      enrollLabel: 'Enroll now',
+      enrollLabel,
       showConsultationInModal: false,
     };
   }
@@ -75,18 +98,18 @@ function foundationCta(
       proceedHref: waitlistHref,
       proceedLabel: 'Join waitlist',
       enrollHref: null,
-      enrollLabel: 'Enroll now',
+      enrollLabel,
       showConsultationInModal: false,
     };
   }
 
   return {
-    label: 'Enroll now',
+    label: enrollLabel,
     modalMode: status === 'scholarship_verify' ? 'verify' : 'enroll',
     proceedHref: enrollHref,
-    proceedLabel: 'Enroll now',
+    proceedLabel: enrollLabel,
     enrollHref,
-    enrollLabel: 'Enroll now',
+    enrollLabel,
     showConsultationInModal: false,
   };
 }
@@ -98,11 +121,15 @@ function professionalOrMasteryCta(
   status: OfferingStatus,
   matrixPrimary: string | null,
 ): TierPathwayCta {
-  const enrollHref = canCheckout(status) || status === 'global_only'
-    ? enrollHrefForTier(siteCertId, tierId, offeringId)
-    : status === 'scholarship_unavailable'
-      ? enrollHrefForTier(siteCertId, tierId, offeringId)
-      : null;
+  const enrollHref =
+    status === 'waitlist'
+      ? null
+      : canCheckout(status) ||
+          status === 'global_only' ||
+          status === 'scholarship_unavailable' ||
+          status === 'consultation_required'
+        ? enrollHrefForTier(siteCertId, tierId, offeringId)
+        : null;
   const consultationHref = hrefForCtaAction('consultation', offeringId, siteCertId);
   const scholarshipHref = hrefForCtaAction('scholarship_review', offeringId, siteCertId);
   const waitlistHref = hrefForCtaAction('waitlist', offeringId, siteCertId);
@@ -115,8 +142,8 @@ function professionalOrMasteryCta(
       proceedHref: scholarshipHref,
       proceedLabel: 'Request scholarship review',
       enrollHref,
-      enrollLabel: 'Enroll now',
-      showConsultationInModal: true,
+      enrollLabel: PRO_MASTERY_ENROLL_LABEL,
+      ...mentorModalFields(true),
     };
   }
   if (status === 'waitlist') {
@@ -126,8 +153,8 @@ function professionalOrMasteryCta(
       proceedHref: waitlistHref,
       proceedLabel: 'Join waitlist',
       enrollHref: null,
-      enrollLabel: 'Enroll now',
-      showConsultationInModal: false,
+      enrollLabel: PRO_MASTERY_ENROLL_LABEL,
+      ...mentorModalFields(false),
     };
   }
   if (status === 'scholarship_unavailable') {
@@ -139,8 +166,8 @@ function professionalOrMasteryCta(
         proceedHref: globalHref,
         proceedLabel: 'Proceed with global pricing',
         enrollHref,
-        enrollLabel: 'Enroll now',
-        showConsultationInModal: true,
+        enrollLabel: PRO_MASTERY_ENROLL_LABEL,
+        ...mentorModalFields(true),
       };
     }
   }
@@ -149,11 +176,20 @@ function professionalOrMasteryCta(
     label: 'View pathway',
     modalMode: 'consultation',
     proceedHref: consultationHref,
-    proceedLabel: 'Book consultation now',
+    proceedLabel: CTAS.pathwayMentorCta,
     enrollHref,
-    enrollLabel: 'Enroll now',
-    showConsultationInModal: true,
+    enrollLabel: PRO_MASTERY_ENROLL_LABEL,
+    ...mentorModalFields(true),
   };
+}
+
+/** Enrollment button label by pathway tier (Foundation vs Professional / Mastery). */
+export function pathwayEnrollLabelForTier(tierId: string, siteCertId?: string): string {
+  if (tierId === 'foundation') {
+    return siteCertId ? foundationEnrollLabel(siteCertId) : PRO_MASTERY_ENROLL_LABEL;
+  }
+  if (tierId === 'professional' || isMasteryTierId(tierId)) return PRO_MASTERY_ENROLL_LABEL;
+  return siteCertId ? foundationEnrollLabel(siteCertId) : PMP_FOUNDATION_ENROLL_LABEL;
 }
 
 /** Human-readable pathway blurb (not raw matrix delivery string). */
@@ -206,9 +242,9 @@ export function resolveTierPathwayCta(
     label: fallbackAction === 'checkout' ? 'Enroll now' : 'View pathway',
     modalMode: fallbackAction === 'checkout' ? 'enroll' : 'consultation',
     proceedHref: hrefForCtaAction(fallbackAction, offeringId, siteCertId),
-    proceedLabel: fallbackAction === 'checkout' ? 'Enroll now' : 'Book consultation now',
+    proceedLabel: fallbackAction === 'checkout' ? 'Enroll now' : CTAS.pathwayMentorCta,
     enrollHref,
     enrollLabel: 'Enroll now',
-    showConsultationInModal: fallbackAction !== 'checkout',
+    ...(fallbackAction !== 'checkout' ? mentorModalFields(true) : mentorModalFields(false)),
   };
 }

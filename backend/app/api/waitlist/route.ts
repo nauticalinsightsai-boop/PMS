@@ -1,22 +1,26 @@
-import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
-import { jsonError, jsonOk } from '@/lib/response-helpers.js';
+import { insertFormSubmission } from '@/lib/insert-form-submission';
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}));
-  const { email, offeringId, regionId, message } = body as Record<string, string>;
+  const { email, offeringId, regionId, message, website, company, ...rest } = body as Record<
+    string,
+    unknown
+  > & {
+    email?: string;
+    offeringId?: string;
+    regionId?: string;
+    message?: string;
+    website?: string;
+    company?: string;
+  };
 
-  if (!email) return jsonError('Email is required', 400);
-
-  if (isSupabaseConfigured) {
-    const { error } = await supabaseAdmin.from('form_submissions').insert({
-      source: 'waitlist',
-      email,
-      subject: `Waitlist: ${offeringId ?? 'general'}`,
-      payload: { offeringId, regionId, message },
-      metadata: { type: 'waitlist' },
-    });
-    if (error) return jsonError(error.message, 500);
-  }
-
-  return jsonOk({ submitted: true }, 201);
+  return insertFormSubmission(request, {
+    source: 'waitlist',
+    email,
+    subject: `Waitlist: ${offeringId ?? 'general'}`,
+    payload: { ...rest, offeringId, regionId, message },
+    metadata: { type: 'waitlist' },
+    website: website as string | undefined,
+    company: company as string | undefined,
+  });
 }

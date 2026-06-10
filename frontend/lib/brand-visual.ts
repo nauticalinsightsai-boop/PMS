@@ -19,6 +19,12 @@ export const BRAND_LOGO = {
   dark: '/brand/pms-logo-dark.png',
 } as const;
 
+/** Square app icon for compact UI marks (forms, cards). */
+export const BRAND_ICON = {
+  light: '/brand/pms-icon.png',
+  dark: '/brand/pms-icon-dark.png',
+} as const;
+
 /** Issuing-body marks on certification / family cards */
 export const BRAND_CERT_LOGOS = {
   PMI: '/brand/pmi-logo.png',

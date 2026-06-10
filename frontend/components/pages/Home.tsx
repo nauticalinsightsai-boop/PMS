@@ -27,6 +27,9 @@ import {
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { RegisterModal } from "@/components/RegisterModal";
+import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
+import { getWebsiteHeroConsultationCalendlyUrl } from '@/lib/calendly/embed-url';
+import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { BRAND, CTAS, HOME_COPY } from "@/lib/brand-voice";
@@ -38,7 +41,7 @@ import { MembershipDualPrice } from '@/components/MembershipDualPrice';
 import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { useHomePageConfig } from '@/lib/home-config';
 import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
-import { PmpProgramOfferSections } from '@/components/pmp/PmpProgramOfferSections';
+import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 
 import * as siteData from "@/data/siteData";
@@ -126,9 +129,36 @@ export function Home() {
   ];
 
   const renderPrimaryCta = () => {
-    const label = homeCms.ctaPrimary || get('cta_primary', CTAS.pathwayConsultation);
-    const btnClass = HERO_BTN;
     const action = homeCms.primaryAction;
+    const heroConsultationUrl = getWebsiteHeroConsultationCalendlyUrl();
+    const primaryLink = homeCms.ctaPrimaryLink || '/contact?topic=consultation';
+    const useHeroConsultationCalendly =
+      action === 'calendly' ||
+      (action === 'contact' && primaryLink.includes('topic=consultation'));
+    const defaultLabel = CTAS.talkToMentor;
+    const label =
+      homeCms.ctaPrimary ||
+      get('cta_primary', defaultLabel);
+    const btnClass = HERO_BTN;
+
+    if (useHeroConsultationCalendly) {
+      return (
+        <Button
+          type="button"
+          size="lg"
+          className={cn(btnClass, 'block')}
+          onClick={() =>
+            void openCalendlyThemedPopup(heroConsultationUrl, {
+              funnelLabel: 'home_hero_consultation',
+              utm: { utm_source: 'pmstructure', utm_medium: 'website', utm_campaign: 'home_hero' },
+            })
+          }
+        >
+          {label}
+        </Button>
+      );
+    }
+
     if (action === 'register_modal') {
       return (
         <RegisterModal trigger={
@@ -136,7 +166,7 @@ export function Home() {
         } />
       );
     }
-    const href = action === 'contact' ? (homeCms.ctaPrimaryLink || '/contact?topic=consultation') : (homeCms.ctaPrimaryLink || '/membership');
+    const href = action === 'contact' ? primaryLink : (homeCms.ctaPrimaryLink || '/membership');
     return (
       <Link href={href} className="block w-full sm:w-auto">
         <Button size="lg" className={btnClass}>{label}</Button>
@@ -147,7 +177,7 @@ export function Home() {
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden selection:bg-brand-orange selection:text-white">
       {/* Hero Section */}
-      <section className="relative min-h-0 md:min-h-[85vh] lg:min-h-[90vh] flex items-center pt-8 pb-12 sm:pt-12 sm:pb-16 md:pt-16 md:pb-20 lg:pt-20 lg:pb-24 overflow-hidden bg-gradient-to-br from-violet-50/70 via-background to-orange-50/30 dark:from-[#0f0e38] dark:via-[#07071c] dark:to-[#12081a]">
+      <section className="relative min-h-0 md:min-h-[85vh] lg:min-h-[90vh] flex items-center pt-8 pb-12 sm:pt-12 sm:pb-16 md:pt-16 md:pb-20 lg:pt-20 lg:pb-24 overflow-x-hidden max-lg:overflow-y-visible lg:overflow-hidden bg-gradient-to-br from-violet-50/70 via-background to-orange-50/30 dark:from-[#0f0e38] dark:via-[#07071c] dark:to-[#12081a]">
         {/* PMS gradient ambient — orange + blue-purple from logo system */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-[-12%] right-[-8%] w-[42%] h-[42%] rounded-full blur-[120px] opacity-30 bg-pms-gradient-orange" />
@@ -311,8 +341,6 @@ export function Home() {
         </div>
       </section>
 
-      <PmpProgramOfferSections roadmapAnchor={PMP_ROADMAP_FORM_ANCHOR} />
-
       {(sections?.featuredPathways !== false) && (
       <section className={sectionSurface('soft', SECTION_PY)}>
         <SectionAmbience tone="soft" />
@@ -338,7 +366,11 @@ export function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <ResponsiveSnapScroll
+            desktopLayoutClassName="md:grid md:grid-cols-2 lg:grid-cols-3"
+            gapClassName="gap-6 md:gap-8"
+            mobileItemClassName="w-[min(92vw,19rem)]"
+          >
             {featuredPathwaysResolved.map((featured, index) => {
               const cert = siteData.certifications.find(c => c.id === featured.id) || siteData.certifications[0];
               
@@ -349,6 +381,7 @@ export function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
+                  className="h-full"
                 >
                   <PathwayFeaturedCard
                     cert={cert}
@@ -360,7 +393,7 @@ export function Home() {
                 </motion.div>
               );
             })}
-          </div>
+          </ResponsiveSnapScroll>
         </div>
       </section>
       )}
@@ -403,7 +436,7 @@ export function Home() {
       )}
 
       {(sections?.insightsBand !== false) && (
-      <section className={`${SECTION_PY} bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 relative overflow-hidden [&_h2]:!text-white dark:[&_h2]:!text-slate-900 [&_h4]:!text-white dark:[&_h4]:!text-pms-navy`}>
+      <section className={`${SECTION_PY} bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 relative overflow-x-hidden max-lg:overflow-y-visible lg:overflow-hidden [&_h2]:!text-white dark:[&_h2]:!text-slate-900 [&_h4]:!text-white dark:[&_h4]:!text-pms-navy`}>
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[-10%] right-[-5%] w-[35%] h-[35%] rounded-full blur-[100px] opacity-30 dark:opacity-50 bg-pms-gradient-blue-purple" />
           <div className="absolute bottom-[-10%] left-[-5%] w-[30%] h-[30%] rounded-full blur-[100px] opacity-25 dark:opacity-40 bg-pms-gradient-orange" />
@@ -705,28 +738,36 @@ export function Home() {
                 desc: "Build a PM-specific resume that gets noticed.",
                 icon: FileText,
                 color: "text-brand-purple",
-                href: "/membership",
+                action: "external" as const,
+                href: "https://thecvmaker.com/",
+                ctaLabel: 'Build My CV',
               },
               {
                 title: "Study Planner",
                 desc: "Custom schedules based on your exam date.",
                 icon: Calendar,
                 color: "text-brand-orange",
+                action: "link" as const,
                 href: "/certifications",
+                ctaLabel: CTAS.findPathway,
               },
               {
                 title: "Cert Comparison",
                 desc: "Find the right certification for your goals.",
                 icon: LayoutDashboard,
                 color: "text-indigo-600",
+                action: "link" as const,
                 href: "/certifications/compare",
+                ctaLabel: 'Compare Certifications',
               },
               {
                 title: "Roadmap Guidance",
                 desc: "Step-by-step career progression maps.",
                 icon: Map,
                 color: "text-emerald-600",
-                href: "/pm-service",
+                action: "calendly" as const,
+                calendlyUrl: getWebsiteCalendlyUrl('discovery'),
+                ctaLabel: CTAS.talkToMentor,
               },
             ].map((tool, index) => (
               <motion.div
@@ -747,12 +788,33 @@ export function Home() {
                     </CardDescription>
                   </CardHeader>
                   <CardFooter className="mt-auto border-0 bg-transparent p-6 pt-0">
-                    <Link href={tool.href} className="w-full">
-                      <Button className="w-full h-12 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base shadow-md shadow-brand-orange/20 dark:bg-brand-orange dark:hover:bg-brand-hover dark:text-white group/link">
-                        Try Tool
+                    {tool.action === 'calendly' ? (
+                      <Button
+                        type="button"
+                        className="w-full h-12 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base shadow-md shadow-brand-orange/20 dark:bg-brand-orange dark:hover:bg-brand-hover dark:text-white group/link"
+                        onClick={() => {
+                          void openCalendlyThemedPopup(tool.calendlyUrl, {
+                            funnelLabel: 'home_roadmap_guidance',
+                          });
+                        }}
+                      >
+                        {tool.ctaLabel ?? 'Try Tool'}
                         <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/link:translate-x-1" />
                       </Button>
-                    </Link>
+                    ) : (
+                      <Link
+                        href={tool.href}
+                        className="w-full"
+                        {...(tool.action === 'external'
+                          ? { target: '_blank', rel: 'noopener noreferrer' }
+                          : {})}
+                      >
+                        <Button className="w-full h-12 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base shadow-md shadow-brand-orange/20 dark:bg-brand-orange dark:hover:bg-brand-hover dark:text-white group/link">
+                          {tool.ctaLabel ?? 'Try Tool'}
+                          <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/link:translate-x-1" />
+                        </Button>
+                      </Link>
+                    )}
                   </CardFooter>
                 </Card>
               </motion.div>
@@ -917,7 +979,7 @@ export function Home() {
                 ) : (
                   <RegisterModal trigger={
                     <Button size="lg" className="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl shadow-xl transition-all group/btn">
-                      Create Free Account
+                      {CTAS.talkToMentor}
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
                     </Button>
                   } />

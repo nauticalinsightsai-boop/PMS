@@ -1,14 +1,9 @@
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
-import { CALENDLY_DEFAULT_SCHEDULING_URLS } from '@/lib/calendly/scheduling-urls';
+import {
+  getWebsiteCalendlyUrl,
+  pathwayTierToWebsiteCalendlyTier,
+} from '@/lib/calendly/website-events';
 import { trackConversionEvent, CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
-
-const TIER_CALENDLY_FALLBACKS: Record<string, string> = {
-  foundation: CALENDLY_DEFAULT_SCHEDULING_URLS.guideDownload,
-  professional: CALENDLY_DEFAULT_SCHEDULING_URLS.projectReview,
-  mastery: CALENDLY_DEFAULT_SCHEDULING_URLS.strategyAdvisory,
-  mastery_corporate: CALENDLY_DEFAULT_SCHEDULING_URLS.premiumConsulting,
-  mastery_advisory: CALENDLY_DEFAULT_SCHEDULING_URLS.premiumConsulting,
-};
 
 /**
  * Env var name for a pathway consultation Calendly URL.
@@ -28,8 +23,7 @@ function readPathwayCalendlyEnv(siteCertId: string, tierId: string): string | un
 export function getPathwayConsultationCalendlyUrl(siteCertId: string, tierId: string): string {
   return (
     readPathwayCalendlyEnv(siteCertId, tierId) ??
-    TIER_CALENDLY_FALLBACKS[tierId] ??
-    CALENDLY_DEFAULT_SCHEDULING_URLS.projectReview
+    getWebsiteCalendlyUrl(pathwayTierToWebsiteCalendlyTier(tierId))
   );
 }
 

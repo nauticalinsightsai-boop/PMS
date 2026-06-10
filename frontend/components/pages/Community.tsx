@@ -9,12 +9,11 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { 
   Users, 
   Star, 
-  Slack, 
   Users2, 
-  MapPin, 
   GraduationCap,
   ArrowRight,
   Heart,
+  LayoutGrid,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -28,12 +27,12 @@ import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/S
 
 const communityChannels = [
   {
-    title: `${BRAND.name} Slack`,
-    desc: "Our primary hub for real-time networking, job alerts, and quick Q&A.",
-    icon: Slack,
-    color: "text-[#4A154B]",
-    bg: "bg-[#4A154B]/5 dark:bg-[#4A154B]/10",
-    members: "8.4k"
+    title: `${BRAND.name} on Skool`,
+    desc: "Our primary hub for structured cohort learning, live sessions, and certification prep discussions.",
+    icon: LayoutGrid,
+    color: "text-amber-500",
+    bg: "bg-amber-500/5 dark:bg-amber-500/10",
+    members: "2.1k",
   },
   {
     title: "Study Circles",
@@ -41,16 +40,8 @@ const communityChannels = [
     icon: GraduationCap,
     color: "text-brand-purple",
     bg: "bg-brand-purple/5 dark:bg-brand-purple/10",
-    members: "1.2k"
+    members: "1.2k",
   },
-  {
-    title: "Local Chapters",
-    desc: "Connect with project leaders in your city for in-person meetups and networking.",
-    icon: MapPin,
-    color: "text-brand-orange",
-    bg: "bg-brand-orange/5 dark:bg-brand-orange/10",
-    members: "45 Chapters"
-  }
 ];
 
 const mentorshipFeatures = [
@@ -80,7 +71,7 @@ function CommunityNetworkContent() {
       <section className="py-20 -mt-20 relative z-20">
         <div className="container mx-auto">
           <h2 className="text-2xl font-bold tracking-tight text-center mb-10 dark:text-white">Community channels</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
             {communityChannels.map((channel, index) => (
               <motion.div
                 key={channel.title}
@@ -246,7 +237,11 @@ function CommunityNetworkContent() {
                   </Button>
                 </Link>
                 <Link href="/membership">
-                  <Button size="lg" variant="outline" className="border-slate-700 text-white hover:bg-white/10 h-14 px-8 rounded-2xl font-bold text-lg transition-all">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="h-14 border-white/30 bg-transparent px-8 text-lg font-bold text-white shadow-none transition-all hover:bg-white/10 hover:text-white rounded-2xl"
+                  >
                     Explore Membership
                   </Button>
                 </Link>
@@ -339,7 +334,7 @@ export function Community() {
               className={heroTabButtonClass("community")}
               onClick={() => handleTabChange("community")}
             >
-              Join Slack Community
+              Join Skool Community
             </Button>
             <Button
               type="button"

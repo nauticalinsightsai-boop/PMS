@@ -10,16 +10,21 @@ import { Label } from "@/components/ui/label";
 import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 
 export function Contact() {
   const { get } = useWebsiteData();
   const [formError, setFormError] = React.useState<string | null>(null);
   const [formSent, setFormSent] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
+    const firstName = String(data.get("first-name") ?? "").trim();
+    const lastName = String(data.get("last-name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
+    const subject = String(data.get("subject") ?? "PMS inquiry").trim();
     const message = String(data.get("message") ?? "").trim();
     if (!email || !message) {
       setFormError("Please enter your email and message.");
@@ -27,12 +32,32 @@ export function Contact() {
       return;
     }
     setFormError(null);
+    setSubmitting(true);
+    const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined;
+    const res = await submitPublicInteraction({
+      source: 'contact',
+      subject: subject || 'Contact form inquiry',
+      email,
+      formContext: {
+        formId: 'contact_page',
+        formLabel: 'Contact page',
+        pagePath,
+      },
+      payload: {
+        firstName,
+        lastName,
+        message,
+        subject,
+      },
+    });
+    setSubmitting(false);
+    if (!res.ok) {
+      setFormError(res.error ?? 'Could not send your message. Please try again.');
+      setFormSent(false);
+      return;
+    }
     setFormSent(true);
-    const subject = encodeURIComponent(String(data.get("subject") ?? "PMS inquiry"));
-    const body = encodeURIComponent(
-      `From: ${data.get("first-name")} ${data.get("last-name")}\nEmail: ${email}\n\n${message}`,
-    );
-    window.location.href = `mailto:support@pmstructure.com?subject=${subject}&body=${body}`;
+    e.currentTarget.reset();
   };
 
   return (
@@ -135,10 +160,12 @@ export function Contact() {
                   )}
                   {formSent && !formError && (
                     <p className="text-sm text-green-600 dark:text-green-400 font-medium" role="status">
-                      Opening your email client to send the message…
+                      Thank you — your message has been received. We will respond shortly.
                     </p>
                   )}
-                  <Button type="submit" variant="brand" className="w-full h-12 text-lg">Send Message</Button>
+                  <Button type="submit" variant="brand" className="w-full h-12 text-lg" disabled={submitting}>
+                    {submitting ? 'Sending…' : 'Send Message'}
+                  </Button>
                 </form>
                 <Suspense fallback={null}>
                   <ContactRegionalExtras />

@@ -14,9 +14,12 @@
     "./client": "./src/client.ts",
     "./migrateChannelPages": "./src/channel-landing-pages/migrateChannelPages.ts",
     "./lead-attribution": "./src/channel-landing-pages/lead-attribution.ts",
+    "./form-submissions": "./src/form-submissions.ts",
     "./constants/channelGroups": "./src/constants/channelGroups.ts",
     "./repository": "./src/channel-landing-pages/repository.ts",
-    "./channel-landing-pages/portalGoLinks": "./src/channel-landing-pages/portalGoLinks.ts"
+    "./channel-landing-pages/portalGoLinks": "./src/channel-landing-pages/portalGoLinks.ts",
+    "./calendly/event-registry": "./src/calendly/event-registry.ts",
+    "./calendly/scheduling-urls": "./src/calendly/scheduling-urls.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
