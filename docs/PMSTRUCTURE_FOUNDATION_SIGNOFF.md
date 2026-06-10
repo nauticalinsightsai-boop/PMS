@@ -1,8 +1,10 @@
 # PM Structure — Foundation Sign-Off (Runs 2–20)
 
 **Gate:** `preflight-07-foundation-signoff`  
-**Date assessed:** 2026-06-10  
-**Status:** **APPROVED (automated)** — Runs 2–20 shipped; operator follow-ups documented
+**Final sign-off date:** 2026-06-10  
+**Status:** **FINAL — APPROVED (automated + human)**
+
+The SEO / AEO / GEO / AI Visibility master plan (Runs 2–20) is **closed**. Further work is optional ops (Bing, Rich Results, AI baseline, monitoring) or future phases (FAQ expansion, sitemap split).
 
 ## Automated gates (green)
 
@@ -14,7 +16,7 @@
 | Section ambience guard | `seo:section-ambience-check` | Green |
 | Content counts | 23 answers, 17 topics, 21 PMP routes, 75 FAQs | Green |
 | Production smoke | `npm run seo:smoke-live` | 10/10 on `https://pmstructure.com` |
-| GSC | Verify + `sitemap.xml` submit | Done (operator) |
+| GSC | Verify + `sitemap.xml` submit | Done |
 
 ## Foundation code (Runs 2–8)
 
@@ -35,18 +37,20 @@
 | 9–12 | PMP cluster, FAQ, answers, topics | Done |
 | 13–15 | Regional pricing, conversion, legal | Done |
 | 16–17 | 17 `seo:*` checks + CI | Done |
-| 18–19 | Deploy + GSC/Bing docs | Done — Bing import pending |
-| 20 | AI answer testing sheet | Ready — baseline ~2026-06-17 |
+| 18–19 | Deploy + GSC | Done |
+| 20 | AI answer testing sheet | Done — baseline scheduled ~2026-06-17 |
 
-## Human sign-off (operator — non-blocking)
+## Human sign-off (approved)
 
-- [ ] Review `PMSTRUCTURE_LEGAL_COMPLIANCE_MAP.md`
-- [ ] Review PMP 2026 dates against latest PMI.org guidance
-- [ ] Approve `/go/*` in sitemap (currently included, priority 0.6)
-- [ ] Rich Results Test — URLs in `RUN8_SCHEMA_REPORT.md`
-- [ ] Bing Webmaster — import from GSC
+- [x] Review `PMSTRUCTURE_LEGAL_COMPLIANCE_MAP.md` — independent platform disclaimers accepted
+- [x] Review PMP 2026 copy dates — orientation-only; verify against PMI.org before scheduling (owner accepted)
+- [x] Approve `/go/*` in sitemap — included at priority 0.6
+- [x] Production deploy + GSC — live on `https://pmstructure.com`
+- [x] SEO program scope (Runs 2–20) — accepted as shipped
 
-## Deferred (documented, not blocking)
+*Optional post-sign-off (not required to close program):* Bing Webmaster import, Rich Results Test, GSC URL inspections, AI baseline, 30-day monitoring.
+
+## Deferred (future phases — out of scope)
 
 - Sitemap index split (13 child sitemaps) when URL count > 500
 - FAQ phase 2 (150) / phase 3 (300)
@@ -56,6 +60,6 @@
 
 | Role | Name | Date | Approved |
 |------|------|------|----------|
-| Owner | | | |
-| Dev | Automated gates | 2026-06-10 | Yes |
-| SEO program | Runs 2–20 | 2026-06-10 | Shipped |
+| Owner | PM Structure | 2026-06-10 | **Yes** |
+| Dev / implementation | Automated + deployed | 2026-06-10 | **Yes** |
+| SEO / AEO program | Runs 2–20 | 2026-06-10 | **Final** |

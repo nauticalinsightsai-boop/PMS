@@ -1,6 +1,6 @@
 # PM Structure — Phase Execution Board
 
-**Last updated:** 2026-06-10 — **All runs 0–20 complete; foundation sign-off approved**
+**Last updated:** 2026-06-10 — **FINAL — all runs 0–20 complete; human sign-off closed**
 
 | Run | Phase | Name | Status |
 |-----|-------|------|--------|

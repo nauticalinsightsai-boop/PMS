@@ -1,7 +1,7 @@
 # Run 19 — GSC / Bing Submission Report
 
 **Date:** 2026-06-10  
-**Status:** GSC complete — Bing + monitoring remain
+**Status:** GSC complete — program final; Bing + monitoring optional ops
 
 ## Completed
 

@@ -1,6 +1,6 @@
 # PM Structure — Remaining Implementation Plan (Phases 3–19)
 
-**Status:** **Implementation complete (2026-06-10)** — code, validation, and ops docs shipped. Post-deploy: GSC/Bing submit, Rich Results Test, AI answer baseline.  
+**Status:** **FINAL (2026-06-10)** — Runs 2–20 shipped; human sign-off closed per `PMSTRUCTURE_FOUNDATION_SIGNOFF.md`. Optional ops: Bing, Rich Results, AI baseline, monitoring.  
 **Prerequisites:** Run 2 (SSR/crawl) and Run 3 (index/noindex) — **done**
 
 **Canonical domain (production):** `https://pmstructure.com`  
