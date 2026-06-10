@@ -1,7 +1,7 @@
 # Run 20 — AI Answer Testing Report
 
 **Date:** 2026-06-10  
-**Status:** Sheet ready — baseline scheduled ~2026-06-17 (T+7d after GSC sitemap)
+**Status:** Sheet ready — baseline scheduled **2026-06-17** (T+7d after GSC sitemap submit)
 
 ## Completed
 

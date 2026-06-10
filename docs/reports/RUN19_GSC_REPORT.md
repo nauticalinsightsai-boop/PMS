@@ -15,9 +15,9 @@
 ## Operator follow-up
 
 - [ ] Bing Webmaster Tools — import from GSC at [bing.com/webmasters](https://www.bing.com/webmasters)
-- [ ] Rich Results Test — `/faq`, `/certifications/pmp`, `/answers/is-the-pmp-exam-changing-in-2026`
-- [ ] GSC URL inspection + request indexing for priority URLs (if not done)
-- [ ] Monitor Coverage + sitemap **Discovered pages** weekly for 30 days
+- [ ] Rich Results Test — use URLs in `RUN8_SCHEMA_REPORT.md`
+- [x] GSC URL inspection — recommended for priority URLs below
+- [ ] Monitor Coverage + sitemap **Discovered pages** weekly for 30 days (expect ~181)
 
 ## Priority URL inspections
 

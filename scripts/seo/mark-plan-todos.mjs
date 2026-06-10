@@ -8,6 +8,10 @@ const planPath = 'c:/Users/Sh3ik/.cursor/plans/seo_aeo_master_docs_37e5bd87.plan
 let s = fs.readFileSync(planPath, 'utf8').replace(/\r\n/g, '\n');
 
 const completePrefixes = [
+  'smap-',
+  'head-',
+  'ai-',
+  'schema-',
   'pmp8-',
   'pmp9-',
   'faq10-',
@@ -16,6 +20,16 @@ const completePrefixes = [
   'reg13-',
   'conv14-',
   'legal15-',
+  'val16-',
+  'deploy17-',
+  'gsc18-',
+  'aitest19-',
+  'preflight-07-',
+  'idx-',
+  'canon-',
+  'impl-',
+  'plan-',
+  'doc-',
 ];
 
 const completeIds = new Set([

@@ -1,6 +1,6 @@
 # PM Structure — Indexing Matrix
 
-Canonical host: `https://www.pmstructure.com` (`PMS_SITE_URL`)
+Canonical host: `https://pmstructure.com` (`PMS_SITE_URL`)
 
 Implementation: `frontend/lib/indexing-metadata.ts`, `frontend/lib/site-metadata.ts`, `frontend/app/sitemap.ts`, `frontend/app/robots.ts`
 

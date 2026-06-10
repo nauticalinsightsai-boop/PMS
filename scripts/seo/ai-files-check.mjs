@@ -108,9 +108,13 @@ if (!llms.includes('answers.json')) fail('llms.txt missing answers.json link');
 
 if (llms.includes('planned page')) fail('llms.txt stale planned label for pmp-2026');
 
-
-
 const entity = readJson('entity.json');
+
+const siteCanon = entity.url;
+if (siteCanon && llms.includes('www.pmstructure.com') && !siteCanon.includes('www.')) {
+  fail('llms.txt uses www but entity.json canonical is apex — re-run seo:generate-ai-files');
+}
+if (siteCanon && !llms.includes(siteCanon)) fail(`llms.txt missing canonical site ${siteCanon}`);
 
 if (!entity.version) fail('entity.json missing version');
 

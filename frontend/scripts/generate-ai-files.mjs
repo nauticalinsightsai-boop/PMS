@@ -12,6 +12,7 @@ import {
   buildEntityJson,
   buildFaqJson,
   buildLearningPathwaysJson,
+  buildLlmsTxt,
   buildPmp2026Json,
   buildPmpFaqJson,
   buildPmpKeywordsJson,
@@ -27,6 +28,9 @@ function writeJson(name, data) {
   fs.writeFileSync(path.join(publicDir, name), `${JSON.stringify(data, null, 2)}\n`);
   console.log(`Wrote ${name}`);
 }
+
+fs.writeFileSync(path.join(publicDir, 'llms.txt'), buildLlmsTxt());
+console.log('Wrote llms.txt');
 
 writeJson('entity.json', buildEntityJson());
 writeJson('ai-profile.json', buildAiProfileJson());

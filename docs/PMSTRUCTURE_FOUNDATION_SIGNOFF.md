@@ -7,11 +7,12 @@
 
 | Check | Command | Status |
 |-------|---------|--------|
-| Full SEO suite | `npm run seo:all` | Required green |
-| Release gate | `npm run seo:release-verify` | Build + seo:all + postbuild |
+| Full SEO suite | `npm run seo:all` | Green (2026-06-10) |
+| Release gate | `npm run seo:release-verify` | Green (2026-06-10) |
 | SSR body content | `npm run seo:postbuild` | 8 routes with H1 + answer body |
 | Section ambience guard | `seo:section-ambience-check` | No children-in-SectionAmbience pattern |
 | Content counts | answers ≥23, topics ≥17, PMP ≥21 | Via seo:answers/topics/pmp-check |
+| Production smoke | `npm run seo:smoke-live` | 10/10 on pmstructure.com |
 
 ## Code deliverables (Runs 2–8)
 

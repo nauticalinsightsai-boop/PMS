@@ -1,6 +1,6 @@
 # PM Structure — Sitemap Plan
 
-**Canonical host:** `https://www.pmstructure.com`  
+**Canonical host:** `https://pmstructure.com`  
 **Implementation:** [`frontend/app/sitemap.ts`](../frontend/app/sitemap.ts), [`frontend/lib/sitemap/helpers.ts`](../frontend/lib/sitemap/helpers.ts)
 
 ## Current architecture (Run 4 — monolithic, documented defer)
@@ -43,7 +43,7 @@
 
 - `Disallow: /api/`, `/admin/`
 - **Do not** disallow `/checkout` (use meta noindex instead)
-- `Sitemap: https://www.pmstructure.com/sitemap.xml`
+- `Sitemap: https://pmstructure.com/sitemap.xml`
 
 ## Validation
 
