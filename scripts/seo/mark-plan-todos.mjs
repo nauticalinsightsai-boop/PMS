@@ -24,6 +24,7 @@ const completePrefixes = [
   'deploy17-',
   'gsc18-',
   'aitest19-',
+  'preflight-07-foundation-signoff',
   'preflight-07-',
   'idx-',
   'canon-',
@@ -97,6 +98,7 @@ const completeIds = new Set([
   'impl-05-fallback-defaults',
   'impl-06-homepage-ssr',
   'impl-10-validate',
+  'preflight-07-foundation-signoff',
 ]);
 
 let count = 0;

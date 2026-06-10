@@ -3,7 +3,7 @@
 **Status:** **Implementation complete (2026-06-10)** — code, validation, and ops docs shipped. Post-deploy: GSC/Bing submit, Rich Results Test, AI answer baseline.  
 **Prerequisites:** Run 2 (SSR/crawl) and Run 3 (index/noindex) — **done**
 
-**Canonical domain (owner confirmed):** `https://www.pmstructure.com`  
+**Canonical domain (production):** `https://pmstructure.com`  
 **Brand:** PM Structure — independent project management exam-prep and professional learning platform.
 
 ---
