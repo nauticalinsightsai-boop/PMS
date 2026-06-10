@@ -62,27 +62,31 @@ export function BottomCtaRotator() {
   const rotation = rotations[rotationIndex] ?? null;
 
   const scheduleShow = React.useCallback(
-    (delayMs: number) => {
+    (delayMs: number, opts?: { barRotation?: boolean }) => {
       if (timerRef.current) window.clearTimeout(timerRef.current);
       timerRef.current = window.setTimeout(() => {
         if (!cookieGateReady || centerDialogOpen) return;
-        const check = canShowSurface('bottom_bar', pathname, { centerDialogOpen });
+        const check = canShowSurface('bottom_bar', pathname, {
+          centerDialogOpen,
+          barRotation: opts?.barRotation,
+        });
         if (!check.allowed) return;
-        if (getBarPageRotation(pathname) >= rotations.length) return;
+        const idx = getBarPageRotation(pathname);
+        if (idx >= rotations.length) return;
+        const nextRotation = rotations[idx];
+        setRotationIndex(idx);
+        setShowInlineForm(nextRotation?.primary.type === 'micro_form');
         setOpen(true);
         incrementBarSessionCount();
         recordLastSurfaceAt();
-        if (rotations[rotationIndex]?.primary.type === 'micro_form') {
-          setShowInlineForm(true);
-        }
         trackFunnelEvent(FUNNEL_EVENTS.BOTTOM_BAR_SHOWN, {
-          rotation: rotationIndex + 1,
+          rotation: idx + 1,
           page_path: pathname,
-          variant: rotation?.variant,
+          variant: nextRotation?.variant,
         });
       }, delayMs);
     },
-    [centerDialogOpen, cookieGateReady, pathname, rotation?.variant, rotationIndex, rotations.length],
+    [centerDialogOpen, cookieGateReady, pathname, rotations],
   );
 
   React.useEffect(() => {
@@ -111,7 +115,7 @@ export function BottomCtaRotator() {
         opt_out: optOut,
       });
       if (next < rotations.length) {
-        scheduleShow(BOTTOM_BAR_ROTATION_DELAY_MS);
+        scheduleShow(BOTTOM_BAR_ROTATION_DELAY_MS, { barRotation: true });
       }
     },
     [pathname, rotations.length, scheduleShow],

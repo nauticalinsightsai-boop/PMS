@@ -37,7 +37,7 @@ export type CanShowResult = { allowed: true } | { allowed: false; reason: string
 export function canShowSurface(
   surface: RecoverySurface,
   pagePath: string,
-  opts?: { centerDialogOpen?: boolean },
+  opts?: { centerDialogOpen?: boolean; barRotation?: boolean },
 ): CanShowResult {
   if (isOptedOut()) return { allowed: false, reason: 'opt_out' };
   if (isLeadConverted()) return { allowed: false, reason: 'converted' };
@@ -45,8 +45,9 @@ export function canShowSurface(
   if (isExcludedPath(pagePath)) return { allowed: false, reason: 'excluded_path' };
   if (isCalendlyOverlayOpen()) return { allowed: false, reason: 'calendly_open' };
 
+  const skipCooldown = surface === 'bottom_bar' && opts?.barRotation === true;
   const lastAt = getLastSurfaceAt();
-  if (lastAt && Date.now() - lastAt < COOLDOWN_MS) {
+  if (!skipCooldown && lastAt && Date.now() - lastAt < COOLDOWN_MS) {
     return { allowed: false, reason: 'cooldown' };
   }
 
