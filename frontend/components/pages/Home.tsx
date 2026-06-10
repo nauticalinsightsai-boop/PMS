@@ -22,7 +22,6 @@ import {
   Star,
   Quote,
   MessageSquare,
-  Award,
   Sparkles,
 } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -38,6 +37,9 @@ import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { MembershipDualPrice } from '@/components/MembershipDualPrice';
 import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { useHomePageConfig } from '@/lib/home-config';
+import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
+import { PmpProgramOfferSections } from '@/components/pmp/PmpProgramOfferSections';
+import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 
 import * as siteData from "@/data/siteData";
 
@@ -201,80 +203,26 @@ export function Home() {
               </div>
             </motion.div>
 
-            {/* Hero visual — tablet/mobile */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7 }}
-              className="relative z-20 lg:hidden"
-            >
-              <div className="relative aspect-[4/3] sm:aspect-[5/4] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden shadow-xl border border-slate-100 dark:border-slate-800">
-                {homeCms.activeSlide?.heroImage?.url ? (
-                  <img
-                    src={homeCms.activeSlide.heroImage.url}
-                    alt={homeCms.activeSlide.heroImage.alt ?? homeCms.heroTitle}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <img
-                    src={MARKETING_STOCK_IMAGES.hero}
-                    alt="Professional growth and certification readiness"
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent" />
-              </div>
-              <div className="mt-4 sm:mt-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-slate-900 p-5 sm:p-6 shadow-lg border border-slate-100 dark:border-slate-800">
-                <div className="flex items-center gap-3 sm:gap-4 mb-2">
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-brand-orange/10 flex items-center justify-center text-brand-orange shrink-0">
-                    <Award className="h-5 w-5 sm:h-6 sm:w-6" />
-                  </div>
-                  <div className="font-bold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white">
-                    Readiness-led prep
-                  </div>
-                </div>
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-                  Across all certification pathways in 2026.
-                </p>
-              </div>
-            </motion.div>
+            <div id={PMP_ROADMAP_FORM_ANCHOR} className="scroll-mt-24 contents">
+              {/* Hero lead form — tablet/mobile */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7 }}
+                className="relative z-20 lg:hidden"
+              >
+                <PmpRoadmapLeadForm placement="home_hero_mobile" variant="hero" />
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              className="relative z-30 isolate hidden lg:block"
-            >
-              <div className="relative z-0 aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800">
-                {homeCms.activeSlide?.heroImage?.url ? (
-                  <img
-                    src={homeCms.activeSlide.heroImage.url}
-                    alt={homeCms.activeSlide.heroImage.alt ?? homeCms.heroTitle}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <img
-                    src={MARKETING_STOCK_IMAGES.hero}
-                    alt="Professional growth and certification readiness"
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent" />
-              </div>
-
-              {/* Minimal Stats Card — high z-index so it sits above hero image and left column */}
-              <div className="absolute -bottom-6 sm:-bottom-10 left-4 sm:-left-10 z-50 max-w-[calc(100%-2rem)] sm:max-w-none bg-white dark:bg-slate-900 p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 ring-1 ring-slate-100/80 dark:ring-slate-700/80">
-                <div className="flex items-center gap-4 mb-2">
-                  <div className="h-12 w-12 rounded-xl bg-brand-orange/10 flex items-center justify-center text-brand-orange">
-                    <Award className="h-6 w-6" />
-                  </div>
-                  <div className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">Readiness-led prep</div>
-                </div>
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Across all certification pathways in 2026.</p>
-              </div>
-            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                className="relative z-30 isolate hidden lg:block"
+              >
+                <PmpRoadmapLeadForm placement="home_hero_desktop" variant="hero" />
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -362,6 +310,8 @@ export function Home() {
           </div>
         </div>
       </section>
+
+      <PmpProgramOfferSections roadmapAnchor={PMP_ROADMAP_FORM_ANCHOR} />
 
       {(sections?.featuredPathways !== false) && (
       <section className={sectionSurface('soft', SECTION_PY)}>
@@ -483,31 +433,13 @@ export function Home() {
                 ))}
               </div>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="relative"
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
             >
-              <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl border border-slate-700 dark:border-slate-200 group">
-                <img
-                  src={MARKETING_STOCK_IMAGES.insights}
-                  alt="Future of project management learning"
-                  className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <div className="absolute -bottom-8 -left-8 bg-white text-slate-900 dark:bg-slate-900 dark:text-white p-8 rounded-3xl shadow-xl max-w-xs hidden xl:block border border-slate-200 dark:border-slate-700">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 rounded-xl bg-brand-orange/10 text-brand-orange">
-                    <TrendingUp className="h-6 w-6" />
-                  </div>
-                  <div className="text-4xl font-bold tracking-tight text-pms-navy dark:text-white">92%</div>
-                </div>
-                <p className="text-base text-slate-600 dark:text-slate-300 font-bold leading-relaxed">
-                  Of employers prioritize PMs with specialized certifications in 2026.
-                </p>
-              </div>
+              <PmpRoadmapLeadForm placement="home_insights" variant="insights" />
             </motion.div>
           </div>
         </div>

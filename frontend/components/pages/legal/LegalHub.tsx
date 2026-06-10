@@ -26,8 +26,8 @@ export function LegalHub() {
 
       <section className="py-16 md:py-24 space-y-16">
         <div className="container mx-auto max-w-4xl">
-          {legalHubSections.map((section) => (
-            <div key={section.title}>
+          {legalHubSections.map((section, index) => (
+            <div key={section.title} className={index > 0 ? 'pt-[30px]' : undefined}>
               <h2 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6">
                 {section.title}
               </h2>

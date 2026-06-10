@@ -4,9 +4,13 @@ import {
   Twitter,
   Linkedin,
   Youtube,
+  Instagram,
+  Video,
+  Pin,
   Mail,
   Phone,
   MapPin,
+  type LucideIcon,
 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { BrandLogo } from '@/components/BrandLogo';
@@ -22,12 +26,30 @@ import {
 } from '@/config/pms-site';
 import { SectionAmbience } from '@/components/SectionAmbience';
 import { FOOTER_LEGAL_LINKS } from '@/constants/legal';
+import { FOOTER_SOCIAL_LINKS } from '@/constants/socialProfiles';
+
+const FOOTER_SOCIAL_ICONS: Record<(typeof FOOTER_SOCIAL_LINKS)[number]['id'], LucideIcon> = {
+  linkedin: Linkedin,
+  x: Twitter,
+  youtube: Youtube,
+  instagram: Instagram,
+  facebook: Facebook,
+  tiktok: Video,
+  pinterest: Pin,
+};
 
 const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
   { label: 'Certifications', href: '/certifications' },
   { label: 'Compare pathways', href: '/certifications/compare', highlight: true },
   { label: 'Resource store', href: '/community?view=store' },
   { label: 'Membership', href: '/membership' },
+];
+
+const RESOURCES_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
+  { label: 'PMP exam 2026', href: '/pmp-exam-2026', highlight: true },
+  { label: 'Direct answers', href: '/answers' },
+  { label: 'Topic hubs', href: '/topics' },
+  { label: 'Help & FAQ', href: '/faq' },
 ];
 
 export function Footer() {
@@ -41,22 +63,22 @@ export function Footer() {
             <p className="text-sm text-carbon dark:text-slate-400 leading-snug max-w-xs font-medium">
               {BRAND_LINES.promise}
             </p>
-            <div className="flex gap-3" aria-label="Social media (coming soon)">
-              {[
-                { Icon: Facebook, label: 'Facebook' },
-                { Icon: Twitter, label: 'Twitter' },
-                { Icon: Linkedin, label: 'LinkedIn' },
-                { Icon: Youtube, label: 'YouTube' },
-              ].map(({ Icon, label }) => (
-                <span
-                  key={label}
-                  aria-disabled
-                  title={`${label} (coming soon)`}
-                  className="p-1.5 rounded-full bg-card shadow-sm text-muted-foreground opacity-60"
-                >
-                  <Icon className="h-4 w-4" />
-                </span>
-              ))}
+            <div className="flex flex-wrap gap-2.5" aria-label="Social media">
+              {FOOTER_SOCIAL_LINKS.map(({ id, url, ariaLabel }) => {
+                const Icon = FOOTER_SOCIAL_ICONS[id];
+                return (
+                  <a
+                    key={id}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={ariaLabel}
+                    className="p-1.5 rounded-full bg-card shadow-sm text-muted-foreground hover:text-brand-orange transition-colors"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
@@ -87,41 +109,20 @@ export function Footer() {
               Resources
             </h3>
             <ul className="flex flex-col gap-2.5 text-sm text-carbon dark:text-slate-400 font-medium">
-              <li>
-                <Link href="/pmp-exam-2026" className="hover:text-brand-orange transition-colors font-semibold text-brand-purple/90">
-                  PMP exam 2026
-                </Link>
-              </li>
-              <li>
-                <Link href="/answers" className="hover:text-brand-orange transition-colors">
-                  Direct answers
-                </Link>
-              </li>
-              <li>
-                <Link href="/topics" className="hover:text-brand-orange transition-colors">
-                  Topic hubs
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="hover:text-brand-orange transition-colors">
-                  Help &amp; FAQ
-                </Link>
-              </li>
-              <li>
-                <Link href="/community" className="hover:text-brand-orange transition-colors">
-                  Community
-                </Link>
-              </li>
-              <li>
-                <Link href="/newsletter" className="hover:text-brand-orange transition-colors">
-                  Newsletter
-                </Link>
-              </li>
-              <li>
-                <Link href="/legal" className="hover:text-brand-orange transition-colors">
-                  Policies &amp; legal
-                </Link>
-              </li>
+              {RESOURCES_LINKS.map(({ label, href, highlight }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className={
+                      highlight
+                        ? 'hover:text-brand-orange font-semibold text-brand-purple/90 transition-colors'
+                        : 'hover:text-brand-orange transition-colors'
+                    }
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

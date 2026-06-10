@@ -114,9 +114,12 @@ export const MEDIA_SOCIAL_GRID: MediaSocialGridItem[] = [
 export const FOOTER_SOCIAL_LINKS = [
   { id: 'linkedin' as const, url: SOCIAL_PROFILE_URLS.linkedin, ariaLabel: SOCIAL_ARIA_LABELS.linkedin },
   { id: 'x' as const, url: SOCIAL_PROFILE_URLS.x, ariaLabel: SOCIAL_ARIA_LABELS.x },
-  { id: 'facebook' as const, url: SOCIAL_PROFILE_URLS.facebook, ariaLabel: 'Facebook profile of Sheikh M. Abdullah' },
+  { id: 'youtube' as const, url: SOCIAL_PROFILE_URLS.youtube, ariaLabel: 'YouTube channel of Sheikh M. Abdullah' },
   { id: 'instagram' as const, url: SOCIAL_PROFILE_URLS.instagram, ariaLabel: 'Instagram profile of Sheikh M. Abdullah' },
-];
+  { id: 'facebook' as const, url: SOCIAL_PROFILE_URLS.facebook, ariaLabel: 'Facebook profile of Sheikh M. Abdullah' },
+  { id: 'tiktok' as const, url: SOCIAL_PROFILE_URLS.tiktok, ariaLabel: 'TikTok profile of Sheikh M. Abdullah' },
+  { id: 'pinterest' as const, url: SOCIAL_PROFILE_URLS.pinterest, ariaLabel: 'Pinterest profile of Sheikh M. Abdullah' },
+] as const;
 
 /** SEO schema.org sameAs */
 export const ORGANIZATION_SAME_AS = [...SITE_ORGANIZATION_SAME_AS];

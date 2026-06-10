@@ -4,10 +4,48 @@ import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PMP_INDEPENDENT_DISCLAIMER } from '@/content/pmp/disclaimer';
 import type { AnswerPageContent } from '@/content/answers/types';
 import { getAnswerFaqsForPage } from '@/content/answers';
+import {
+  isBareInternalPath,
+  labelForInternalPath,
+  splitStepWithPaths,
+  stepContainsInternalPath,
+} from '@/content/answers/next-step-labels';
 import { AnswerJsonLd } from '@/components/seo/AnswerJsonLd';
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { cn } from '@/lib/utils';
+
+function AnswerNextStep({ step }: { step: string }) {
+  if (isBareInternalPath(step)) {
+    return (
+      <Link href={step} className="text-brand-purple hover:underline font-medium">
+        {labelForInternalPath(step)}
+      </Link>
+    );
+  }
+
+  if (!stepContainsInternalPath(step)) {
+    return <>{step}</>;
+  }
+
+  return (
+    <>
+      {splitStepWithPaths(step).map((part, index) =>
+        part.startsWith('/') ? (
+          <Link
+            key={`${part}-${index}`}
+            href={part}
+            className="text-brand-purple hover:underline font-medium"
+          >
+            {labelForInternalPath(part)}
+          </Link>
+        ) : (
+          <span key={`text-${index}`}>{part}</span>
+        ),
+      )}
+    </>
+  );
+}
 
 export function AnswerPage({ page }: { page: AnswerPageContent }) {
   const linkedFaqs = [...(page.faqs ?? []), ...getAnswerFaqsForPage(page)];
@@ -60,7 +98,9 @@ export function AnswerPage({ page }: { page: AnswerPageContent }) {
               <h2 className="font-heading text-xl font-bold mb-3">Next steps</h2>
               <ul className="list-disc pl-5 space-y-2 text-slate-600 dark:text-slate-400">
                 {page.nextSteps.map((step) => (
-                  <li key={step}>{step}</li>
+                  <li key={step}>
+                    <AnswerNextStep step={step} />
+                  </li>
                 ))}
               </ul>
             </section>

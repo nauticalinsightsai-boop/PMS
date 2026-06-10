@@ -11,12 +11,32 @@ import { PMP_EXAM_2026_PRIORITY_ANSWERS } from '@/content/answers/priority-answe
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
 import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
+import { FaqAnswer } from '@/components/faq/FaqAccordionList';
 import { cn } from '@/lib/utils';
 
 function MarkdownBlock({ text }: { text: string }) {
   return (
     <div className="prose prose-slate dark:prose-invert max-w-none">
-      <ReactMarkdown>{text}</ReactMarkdown>
+      <ReactMarkdown
+        components={{
+          a: ({ href, children }) => {
+            if (href?.startsWith('/')) {
+              return (
+                <Link href={href} className="text-brand-purple hover:underline font-medium">
+                  {children}
+                </Link>
+              );
+            }
+            return (
+              <a href={href} rel="noopener noreferrer" className="text-brand-purple hover:underline">
+                {children}
+              </a>
+            );
+          },
+        }}
+      >
+        {text}
+      </ReactMarkdown>
     </div>
   );
 }
@@ -71,7 +91,9 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
                   {page.faqs.map((faq) => (
                     <article key={faq.question}>
                       <h3 className="font-semibold text-slate-900 dark:text-white mb-2">{faq.question}</h3>
-                      <p className="text-slate-600 dark:text-slate-400">{faq.answer}</p>
+                      <div className="text-slate-600 dark:text-slate-400">
+                        <FaqAnswer text={faq.answer} />
+                      </div>
                     </article>
                   ))}
                 </div>

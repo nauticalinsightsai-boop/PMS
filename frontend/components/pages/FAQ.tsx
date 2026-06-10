@@ -127,14 +127,14 @@ export function FAQ() {
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList
                 variant="line"
-                className="w-full flex flex-wrap h-auto gap-1 mb-10 justify-center"
+                className="w-full !inline-flex flex-nowrap overflow-x-auto h-auto gap-1 mb-10 justify-center scrollbar-thin"
                 aria-label="FAQ categories"
               >
                 {FAQ_HUB_SECTIONS.map((section) => (
                   <TabsTrigger
                     key={section.id}
                     value={section.id}
-                    className="text-xs sm:text-sm px-3 py-2"
+                    className="flex-none shrink-0 text-xs sm:text-sm px-2 sm:px-3 py-2"
                   >
                     {section.label}
                   </TabsTrigger>

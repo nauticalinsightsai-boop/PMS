@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { getFaqsForPmpSurface } from '@/content/faq';
+import { FaqAnswer } from '@/components/faq/FaqAccordionList';
+import { getFaqsForPmpSurface, resolveFaqFullAnswer } from '@/content/faq';
 
 export function PmpRelatedFaqs({
   relatedPage,
@@ -25,7 +26,7 @@ export function PmpRelatedFaqs({
           <div key={faq.id}>
             <dt className="font-semibold text-slate-900 dark:text-white mb-1">{faq.question}</dt>
             <dd className="text-slate-600 dark:text-slate-400">
-              {faq.answer.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')}
+              <FaqAnswer text={resolveFaqFullAnswer(faq)} />
             </dd>
           </div>
         ))}

@@ -8,6 +8,7 @@ import { RegionProvider } from '@/contexts/RegionContext';
 import { RegionGate } from '@/components/RegionGate';
 import { ScrollToTop } from '@/components/ScrollToTop';
 import { CookieConsent } from '@/components/CookieConsent';
+import { BottomCtaPopup } from '@/components/BottomCtaPopup';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 
 /** Matches Navbar inner `h-16` — keep main padding and fixed subnav offset in sync */
@@ -44,6 +45,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
           <Footer />
           <ScrollToTop />
           <CookieConsent />
+          <BottomCtaPopup />
         </div>
       </RegionGate>
     </RegionProvider>

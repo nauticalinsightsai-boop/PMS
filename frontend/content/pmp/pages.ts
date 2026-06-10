@@ -153,6 +153,15 @@ const pages: PmpPageContent[] = [
         body:
           'Scenario practice, timed mocks, and domain-level review remain central. Swap emphasis only after you confirm which exam version you will sit.',
       },
+      {
+        id: 'timing-guides',
+        heading: 'Next steps',
+        body: [
+          '- [Current vs new exam](/pmp-current-vs-new-exam)',
+          '- [Before 8 July 2026](/pmp-before-8-july-2026)',
+          '- [After 9 July 2026](/pmp-after-9-july-2026)',
+        ].join('\n'),
+      },
     ],
     relatedLinks: clusterLinks('/pmp-current-vs-new-exam'),
   },

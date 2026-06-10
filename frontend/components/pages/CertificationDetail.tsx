@@ -40,6 +40,13 @@ import {
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
 import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
+import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
+import { PmpProgramOfferSections } from '@/components/pmp/PmpProgramOfferSections';
+import {
+  PMP_ROADMAP_FORM_ANCHOR,
+  PMP_UNTIL_YOU_PASS_HEADLINE,
+  PMP_UNTIL_YOU_PASS_SUBLINE,
+} from '@/content/pmp/program-offer';
 
 function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
   return getOfferingsForSiteCert(siteId).some((o) => {
@@ -175,6 +182,22 @@ export function CertificationDetail() {
               </p>
 
               {cert.id === 'pmp' ? (
+                <div className="mb-8 rounded-2xl border border-brand-orange/30 bg-brand-orange/5 p-5 sm:p-6">
+                  <div className="flex items-start gap-3">
+                    <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-brand-orange" aria-hidden />
+                    <div>
+                      <p className="text-sm font-bold uppercase tracking-wider text-brand-orange">
+                        {PMP_UNTIL_YOU_PASS_HEADLINE}
+                      </p>
+                      <p className="mt-1 text-sm font-medium leading-relaxed text-slate-600 dark:text-slate-400">
+                        {PMP_UNTIL_YOU_PASS_SUBLINE}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              {cert.id === 'pmp' ? (
                 <div className="mb-8 rounded-2xl border border-brand-purple/25 bg-brand-purple/5 p-5">
                   <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">
                     PMP exam 2026 transition
@@ -214,43 +237,65 @@ export function CertificationDetail() {
                 ))}
               </div>
             </motion.div>
-            
+
+            {cert.id === 'pmp' ? (
+              <motion.div
+                id={PMP_ROADMAP_FORM_ANCHOR}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                className="relative scroll-mt-40 lg:scroll-mt-48"
+              >
+                <div className="lg:hidden">
+                  <PmpRoadmapLeadForm placement="cert_pmp_mobile" variant="cert" />
+                </div>
+                <div className="hidden lg:block">
+                  <PmpRoadmapLeadForm placement="cert_pmp_hero" variant="cert" />
+                </div>
+              </motion.div>
+            ) : (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
               className="relative hidden lg:block"
             >
-              <div
-                className="aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800 bg-gradient-to-br from-brand-purple/10 via-white to-brand-orange/10 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 flex flex-col items-center justify-center p-12"
-                role="img"
-                aria-label={`${certName} exam preparation pathway`}
-              >
-                <CertFamilyMark familyId={cert.familyId} className="mb-8 scale-150" />
-                <p className="text-center font-heading text-2xl font-bold text-slate-900 dark:text-white">
-                  {certName}
-                </p>
-                <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium">
-                  Structured exam preparation pathway
-                </p>
-              </div>
-
-              {/* Minimal Career Growth Card */}
-              <div className="absolute -bottom-8 -left-8 bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800 max-w-xs z-20">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="h-12 w-12 rounded-xl bg-brand-orange/10 flex items-center justify-center text-brand-orange">
-                    <TrendingUp className="h-6 w-6" />
+              {
+                <>
+                  <div
+                    className="aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800 bg-gradient-to-br from-brand-purple/10 via-white to-brand-orange/10 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 flex flex-col items-center justify-center p-12"
+                    role="img"
+                    aria-label={`${certName} exam preparation pathway`}
+                  >
+                    <CertFamilyMark familyId={cert.familyId} className="mb-8 scale-150" />
+                    <p className="text-center font-heading text-2xl font-bold text-slate-900 dark:text-white">
+                      {certName}
+                    </p>
+                    <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium">
+                      Structured exam preparation pathway
+                    </p>
                   </div>
-                  <div className="font-bold text-xl tracking-tight">Career Growth</div>
-                </div>
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                  Certified professionals earn up to <span className="font-bold text-brand-orange">33% more</span> than their non-certified peers.
-                </p>
-              </div>
+
+                  <div className="absolute -bottom-8 -left-8 bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800 max-w-xs z-20">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="h-12 w-12 rounded-xl bg-brand-orange/10 flex items-center justify-center text-brand-orange">
+                        <TrendingUp className="h-6 w-6" />
+                      </div>
+                      <div className="font-bold text-xl tracking-tight">Career Growth</div>
+                    </div>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                      Certified professionals earn up to <span className="font-bold text-brand-orange">33% more</span> than their non-certified peers.
+                    </p>
+                  </div>
+                </>
+              }
             </motion.div>
+            )}
           </div>
         </div>
       </section>
+
+      {cert.id === 'pmp' ? <PmpProgramOfferSections roadmapAnchor={PMP_ROADMAP_FORM_ANCHOR} /> : null}
 
       {/* Pathway Component */}
       <section className={sectionSurface('soft', 'py-32')}>

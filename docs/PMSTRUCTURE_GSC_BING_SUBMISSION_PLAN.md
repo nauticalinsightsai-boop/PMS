@@ -48,7 +48,13 @@ Add remaining PMP cluster URLs after indexation of anchor pages.
 
 ## Blockers before submit
 
-- [ ] Production deploy complete
-- [ ] `npm run seo:release-verify` green on release branch
+- [x] Production deploy complete (live 200 on priority routes — 2026-06-10)
+- [x] `npm run seo:release-verify` green on release branch (2026-06-10, 274 pages)
 - [x] `npm run seo:smoke-live` green against `https://pmstructure.com`
-- [ ] No `noindex` on PMP/answer/topic indexable routes
+- [x] No `noindex` on PMP/answer/topic indexable routes (local `seo:noindex-check` PASS; live HTTP 200 on `/pmp-faq`, answers, topics)
+
+## Release run log
+
+See `docs/reports/RELEASE_VERIFY_2026-06-10.md` for full gate output and 15-URL HTTP pre-inspection.
+
+**Owner still required:** GSC/Bing sitemap submit + URL Inspection tool + Request indexing (cannot be automated without owner credentials).
