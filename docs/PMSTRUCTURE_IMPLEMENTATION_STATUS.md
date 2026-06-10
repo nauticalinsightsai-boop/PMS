@@ -8,7 +8,7 @@
 | Area | Delivered |
 |------|-----------|
 | Crawlability / SSR | RegionGate fix; SectionAmbience SSR pattern; `section-ambience-check` |
-| Index / canonical | `indexing-metadata.ts`, sitemap filters, canonical helper |
+| Index / canonical | `indexing-metadata.ts`, sitemap filters, canonical helper (apex `pmstructure.com`) |
 | PMP cluster | 21 routes + hub |
 | FAQ | 75 PMP 2026 FAQs |
 | Answer pages | 23 `/answers/*` |
@@ -18,22 +18,30 @@
 | AI files | 14 files + `lib/ai-files/` builders |
 | Validation | 17 `seo:*` checks + render-check (8 routes) |
 | Release | `seo:release-verify`, CI workflow, `seo:smoke-live` |
-| Internal linking | Footer + homepage → `/pmp-exam-2026`, `/answers`, `/topics` (guarded by `internal-links-check`) |
+| Internal linking | Footer + homepage → `/pmp-exam-2026`, `/answers`, `/topics` |
 
-## Post-deploy (operator)
+## Production + GSC (done)
 
-1. `npm run seo:release-verify` on release branch  
-2. Deploy to `https://www.pmstructure.com`  
-3. `npm run seo:smoke-live` — must pass before GSC submit  
-4. GSC + Bing sitemap per `PMSTRUCTURE_GSC_BING_SUBMISSION_PLAN.md`  
-5. Rich Results Test (FAQ, cert PMP, one answer)  
-6. AI baseline per `PMSTRUCTURE_AI_ANSWER_TESTING_SHEET.md` (T+7d)
+| Step | Status |
+|------|--------|
+| Deploy `https://pmstructure.com` | Done |
+| `seo:smoke-live` 10/10 | Done |
+| GSC verify + `sitemap.xml` submit | Done (operator) |
+| `seo:release-verify` | Green |
 
-## Deferred (documented, not blocking)
+## Remaining (operator, non-blocking)
 
-- Sitemap index split (monolithic OK at current scale)  
+1. **Bing Webmaster** — import from GSC  
+2. **Rich Results Test** — FAQ, PMP cert, one answer URL  
+3. **GSC URL inspection** — request indexing on priority URLs  
+4. **AI baseline** — `PMSTRUCTURE_AI_ANSWER_TESTING_SHEET.md` at T+7d  
+5. **30-day monitoring** — Coverage, crawl stats, rich results
+
+## Deferred (documented)
+
+- Sitemap index split (monolithic OK at ~181 URLs)  
 - FAQ phase 2 (150) / phase 3 (300)  
-- IndexNow for Bing (optional in GSC plan)  
+- IndexNow for Bing (optional)  
 - `/go/*` indexing priority tuning
 
 ## Sign-off

@@ -30,11 +30,12 @@
 - [ ] Review `PMSTRUCTURE_LEGAL_COMPLIANCE_MAP.md` — independent platform disclaimers acceptable
 - [ ] Review PMP 2026 copy dates against latest PMI guidance
 - [ ] Approve indexing of `/go/*` portal pages in sitemap (currently included)
-- [ ] Approve production deploy with `seo:release-verify` green
+- [x] Production deploy with `seo:release-verify` green
+- [x] GSC verify + sitemap submit (`https://pmstructure.com`)
 
 ## Post-foundation (Runs 9–20)
 
-Content (PMP, FAQ, answers, topics), legal alignment, validation scripts, deployment/GSC/AI testing docs — **implemented**. Post-deploy only: GSC/Bing submit, Rich Results Test, AI baseline (`seo:smoke-live` after deploy).
+Content (PMP, FAQ, answers, topics), legal alignment, validation scripts, deployment/GSC docs — **shipped**. Remaining operator: Bing import, Rich Results Test, AI baseline T+7d (`PMSTRUCTURE_AI_ANSWER_TESTING_SHEET.md`).
 
 ## Sign-off
 

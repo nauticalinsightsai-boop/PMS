@@ -1,6 +1,7 @@
 # Run 18 — Deployment Readiness Report
 
-**Date:** 2026-06-10
+**Date:** 2026-06-10  
+**Status:** Production live — GSC submitted
 
 ## Pre-deploy verification (automated)
 
@@ -9,16 +10,19 @@
 - [x] AI files regenerated on prebuild
 - [x] `global-error.tsx` fixes Next.js 500.html build on Windows
 
-## Pre-deploy (manual before prod)
+## Pre-deploy (manual)
 
-- [ ] Production env vars verified
+- [x] Production env vars verified (`NEXT_PUBLIC_SITE_URL=https://pmstructure.com`)
 - [x] `npm run seo:render-check` after build — 8 routes (H1 + content in static HTML)
-- [ ] Smoke test enroll/checkout noindex in view-source
+- [x] `npm run seo:release-verify` — full gate green (2026-06-10)
 
-## Post-deploy (manual)
+## Post-deploy
 
-- [ ] GSC/Bing sitemap submit per `PMSTRUCTURE_GSC_BING_SUBMISSION_PLAN.md`
-- [ ] Rich Results Test on `/faq`, `/certifications/pmp`
-- [ ] AI answer baseline per `PMSTRUCTURE_AI_ANSWER_TESTING_SHEET.md`
+- [x] Deploy to `https://pmstructure.com` (Vercel Production, commit `0f117e7+`)
+- [x] `npm run seo:smoke-live` — 10/10
+- [x] GSC ownership verified + `sitemap.xml` submitted
+- [ ] Rich Results Test on `/faq`, `/certifications/pmp`, one answer page
+- [ ] Bing Webmaster import from GSC
+- [ ] AI answer baseline per `PMSTRUCTURE_AI_ANSWER_TESTING_SHEET.md` (T+7d after sitemap)
 
-See `docs/PMSTRUCTURE_DEPLOYMENT_CHECKLIST.md` for full 35-item list.
+See `docs/PMSTRUCTURE_DEPLOYMENT_CHECKLIST.md` for full list.
