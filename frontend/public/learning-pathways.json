@@ -1,13 +1,13 @@
 {
-  "site": "https://www.pmstructure.com",
+  "site": "https://pmstructure.com",
   "version": "1.0.0",
   "updatedAt": "2026-06-10",
   "pathways": [
     {
       "certificationId": "capm",
       "name": "CAPM®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/capm/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/capm/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -18,29 +18,29 @@
     {
       "certificationId": "pmp",
       "name": "PMP®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/pmp/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/pmp/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         {
           "slug": "foundation",
-          "path": "https://www.pmstructure.com/pmp-foundation"
+          "path": "https://pmstructure.com/pmp-foundation"
         },
         {
           "slug": "professional",
-          "path": "https://www.pmstructure.com/pmp-professional"
+          "path": "https://pmstructure.com/pmp-professional"
         },
         {
           "slug": "mastery",
-          "path": "https://www.pmstructure.com/pmp-mastery"
+          "path": "https://pmstructure.com/pmp-mastery"
         }
       ]
     },
     {
       "certificationId": "pmi-acp",
       "name": "PMI-ACP®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/pmi-acp/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/pmi-acp/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -51,8 +51,8 @@
     {
       "certificationId": "pmi-rmp",
       "name": "PMI-RMP®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/pmi-rmp/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/pmi-rmp/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -63,8 +63,8 @@
     {
       "certificationId": "pmi-pba",
       "name": "PMI-PBA®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/pmi-pba/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/pmi-pba/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -75,8 +75,8 @@
     {
       "certificationId": "pmi-sp",
       "name": "PMI-SP®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/pmi-sp/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/pmi-sp/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -87,8 +87,8 @@
     {
       "certificationId": "pmi-pmocp",
       "name": "PMI-PMOCP™",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/pmi-pmocp/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/pmi-pmocp/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -99,8 +99,8 @@
     {
       "certificationId": "pmi-cp",
       "name": "Construction Professional (PMI-CP)™",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/pmi-cp/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/pmi-cp/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -111,8 +111,8 @@
     {
       "certificationId": "pmi-cpmai",
       "name": "Managing AI (PMI-CPMAI)™",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/pmi-cpmai/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/pmi-cpmai/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -123,8 +123,8 @@
     {
       "certificationId": "gpm-b",
       "name": "Green Project Manager – Basic (GPM-b)™",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/gpm-b/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/gpm-b/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -135,8 +135,8 @@
     {
       "certificationId": "pgmp",
       "name": "PgMP®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/pgmp/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/pgmp/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -147,8 +147,8 @@
     {
       "certificationId": "pfmp",
       "name": "PfMP®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/pfmp/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/pfmp/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -159,8 +159,8 @@
     {
       "certificationId": "prince2",
       "name": "PRINCE2® 7 Foundation",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/prince2/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/prince2/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -171,8 +171,8 @@
     {
       "certificationId": "prince2-practitioner",
       "name": "PRINCE2® 7 Practitioner",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/prince2-practitioner/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/prince2-practitioner/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -183,8 +183,8 @@
     {
       "certificationId": "prince2-agile",
       "name": "PRINCE2 Agile® Foundation",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/prince2-agile/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/prince2-agile/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -195,8 +195,8 @@
     {
       "certificationId": "prince2-agile-practitioner",
       "name": "PRINCE2 Agile® Practitioner",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/prince2-agile-practitioner/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/prince2-agile-practitioner/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -207,8 +207,8 @@
     {
       "certificationId": "msp",
       "name": "MSP®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/msp/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/msp/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -219,8 +219,8 @@
     {
       "certificationId": "mop",
       "name": "MoP®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/mop/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/mop/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -231,8 +231,8 @@
     {
       "certificationId": "mor",
       "name": "M_o_R®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/mor/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/mor/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -243,8 +243,8 @@
     {
       "certificationId": "p3o",
       "name": "P3O®",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/p3o/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/p3o/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -255,8 +255,8 @@
     {
       "certificationId": "lss-white",
       "name": "Six Sigma White Belt",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/lss-white/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/lss-white/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -267,8 +267,8 @@
     {
       "certificationId": "lss-yellow",
       "name": "Six Sigma Yellow Belt (CSSYB)",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/lss-yellow/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/lss-yellow/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -279,8 +279,8 @@
     {
       "certificationId": "lss-green",
       "name": "Six Sigma Green Belt (CSSGB)",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/lss-green/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/lss-green/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -291,8 +291,8 @@
     {
       "certificationId": "lss-black",
       "name": "Six Sigma Black Belt (CSSBB)",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/lss-black/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/lss-black/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -303,8 +303,8 @@
     {
       "certificationId": "lss-master",
       "name": "Master Black Belt (CMBB)",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/lss-master/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/lss-master/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -315,8 +315,8 @@
     {
       "certificationId": "lss-champion",
       "name": "Six Sigma Champion",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/lss-champion/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/lss-champion/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",
@@ -327,8 +327,8 @@
     {
       "certificationId": "foundation-direct",
       "name": "Foundation Direct Pathway",
-      "enrollUrlPattern": "https://www.pmstructure.com/certifications/foundation-direct/{tier}/enroll",
-      "compareUrl": "https://www.pmstructure.com/certifications/compare",
+      "enrollUrlPattern": "https://pmstructure.com/certifications/foundation-direct/{tier}/enroll",
+      "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",
       "tiers": [
         "foundation",

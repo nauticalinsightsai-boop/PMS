@@ -1,5 +1,5 @@
 {
-  "site": "https://www.pmstructure.com",
+  "site": "https://pmstructure.com",
   "version": "1.0.0",
   "updatedAt": "2026-06-10",
   "courses": [
@@ -9,7 +9,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/capm",
+      "url": "https://pmstructure.com/certifications/capm",
       "tiers": [
         "foundation",
         "professional",
@@ -23,7 +23,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": true,
-      "url": "https://www.pmstructure.com/certifications/pmp",
+      "url": "https://pmstructure.com/certifications/pmp",
       "tiers": [
         "foundation",
         "professional",
@@ -34,42 +34,42 @@
         {
           "path": "/pmp-foundation",
           "status": "live",
-          "url": "https://www.pmstructure.com/pmp-foundation"
+          "url": "https://pmstructure.com/pmp-foundation"
         },
         {
           "path": "/pmp-professional",
           "status": "live",
-          "url": "https://www.pmstructure.com/pmp-professional"
+          "url": "https://pmstructure.com/pmp-professional"
         },
         {
           "path": "/pmp-mastery",
           "status": "live",
-          "url": "https://www.pmstructure.com/pmp-mastery"
+          "url": "https://pmstructure.com/pmp-mastery"
         },
         {
           "path": "/pmp-readiness-diagnostic",
           "status": "live",
-          "url": "https://www.pmstructure.com/pmp-readiness-diagnostic"
+          "url": "https://pmstructure.com/pmp-readiness-diagnostic"
         },
         {
           "path": "/pmp-scenario-practice",
           "status": "live",
-          "url": "https://www.pmstructure.com/pmp-scenario-practice"
+          "url": "https://pmstructure.com/pmp-scenario-practice"
         },
         {
           "path": "/pmp-mock-exam",
           "status": "live",
-          "url": "https://www.pmstructure.com/pmp-mock-exam"
+          "url": "https://pmstructure.com/pmp-mock-exam"
         },
         {
           "path": "/pmp-q-and-a-support",
           "status": "live",
-          "url": "https://www.pmstructure.com/pmp-q-and-a-support"
+          "url": "https://pmstructure.com/pmp-q-and-a-support"
         },
         {
           "path": "/pmp-enrollment",
           "status": "live",
-          "url": "https://www.pmstructure.com/pmp-enrollment"
+          "url": "https://pmstructure.com/pmp-enrollment"
         }
       ]
     },
@@ -79,7 +79,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/pmi-acp",
+      "url": "https://pmstructure.com/certifications/pmi-acp",
       "tiers": [
         "foundation",
         "professional",
@@ -93,7 +93,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/pmi-rmp",
+      "url": "https://pmstructure.com/certifications/pmi-rmp",
       "tiers": [
         "foundation",
         "professional",
@@ -107,7 +107,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/pmi-pba",
+      "url": "https://pmstructure.com/certifications/pmi-pba",
       "tiers": [
         "foundation",
         "professional",
@@ -121,7 +121,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/pmi-sp",
+      "url": "https://pmstructure.com/certifications/pmi-sp",
       "tiers": [
         "foundation",
         "professional",
@@ -135,7 +135,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/pmi-pmocp",
+      "url": "https://pmstructure.com/certifications/pmi-pmocp",
       "tiers": [
         "foundation",
         "professional",
@@ -149,7 +149,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/pmi-cp",
+      "url": "https://pmstructure.com/certifications/pmi-cp",
       "tiers": [
         "foundation",
         "professional",
@@ -163,7 +163,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/pmi-cpmai",
+      "url": "https://pmstructure.com/certifications/pmi-cpmai",
       "tiers": [
         "foundation",
         "professional",
@@ -177,7 +177,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/gpm-b",
+      "url": "https://pmstructure.com/certifications/gpm-b",
       "tiers": [
         "foundation",
         "professional",
@@ -191,7 +191,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/pgmp",
+      "url": "https://pmstructure.com/certifications/pgmp",
       "tiers": [
         "foundation",
         "professional",
@@ -205,7 +205,7 @@
       "family": "PMI",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/pfmp",
+      "url": "https://pmstructure.com/certifications/pfmp",
       "tiers": [
         "foundation",
         "professional",
@@ -219,7 +219,7 @@
       "family": "PRINCE2",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/prince2",
+      "url": "https://pmstructure.com/certifications/prince2",
       "tiers": [
         "foundation",
         "professional",
@@ -233,7 +233,7 @@
       "family": "PRINCE2",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/prince2-practitioner",
+      "url": "https://pmstructure.com/certifications/prince2-practitioner",
       "tiers": [
         "foundation",
         "professional",
@@ -247,7 +247,7 @@
       "family": "PRINCE2",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/prince2-agile",
+      "url": "https://pmstructure.com/certifications/prince2-agile",
       "tiers": [
         "foundation",
         "professional",
@@ -261,7 +261,7 @@
       "family": "PRINCE2",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/prince2-agile-practitioner",
+      "url": "https://pmstructure.com/certifications/prince2-agile-practitioner",
       "tiers": [
         "foundation",
         "professional",
@@ -275,7 +275,7 @@
       "family": "PRINCE2",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/msp",
+      "url": "https://pmstructure.com/certifications/msp",
       "tiers": [
         "foundation",
         "professional",
@@ -289,7 +289,7 @@
       "family": "PRINCE2",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/mop",
+      "url": "https://pmstructure.com/certifications/mop",
       "tiers": [
         "foundation",
         "professional",
@@ -303,7 +303,7 @@
       "family": "PRINCE2",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/mor",
+      "url": "https://pmstructure.com/certifications/mor",
       "tiers": [
         "foundation",
         "professional",
@@ -317,7 +317,7 @@
       "family": "PRINCE2",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/p3o",
+      "url": "https://pmstructure.com/certifications/p3o",
       "tiers": [
         "foundation",
         "professional",
@@ -331,7 +331,7 @@
       "family": "SixSigma",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/lss-white",
+      "url": "https://pmstructure.com/certifications/lss-white",
       "tiers": [
         "foundation",
         "professional",
@@ -345,7 +345,7 @@
       "family": "SixSigma",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/lss-yellow",
+      "url": "https://pmstructure.com/certifications/lss-yellow",
       "tiers": [
         "foundation",
         "professional",
@@ -359,7 +359,7 @@
       "family": "SixSigma",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/lss-green",
+      "url": "https://pmstructure.com/certifications/lss-green",
       "tiers": [
         "foundation",
         "professional",
@@ -373,7 +373,7 @@
       "family": "SixSigma",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/lss-black",
+      "url": "https://pmstructure.com/certifications/lss-black",
       "tiers": [
         "foundation",
         "professional",
@@ -387,7 +387,7 @@
       "family": "SixSigma",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/lss-master",
+      "url": "https://pmstructure.com/certifications/lss-master",
       "tiers": [
         "foundation",
         "professional",
@@ -401,7 +401,7 @@
       "family": "SixSigma",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/lss-champion",
+      "url": "https://pmstructure.com/certifications/lss-champion",
       "tiers": [
         "foundation",
         "professional",
@@ -415,7 +415,7 @@
       "family": "FoundationDirect",
       "status": "available",
       "pmpPriority": false,
-      "url": "https://www.pmstructure.com/certifications/foundation-direct",
+      "url": "https://pmstructure.com/certifications/foundation-direct",
       "tiers": [
         "foundation",
         "professional",

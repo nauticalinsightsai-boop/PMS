@@ -1,5 +1,5 @@
 {
-  "site": "https://www.pmstructure.com",
+  "site": "https://pmstructure.com",
   "version": "1.0.0",
   "status": "live",
   "updatedAt": "2026-06-10",
@@ -41,146 +41,146 @@
       "path": "/pmp",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp",
+      "url": "https://pmstructure.com/pmp",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-exam-2026",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-exam-2026",
+      "url": "https://pmstructure.com/pmp-exam-2026",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-current-vs-new-exam",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-current-vs-new-exam",
+      "url": "https://pmstructure.com/pmp-current-vs-new-exam",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-before-8-july-2026",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-before-8-july-2026",
+      "url": "https://pmstructure.com/pmp-before-8-july-2026",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-after-9-july-2026",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-after-9-july-2026",
+      "url": "https://pmstructure.com/pmp-after-9-july-2026",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-exam-timeline-2026",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-exam-timeline-2026",
+      "url": "https://pmstructure.com/pmp-exam-timeline-2026",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-new-exam-domain-weighting",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-new-exam-domain-weighting",
+      "url": "https://pmstructure.com/pmp-new-exam-domain-weighting",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-business-environment-domain",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-business-environment-domain",
+      "url": "https://pmstructure.com/pmp-business-environment-domain",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-people-domain",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-people-domain",
+      "url": "https://pmstructure.com/pmp-people-domain",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-process-domain",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-process-domain",
+      "url": "https://pmstructure.com/pmp-process-domain",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-ai-sustainability-value-delivery",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-ai-sustainability-value-delivery",
+      "url": "https://pmstructure.com/pmp-ai-sustainability-value-delivery",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-agile-hybrid-predictive",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-agile-hybrid-predictive",
+      "url": "https://pmstructure.com/pmp-agile-hybrid-predictive",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-study-plan-2026",
       "group": "cluster",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-study-plan-2026",
+      "url": "https://pmstructure.com/pmp-study-plan-2026",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-foundation",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-foundation",
+      "url": "https://pmstructure.com/pmp-foundation",
       "group": "pathway",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-professional",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-professional",
+      "url": "https://pmstructure.com/pmp-professional",
       "group": "pathway",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-mastery",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-mastery",
+      "url": "https://pmstructure.com/pmp-mastery",
       "group": "pathway",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-readiness-diagnostic",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-readiness-diagnostic",
+      "url": "https://pmstructure.com/pmp-readiness-diagnostic",
       "group": "pathway",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-scenario-practice",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-scenario-practice",
+      "url": "https://pmstructure.com/pmp-scenario-practice",
       "group": "pathway",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-mock-exam",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-mock-exam",
+      "url": "https://pmstructure.com/pmp-mock-exam",
       "group": "pathway",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-q-and-a-support",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-q-and-a-support",
+      "url": "https://pmstructure.com/pmp-q-and-a-support",
       "group": "pathway",
       "indexing": "index,follow"
     },
     {
       "path": "/pmp-enrollment",
       "status": "live",
-      "url": "https://www.pmstructure.com/pmp-enrollment",
+      "url": "https://pmstructure.com/pmp-enrollment",
       "group": "pathway",
       "indexing": "index,follow"
     },
@@ -188,7 +188,7 @@
       "path": "/certifications/pmp",
       "group": "certification",
       "status": "live",
-      "url": "https://www.pmstructure.com/certifications/pmp",
+      "url": "https://pmstructure.com/certifications/pmp",
       "indexing": "index,follow"
     }
   ]

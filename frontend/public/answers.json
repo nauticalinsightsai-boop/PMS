@@ -1,14 +1,14 @@
 {
-  "site": "https://www.pmstructure.com",
+  "site": "https://pmstructure.com",
   "version": "1.0.0",
   "updatedAt": "2026-06-10",
   "count": 23,
-  "indexUrl": "https://www.pmstructure.com/answers",
+  "indexUrl": "https://pmstructure.com/answers",
   "answers": [
     {
       "slug": "is-the-pmp-exam-changing-in-2026",
       "path": "/answers/is-the-pmp-exam-changing-in-2026",
-      "url": "https://www.pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
+      "url": "https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
       "title": "Is the PMP exam changing in 2026?",
       "question": "Is the PMP exam changing in 2026?",
       "description": "Independent answer on the 2026 PMP exam transition, key dates, and how candidates should verify official PMI guidance.",
@@ -18,7 +18,7 @@
     {
       "slug": "when-does-the-new-pmp-exam-start",
       "path": "/answers/when-does-the-new-pmp-exam-start",
-      "url": "https://www.pmstructure.com/answers/when-does-the-new-pmp-exam-start",
+      "url": "https://pmstructure.com/answers/when-does-the-new-pmp-exam-start",
       "title": "When does the new PMP exam start?",
       "question": "When does the new PMP exam start?",
       "description": "Answer on the July 2026 PMP transition date and how to confirm scheduling with PMI and Pearson VUE.",
@@ -28,7 +28,7 @@
     {
       "slug": "should-i-take-pmp-before-8-july-2026",
       "path": "/answers/should-i-take-pmp-before-8-july-2026",
-      "url": "https://www.pmstructure.com/answers/should-i-take-pmp-before-8-july-2026",
+      "url": "https://pmstructure.com/answers/should-i-take-pmp-before-8-july-2026",
       "title": "Should I take the PMP before 8 July 2026?",
       "question": "Should I take the PMP before 8 July 2026?",
       "description": "Decision guide for candidates considering the current PMP format before the July 2026 transition.",
@@ -38,7 +38,7 @@
     {
       "slug": "should-i-prepare-for-new-pmp-after-9-july-2026",
       "path": "/answers/should-i-prepare-for-new-pmp-after-9-july-2026",
-      "url": "https://www.pmstructure.com/answers/should-i-prepare-for-new-pmp-after-9-july-2026",
+      "url": "https://pmstructure.com/answers/should-i-prepare-for-new-pmp-after-9-july-2026",
       "title": "Should I prepare for the new PMP after 9 July 2026?",
       "question": "Should I prepare for the new PMP after 9 July 2026?",
       "description": "When it makes sense to target the post-July 2026 PMP exam and how to align practice.",
@@ -48,7 +48,7 @@
     {
       "slug": "what-is-the-pmp-business-environment-domain",
       "path": "/answers/what-is-the-pmp-business-environment-domain",
-      "url": "https://www.pmstructure.com/answers/what-is-the-pmp-business-environment-domain",
+      "url": "https://pmstructure.com/answers/what-is-the-pmp-business-environment-domain",
       "title": "What is the PMP Business Environment domain?",
       "question": "What is the PMP Business Environment domain?",
       "description": "Plain-language explanation of the PMP Business Environment domain and how to study it for 2026.",
@@ -58,7 +58,7 @@
     {
       "slug": "how-to-prepare-for-pmp-in-2026",
       "path": "/answers/how-to-prepare-for-pmp-in-2026",
-      "url": "https://www.pmstructure.com/answers/how-to-prepare-for-pmp-in-2026",
+      "url": "https://pmstructure.com/answers/how-to-prepare-for-pmp-in-2026",
       "title": "How to prepare for the PMP in 2026",
       "question": "How do I prepare for the PMP in 2026?",
       "description": "Step-by-step PMP 2026 preparation: timing, ECO mapping, pathways, mocks, and official verification.",
@@ -68,7 +68,7 @@
     {
       "slug": "what-is-pmp-readiness",
       "path": "/answers/what-is-pmp-readiness",
-      "url": "https://www.pmstructure.com/answers/what-is-pmp-readiness",
+      "url": "https://pmstructure.com/answers/what-is-pmp-readiness",
       "title": "What is PMP readiness?",
       "question": "What is PMP readiness?",
       "description": "Definition of PMP exam readiness: mocks, domains, situational judgment, and when to schedule.",
@@ -78,7 +78,7 @@
     {
       "slug": "how-long-does-pmp-preparation-take",
       "path": "/answers/how-long-does-pmp-preparation-take",
-      "url": "https://www.pmstructure.com/answers/how-long-does-pmp-preparation-take",
+      "url": "https://pmstructure.com/answers/how-long-does-pmp-preparation-take",
       "title": "How long does PMP preparation take?",
       "question": "How long does PMP preparation take?",
       "description": "Typical PMP study duration by pathway tier and factors that shorten or lengthen prep.",
@@ -88,7 +88,7 @@
     {
       "slug": "what-is-pmp-scenario-practice",
       "path": "/answers/what-is-pmp-scenario-practice",
-      "url": "https://www.pmstructure.com/answers/what-is-pmp-scenario-practice",
+      "url": "https://pmstructure.com/answers/what-is-pmp-scenario-practice",
       "title": "What is PMP scenario practice?",
       "question": "What is PMP scenario practice?",
       "description": "Explanation of situational PMP practice and how it fits Foundation, Professional, and Mastery tiers.",
@@ -98,7 +98,7 @@
     {
       "slug": "what-is-the-pmp-exam-content-outline",
       "path": "/answers/what-is-the-pmp-exam-content-outline",
-      "url": "https://www.pmstructure.com/answers/what-is-the-pmp-exam-content-outline",
+      "url": "https://pmstructure.com/answers/what-is-the-pmp-exam-content-outline",
       "title": "What is the PMP Exam Content Outline?",
       "question": "What is the PMP Exam Content Outline (ECO)?",
       "description": "What the PMP ECO is, where to download it, and how to use it in a 2026 study plan.",
@@ -108,7 +108,7 @@
     {
       "slug": "is-pm-structure-a-pmi-authorized-training-partner",
       "path": "/answers/is-pm-structure-a-pmi-authorized-training-partner",
-      "url": "https://www.pmstructure.com/answers/is-pm-structure-a-pmi-authorized-training-partner",
+      "url": "https://pmstructure.com/answers/is-pm-structure-a-pmi-authorized-training-partner",
       "title": "Is PM Structure a PMI ATP?",
       "question": "Is PM Structure a PMI Authorized Training Partner (ATP)?",
       "description": "Clarifies PM Structure’s independent exam-prep status and PMI ATP positioning.",
@@ -118,7 +118,7 @@
     {
       "slug": "does-pm-structure-guarantee-a-pmp-pass",
       "path": "/answers/does-pm-structure-guarantee-a-pmp-pass",
-      "url": "https://www.pmstructure.com/answers/does-pm-structure-guarantee-a-pmp-pass",
+      "url": "https://pmstructure.com/answers/does-pm-structure-guarantee-a-pmp-pass",
       "title": "Does PM Structure guarantee a PMP pass?",
       "question": "Does PM Structure guarantee a PMP pass?",
       "description": "Independent answer on exam outcomes, preparation support, and what PM Structure does not promise.",
@@ -128,7 +128,7 @@
     {
       "slug": "how-does-regional-pricing-work-for-pmp",
       "path": "/answers/how-does-regional-pricing-work-for-pmp",
-      "url": "https://www.pmstructure.com/answers/how-does-regional-pricing-work-for-pmp",
+      "url": "https://pmstructure.com/answers/how-does-regional-pricing-work-for-pmp",
       "title": "How does regional PMP pricing work?",
       "question": "How does regional pricing work for PMP on PM Structure?",
       "description": "Regional scholarship pricing, USD checkout, and what is excluded from PMP tuition.",
@@ -138,7 +138,7 @@
     {
       "slug": "when-do-i-get-lms-access-after-pmp-enrollment",
       "path": "/answers/when-do-i-get-lms-access-after-pmp-enrollment",
-      "url": "https://www.pmstructure.com/answers/when-do-i-get-lms-access-after-pmp-enrollment",
+      "url": "https://pmstructure.com/answers/when-do-i-get-lms-access-after-pmp-enrollment",
       "title": "When do I get LMS access after PMP enrollment?",
       "question": "When do I get LMS access after PMP enrollment?",
       "description": "LMS provisioning timeline and what happens after PMP pathway checkout.",
@@ -148,7 +148,7 @@
     {
       "slug": "what-is-the-difference-between-pmp-foundation-professional-and-mastery",
       "path": "/answers/what-is-the-difference-between-pmp-foundation-professional-and-mastery",
-      "url": "https://www.pmstructure.com/answers/what-is-the-difference-between-pmp-foundation-professional-and-mastery",
+      "url": "https://pmstructure.com/answers/what-is-the-difference-between-pmp-foundation-professional-and-mastery",
       "title": "PMP Foundation vs Professional vs Mastery",
       "question": "What is the difference between PMP Foundation, Professional, and Mastery?",
       "description": "Compare PM Structure PMP pathway tiers: fit, practice depth, and when to choose each.",
@@ -158,7 +158,7 @@
     {
       "slug": "what-are-the-pmp-eligibility-requirements",
       "path": "/answers/what-are-the-pmp-eligibility-requirements",
-      "url": "https://www.pmstructure.com/answers/what-are-the-pmp-eligibility-requirements",
+      "url": "https://pmstructure.com/answers/what-are-the-pmp-eligibility-requirements",
       "title": "What are the PMP eligibility requirements?",
       "question": "What are the PMP eligibility requirements?",
       "description": "Independent overview of PMI PMP eligibility: experience hours, education, and how to verify before applying.",
@@ -168,7 +168,7 @@
     {
       "slug": "what-is-the-pmp-people-domain",
       "path": "/answers/what-is-the-pmp-people-domain",
-      "url": "https://www.pmstructure.com/answers/what-is-the-pmp-people-domain",
+      "url": "https://pmstructure.com/answers/what-is-the-pmp-people-domain",
       "title": "What is the PMP People domain?",
       "question": "What is the PMP People domain?",
       "description": "Explain the People domain in the PMP Exam Content Outline and how to study it.",
@@ -178,7 +178,7 @@
     {
       "slug": "what-is-the-pmp-process-domain",
       "path": "/answers/what-is-the-pmp-process-domain",
-      "url": "https://www.pmstructure.com/answers/what-is-the-pmp-process-domain",
+      "url": "https://pmstructure.com/answers/what-is-the-pmp-process-domain",
       "title": "What is the PMP Process domain?",
       "question": "What is the PMP Process domain?",
       "description": "Explain the Process domain in the PMP ECO and preparation focus on PM Structure.",
@@ -188,7 +188,7 @@
     {
       "slug": "what-is-pmp-mock-exam-practice",
       "path": "/answers/what-is-pmp-mock-exam-practice",
-      "url": "https://www.pmstructure.com/answers/what-is-pmp-mock-exam-practice",
+      "url": "https://pmstructure.com/answers/what-is-pmp-mock-exam-practice",
       "title": "What is PMP mock exam practice?",
       "question": "What is PMP mock exam practice?",
       "description": "How timed PMP mocks build readiness and when to use them on PM Structure.",
@@ -198,7 +198,7 @@
     {
       "slug": "how-do-i-enroll-in-pmp-on-pm-structure",
       "path": "/answers/how-do-i-enroll-in-pmp-on-pm-structure",
-      "url": "https://www.pmstructure.com/answers/how-do-i-enroll-in-pmp-on-pm-structure",
+      "url": "https://pmstructure.com/answers/how-do-i-enroll-in-pmp-on-pm-structure",
       "title": "How do I enroll in PMP on PM Structure?",
       "question": "How do I enroll in PMP on PM Structure?",
       "description": "Steps to choose a tier, complete checkout, and access LMS content.",
@@ -208,7 +208,7 @@
     {
       "slug": "what-is-project-management-certification",
       "path": "/answers/what-is-project-management-certification",
-      "url": "https://www.pmstructure.com/answers/what-is-project-management-certification",
+      "url": "https://pmstructure.com/answers/what-is-project-management-certification",
       "title": "What is project management certification?",
       "question": "What is project management certification?",
       "description": "Overview of PM credentials (PMP, PRINCE2, Six Sigma) and independent prep on PM Structure.",
@@ -218,7 +218,7 @@
     {
       "slug": "what-is-prince2-certification",
       "path": "/answers/what-is-prince2-certification",
-      "url": "https://www.pmstructure.com/answers/what-is-prince2-certification",
+      "url": "https://pmstructure.com/answers/what-is-prince2-certification",
       "title": "What is PRINCE2 certification?",
       "question": "What is PRINCE2 certification?",
       "description": "PRINCE2 Foundation and Practitioner explained for PM Structure learners.",
@@ -228,7 +228,7 @@
     {
       "slug": "what-is-lean-six-sigma-green-belt",
       "path": "/answers/what-is-lean-six-sigma-green-belt",
-      "url": "https://www.pmstructure.com/answers/what-is-lean-six-sigma-green-belt",
+      "url": "https://pmstructure.com/answers/what-is-lean-six-sigma-green-belt",
       "title": "What is Lean Six Sigma Green Belt?",
       "question": "What is Lean Six Sigma Green Belt?",
       "description": "Green Belt role, exam prep, and pathways on PM Structure.",

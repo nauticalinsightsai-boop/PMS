@@ -31,6 +31,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.pmstructure.com' }],
+        destination: 'https://pmstructure.com/:path*',
+        permanent: true,
+      },
       ...getGoSlugRedirects(),
       {
         source: '/store',

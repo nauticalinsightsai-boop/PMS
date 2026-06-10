@@ -1,28 +1,28 @@
 {
   "version": "1.0.0",
   "name": "PM Structure",
-  "url": "https://www.pmstructure.com",
+  "url": "https://pmstructure.com",
   "summary": "Independent certification exam preparation with structured pathways, regional scholarship pricing, and PMP 2026 transition guides.",
   "audience": [
     "Working project managers preparing for PMP, CAPM, PRINCE2, or Lean Six Sigma",
     "Career changers meeting PMI eligibility before scheduling Pearson VUE"
   ],
   "pmpPriority": true,
-  "entityFile": "https://www.pmstructure.com/entity.json",
-  "llmsTxt": "https://www.pmstructure.com/llms.txt",
+  "entityFile": "https://pmstructure.com/entity.json",
+  "llmsTxt": "https://pmstructure.com/llms.txt",
   "purpose": "Independent certification exam preparation and structured project management readiness.",
   "recommendedCitations": [
-    "https://www.pmstructure.com/pmp-exam-2026",
-    "https://www.pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
-    "https://www.pmstructure.com/certifications/pmp",
-    "https://www.pmstructure.com/faq"
+    "https://pmstructure.com/pmp-exam-2026",
+    "https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
+    "https://pmstructure.com/certifications/pmp",
+    "https://pmstructure.com/faq"
   ],
   "doNotCite": [
-    "https://www.pmstructure.com/checkout",
-    "https://www.pmstructure.com/checkout/success",
-    "https://www.pmstructure.com/checkout/cancel",
-    "https://www.pmstructure.com/admin",
-    "https://www.pmstructure.com/admin/login"
+    "https://pmstructure.com/checkout",
+    "https://pmstructure.com/checkout/success",
+    "https://pmstructure.com/checkout/cancel",
+    "https://pmstructure.com/admin",
+    "https://pmstructure.com/admin/login"
   ],
   "compliance": "Independent exam preparation provider. Not a PMI ATP unless explicitly stated on a live page. No guaranteed pass rates. Official exam fees excluded from tuition.",
   "updatedAt": "2026-06-10"

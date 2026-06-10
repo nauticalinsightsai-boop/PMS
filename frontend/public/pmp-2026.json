@@ -1,21 +1,21 @@
 {
-  "site": "https://www.pmstructure.com",
+  "site": "https://pmstructure.com",
   "version": "1.0.0",
   "status": "live",
   "updatedAt": "2026-06-10",
-  "canonicalUrl": "https://www.pmstructure.com/pmp-exam-2026",
-  "hubUrl": "https://www.pmstructure.com/pmp",
+  "canonicalUrl": "https://pmstructure.com/pmp-exam-2026",
+  "hubUrl": "https://pmstructure.com/pmp",
   "domains": [
     "People",
     "Process",
     "Business Environment"
   ],
   "relatedPages": [
-    "https://www.pmstructure.com/pmp-exam-2026",
-    "https://www.pmstructure.com/pmp-current-vs-new-exam",
-    "https://www.pmstructure.com/pmp-exam-timeline-2026",
-    "https://www.pmstructure.com/certifications/pmp",
-    "https://www.pmstructure.com/faq"
+    "https://pmstructure.com/pmp-exam-2026",
+    "https://pmstructure.com/pmp-current-vs-new-exam",
+    "https://pmstructure.com/pmp-exam-timeline-2026",
+    "https://pmstructure.com/certifications/pmp",
+    "https://pmstructure.com/faq"
   ],
   "officialSourceTodo": "Verify PMI ECO 2026 domain weights and exam format changes against official PMI sources before publishing claims.",
   "compliance": "Independent exam preparation provider. Not a PMI ATP unless explicitly stated on a live page. No guaranteed pass rates. Official exam fees excluded from tuition."

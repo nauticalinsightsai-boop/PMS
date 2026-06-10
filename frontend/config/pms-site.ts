@@ -5,7 +5,7 @@ import { BRAND } from '@/lib/brand-voice';
 
 export const PMS_SITE_URL =
   (process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') as string | undefined) ||
-  'https://www.pmstructure.com';
+  'https://pmstructure.com';
 
 export const PMS_SITE_NAME = BRAND.name;
 

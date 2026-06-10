@@ -1,19 +1,20 @@
 # PM Structure — GSC & Bing Submission Plan
 
 **Run:** 19 (Phase 18)  
-**Property:** https://www.pmstructure.com  
-**Status:** Ready after deploy — do not submit until production build verified
+**Property:** https://pmstructure.com (apex — `www` has no DNS until added in Vercel Domains)  
+**Status:** Deploy verified — submit sitemap after ownership verified
 
 ## Properties to verify
 
 | Platform | URL prefix / domain | Action |
 |----------|---------------------|--------|
-| Google Search Console | `https://www.pmstructure.com` | Verify ownership (DNS or HTML) |
-| Bing Webmaster Tools | `https://www.pmstructure.com` | Import from GSC or verify separately |
+| Google Search Console | `https://pmstructure.com` | Verify ownership (HTML file already deployed) |
+| Bing Webmaster Tools | `https://pmstructure.com` | Import from GSC or verify separately |
 
 ## Sitemap submission
 
-- **URL:** `https://www.pmstructure.com/sitemap.xml`
+- **In GSC → Sitemaps**, enter only: `sitemap.xml` (not a file upload, not `/frontend/public/...`)
+- **Full URL:** `https://pmstructure.com/sitemap.xml`
 - Submit once after Run 17 `seo:all` passes on production
 - Re-submit after major PMP/FAQ/answer/topic releases
 
@@ -49,5 +50,5 @@ Add remaining PMP cluster URLs after indexation of anchor pages.
 
 - [ ] Production deploy complete
 - [ ] `npm run seo:release-verify` green on release branch
-- [ ] `npm run seo:smoke-live` green against `https://www.pmstructure.com`
+- [x] `npm run seo:smoke-live` green against `https://pmstructure.com`
 - [ ] No `noindex` on PMP/answer/topic indexable routes

@@ -1,10 +1,10 @@
 {
-  "site": "https://www.pmstructure.com",
+  "site": "https://pmstructure.com",
   "version": "1.0.0",
   "status": "live",
   "updatedAt": "2026-06-10",
-  "policyUrl": "https://www.pmstructure.com/legal/regional-pricing",
-  "disclaimersUrl": "https://www.pmstructure.com/legal/pricing-disclaimers",
+  "policyUrl": "https://pmstructure.com/legal/regional-pricing",
+  "disclaimersUrl": "https://pmstructure.com/legal/pricing-disclaimers",
   "summary": "Regional scholarship pricing is based on residence and billing country. Checkout is processed in USD equivalent. Official exam fees are excluded from tuition.",
   "rules": [
     "Regional tuition uses residence and billing country — not nationality alone",
@@ -24,6 +24,6 @@
     "pakistan"
   ],
   "checkoutNoindex": true,
-  "enrollUrlPattern": "https://www.pmstructure.com/certifications/{certId}/{tier}/enroll",
+  "enrollUrlPattern": "https://pmstructure.com/certifications/{certId}/{tier}/enroll",
   "disclaimer": "Independent exam preparation provider. Not a PMI ATP unless explicitly stated on a live page. No guaranteed pass rates. Official exam fees excluded from tuition."
 }
