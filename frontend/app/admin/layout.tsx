@@ -2,10 +2,12 @@ import type { Metadata } from 'next';
 import { montserrat } from '@pms/ui/fonts';
 import '../../../dashboard/frontend/app/globals.css';
 import { ClientProviders } from '../../../dashboard/frontend/components/ClientProviders';
+import { ROBOTS_NOINDEX_NOFOLLOW } from '@/lib/indexing-metadata';
 
 export const metadata: Metadata = {
   title: 'PMS Admin Dashboard',
   description: 'PM Structure administration',
+  robots: ROBOTS_NOINDEX_NOFOLLOW,
 };
 
 const themeScript = `

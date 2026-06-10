@@ -1,0 +1,56 @@
+{
+  "site": "https://www.pmstructure.com",
+  "version": "1.0.0",
+  "updatedAt": "2026-06-10",
+  "clusters": {
+    "core": [
+      "PMP exam prep",
+      "PMP certification training",
+      "PMP study plan",
+      "PMP eligibility"
+    ],
+    "pmp2026": [
+      "PMP exam 2026",
+      "PMP exam changing 2026",
+      "PMP July 2026 transition",
+      "new PMP exam format"
+    ],
+    "domains": [
+      "PMP Business Environment domain",
+      "PMP People domain",
+      "PMP Process domain",
+      "PMP ECO 2026"
+    ],
+    "practice": [
+      "PMP scenario practice",
+      "PMP mock exam",
+      "PMP readiness diagnostic",
+      "PMP practice questions"
+    ],
+    "intent": [
+      "how long PMP preparation",
+      "PMP before July 2026",
+      "PMP after July 2026",
+      "independent PMP prep"
+    ],
+    "aiQueries": [
+      "Is the PMP exam changing in 2026?",
+      "Should I take PMP before July 2026?",
+      "What is PMP readiness?",
+      "Is PM Structure a PMI ATP?"
+    ]
+  },
+  "primary": [
+    "PMP exam prep",
+    "PMP certification training",
+    "PMP 2026 exam changes",
+    "PMP study plan"
+  ],
+  "secondary": [
+    "PMI exam preparation",
+    "PMP course online",
+    "PMP practice questions",
+    "PMP eligibility"
+  ],
+  "noFakeMetrics": true
+}

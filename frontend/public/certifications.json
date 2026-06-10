@@ -1,0 +1,223 @@
+{
+  "site": "https://www.pmstructure.com",
+  "version": "1.0.0",
+  "updatedAt": "2026-06-10",
+  "certifications": [
+    {
+      "id": "capm",
+      "name": "CAPM®",
+      "familyId": "PMI",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/capm",
+      "status": "live"
+    },
+    {
+      "id": "pmp",
+      "name": "PMP®",
+      "familyId": "PMI",
+      "strength": "primary",
+      "url": "https://www.pmstructure.com/certifications/pmp",
+      "status": "live"
+    },
+    {
+      "id": "pmi-acp",
+      "name": "PMI-ACP®",
+      "familyId": "PMI",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/pmi-acp",
+      "status": "live"
+    },
+    {
+      "id": "pmi-rmp",
+      "name": "PMI-RMP®",
+      "familyId": "PMI",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/pmi-rmp",
+      "status": "live"
+    },
+    {
+      "id": "pmi-pba",
+      "name": "PMI-PBA®",
+      "familyId": "PMI",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/pmi-pba",
+      "status": "live"
+    },
+    {
+      "id": "pmi-sp",
+      "name": "PMI-SP®",
+      "familyId": "PMI",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/pmi-sp",
+      "status": "live"
+    },
+    {
+      "id": "pmi-pmocp",
+      "name": "PMI-PMOCP™",
+      "familyId": "PMI",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/pmi-pmocp",
+      "status": "live"
+    },
+    {
+      "id": "pmi-cp",
+      "name": "Construction Professional (PMI-CP)™",
+      "familyId": "PMI",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/pmi-cp",
+      "status": "live"
+    },
+    {
+      "id": "pmi-cpmai",
+      "name": "Managing AI (PMI-CPMAI)™",
+      "familyId": "PMI",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/pmi-cpmai",
+      "status": "live"
+    },
+    {
+      "id": "gpm-b",
+      "name": "Green Project Manager – Basic (GPM-b)™",
+      "familyId": "PMI",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/gpm-b",
+      "status": "live"
+    },
+    {
+      "id": "pgmp",
+      "name": "PgMP®",
+      "familyId": "PMI",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/pgmp",
+      "status": "live"
+    },
+    {
+      "id": "pfmp",
+      "name": "PfMP®",
+      "familyId": "PMI",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/pfmp",
+      "status": "live"
+    },
+    {
+      "id": "prince2",
+      "name": "PRINCE2® 7 Foundation",
+      "familyId": "PRINCE2",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/prince2",
+      "status": "live"
+    },
+    {
+      "id": "prince2-practitioner",
+      "name": "PRINCE2® 7 Practitioner",
+      "familyId": "PRINCE2",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/prince2-practitioner",
+      "status": "live"
+    },
+    {
+      "id": "prince2-agile",
+      "name": "PRINCE2 Agile® Foundation",
+      "familyId": "PRINCE2",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/prince2-agile",
+      "status": "live"
+    },
+    {
+      "id": "prince2-agile-practitioner",
+      "name": "PRINCE2 Agile® Practitioner",
+      "familyId": "PRINCE2",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/prince2-agile-practitioner",
+      "status": "live"
+    },
+    {
+      "id": "msp",
+      "name": "MSP®",
+      "familyId": "PRINCE2",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/msp",
+      "status": "live"
+    },
+    {
+      "id": "mop",
+      "name": "MoP®",
+      "familyId": "PRINCE2",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/mop",
+      "status": "live"
+    },
+    {
+      "id": "mor",
+      "name": "M_o_R®",
+      "familyId": "PRINCE2",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/mor",
+      "status": "live"
+    },
+    {
+      "id": "p3o",
+      "name": "P3O®",
+      "familyId": "PRINCE2",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/p3o",
+      "status": "live"
+    },
+    {
+      "id": "lss-white",
+      "name": "Six Sigma White Belt",
+      "familyId": "SixSigma",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/lss-white",
+      "status": "live"
+    },
+    {
+      "id": "lss-yellow",
+      "name": "Six Sigma Yellow Belt (CSSYB)",
+      "familyId": "SixSigma",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/lss-yellow",
+      "status": "live"
+    },
+    {
+      "id": "lss-green",
+      "name": "Six Sigma Green Belt (CSSGB)",
+      "familyId": "SixSigma",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/lss-green",
+      "status": "live"
+    },
+    {
+      "id": "lss-black",
+      "name": "Six Sigma Black Belt (CSSBB)",
+      "familyId": "SixSigma",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/lss-black",
+      "status": "live"
+    },
+    {
+      "id": "lss-master",
+      "name": "Master Black Belt (CMBB)",
+      "familyId": "SixSigma",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/lss-master",
+      "status": "live"
+    },
+    {
+      "id": "lss-champion",
+      "name": "Six Sigma Champion",
+      "familyId": "SixSigma",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/lss-champion",
+      "status": "live"
+    },
+    {
+      "id": "foundation-direct",
+      "name": "Foundation Direct Pathway",
+      "familyId": "FoundationDirect",
+      "strength": "standard",
+      "url": "https://www.pmstructure.com/certifications/foundation-direct",
+      "status": "live"
+    }
+  ]
+}

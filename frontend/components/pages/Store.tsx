@@ -2,7 +2,7 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
   ShoppingCart, 
@@ -129,6 +129,7 @@ export function StoreContent() {
       <section className={sectionSurface('soft', 'py-20')}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
+          <h2 className="sr-only">Browse certification resources</h2>
           {filteredProducts.length === 0 ? (
             <p className="text-center text-slate-500 dark:text-slate-400 font-medium py-16">
               No resources match your search. Try another category or clear the search.
@@ -167,9 +168,9 @@ export function StoreContent() {
                         <span className="text-xs font-bold text-slate-600 dark:text-slate-300">{product.rating}</span>
                       </div>
                     </div>
-                    <CardTitle className="text-xl font-bold leading-tight tracking-tight dark:text-white mb-3">
+                    <h3 className="text-xl font-bold leading-tight tracking-tight dark:text-white mb-3">
                       {product.title}
-                    </CardTitle>
+                    </h3>
                     <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
                       {product.description}
                     </CardDescription>
@@ -240,7 +241,7 @@ export function StoreContent() {
                       <item.icon className="h-8 w-8" />
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-white font-bold text-lg tracking-tight">{item.title}</h4>
+                      <h3 className="text-white font-bold text-lg tracking-tight">{item.title}</h3>
                       <p className="text-slate-500 text-sm font-medium mt-0.5">{item.desc}</p>
                     </div>
                     <Download className="h-6 w-6 text-slate-600 group-hover:text-white transition-all" />

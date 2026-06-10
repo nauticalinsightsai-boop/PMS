@@ -1,19 +1,10 @@
 import { getFaqForSchema } from '@/content/faq';
+import { buildFaqPageSchema } from '@/lib/schema';
 
+/** All FAQ entries are mirrored in FaqCrawlableContent (sr-only) on /faq for crawlability. */
 export function FaqJsonLd() {
   const items = getFaqForSchema();
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: items.map((item) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer,
-      },
-    })),
-  };
+  const schema = buildFaqPageSchema(items);
 
   return (
     <script

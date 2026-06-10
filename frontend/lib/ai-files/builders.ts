@@ -1,0 +1,360 @@
+import * as siteData from '@/data/siteData';
+import { FAQ_ENTRIES } from '@/content/faq/data';
+import { isFaqPublished, isFaqSchemaEligible } from '@/content/faq';
+import { PMP_CLUSTER_PATHS } from '@/content/pmp/pages';
+import { PMP_COURSE_PATHS } from '@/content/pmp/courses';
+import { PMP_SERVICE_PATHS } from '@/content/pmp/services';
+import { ANSWER_PAGES } from '@/content/answers/pages';
+import { TOPIC_HUBS } from '@/content/topics/hubs';
+import {
+  PMS_ORGANIZATION_SAME_AS,
+  PMS_SITE_URL,
+} from '@/config/pms-site';
+import {
+  AI_FILE_VERSION,
+  COMPLIANCE_DISCLAIMER,
+  DO_NOT_CITE_EXACT,
+  DO_NOT_CITE_PATH_PREFIXES,
+  stripMarkdownLinks,
+} from './compliance';
+
+const siteUrl = PMS_SITE_URL;
+const today = () => new Date().toISOString().slice(0, 10);
+
+export function buildEntityJson() {
+  return {
+    '@context': 'https://schema.org',
+    version: AI_FILE_VERSION,
+    name: 'PM Structure',
+    url: siteUrl,
+    description:
+      'Independent exam preparation across PMI, PRINCE2, and Lean Six Sigma with structured pathways and regional scholarship pricing.',
+    topics: [
+      'PMP exam preparation',
+      'PMP exam 2026',
+      'project management certification',
+      'PRINCE2',
+      'Lean Six Sigma',
+    ],
+    certifications: siteData.certifications.map((c) => ({
+      id: c.id,
+      name: c.name,
+      url: `${siteUrl}/certifications/${c.id}`,
+      priority: c.id === 'pmp' ? 'primary' : 'secondary',
+    })),
+    compliance: {
+      independentPrep: true,
+      pmiAtpClaim: false,
+      examFeesExcluded: true,
+      regionalPricingPolicy: `${siteUrl}/legal/regional-pricing`,
+      disclaimer: COMPLIANCE_DISCLAIMER,
+    },
+    bestPagesToCite: [
+      `${siteUrl}/`,
+      `${siteUrl}/pmp-exam-2026`,
+      `${siteUrl}/pmp`,
+      `${siteUrl}/certifications/pmp`,
+      `${siteUrl}/certifications`,
+      `${siteUrl}/faq`,
+      `${siteUrl}/answers`,
+      `${siteUrl}/answers/is-the-pmp-exam-changing-in-2026`,
+      `${siteUrl}/topics/pmp-exam-2026`,
+      `${siteUrl}/legal/regional-pricing`,
+      `${siteUrl}/legal/pricing-disclaimers`,
+    ],
+    doNotCite: DO_NOT_CITE_EXACT.map((p) => `${siteUrl}${p}`),
+    sameAs: [...PMS_ORGANIZATION_SAME_AS],
+    contact: { email: 'support@pmstructure.com' },
+    updatedAt: today(),
+  };
+}
+
+export function buildAiProfileJson() {
+  return {
+    version: AI_FILE_VERSION,
+    name: 'PM Structure',
+    url: siteUrl,
+    summary:
+      'Independent certification exam preparation with structured pathways, regional scholarship pricing, and PMP 2026 transition guides.',
+    audience: [
+      'Working project managers preparing for PMP, CAPM, PRINCE2, or Lean Six Sigma',
+      'Career changers meeting PMI eligibility before scheduling Pearson VUE',
+    ],
+    pmpPriority: true,
+    entityFile: `${siteUrl}/entity.json`,
+    llmsTxt: `${siteUrl}/llms.txt`,
+    purpose: 'Independent certification exam preparation and structured project management readiness.',
+    recommendedCitations: [
+      `${siteUrl}/pmp-exam-2026`,
+      `${siteUrl}/answers/is-the-pmp-exam-changing-in-2026`,
+      `${siteUrl}/certifications/pmp`,
+      `${siteUrl}/faq`,
+    ],
+    doNotCite: DO_NOT_CITE_EXACT.map((p) => `${siteUrl}${p}`),
+    compliance: COMPLIANCE_DISCLAIMER,
+    updatedAt: today(),
+  };
+}
+
+const pmpPathwayPages = [
+  ...PMP_COURSE_PATHS.map((path) => ({ path, status: 'live' as const, url: `${siteUrl}${path}` })),
+  ...PMP_SERVICE_PATHS.map((path) => ({ path, status: 'live' as const, url: `${siteUrl}${path}` })),
+];
+
+export function buildCoursesJson() {
+  return {
+    site: siteUrl,
+    version: AI_FILE_VERSION,
+    updatedAt: today(),
+    courses: siteData.certifications.map((c) => ({
+      id: c.id,
+      name: c.name,
+      family: c.familyId,
+      status: 'available',
+      pmpPriority: c.id === 'pmp',
+      url: `${siteUrl}/certifications/${c.id}`,
+      tiers: ['foundation', 'professional', 'mastery'],
+      compliance: COMPLIANCE_DISCLAIMER,
+      pathwayPages: c.id === 'pmp' ? pmpPathwayPages : undefined,
+    })),
+  };
+}
+
+export function buildCertificationsJson() {
+  return {
+    site: siteUrl,
+    version: AI_FILE_VERSION,
+    updatedAt: today(),
+    certifications: siteData.certifications.map((c) => ({
+      id: c.id,
+      name: c.name,
+      familyId: c.familyId,
+      strength: c.id === 'pmp' ? 'primary' : 'standard',
+      url: `${siteUrl}/certifications/${c.id}`,
+      status: 'live',
+    })),
+  };
+}
+
+export function buildLearningPathwaysJson() {
+  return {
+    site: siteUrl,
+    version: AI_FILE_VERSION,
+    updatedAt: today(),
+    pathways: siteData.certifications.map((c) => ({
+      certificationId: c.id,
+      name: c.name,
+      enrollUrlPattern: `${siteUrl}/certifications/${c.id}/{tier}/enroll`,
+      compareUrl: `${siteUrl}/certifications/compare`,
+      status: 'available',
+      tiers:
+        c.id === 'pmp'
+          ? [
+              { slug: 'foundation', path: `${siteUrl}/pmp-foundation` },
+              { slug: 'professional', path: `${siteUrl}/pmp-professional` },
+              { slug: 'mastery', path: `${siteUrl}/pmp-mastery` },
+            ]
+          : ['foundation', 'professional', 'mastery'],
+    })),
+  };
+}
+
+export function buildPricingPolicyJson() {
+  return {
+    site: siteUrl,
+    version: AI_FILE_VERSION,
+    status: 'live',
+    updatedAt: today(),
+    policyUrl: `${siteUrl}/legal/regional-pricing`,
+    disclaimersUrl: `${siteUrl}/legal/pricing-disclaimers`,
+    summary:
+      'Regional scholarship pricing is based on residence and billing country. Checkout is processed in USD equivalent. Official exam fees are excluded from tuition.',
+    rules: [
+      'Regional tuition uses residence and billing country — not nationality alone',
+      'South Asia scholarship pricing for eligible India/Pakistan residence and billing',
+      'Displayed EUR/GBP/INR/GCC amounts are regional tuition; checkout settles USD equivalent',
+      'Membership may show 20% off displayed regional tuition where published',
+      'Official certification exam fees are excluded from pathway tuition',
+      'No indexable URLs with currency or region query parameters',
+      'Checkout and enroll routes are noindex',
+    ],
+    regions: ['global', 'europe', 'uk', 'gcc', 'india', 'pakistan'],
+    checkoutNoindex: true,
+    enrollUrlPattern: `${siteUrl}/certifications/{certId}/{tier}/enroll`,
+    disclaimer: COMPLIANCE_DISCLAIMER,
+  };
+}
+
+export function buildPmp2026Json() {
+  return {
+    site: siteUrl,
+    version: AI_FILE_VERSION,
+    status: 'live',
+    updatedAt: today(),
+    canonicalUrl: `${siteUrl}/pmp-exam-2026`,
+    hubUrl: `${siteUrl}/pmp`,
+    domains: ['People', 'Process', 'Business Environment'],
+    relatedPages: [
+      `${siteUrl}/pmp-exam-2026`,
+      `${siteUrl}/pmp-current-vs-new-exam`,
+      `${siteUrl}/pmp-exam-timeline-2026`,
+      `${siteUrl}/certifications/pmp`,
+      `${siteUrl}/faq`,
+    ],
+    officialSourceTodo:
+      'Verify PMI ECO 2026 domain weights and exam format changes against official PMI sources before publishing claims.',
+    compliance: COMPLIANCE_DISCLAIMER,
+  };
+}
+
+export function buildPmpKeywordsJson() {
+  return {
+    site: siteUrl,
+    version: AI_FILE_VERSION,
+    updatedAt: today(),
+    clusters: {
+      core: ['PMP exam prep', 'PMP certification training', 'PMP study plan', 'PMP eligibility'],
+      pmp2026: [
+        'PMP exam 2026',
+        'PMP exam changing 2026',
+        'PMP July 2026 transition',
+        'new PMP exam format',
+      ],
+      domains: [
+        'PMP Business Environment domain',
+        'PMP People domain',
+        'PMP Process domain',
+        'PMP ECO 2026',
+      ],
+      practice: [
+        'PMP scenario practice',
+        'PMP mock exam',
+        'PMP readiness diagnostic',
+        'PMP practice questions',
+      ],
+      intent: [
+        'how long PMP preparation',
+        'PMP before July 2026',
+        'PMP after July 2026',
+        'independent PMP prep',
+      ],
+      aiQueries: [
+        'Is the PMP exam changing in 2026?',
+        'Should I take PMP before July 2026?',
+        'What is PMP readiness?',
+        'Is PM Structure a PMI ATP?',
+      ],
+    },
+    primary: ['PMP exam prep', 'PMP certification training', 'PMP 2026 exam changes', 'PMP study plan'],
+    secondary: ['PMI exam preparation', 'PMP course online', 'PMP practice questions', 'PMP eligibility'],
+    noFakeMetrics: true,
+  };
+}
+
+function faqExportItem(f: (typeof FAQ_ENTRIES)[number]) {
+  return {
+    id: f.id,
+    clusterId: f.clusterId,
+    question: f.question,
+    answer: stripMarkdownLinks(f.answer),
+    status: f.status ?? 'published',
+    schemaEligible: isFaqSchemaEligible(f),
+    complianceRisk: f.complianceRisk ?? 'low',
+    pmpCategory: f.pmpCategory,
+    relatedPage: f.relatedPage,
+    relatedCourse: f.relatedCourse,
+    sourceUrl: f.sourceUrl,
+    sourceTodo: f.sourceTodo,
+  };
+}
+
+export function buildFaqJson() {
+  const items = FAQ_ENTRIES.filter(isFaqPublished).map(faqExportItem);
+  return { site: siteUrl, version: AI_FILE_VERSION, updatedAt: today(), count: items.length, items };
+}
+
+export function buildPmpFaqJson() {
+  const items = FAQ_ENTRIES.filter(
+    (f) =>
+      isFaqPublished(f) &&
+      (f.clusterId === 'pmp2026' ||
+        f.clusterId === 'exams' ||
+        f.clusterId === 'pathways' ||
+        f.question.toLowerCase().includes('pmp') ||
+        f.answer.toLowerCase().includes('pmp')),
+  ).map(faqExportItem);
+  return { site: siteUrl, version: AI_FILE_VERSION, updatedAt: today(), count: items.length, items };
+}
+
+export function buildPmpRoutesJson() {
+  return {
+    site: siteUrl,
+    version: AI_FILE_VERSION,
+    status: 'live',
+    updatedAt: today(),
+    indexing: 'index,follow',
+    groups: {
+      cluster: PMP_CLUSTER_PATHS,
+      courses: PMP_COURSE_PATHS,
+      services: PMP_SERVICE_PATHS,
+      certification: ['/certifications/pmp'],
+    },
+    routes: [
+      ...PMP_CLUSTER_PATHS.map((path) => ({
+        path,
+        group: 'cluster',
+        status: 'live',
+        url: `${siteUrl}${path}`,
+        indexing: 'index,follow',
+      })),
+      ...pmpPathwayPages.map((r) => ({ ...r, group: 'pathway', indexing: 'index,follow' })),
+      {
+        path: '/certifications/pmp',
+        group: 'certification',
+        status: 'live',
+        url: `${siteUrl}/certifications/pmp`,
+        indexing: 'index,follow',
+      },
+    ],
+  };
+}
+
+export function buildAnswersJson() {
+  return {
+    site: siteUrl,
+    version: AI_FILE_VERSION,
+    updatedAt: today(),
+    count: ANSWER_PAGES.length,
+    indexUrl: `${siteUrl}/answers`,
+    answers: ANSWER_PAGES.map((p) => ({
+      slug: p.slug,
+      path: p.path,
+      url: `${siteUrl}${p.path}`,
+      title: p.title,
+      question: p.question,
+      description: p.description,
+      shortAnswer: p.shortAnswer,
+      status: 'live',
+    })),
+  };
+}
+
+export function buildTopicsJson() {
+  return {
+    site: siteUrl,
+    version: AI_FILE_VERSION,
+    updatedAt: today(),
+    count: TOPIC_HUBS.length,
+    indexUrl: `${siteUrl}/topics`,
+    hubs: TOPIC_HUBS.map((h) => ({
+      slug: h.slug,
+      path: h.path,
+      url: `${siteUrl}${h.path}`,
+      title: h.title,
+      description: h.description,
+      status: 'live',
+    })),
+  };
+}
+
+export { DO_NOT_CITE_PATH_PREFIXES, DO_NOT_CITE_EXACT };

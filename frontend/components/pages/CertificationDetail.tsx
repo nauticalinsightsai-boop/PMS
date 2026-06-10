@@ -165,6 +165,23 @@ export function CertificationDetail() {
                 {cert.detailHeroSubtitle}
               </p>
 
+              {cert.id === 'pmp' ? (
+                <div className="mb-8 rounded-2xl border border-brand-purple/25 bg-brand-purple/5 p-5">
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">
+                    PMP exam 2026 transition
+                  </p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+                    Independent guides for the 2026 exam change, timeline, domains, and study planning.
+                  </p>
+                  <Link
+                    href="/pmp-exam-2026"
+                    className="text-sm font-bold text-brand-purple hover:underline"
+                  >
+                    Read the PMP 2026 guide →
+                  </Link>
+                </div>
+              ) : null}
+
               <div className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm mb-10">
                 <div className="flex items-center gap-3 mb-3">
                   <Zap className="h-5 w-5 text-brand-orange" />
@@ -260,6 +277,7 @@ export function CertificationDetail() {
         <SectionAmbience tone="purple" />
         <div className="container mx-auto">
           <div className="max-w-5xl mx-auto">
+            <h2 className="sr-only">Certification details</h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               <div className="lg:col-span-2 space-y-12">
                 {/* Core Details */}

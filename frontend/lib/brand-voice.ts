@@ -109,7 +109,7 @@ export const HOME_COPY = {
 
   heroBadge: 'Prepare with structure',
 
-  heroTitle: 'Structured project management capability',
+  heroTitle: 'PMP & project management exam prep',
 
   heroSubtitle: BRAND_LINES.promise,
 

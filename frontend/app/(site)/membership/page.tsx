@@ -1,4 +1,5 @@
 import { Membership } from '@/components/pages/Membership';
+import { MarketingPageJsonLd } from '@/components/seo/MarketingPageJsonLd';
 import { buildPageMetadata } from '@/lib/site-metadata';
 
 export const metadata = buildPageMetadata({
@@ -8,5 +9,18 @@ export const metadata = buildPageMetadata({
 });
 
 export default function Page() {
-  return <Membership />;
+  return (
+    <>
+      <MarketingPageJsonLd
+        path="/membership"
+        name="Membership plans"
+        description="Membership tiers with community access and 20% off eligible certification pathway tuition."
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Membership', path: '/membership' },
+        ]}
+      />
+      <Membership />
+    </>
+  );
 }

@@ -33,6 +33,11 @@ export const FAQ_HUB_SECTIONS: FaqHubSection[] = [
     label: 'Support & discovery',
     clusterIds: ['support', 'geo'],
   },
+  {
+    id: 'pmp-2026',
+    label: 'PMP 2026',
+    clusterIds: ['pmp2026'],
+  },
 ];
 
 export function getFaqHubSectionForCluster(clusterId: FaqClusterId): string | undefined {

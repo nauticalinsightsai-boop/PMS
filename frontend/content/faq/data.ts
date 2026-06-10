@@ -2,6 +2,7 @@ import { BRAND, BRAND_LINES, DISCLAIMERS, REGION_COPY } from '@/lib/brand-voice'
 import * as siteData from '@/data/siteData';
 import { getCertDurationLabel } from '@/lib/regional-catalogue';
 import type { FaqCluster, FaqEntry } from './types';
+import { PMP_2026_FAQS } from './pmp-2026-faqs';
 
 export const FAQ_CLUSTERS: FaqCluster[] = [
   { id: 'about', title: 'About PM Structure' },
@@ -15,6 +16,11 @@ export const FAQ_CLUSTERS: FaqCluster[] = [
   { id: 'privacy', title: 'Account, privacy & legal' },
   { id: 'support', title: 'Technical support' },
   { id: 'geo', title: 'Common AI & search questions' },
+  {
+    id: 'pmp2026',
+    title: 'PMP exam 2026',
+    description: 'Transition timing, domains, pathways, and preparation on PM Structure.',
+  },
 ];
 
 const P = (clusterId: FaqEntry['clusterId'], question: string, answer: string, id?: string): FaqEntry => ({
@@ -224,6 +230,30 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   ),
   P(
     'pricing',
+    'Do URL parameters like ?currency= or ?region= create separate indexed pages?',
+    'No. Marketing pages use a single canonical URL without currency or region query parameters. Regional tuition is selected in the region modal and stored locally — not via indexable URL variants.',
+    'pricing-query-canonical',
+  ),
+  P(
+    'pricing',
+    'Why is checkout processed in USD if prices show in EUR, GBP, or INR?',
+    `${REGION_COPY.checkoutNote} Display currencies help you compare regional tuition; payment settlement uses the USD-equivalent amount from our published matrix.`,
+    'pricing-usd-checkout',
+  ),
+  P(
+    'pricing',
+    'Can I change my region after enrolling?',
+    'Future purchases use your updated region selection. Existing orders keep the pricing and terms confirmed at checkout. Email support at support@pmstructure.com for billing questions.',
+    'pricing-change-region',
+  ),
+  P(
+    'pricing',
+    'Does regional pricing apply to membership and certification pathways?',
+    `Membership and pathway tuition follow the regional matrix when eligibility rules are met. ${REGION_COPY.membershipDiscountNote} Official exam fees remain separate.`,
+    'pricing-membership-pathways',
+  ),
+  P(
+    'pricing',
     'What is scholarship verification?',
     'For certain offerings we verify residence and billing country match the selected scholarship region before checkout.',
     'pricing-verify',
@@ -427,4 +457,5 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     'delivery-refund-start',
   ),
   ...certFaqs(),
+  ...PMP_2026_FAQS,
 ];

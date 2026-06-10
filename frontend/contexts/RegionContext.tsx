@@ -37,7 +37,8 @@ type RegionProviderProps = {
 export function RegionProvider({ children, portalDefaults = false }: RegionProviderProps) {
   const [regionId, setRegionId] = React.useState<RegionId>('global');
   const [gccCountry, setGccCountry] = React.useState<GccCountryCode | null>(null);
-  const [isReady, setIsReady] = React.useState(false);
+  /** Default true so regional widgets use global fallback until bootstrap completes. */
+  const [isReady, setIsReady] = React.useState(true);
   const [modalOpen, setModalOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -48,7 +49,6 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
       if (stored) {
         setRegionId(stored.regionId);
         setGccCountry(stored.gccCountry);
-        setIsReady(true);
         return;
       }
 
@@ -56,7 +56,6 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
         setRegionId('global');
         setGccCountry(null);
         setModalOpen(false);
-        setIsReady(true);
 
         const { fetchPortalRegionHint } = await import('@/lib/portal-region-geo');
         const hint = await fetchPortalRegionHint();
@@ -69,7 +68,6 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
       }
 
       setModalOpen(true);
-      setIsReady(true);
     }
 
     void bootstrap();

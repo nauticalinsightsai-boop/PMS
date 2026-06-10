@@ -1,0 +1,145 @@
+{
+  "site": "https://www.pmstructure.com",
+  "version": "1.0.0",
+  "updatedAt": "2026-06-10",
+  "count": 17,
+  "indexUrl": "https://www.pmstructure.com/topics",
+  "hubs": [
+    {
+      "slug": "pmp-exam-preparation",
+      "path": "/topics/pmp-exam-preparation",
+      "url": "https://www.pmstructure.com/topics/pmp-exam-preparation",
+      "title": "PMP exam preparation — knowledge hub",
+      "description": "Curated PMP exam preparation guides, pathways, answers, and FAQs on PM Structure.",
+      "status": "live"
+    },
+    {
+      "slug": "pmp-exam-2026",
+      "path": "/topics/pmp-exam-2026",
+      "url": "https://www.pmstructure.com/topics/pmp-exam-2026",
+      "title": "PMP exam 2026 — knowledge hub",
+      "description": "2026 PMP transition guides, timeline, domain orientation, and preparation on PM Structure.",
+      "status": "live"
+    },
+    {
+      "slug": "pmp-readiness",
+      "path": "/topics/pmp-readiness",
+      "url": "https://www.pmstructure.com/topics/pmp-readiness",
+      "title": "PMP readiness — knowledge hub",
+      "description": "What PMP readiness means, diagnostics, mocks, and pathway selection on PM Structure.",
+      "status": "live"
+    },
+    {
+      "slug": "pmp-scenario-practice",
+      "path": "/topics/pmp-scenario-practice",
+      "url": "https://www.pmstructure.com/topics/pmp-scenario-practice",
+      "title": "PMP scenario practice — knowledge hub",
+      "description": "Situational PMP practice, categories, and pathway placement on PM Structure.",
+      "status": "live"
+    },
+    {
+      "slug": "business-environment-domain",
+      "path": "/topics/business-environment-domain",
+      "url": "https://www.pmstructure.com/topics/business-environment-domain",
+      "title": "Business Environment domain — knowledge hub",
+      "description": "PMP Business Environment domain orientation, study tips, and related guides.",
+      "status": "live"
+    },
+    {
+      "slug": "value-delivery",
+      "path": "/topics/value-delivery",
+      "url": "https://www.pmstructure.com/topics/value-delivery",
+      "title": "Value delivery — knowledge hub",
+      "description": "Value delivery themes in PMP preparation and modern project leadership.",
+      "status": "live"
+    },
+    {
+      "slug": "ai-in-project-management",
+      "path": "/topics/ai-in-project-management",
+      "url": "https://www.pmstructure.com/topics/ai-in-project-management",
+      "title": "AI in project management — knowledge hub",
+      "description": "AI themes in PMP preparation: governance, ethics, and decision-making.",
+      "status": "live"
+    },
+    {
+      "slug": "sustainability-in-project-management",
+      "path": "/topics/sustainability-in-project-management",
+      "url": "https://www.pmstructure.com/topics/sustainability-in-project-management",
+      "title": "Sustainability in project management — knowledge hub",
+      "description": "Sustainability themes for PMP candidates and business environment scenarios.",
+      "status": "live"
+    },
+    {
+      "slug": "agile-project-management",
+      "path": "/topics/agile-project-management",
+      "url": "https://www.pmstructure.com/topics/agile-project-management",
+      "title": "Agile project management — knowledge hub",
+      "description": "Agile contexts in PMP preparation: teams, delivery, and hybrid considerations.",
+      "status": "live"
+    },
+    {
+      "slug": "hybrid-project-management",
+      "path": "/topics/hybrid-project-management",
+      "url": "https://www.pmstructure.com/topics/hybrid-project-management",
+      "title": "Hybrid project management — knowledge hub",
+      "description": "Hybrid delivery patterns for PMP situational practice and 2026 preparation.",
+      "status": "live"
+    },
+    {
+      "slug": "project-governance",
+      "path": "/topics/project-governance",
+      "url": "https://www.pmstructure.com/topics/project-governance",
+      "title": "Project governance — knowledge hub",
+      "description": "Governance, compliance, and decision rights for PMP Business Environment preparation.",
+      "status": "live"
+    },
+    {
+      "slug": "project-management-certification",
+      "path": "/topics/project-management-certification",
+      "url": "https://www.pmstructure.com/topics/project-management-certification",
+      "title": "Project management certification — knowledge hub",
+      "description": "Compare PMP, PRINCE2, Six Sigma, and readiness pathways on PM Structure.",
+      "status": "live"
+    },
+    {
+      "slug": "risk-management",
+      "path": "/topics/risk-management",
+      "url": "https://www.pmstructure.com/topics/risk-management",
+      "title": "Risk management — knowledge hub",
+      "description": "Risk themes for PMP Process domain and PMI-RMP preparation.",
+      "status": "live"
+    },
+    {
+      "slug": "pmi-rmp-preparation",
+      "path": "/topics/pmi-rmp-preparation",
+      "url": "https://www.pmstructure.com/topics/pmi-rmp-preparation",
+      "title": "PMI-RMP preparation — knowledge hub",
+      "description": "Risk Management Professional exam prep resources on PM Structure.",
+      "status": "live"
+    },
+    {
+      "slug": "prince2-preparation",
+      "path": "/topics/prince2-preparation",
+      "url": "https://www.pmstructure.com/topics/prince2-preparation",
+      "title": "PRINCE2 preparation — knowledge hub",
+      "description": "PRINCE2 Foundation and Practitioner readiness on PM Structure.",
+      "status": "live"
+    },
+    {
+      "slug": "six-sigma-preparation",
+      "path": "/topics/six-sigma-preparation",
+      "url": "https://www.pmstructure.com/topics/six-sigma-preparation",
+      "title": "Six Sigma preparation — knowledge hub",
+      "description": "Lean Six Sigma belt pathways and DMAIC study on PM Structure.",
+      "status": "live"
+    },
+    {
+      "slug": "exam-readiness",
+      "path": "/topics/exam-readiness",
+      "url": "https://www.pmstructure.com/topics/exam-readiness",
+      "title": "Exam readiness — knowledge hub",
+      "description": "Readiness diagnostics, mocks, and study discipline across PM Structure pathways.",
+      "status": "live"
+    }
+  ]
+}

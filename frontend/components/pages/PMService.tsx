@@ -73,6 +73,7 @@ export function PMService() {
       <section id="services" className={sectionSurface('soft', 'py-24 scroll-mt-24')}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
+          <h2 className="text-3xl font-bold tracking-tight mb-10 dark:text-white">Our services</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {services.map((service, index) => {
               const Icon = serviceIcon(service.iconKey);

@@ -5,6 +5,8 @@ import {
   PMS_SITE_NAME,
   PMS_SITE_URL,
 } from '@/config/pms-site';
+import { canonicalUrl } from '@/lib/canonical';
+import { robotsForPath } from '@/lib/indexing-metadata';
 import * as siteData from '@/data/siteData';
 
 export { PMS_SITE_URL as SITE_URL };
@@ -19,8 +21,7 @@ export type BuildPageMetadataInput = {
 };
 
 function absoluteUrl(path: string): string {
-  const p = path.startsWith('/') ? path : `/${path}`;
-  return `${PMS_SITE_URL}${p}`;
+  return canonicalUrl(path);
 }
 
 function ogImageUrl(imagePath: string): string {
@@ -32,12 +33,13 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
   const fullTitle = input.noSuffix ? input.title : `${input.title} | ${PMS_SITE_NAME}`;
   const canonical = absoluteUrl(input.path);
   const ogImage = ogImageUrl(input.ogImage ?? PMS_OG_IMAGE_PATH);
+  const robots = input.robots ?? robotsForPath(input.path);
 
   return {
     title: fullTitle,
     description,
     alternates: { canonical },
-    robots: input.robots,
+    robots,
     openGraph: {
       title: fullTitle,
       description,

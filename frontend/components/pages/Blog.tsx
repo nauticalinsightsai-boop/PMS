@@ -78,6 +78,7 @@ export function Blog() {
       {featured && !q ? (
         <section className="py-16 border-b border-slate-100 dark:border-slate-900">
           <div className="container mx-auto">
+            <h2 className="text-2xl font-bold tracking-tight mb-8 dark:text-white">Featured article</h2>
             <FeaturedPost
               article={featured}
               storyHref={getBlogArticleHref(featured)}
@@ -88,6 +89,9 @@ export function Blog() {
 
       <section className="py-16 md:py-20">
         <div className="container mx-auto">
+          <h2 className="text-2xl font-bold tracking-tight mb-8 dark:text-white">
+            {q ? 'Search results' : 'Latest articles'}
+          </h2>
           {visible.length === 0 ? (
             <p className="text-center text-muted-foreground py-16">No articles match your search.</p>
           ) : (

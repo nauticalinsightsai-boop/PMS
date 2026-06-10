@@ -1,4 +1,6 @@
 import { Home } from '@/components/pages/Home';
+import { HomeServerHeading } from '@/components/home/HomeServerHeading';
+import { HomePageJsonLd } from '@/components/seo/HomePageJsonLd';
 import { buildPageMetadata } from '@/lib/site-metadata';
 
 export const metadata = buildPageMetadata({
@@ -9,5 +11,11 @@ export const metadata = buildPageMetadata({
 });
 
 export default function Page() {
-  return <Home />;
+  return (
+    <>
+      <HomePageJsonLd />
+      <HomeServerHeading />
+      <Home />
+    </>
+  );
 }

@@ -79,6 +79,7 @@ function CommunityNetworkContent() {
       {/* Community Channels */}
       <section className="py-20 -mt-20 relative z-20">
         <div className="container mx-auto">
+          <h2 className="text-2xl font-bold tracking-tight text-center mb-10 dark:text-white">Community channels</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
             {communityChannels.map((channel, index) => (
               <motion.div
@@ -93,7 +94,7 @@ function CommunityNetworkContent() {
                     <div className={cn("p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm mb-6 w-fit transition-transform group-hover:scale-110", channel.color)}>
                       <channel.icon className="h-6 w-6" />
                     </div>
-                    <CardTitle className="text-2xl font-bold tracking-tight">{channel.title}</CardTitle>
+                    <h3 className="text-2xl font-bold tracking-tight">{channel.title}</h3>
                     <CardDescription className="text-slate-500 dark:text-slate-400 mt-3 text-base font-medium leading-relaxed">{channel.desc}</CardDescription>
                   </CardHeader>
                   <CardContent className="p-8">

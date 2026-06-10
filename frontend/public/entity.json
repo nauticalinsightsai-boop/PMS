@@ -1,0 +1,213 @@
+{
+  "@context": "https://schema.org",
+  "version": "1.0.0",
+  "name": "PM Structure",
+  "url": "https://www.pmstructure.com",
+  "description": "Independent exam preparation across PMI, PRINCE2, and Lean Six Sigma with structured pathways and regional scholarship pricing.",
+  "topics": [
+    "PMP exam preparation",
+    "PMP exam 2026",
+    "project management certification",
+    "PRINCE2",
+    "Lean Six Sigma"
+  ],
+  "certifications": [
+    {
+      "id": "capm",
+      "name": "CAPM®",
+      "url": "https://www.pmstructure.com/certifications/capm",
+      "priority": "secondary"
+    },
+    {
+      "id": "pmp",
+      "name": "PMP®",
+      "url": "https://www.pmstructure.com/certifications/pmp",
+      "priority": "primary"
+    },
+    {
+      "id": "pmi-acp",
+      "name": "PMI-ACP®",
+      "url": "https://www.pmstructure.com/certifications/pmi-acp",
+      "priority": "secondary"
+    },
+    {
+      "id": "pmi-rmp",
+      "name": "PMI-RMP®",
+      "url": "https://www.pmstructure.com/certifications/pmi-rmp",
+      "priority": "secondary"
+    },
+    {
+      "id": "pmi-pba",
+      "name": "PMI-PBA®",
+      "url": "https://www.pmstructure.com/certifications/pmi-pba",
+      "priority": "secondary"
+    },
+    {
+      "id": "pmi-sp",
+      "name": "PMI-SP®",
+      "url": "https://www.pmstructure.com/certifications/pmi-sp",
+      "priority": "secondary"
+    },
+    {
+      "id": "pmi-pmocp",
+      "name": "PMI-PMOCP™",
+      "url": "https://www.pmstructure.com/certifications/pmi-pmocp",
+      "priority": "secondary"
+    },
+    {
+      "id": "pmi-cp",
+      "name": "Construction Professional (PMI-CP)™",
+      "url": "https://www.pmstructure.com/certifications/pmi-cp",
+      "priority": "secondary"
+    },
+    {
+      "id": "pmi-cpmai",
+      "name": "Managing AI (PMI-CPMAI)™",
+      "url": "https://www.pmstructure.com/certifications/pmi-cpmai",
+      "priority": "secondary"
+    },
+    {
+      "id": "gpm-b",
+      "name": "Green Project Manager – Basic (GPM-b)™",
+      "url": "https://www.pmstructure.com/certifications/gpm-b",
+      "priority": "secondary"
+    },
+    {
+      "id": "pgmp",
+      "name": "PgMP®",
+      "url": "https://www.pmstructure.com/certifications/pgmp",
+      "priority": "secondary"
+    },
+    {
+      "id": "pfmp",
+      "name": "PfMP®",
+      "url": "https://www.pmstructure.com/certifications/pfmp",
+      "priority": "secondary"
+    },
+    {
+      "id": "prince2",
+      "name": "PRINCE2® 7 Foundation",
+      "url": "https://www.pmstructure.com/certifications/prince2",
+      "priority": "secondary"
+    },
+    {
+      "id": "prince2-practitioner",
+      "name": "PRINCE2® 7 Practitioner",
+      "url": "https://www.pmstructure.com/certifications/prince2-practitioner",
+      "priority": "secondary"
+    },
+    {
+      "id": "prince2-agile",
+      "name": "PRINCE2 Agile® Foundation",
+      "url": "https://www.pmstructure.com/certifications/prince2-agile",
+      "priority": "secondary"
+    },
+    {
+      "id": "prince2-agile-practitioner",
+      "name": "PRINCE2 Agile® Practitioner",
+      "url": "https://www.pmstructure.com/certifications/prince2-agile-practitioner",
+      "priority": "secondary"
+    },
+    {
+      "id": "msp",
+      "name": "MSP®",
+      "url": "https://www.pmstructure.com/certifications/msp",
+      "priority": "secondary"
+    },
+    {
+      "id": "mop",
+      "name": "MoP®",
+      "url": "https://www.pmstructure.com/certifications/mop",
+      "priority": "secondary"
+    },
+    {
+      "id": "mor",
+      "name": "M_o_R®",
+      "url": "https://www.pmstructure.com/certifications/mor",
+      "priority": "secondary"
+    },
+    {
+      "id": "p3o",
+      "name": "P3O®",
+      "url": "https://www.pmstructure.com/certifications/p3o",
+      "priority": "secondary"
+    },
+    {
+      "id": "lss-white",
+      "name": "Six Sigma White Belt",
+      "url": "https://www.pmstructure.com/certifications/lss-white",
+      "priority": "secondary"
+    },
+    {
+      "id": "lss-yellow",
+      "name": "Six Sigma Yellow Belt (CSSYB)",
+      "url": "https://www.pmstructure.com/certifications/lss-yellow",
+      "priority": "secondary"
+    },
+    {
+      "id": "lss-green",
+      "name": "Six Sigma Green Belt (CSSGB)",
+      "url": "https://www.pmstructure.com/certifications/lss-green",
+      "priority": "secondary"
+    },
+    {
+      "id": "lss-black",
+      "name": "Six Sigma Black Belt (CSSBB)",
+      "url": "https://www.pmstructure.com/certifications/lss-black",
+      "priority": "secondary"
+    },
+    {
+      "id": "lss-master",
+      "name": "Master Black Belt (CMBB)",
+      "url": "https://www.pmstructure.com/certifications/lss-master",
+      "priority": "secondary"
+    },
+    {
+      "id": "lss-champion",
+      "name": "Six Sigma Champion",
+      "url": "https://www.pmstructure.com/certifications/lss-champion",
+      "priority": "secondary"
+    },
+    {
+      "id": "foundation-direct",
+      "name": "Foundation Direct Pathway",
+      "url": "https://www.pmstructure.com/certifications/foundation-direct",
+      "priority": "secondary"
+    }
+  ],
+  "compliance": {
+    "independentPrep": true,
+    "pmiAtpClaim": false,
+    "examFeesExcluded": true,
+    "regionalPricingPolicy": "https://www.pmstructure.com/legal/regional-pricing",
+    "disclaimer": "Independent exam preparation provider. Not a PMI ATP unless explicitly stated on a live page. No guaranteed pass rates. Official exam fees excluded from tuition."
+  },
+  "bestPagesToCite": [
+    "https://www.pmstructure.com/",
+    "https://www.pmstructure.com/pmp-exam-2026",
+    "https://www.pmstructure.com/pmp",
+    "https://www.pmstructure.com/certifications/pmp",
+    "https://www.pmstructure.com/certifications",
+    "https://www.pmstructure.com/faq",
+    "https://www.pmstructure.com/answers",
+    "https://www.pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
+    "https://www.pmstructure.com/topics/pmp-exam-2026",
+    "https://www.pmstructure.com/legal/regional-pricing",
+    "https://www.pmstructure.com/legal/pricing-disclaimers"
+  ],
+  "doNotCite": [
+    "https://www.pmstructure.com/checkout",
+    "https://www.pmstructure.com/checkout/success",
+    "https://www.pmstructure.com/checkout/cancel",
+    "https://www.pmstructure.com/admin",
+    "https://www.pmstructure.com/admin/login"
+  ],
+  "sameAs": [
+    "https://www.pmstructure.com",
+    "https://pmstructure.com"
+  ],
+  "contact": {
+    "email": "support@pmstructure.com"
+  },
+  "updatedAt": "2026-06-10"
+}

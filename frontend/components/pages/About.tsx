@@ -39,6 +39,7 @@ export function About() {
       <section className={sectionSurface('purple', 'py-20')}>
         <SectionAmbience tone="purple" />
         <div className="container relative z-10 mx-auto">
+          <h2 className="sr-only">Our values</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { title: "Readiness", desc: "Measurable preparation, not passive content consumption.", icon: Target },

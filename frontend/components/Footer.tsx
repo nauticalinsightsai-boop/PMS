@@ -21,6 +21,7 @@ import {
   PMS_SUPPORT_EMAIL,
 } from '@/config/pms-site';
 import { SectionAmbience } from '@/components/SectionAmbience';
+import { FOOTER_LEGAL_LINKS } from '@/constants/legal';
 
 const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
   { label: 'Certifications', href: '/certifications' },
@@ -86,6 +87,21 @@ export function Footer() {
               Resources
             </h3>
             <ul className="flex flex-col gap-2.5 text-sm text-carbon dark:text-slate-400 font-medium">
+              <li>
+                <Link href="/pmp-exam-2026" className="hover:text-brand-orange transition-colors font-semibold text-brand-purple/90">
+                  PMP exam 2026
+                </Link>
+              </li>
+              <li>
+                <Link href="/answers" className="hover:text-brand-orange transition-colors">
+                  Direct answers
+                </Link>
+              </li>
+              <li>
+                <Link href="/topics" className="hover:text-brand-orange transition-colors">
+                  Topic hubs
+                </Link>
+              </li>
               <li>
                 <Link href="/faq" className="hover:text-brand-orange transition-colors">
                   Help &amp; FAQ
@@ -153,6 +169,16 @@ export function Footer() {
 
         <Separator className="my-8 bg-sandstone dark:bg-slate-800" />
 
+        <nav
+          className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-carbon dark:text-slate-500 font-medium mb-4"
+          aria-label="Legal"
+        >
+          {FOOTER_LEGAL_LINKS.map((item) => (
+            <Link key={item.href} href={item.href} className="hover:text-brand-orange transition-colors">
+              {item.shortLabel}
+            </Link>
+          ))}
+        </nav>
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-carbon dark:text-slate-500 font-medium">
           <span>© {new Date().getFullYear()} {BRAND.name}. All rights reserved.</span>
         </div>

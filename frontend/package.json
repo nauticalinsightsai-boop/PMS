@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "predev": "node ../scripts/sync-admin-into-frontend.mjs",
-    "prebuild": "node ../scripts/sync-admin-into-frontend.mjs",
+    "prebuild": "node ../scripts/sync-admin-into-frontend.mjs && npm run seo:generate-ai-files",
+    "seo:generate-ai-files": "node --import tsx ./scripts/generate-ai-files.mjs",
     "dev": "next dev -p 3050",
     "build": "next build",
     "start": "next start -p 3000",

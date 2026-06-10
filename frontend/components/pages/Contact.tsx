@@ -57,6 +57,7 @@ export function Contact() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Contact Info */}
             <div className="lg:col-span-4 space-y-8">
+              <h2 className="text-2xl font-bold tracking-tight">Contact information</h2>
               <div className="flex gap-4">
                 <div className="p-3 rounded-xl bg-brand-purple/10 text-brand-purple h-fit">
                   <Mail className="h-6 w-6" />
@@ -104,6 +105,7 @@ export function Contact() {
 
             {/* Contact Form */}
             <div className="lg:col-span-8">
+              <h2 className="text-2xl font-bold tracking-tight mb-6">Send a message</h2>
               <Card className="border-slate-100 shadow-xl p-4 md:p-8">
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

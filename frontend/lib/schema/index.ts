@@ -1,0 +1,197 @@
+import {
+  PMS_LOGO_PATH,
+  PMS_ORGANIZATION_SAME_AS,
+  PMS_SITE_DESCRIPTION,
+  PMS_SITE_NAME,
+  PMS_SITE_URL,
+  PMS_SUPPORT_EMAIL,
+} from '@/config/pms-site';
+
+export function organizationId(): string {
+  return `${PMS_SITE_URL}/#organization`;
+}
+
+export function websiteId(): string {
+  return `${PMS_SITE_URL}/#website`;
+}
+
+export function faqPageId(): string {
+  return `${PMS_SITE_URL}/faq#faqpage`;
+}
+
+export function buildOrganizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': ['Organization', 'EducationalOrganization'],
+    '@id': organizationId(),
+    name: PMS_SITE_NAME,
+    url: PMS_SITE_URL,
+    logo: `${PMS_SITE_URL}${PMS_LOGO_PATH}`,
+    description: PMS_SITE_DESCRIPTION,
+    email: PMS_SUPPORT_EMAIL,
+    knowsAbout: [
+      'Project Management Professional (PMP)',
+      'PRINCE2',
+      'Lean Six Sigma',
+      'Project management certification exam preparation',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      email: PMS_SUPPORT_EMAIL,
+      url: `${PMS_SITE_URL}/contact`,
+    },
+    sameAs: [...PMS_ORGANIZATION_SAME_AS],
+  };
+}
+
+export function buildWebSiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': websiteId(),
+    name: PMS_SITE_NAME,
+    url: PMS_SITE_URL,
+    description: PMS_SITE_DESCRIPTION,
+    publisher: { '@id': organizationId() },
+  };
+}
+
+export function buildFaqPageSchema(
+  items: { question: string; answer: string }[],
+  pageUrl?: string,
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': pageUrl ? `${pageUrl}#faqpage` : faqPageId(),
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+export function buildBreadcrumbSchema(
+  items: { name: string; path: string }[],
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: `${PMS_SITE_URL}${item.path.startsWith('/') ? item.path : `/${item.path}`}`,
+    })),
+  };
+}
+
+export function buildWebPageSchema(input: {
+  path: string;
+  name: string;
+  description: string;
+}) {
+  const url = `${PMS_SITE_URL}${input.path}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${url}#webpage`,
+    url,
+    name: input.name,
+    description: input.description,
+    isPartOf: { '@id': websiteId() },
+    publisher: { '@id': organizationId() },
+  };
+}
+
+export function buildCourseSchema(input: {
+  path: string;
+  name: string;
+  description: string;
+}) {
+  const url = `${PMS_SITE_URL}${input.path}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    '@id': `${url}#course`,
+    url,
+    name: input.name,
+    description: input.description,
+    provider: { '@id': organizationId() },
+  };
+}
+
+export function buildServiceSchema(input: {
+  path: string;
+  name: string;
+  description: string;
+}) {
+  const url = `${PMS_SITE_URL}${input.path}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    url,
+    name: input.name,
+    description: input.description,
+    provider: { '@id': organizationId() },
+  };
+}
+
+export function buildCollectionPageSchema(input: {
+  path: string;
+  name: string;
+  description: string;
+}) {
+  const url = `${PMS_SITE_URL}${input.path}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${url}#collection`,
+    url,
+    name: input.name,
+    description: input.description,
+    isPartOf: { '@id': websiteId() },
+    publisher: { '@id': organizationId() },
+  };
+}
+
+export function buildItemListSchema(
+  items: { name: string; path: string }[],
+  listId: string,
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': listId,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      url: `${PMS_SITE_URL}${item.path}`,
+    })),
+  };
+}
+
+export function buildArticleSchema(input: {
+  path: string;
+  headline: string;
+  description: string;
+}) {
+  const url = `${PMS_SITE_URL}${input.path}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    '@id': `${url}#article`,
+    headline: input.headline,
+    description: input.description,
+    url,
+    publisher: { '@id': organizationId() },
+    mainEntityOfPage: { '@id': `${url}#webpage` },
+  };
+}

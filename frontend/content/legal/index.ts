@@ -56,6 +56,11 @@ export const legalHubCards: LegalHubCard[] = [
     description: 'Exam fees, trademarks, accreditation, and regional pricing.',
     href: '/legal/pricing-disclaimers',
   },
+  {
+    title: 'Independent platform notice',
+    description: 'We are not PMI, an ATP, or a certification body; no guaranteed pass.',
+    href: '/legal/pricing-disclaimers#independent-platform',
+  },
 ];
 
 export type LegalHubSection = { title: string; cards: LegalHubCard[] };
@@ -74,6 +79,7 @@ export const legalHubSections: LegalHubSection[] = [
     title: 'Commerce & pricing',
     cards: [
       legalHubCards[4],
+      legalHubCards[5],
       {
         title: 'Regional pricing & scholarship',
         description: 'Residence, billing country, and scholarship rules.',

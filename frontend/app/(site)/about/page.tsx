@@ -1,4 +1,5 @@
 import { About } from '@/components/pages/About';
+import { AboutPageJsonLd } from '@/components/seo/AboutPageJsonLd';
 import { buildPageMetadata } from '@/lib/site-metadata';
 
 export const metadata = buildPageMetadata({
@@ -8,5 +9,13 @@ export const metadata = buildPageMetadata({
 });
 
 export default function Page() {
-  return <About />;
+  return (
+    <>
+      <AboutPageJsonLd
+        title="About PM Structure"
+        description="Independent exam-preparation platform for project management certifications."
+      />
+      <About />
+    </>
+  );
 }

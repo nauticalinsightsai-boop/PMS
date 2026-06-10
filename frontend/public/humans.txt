@@ -1,0 +1,10 @@
+/* TEAM */
+PM Structure — support@pmstructure.com
+
+/* SITE */
+Standards: HTML5, Next.js App Router, JSON-LD
+Components: React, Tailwind CSS
+Software: TypeScript, Node.js
+
+/* THANKS */
+Independent exam preparation for project management professionals worldwide.

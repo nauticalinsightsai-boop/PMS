@@ -115,7 +115,10 @@ export function Compare() {
               </p>
             </div>
           ) : (
-            <CompareComparisonMatrix certs={compareCerts} />
+            <>
+              <h2 className="sr-only">Comparison matrix</h2>
+              <CompareComparisonMatrix certs={compareCerts} />
+            </>
           )}
           <PricingComplianceNote className="mt-10 max-w-3xl mx-auto" />
         </div>

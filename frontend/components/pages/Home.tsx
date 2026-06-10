@@ -166,9 +166,13 @@ export function Home() {
                 {get('hero_badge', HOME_COPY.heroBadge)}
               </Badge>
               
-              <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-6 sm:mb-8 tracking-tight leading-[1.1] text-balance">
+              <p
+                role="heading"
+                aria-level={1}
+                className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-6 sm:mb-8 tracking-tight leading-[1.1] text-balance"
+              >
                 {homeCms.heroTitle || get('hero_title', HOME_COPY.heroTitle)}
-              </h1>
+              </p>
               
               <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 sm:mb-10 max-w-lg leading-relaxed font-medium">
                 {homeCms.heroSubtitle || get('hero_subtitle', HOME_COPY.heroSubtitle)}
@@ -298,7 +302,7 @@ export function Home() {
               {homeCms.latestNews.map((item) => (
                 <Card key={item.id} className="rounded-[2rem] border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-6">
                   <CardHeader className="p-0 mb-4">
-                    <CardTitle className="text-2xl font-bold tracking-tight">{item.title}</CardTitle>
+                    <h3 className="text-2xl font-bold tracking-tight">{item.title}</h3>
                   </CardHeader>
                   <CardContent className="p-0">
                     <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
@@ -320,6 +324,44 @@ export function Home() {
           </div>
         </section>
       )}
+
+      <section className={sectionSurface('purple', 'py-12 sm:py-16')}>
+        <SectionAmbience tone="purple" />
+        <div className="container relative z-10 mx-auto px-4">
+          <div className="rounded-2xl border border-brand-purple/20 bg-brand-purple/5 p-6 sm:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h2 className="font-heading text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                PMP exam 2026 — what&apos;s changing?
+              </h2>
+              <p className="text-slate-600 dark:text-slate-400 max-w-xl">
+                Independent guides for the 2026 transition, study plans, and domain focus areas.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 shrink-0">
+              <Link href="/pmp-exam-2026">
+                <Button className="w-full sm:w-auto bg-brand-purple hover:bg-brand-purple/90 text-white font-bold">
+                  PMP 2026 guide
+                </Button>
+              </Link>
+              <Link href="/pmp">
+                <Button variant="outline" className="w-full sm:w-auto font-bold">
+                  PMP hub
+                </Button>
+              </Link>
+              <Link href="/answers">
+                <Button variant="outline" className="w-full sm:w-auto font-bold">
+                  Direct answers
+                </Button>
+              </Link>
+              <Link href="/topics">
+                <Button variant="outline" className="w-full sm:w-auto font-bold">
+                  Topic hubs
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {(sections?.featuredPathways !== false) && (
       <section className={sectionSurface('soft', SECTION_PY)}>

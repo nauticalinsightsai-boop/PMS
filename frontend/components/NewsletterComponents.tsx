@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Calendar, Bookmark, Share2, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { NewsletterArticle } from "@pms/site-content/newsletter-posts";
 import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
@@ -106,9 +106,9 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
               </Button>
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold font-heading leading-tight group-hover:text-brand-purple transition-colors">
+          <h3 className="text-2xl font-bold font-heading leading-tight group-hover:text-brand-purple transition-colors">
             {article.title}
-          </CardTitle>
+          </h3>
         </CardHeader>
         <CardContent className="p-0 mt-3">
           <p className="text-muted-foreground line-clamp-2 leading-relaxed mb-4">

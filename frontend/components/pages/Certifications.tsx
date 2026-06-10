@@ -193,6 +193,7 @@ export function Certifications() {
       {/* Main Content — full-width section (same pattern as Home Featured Pathways) */}
       <section className={sectionSurface('soft', 'py-32 relative')}>
         <SectionAmbience tone="soft" />
+        <h2 className="sr-only">Browse certification pathways</h2>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

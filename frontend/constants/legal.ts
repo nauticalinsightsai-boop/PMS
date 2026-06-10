@@ -83,4 +83,9 @@ export const FOOTER_LEGAL_LINKS = [
   { href: LEGAL_HUB_PATH, label: 'Legal hub', shortLabel: 'Legal' },
   { href: getLegalDocumentPath('privacy'), label: 'Privacy Policy', shortLabel: 'Privacy' },
   { href: getLegalDocumentPath('terms'), label: 'Terms & Conditions', shortLabel: 'Terms' },
+  {
+    href: getLegalDocumentPath('pricing-disclaimers'),
+    label: 'Pricing & disclaimers',
+    shortLabel: 'Disclaimers',
+  },
 ] as const;

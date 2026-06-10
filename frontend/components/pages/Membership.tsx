@@ -184,6 +184,7 @@ export function Membership() {
       {/* Pricing Tiers */}
       <section className="py-20 -mt-12 relative z-20">
         <div className="container mx-auto">
+          <h2 className="text-2xl font-bold tracking-tight text-center mb-8 dark:text-white">Membership plans</h2>
           <MembershipBillingToggle
             billing={billing}
             onChange={setBilling}

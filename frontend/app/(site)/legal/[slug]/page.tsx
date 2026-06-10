@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { LegalDocumentLayout } from '@/components/legal/LegalDocumentLayout';
+import { LegalPageJsonLd } from '@/components/seo/LegalPageJsonLd';
 import { DYNAMIC_LEGAL_SLUGS, getLegalDocumentBySlug } from '@/content/legal';
 import { buildPageMetadata } from '@/lib/site-metadata';
 
@@ -25,5 +26,11 @@ export default async function LegalSlugPage({ params }: Props) {
   const { slug } = await params;
   const document = getLegalDocumentBySlug(slug);
   if (!document) notFound();
-  return <LegalDocumentLayout document={document} />;
+  const path = `/legal/${slug}`;
+  return (
+    <>
+      <LegalPageJsonLd path={path} title={document.title} description={document.jurisdictionNote} />
+      <LegalDocumentLayout document={document} />
+    </>
+  );
 }

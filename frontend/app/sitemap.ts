@@ -1,26 +1,18 @@
 import type { MetadataRoute } from 'next';
 import { getPublishedPortalSitemapPaths } from '@pms/booking-crm';
-import { PMS_SITE_URL } from '@/config/pms-site';
 import { certifications } from '@/data/siteData';
 import { getPublishedNewsletterArticles } from '@/lib/newsletter/articles';
 import { getPublishedBlogArticles } from '@/lib/blog/posts';
 import { DYNAMIC_LEGAL_SLUGS } from '@/content/legal/registry';
 import { PRIVACY_REGION_OPTIONS, GCC_COUNTRY_SLUGS } from '@/content/legal';
+import { buildSitemapEntry } from '@/lib/sitemap/helpers';
+import { PMP_COURSE_PATHS } from '@/content/pmp/courses';
+import { PMP_CLUSTER_PATHS } from '@/content/pmp/pages';
+import { PMP_SERVICE_PATHS } from '@/content/pmp/services';
+import { ANSWER_PATHS } from '@/content/answers/pages';
+import { TOPIC_PATHS } from '@/content/topics/hubs';
 
-const siteUrl = PMS_SITE_URL;
-
-function entry(
-  path: string,
-  priority: number,
-  changeFrequency: MetadataRoute.Sitemap[0]['changeFrequency'] = 'weekly',
-): MetadataRoute.Sitemap[0] {
-  return {
-    url: `${siteUrl}${path}`,
-    lastModified: new Date(),
-    changeFrequency,
-    priority,
-  };
-}
+const entry = buildSitemapEntry;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const portalPaths = getPublishedPortalSitemapPaths();
@@ -32,6 +24,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/about',
     '/contact',
     '/faq',
+    '/answers',
+    '/topics',
     '/membership',
     '/community',
     '/pm-service',
@@ -64,5 +58,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const portalEntries = portalPaths.map((path) => entry(path, 0.6));
 
-  return [...marketing, ...certs, ...legal, ...newsletter, ...blog, ...portalEntries];
+  const pmpCluster = PMP_CLUSTER_PATHS.map((p) => entry(p, p === '/pmp-exam-2026' ? 0.9 : 0.85));
+  const pmpCourses = PMP_COURSE_PATHS.map((p) => entry(p, 0.88));
+  const pmpServices = PMP_SERVICE_PATHS.map((p) => entry(p, 0.86));
+  const answers = ANSWER_PATHS.map((p) => entry(p, 0.84));
+  const topics = TOPIC_PATHS.map((p) => entry(p, 0.83));
+
+  return [
+    ...marketing,
+    ...certs,
+    ...pmpCluster,
+    ...pmpCourses,
+    ...pmpServices,
+    ...answers,
+    ...topics,
+    ...legal,
+    ...newsletter,
+    ...blog,
+    ...portalEntries,
+  ];
 }
