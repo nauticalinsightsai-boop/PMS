@@ -18,6 +18,11 @@ Implementation: `frontend/lib/indexing-metadata.ts`, `frontend/lib/site-metadata
 | `/about` | marketing | yes | yes | `/about` | index,follow | |
 | `/contact` | marketing | yes | yes | `/contact` | index,follow | |
 | `/faq` | marketing | yes | yes | `/faq` | index,follow | FAQPage schema |
+| `/pmp-faq` | AEO | yes | yes | `/pmp-faq` | index,follow | FAQPage (PMP only) |
+| `/answers` | AEO | yes | yes | `/answers` | index,follow | WebPage index |
+| `/answers/[slug]` | AEO | yes | yes | `/answers/{slug}` | index,follow | published only |
+| `/topics` | AEO | yes | yes | `/topics` | index,follow | CollectionPage |
+| `/topics/[slug]` | AEO | yes | yes | `/topics/{slug}` | index,follow | published hubs only |
 | `/membership` | marketing | yes | yes | `/membership` | index,follow | |
 | `/community` | marketing | yes | yes | `/community` | index,follow | |
 | `/pm-service` | marketing | yes | yes | `/pm-service` | index,follow | |

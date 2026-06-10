@@ -1,7 +1,7 @@
 # PM Structure — AI Answer Testing Sheet
 
 **Run:** 20 (Phase 19)  
-**Property:** https://www.pmstructure.com  
+**Property:** https://pmstructure.com  
 **Baseline:** Run within 7 days of GSC sitemap submit; monthly thereafter
 
 ## Platforms (9)

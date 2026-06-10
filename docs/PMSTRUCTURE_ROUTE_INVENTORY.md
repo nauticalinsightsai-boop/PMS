@@ -1,8 +1,8 @@
 # PM Structure — Route Inventory
 
-**Canonical host:** `https://www.pmstructure.com`  
-**Generated:** Run 0 pre-flight (2026-06-10)  
-**Source:** `frontend/app/`, `packages/site-content`, plan Runs 9–13
+**Canonical host:** `https://pmstructure.com` (apex; `www` → 301)  
+**Updated:** v2 Phases 10–19 (2026-06-10)  
+**Source:** `frontend/app/`, `content/pmp`, `content/faq`, `content/answers`, `content/topics`
 
 ## Column legend
 
@@ -23,6 +23,11 @@
 | `/about` | yes | yes | About | About PM Structure | WebPage (planned) | live |
 | `/contact` | yes | yes | Contact | Contact us | WebPage (planned) | live |
 | `/faq` | yes | yes | FAQ | FAQ — certifications & support | FAQPage | live |
+| `/pmp-faq` | yes | yes | PMP FAQ | PMP exam FAQ hub | FAQPage | live |
+| `/answers` | yes | yes | Answers | Direct answers index | WebPage | live |
+| `/answers/[slug]` | yes | yes | Answer title | Question H1 | FAQPage + Article | live (35) |
+| `/topics` | yes | yes | Topics | Knowledge hubs | WebPage | live |
+| `/topics/[slug]` | yes | yes | Hub title | Hub H1 | WebPage | live (26) |
 | `/membership` | yes | yes | Membership | Membership tiers | WebPage (planned) | live |
 | `/community` | yes | yes | Community | Community & resources | WebPage (planned) | live |
 | `/pm-service` | yes | yes | PM advisory | PM advisory services | Service (planned) | live |
@@ -69,32 +74,32 @@
 |------|-------|---------|-------|
 | `/admin/**` | no | no | `robots: noindex` on admin layout |
 
-## Planned PMP cluster (Run 9–10) — not live
+## PMP cluster (live — v2 Phase 10)
 
-| Path | Index (when live) | Priority | Status |
-|------|-------------------|----------|--------|
-| `/pmp` | yes | P0 hub | planned |
-| `/pmp-2026` | yes | P0 — **URL TBD at Run 9** (`/pmp-exam-2026` alt) | planned |
-| `/pmp-exam-prep` | yes | P1 | planned |
-| `/pmp-course` | yes | P1 | planned |
-| `/pmp-foundation` | yes | P1 | planned |
-| `/pmp-professional` | yes | P1 | planned |
-| `/pmp-mastery` | yes | P1 | planned |
-| `/pmp-eligibility` | yes | P2 | planned |
-| `/pmp-exam-format` | yes | P2 | planned |
-| `/pmp-study-plan` | yes | P2 | planned |
-| `/pmp-practice-questions` | yes | P2 | planned |
-| `/pmp-mock-exams` | yes | P2 | planned |
-| `/pmp-readiness-diagnostic` | yes | P2 | planned |
-
-## Planned AEO routes (Runs 11–13)
-
-| Path pattern | Count | Status |
-|--------------|-------|--------|
-| `/answers` | 1 index | planned |
-| `/answers/[slug]` | 23+ | planned |
-| `/topics` | 1 index | planned |
-| `/topics/[slug]` | 17 hubs | planned |
+| Path | Index | Sitemap | Schema | Status |
+|------|-------|---------|--------|--------|
+| `/pmp` | yes | yes | WebPage + FAQPage (related) | live |
+| `/pmp-faq` | yes | yes | FAQPage | live |
+| `/pmp-exam-2026` | yes | yes | Article + FAQPage (related) | live |
+| `/pmp-current-vs-new-exam` | yes | yes | Article + FAQPage | live |
+| `/pmp-before-8-july-2026` | yes | yes | Article + FAQPage | live |
+| `/pmp-after-9-july-2026` | yes | yes | Article + FAQPage | live |
+| `/pmp-exam-timeline-2026` | yes | yes | Article + FAQPage | live |
+| `/pmp-new-exam-domain-weighting` | yes | yes | Article + FAQPage | live |
+| `/pmp-people-domain` | yes | yes | Article + FAQPage | live |
+| `/pmp-process-domain` | yes | yes | Article + FAQPage | live |
+| `/pmp-business-environment-domain` | yes | yes | Article + FAQPage | live |
+| `/pmp-agile-hybrid-predictive` | yes | yes | Article + FAQPage | live |
+| `/pmp-ai-sustainability-value-delivery` | yes | yes | Article + FAQPage | live |
+| `/pmp-study-plan-2026` | yes | yes | Article + FAQPage | live |
+| `/pmp-foundation` | yes | yes | Course + FAQPage | live |
+| `/pmp-professional` | yes | yes | Course + FAQPage | live |
+| `/pmp-mastery` | yes | yes | Course + FAQPage | live |
+| `/pmp-readiness-diagnostic` | yes | yes | Service + FAQPage | live |
+| `/pmp-scenario-practice` | yes | yes | Service + FAQPage | live |
+| `/pmp-mock-exam` | yes | yes | Service + FAQPage | live |
+| `/pmp-enrollment` | yes | yes | Service + FAQPage | live |
+| `/pmp-q-and-a-support` | yes | yes | Service + FAQPage | live |
 
 ## Certification IDs (live `/certifications/[id]`)
 

@@ -2,7 +2,7 @@
 
 **Run:** 12 (Phase 11)  
 **Route:** `/answers/[slug]`  
-**Status:** 23 live
+**Status:** 35 live (v2 Phase 11)
 
 | Slug | SERP intent | Status |
 |------|-------------|--------|
@@ -16,8 +16,20 @@
 | `how-long-does-pmp-preparation-take` | P1 | **live** |
 | `what-is-pmp-scenario-practice` | P1 | **live** |
 | `what-is-the-pmp-exam-content-outline` | P1 | **live** |
-| `is-pm-structure-a-pmi-authorized-training-partner` | P1 | **live** |
-| `does-pm-structure-guarantee-a-pmp-pass` | P1 | **live** |
+| `is-pm-structure-an-official-pmi-atp` | P1 | **live** (301 from old ATP slug) |
+| `does-pm-structure-guarantee-pmp-success` | P1 | **live** (301 from old guarantee slug) |
+| `how-many-pmp-mock-exams-should-i-take` | P1 | **live** |
+| `what-are-the-pmp-2026-domain-weights` | P1 | **live** |
+| `current-pmp-exam-vs-new-pmp-exam` | P0 | **live** |
+| `which-pm-structure-pmp-pathway-should-i-choose` | P1 | **live** |
+| `what-is-pmp-foundation` | P2 | **live** |
+| `what-is-pmp-professional` | P2 | **live** |
+| `what-is-pmp-mastery` | P2 | **live** |
+| `is-the-new-pmp-exam-harder` | P1 | **live** |
+| `should-i-rush-pmp-before-july-2026` | P0 | **live** |
+| `can-i-prepare-for-pmp-in-30-days` | P1 | **live** |
+| `what-is-the-best-pmp-study-plan` | P1 | **live** |
+| `what-should-i-do-after-a-low-pmp-mock-score` | P1 | **live** |
 | `how-does-regional-pricing-work-for-pmp` | P1 | **live** |
 | `when-do-i-get-lms-access-after-pmp-enrollment` | P2 | **live** |
 | `what-is-the-difference-between-pmp-foundation-professional-and-mastery` | P2 | **live** |

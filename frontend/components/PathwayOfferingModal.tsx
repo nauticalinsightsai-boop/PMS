@@ -17,6 +17,8 @@ import type { TierPathwayCta } from '@/lib/pathway-tier-cta';
 import { getProgrammePreviewContent } from '@/lib/pathway-programme-preview';
 import { ProgrammePreviewExplorer } from '@/components/ProgrammePreviewExplorer';
 import { openPathwayConsultationCalendly } from '@/lib/pathway-consultation-scheduling';
+import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
+import { getPmpEnrollConversionEvent } from '@/lib/analytics/conversion-events';
 
 interface PathwayOfferingModalProps {
   open: boolean;
@@ -63,6 +65,33 @@ export function PathwayOfferingModal({
     openPathwayConsultationCalendly(siteCertId, tierId, offeringId);
   };
 
+  const enrollEvent =
+    siteCertId === 'pmp' ? getPmpEnrollConversionEvent(tierId) : null;
+
+  const EnrollLink = ({
+    href,
+    label,
+    className,
+  }: {
+    href: string;
+    label: string;
+    className?: string;
+  }) =>
+    enrollEvent ? (
+      <TrackedConversionLink
+        href={href}
+        event={enrollEvent}
+        onClick={() => onOpenChange(false)}
+        className={className}
+      >
+        {label}
+      </TrackedConversionLink>
+    ) : (
+      <Link href={href} onClick={() => onOpenChange(false)} className={className}>
+        {label}
+      </Link>
+    );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="rounded-[2rem] sm:max-w-4xl max-h-[min(92vh,900px)] flex flex-col">
@@ -97,16 +126,14 @@ export function PathwayOfferingModal({
 
         <DialogFooter className="flex-col gap-2 sm:flex-col shrink-0">
           {dualActions && pathwayCta.enrollHref && (
-            <Link
+            <EnrollLink
               href={pathwayCta.enrollHref}
-              onClick={() => onOpenChange(false)}
+              label={pathwayCta.enrollLabel}
               className={cn(
                 buttonVariants({ variant: 'brand' }),
                 'h-12 w-full rounded-2xl text-base',
               )}
-            >
-              {pathwayCta.enrollLabel}
-            </Link>
+            />
           )}
           {dualActions && (
             <Button
@@ -119,16 +146,14 @@ export function PathwayOfferingModal({
             </Button>
           )}
           {singleEnroll && pathwayCta.enrollHref && (
-            <Link
+            <EnrollLink
               href={pathwayCta.enrollHref}
-              onClick={() => onOpenChange(false)}
+              label={pathwayCta.enrollLabel}
               className={cn(
                 buttonVariants({ variant: 'brand' }),
                 'h-12 w-full rounded-2xl text-base',
               )}
-            >
-              {pathwayCta.enrollLabel}
-            </Link>
+            />
           )}
           {singleOther && (
             <>

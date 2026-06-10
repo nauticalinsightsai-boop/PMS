@@ -2,13 +2,16 @@
   "site": "https://pmstructure.com",
   "version": "1.0.0",
   "updatedAt": "2026-06-10",
-  "count": 97,
+  "indexUrl": "https://pmstructure.com/pmp-faq",
+  "count": 111,
   "items": [
     {
       "id": "about-certs",
       "clusterId": "about",
       "question": "What certifications does PM Structure cover?",
       "answer": "We support pathways across PMI (PMP®, CAPM®, PMI-ACP®), PRINCE2®, and Lean Six Sigma belts. Browse /certifications or compare.",
+      "shortAnswer": "We support pathways across PMI (PMP®, CAPM®, PMI-ACP®), PRINCE2®, and Lean Six Sigma belts.  Browse /certifications or compare.",
+      "fullAnswer": "We support pathways across PMI (PMP®, CAPM®, PMI-ACP®), PRINCE2®, and Lean Six Sigma belts. Browse /certifications or compare.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -18,6 +21,8 @@
       "clusterId": "pathways",
       "question": "What are Foundation, Professional, and Mastery tiers?",
       "answer": "Foundation is a shorter orientation phase. Professional is main exam-focused preparation (LMS, mocks, templates, support). Mastery is mentor-led with live sessions and consultation where required. See each certification page for scope.",
+      "shortAnswer": "Foundation is a shorter orientation phase.  Professional is main exam-focused preparation (LMS, mocks, templates, support).",
+      "fullAnswer": "Foundation is a shorter orientation phase. Professional is main exam-focused preparation (LMS, mocks, templates, support). Mastery is mentor-led with live sessions and consultation where required. See each certification page for scope.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -27,6 +32,8 @@
       "clusterId": "pathways",
       "question": "What is included in Professional tier delivery?",
       "answer": "Typical Professional delivery includes exam-focused LMS, practice exams, templates, WhatsApp support, and limited review—varies by offering. Check the pathway card on your certification page.",
+      "shortAnswer": "Typical Professional delivery includes exam-focused LMS, practice exams, templates, WhatsApp support, and limited review—varies by offering.  Check the pathway card on your certification page.",
+      "fullAnswer": "Typical Professional delivery includes exam-focused LMS, practice exams, templates, WhatsApp support, and limited review—varies by offering. Check the pathway card on your certification page.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -36,6 +43,8 @@
       "clusterId": "pathways",
       "question": "What is included in Mastery tier delivery?",
       "answer": "Mastery is mentor-led with weekend or live sessions, WhatsApp support, and consultation before access for some offerings. Mastery may require approved consultation before checkout.",
+      "shortAnswer": "Mastery is mentor-led with weekend or live sessions, WhatsApp support, and consultation before access for some offerings.  Mastery may require approved consultation before checkout.",
+      "fullAnswer": "Mastery is mentor-led with weekend or live sessions, WhatsApp support, and consultation before access for some offerings. Mastery may require approved consultation before checkout.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -45,6 +54,8 @@
       "clusterId": "pathways",
       "question": "What is Foundation tier for?",
       "answer": "Foundation helps you understand pathway structure, exam domains at a high level, and study planning before intensive prep.",
+      "shortAnswer": "Foundation helps you understand pathway structure, exam domains at a high level, and study planning before intensive prep.",
+      "fullAnswer": "Foundation helps you understand pathway structure, exam domains at a high level, and study planning before intensive prep.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -54,6 +65,8 @@
       "clusterId": "pathways",
       "question": "Can I skip Foundation and start at Professional?",
       "answer": "Where Professional checkout is available and you meet prerequisites, you may enroll directly. Book a consultation if unsure.",
+      "shortAnswer": "Where Professional checkout is available and you meet prerequisites, you may enroll directly.  Book a consultation if unsure.",
+      "fullAnswer": "Where Professional checkout is available and you meet prerequisites, you may enroll directly. Book a consultation if unsure.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -63,6 +76,8 @@
       "clusterId": "pathways",
       "question": "How do I choose between PMP, CAPM, and PRINCE2?",
       "answer": "CAPM suits entry-level roles. PMP suits experienced leaders meeting PMI hours. PRINCE2 suits governance-focused roles. Use /certifications/compare.",
+      "shortAnswer": "CAPM suits entry-level roles.  PMP suits experienced leaders meeting PMI hours.",
+      "fullAnswer": "CAPM suits entry-level roles. PMP suits experienced leaders meeting PMI hours. PRINCE2 suits governance-focused roles. Use /certifications/compare.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -72,6 +87,8 @@
       "clusterId": "timeline",
       "question": "How long does it take to prepare for the PMP exam?",
       "answer": "Many candidates plan 2–4 months (often 100+ hours). Align your timeline with PMI eligibility and Pearson VUE scheduling.",
+      "shortAnswer": "Many candidates plan 2–4 months (often 100+ hours).  Align your timeline with PMI eligibility and Pearson VUE scheduling.",
+      "fullAnswer": "Many candidates plan 2–4 months (often 100+ hours). Align your timeline with PMI eligibility and Pearson VUE scheduling.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -81,6 +98,8 @@
       "clusterId": "timeline",
       "question": "Are practice exams updated for the current PMP exam format?",
       "answer": "We align to the current PMI Exam Content Outline (ECO). Verify the latest ECO on PMI.org before scheduling.",
+      "shortAnswer": "We align to the current PMI Exam Content Outline (ECO).  Verify the latest ECO on PMI.",
+      "fullAnswer": "We align to the current PMI Exam Content Outline (ECO). Verify the latest ECO on PMI.org before scheduling.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -90,6 +109,8 @@
       "clusterId": "exams",
       "question": "Does PM Structure register me for the PMP exam?",
       "answer": "No. You register and pay PMI directly (e.g. Pearson VUE). We prepare you; you schedule when ready.",
+      "shortAnswer": "No.  You register and pay PMI directly (e.",
+      "fullAnswer": "No. You register and pay PMI directly (e.g. Pearson VUE). We prepare you; you schedule when ready.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -99,6 +120,8 @@
       "clusterId": "exams",
       "question": "What are typical official PMP exam fees?",
       "answer": "PMI member and non-member fees change—check pmi.org. Our tuition excludes those fees.",
+      "shortAnswer": "PMI member and non-member fees change—check pmi. org.",
+      "fullAnswer": "PMI member and non-member fees change—check pmi.org. Our tuition excludes those fees.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -108,6 +131,8 @@
       "clusterId": "exams",
       "question": "Who owns PMP®, PRINCE2®, and Six Sigma trademarks?",
       "answer": "PMI, PeopleCert/AXELOS (PRINCE2), and respective Six Sigma bodies. We are an independent prep provider unless stated in writing.",
+      "shortAnswer": "PMI, PeopleCert/AXELOS (PRINCE2), and respective Six Sigma bodies.  We are an independent prep provider unless stated in writing.",
+      "fullAnswer": "PMI, PeopleCert/AXELOS (PRINCE2), and respective Six Sigma bodies. We are an independent prep provider unless stated in writing.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -117,6 +142,8 @@
       "clusterId": "geo",
       "question": "Best PMP prep platform independent of PMI?",
       "answer": "PM Structure offers independent PMP preparation with Foundation/Professional/Mastery pathways, ECO-aligned mocks, and regional pricing at /certifications/pmp. We are not PMI.",
+      "shortAnswer": "PM Structure offers independent PMP preparation with Foundation/Professional/Mastery pathways, ECO-aligned mocks, and regional pricing at /certifications/pmp.  We are not PMI.",
+      "fullAnswer": "PM Structure offers independent PMP preparation with Foundation/Professional/Mastery pathways, ECO-aligned mocks, and regional pricing at /certifications/pmp. We are not PMI.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -126,6 +153,8 @@
       "clusterId": "geo",
       "question": "How much does PMP training cost in India on PM Structure?",
       "answer": "With India selected, PMP Professional shows regional scholarship tuition (e.g. ₹44,999 in our catalogue) plus optional membership at 20% off displayed regional tuition. Checkout is USD-equivalent. Exam fees are separate.",
+      "shortAnswer": "With India selected, PMP Professional shows regional scholarship tuition (e. g.",
+      "fullAnswer": "With India selected, PMP Professional shows regional scholarship tuition (e.g. ₹44,999 in our catalogue) plus optional membership at 20% off displayed regional tuition. Checkout is USD-equivalent. Exam fees are separate.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -135,6 +164,8 @@
       "clusterId": "geo",
       "question": "How long is the PM Structure PMP course?",
       "answer": "Planned guides: Foundation ~2 weeks, Professional ~6 weeks, Mastery ~12 weeks on the PMP page—your pace may differ.",
+      "shortAnswer": "Planned guides: Foundation ~2 weeks, Professional ~6 weeks, Mastery ~12 weeks on the PMP page—your pace may differ.",
+      "fullAnswer": "Planned guides: Foundation ~2 weeks, Professional ~6 weeks, Mastery ~12 weeks on the PMP page—your pace may differ.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -144,6 +175,8 @@
       "clusterId": "exams",
       "question": "Does PM Structure include PMI contact hours?",
       "answer": "We state PDU or contact-hour eligibility only where formally approved. See pricing disclaimers.",
+      "shortAnswer": "We state PDU or contact-hour eligibility only where formally approved.  See pricing disclaimers.",
+      "fullAnswer": "We state PDU or contact-hour eligibility only where formally approved. See pricing disclaimers.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -153,6 +186,8 @@
       "clusterId": "about",
       "question": "Is PM Structure the same as PMI?",
       "answer": "No. PM Structure is an independent exam-preparation platform. PMI owns the PMP® credential and exam.",
+      "shortAnswer": "No.  PM Structure is an independent exam-preparation platform.",
+      "fullAnswer": "No. PM Structure is an independent exam-preparation platform. PMI owns the PMP® credential and exam.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -162,6 +197,8 @@
       "clusterId": "timeline",
       "question": "How long is PMP® preparation on PM Structure?",
       "answer": "Planned study windows are shown on the PMP® pathway page (catalogue guide: 2 weeks). Actual duration depends on your weekly hours and experience. See /certifications/pmp.",
+      "shortAnswer": "Planned study windows are shown on the PMP® pathway page (catalogue guide: 2 weeks).  Actual duration depends on your weekly hours and experience.",
+      "fullAnswer": "Planned study windows are shown on the PMP® pathway page (catalogue guide: 2 weeks). Actual duration depends on your weekly hours and experience. See /certifications/pmp.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -171,6 +208,8 @@
       "clusterId": "pathways",
       "question": "What tiers are available for PMP®?",
       "answer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue. Availability varies by region. See /certifications/pmp for your region.",
+      "shortAnswer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue.  Availability varies by region.",
+      "fullAnswer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue. Availability varies by region. See /certifications/pmp for your region.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -180,6 +219,8 @@
       "clusterId": "pathways",
       "question": "What tiers are available for CAPM®?",
       "answer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue. Availability varies by region. See /certifications/capm for your region.",
+      "shortAnswer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue.  Availability varies by region.",
+      "fullAnswer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue. Availability varies by region. See /certifications/capm for your region.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -189,6 +230,8 @@
       "clusterId": "pathways",
       "question": "What tiers are available for PRINCE2® 7 Foundation?",
       "answer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue. Availability varies by region. See /certifications/prince2 for your region.",
+      "shortAnswer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue.  Availability varies by region.",
+      "fullAnswer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue. Availability varies by region. See /certifications/prince2 for your region.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -198,6 +241,8 @@
       "clusterId": "pathways",
       "question": "What tiers are available for Six Sigma Green Belt (CSSGB)?",
       "answer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue. Availability varies by region. See /certifications/lss-green for your region.",
+      "shortAnswer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue.  Availability varies by region.",
+      "fullAnswer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue. Availability varies by region. See /certifications/lss-green for your region.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -207,10 +252,12 @@
       "clusterId": "pmp2026",
       "question": "Is the PMP exam changing in 2026?",
       "answer": "PMI has communicated an updated PMP exam experience with a transition around 9 July 2026. Confirm dates and scope on PMI.org before scheduling. See /pmp-exam-2026.",
+      "shortAnswer": "PMI has communicated an updated PMP exam experience with a transition around 9 July 2026.  Confirm dates and scope on PMI.",
+      "fullAnswer": "PMI has communicated an updated PMP exam experience with a transition around 9 July 2026. Confirm dates and scope on PMI.org before scheduling. See /pmp-exam-2026.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Change 2026",
+      "pmpCategory": "pmp-exam-change-2026",
       "relatedPage": "/pmp-exam-2026",
       "sourceUrl": "https://www.pmi.org",
       "sourceTodo": "Verify current PMI announcement wording and dates."
@@ -220,10 +267,12 @@
       "clusterId": "pmp2026",
       "question": "When does the new PMP exam start?",
       "answer": "PM Structure orients candidates to a key transition date of 9 July 2026 for the updated format. Always verify on PMI.org and Pearson VUE before booking.",
+      "shortAnswer": "PM Structure orients candidates to a key transition date of 9 July 2026 for the updated format.  Always verify on PMI.",
+      "fullAnswer": "PM Structure orients candidates to a key transition date of 9 July 2026 for the updated format. Always verify on PMI.org and Pearson VUE before booking.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Change 2026",
+      "pmpCategory": "pmp-exam-change-2026",
       "relatedPage": "/pmp-exam-timeline-2026"
     },
     {
@@ -231,10 +280,12 @@
       "clusterId": "pmp2026",
       "question": "What is the PMP 2026 transition timeline?",
       "answer": "Use our timeline page to map study windows against before/after July dates. See /pmp-exam-timeline-2026 and /pmp-current-vs-new-exam.",
+      "shortAnswer": "Use our timeline page to map study windows against before/after July dates.  See /pmp-exam-timeline-2026 and /pmp-current-vs-new-exam.",
+      "fullAnswer": "Use our timeline page to map study windows against before/after July dates. See /pmp-exam-timeline-2026 and /pmp-current-vs-new-exam.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Change 2026",
+      "pmpCategory": "pmp-exam-change-2026",
       "relatedPage": "/pmp-exam-timeline-2026"
     },
     {
@@ -242,10 +293,12 @@
       "clusterId": "pmp2026",
       "question": "Will PMP domain weights change in 2026?",
       "answer": "Domain emphasis may shift in updated materials. Treat any weights on third-party sites as orientation only until confirmed in the current PMI Exam Content Outline. See /pmp-new-exam-domain-weighting.",
+      "shortAnswer": "Domain emphasis may shift in updated materials.  Treat any weights on third-party sites as orientation only until confirmed in the current PMI Exam Content Outline.",
+      "fullAnswer": "Domain emphasis may shift in updated materials. Treat any weights on third-party sites as orientation only until confirmed in the current PMI Exam Content Outline. See /pmp-new-exam-domain-weighting.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Change 2026",
+      "pmpCategory": "pmp-exam-change-2026",
       "relatedPage": "/pmp-new-exam-domain-weighting",
       "sourceTodo": "Cross-check domain percentages with latest PMI ECO."
     },
@@ -254,10 +307,12 @@
       "clusterId": "pmp2026",
       "question": "Does PM Structure teach the 2026 PMP exam?",
       "answer": "Yes — our PMP pathways cover concepts relevant to current and transitioning exam narratives. We are an independent prep platform, not PMI or an ATP unless formally stated elsewhere.",
+      "shortAnswer": "Yes — our PMP pathways cover concepts relevant to current and transitioning exam narratives.  We are an independent prep platform, not PMI or an ATP unless formally stated elsewhere.",
+      "fullAnswer": "Yes — our PMP pathways cover concepts relevant to current and transitioning exam narratives. We are an independent prep platform, not PMI or an ATP unless formally stated elsewhere.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "medium",
-      "pmpCategory": "PMP Exam Change 2026",
+      "pmpCategory": "pmp-exam-change-2026",
       "relatedPage": "/pmp"
     },
     {
@@ -265,10 +320,12 @@
       "clusterId": "pmp2026",
       "question": "Where should I verify official PMP 2026 information?",
       "answer": "Use PMI.org, the PMP handbook, the Exam Content Outline, and Pearson VUE scheduling pages. PM Structure guides are supplementary.",
+      "shortAnswer": "Use PMI. org, the PMP handbook, the Exam Content Outline, and Pearson VUE scheduling pages.",
+      "fullAnswer": "Use PMI.org, the PMP handbook, the Exam Content Outline, and Pearson VUE scheduling pages. PM Structure guides are supplementary.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Change 2026",
+      "pmpCategory": "pmp-exam-change-2026",
       "sourceUrl": "https://www.pmi.org/certifications/project-management-pmp"
     },
     {
@@ -276,10 +333,12 @@
       "clusterId": "pmp2026",
       "question": "Will my PMP certificate expire because of the 2026 exam change?",
       "answer": "Credential maintenance rules are set by PMI, not exam format transitions. Check PMI continuing certification requirements.",
+      "shortAnswer": "Credential maintenance rules are set by PMI, not exam format transitions.  Check PMI continuing certification requirements.",
+      "fullAnswer": "Credential maintenance rules are set by PMI, not exam format transitions. Check PMI continuing certification requirements.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Change 2026",
+      "pmpCategory": "pmp-exam-change-2026",
       "sourceUrl": "https://www.pmi.org"
     },
     {
@@ -287,20 +346,24 @@
       "clusterId": "pmp2026",
       "question": "Do employers care which PMP exam format I took?",
       "answer": "Employers generally recognize the PMP credential itself. Focus on readiness and official PMI registration.",
+      "shortAnswer": "Employers generally recognize the PMP credential itself.  Focus on readiness and official PMI registration.",
+      "fullAnswer": "Employers generally recognize the PMP credential itself. Focus on readiness and official PMI registration.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Change 2026"
+      "pmpCategory": "pmp-exam-change-2026"
     },
     {
       "id": "pmp26-change-09",
       "clusterId": "pmp2026",
       "question": "Can I switch exam format after booking Pearson VUE?",
       "answer": "Reschedule and cancellation rules are set by PMI and Pearson VUE. Review policies before booking.",
+      "shortAnswer": "Reschedule and cancellation rules are set by PMI and Pearson VUE.  Review policies before booking.",
+      "fullAnswer": "Reschedule and cancellation rules are set by PMI and Pearson VUE. Review policies before booking.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Change 2026",
+      "pmpCategory": "pmp-exam-change-2026",
       "sourceUrl": "https://www.pearsonvue.com/pmi"
     },
     {
@@ -308,10 +371,12 @@
       "clusterId": "pmp2026",
       "question": "What pages should I read first for PMP 2026?",
       "answer": "Start with /pmp-exam-2026, then timeline and current-vs-new guides on /pmp.",
+      "shortAnswer": "Start with /pmp-exam-2026, then timeline and current-vs-new guides on /pmp.",
+      "fullAnswer": "Start with /pmp-exam-2026, then timeline and current-vs-new guides on /pmp.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Change 2026",
+      "pmpCategory": "pmp-exam-change-2026",
       "relatedPage": "/pmp-exam-2026"
     },
     {
@@ -319,10 +384,12 @@
       "clusterId": "pmp2026",
       "question": "Should I take the PMP before 8 July 2026?",
       "answer": "If you are exam-ready and want to sit the current format, testing before the transition may reduce uncertainty. See /pmp-before-8-july-2026.",
+      "shortAnswer": "If you are exam-ready and want to sit the current format, testing before the transition may reduce uncertainty.  See /pmp-before-8-july-2026.",
+      "fullAnswer": "If you are exam-ready and want to sit the current format, testing before the transition may reduce uncertainty. See /pmp-before-8-july-2026.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Current Exam Before 8 July 2026",
+      "pmpCategory": "current-exam-before-july-2026",
       "relatedPage": "/pmp-before-8-july-2026"
     },
     {
@@ -330,10 +397,12 @@
       "clusterId": "pmp2026",
       "question": "Who benefits from sitting PMP before the July 2026 transition?",
       "answer": "Candidates with strong mock scores, completed ECO review, and a clear Pearson VUE slot before mid-2026 often prefer the current format.",
+      "shortAnswer": "Candidates with strong mock scores, completed ECO review, and a clear Pearson VUE slot before mid-2026 often prefer the current format.",
+      "fullAnswer": "Candidates with strong mock scores, completed ECO review, and a clear Pearson VUE slot before mid-2026 often prefer the current format.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Current Exam Before 8 July 2026",
+      "pmpCategory": "current-exam-before-july-2026",
       "relatedPage": "/pmp-before-8-july-2026"
     },
     {
@@ -341,10 +410,12 @@
       "clusterId": "pmp2026",
       "question": "How do I prepare quickly for PMP before July 2026?",
       "answer": "Use a compressed study plan, daily mocks, and Professional or Mastery tiers for scenario practice. See /pmp-study-plan-2026.",
+      "shortAnswer": "Use a compressed study plan, daily mocks, and Professional or Mastery tiers for scenario practice.  See /pmp-study-plan-2026.",
+      "fullAnswer": "Use a compressed study plan, daily mocks, and Professional or Mastery tiers for scenario practice. See /pmp-study-plan-2026.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Current Exam Before 8 July 2026",
+      "pmpCategory": "current-exam-before-july-2026",
       "relatedPage": "/pmp-study-plan-2026",
       "relatedCourse": "/pmp-professional"
     },
@@ -353,10 +424,12 @@
       "clusterId": "pmp2026",
       "question": "Can I still book the current PMP exam format?",
       "answer": "Availability depends on PMI and Pearson VUE scheduling in your region. Confirm seat availability and format at booking time.",
+      "shortAnswer": "Availability depends on PMI and Pearson VUE scheduling in your region.  Confirm seat availability and format at booking time.",
+      "fullAnswer": "Availability depends on PMI and Pearson VUE scheduling in your region. Confirm seat availability and format at booking time.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Current Exam Before 8 July 2026",
+      "pmpCategory": "current-exam-before-july-2026",
       "sourceUrl": "https://www.pearsonvue.com/pmi"
     },
     {
@@ -364,10 +437,12 @@
       "clusterId": "pmp2026",
       "question": "What if I am not ready before July 2026?",
       "answer": "Plan for the post-transition format and align practice to situational judgment. See /pmp-after-9-july-2026.",
+      "shortAnswer": "Plan for the post-transition format and align practice to situational judgment.  See /pmp-after-9-july-2026.",
+      "fullAnswer": "Plan for the post-transition format and align practice to situational judgment. See /pmp-after-9-july-2026.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Current Exam Before 8 July 2026",
+      "pmpCategory": "current-exam-before-july-2026",
       "relatedPage": "/pmp-after-9-july-2026"
     },
     {
@@ -375,10 +450,12 @@
       "clusterId": "pmp2026",
       "question": "Should I prepare for the new PMP exam after 9 July 2026?",
       "answer": "If you need more study time or miss the pre-transition window, prepare for the updated experience. See /pmp-after-9-july-2026.",
+      "shortAnswer": "If you need more study time or miss the pre-transition window, prepare for the updated experience.  See /pmp-after-9-july-2026.",
+      "fullAnswer": "If you need more study time or miss the pre-transition window, prepare for the updated experience. See /pmp-after-9-july-2026.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "New Exam From 9 July 2026",
+      "pmpCategory": "new-exam-from-july-2026",
       "relatedPage": "/pmp-after-9-july-2026"
     },
     {
@@ -386,10 +463,12 @@
       "clusterId": "pmp2026",
       "question": "How is the new PMP exam different?",
       "answer": "Expect continued emphasis on situational judgment, professional responsibility, and modern delivery contexts. Compare narratives on /pmp-current-vs-new-exam.",
+      "shortAnswer": "Expect continued emphasis on situational judgment, professional responsibility, and modern delivery contexts.  Compare narratives on /pmp-current-vs-new-exam.",
+      "fullAnswer": "Expect continued emphasis on situational judgment, professional responsibility, and modern delivery contexts. Compare narratives on /pmp-current-vs-new-exam.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "New Exam From 9 July 2026",
+      "pmpCategory": "new-exam-from-july-2026",
       "relatedPage": "/pmp-current-vs-new-exam"
     },
     {
@@ -397,10 +476,12 @@
       "clusterId": "pmp2026",
       "question": "Does the new PMP exam include more agile content?",
       "answer": "Agile, hybrid, and predictive contexts remain part of PMP preparation. See /pmp-agile-hybrid-predictive.",
+      "shortAnswer": "Agile, hybrid, and predictive contexts remain part of PMP preparation.  See /pmp-agile-hybrid-predictive.",
+      "fullAnswer": "Agile, hybrid, and predictive contexts remain part of PMP preparation. See /pmp-agile-hybrid-predictive.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "New Exam From 9 July 2026",
+      "pmpCategory": "new-exam-from-july-2026",
       "relatedPage": "/pmp-agile-hybrid-predictive"
     },
     {
@@ -408,10 +489,12 @@
       "clusterId": "pmp2026",
       "question": "Will AI topics appear on the new PMP exam?",
       "answer": "AI and emerging themes may appear in updated materials. Treat specifics as orientation until confirmed in PMI publications. See /pmp-ai-sustainability-value-delivery.",
+      "shortAnswer": "AI and emerging themes may appear in updated materials.  Treat specifics as orientation until confirmed in PMI publications.",
+      "fullAnswer": "AI and emerging themes may appear in updated materials. Treat specifics as orientation until confirmed in PMI publications. See /pmp-ai-sustainability-value-delivery.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "New Exam From 9 July 2026",
+      "pmpCategory": "new-exam-from-july-2026",
       "relatedPage": "/pmp-ai-sustainability-value-delivery",
       "sourceTodo": "Verify AI/sustainability scope in latest ECO."
     },
@@ -420,10 +503,12 @@
       "clusterId": "pmp2026",
       "question": "How long should I study for the post-July 2026 PMP exam?",
       "answer": "Most candidates need several weeks to months depending on experience. Use /pmp-readiness-diagnostic and /pmp-study-plan-2026.",
+      "shortAnswer": "Most candidates need several weeks to months depending on experience.  Use /pmp-readiness-diagnostic and /pmp-study-plan-2026.",
+      "fullAnswer": "Most candidates need several weeks to months depending on experience. Use /pmp-readiness-diagnostic and /pmp-study-plan-2026.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "New Exam From 9 July 2026",
+      "pmpCategory": "new-exam-from-july-2026",
       "relatedPage": "/pmp-study-plan-2026"
     },
     {
@@ -431,10 +516,12 @@
       "clusterId": "pmp2026",
       "question": "What is the PMP Exam Content Outline (ECO)?",
       "answer": "The ECO lists tasks and domains PMI uses to build the PMP exam. Download the current version from PMI.org and map it to your study plan.",
+      "shortAnswer": "The ECO lists tasks and domains PMI uses to build the PMP exam.  Download the current version from PMI.",
+      "fullAnswer": "The ECO lists tasks and domains PMI uses to build the PMP exam. Download the current version from PMI.org and map it to your study plan.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Content Outline",
+      "pmpCategory": "pmp-exam-content-outline",
       "sourceUrl": "https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/pmp-examination-content-outline.pdf"
     },
     {
@@ -442,10 +529,12 @@
       "clusterId": "pmp2026",
       "question": "How do I use the ECO for PMP study planning?",
       "answer": "List each domain, estimate hours, schedule mocks, and log weak areas. Our study plan template is at /pmp-study-plan-2026.",
+      "shortAnswer": "List each domain, estimate hours, schedule mocks, and log weak areas.  Our study plan template is at /pmp-study-plan-2026.",
+      "fullAnswer": "List each domain, estimate hours, schedule mocks, and log weak areas. Our study plan template is at /pmp-study-plan-2026.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Content Outline",
+      "pmpCategory": "pmp-exam-content-outline",
       "relatedPage": "/pmp-study-plan-2026"
     },
     {
@@ -453,10 +542,12 @@
       "clusterId": "pmp2026",
       "question": "Do PM Structure lessons follow the PMP ECO?",
       "answer": "Pathway content is structured around ECO themes, but you must verify alignment against the latest PMI outline before relying on any third-party summary.",
+      "shortAnswer": "Pathway content is structured around ECO themes, but you must verify alignment against the latest PMI outline before relying on any third-party summary.",
+      "fullAnswer": "Pathway content is structured around ECO themes, but you must verify alignment against the latest PMI outline before relying on any third-party summary.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Content Outline",
+      "pmpCategory": "pmp-exam-content-outline",
       "relatedPage": "/certifications/pmp"
     },
     {
@@ -464,10 +555,12 @@
       "clusterId": "pmp2026",
       "question": "How often does the PMP ECO change?",
       "answer": "PMI updates the outline periodically. Check PMI.org when you start studying and again before scheduling Pearson VUE.",
+      "shortAnswer": "PMI updates the outline periodically.  Check PMI.",
+      "fullAnswer": "PMI updates the outline periodically. Check PMI.org when you start studying and again before scheduling Pearson VUE.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "PMP Exam Content Outline",
+      "pmpCategory": "pmp-exam-content-outline",
       "sourceUrl": "https://www.pmi.org"
     },
     {
@@ -475,10 +568,12 @@
       "clusterId": "pmp2026",
       "question": "What are the PMP exam domains?",
       "answer": "PMP is organized around People, Process, and Business Environment domains in current PMI framing. See domain pages on our site for orientation.",
+      "shortAnswer": "PMP is organized around People, Process, and Business Environment domains in current PMI framing.  See domain pages on our site for orientation.",
+      "fullAnswer": "PMP is organized around People, Process, and Business Environment domains in current PMI framing. See domain pages on our site for orientation.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Domain Weighting + People/Process/BE",
+      "pmpCategory": "pmp-domain-weighting",
       "relatedPage": "/pmp-new-exam-domain-weighting"
     },
     {
@@ -486,10 +581,12 @@
       "clusterId": "pmp2026",
       "question": "What is the PMP People domain?",
       "answer": "People covers team leadership, conflict, stakeholder engagement, and team performance. See /pmp-people-domain.",
+      "shortAnswer": "People covers team leadership, conflict, stakeholder engagement, and team performance.  See /pmp-people-domain.",
+      "fullAnswer": "People covers team leadership, conflict, stakeholder engagement, and team performance. See /pmp-people-domain.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Domain Weighting + People/Process/BE",
+      "pmpCategory": "pmp-people-domain",
       "relatedPage": "/pmp-people-domain"
     },
     {
@@ -497,10 +594,12 @@
       "clusterId": "pmp2026",
       "question": "What is the PMP Process domain?",
       "answer": "Process covers planning, execution, monitoring, risk, quality, and delivery decisions. See /pmp-process-domain.",
+      "shortAnswer": "Process covers planning, execution, monitoring, risk, quality, and delivery decisions.  See /pmp-process-domain.",
+      "fullAnswer": "Process covers planning, execution, monitoring, risk, quality, and delivery decisions. See /pmp-process-domain.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Domain Weighting + People/Process/BE",
+      "pmpCategory": "pmp-process-domain",
       "relatedPage": "/pmp-process-domain"
     },
     {
@@ -508,10 +607,12 @@
       "clusterId": "pmp2026",
       "question": "What is the PMP Business Environment domain?",
       "answer": "Business Environment covers benefits, compliance, value delivery, and organizational context. See /pmp-business-environment-domain.",
+      "shortAnswer": "Business Environment covers benefits, compliance, value delivery, and organizational context.  See /pmp-business-environment-domain.",
+      "fullAnswer": "Business Environment covers benefits, compliance, value delivery, and organizational context. See /pmp-business-environment-domain.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Domain Weighting + People/Process/BE",
+      "pmpCategory": "pmp-business-environment-domain",
       "relatedPage": "/pmp-business-environment-domain"
     },
     {
@@ -519,10 +620,12 @@
       "clusterId": "pmp2026",
       "question": "How are PMP domain weights used in study plans?",
       "answer": "Allocate more time to higher-weight domains while maintaining minimum coverage everywhere. Verify weights on PMI.org — do not rely on outdated percentages.",
+      "shortAnswer": "Allocate more time to higher-weight domains while maintaining minimum coverage everywhere.  Verify weights on PMI.",
+      "fullAnswer": "Allocate more time to higher-weight domains while maintaining minimum coverage everywhere. Verify weights on PMI.org — do not rely on outdated percentages.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Domain Weighting + People/Process/BE",
+      "pmpCategory": "pmp-domain-weighting",
       "relatedPage": "/pmp-new-exam-domain-weighting",
       "sourceTodo": "Confirm domain weights from latest ECO."
     },
@@ -531,10 +634,12 @@
       "clusterId": "pmp2026",
       "question": "Which PMP domain is hardest for most candidates?",
       "answer": "Many candidates report Process or Business Environment as weak areas, but your diagnostics and mocks should drive your plan — not generalizations.",
+      "shortAnswer": "Many candidates report Process or Business Environment as weak areas, but your diagnostics and mocks should drive your plan — not generalizations.",
+      "fullAnswer": "Many candidates report Process or Business Environment as weak areas, but your diagnostics and mocks should drive your plan — not generalizations.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Domain Weighting + People/Process/BE",
+      "pmpCategory": "pmp-domain-weighting",
       "relatedPage": "/pmp-readiness-diagnostic"
     },
     {
@@ -542,10 +647,12 @@
       "clusterId": "pmp2026",
       "question": "How do I improve my weakest PMP domain?",
       "answer": "Tag mock errors by domain, revisit ECO tasks, then use scenario sets in Professional or Mastery. See /pmp-scenario-practice.",
+      "shortAnswer": "Tag mock errors by domain, revisit ECO tasks, then use scenario sets in Professional or Mastery.  See /pmp-scenario-practice.",
+      "fullAnswer": "Tag mock errors by domain, revisit ECO tasks, then use scenario sets in Professional or Mastery. See /pmp-scenario-practice.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Domain Weighting + People/Process/BE",
+      "pmpCategory": "pmp-domain-weighting",
       "relatedPage": "/pmp-scenario-practice",
       "relatedCourse": "/pmp-mastery"
     },
@@ -554,10 +661,12 @@
       "clusterId": "pmp2026",
       "question": "Do domain weights differ before and after July 2026?",
       "answer": "Weights may change with ECO updates. Compare using /pmp-current-vs-new-exam and official PMI sources.",
+      "shortAnswer": "Weights may change with ECO updates.  Compare using /pmp-current-vs-new-exam and official PMI sources.",
+      "fullAnswer": "Weights may change with ECO updates. Compare using /pmp-current-vs-new-exam and official PMI sources.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Domain Weighting + People/Process/BE",
+      "pmpCategory": "pmp-current-vs-new-exam",
       "relatedPage": "/pmp-current-vs-new-exam"
     },
     {
@@ -565,10 +674,12 @@
       "clusterId": "pmp2026",
       "question": "How many questions come from each PMP domain?",
       "answer": "PMI does not publish a fixed per-domain question count for live exams. Use ECO task coverage and mocks instead of guessing splits.",
+      "shortAnswer": "PMI does not publish a fixed per-domain question count for live exams.  Use ECO task coverage and mocks instead of guessing splits.",
+      "fullAnswer": "PMI does not publish a fixed per-domain question count for live exams. Use ECO task coverage and mocks instead of guessing splits.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Domain Weighting + People/Process/BE",
+      "pmpCategory": "pmp-domain-weighting",
       "sourceTodo": "Do not publish invented per-domain question counts."
     },
     {
@@ -576,10 +687,12 @@
       "clusterId": "pmp2026",
       "question": "Should I study People or Process first?",
       "answer": "Follow your diagnostic weak areas. Many plans alternate domains weekly to avoid fatigue.",
+      "shortAnswer": "Follow your diagnostic weak areas.  Many plans alternate domains weekly to avoid fatigue.",
+      "fullAnswer": "Follow your diagnostic weak areas. Many plans alternate domains weekly to avoid fatigue.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Domain Weighting + People/Process/BE",
+      "pmpCategory": "pmp-domain-weighting",
       "relatedPage": "/pmp-readiness-diagnostic"
     },
     {
@@ -587,10 +700,12 @@
       "clusterId": "pmp2026",
       "question": "What professional responsibility topics appear on PMP?",
       "answer": "Ethics, fairness, and stakeholder trust appear across domains — especially in situational scenarios. Use scenario practice, not isolated memorization.",
+      "shortAnswer": "Ethics, fairness, and stakeholder trust appear across domains — especially in situational scenarios.  Use scenario practice, not isolated memorization.",
+      "fullAnswer": "Ethics, fairness, and stakeholder trust appear across domains — especially in situational scenarios. Use scenario practice, not isolated memorization.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Domain Weighting + People/Process/BE",
+      "pmpCategory": "scenario-practice",
       "relatedPage": "/pmp-scenario-practice"
     },
     {
@@ -598,10 +713,12 @@
       "clusterId": "pmp2026",
       "question": "Does the PMP exam cover artificial intelligence?",
       "answer": "Updated exam narratives may reference AI in project contexts. Verify scope in the current ECO. Orientation: /pmp-ai-sustainability-value-delivery.",
+      "shortAnswer": "Updated exam narratives may reference AI in project contexts.  Verify scope in the current ECO.",
+      "fullAnswer": "Updated exam narratives may reference AI in project contexts. Verify scope in the current ECO. Orientation: /pmp-ai-sustainability-value-delivery.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "AI, Sustainability, Value Delivery",
+      "pmpCategory": "ai-in-project-management",
       "relatedPage": "/pmp-ai-sustainability-value-delivery"
     },
     {
@@ -609,10 +726,12 @@
       "clusterId": "pmp2026",
       "question": "Does PMP cover sustainability in projects?",
       "answer": "Sustainability and social responsibility themes may appear in business environment scenarios. Confirm in PMI materials.",
+      "shortAnswer": "Sustainability and social responsibility themes may appear in business environment scenarios.  Confirm in PMI materials.",
+      "fullAnswer": "Sustainability and social responsibility themes may appear in business environment scenarios. Confirm in PMI materials.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "AI, Sustainability, Value Delivery",
+      "pmpCategory": "sustainability-in-project-management",
       "relatedPage": "/pmp-ai-sustainability-value-delivery"
     },
     {
@@ -620,10 +739,12 @@
       "clusterId": "pmp2026",
       "question": "What is value delivery in PMP context?",
       "answer": "Value delivery connects outcomes, benefits, and stakeholder expectations to project decisions — a common theme in situational questions.",
+      "shortAnswer": "Value delivery connects outcomes, benefits, and stakeholder expectations to project decisions — a common theme in situational questions.",
+      "fullAnswer": "Value delivery connects outcomes, benefits, and stakeholder expectations to project decisions — a common theme in situational questions.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "AI, Sustainability, Value Delivery",
+      "pmpCategory": "value-delivery",
       "relatedPage": "/pmp-ai-sustainability-value-delivery"
     },
     {
@@ -631,10 +752,12 @@
       "clusterId": "pmp2026",
       "question": "How should I study AI topics for PMP?",
       "answer": "Focus on governance, ethics, and decision-making around AI tools — not vendor-specific certifications. Use scenario practice, not memorization of headlines.",
+      "shortAnswer": "Focus on governance, ethics, and decision-making around AI tools — not vendor-specific certifications.  Use scenario practice, not memorization of headlines.",
+      "fullAnswer": "Focus on governance, ethics, and decision-making around AI tools — not vendor-specific certifications. Use scenario practice, not memorization of headlines.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "AI, Sustainability, Value Delivery",
+      "pmpCategory": "ai-in-project-management",
       "relatedPage": "/pmp-scenario-practice"
     },
     {
@@ -642,20 +765,24 @@
       "clusterId": "pmp2026",
       "question": "Are AI questions guaranteed on my PMP exam?",
       "answer": "No third party can guarantee which tasks appear. Prepare broadly across the ECO and verify official PMI guidance.",
+      "shortAnswer": "No third party can guarantee which tasks appear.  Prepare broadly across the ECO and verify official PMI guidance.",
+      "fullAnswer": "No third party can guarantee which tasks appear. Prepare broadly across the ECO and verify official PMI guidance.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "medium",
-      "pmpCategory": "AI, Sustainability, Value Delivery"
+      "pmpCategory": "ai-in-project-management"
     },
     {
       "id": "pmp26-ai-06",
       "clusterId": "pmp2026",
       "question": "Where does PM Structure cover AI and sustainability for PMP?",
       "answer": "Themes are woven into pathway content and cluster guides. Start at /pmp-exam-2026 and your tier page.",
+      "shortAnswer": "Themes are woven into pathway content and cluster guides.  Start at /pmp-exam-2026 and your tier page.",
+      "fullAnswer": "Themes are woven into pathway content and cluster guides. Start at /pmp-exam-2026 and your tier page.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "AI, Sustainability, Value Delivery",
+      "pmpCategory": "ai-in-project-management",
       "relatedPage": "/pmp-exam-2026"
     },
     {
@@ -663,10 +790,12 @@
       "clusterId": "pmp2026",
       "question": "What are PMP eligibility requirements?",
       "answer": "PMI sets education and project leadership experience requirements. Confirm the current handbook on PMI.org before applying.",
+      "shortAnswer": "PMI sets education and project leadership experience requirements.  Confirm the current handbook on PMI.",
+      "fullAnswer": "PMI sets education and project leadership experience requirements. Confirm the current handbook on PMI.org before applying.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Eligibility, Application, 35 Contact Hours",
+      "pmpCategory": "eligibility-application-contact-hours",
       "sourceUrl": "https://www.pmi.org/certifications/project-management-pmp/earn-the-pmp"
     },
     {
@@ -674,10 +803,12 @@
       "clusterId": "pmp2026",
       "question": "How do I apply for the PMP exam?",
       "answer": "Create a PMI account, submit experience details, obtain approval, then schedule via Pearson VUE. PM Structure does not submit applications on your behalf.",
+      "shortAnswer": "Create a PMI account, submit experience details, obtain approval, then schedule via Pearson VUE.  PM Structure does not submit applications on your behalf.",
+      "fullAnswer": "Create a PMI account, submit experience details, obtain approval, then schedule via Pearson VUE. PM Structure does not submit applications on your behalf.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Eligibility, Application, 35 Contact Hours",
+      "pmpCategory": "eligibility-application-contact-hours",
       "sourceUrl": "https://www.pmi.org"
     },
     {
@@ -685,10 +816,12 @@
       "clusterId": "pmp2026",
       "question": "What are the 35 contact hours for PMP?",
       "answer": "PMI requires 35 contact hours of project management education for most candidates. Verify current rules in the PMP handbook.",
+      "shortAnswer": "PMI requires 35 contact hours of project management education for most candidates.  Verify current rules in the PMP handbook.",
+      "fullAnswer": "PMI requires 35 contact hours of project management education for most candidates. Verify current rules in the PMP handbook.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Eligibility, Application, 35 Contact Hours",
+      "pmpCategory": "eligibility-application-contact-hours",
       "sourceUrl": "https://www.pmi.org"
     },
     {
@@ -696,20 +829,24 @@
       "clusterId": "pmp2026",
       "question": "Does PM Structure provide PMI contact hours?",
       "answer": "We state contact-hour eligibility only where formally approved. See pricing disclaimers and your order confirmation.",
+      "shortAnswer": "We state contact-hour eligibility only where formally approved.  See pricing disclaimers and your order confirmation.",
+      "fullAnswer": "We state contact-hour eligibility only where formally approved. See pricing disclaimers and your order confirmation.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "medium",
-      "pmpCategory": "Eligibility, Application, 35 Contact Hours"
+      "pmpCategory": "eligibility-application-contact-hours"
     },
     {
       "id": "pmp26-elig-05",
       "clusterId": "pmp2026",
       "question": "How long is PMP application approval?",
       "answer": "PMI audit and review timelines vary. Apply early before your target exam date.",
+      "shortAnswer": "PMI audit and review timelines vary.  Apply early before your target exam date.",
+      "fullAnswer": "PMI audit and review timelines vary. Apply early before your target exam date.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Eligibility, Application, 35 Contact Hours",
+      "pmpCategory": "eligibility-application-contact-hours",
       "sourceUrl": "https://www.pmi.org"
     },
     {
@@ -717,10 +854,12 @@
       "clusterId": "pmp2026",
       "question": "Can I sit PMP without project management experience?",
       "answer": "PMP requires qualifying project leadership experience per PMI rules. CAPM may suit earlier-career candidates — see /certifications/capm.",
+      "shortAnswer": "PMP requires qualifying project leadership experience per PMI rules.  CAPM may suit earlier-career candidates — see /certifications/capm.",
+      "fullAnswer": "PMP requires qualifying project leadership experience per PMI rules. CAPM may suit earlier-career candidates — see /certifications/capm.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Eligibility, Application, 35 Contact Hours",
+      "pmpCategory": "eligibility-application-contact-hours",
       "relatedPage": "/certifications/capm"
     },
     {
@@ -728,10 +867,12 @@
       "clusterId": "pmp2026",
       "question": "Does the 2026 exam change affect PMP eligibility?",
       "answer": "Eligibility is set by PMI policy, not exam format. Confirm the current handbook.",
+      "shortAnswer": "Eligibility is set by PMI policy, not exam format.  Confirm the current handbook.",
+      "fullAnswer": "Eligibility is set by PMI policy, not exam format. Confirm the current handbook.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Eligibility, Application, 35 Contact Hours",
+      "pmpCategory": "eligibility-application-contact-hours",
       "relatedPage": "/pmp-exam-2026"
     },
     {
@@ -739,10 +880,12 @@
       "clusterId": "pmp2026",
       "question": "Where do I schedule the PMP exam?",
       "answer": "After PMI approval, schedule at Pearson VUE. PM Structure does not deliver the official exam.",
+      "shortAnswer": "After PMI approval, schedule at Pearson VUE.  PM Structure does not deliver the official exam.",
+      "fullAnswer": "After PMI approval, schedule at Pearson VUE. PM Structure does not deliver the official exam.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Eligibility, Application, 35 Contact Hours",
+      "pmpCategory": "eligibility-application-contact-hours",
       "sourceUrl": "https://www.pearsonvue.com/pmi"
     },
     {
@@ -750,10 +893,12 @@
       "clusterId": "pmp2026",
       "question": "How do I prepare for PMP in 2026?",
       "answer": "Map the ECO, pick a pathway tier, schedule mocks, and decide pre- or post-July timing. Start at /pmp-exam-2026.",
+      "shortAnswer": "Map the ECO, pick a pathway tier, schedule mocks, and decide pre- or post-July timing.  Start at /pmp-exam-2026.",
+      "fullAnswer": "Map the ECO, pick a pathway tier, schedule mocks, and decide pre- or post-July timing. Start at /pmp-exam-2026.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "study-plan",
       "relatedPage": "/pmp-exam-2026"
     },
     {
@@ -761,10 +906,12 @@
       "clusterId": "pmp2026",
       "question": "What is a PMP study plan for 2026?",
       "answer": "A weekly schedule covering domains, mocks, and review. Template: /pmp-study-plan-2026.",
+      "shortAnswer": "A weekly schedule covering domains, mocks, and review.  Template: /pmp-study-plan-2026.",
+      "fullAnswer": "A weekly schedule covering domains, mocks, and review. Template: /pmp-study-plan-2026.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "study-plan",
       "relatedPage": "/pmp-study-plan-2026"
     },
     {
@@ -772,10 +919,12 @@
       "clusterId": "pmp2026",
       "question": "What is PMP readiness?",
       "answer": "Readiness means consistent mock performance, domain coverage, and confidence in situational judgment — not only finishing videos.",
+      "shortAnswer": "Readiness means consistent mock performance, domain coverage, and confidence in situational judgment — not only finishing videos.",
+      "fullAnswer": "Readiness means consistent mock performance, domain coverage, and confidence in situational judgment — not only finishing videos.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "pmp-readiness",
       "relatedPage": "/pmp-readiness-diagnostic"
     },
     {
@@ -783,10 +932,12 @@
       "clusterId": "pmp2026",
       "question": "What is PMP scenario practice?",
       "answer": "Scenario practice trains how you apply PM concepts under exam conditions. Overview: /pmp-scenario-practice.",
+      "shortAnswer": "Scenario practice trains how you apply PM concepts under exam conditions.  Overview: /pmp-scenario-practice.",
+      "fullAnswer": "Scenario practice trains how you apply PM concepts under exam conditions. Overview: /pmp-scenario-practice.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "scenario-practice",
       "relatedPage": "/pmp-scenario-practice"
     },
     {
@@ -794,10 +945,12 @@
       "clusterId": "pmp2026",
       "question": "When should I take a PMP mock exam?",
       "answer": "After initial content review and before booking Pearson VUE. Guidance: /pmp-mock-exam.",
+      "shortAnswer": "After initial content review and before booking Pearson VUE.  Guidance: /pmp-mock-exam.",
+      "fullAnswer": "After initial content review and before booking Pearson VUE. Guidance: /pmp-mock-exam.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "mock-exams",
       "relatedPage": "/pmp-mock-exam"
     },
     {
@@ -805,10 +958,12 @@
       "clusterId": "pmp2026",
       "question": "How many PMP mock exams should I take?",
       "answer": "Most candidates benefit from multiple timed attempts with error logging — exact count depends on your baseline and exam date.",
+      "shortAnswer": "Most candidates benefit from multiple timed attempts with error logging — exact count depends on your baseline and exam date.",
+      "fullAnswer": "Most candidates benefit from multiple timed attempts with error logging — exact count depends on your baseline and exam date.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "mock-exams",
       "relatedPage": "/pmp-mock-exam"
     },
     {
@@ -816,10 +971,12 @@
       "clusterId": "pmp2026",
       "question": "What is the PMP readiness diagnostic on PM Structure?",
       "answer": "A structured orientation covering timing, experience, and pathway fit. See /pmp-readiness-diagnostic.",
+      "shortAnswer": "A structured orientation covering timing, experience, and pathway fit.  See /pmp-readiness-diagnostic.",
+      "fullAnswer": "A structured orientation covering timing, experience, and pathway fit. See /pmp-readiness-diagnostic.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "pmp-readiness",
       "relatedPage": "/pmp-readiness-diagnostic"
     },
     {
@@ -827,10 +984,12 @@
       "clusterId": "pmp2026",
       "question": "How many hours per week should I study for PMP?",
       "answer": "Common ranges are 8–15 hours for intensive prep, but your diagnostic and work schedule should set the target.",
+      "shortAnswer": "Common ranges are 8–15 hours for intensive prep, but your diagnostic and work schedule should set the target.",
+      "fullAnswer": "Common ranges are 8–15 hours for intensive prep, but your diagnostic and work schedule should set the target.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "pmp-readiness",
       "relatedPage": "/pmp-readiness-diagnostic"
     },
     {
@@ -838,10 +997,12 @@
       "clusterId": "pmp2026",
       "question": "How long does PMP preparation take?",
       "answer": "Catalogue guides suggest roughly 2 weeks (Foundation), 6 weeks (Professional), and 12 weeks (Mastery) — your pace may differ.",
+      "shortAnswer": "Catalogue guides suggest roughly 2 weeks (Foundation), 6 weeks (Professional), and 12 weeks (Mastery) — your pace may differ.",
+      "fullAnswer": "Catalogue guides suggest roughly 2 weeks (Foundation), 6 weeks (Professional), and 12 weeks (Mastery) — your pace may differ.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "study-plan",
       "relatedPage": "/certifications/pmp"
     },
     {
@@ -849,20 +1010,24 @@
       "clusterId": "pmp2026",
       "question": "Does PM Structure guarantee I will pass PMP?",
       "answer": "No. We provide structured preparation; outcomes depend on your effort, experience, and exam-day performance.",
+      "shortAnswer": "No.  We provide structured preparation; outcomes depend on your effort, experience, and exam-day performance.",
+      "fullAnswer": "No. We provide structured preparation; outcomes depend on your effort, experience, and exam-day performance.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "high",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic"
+      "pmpCategory": "guarantee-disclaimer"
     },
     {
       "id": "pmp26-study-11",
       "clusterId": "pmp2026",
       "question": "What is the best PMP study schedule for working professionals?",
       "answer": "Block 60–90 minute sessions, one mock per week, and weekend domain review. Customize via /pmp-study-plan-2026.",
+      "shortAnswer": "Block 60–90 minute sessions, one mock per week, and weekend domain review.  Customize via /pmp-study-plan-2026.",
+      "fullAnswer": "Block 60–90 minute sessions, one mock per week, and weekend domain review. Customize via /pmp-study-plan-2026.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "study-plan",
       "relatedPage": "/pmp-study-plan-2026"
     },
     {
@@ -870,10 +1035,12 @@
       "clusterId": "pmp2026",
       "question": "Should I memorize PMP formulas?",
       "answer": "Understand when formulas apply in scenarios; rote memorization alone is insufficient for situational exams.",
+      "shortAnswer": "Understand when formulas apply in scenarios; rote memorization alone is insufficient for situational exams.",
+      "fullAnswer": "Understand when formulas apply in scenarios; rote memorization alone is insufficient for situational exams.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "scenario-practice",
       "relatedPage": "/pmp-scenario-practice"
     },
     {
@@ -881,10 +1048,12 @@
       "clusterId": "pmp2026",
       "question": "How do I review PMP mock exam mistakes?",
       "answer": "Log each miss by domain and error type (knowledge vs misread), then revisit ECO tasks before the next mock. See /pmp-mock-exam.",
+      "shortAnswer": "Log each miss by domain and error type (knowledge vs misread), then revisit ECO tasks before the next mock.  See /pmp-mock-exam.",
+      "fullAnswer": "Log each miss by domain and error type (knowledge vs misread), then revisit ECO tasks before the next mock. See /pmp-mock-exam.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Study Plan, Scenario, Mock, Diagnostic",
+      "pmpCategory": "mock-exams",
       "relatedPage": "/pmp-mock-exam"
     },
     {
@@ -892,10 +1061,13 @@
       "clusterId": "pmp2026",
       "question": "What is the PMP Foundation pathway?",
       "answer": "Foundation orients new candidates to ECO topics and baseline practice. Details: /pmp-foundation.",
+      "shortAnswer": "Foundation orients new candidates to ECO topics and baseline practice.  Details: /pmp-foundation.",
+      "fullAnswer": "Foundation orients new candidates to ECO topics and baseline practice. Details: /pmp-foundation.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Foundation / Professional / Mastery tiers",
+      "pmpCategory": "pmp-foundation",
+      "relatedPage": "/pmp-foundation",
       "relatedCourse": "/pmp-foundation"
     },
     {
@@ -903,10 +1075,13 @@
       "clusterId": "pmp2026",
       "question": "What is the PMP Professional pathway?",
       "answer": "Professional adds structured mocks and scenario practice for active exam prep. Details: /pmp-professional.",
+      "shortAnswer": "Professional adds structured mocks and scenario practice for active exam prep.  Details: /pmp-professional.",
+      "fullAnswer": "Professional adds structured mocks and scenario practice for active exam prep. Details: /pmp-professional.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Foundation / Professional / Mastery tiers",
+      "pmpCategory": "pmp-professional",
+      "relatedPage": "/pmp-professional",
       "relatedCourse": "/pmp-professional"
     },
     {
@@ -914,10 +1089,13 @@
       "clusterId": "pmp2026",
       "question": "What is the PMP Mastery pathway?",
       "answer": "Mastery targets intensive practice and exam-week discipline. Details: /pmp-mastery.",
+      "shortAnswer": "Mastery targets intensive practice and exam-week discipline.  Details: /pmp-mastery.",
+      "fullAnswer": "Mastery targets intensive practice and exam-week discipline. Details: /pmp-mastery.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Foundation / Professional / Mastery tiers",
+      "pmpCategory": "pmp-mastery",
+      "relatedPage": "/pmp-mastery",
       "relatedCourse": "/pmp-mastery"
     },
     {
@@ -925,10 +1103,12 @@
       "clusterId": "pmp2026",
       "question": "Which PMP tier should I choose?",
       "answer": "Use the comparison table on /pmp and the /pmp-readiness-diagnostic.",
+      "shortAnswer": "Use the comparison table on /pmp and the /pmp-readiness-diagnostic.",
+      "fullAnswer": "Use the comparison table on /pmp and the /pmp-readiness-diagnostic.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Foundation / Professional / Mastery tiers",
+      "pmpCategory": "foundation-professional-mastery-comparison",
       "relatedPage": "/pmp"
     },
     {
@@ -936,10 +1116,12 @@
       "clusterId": "pmp2026",
       "question": "Can I upgrade from Foundation to Professional?",
       "answer": "Contact support with your order email to discuss tier changes per published policy. See /pmp-enrollment.",
+      "shortAnswer": "Contact support with your order email to discuss tier changes per published policy.  See /pmp-enrollment.",
+      "fullAnswer": "Contact support with your order email to discuss tier changes per published policy. See /pmp-enrollment.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Foundation / Professional / Mastery tiers",
+      "pmpCategory": "enrollment-and-support",
       "relatedPage": "/pmp-enrollment"
     },
     {
@@ -947,10 +1129,13 @@
       "clusterId": "pmp2026",
       "question": "Does Mastery include mentor support?",
       "answer": "Mastery is designed for intensive readiness; mentor review availability is described on the Mastery page and order flow.",
+      "shortAnswer": "Mastery is designed for intensive readiness; mentor review availability is described on the Mastery page and order flow.",
+      "fullAnswer": "Mastery is designed for intensive readiness; mentor review availability is described on the Mastery page and order flow.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Foundation / Professional / Mastery tiers",
+      "pmpCategory": "enrollment-and-support",
+      "relatedPage": "/pmp-mastery",
       "relatedCourse": "/pmp-mastery"
     },
     {
@@ -958,10 +1143,12 @@
       "clusterId": "pmp2026",
       "question": "How much does PMP preparation cost on PM Structure?",
       "answer": "Tuition varies by tier and region. Regional scholarship pricing applies when residence and billing country qualify. See /certifications/pmp and regional pricing.",
+      "shortAnswer": "Tuition varies by tier and region.  Regional scholarship pricing applies when residence and billing country qualify.",
+      "fullAnswer": "Tuition varies by tier and region. Regional scholarship pricing applies when residence and billing country qualify. See /certifications/pmp and regional pricing.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Pricing, Regional Access, LMS, Disclaimer",
+      "pmpCategory": "regional-pricing",
       "relatedPage": "/certifications/pmp"
     },
     {
@@ -969,40 +1156,48 @@
       "clusterId": "pmp2026",
       "question": "Are PMI exam fees included in PM Structure tuition?",
       "answer": "No. Official PMP exam fees are paid to PMI/Pearson VUE separately.",
+      "shortAnswer": "No.  Official PMP exam fees are paid to PMI/Pearson VUE separately.",
+      "fullAnswer": "No. Official PMP exam fees are paid to PMI/Pearson VUE separately.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "medium",
-      "pmpCategory": "Pricing, Regional Access, LMS, Disclaimer"
+      "pmpCategory": "regional-pricing"
     },
     {
       "id": "pmp26-price-03",
       "clusterId": "pmp2026",
       "question": "Is PM Structure a PMI Authorized Training Partner (ATP)?",
       "answer": "No — unless formally confirmed on a live page, we are an independent exam-preparation platform.",
+      "shortAnswer": "No — unless formally confirmed on a live page, we are an independent exam-preparation platform.",
+      "fullAnswer": "No — unless formally confirmed on a live page, we are an independent exam-preparation platform.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "high",
-      "pmpCategory": "Pricing, Regional Access, LMS, Disclaimer"
+      "pmpCategory": "independent-platform-disclaimer"
     },
     {
       "id": "pmp26-price-04",
       "clusterId": "pmp2026",
       "question": "How does regional pricing work for PMP pathways?",
       "answer": "Scholarship tiers depend on verified residence and billing country. Checkout is USD-equivalent. Regional pricing policy.",
+      "shortAnswer": "Scholarship tiers depend on verified residence and billing country.  Checkout is USD-equivalent.",
+      "fullAnswer": "Scholarship tiers depend on verified residence and billing country. Checkout is USD-equivalent. Regional pricing policy.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Pricing, Regional Access, LMS, Disclaimer"
+      "pmpCategory": "regional-pricing"
     },
     {
       "id": "pmp26-price-05",
       "clusterId": "pmp2026",
       "question": "When do I get LMS access after PMP enrollment?",
       "answer": "After enrollment is confirmed, access is provisioned through the PM Structure learning environment. Private cohort areas are not indexed for search.",
+      "shortAnswer": "After enrollment is confirmed, access is provisioned through the PM Structure learning environment.  Private cohort areas are not indexed for search.",
+      "fullAnswer": "After enrollment is confirmed, access is provisioned through the PM Structure learning environment. Private cohort areas are not indexed for search.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Pricing, Regional Access, LMS, Disclaimer",
+      "pmpCategory": "lms-access",
       "relatedPage": "/pmp-enrollment"
     },
     {
@@ -1010,10 +1205,12 @@
       "clusterId": "pmp2026",
       "question": "Where do I enroll in a PMP pathway?",
       "answer": "Start at /pmp-enrollment or your tier page. Checkout routes are excluded from search indexing.",
+      "shortAnswer": "Start at /pmp-enrollment or your tier page.  Checkout routes are excluded from search indexing.",
+      "fullAnswer": "Start at /pmp-enrollment or your tier page. Checkout routes are excluded from search indexing.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Pricing, Regional Access, LMS, Disclaimer",
+      "pmpCategory": "enrollment-and-support",
       "relatedPage": "/pmp-enrollment"
     },
     {
@@ -1021,11 +1218,198 @@
       "clusterId": "pmp2026",
       "question": "What support is included with PMP pathways?",
       "answer": "Q&A and cohort support depend on tier. Boundaries: /pmp-q-and-a-support.",
+      "shortAnswer": "Q&A and cohort support depend on tier.  Boundaries: /pmp-q-and-a-support.",
+      "fullAnswer": "Q&A and cohort support depend on tier. Boundaries: /pmp-q-and-a-support.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low",
-      "pmpCategory": "Pricing, Regional Access, LMS, Disclaimer",
+      "pmpCategory": "enrollment-and-support",
       "relatedPage": "/pmp-q-and-a-support"
+    },
+    {
+      "id": "pmp26-gap-01",
+      "clusterId": "pmp2026",
+      "question": "Should I rush to take PMP before 8 July 2026?",
+      "answer": "Rushing is risky if you are not exam-ready. Use /pmp-before-8-july-2026 and your diagnostic before booking Pearson VUE.",
+      "shortAnswer": "Rushing is risky if you are not exam-ready.  Use /pmp-before-8-july-2026 and your diagnostic before booking Pearson VUE.",
+      "fullAnswer": "Rushing is risky if you are not exam-ready. Use /pmp-before-8-july-2026 and your diagnostic before booking Pearson VUE.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low",
+      "pmpCategory": "pmp-exam-change-2026",
+      "relatedPage": "/pmp-before-8-july-2026"
+    },
+    {
+      "id": "pmp26-gap-02",
+      "clusterId": "pmp2026",
+      "question": "Should I wait for the new PMP exam after July 2026?",
+      "answer": "Waiting can make sense if you prefer the updated ECO narrative — but timelines and eligibility are personal. See /pmp-after-9-july-2026.",
+      "shortAnswer": "Waiting can make sense if you prefer the updated ECO narrative — but timelines and eligibility are personal.  See /pmp-after-9-july-2026.",
+      "fullAnswer": "Waiting can make sense if you prefer the updated ECO narrative — but timelines and eligibility are personal. See /pmp-after-9-july-2026.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low",
+      "pmpCategory": "new-exam-from-july-2026",
+      "relatedPage": "/pmp-after-9-july-2026"
+    },
+    {
+      "id": "pmp26-gap-03",
+      "clusterId": "pmp2026",
+      "question": "Does the PMP exam test agile, hybrid, and predictive delivery?",
+      "answer": "PMP scenarios often blend approaches. Study situational judgment across methods — see /pmp-current-vs-new-exam.",
+      "shortAnswer": "PMP scenarios often blend approaches.  Study situational judgment across methods — see /pmp-current-vs-new-exam.",
+      "fullAnswer": "PMP scenarios often blend approaches. Study situational judgment across methods — see /pmp-current-vs-new-exam.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low",
+      "pmpCategory": "agile-hybrid-predictive",
+      "relatedPage": "/pmp-current-vs-new-exam"
+    },
+    {
+      "id": "pmp26-gap-04",
+      "clusterId": "pmp2026",
+      "question": "Is PM Structure affiliated with PMI?",
+      "answer": "PM Structure is an independent exam-preparation platform. We are not PMI, an official ATP, or an official certification body unless explicitly stated on a live page.",
+      "shortAnswer": "PM Structure is an independent exam-preparation platform.  We are not PMI, an official ATP, or an official certification body unless explicitly stated on a live page.",
+      "fullAnswer": "PM Structure is an independent exam-preparation platform. We are not PMI, an official ATP, or an official certification body unless explicitly stated on a live page.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "high",
+      "pmpCategory": "independent-platform-disclaimer",
+      "relatedPage": "/answers/is-pm-structure-an-official-pmi-atp"
+    },
+    {
+      "id": "pmp26-gap-05",
+      "clusterId": "pmp2026",
+      "question": "Does PM Structure guarantee PMP exam success?",
+      "answer": "No. We do not guarantee exam results. Preparation outcomes depend on your effort, experience, and exam-day performance.",
+      "shortAnswer": "No.  We do not guarantee exam results.",
+      "fullAnswer": "No. We do not guarantee exam results. Preparation outcomes depend on your effort, experience, and exam-day performance.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "high",
+      "pmpCategory": "guarantee-disclaimer",
+      "relatedPage": "/answers/does-pm-structure-guarantee-pmp-success"
+    },
+    {
+      "id": "pmp26-gap-06",
+      "clusterId": "pmp2026",
+      "question": "Can I prepare for PMP in 30 days while working full time?",
+      "answer": "Some candidates compress prep, but 30 days is aggressive for most working professionals. Use /pmp-readiness-diagnostic to set a realistic plan.",
+      "shortAnswer": "Some candidates compress prep, but 30 days is aggressive for most working professionals.  Use /pmp-readiness-diagnostic to set a realistic plan.",
+      "fullAnswer": "Some candidates compress prep, but 30 days is aggressive for most working professionals. Use /pmp-readiness-diagnostic to set a realistic plan.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low",
+      "pmpCategory": "study-plan",
+      "relatedPage": "/pmp-readiness-diagnostic"
+    },
+    {
+      "id": "pmp26-gap-07",
+      "clusterId": "pmp2026",
+      "question": "Is the new PMP exam harder than the current exam?",
+      "answer": "Difficulty is subjective and ECO-dependent. Compare narratives at /pmp-current-vs-new-exam and verify on PMI.org.",
+      "shortAnswer": "Difficulty is subjective and ECO-dependent.  Compare narratives at /pmp-current-vs-new-exam and verify on PMI.",
+      "fullAnswer": "Difficulty is subjective and ECO-dependent. Compare narratives at /pmp-current-vs-new-exam and verify on PMI.org.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low",
+      "pmpCategory": "pmp-current-vs-new-exam",
+      "relatedPage": "/pmp-current-vs-new-exam",
+      "sourceTodo": "Avoid claiming universal harder/easier without PMI source."
+    },
+    {
+      "id": "pmp26-gap-08",
+      "clusterId": "pmp2026",
+      "question": "Can PM Structure help with my PMP application submission?",
+      "answer": "We provide preparation guidance but do not submit PMI applications on your behalf. You must apply directly through PMI.org.",
+      "shortAnswer": "We provide preparation guidance but do not submit PMI applications on your behalf.  You must apply directly through PMI.",
+      "fullAnswer": "We provide preparation guidance but do not submit PMI applications on your behalf. You must apply directly through PMI.org.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "medium",
+      "pmpCategory": "eligibility-application-contact-hours",
+      "relatedPage": "/pmp-enrollment"
+    },
+    {
+      "id": "pmp26-gap-09",
+      "clusterId": "pmp2026",
+      "question": "How should I study agile, hybrid, and predictive for PMP?",
+      "answer": "Use situational practice across all three — see /pmp-agile-hybrid-predictive and /pmp-scenario-practice.",
+      "shortAnswer": "Use situational practice across all three — see /pmp-agile-hybrid-predictive and /pmp-scenario-practice.",
+      "fullAnswer": "Use situational practice across all three — see /pmp-agile-hybrid-predictive and /pmp-scenario-practice.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low",
+      "pmpCategory": "agile-hybrid-predictive",
+      "relatedPage": "/pmp-agile-hybrid-predictive"
+    },
+    {
+      "id": "pmp26-gap-10",
+      "clusterId": "pmp2026",
+      "question": "What milestones are on the PMP 2026 exam timeline?",
+      "answer": "Key planning dates include the transition around 9 July 2026. Map your study window at /pmp-exam-timeline-2026.",
+      "shortAnswer": "Key planning dates include the transition around 9 July 2026.  Map your study window at /pmp-exam-timeline-2026.",
+      "fullAnswer": "Key planning dates include the transition around 9 July 2026. Map your study window at /pmp-exam-timeline-2026.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low",
+      "pmpCategory": "pmp-exam-timeline-2026",
+      "relatedPage": "/pmp-exam-timeline-2026",
+      "sourceTodo": "Confirm timeline on PMI.org before booking."
+    },
+    {
+      "id": "pmp26-gap-11",
+      "clusterId": "pmp2026",
+      "question": "How does Q&A support work on PMP pathways?",
+      "answer": "Support boundaries and response expectations are described on /pmp-q-and-a-support. We do not provide live exam answers.",
+      "shortAnswer": "Support boundaries and response expectations are described on /pmp-q-and-a-support.  We do not provide live exam answers.",
+      "fullAnswer": "Support boundaries and response expectations are described on /pmp-q-and-a-support. We do not provide live exam answers.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low",
+      "pmpCategory": "enrollment-and-support",
+      "relatedPage": "/pmp-q-and-a-support"
+    },
+    {
+      "id": "pmp26-gap-12",
+      "clusterId": "pmp2026",
+      "question": "Where can I read all PMP FAQs on PM Structure?",
+      "answer": "Browse the dedicated hub at /pmp-faq for categorized PMP questions, or /faq for all certification FAQs.",
+      "shortAnswer": "Browse the dedicated hub at /pmp-faq for categorized PMP questions, or /faq for all certification FAQs.",
+      "fullAnswer": "Browse the dedicated hub at /pmp-faq for categorized PMP questions, or /faq for all certification FAQs.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low",
+      "pmpCategory": "pmp-exam-change-2026",
+      "relatedPage": "/pmp-faq"
+    },
+    {
+      "id": "pmp26-gap-13",
+      "clusterId": "pmp2026",
+      "question": "When should I book Pearson VUE for a 2026 PMP slot?",
+      "answer": "Book when your mocks and domain coverage support your target format (before or after July). See /pmp-exam-timeline-2026.",
+      "shortAnswer": "Book when your mocks and domain coverage support your target format (before or after July).  See /pmp-exam-timeline-2026.",
+      "fullAnswer": "Book when your mocks and domain coverage support your target format (before or after July). See /pmp-exam-timeline-2026.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low",
+      "pmpCategory": "pmp-exam-timeline-2026",
+      "relatedPage": "/pmp-exam-timeline-2026"
+    },
+    {
+      "id": "pmp26-gap-14",
+      "clusterId": "pmp2026",
+      "question": "Are hybrid approaches tested more on the new PMP exam?",
+      "answer": "Situational items may emphasize choosing the right approach. Study /pmp-agile-hybrid-predictive without assuming official weight changes.",
+      "shortAnswer": "Situational items may emphasize choosing the right approach.  Study /pmp-agile-hybrid-predictive without assuming official weight changes.",
+      "fullAnswer": "Situational items may emphasize choosing the right approach. Study /pmp-agile-hybrid-predictive without assuming official weight changes.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low",
+      "pmpCategory": "agile-hybrid-predictive",
+      "relatedPage": "/pmp-agile-hybrid-predictive",
+      "sourceTodo": "Verify methodology emphasis in latest PMI ECO."
     }
   ]
 }

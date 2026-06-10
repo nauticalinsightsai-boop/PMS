@@ -16,7 +16,12 @@ const hubs: TopicHubContent[] = [
     resources: [
       { href: '/pmp', label: 'PMP hub' },
       { href: '/pmp-exam-2026', label: 'PMP 2026 guide' },
+      { href: '/pmp-faq', label: 'PMP FAQ hub' },
       { href: '/certifications/pmp', label: 'Certification pathways' },
+      { href: '/pmp-foundation', label: 'PMP Foundation' },
+      { href: '/pmp-professional', label: 'PMP Professional' },
+      { href: '/pmp-mastery', label: 'PMP Mastery' },
+      { href: '/pmp-readiness-diagnostic', label: 'Readiness diagnostic' },
       { href: '/pmp-enrollment', label: 'Enrollment hub' },
     ],
     relatedAnswers: [
@@ -48,6 +53,15 @@ const hubs: TopicHubContent[] = [
     relatedAnswers: [
       { href: '/answers/is-the-pmp-exam-changing-in-2026', label: 'Is the exam changing?' },
       { href: '/answers/when-does-the-new-pmp-exam-start', label: 'When does the new exam start?' },
+      { href: '/answers/should-i-rush-pmp-before-july-2026', label: 'Should I rush before July?' },
+    ],
+    howExamReadiness:
+      '2026 transition planning shows up in timing decisions, mock selection, and domain emphasis — verify every date on PMI.org before you schedule.',
+    sourceTodo: 'Confirm PMP transition dates and ECO updates on PMI.org before treating any third-party summary as final.',
+    references: [{ label: 'PMI.org — PMP certification', href: 'https://www.pmi.org/certifications/project-management-pmp' }],
+    relatedCourses: [
+      { href: '/pmp-foundation', label: 'PMP Foundation pathway' },
+      { href: '/pmp-professional', label: 'PMP Professional pathway' },
     ],
     ctaHref: '/pmp-exam-2026',
     ctaLabel: 'Read the 2026 guide',
@@ -367,6 +381,181 @@ const hubs: TopicHubContent[] = [
     relatedAnswers: [{ href: '/answers/what-is-pmp-readiness', label: 'What is PMP readiness?' }],
     ctaHref: '/pmp-readiness-diagnostic',
     ctaLabel: 'Take diagnostic',
+  },
+  {
+    slug: 'pmp-domain-weighting',
+    path: '/topics/pmp-domain-weighting',
+    title: 'PMP domain weighting — knowledge hub',
+    description: 'How PMP domain weights guide study time — verify on PMI.org.',
+    h1: 'PMP domain weighting — PM Structure knowledge hub',
+    whatIs:
+      'Domain weighting describes how PMI allocates exam emphasis across People, Process, and Business Environment. Percentages change with the ECO.',
+    whyMatters: 'Misallocated study hours leave weak domains exposed on exam day.',
+    viewpoint:
+      'We summarize orientation at /pmp-new-exam-domain-weighting with sourceTodo reminders. Always confirm on PMI.org.',
+    sourceTodo: 'Confirm latest ECO domain percentages on PMI.org.',
+    resources: [
+      { href: '/pmp-new-exam-domain-weighting', label: 'Domain weighting guide' },
+      { href: '/pmp-people-domain', label: 'People domain' },
+      { href: '/pmp-process-domain', label: 'Process domain' },
+    ],
+    relatedAnswers: [
+      { href: '/answers/what-are-the-pmp-2026-domain-weights', label: '2026 domain weights' },
+    ],
+    ctaHref: '/pmp-exam-2026',
+    ctaLabel: 'PMP 2026 guide',
+  },
+  {
+    slug: 'pmp-people-domain',
+    path: '/topics/pmp-people-domain',
+    title: 'PMP People domain — knowledge hub',
+    description: 'People domain tasks, stakeholder focus, and study resources.',
+    h1: 'PMP People domain — PM Structure knowledge hub',
+    whatIs:
+      'The People domain covers team leadership, conflict, stakeholder engagement, and collaboration tasks in the ECO.',
+    whyMatters: 'Situational judgment items often cluster around people and stakeholder scenarios.',
+    viewpoint: 'Pair domain reading with scenario practice — not flashcards alone.',
+    resources: [
+      { href: '/pmp-people-domain', label: 'People domain guide' },
+      { href: '/topics/stakeholder-engagement', label: 'Stakeholder engagement hub' },
+    ],
+    relatedAnswers: [{ href: '/answers/what-is-the-pmp-people-domain', label: 'What is the People domain?' }],
+    ctaHref: '/pmp-scenario-practice',
+    ctaLabel: 'Scenario practice',
+  },
+  {
+    slug: 'pmp-process-domain',
+    path: '/topics/pmp-process-domain',
+    title: 'PMP Process domain — knowledge hub',
+    description: 'Process domain coverage, planning, execution, and monitoring tasks.',
+    h1: 'PMP Process domain — PM Structure knowledge hub',
+    whatIs:
+      'The Process domain spans initiating through closing — scope, schedule, cost, quality, risk, and integration.',
+    whyMatters: 'It is typically the largest share of PMP exam tasks.',
+    viewpoint: 'Use mocks to see how process knowledge appears in situational items.',
+    resources: [
+      { href: '/pmp-process-domain', label: 'Process domain guide' },
+      { href: '/pmp-mock-exam', label: 'Mock exams' },
+    ],
+    relatedAnswers: [{ href: '/answers/what-is-the-pmp-process-domain', label: 'What is the Process domain?' }],
+    ctaHref: '/pmp-professional',
+    ctaLabel: 'Professional pathway',
+  },
+  {
+    slug: 'stakeholder-engagement',
+    path: '/topics/stakeholder-engagement',
+    title: 'Stakeholder engagement — knowledge hub',
+    description: 'Stakeholder analysis and engagement for PMP and project delivery.',
+    h1: 'Stakeholder engagement — PM Structure knowledge hub',
+    whatIs:
+      'Stakeholder engagement is identifying, analyzing, and managing stakeholder expectations throughout the project lifecycle.',
+    whyMatters: 'PMP items frequently test how you handle conflicting stakeholder needs.',
+    viewpoint: 'Link People domain study to realistic scenario practice.',
+    resources: [
+      { href: '/pmp-people-domain', label: 'People domain' },
+      { href: '/pmp-scenario-practice', label: 'Scenario practice' },
+    ],
+    relatedAnswers: [{ href: '/answers/what-is-the-pmp-people-domain', label: 'People domain answer' }],
+    ctaHref: '/pmp-scenario-practice',
+    ctaLabel: 'Practice scenarios',
+  },
+  {
+    slug: 'project-delivery-readiness',
+    path: '/topics/project-delivery-readiness',
+    title: 'Project delivery readiness — knowledge hub',
+    description: 'Readiness for delivering projects and passing credential exams.',
+    h1: 'Project delivery readiness — PM Structure knowledge hub',
+    whatIs:
+      'Delivery readiness combines skills, governance, and exam confidence — not just certificate completion.',
+    whyMatters: 'Teams and candidates who measure readiness reduce rework and retakes.',
+    viewpoint: 'Use diagnostics before committing to exam dates or pathway tiers.',
+    resources: [
+      { href: '/pmp-readiness-diagnostic', label: 'PMP diagnostic' },
+      { href: '/topics/pmp-readiness', label: 'PMP readiness hub' },
+    ],
+    relatedAnswers: [{ href: '/answers/what-is-pmp-readiness', label: 'What is PMP readiness?' }],
+    ctaHref: '/pmp-readiness-diagnostic',
+    ctaLabel: 'Take diagnostic',
+  },
+  {
+    slug: 'mock-exam-review',
+    path: '/topics/mock-exam-review',
+    title: 'Mock exam review — knowledge hub',
+    description: 'How to review PMP mock exams and improve scores.',
+    h1: 'Mock exam review — PM Structure knowledge hub',
+    whatIs:
+      'Mock review is structured analysis of misses — by domain, item type, and timing — between attempts.',
+    whyMatters: 'Mocks without review repeat the same mistakes.',
+    viewpoint: 'We do not guarantee pass outcomes; mocks are decision tools.',
+    resources: [
+      { href: '/pmp-mock-exam', label: 'Mock exam hub' },
+      { href: '/answers/what-should-i-do-after-a-low-pmp-mock-score', label: 'After a low score' },
+    ],
+    relatedAnswers: [
+      { href: '/answers/how-many-pmp-mock-exams-should-i-take', label: 'How many mocks?' },
+      { href: '/answers/what-should-i-do-after-a-low-pmp-mock-score', label: 'Low mock score' },
+    ],
+    ctaHref: '/pmp-mock-exam',
+    ctaLabel: 'Mock guidance',
+  },
+  {
+    slug: 'pmp-study-plan',
+    path: '/topics/pmp-study-plan',
+    title: 'PMP study plan — knowledge hub',
+    description: 'Study planning resources for PMP candidates on PM Structure.',
+    h1: 'PMP study plan — PM Structure knowledge hub',
+    whatIs:
+      'A PMP study plan maps available hours to ECO domains, mocks, and review cycles until scheduling confidence.',
+    whyMatters: 'Unplanned prep drifts — especially for working professionals.',
+    viewpoint: 'Adjust weekly; verify domain weights on PMI.org.',
+    resources: [
+      { href: '/pmp-study-plan-2026', label: '2026 study plan' },
+      { href: '/answers/what-is-the-best-pmp-study-plan', label: 'Best study plan answer' },
+    ],
+    relatedAnswers: [
+      { href: '/answers/what-is-the-best-pmp-study-plan', label: 'Best study plan' },
+      { href: '/answers/how-to-prepare-for-pmp-in-2026', label: 'Prepare in 2026' },
+    ],
+    ctaHref: '/pmp-study-plan-2026',
+    ctaLabel: 'View study plan',
+  },
+  {
+    slug: 'predictive-project-management',
+    path: '/topics/predictive-project-management',
+    title: 'Predictive project management — knowledge hub',
+    description: 'Predictive, agile, and hybrid approaches in PMP context.',
+    h1: 'Predictive project management — PM Structure knowledge hub',
+    whatIs:
+      'Predictive (plan-driven) approaches emphasize upfront planning and baseline control — one pillar of PMP situational judgment.',
+    whyMatters: 'PMP items test when predictive vs adaptive approaches fit.',
+    viewpoint: 'Read alongside agile and hybrid hubs; avoid siloed study.',
+    resources: [
+      { href: '/pmp-agile-hybrid-predictive', label: 'Agile, hybrid, predictive guide' },
+      { href: '/topics/agile-project-management', label: 'Agile hub' },
+    ],
+    relatedAnswers: [{ href: '/answers/how-to-prepare-for-pmp-in-2026', label: 'Prepare in 2026' }],
+    ctaHref: '/pmp-agile-hybrid-predictive',
+    ctaLabel: 'Read guide',
+  },
+  {
+    slug: 'project-value-delivery',
+    path: '/topics/project-value-delivery',
+    title: 'Project value delivery — knowledge hub',
+    description: 'Delivering measurable value — complements the value-delivery topic hub.',
+    h1: 'Project value delivery — PM Structure knowledge hub',
+    whatIs:
+      'Value delivery connects outputs to outcomes and benefits — central to Business Environment and portfolio thinking.',
+    whyMatters: 'Exam items increasingly frame decisions around value, not only scope or schedule.',
+    viewpoint: 'Pair with /topics/value-delivery for certification context vs delivery practice.',
+    resources: [
+      { href: '/topics/value-delivery', label: 'Value delivery (certification angle)' },
+      { href: '/pmp-business-environment-domain', label: 'Business Environment domain' },
+    ],
+    relatedAnswers: [
+      { href: '/answers/what-is-the-pmp-business-environment-domain', label: 'Business Environment domain' },
+    ],
+    ctaHref: '/pmp-business-environment-domain',
+    ctaLabel: 'Business Environment guide',
   },
 ];
 

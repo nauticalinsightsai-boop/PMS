@@ -1,11 +1,16 @@
 import * as siteData from '@/data/siteData';
 import { FAQ_ENTRIES } from '@/content/faq/data';
-import { isFaqPublished, isFaqSchemaEligible } from '@/content/faq';
+import {
+  isFaqPublished,
+  isFaqSchemaEligible,
+  resolveFaqFullAnswer,
+  resolveFaqShortAnswer,
+} from '@/content/faq';
 import { PMP_CLUSTER_PATHS } from '@/content/pmp/pages';
 import { PMP_COURSE_PATHS } from '@/content/pmp/courses';
 import { PMP_SERVICE_PATHS } from '@/content/pmp/services';
 import { ANSWER_PAGES } from '@/content/answers/pages';
-import { TOPIC_HUBS } from '@/content/topics/hubs';
+import { getPublishedTopicHubs } from '@/content/topics';
 import {
   PMS_ORGANIZATION_SAME_AS,
   PMS_SITE_URL,
@@ -71,6 +76,7 @@ export function buildEntityJson() {
 
 export function buildLlmsTxt(): string {
   const pmpClusterLines = [
+    '/pmp-faq',
     '/pmp-exam-2026',
     '/pmp',
     '/pmp-exam-timeline-2026',
@@ -107,6 +113,7 @@ export function buildLlmsTxt(): string {
     ['Home', '/'],
     ['Certifications', '/certifications'],
     ['FAQ', '/faq'],
+    ['PMP FAQ', '/pmp-faq'],
     ['Answers hub', '/answers'],
     ['Topics hub', '/topics'],
     ['Legal hub', '/legal'],
@@ -290,6 +297,17 @@ export function buildPricingPolicyJson() {
 }
 
 export function buildPmp2026Json() {
+  const priorityAnswers = [
+    '/answers/is-the-pmp-exam-changing-in-2026',
+    '/answers/when-does-the-new-pmp-exam-start',
+    '/answers/should-i-take-pmp-before-8-july-2026',
+    '/answers/should-i-prepare-for-new-pmp-after-9-july-2026',
+    '/answers/what-is-the-pmp-business-environment-domain',
+    '/answers/what-is-the-pmp-exam-content-outline',
+    '/answers/current-pmp-exam-vs-new-pmp-exam',
+    '/answers/what-are-the-pmp-2026-domain-weights',
+  ].map((path) => `${siteUrl}${path}`);
+
   return {
     site: siteUrl,
     version: AI_FILE_VERSION,
@@ -298,11 +316,13 @@ export function buildPmp2026Json() {
     canonicalUrl: `${siteUrl}/pmp-exam-2026`,
     hubUrl: `${siteUrl}/pmp`,
     domains: ['People', 'Process', 'Business Environment'],
+    priorityAnswers,
     relatedPages: [
       `${siteUrl}/pmp-exam-2026`,
       `${siteUrl}/pmp-current-vs-new-exam`,
       `${siteUrl}/pmp-exam-timeline-2026`,
       `${siteUrl}/certifications/pmp`,
+      `${siteUrl}/pmp-faq`,
       `${siteUrl}/faq`,
     ],
     officialSourceTodo:
@@ -361,12 +381,16 @@ function faqExportItem(f: (typeof FAQ_ENTRIES)[number]) {
     clusterId: f.clusterId,
     question: f.question,
     answer: stripMarkdownLinks(f.answer),
+    shortAnswer: stripMarkdownLinks(resolveFaqShortAnswer(f)),
+    fullAnswer: stripMarkdownLinks(resolveFaqFullAnswer(f)),
     status: f.status ?? 'published',
     schemaEligible: isFaqSchemaEligible(f),
     complianceRisk: f.complianceRisk ?? 'low',
     pmpCategory: f.pmpCategory,
     relatedPage: f.relatedPage,
     relatedCourse: f.relatedCourse,
+    relatedTopicSlug: f.relatedTopicSlug,
+    relatedTopicUrl: f.relatedTopicSlug ? `${siteUrl}/topics/${f.relatedTopicSlug}` : undefined,
     sourceUrl: f.sourceUrl,
     sourceTodo: f.sourceTodo,
   };
@@ -387,7 +411,14 @@ export function buildPmpFaqJson() {
         f.question.toLowerCase().includes('pmp') ||
         f.answer.toLowerCase().includes('pmp')),
   ).map(faqExportItem);
-  return { site: siteUrl, version: AI_FILE_VERSION, updatedAt: today(), count: items.length, items };
+  return {
+    site: siteUrl,
+    version: AI_FILE_VERSION,
+    updatedAt: today(),
+    indexUrl: `${siteUrl}/pmp-faq`,
+    count: items.length,
+    items,
+  };
 }
 
 export function buildPmpRoutesJson() {
@@ -419,6 +450,13 @@ export function buildPmpRoutesJson() {
         url: `${siteUrl}/certifications/pmp`,
         indexing: 'index,follow',
       },
+      {
+        path: '/pmp-faq',
+        group: 'faq',
+        status: 'live',
+        url: `${siteUrl}/pmp-faq`,
+        indexing: 'index,follow',
+      },
     ],
   };
 }
@@ -444,19 +482,21 @@ export function buildAnswersJson() {
 }
 
 export function buildTopicsJson() {
+  const hubs = getPublishedTopicHubs();
   return {
     site: siteUrl,
     version: AI_FILE_VERSION,
     updatedAt: today(),
-    count: TOPIC_HUBS.length,
+    count: hubs.length,
     indexUrl: `${siteUrl}/topics`,
-    hubs: TOPIC_HUBS.map((h) => ({
+    hubs: hubs.map((h) => ({
       slug: h.slug,
       path: h.path,
       url: `${siteUrl}${h.path}`,
       title: h.title,
       description: h.description,
-      status: 'live',
+      targetQuery: h.targetQuery,
+      status: h.status ?? 'published',
     })),
   };
 }

@@ -8,6 +8,13 @@ export type TopicFaq = {
   answer: string;
 };
 
+export type TopicReference = {
+  label: string;
+  href: string;
+};
+
+export type TopicStatus = 'published' | 'planned' | 'draft';
+
 export type TopicHubContent = {
   slug: string;
   path: string;
@@ -16,7 +23,17 @@ export type TopicHubContent = {
   h1: string;
   whatIs: string;
   whyMatters: string;
+  howExamReadiness?: string;
   viewpoint: string;
+  sourceTodo?: string;
+  cautions?: string[];
+  references?: TopicReference[];
+  relatedFaqIds?: string[];
+  relatedCourses?: TopicResource[];
+  targetQuery?: string;
+  dateModified?: string;
+  version?: string;
+  status?: TopicStatus;
   resources: TopicResource[];
   relatedAnswers: TopicResource[];
   faqs?: TopicFaq[];

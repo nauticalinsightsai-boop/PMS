@@ -1,15 +1,15 @@
 import { PMS_SITE_URL } from '@/config/pms-site';
-import { getFaqForSchema } from '@/content/faq';
+import { getFaqsForSchemaByPath } from '@/content/faq';
 import { buildBreadcrumbSchema, buildFaqPageSchema, buildWebPageSchema } from '@/lib/schema';
 
 export function FaqPageJsonLd() {
-  const items = getFaqForSchema();
+  const items = getFaqsForSchemaByPath('/faq');
   const graph = [
     buildWebPageSchema({
       path: '/faq',
-      name: 'FAQ — Certifications, Pricing & Support',
+      name: 'FAQ — PMP 2026, Certifications, Pricing & Support',
       description:
-        'Answers on PMP and PRINCE2 pathways, regional scholarship pricing, membership, delivery, checkout, privacy, and exam preparation.',
+        'PMP exam 2026 FAQs plus PRINCE2 pathways, regional scholarship pricing, membership, delivery, privacy, and exam preparation.',
     }),
     buildFaqPageSchema(items, `${PMS_SITE_URL}/faq`),
     buildBreadcrumbSchema([

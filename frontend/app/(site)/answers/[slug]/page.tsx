@@ -1,23 +1,28 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { AnswerPage } from '@/components/answers/AnswerPage';
-import { ANSWER_SLUGS, getAnswerPage } from '@/content/answers/pages';
+import { getAnswerPage } from '@/content/answers/pages';
+import { getPublishedAnswerPages, isAnswerPublished } from '@/content/answers';
 import { buildPageMetadata } from '@/lib/site-metadata';
 
 type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return ANSWER_SLUGS.map((slug) => ({ slug }));
+  return getPublishedAnswerPages().map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const page = getAnswerPage(slug);
   if (!page) return {};
+  const title = page.title.includes('| PM Structure')
+    ? page.title
+    : `${page.title} | PM Structure`;
   return buildPageMetadata({
-    title: page.title,
+    title,
     description: page.description,
     path: page.path,
+    ...(page.status && !isAnswerPublished(page) ? { robots: { index: false, follow: false } } : {}),
   });
 }
 

@@ -7,7 +7,8 @@ const clusterLinks = (current: string): PmpPageContent['relatedLinks'] => [
   { href: '/pmp-current-vs-new-exam', label: 'Current vs new exam' },
   { href: '/pmp-exam-timeline-2026', label: '2026 timeline' },
   { href: '/certifications/pmp', label: 'PMP certification pathway' },
-  { href: '/faq', label: 'FAQ' },
+  { href: '/pmp-faq', label: 'PMP FAQ' },
+  { href: '/faq', label: 'All FAQs' },
   { href: '/answers', label: 'Direct answers' },
 ].filter((l) => l.href !== current);
 
@@ -121,7 +122,13 @@ const pages: PmpPageContent[] = [
         answer: 'No. We provide independent exam preparation support; outcomes depend on your study time, experience, and exam performance.',
       },
     ],
-    relatedLinks: clusterLinks('/pmp-exam-2026'),
+    relatedLinks: [
+      ...clusterLinks('/pmp-exam-2026'),
+      { href: '/answers/is-the-pmp-exam-changing-in-2026', label: 'Is the PMP exam changing in 2026?' },
+      { href: '/answers/current-pmp-exam-vs-new-pmp-exam', label: 'Current vs new PMP exam' },
+      { href: '/answers/should-i-rush-pmp-before-july-2026', label: 'Should I rush before July 2026?' },
+      { href: '/topics/pmp-exam-2026', label: 'PMP exam 2026 topic hub' },
+    ],
   },
   {
     slug: 'pmp-current-vs-new-exam',

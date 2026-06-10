@@ -6,9 +6,9 @@ import { FaqPageJsonLd } from '@/components/seo/FaqPageJsonLd';
 import { buildPageMetadata } from '@/lib/site-metadata';
 
 export const metadata = buildPageMetadata({
-  title: 'FAQ — Certifications, Pricing & Support',
+  title: 'FAQ — PMP 2026, Certifications, Pricing & Support',
   description:
-    'Answers on PMP and PRINCE2 pathways, regional scholarship pricing, membership, delivery, checkout, privacy, and exam preparation.',
+    'PMP exam 2026 FAQs plus PRINCE2 pathways, regional scholarship pricing, membership, delivery, privacy, and exam preparation on PM Structure.',
   path: '/faq',
 });
 

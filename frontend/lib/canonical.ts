@@ -27,6 +27,7 @@ export const STRIPPED_QUERY_PARAM_KEYS = new Set([
   'country',
   'residence',
   'billing',
+  'pricing',
 ]);
 
 export function stripQueryParams(

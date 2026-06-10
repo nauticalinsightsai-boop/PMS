@@ -29,6 +29,7 @@ import {
   getRegisterOfferingsForCert,
 } from '@/lib/register-catalogue-options';
 import { submitConsultation } from '@/services/regional';
+import { trackConversionEvent, CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 
 interface RegisterModalProps {
   trigger?: React.ReactElement;
@@ -64,6 +65,12 @@ export function RegisterModal({ trigger }: RegisterModalProps) {
         regionId,
         name,
         message: `Pathway registration interest from ${regionLabel}`,
+      });
+      trackConversionEvent(CONVERSION_EVENTS.CONSULTATION_BOOK, {
+        cert_id: certId,
+        offering_id: offeringId,
+        region_id: regionId,
+        source: 'register_modal',
       });
     }
     setSubmitted(true);

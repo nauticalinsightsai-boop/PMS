@@ -5,9 +5,25 @@ import {
   buildFaqPageSchema,
   buildWebPageSchema,
 } from '@/lib/schema';
+import {
+  getFaqsForPmpSurface,
+  isFaqSchemaEligible,
+  resolveFaqShortAnswer,
+} from '@/content/faq';
 import type { PmpPageContent } from '@/content/pmp/types';
 
 export function PmpPageJsonLd({ page }: { page: PmpPageContent }) {
+  const relatedFaqs = getFaqsForPmpSurface(page.path, undefined, 8)
+    .filter(isFaqSchemaEligible)
+    .map((f) => ({ question: f.question, answer: resolveFaqShortAnswer(f) }));
+  const inlineFaqs = page.faqs ?? [];
+  const faqSchemaItems = [
+    ...inlineFaqs,
+    ...relatedFaqs.filter(
+      (rf) => !inlineFaqs.some((i) => i.question === rf.question),
+    ),
+  ].slice(0, 10);
+
   const graph = [
     buildWebPageSchema({ path: page.path, name: page.h1, description: page.description }),
     buildArticleSchema({
@@ -22,8 +38,8 @@ export function PmpPageJsonLd({ page }: { page: PmpPageContent }) {
     ]),
   ];
 
-  if (page.faqs?.length) {
-    graph.push(buildFaqPageSchema(page.faqs, `${PMS_SITE_URL}${page.path}`));
+  if (faqSchemaItems.length) {
+    graph.push(buildFaqPageSchema(faqSchemaItems, `${PMS_SITE_URL}${page.path}`));
   }
 
   return (

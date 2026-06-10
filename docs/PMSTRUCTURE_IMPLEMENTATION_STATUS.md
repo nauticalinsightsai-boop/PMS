@@ -1,46 +1,45 @@
 # PM Structure SEO/AEO — Implementation Status
 
 **As of:** 2026-06-10  
-**Plan:** `seo_aeo_master_docs_37e5bd87`  
-**Program status:** **FINAL — human sign-off complete** (`PMSTRUCTURE_FOUNDATION_SIGNOFF.md`)
+**Plan:** `phase_10_pmp_faq_ec05a6c5` (Phases 10–19 v2)  
+**Program status:** **v2 implementation complete** — operator follow-up for deploy verification + AI baseline
 
-## Shipped in codebase
+## Shipped in codebase (v2)
 
 | Area | Delivered |
 |------|-----------|
-| Crawlability / SSR | RegionGate fix; SectionAmbience SSR pattern; `section-ambience-check` |
-| Index / canonical | `indexing-metadata.ts`, sitemap filters, canonical helper (apex `pmstructure.com`) |
-| PMP cluster | 21 routes + hub |
-| FAQ | 75 PMP 2026 FAQs |
-| Answer pages | 23 `/answers/*` |
-| Topic hubs | 17 `/topics/*` |
-| Course pathways | 8 dedicated routes |
-| Schema | Org, WebSite, WebPage, Article, FAQPage, Course, Service, Collection |
-| AI files | 14 JSON + generated `llms.txt` + `lib/ai-files/` builders |
-| Validation | 17 `seo:*` checks + render-check (8 routes) |
-| Release | `seo:release-verify`, CI workflow, `seo:smoke-live`, optional `seo:indexnow` |
-| Internal linking | Footer + homepage → `/pmp-exam-2026`, `/answers`, `/topics` |
+| PMP FAQ hub | `/pmp-faq` — 89 PMP FAQs, 27 categories, FAQPage JSON-LD |
+| Answer pages | 35 `/answers/*` with spec H2s, compliance cautions, `/pmp-faq` CTAs |
+| Topic hubs | 26 `/topics/*` with grouped index, related FAQs, planned-hub noindex |
+| PMP cluster | 22 routes (hub + cluster + pathways + services) |
+| FAQ surface tags | 5–10 related FAQs per live PMP route |
+| Conversion events | `view_*`, `click_enroll_*`, `consultation_book`, `region_select` |
+| Validation | 25+ `seo:*` checks + `render-check` (11 routes) + `faq-surface-tags` |
+| AI testing | 86-query test sheet generator (`seo:generate-ai-test-sheet`) |
+| Docs | Deployment, GSC/Bing, AI testing, legal/compliance maps |
 
-## Production
+## Automated gates
+
+| Command | Status |
+|---------|--------|
+| `npm run seo:release-verify` | PASS (274 pages) |
+| `npm run seo:generate-ai-test-sheet` | PASS (86 queries) |
+| `npm run seo:prepare-submission-list` | Ready |
+| `npm run seo:production-check` | Run after v2 deploy |
+
+## Operator follow-up (not blocking code)
 
 | Step | Status |
 |------|--------|
-| Deploy `https://pmstructure.com` | Done |
-| `seo:smoke-live` 10/10 | Done |
-| GSC verify + `sitemap.xml` submit | Done |
-| `seo:release-verify` | Green |
-| Human sign-off | **Final (2026-06-10)** |
+| Deploy v2 to `https://pmstructure.com` | Pending owner |
+| `npm run seo:production-check` after deploy | MANUAL_REQUIRED |
+| GSC sitemap re-submit after v2 | MANUAL_REQUIRED |
+| Bing Webmaster import from GSC | MANUAL_REQUIRED |
+| AI baseline per `PMSTRUCTURE_AI_ANSWER_TESTING_PLAYBOOK.md` | MANUAL_REQUIRED (~2026-06-17) |
+| IndexNow send after `INDEXNOW_KEY` configured | Optional |
 
-## Optional ongoing ops (not blocking closure)
-
-- Bing Webmaster import from GSC
-- Rich Results Test on priority URLs
-- GSC URL inspection + indexing requests
-- AI answer baseline ~2026-06-17
-- 30-day Coverage / crawl monitoring
-- IndexNow after key configured
-
-## Deferred (future phases)
+## Deferred (future)
 
 - Sitemap index split when URL count > 500
-- FAQ phase 2 (150) / phase 3 (300)
+- FAQ phase 2 expansion beyond 89 PMP entries
+- Lawyer review of legal copy (`TODO_LEGAL_REVIEW` in compliance map)

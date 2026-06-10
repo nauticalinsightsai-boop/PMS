@@ -15,6 +15,7 @@
 |---------------|--------------|---------------------|--------|
 | `/` | Organization, WebSite | OrganizationJsonLd | live; WebPage TODO |
 | `/faq` | FAQPage | FaqJsonLd | live — must match crawlable FAQ DOM |
+| `/pmp-faq` | FAQPage | PmpFaqPageJsonLd | live — published PMP FAQs only |
 | `/certifications/[id]` | Course, BreadcrumbList | CertJsonLd | live |
 | `/about`, `/contact`, marketing | WebPage, Breadcrumb | buildWebPageSchema | planned |
 | `/blog/[slug]` | Article, Breadcrumb | planned Run 8+ | missing |

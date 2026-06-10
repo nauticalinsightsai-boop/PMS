@@ -1,31 +1,20 @@
-# PM Structure — FAQ Expansion Map (stub)
+# FAQ Expansion Map (Phase 10)
 
-**Phase 10 target:** 75 PMP FAQs (Phase 1) → 150 → 300  
-**Spec:** [`FAQ_ANSWER_SPEC.md`](FAQ_ANSWER_SPEC.md)
+## Hub routes
 
-## Category targets (Run 11)
+| Route | Role |
+|-------|------|
+| `/pmp-faq` | Primary PMP FAQ hub (89 published PMP FAQs, 27 categories) |
+| `/faq` | General hub; PMP-first tab order; links to `/pmp-faq` |
 
-| Category | Phase 1 count | Todo |
-|----------|---------------|------|
-| PMP Exam Change 2026 | 6 | faq10-02 |
-| Current Exam Before 8 July | 5 | faq10-03 |
-| New Exam From 9 July | 5 | faq10-04 |
-| Content Outline | 4 | faq10-05 |
-| Domains (People/Process/BE) | 8 | faq10-06 |
-| AI, Sustainability, Value | 6 | faq10-07 |
-| Eligibility, Application, 35h | 8 | faq10-08 |
-| Study, Scenario, Mock, Diagnostic | 10 | faq10-09 |
-| Foundation / Professional / Mastery | 6 | faq10-10 |
-| Pricing, Regional, LMS, Disclaimer | 7 | faq10-11 |
-| **Total** | **75** | faq10-12 |
+## Category model
 
-## Data model extensions (Run 11)
+27 `PmpCategoryId` values in `frontend/content/faq/pmp-categories.ts`.
 
-`complianceRisk`, `sourceUrl`, `sourceTodo`, `relatedCourse`, `relatedPage`, `schemaEligible`, `status`
+## Schema
 
-## Surfaces
+Published PMP FAQs on `/pmp-faq` and visible related FAQs on PMP surfaces merge into FAQPage JSON-LD.
 
-- `/faq` hub (PMP filter/tab)
-- PMP cluster pages (Run 9)
-- Course pages (Run 10)
-- `pmp-faq.json`, `faq.json`
+## Validation
+
+`npm run seo:faq-check` — minimum 83 PMP FAQs, 27 categories, `/pmp-faq` route, surface relatedPage coverage.

@@ -1,8 +1,8 @@
 # PM Structure — Conversion Flow Map
 
 **Run:** 15 (Phase 14)  
-**Site:** https://www.pmstructure.com  
-**Status:** Documented 2026-06-10
+**Site:** https://pmstructure.com  
+**Status:** v2 Phase 14 — core events wired 2026-06-10
 
 ## Core journeys
 
@@ -92,17 +92,22 @@
 
 ---
 
-## Analytics event plan (document only — implement in Run 18+)
+## Analytics events (implemented — `lib/analytics/conversion-events.ts`)
 
-| Event | Trigger |
-|-------|---------|
-| `pmp_diagnostic_cta_click` | Diagnostic CTA on hub/course/answer |
-| `pathway_enroll_start` | Enroll button → enroll route |
-| `checkout_start` | Checkout form submit |
-| `consultation_book` | Calendly link click |
-| `region_select` | Region modal confirm |
+| Event | Trigger | Status |
+|-------|---------|--------|
+| `view_pmp_exam_2026` | `/pmp-exam-2026` page view | wired |
+| `view_pmp_foundation` / `professional` / `mastery` | Pathway page views | wired |
+| `click_pmp_diagnostic` | Diagnostic CTA clicks | wired |
+| `click_enroll_pmp_*` | Pathway enroll CTA clicks | wired |
+| `view_pmp_faq` | `/pmp-faq` page view | wired |
+| `view_answer_page` | `/answers/[slug]` page view | wired |
+| `view_topic_hub` | `/topics/[slug]` page view | wired |
+| `start_checkout` / `click_payment` | Checkout form submit | wired |
+| `consultation_book` | Calendly link click | partial (existing funnel) |
+| `region_select` | Region modal confirm | not wired |
 
-Use existing analytics hook when approved; do not block SSR.
+Consent-gated via `trackFunnelEvent` → `gtag`. Client-only; no SSR block.
 
 ---
 

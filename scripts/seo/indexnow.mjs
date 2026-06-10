@@ -44,7 +44,17 @@ const priorityPaths = [
   '/sitemap.xml',
 ];
 
-const urlList = priorityPaths.map((p) => `${base}${p}`);
+const forbidden = /checkout|payment|success|cancel|thank-you|login|account|dashboard|admin/i;
+const urlList = priorityPaths
+  .map((p) => `${base}${p}`)
+  .filter((u) => !forbidden.test(u));
+
+const dryRun = !process.argv.includes('--send');
+if (dryRun) {
+  console.log('indexnow dry-run (pass --send to submit):', urlList.length, 'URLs');
+  urlList.forEach((u) => console.log(' ', u));
+  process.exit(0);
+}
 
 const body = JSON.stringify({
   host,

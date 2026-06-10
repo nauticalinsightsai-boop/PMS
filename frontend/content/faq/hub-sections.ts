@@ -6,8 +6,13 @@ export type FaqHubSection = {
   clusterIds: FaqClusterId[];
 };
 
-/** Grouped tabs for /faq — mirrors Legal hub sectioning. */
+/** Grouped tabs for /faq — PMP-first (Phase 10). */
 export const FAQ_HUB_SECTIONS: FaqHubSection[] = [
+  {
+    id: 'pmp-2026',
+    label: 'PMP 2026',
+    clusterIds: ['pmp2026'],
+  },
   {
     id: 'about-pathways',
     label: 'About & pathways',
@@ -32,11 +37,6 @@ export const FAQ_HUB_SECTIONS: FaqHubSection[] = [
     id: 'support-geo',
     label: 'Support & discovery',
     clusterIds: ['support', 'geo'],
-  },
-  {
-    id: 'pmp-2026',
-    label: 'PMP 2026',
-    clusterIds: ['pmp2026'],
   },
 ];
 

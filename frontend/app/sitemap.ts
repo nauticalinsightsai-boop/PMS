@@ -9,8 +9,8 @@ import { buildSitemapEntry } from '@/lib/sitemap/helpers';
 import { PMP_COURSE_PATHS } from '@/content/pmp/courses';
 import { PMP_CLUSTER_PATHS } from '@/content/pmp/pages';
 import { PMP_SERVICE_PATHS } from '@/content/pmp/services';
-import { ANSWER_PATHS } from '@/content/answers/pages';
-import { TOPIC_PATHS } from '@/content/topics/hubs';
+import { getPublishedAnswerPaths } from '@/content/answers';
+import { getPublishedTopicPaths } from '@/content/topics';
 
 const entry = buildSitemapEntry;
 
@@ -24,6 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/about',
     '/contact',
     '/faq',
+    '/pmp-faq',
     '/answers',
     '/topics',
     '/membership',
@@ -61,8 +62,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pmpCluster = PMP_CLUSTER_PATHS.map((p) => entry(p, p === '/pmp-exam-2026' ? 0.9 : 0.85));
   const pmpCourses = PMP_COURSE_PATHS.map((p) => entry(p, 0.88));
   const pmpServices = PMP_SERVICE_PATHS.map((p) => entry(p, 0.86));
-  const answers = ANSWER_PATHS.map((p) => entry(p, 0.84));
-  const topics = TOPIC_PATHS.map((p) => entry(p, 0.83));
+  const answers = getPublishedAnswerPaths().map((p) => entry(p, 0.84));
+  const topics = getPublishedTopicPaths().map((p) => entry(p, 0.83));
 
   return [
     ...marketing,

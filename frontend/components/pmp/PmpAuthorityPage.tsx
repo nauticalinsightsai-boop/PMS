@@ -6,6 +6,11 @@ import { PMP_ACCREDITATION_NOTE, PMP_INDEPENDENT_DISCLAIMER } from '@/content/pm
 import type { PmpPageContent } from '@/content/pmp/types';
 import { PmpPageJsonLd } from '@/components/seo/PmpPageJsonLd';
 import { PmpRelatedFaqs } from '@/components/pmp/PmpRelatedFaqs';
+import { PmpPriorityAnswers } from '@/components/pmp/PmpPriorityAnswers';
+import { PMP_EXAM_2026_PRIORITY_ANSWERS } from '@/content/answers/priority-answers';
+import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
+import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
+import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { cn } from '@/lib/utils';
 
 function MarkdownBlock({ text }: { text: string }) {
@@ -17,8 +22,12 @@ function MarkdownBlock({ text }: { text: string }) {
 }
 
 export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
+  const viewEvent =
+    page.slug === 'pmp-exam-2026' ? CONVERSION_EVENTS.VIEW_PMP_EXAM_2026 : null;
+
   return (
     <>
+      {viewEvent ? <ConversionViewTracker event={viewEvent} /> : null}
       <PmpPageJsonLd page={page} />
       <section className={cn(sectionSurface('purple', 'py-16 sm:py-20'))}>
         <SectionAmbience tone="purple" />
@@ -69,6 +78,13 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
               </section>
             ) : null}
 
+            {page.path === '/pmp-exam-2026' ? (
+              <PmpPriorityAnswers
+                links={PMP_EXAM_2026_PRIORITY_ANSWERS}
+                heading="2026 transition — direct answers"
+              />
+            ) : null}
+
             <PmpRelatedFaqs relatedPage={page.path} />
 
             <section className="mb-10">
@@ -84,16 +100,25 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
               </ul>
             </section>
 
-            <div className="flex flex-col sm:flex-row gap-3 mb-10">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-10">
               <Link href="/certifications/pmp" className={buttonVariants({ size: 'lg' })}>
                 View PMP pathway
               </Link>
-              <Link
-                href="/pmp-exam-2026"
+              {page.path !== '/pmp-exam-2026' ? (
+                <Link
+                  href="/pmp-exam-2026"
+                  className={buttonVariants({ size: 'lg', variant: 'outline' })}
+                >
+                  PMP 2026 guide
+                </Link>
+              ) : null}
+              <TrackedConversionLink
+                href="/pmp-readiness-diagnostic"
+                event={CONVERSION_EVENTS.CLICK_PMP_DIAGNOSTIC}
                 className={buttonVariants({ size: 'lg', variant: 'outline' })}
               >
-                PMP 2026 guide
-              </Link>
+                Readiness diagnostic
+              </TrackedConversionLink>
             </div>
 
             <aside className="text-sm text-slate-500 dark:text-slate-400 border-t pt-6 space-y-3">

@@ -11,6 +11,7 @@ import { useRegionalOffering } from '@/hooks/useRegionalOffering';
 import { createCheckoutSession, verifyRegion } from '@/services/regional';
 import Link from 'next/link';
 import { REGION_COPY } from '@/lib/brand-voice';
+import { CONVERSION_EVENTS, trackConversionEvent } from '@/lib/analytics/conversion-events';
 
 export function CheckoutForm() {
   const params = useSearchParams();
@@ -41,6 +42,8 @@ export function CheckoutForm() {
     }
     setError(null);
     setLoading(true);
+    trackConversionEvent(CONVERSION_EVENTS.START_CHECKOUT, { offering_id: offeringId });
+    trackConversionEvent(CONVERSION_EVENTS.CLICK_PAYMENT, { offering_id: offeringId });
     try {
       const verification = await verifyRegion({
         regionId,

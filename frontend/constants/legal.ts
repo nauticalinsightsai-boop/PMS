@@ -83,9 +83,17 @@ export const FOOTER_LEGAL_LINKS = [
   { href: LEGAL_HUB_PATH, label: 'Legal hub', shortLabel: 'Legal' },
   { href: getLegalDocumentPath('privacy'), label: 'Privacy Policy', shortLabel: 'Privacy' },
   { href: getLegalDocumentPath('terms'), label: 'Terms & Conditions', shortLabel: 'Terms' },
+  { href: getLegalDocumentPath('refunds'), label: 'Refunds', shortLabel: 'Refunds' },
+  { href: getLegalDocumentPath('regional-pricing'), label: 'Regional pricing', shortLabel: 'Pricing' },
+  { href: getLegalDocumentPath('cookies'), label: 'Cookies', shortLabel: 'Cookies' },
   {
     href: getLegalDocumentPath('pricing-disclaimers'),
     label: 'Pricing & disclaimers',
     shortLabel: 'Disclaimers',
+  },
+  {
+    href: '/legal/pricing-disclaimers#independent-platform',
+    label: 'Independent platform notice',
+    shortLabel: 'Independent',
   },
 ] as const;

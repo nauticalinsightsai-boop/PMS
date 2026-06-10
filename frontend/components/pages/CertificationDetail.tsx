@@ -3,7 +3,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CertificationPathway } from "@/components/CertificationPathway";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, Clock, Award, ShieldCheck, TrendingUp, Sparkles, Target, Zap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "motion/react";
@@ -37,6 +37,9 @@ import {
   ExpandableExamRegistration,
   ExpandableLearningOutcomes,
 } from "@/components/CertDossierBlocks";
+import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
+import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
+import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 
 function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
   return getOfferingsForSiteCert(siteId).some((o) => {
@@ -87,6 +90,12 @@ export function CertificationDetail() {
         PUBLIC_NAVBAR_OFFSET_CLASS,
       )}
     >
+      {cert.id === 'pmp' ? (
+        <ConversionViewTracker
+          event={CONVERSION_EVENTS.VIEW_PMP_PATHWAY}
+          pagePath="/certifications/pmp"
+        />
+      ) : null}
       {/* Subnav — fixed directly under navbar (avoids gap from main padding + sticky top) */}
       <section
         className={cn(
@@ -451,11 +460,21 @@ export function CertificationDetail() {
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 {enrollmentOpen ? (
-                  <Link href={foundationCheckoutHref ?? "/contact"}>
-                    <Button size="lg" variant="brand" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
+                  cert.id === 'pmp' && foundationCheckoutHref ? (
+                    <TrackedConversionLink
+                      href={foundationCheckoutHref}
+                      event={CONVERSION_EVENTS.CLICK_ENROLL_PMP_FOUNDATION}
+                      className={cn(buttonVariants({ size: 'lg', variant: 'brand' }), 'h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all inline-flex items-center')}
+                    >
                       Enroll in Foundation
-                    </Button>
-                  </Link>
+                    </TrackedConversionLink>
+                  ) : (
+                    <Link href={foundationCheckoutHref ?? "/contact"}>
+                      <Button size="lg" variant="brand" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
+                        Enroll in Foundation
+                      </Button>
+                    </Link>
+                  )
                 ) : (
                   <Link href="/contact">
                     <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">

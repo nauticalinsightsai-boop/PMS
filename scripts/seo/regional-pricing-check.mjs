@@ -16,7 +16,7 @@ function fail(msg) {
 }
 
 const canonical = fs.readFileSync(path.join(root, 'frontend/lib/canonical.ts'), 'utf8');
-for (const key of ['currency', 'region', 'regionId']) {
+for (const key of ['currency', 'region', 'regionId', 'pricing']) {
   if (!canonical.includes(`'${key}'`)) {
     fail(`canonical.ts missing stripped query key: ${key}`);
   }

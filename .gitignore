@@ -1,3 +1,5 @@
+reports/seo/
+
 node_modules/
 .next/
 *.tsbuildinfo

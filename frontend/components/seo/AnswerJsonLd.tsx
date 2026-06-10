@@ -6,8 +6,10 @@ import {
   buildWebPageSchema,
 } from '@/lib/schema';
 import type { AnswerPageContent } from '@/content/answers/types';
+import { getAnswerFaqsForPage } from '@/content/answers';
 
 export function AnswerJsonLd({ page }: { page: AnswerPageContent }) {
+  const visibleFaqs = [...(page.faqs ?? []), ...getAnswerFaqsForPage(page)];
   const graph = [
     buildWebPageSchema({ path: page.path, name: page.question, description: page.description }),
     buildArticleSchema({
@@ -22,8 +24,8 @@ export function AnswerJsonLd({ page }: { page: AnswerPageContent }) {
     ]),
   ];
 
-  if (page.faqs?.length) {
-    graph.push(buildFaqPageSchema(page.faqs, `${PMS_SITE_URL}${page.path}`));
+  if (visibleFaqs.length) {
+    graph.push(buildFaqPageSchema(visibleFaqs, `${PMS_SITE_URL}${page.path}`));
   }
 
   return (

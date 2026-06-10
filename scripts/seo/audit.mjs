@@ -13,8 +13,8 @@ const checks = [
   'PMP_CLUSTER_PATHS',
   'PMP_COURSE_PATHS',
   'PMP_SERVICE_PATHS',
-  'ANSWER_PATHS',
-  'TOPIC_PATHS',
+  'getPublishedAnswerPaths',
+  'getPublishedTopicPaths',
   'DYNAMIC_LEGAL_SLUGS',
 ];
 

@@ -31,8 +31,8 @@ export function PmpRelatedFaqs({
         ))}
       </dl>
       <p className="mt-4 text-sm">
-        <Link href="/faq?tab=pmp-2026" className="text-brand-purple hover:underline font-medium">
-          Browse all PMP 2026 FAQs
+        <Link href="/pmp-faq" className="text-brand-purple hover:underline font-medium">
+          Browse all PMP FAQs
         </Link>
       </p>
     </section>

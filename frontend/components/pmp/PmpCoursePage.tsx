@@ -8,11 +8,29 @@ import { PmpCourseJsonLd } from '@/components/seo/PmpCourseJsonLd';
 import { PmpFaqPreview } from '@/components/pmp/PmpFaqPreview';
 import { PmpPathwayComparisonTable } from '@/components/pmp/PmpPathwayComparisonTable';
 import { PmpRelatedFaqs } from '@/components/pmp/PmpRelatedFaqs';
+import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
+import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
+import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { cn } from '@/lib/utils';
 
+const PATHWAY_VIEW_EVENTS = {
+  foundation: CONVERSION_EVENTS.VIEW_PMP_FOUNDATION,
+  professional: CONVERSION_EVENTS.VIEW_PMP_PROFESSIONAL,
+  mastery: CONVERSION_EVENTS.VIEW_PMP_MASTERY,
+} as const;
+
+const PATHWAY_ENROLL_EVENTS = {
+  foundation: CONVERSION_EVENTS.CLICK_ENROLL_PMP_FOUNDATION,
+  professional: CONVERSION_EVENTS.CLICK_ENROLL_PMP_PROFESSIONAL,
+  mastery: CONVERSION_EVENTS.CLICK_ENROLL_PMP_MASTERY,
+} as const;
+
 export function PmpCoursePage({ course }: { course: PmpCourseContent }) {
+  const viewEvent = PATHWAY_VIEW_EVENTS[course.tier];
+
   return (
     <>
+      <ConversionViewTracker event={viewEvent} />
       <PmpCourseJsonLd course={course} />
       <section className={cn(sectionSurface('warm', 'py-16 sm:py-20'))}>
         <SectionAmbience tone="warm" />
@@ -91,18 +109,23 @@ export function PmpCoursePage({ course }: { course: PmpCourseContent }) {
 
             <PmpFaqPreview faqs={course.faqs} />
 
-            <PmpRelatedFaqs relatedPage="/pmp-exam-2026" relatedCourse={course.path} />
+            <PmpRelatedFaqs relatedPage={course.path} relatedCourse={course.path} />
 
             <div className="flex flex-col sm:flex-row gap-3 mb-10">
-              <Link href={course.enrollPath} className={buttonVariants({ size: 'lg' })}>
+              <TrackedConversionLink
+                href={course.enrollPath}
+                event={PATHWAY_ENROLL_EVENTS[course.tier]}
+                className={buttonVariants({ size: 'lg' })}
+              >
                 Enroll in {course.tier} tier
-              </Link>
-              <Link
+              </TrackedConversionLink>
+              <TrackedConversionLink
                 href="/pmp-readiness-diagnostic"
+                event={CONVERSION_EVENTS.CLICK_PMP_DIAGNOSTIC}
                 className={buttonVariants({ size: 'lg', variant: 'outline' })}
               >
                 Readiness diagnostic
-              </Link>
+              </TrackedConversionLink>
               <Link
                 href="/certifications/pmp"
                 className={buttonVariants({ size: 'lg', variant: 'outline' })}

@@ -8,8 +8,9 @@
 | Item | Status |
 |------|--------|
 | Sitemap index | Single `/sitemap.xml` (Next.js default) |
-| Category split | **Optional** — criteria met (PMP live, 23 answers, 17 topics); monolithic still OK (&lt;500 URLs) |
-| URL count | ~250+ static URLs (monolithic sitemap) |
+| Category split | **Optional** — criteria met (PMP live, 35 answers, 26 topics, `/pmp-faq`); monolithic still OK (&lt;500 URLs) |
+| URL count | ~274 static URLs (monolithic sitemap) |
+| `/pmp-faq` | Included in marketing + `pmp-faq.json` AI export |
 | Guard | `buildSitemapEntry()` + `assertIndexable()` |
 
 **Decision:** Monolithic sitemap is safe under 50k URL limit. Split into category sitemaps when any of: PMP cluster live, `/answers/*` > 20, `/topics/*` > 15, or total URLs > 500.

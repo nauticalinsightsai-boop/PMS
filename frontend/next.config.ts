@@ -73,6 +73,16 @@ const nextConfig: NextConfig = {
       { source: '/login/:path*', destination: '/admin/login/:path*', permanent: true },
       { source: '/dashboard', destination: '/admin/dashboard', permanent: true },
       { source: '/dashboard/:path*', destination: '/admin/dashboard/:path*', permanent: true },
+      {
+        source: '/answers/is-pm-structure-a-pmi-authorized-training-partner',
+        destination: '/answers/is-pm-structure-an-official-pmi-atp',
+        permanent: true,
+      },
+      {
+        source: '/answers/does-pm-structure-guarantee-a-pmp-pass',
+        destination: '/answers/does-pm-structure-guarantee-pmp-success',
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

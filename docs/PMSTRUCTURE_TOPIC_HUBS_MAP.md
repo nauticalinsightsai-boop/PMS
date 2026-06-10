@@ -2,7 +2,7 @@
 
 **Run:** 13 (Phase 12)  
 **Route:** `/topics/[slug]`  
-**Status:** 17 live
+**Status:** 26 live (v2 Phase 12)
 
 | Slug | H1 pattern | Status |
 |------|------------|--------|
@@ -23,7 +23,22 @@
 | `prince2-preparation` | PRINCE2 preparation — knowledge hub | **live** |
 | `six-sigma-preparation` | Six Sigma preparation — knowledge hub | **live** |
 | `exam-readiness` | Exam readiness — knowledge hub | **live** |
+| `pmp-domain-weighting` | PMP domain weighting — knowledge hub | **live** |
+| `pmp-people-domain` | PMP People domain — knowledge hub | **live** |
+| `pmp-process-domain` | PMP Process domain — knowledge hub | **live** |
+| `stakeholder-engagement` | Stakeholder engagement — knowledge hub | **live** |
+| `project-delivery-readiness` | Project delivery readiness — knowledge hub | **live** |
+| `mock-exam-review` | Mock exam review — knowledge hub | **live** |
+| `pmp-study-plan` | PMP study plan — knowledge hub | **live** |
+| `predictive-project-management` | Predictive project management — knowledge hub | **live** |
+| `project-value-delivery` | Project value delivery — knowledge hub | **live** |
+
+## Template (v2 Phase 12)
+
+H2 sections: What is · Why it matters · How it appears in exam readiness · Viewpoint · Related PMP pages · Related questions · Related FAQs · Recommended next step · References
+
+Helpers: `getPublishedTopicHubs()`, `getTopicFaqsForHub()`, `TOPIC_HUB_GROUPS` in `content/topics/index.ts`
 
 ## Schema
 
-CollectionPage + ItemList + FAQPage | monolithic sitemap (split TODO in SITEMAP_PLAN)
+CollectionPage + ItemList + FAQPage (inline + `relatedFaqIds`) | published hubs only in sitemap

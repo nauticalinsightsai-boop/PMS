@@ -190,6 +190,13 @@
       "status": "live",
       "url": "https://pmstructure.com/certifications/pmp",
       "indexing": "index,follow"
+    },
+    {
+      "path": "/pmp-faq",
+      "group": "faq",
+      "status": "live",
+      "url": "https://pmstructure.com/pmp-faq",
+      "indexing": "index,follow"
     }
   ]
 }

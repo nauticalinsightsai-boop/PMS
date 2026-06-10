@@ -1,9 +1,14 @@
 import Link from 'next/link';
+import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
+import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PMP_HUB_CARDS } from '@/content/pmp/pages';
 import { PMP_INDEPENDENT_DISCLAIMER } from '@/content/pmp/disclaimer';
 import { PmpPathwayComparisonTable } from '@/components/pmp/PmpPathwayComparisonTable';
+import { PmpRelatedFaqs } from '@/components/pmp/PmpRelatedFaqs';
+import { PmpPriorityAnswers } from '@/components/pmp/PmpPriorityAnswers';
+import { PMP_HUB_PRIORITY_ANSWERS } from '@/content/answers/priority-answers';
 import { cn } from '@/lib/utils';
 
 export function PmpHubPage() {
@@ -32,13 +37,19 @@ export function PmpHubPage() {
             ))}
           </div>
 
+          <PmpPriorityAnswers links={PMP_HUB_PRIORITY_ANSWERS} />
+
           <h2 className="text-xl font-bold mb-4">Pathways &amp; support</h2>
           <PmpPathwayComparisonTable />
 
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-6">
-            <Link href="/pmp-readiness-diagnostic" className={buttonVariants({ variant: 'outline' })}>
+            <TrackedConversionLink
+              href="/pmp-readiness-diagnostic"
+              event={CONVERSION_EVENTS.CLICK_PMP_DIAGNOSTIC}
+              className={buttonVariants({ variant: 'outline' })}
+            >
               Readiness diagnostic
-            </Link>
+            </TrackedConversionLink>
             <Link href="/pmp-enrollment" className={buttonVariants({ variant: 'outline' })}>
               Enrollment hub
             </Link>
@@ -50,7 +61,12 @@ export function PmpHubPage() {
             </Link>
           </div>
 
+          <PmpRelatedFaqs relatedPage="/pmp" limit={8} heading="PMP frequently asked questions" />
+
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-6">
+            <Link href="/pmp-faq" className={buttonVariants({ size: 'lg', variant: 'outline' })}>
+              PMP FAQ
+            </Link>
             <Link href="/certifications/pmp" className={buttonVariants({ size: 'lg' })}>
               PMP certification pathway
             </Link>

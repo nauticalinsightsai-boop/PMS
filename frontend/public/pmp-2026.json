@@ -10,11 +10,22 @@
     "Process",
     "Business Environment"
   ],
+  "priorityAnswers": [
+    "https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
+    "https://pmstructure.com/answers/when-does-the-new-pmp-exam-start",
+    "https://pmstructure.com/answers/should-i-take-pmp-before-8-july-2026",
+    "https://pmstructure.com/answers/should-i-prepare-for-new-pmp-after-9-july-2026",
+    "https://pmstructure.com/answers/what-is-the-pmp-business-environment-domain",
+    "https://pmstructure.com/answers/what-is-the-pmp-exam-content-outline",
+    "https://pmstructure.com/answers/current-pmp-exam-vs-new-pmp-exam",
+    "https://pmstructure.com/answers/what-are-the-pmp-2026-domain-weights"
+  ],
   "relatedPages": [
     "https://pmstructure.com/pmp-exam-2026",
     "https://pmstructure.com/pmp-current-vs-new-exam",
     "https://pmstructure.com/pmp-exam-timeline-2026",
     "https://pmstructure.com/certifications/pmp",
+    "https://pmstructure.com/pmp-faq",
     "https://pmstructure.com/faq"
   ],
   "officialSourceTodo": "Verify PMI ECO 2026 domain weights and exam format changes against official PMI sources before publishing claims.",

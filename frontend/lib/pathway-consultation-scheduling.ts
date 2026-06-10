@@ -1,5 +1,6 @@
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
 import { CALENDLY_DEFAULT_SCHEDULING_URLS } from '@/lib/calendly/scheduling-urls';
+import { trackConversionEvent, CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 
 const TIER_CALENDLY_FALLBACKS: Record<string, string> = {
   foundation: CALENDLY_DEFAULT_SCHEDULING_URLS.guideDownload,
@@ -38,6 +39,12 @@ export function openPathwayConsultationCalendly(
   offeringId: string,
 ): void {
   const url = getPathwayConsultationCalendlyUrl(siteCertId, tierId);
+  trackConversionEvent(CONVERSION_EVENTS.CONSULTATION_BOOK, {
+    cert_id: siteCertId,
+    tier_id: tierId,
+    offering_id: offeringId,
+    source: 'calendly_popup',
+  });
   void openCalendlyThemedPopup(url, {
     utm: {
       utm_source: 'pathway',

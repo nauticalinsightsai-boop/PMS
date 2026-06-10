@@ -7,16 +7,22 @@ import {
 } from '@/lib/schema';
 import type { TopicHubContent } from '@/content/topics/types';
 
-export function TopicHubJsonLd({ hub }: { hub: TopicHubContent }) {
+export function TopicHubJsonLd({
+  hub,
+  relatedFaqs = [],
+}: {
+  hub: TopicHubContent;
+  relatedFaqs?: { question: string; answer: string }[];
+}) {
   const url = `${PMS_SITE_URL}${hub.path}`;
-  const resources = [
-    ...hub.resources,
-    ...hub.relatedAnswers,
-  ];
+  const resources = [...hub.resources, ...(hub.relatedCourses ?? []), ...hub.relatedAnswers];
 
   const graph = [
     buildCollectionPageSchema({ path: hub.path, name: hub.h1, description: hub.description }),
-    buildItemListSchema(resources, `${url}#itemlist`),
+    buildItemListSchema(
+      resources.map((r) => ({ name: r.label, path: r.href })),
+      `${url}#itemlist`,
+    ),
     buildBreadcrumbSchema([
       { name: 'Home', path: '/' },
       { name: 'Topics', path: '/topics' },
@@ -24,8 +30,9 @@ export function TopicHubJsonLd({ hub }: { hub: TopicHubContent }) {
     ]),
   ];
 
-  if (hub.faqs?.length) {
-    graph.push(buildFaqPageSchema(hub.faqs, url));
+  const faqSchema = [...(hub.faqs ?? []), ...relatedFaqs];
+  if (faqSchema.length) {
+    graph.push(buildFaqPageSchema(faqSchema, url));
   }
 
   return (

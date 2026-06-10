@@ -23,6 +23,7 @@ import {
   RegionSelectorConfirmButton,
   RegionSelectorPanel,
 } from '@/components/region/RegionSelectorPanel';
+import { trackConversionEvent, CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 
 export function RegionSelectorModal() {
   const { modalOpen, regionId, gccCountry, setRegion, closeRegionModal } = useRegion();
@@ -38,7 +39,13 @@ export function RegionSelectorModal() {
 
   const confirm = () => {
     const opt = REGION_SELECTOR_SECTIONS.flatMap((s) => s.options).find((o) => o.id === selected);
-    if (opt) setRegion(opt.regionId, opt.gccCountry ?? null);
+    if (opt) {
+      setRegion(opt.regionId, opt.gccCountry ?? null);
+      trackConversionEvent(CONVERSION_EVENTS.REGION_SELECT, {
+        region_id: opt.regionId,
+        gcc_country: opt.gccCountry ?? null,
+      });
+    }
   };
 
   return (

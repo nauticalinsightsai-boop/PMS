@@ -24,6 +24,8 @@ const clusterRoutes = [
 
   '/pmp',
 
+  '/pmp-faq',
+
   '/pmp-exam-2026',
 
   '/pmp-current-vs-new-exam',

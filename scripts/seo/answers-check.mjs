@@ -29,8 +29,8 @@ if (!fs.existsSync(indexPage)) {
 }
 
 const sitemap = fs.readFileSync(path.join(root, 'frontend/app/sitemap.ts'), 'utf8');
-if (!sitemap.includes('ANSWER_PATHS')) {
-  console.error('answers-check FAIL: sitemap.ts missing ANSWER_PATHS');
+if (!sitemap.includes('getPublishedAnswerPaths')) {
+  console.error('answers-check FAIL: sitemap.ts missing getPublishedAnswerPaths');
   failed = true;
 }
 if (!sitemap.includes("'/answers'")) {
@@ -38,9 +38,31 @@ if (!sitemap.includes("'/answers'")) {
   failed = true;
 }
 
-const minAnswers = 23;
+const minAnswers = 30;
 if (slugs.length < minAnswers) {
   console.error(`answers-check FAIL: expected >= ${minAnswers} answers, found ${slugs.length}`);
+  failed = true;
+}
+
+const batch2 = [
+  'is-the-new-pmp-exam-harder',
+  'should-i-rush-pmp-before-july-2026',
+  'can-i-prepare-for-pmp-in-30-days',
+  'what-is-the-best-pmp-study-plan',
+  'what-should-i-do-after-a-low-pmp-mock-score',
+  'is-pm-structure-an-official-pmi-atp',
+  'does-pm-structure-guarantee-pmp-success',
+];
+for (const slug of batch2) {
+  if (!slugs.includes(slug)) {
+    console.error(`answers-check FAIL: missing batch-2 slug: ${slug}`);
+    failed = true;
+  }
+}
+
+const answersIndex = fs.readFileSync(path.join(root, 'frontend/content/answers/index.ts'), 'utf8');
+if (!answersIndex.includes('getPublishedAnswerPaths')) {
+  console.error('answers-check FAIL: index must export getPublishedAnswerPaths for sitemap');
   failed = true;
 }
 
