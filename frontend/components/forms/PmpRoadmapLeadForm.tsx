@@ -28,6 +28,9 @@ import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { CONVERSION_EVENTS, trackConversionEvent } from '@/lib/analytics/conversion-events';
 import { CertFamilyMark } from '@/components/CertFamilyMark';
 import { BRAND_ICON } from '@/lib/brand-visual';
+import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
+import { useFormPartialRecovery } from '@/components/conversion-recovery/useFormPartialRecovery';
+import type { LeadRecoveryVariant } from '@/lib/conversion-recovery/types';
 
 export type PmpRoadmapFormPlacement =
   | 'home_hero_mobile'
@@ -124,6 +127,33 @@ export function PmpRoadmapLeadForm({
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+
+  const recovery = useLeadRecoveryOptional();
+  const partialVariant: LeadRecoveryVariant =
+    placement === 'home_insights'
+      ? 'home_insights_partial'
+      : placement.startsWith('cert')
+        ? 'cert_roadmap_partial'
+        : 'home_roadmap_partial';
+
+  const hasPartialData = Boolean(fullName.trim() || phone.trim() || email.trim());
+
+  const { markTouched } = useFormPartialRecovery({
+    variant: partialVariant,
+    isSubmitted: submitted,
+    hasPartialData,
+    extraContext: {
+      siteCertId: certId,
+      certName,
+      parentSurface: 'roadmap_form',
+    },
+    onRequestRecovery: (ctx) => recovery?.requestRecovery(ctx, { requireIntent: true }),
+  });
+
+  const touchField = () => {
+    recovery?.markFormTouched();
+    markTouched();
+  };
 
   const shellClass = cn(
     'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
@@ -273,6 +303,7 @@ export function PmpRoadmapLeadForm({
         form: certId ? 'cert_roadmap' : 'pmp_roadmap',
         cert_id: certId,
       });
+      recovery?.notifyConverted();
       setSubmitted(true);
     } else {
       setError(res.error ?? 'Submission failed. Try again.');
@@ -395,7 +426,10 @@ export function PmpRoadmapLeadForm({
               id={`${idPrefix}-name`}
               required
               value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              onChange={(e) => {
+                setFullName(e.target.value);
+                touchField();
+              }}
               placeholder="John Smith"
               className={fieldClass}
             />
@@ -442,7 +476,10 @@ export function PmpRoadmapLeadForm({
                 type="tel"
                 required
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  touchField();
+                }}
                 placeholder="50 123 4567"
                 className="h-full min-w-0 flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0"
               />
@@ -458,7 +495,10 @@ export function PmpRoadmapLeadForm({
               type="email"
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                touchField();
+              }}
               placeholder="john@example.com"
               className={fieldClass}
             />

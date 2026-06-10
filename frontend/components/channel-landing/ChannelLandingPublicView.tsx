@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Anchor, CheckCircle } from 'lucide-react'
 import type { ChannelLandingPage } from '@/types/channelLandingPage'
 import { submitPublicInteraction } from '@/lib/interactions/submit-public'
+import { useSimpleFormRecovery } from '@/components/conversion-recovery/useSimpleFormRecovery'
 import {
   attributionOriginLabel,
   buildLeadAttribution,
@@ -25,6 +26,13 @@ export default function ChannelLandingPublicView({ page }: Props) {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [hp, setHp] = useState('')
+  const { touch, onSuccess } = useSimpleFormRecovery({
+    variant: 'channel_landing_partial',
+    isDone: submitted,
+    hasPartialData: Boolean(firstName.trim() || email.trim() || whatsapp.trim() || message.trim()),
+    channelId: page.channelId,
+    parentSurface: 'channel',
+  })
 
   const themeClass =
     page.theme === 'dark'
@@ -76,7 +84,10 @@ export default function ChannelLandingPublicView({ page }: Props) {
       },
     })
     setSubmitting(false)
-    if (res.ok) setSubmitted(true)
+    if (res.ok) {
+      onSuccess()
+      setSubmitted(true)
+    }
   }
 
   const primaryHref =
@@ -123,13 +134,19 @@ export default function ChannelLandingPublicView({ page }: Props) {
                 <input
                   required
                   value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  onChange={(e) => {
+                    setFirstName(e.target.value)
+                    touch()
+                  }}
                   placeholder="First name"
                   className="w-full p-3 r-input bg-white/70 dark:bg-slate-900/60 text-brand-text text-body-sm"
                 />
                 <input
                   value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  onChange={(e) => {
+                    setLastName(e.target.value)
+                    touch()
+                  }}
                   placeholder="Last name"
                   className="w-full p-3 r-input bg-white/70 dark:bg-slate-900/60 text-brand-text text-body-sm"
                 />
@@ -138,14 +155,20 @@ export default function ChannelLandingPublicView({ page }: Props) {
                 type="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  touch()
+                }}
                 placeholder="Email"
                 className="w-full p-3 r-input bg-white/70 dark:bg-slate-900/60 text-brand-text text-body-sm"
               />
               <input
                 required
                 value={whatsapp}
-                onChange={(e) => setWhatsapp(e.target.value)}
+                onChange={(e) => {
+                  setWhatsapp(e.target.value)
+                  touch()
+                }}
                 placeholder="WhatsApp / phone"
                 className="w-full p-3 r-input bg-white/70 dark:bg-slate-900/60 text-brand-text text-body-sm"
               />
@@ -159,7 +182,10 @@ export default function ChannelLandingPublicView({ page }: Props) {
               )}
               <textarea
                 value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                onChange={(e) => {
+                  setMessage(e.target.value)
+                  touch()
+                }}
                 placeholder="What would you like to discuss?"
                 rows={4}
                 className="w-full p-3 r-input bg-white/70 dark:bg-slate-900/60 text-brand-text text-body-sm resize-y"

@@ -23,6 +23,9 @@ import {
 } from '@/lib/enrollment-country-options';
 import { enrollSuccessPath } from '@/lib/enrollment-routes';
 import { getOfferingById } from '@/lib/regional-catalogue';
+import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
+import { useFormPartialRecovery } from '@/components/conversion-recovery/useFormPartialRecovery';
+import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
 
 type ProgramEnrollmentFormProps = {
   offeringId: string;
@@ -32,6 +35,7 @@ type ProgramEnrollmentFormProps = {
 
 export function ProgramEnrollmentForm({ offeringId, siteCertId, tierSlug }: ProgramEnrollmentFormProps) {
   const data = useRegionalOffering(offeringId);
+  const recovery = useLeadRecoveryOptional();
   const { regionId, gccCountry, isReady } = useRegion();
   const [email, setEmail] = React.useState('');
   const [residence, setResidence] = React.useState('');
@@ -40,6 +44,29 @@ export function ProgramEnrollmentForm({ offeringId, siteCertId, tierSlug }: Prog
   const [acceptedTerms, setAcceptedTerms] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false);
+  const [checkoutStarted, setCheckoutStarted] = React.useState(false);
+
+  React.useEffect(() => {
+    setEnrollStarted(offeringId, tierSlug, siteCertId);
+  }, [offeringId, siteCertId, tierSlug]);
+
+  useFormPartialRecovery({
+    variant: 'enroll_partial',
+    isSubmitted: checkoutStarted,
+    hasPartialData: Boolean(email.trim()),
+    extraContext: {
+      siteCertId,
+      certName: data?.offering.courseName,
+      tierId: tierSlug.includes('foundation')
+        ? 'foundation'
+        : tierSlug.includes('professional')
+          ? 'professional'
+          : 'mastery',
+      offeringId,
+      parentSurface: 'enroll',
+    },
+    onRequestRecovery: (ctx) => recovery?.requestRecovery(ctx, { requireIntent: true }),
+  });
 
   React.useEffect(() => {
     if (!isReady) return;
@@ -100,6 +127,8 @@ export function ProgramEnrollmentForm({ offeringId, siteCertId, tierSlug }: Prog
       if (checkout.error) {
         setError(checkout.error);
       } else if (checkout.data?.session?.url) {
+        setCheckoutStarted(true);
+        recovery?.notifyConverted();
         window.location.href = checkout.data.session.url;
       } else {
         window.location.href = `${successPath}?offering=${encodeURIComponent(offeringId)}`;
@@ -159,7 +188,10 @@ export function ProgramEnrollmentForm({ offeringId, siteCertId, tierSlug }: Prog
             required
             autoComplete="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              recovery?.markFormTouched();
+            }}
           />
           <p className="mt-1 text-xs text-slate-500">
             Enrollment details will be sent to this address after you complete payment.

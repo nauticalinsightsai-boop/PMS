@@ -11,21 +11,29 @@ import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
+import { useSimpleFormRecovery } from '@/components/conversion-recovery/useSimpleFormRecovery';
 
 export function Contact() {
   const { get } = useWebsiteData();
+  const [firstName, setFirstName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [subject, setSubject] = React.useState('');
+  const [message, setMessage] = React.useState('');
   const [formError, setFormError] = React.useState<string | null>(null);
   const [formSent, setFormSent] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
+  const { touch, onSuccess } = useSimpleFormRecovery({
+    variant: 'contact_partial',
+    isDone: formSent,
+    hasPartialData: Boolean(
+      firstName.trim() || lastName.trim() || email.trim() || subject.trim() || message.trim(),
+    ),
+    parentSurface: 'contact',
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const firstName = String(data.get("first-name") ?? "").trim();
-    const lastName = String(data.get("last-name") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const subject = String(data.get("subject") ?? "PMS inquiry").trim();
-    const message = String(data.get("message") ?? "").trim();
     if (!email || !message) {
       setFormError("Please enter your email and message.");
       setFormSent(false);
@@ -56,8 +64,13 @@ export function Contact() {
       setFormSent(false);
       return;
     }
+    onSuccess();
     setFormSent(true);
-    e.currentTarget.reset();
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setSubject('');
+    setMessage('');
   };
 
   return (
@@ -136,24 +149,73 @@ export function Contact() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="first-name">First Name</Label>
-                      <Input id="first-name" name="first-name" placeholder="John" />
+                      <Input
+                        id="first-name"
+                        name="first-name"
+                        placeholder="John"
+                        value={firstName}
+                        onChange={(e) => {
+                          setFirstName(e.target.value);
+                          touch();
+                        }}
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="last-name">Last Name</Label>
-                      <Input id="last-name" name="last-name" placeholder="Doe" />
+                      <Input
+                        id="last-name"
+                        name="last-name"
+                        placeholder="Doe"
+                        value={lastName}
+                        onChange={(e) => {
+                          setLastName(e.target.value);
+                          touch();
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email Address</Label>
-                    <Input id="email" name="email" type="email" placeholder="john@example.com" required />
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="john@example.com"
+                      required
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        touch();
+                      }}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="subject">Subject</Label>
-                    <Input id="subject" name="subject" placeholder="How can we help?" />
+                    <Input
+                      id="subject"
+                      name="subject"
+                      placeholder="How can we help?"
+                      value={subject}
+                      onChange={(e) => {
+                        setSubject(e.target.value);
+                        touch();
+                      }}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="message">Message</Label>
-                    <Textarea id="message" name="message" placeholder="Tell us more about your inquiry..." className="min-h-[150px]" required />
+                    <Textarea
+                      id="message"
+                      name="message"
+                      placeholder="Tell us more about your inquiry..."
+                      className="min-h-[150px]"
+                      required
+                      value={message}
+                      onChange={(e) => {
+                        setMessage(e.target.value);
+                        touch();
+                      }}
+                    />
                   </div>
                   {formError && (
                     <p className="text-sm text-destructive font-medium" role="alert">{formError}</p>

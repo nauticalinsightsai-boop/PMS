@@ -79,7 +79,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
             <Button variant="ghost" size="icon" onClick={toggleTheme} className="min-h-11 min-w-11 rounded-full" aria-label="Toggle theme">
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
-            <RegisterModal trigger={
+            <RegisterModal recoveryVariant="nav_register_partial" trigger={
               <Button variant="brand" className="font-semibold px-5 h-10 rounded-full">
                 {CTAS.talkToMentor}
               </Button>
@@ -118,7 +118,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
                   );
                 })}
                 <div className="mt-4 pt-4 border-t border-border">
-                  <RegisterModal trigger={<Button variant="brand" className="w-full min-h-11">{CTAS.talkToMentor}</Button>} />
+                  <RegisterModal recoveryVariant="nav_register_partial" trigger={<Button variant="brand" className="w-full min-h-11">{CTAS.talkToMentor}</Button>} />
                 </div>
               </nav>
             </SheetContent>

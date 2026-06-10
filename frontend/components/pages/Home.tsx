@@ -161,7 +161,7 @@ export function Home() {
 
     if (action === 'register_modal') {
       return (
-        <RegisterModal trigger={
+        <RegisterModal recoveryVariant="home_register_exit" trigger={
           <Button size="lg" className={cn(btnClass, 'block')}>{label}</Button>
         } />
       );
@@ -794,7 +794,7 @@ export function Home() {
                         className="w-full h-12 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base shadow-md shadow-brand-orange/20 dark:bg-brand-orange dark:hover:bg-brand-hover dark:text-white group/link"
                         onClick={() => {
                           void openCalendlyThemedPopup(tool.calendlyUrl, {
-                            funnelLabel: 'home_roadmap_guidance',
+                            funnelLabel: 'home_tool_calendly',
                           });
                         }}
                       >
@@ -977,7 +977,7 @@ export function Home() {
                     </Button>
                   </Link>
                 ) : (
-                  <RegisterModal trigger={
+                  <RegisterModal recoveryVariant="home_register_exit" trigger={
                     <Button size="lg" className="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl shadow-xl transition-all group/btn">
                       {CTAS.talkToMentor}
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />

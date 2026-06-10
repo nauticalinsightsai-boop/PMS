@@ -31,20 +31,26 @@ import {
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { trackConversionEvent, CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { CTAS } from '@/lib/brand-voice';
+import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
+import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 
 interface RegisterModalProps {
   trigger?: React.ReactElement;
+  recoveryVariant?: 'register_modal_partial' | 'nav_register_partial' | 'home_register_exit';
 }
 
-export function RegisterModal({ trigger }: RegisterModalProps) {
+export function RegisterModal({ trigger, recoveryVariant = 'register_modal_partial' }: RegisterModalProps) {
+  const recovery = useLeadRecoveryOptional();
   const { regionId, regionLabel, gccCountry } = useRegion();
   const regions = getCatalogue().regions;
   const certOptions = React.useMemo(() => getRegisterCertOptions(), []);
+  const [open, setOpen] = React.useState(false);
   const [certId, setCertId] = React.useState(certOptions[0]?.siteCertId ?? '');
   const [offeringId, setOfferingId] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [name, setName] = React.useState('');
   const [submitted, setSubmitted] = React.useState(false);
+  const touchedRef = React.useRef(false);
 
   const tierOptions = React.useMemo(
     () => (certId ? getRegisterOfferingsForCert(certId, regionId) : []),
@@ -90,12 +96,31 @@ export function RegisterModal({ trigger }: RegisterModalProps) {
         region_id: regionId,
         source: 'register_modal',
       });
+      recovery?.notifyConverted();
     }
     setSubmitted(true);
   };
 
+  const handleOpenChange = (next: boolean) => {
+    if (!next && open && !submitted && touchedRef.current) {
+      recovery?.requestRecovery(
+        {
+          variant: recoveryVariant,
+          siteCertId: certId,
+          parentSurface: 'register_modal',
+        },
+        { requireIntent: true },
+      );
+    }
+    if (next) {
+      markIntent();
+      recovery?.markFormTouched();
+    }
+    setOpen(next);
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger
         render={trigger || <Button variant="brand">{CTAS.talkToMentor}</Button>}
       />
@@ -177,7 +202,11 @@ export function RegisterModal({ trigger }: RegisterModalProps) {
                     id="name"
                     required
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      touchedRef.current = true;
+                      recovery?.markFormTouched();
+                    }}
                     className="focus-visible:ring-brand-orange/40"
                   />
                 </div>
@@ -188,7 +217,11 @@ export function RegisterModal({ trigger }: RegisterModalProps) {
                     type="email"
                     required
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      touchedRef.current = true;
+                      recovery?.markFormTouched();
+                    }}
                     className="focus-visible:ring-brand-orange/40"
                   />
                 </div>

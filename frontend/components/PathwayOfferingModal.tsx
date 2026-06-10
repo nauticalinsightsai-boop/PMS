@@ -20,6 +20,13 @@ import { openPathwayConsultationCalendly } from '@/lib/pathway-consultation-sche
 import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
 import { getPmpEnrollConversionEvent } from '@/lib/analytics/conversion-events';
 import { CTAS } from '@/lib/brand-voice';
+import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
+import { pathwayExitVariant, tierIdFromPathwayTier } from '@/lib/conversion-recovery/copy';
+import { markIntent } from '@/lib/conversion-recovery/engagement-score';
+import {
+  setEnrollStarted,
+  setPathwayModalTierOpened,
+} from '@/lib/conversion-recovery/session-state';
 
 interface PathwayOfferingModalProps {
   open: boolean;
@@ -46,6 +53,33 @@ export function PathwayOfferingModal({
   pathwayCta,
   outcomes,
 }: PathwayOfferingModalProps) {
+  const recovery = useLeadRecoveryOptional();
+  const actionRef = React.useRef<'none' | 'enroll' | 'consultation'>('none');
+
+  React.useEffect(() => {
+    if (open) {
+      actionRef.current = 'none';
+      markIntent();
+      setPathwayModalTierOpened(tierId);
+    }
+  }, [open, tierId]);
+
+  const handleOpenChange = (next: boolean) => {
+    if (!next && open && actionRef.current === 'none') {
+      recovery?.requestRecovery(
+        {
+          variant: pathwayExitVariant(tierId),
+          siteCertId,
+          tierId: tierIdFromPathwayTier(tierId),
+          offeringId,
+          parentSurface: 'pathway_modal',
+        },
+        { requireIntent: true },
+      );
+    }
+    onOpenChange(next);
+  };
+
   const preview = React.useMemo(
     () => getProgrammePreviewContent(offeringId, programmeTitle),
     [offeringId, programmeTitle],
@@ -66,6 +100,7 @@ export function PathwayOfferingModal({
       : 'Review the pathway map and materials below, then take the next step with our team.';
 
   const handleConsultation = () => {
+    actionRef.current = 'consultation';
     onOpenChange(false);
     openPathwayConsultationCalendly(siteCertId, tierId, offeringId);
   };
@@ -86,19 +121,31 @@ export function PathwayOfferingModal({
       <TrackedConversionLink
         href={href}
         event={enrollEvent}
-        onClick={() => onOpenChange(false)}
+        onClick={() => {
+          actionRef.current = 'enroll';
+          setEnrollStarted(offeringId, tierId, siteCertId);
+          onOpenChange(false);
+        }}
         className={className}
       >
         {label}
       </TrackedConversionLink>
     ) : (
-      <Link href={href} onClick={() => onOpenChange(false)} className={className}>
+      <Link
+        href={href}
+        onClick={() => {
+          actionRef.current = 'enroll';
+          setEnrollStarted(offeringId, tierId, siteCertId);
+          onOpenChange(false);
+        }}
+        className={className}
+      >
         {label}
       </Link>
     );
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="rounded-[2rem] sm:max-w-4xl max-h-[min(92vh,900px)] flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold tracking-tight pr-8">{programmeTitle}</DialogTitle>
@@ -173,7 +220,10 @@ export function PathwayOfferingModal({
               ) : (
                 <Link
                   href={pathwayCta.proceedHref}
-                  onClick={() => onOpenChange(false)}
+                  onClick={() => {
+                    actionRef.current = 'enroll';
+                    onOpenChange(false);
+                  }}
                   className={cn(
                     buttonVariants({ variant: 'brand' }),
                     'h-12 w-full rounded-2xl text-base',
@@ -188,7 +238,7 @@ export function PathwayOfferingModal({
             type="button"
             variant="ghost"
             className="w-full text-slate-500"
-            onClick={() => onOpenChange(false)}
+            onClick={() => handleOpenChange(false)}
           >
             Close
           </Button>

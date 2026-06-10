@@ -19,6 +19,11 @@ export const FUNNEL_EVENTS = {
   BEGIN_CHECKOUT: 'begin_checkout',
   BOOKING_CONFIRMED: 'booking_confirmed',
   GENERATE_LEAD: 'generate_lead',
+  RECOVERY_SHOWN: 'recovery_shown',
+  RECOVERY_DISMISSED: 'recovery_dismissed',
+  RECOVERY_SUBMITTED: 'recovery_submitted',
+  BOTTOM_BAR_SHOWN: 'bottom_bar_shown',
+  BOTTOM_BAR_DISMISSED: 'bottom_bar_dismissed',
   CHAT_OPEN: 'chat_open',
 } as const;
 

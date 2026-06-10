@@ -1,6 +1,7 @@
 import {
  getCalendlyPopupThemeTokens,
 } from '@/lib/calendly/embed-url';
+import { notifyCalendlyClosed } from '@/lib/conversion-recovery/calendly-bridge';
 
 /**
  * Calendly's default popup close control can be hard to see (asset URL is relative to the host).
@@ -405,6 +406,7 @@ function bindOverlay(overlay: HTMLElement): void {
   btn.remove();
   trackedStyles.forEach(({ el, property, snapshot }) => restoreStyle(el, property, snapshot));
   delete overlay.dataset.sh3ikhCalendlyUi;
+  window.setTimeout(() => notifyCalendlyClosed(), 400);
  };
 
  const mo = new MutationObserver(() => {

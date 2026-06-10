@@ -5,6 +5,8 @@ import {
 } from '@/lib/calendly/embed-url';
 import { attachCalendlyPopupEnhancements } from '@/lib/calendly/popup-enhancements';
 import { FUNNEL_EVENTS, trackFunnelEvent } from '@/lib/analytics/funnel';
+import { beginCalendlySession } from '@/lib/conversion-recovery/calendly-bridge';
+import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 
 type CalendlyGlobal = {
  initPopupWidget: (opts: { url: string }) => void;
@@ -146,6 +148,18 @@ export async function openCalendlyThemedPopup(
   funnel_stage: 'interest',
   ...(opts?.funnelLabel ? { label: opts.funnelLabel } : {}),
  });
+
+ markIntent();
+
+ const funnelLabel = opts?.funnelLabel;
+ let siteCertId: string | undefined;
+ let tierId: string | undefined;
+ if (funnelLabel?.startsWith('pathway:')) {
+  const parts = funnelLabel.split(':');
+  siteCertId = parts[1];
+  tierId = parts[2];
+ }
+ beginCalendlySession({ funnelLabel, siteCertId, tierId });
 
  try {
   await loadCalendlyPopupWidget();

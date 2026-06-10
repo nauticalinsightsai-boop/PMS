@@ -47,6 +47,9 @@ import {
   CERT_ROADMAP_FORM_ANCHOR,
   getCertProgramOffer,
 } from '@/lib/cert-program-offer';
+import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
+import { enrollReturnVariant, tierIdFromPathwayTier } from '@/lib/conversion-recovery/copy';
+import { findPendingEnrollReturn, consumeEnrollStarted } from '@/lib/conversion-recovery/session-state';
 
 function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
   return getOfferingsForSiteCert(siteId).some((o) => {
@@ -57,6 +60,7 @@ function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
 
 export function CertificationDetail() {
   const { id } = useParams();
+  const recovery = useLeadRecoveryOptional();
   const { regionId, gccCountry } = useRegion();
   const { data: registry } = usePublishedSiteDocument(FIELD_KEYS.CERTIFICATIONS_REGISTRY, {
     parse: (raw) => (raw ? parseCertificationsRegistry(raw) : null),
@@ -93,6 +97,23 @@ export function CertificationDetail() {
       ),
     [cert.id, certName, regionId, gccCountry, cert.pathwayOutcomes, cert.learningOutcomes]
   );
+
+  React.useEffect(() => {
+    const pending = findPendingEnrollReturn();
+    if (!pending || pending.siteCertId !== cert.id) return;
+    recovery?.requestRecovery(
+      {
+        variant: enrollReturnVariant(pending.tierId),
+        siteCertId: pending.siteCertId,
+        certName,
+        tierId: tierIdFromPathwayTier(pending.tierId),
+        offeringId: pending.offeringId,
+        parentSurface: 'enroll',
+      },
+      { requireIntent: true },
+    );
+    consumeEnrollStarted(pending.offeringId);
+  }, [cert.id, certName, recovery]);
 
   return (
     <div

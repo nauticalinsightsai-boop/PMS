@@ -9,6 +9,7 @@ import {
 import CTAButton from '@/components/ui/buttons/CTAButton'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 import { portalFormMaxWidthClass } from '@/lib/channel-landing-pages/portalLayoutClasses'
+import { useSimpleFormRecovery } from '@/components/conversion-recovery/useSimpleFormRecovery'
 
 export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: PortalSectionProps) {
   const [firstName, setFirstName] = useState('')
@@ -22,6 +23,13 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
   const [submitted, setSubmitted] = useState(false)
   const [hp, setHp] = useState('')
   const [privacyConsent, setPrivacyConsent] = useState(false)
+  const { touch, onSuccess } = useSimpleFormRecovery({
+    variant: 'channel_portal_partial',
+    isDone: submitted,
+    hasPartialData: Boolean(firstName.trim() || email.trim() || whatsapp.trim() || message.trim()),
+    channelId: page.channelId,
+    parentSurface: 'channel',
+  })
 
   if (!page.showBookingForm || page.primaryAction !== 'booking_form') return null
 
@@ -72,7 +80,10 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
       },
     })
     setSubmitting(false)
-    if (res.ok) setSubmitted(true)
+    if (res.ok) {
+      onSuccess()
+      setSubmitted(true)
+    }
   }
 
   return (
@@ -96,14 +107,20 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
             <input
               required
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => {
+                setFirstName(e.target.value)
+                touch()
+              }}
               placeholder="First name"
               className="w-full p-3 text-body-sm"
               style={inputStyle}
             />
             <input
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => {
+                setLastName(e.target.value)
+                touch()
+              }}
               placeholder="Last name"
               className="w-full p-3 text-body-sm"
               style={inputStyle}
@@ -113,7 +130,10 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
             type="email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value)
+              touch()
+            }}
             placeholder="Email"
             className="w-full p-3 text-body-sm"
             style={inputStyle}
@@ -121,7 +141,10 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
           <input
             required
             value={whatsapp}
-            onChange={(e) => setWhatsapp(e.target.value)}
+            onChange={(e) => {
+              setWhatsapp(e.target.value)
+              touch()
+            }}
             placeholder="WhatsApp / phone"
             className="w-full p-3 text-body-sm"
             style={inputStyle}
@@ -145,7 +168,10 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
           )}
           <textarea
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => {
+              setMessage(e.target.value)
+              touch()
+            }}
             placeholder="What would you like to discuss?"
             rows={4}
             className="w-full p-3 text-body-sm resize-y"
