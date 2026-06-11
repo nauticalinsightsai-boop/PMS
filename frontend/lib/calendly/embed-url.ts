@@ -6,7 +6,6 @@
  */
 import { isLightHexColor, pickButtonForeground } from '@/lib/channel-landing-pages/contrastUtils';
 import { assertCalendlySchedulingUrl } from '@/lib/calendly/host-allowlist';
-import { getWebsiteHeroConsultationUrl } from '@/lib/calendly/event-registry';
 import {
   ENGAGEMENT_SERVICE_TO_WEBSITE_TIER,
   getWebsiteCalendlyUrl,
@@ -542,5 +541,5 @@ export function getCalendlySchedulingUrlForService(serviceId: string): string {
 
 /** Home hero primary CTA. Website Hero Book Consultation (20 min). */
 export function getWebsiteHeroConsultationCalendlyUrl(): string {
- return sanitizeCalendlySchedulingUrl(getWebsiteHeroConsultationUrl()) || '';
+  return getWebsiteCalendlyUrl('hero');
 }

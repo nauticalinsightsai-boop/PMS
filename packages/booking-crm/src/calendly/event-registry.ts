@@ -59,8 +59,9 @@ export function resolveCalendlyEventUrl(slug: string): string {
   const event = getEventBySlug(slug);
   const fromEnv = readEnvOverride(slug);
   if (fromEnv) return fromEnv;
-  if (event?.urls.fallback) return event.urls.fallback;
-  if (event?.urls.primary) return event.urls.primary;
+  for (const candidate of [event?.urls.fallback, event?.urls.primary]) {
+    if (candidate?.trim()) return candidate.trim();
+  }
   return '';
 }
 

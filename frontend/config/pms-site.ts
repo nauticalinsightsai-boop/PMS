@@ -21,6 +21,11 @@ export const PMS_ONBOARDING_CALENDLY_URL =
   process.env.NEXT_PUBLIC_ONBOARDING_CALENDLY_URL?.trim() ||
   'https://calendly.com/pm-structure/go-talk-to-mentor';
 
+/** Default mentor consultation when pathway-specific env is unset. */
+export const PMS_MENTOR_CALENDLY_URL =
+  process.env.NEXT_PUBLIC_CALENDLY_EVENT_URL_WEBSITE_HERO?.trim() ||
+  'https://calendly.com/pm-structure/website-hero-book-consultation';
+
 export function getOnboardingCalendlyUrl(
   offeringId?: string | null,
   opts?: { utmSource?: string; utmMedium?: string },

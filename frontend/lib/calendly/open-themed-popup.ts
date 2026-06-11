@@ -3,6 +3,7 @@ import {
  getCalendlyEmbedTheme,
  type CalendlyUtmParams,
 } from '@/lib/calendly/embed-url';
+import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 import { attachCalendlyPopupEnhancements } from '@/lib/calendly/popup-enhancements';
 import { FUNNEL_EVENTS, trackFunnelEvent } from '@/lib/analytics/funnel';
 import { beginCalendlySession } from '@/lib/conversion-recovery/calendly-bridge';
@@ -137,10 +138,11 @@ export async function openCalendlyThemedPopup(
  rawSchedulingUrl: string,
  opts?: { utm?: CalendlyUtmParams; funnelLabel?: string }
 ): Promise<void> {
- const trimmed = rawSchedulingUrl?.trim();
+ const trimmed = rawSchedulingUrl?.trim() || getWebsiteCalendlyUrl('hero');
  if (!trimmed || typeof window === 'undefined') return;
  if (!isCalendlySchedulingUrl(trimmed)) {
   console.warn('[calendly] Ignoring non-Calendly scheduling URL:', trimmed);
+  openCalendlyFallbackUrl(getWebsiteCalendlyUrl('hero'));
   return;
  }
 

@@ -12,9 +12,17 @@ export const WEBSITE_CALENDLY_SLUGS: Record<WebsiteCalendlyTier, string> = {
   services: 'go-website-services',
 };
 
+/** Live pm-structure scheduling links (used when manifest/env resolution is empty). */
+export const WEBSITE_CALENDLY_LIVE_URLS: Record<WebsiteCalendlyTier, string> = {
+  hero: 'https://calendly.com/pm-structure/website-hero-book-consultation',
+  discovery: 'https://calendly.com/pm-structure/website-discovery-mentorship',
+  executive: 'https://calendly.com/pm-structure/website-executive-discussion',
+  services: 'https://calendly.com/pm-structure/website-expert-services-discussion',
+};
+
 export function getWebsiteCalendlyUrl(tier: WebsiteCalendlyTier): string {
-  const url = resolveCalendlyEventUrl(WEBSITE_CALENDLY_SLUGS[tier]);
-  return sanitizeCalendlySchedulingUrl(url) || url;
+  const resolved = resolveCalendlyEventUrl(WEBSITE_CALENDLY_SLUGS[tier]);
+  return sanitizeCalendlySchedulingUrl(resolved) || resolved || WEBSITE_CALENDLY_LIVE_URLS[tier];
 }
 
 /** Pathway tier → website Calendly event (foundation / professional / mastery). */
