@@ -34,7 +34,7 @@ export function RegionChip({ className }: { className?: string }) {
     : isDetectingRegion
       ? 'Detecting your location…'
       : locationError
-        ? `Region: ${regionLabel}. Location access denied — enable location in your browser to change region.`
+        ? `Region: ${regionLabel}. Location access denied: enable location in your browser to change region.`
         : `Region: ${regionLabel}. Share your location to change region.`;
 
   const title = canChangeRegion

@@ -8,7 +8,7 @@ export const LEGAL_LAST_UPDATED = '2026-05-23';
 /** Single inbox for legal, privacy, billing, and compliance. */
 export const LEGAL_SUPPORT_EMAIL = PMS_SUPPORT_EMAIL;
 
-/** @deprecated Alias — use LEGAL_SUPPORT_EMAIL */
+/** @deprecated Alias: use LEGAL_SUPPORT_EMAIL */
 export const LEGAL_CONTACT_EMAIL = LEGAL_SUPPORT_EMAIL;
 
 export const LEGAL_CONTROLLER_LINE = formatLegalControllerLine();
@@ -22,5 +22,4 @@ export function legalSupportSection(topic: string): string {
 
 export function section(id: string, heading: string, body: string) {
   return { id, heading, body };
-}
-
+}

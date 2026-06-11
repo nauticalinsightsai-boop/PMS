@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { useMembershipRegionalPricing } from '@/hooks/useMembershipRegionalPricing';
 import { formatMembershipSavingsPercent } from '@/lib/membership-plans';
 
-/** Monthly (primary) and yearly price with % savings — side by side, in the active region currency. */
+/** Monthly (primary) and yearly price with % savings: side by side, in the active region currency. */
 export function MembershipDualPrice({
   monthlyUsd,
   yearlyUsd,

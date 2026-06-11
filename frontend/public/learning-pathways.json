@@ -122,7 +122,7 @@
     },
     {
       "certificationId": "gpm-b",
-      "name": "Green Project Manager – Basic (GPM-b)™",
+      "name": "Green Project Manager: Basic (GPM-b)™",
       "enrollUrlPattern": "https://pmstructure.com/certifications/gpm-b/{tier}/enroll",
       "compareUrl": "https://pmstructure.com/certifications/compare",
       "status": "available",

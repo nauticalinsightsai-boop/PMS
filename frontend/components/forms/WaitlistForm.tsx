@@ -28,7 +28,7 @@ export function WaitlistForm({ offeringId }: { offeringId?: string }) {
     const ctx = offeringFormContext('waitlist', 'Waitlist', offeringId, regionId);
     await submitPublicInteraction({
       source: 'waitlist',
-      subject: `Waitlist — ${ctx.certName ?? offeringId ?? 'general'}`,
+      subject: `Waitlist: ${ctx.certName ?? offeringId ?? 'general'}`,
       email,
       formContext: ctx,
       payload: { message, offeringId, regionId },

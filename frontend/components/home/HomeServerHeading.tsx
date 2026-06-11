@@ -5,7 +5,14 @@ import { PMS_SITE_DESCRIPTION } from '@/config/pms-site';
 export function HomeServerHeading() {
   return (
     <header className="sr-only">
-      <h1>{HOME_COPY.heroTitle}</h1>
+      <h1>
+        {HOME_COPY.heroTitle}
+        {HOME_COPY.heroTitleAccents.map((line) => (
+          <span key={line} className="block">
+            {line}
+          </span>
+        ))}
+      </h1>
       <p>{HOME_COPY.heroSubtitle}</p>
       <p>{PMS_SITE_DESCRIPTION}</p>
     </header>

@@ -6,7 +6,7 @@ export function FaqServerHeading() {
 
     <header className="sr-only">
 
-      <h1>FAQ — PMP 2026, Certifications, Pricing &amp; Support</h1>
+      <h1>FAQ. PMP 2026, Certifications, Pricing &amp; Support</h1>
 
       <p>
 
@@ -21,5 +21,3 @@ export function FaqServerHeading() {
   );
 
 }
-
-

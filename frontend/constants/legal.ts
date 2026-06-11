@@ -77,7 +77,7 @@ export const LEGAL_POLICY_CARDS: LegalPolicyCard[] = [
   },
 ];
 
-/** Footer / portal / email — keep short; full policy index lives on /legal */
+/** Footer / portal / email: keep short; full policy index lives on /legal */
 export const FOOTER_LEGAL_LINKS = [
   { href: FAQ_HUB_PATH, label: 'FAQ', shortLabel: 'FAQ' },
   { href: LEGAL_HUB_PATH, label: 'Legal hub', shortLabel: 'Legal' },

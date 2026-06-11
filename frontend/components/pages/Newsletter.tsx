@@ -166,7 +166,7 @@ export function Newsletter() {
             )}
           </div>
 
-          {/* Sidebar: Popular & Editor Picks — equal panels, stretch to main column height on lg */}
+          {/* Sidebar: Popular & Editor Picks: equal panels, stretch to main column height on lg */}
           <aside className="lg:col-span-4 flex flex-col gap-6 lg:h-full">
             <div className="flex flex-col flex-1 min-h-0 p-8 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2 mb-6 shrink-0">

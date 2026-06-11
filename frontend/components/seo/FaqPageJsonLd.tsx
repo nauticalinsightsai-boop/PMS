@@ -7,7 +7,7 @@ export function FaqPageJsonLd() {
   const graph = [
     buildWebPageSchema({
       path: '/faq',
-      name: 'FAQ — PMP 2026, Certifications, Pricing & Support',
+      name: 'FAQ. PMP 2026, Certifications, Pricing & Support',
       description:
         'PMP exam 2026 FAQs plus PRINCE2 pathways, regional scholarship pricing, membership, delivery, privacy, and exam preparation.',
     }),

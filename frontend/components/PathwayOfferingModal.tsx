@@ -74,7 +74,7 @@ export function PathwayOfferingModal({
           offeringId,
           parentSurface: 'pathway_modal',
         },
-        { requireIntent: true },
+        { requireIntent: true, intentRecovery: true },
       );
     }
     onOpenChange(next);

@@ -10,7 +10,7 @@ interface CertificationPathwayVisualProps {
   className?: string;
 }
 
-/** Gradient header with family mark — featured pathways & certifications grid */
+/** Gradient header with family mark: featured pathways & certifications grid */
 export function CertificationPathwayVisual({
   cert,
   subtitle,
@@ -22,7 +22,7 @@ export function CertificationPathwayVisual({
   const isPrince2 = cert.familyId === 'PRINCE2';
   const isSixSigma = cert.familyId === 'SixSigma';
   const hasBrandLogo = isPmi || isPrince2 || isSixSigma;
-  /** Wordmark already includes the PRINCE2 name — omit cert subtitle under the logo. */
+  /** Wordmark already includes the PRINCE2 name: omit cert subtitle under the logo. */
   const showSubtitle = Boolean(subtitle) && !isPrince2;
 
   return (

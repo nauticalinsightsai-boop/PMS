@@ -55,8 +55,7 @@ export default function PortalAdvisoryServicesReveal({ theme, description }: Pro
                 {service.title}
               </span>
               <span style={{ color: theme.textMuted, fontFamily: theme.fontFamily }}>
-                {' '}
-                — {service.description}
+                {' '}: {service.description}
               </span>
             </li>
           ))}

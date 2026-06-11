@@ -61,7 +61,7 @@ const PAGE_SIZE = 75;
 const AUTO_REFRESH_MS = 45_000;
 
 function formatDate(iso: string): string {
-  if (!iso.trim()) return '—';
+  if (!iso.trim()) return '-';
   try {
     return new Date(iso).toLocaleString(undefined, {
       dateStyle: 'medium',
@@ -74,7 +74,7 @@ function formatDate(iso: string): string {
 
 function cellPreview(value: string, max = 100): string {
   const t = value.trim();
-  if (t.length <= max) return t || '—';
+  if (t.length <= max) return t || '-';
   return `${t.slice(0, max)}…`;
 }
 
@@ -119,24 +119,24 @@ function SheetRecordDetailPanel({
           </div>
           <div>
             <dt className="text-meta text-muted-foreground">Email</dt>
-            <dd className="break-all text-foreground">{record.email || '—'}</dd>
+            <dd className="break-all text-foreground">{record.email || '-'}</dd>
           </div>
           <div>
             <dt className="text-meta text-muted-foreground">Page</dt>
-            <dd className="break-all text-foreground">{pagePath || '—'}</dd>
+            <dd className="break-all text-foreground">{pagePath || '-'}</dd>
           </div>
           <div>
             <dt className="text-meta text-muted-foreground">Certification</dt>
-            <dd className="text-foreground">{certName || '—'}</dd>
+            <dd className="text-foreground">{certName || '-'}</dd>
           </div>
           <div className="sm:col-span-2">
             <dt className="text-meta text-muted-foreground">Origin</dt>
-            <dd className="text-foreground">{origin || '—'}</dd>
+            <dd className="text-foreground">{origin || '-'}</dd>
           </div>
           <div className="sm:col-span-2">
             <dt className="mb-1 text-meta text-muted-foreground">Submission ID</dt>
             <dd className="flex items-center gap-2 break-all font-mono text-meta">
-              {record.submissionId || '—'}
+              {record.submissionId || '-'}
               {record.submissionId ? (
                 <button
                   type="button"
@@ -463,7 +463,7 @@ export default function InteractionsSheetsRecords() {
         )}
         {!process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL && (
           <span className="text-amber-700 dark:text-amber-300">
-            — set NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL for instant refresh on new submissions
+            Set NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL for instant refresh on new submissions
           </span>
         )}
         {process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL && (
@@ -530,8 +530,8 @@ export default function InteractionsSheetsRecords() {
                     {formatDate(r.createdAt)}
                   </td>
                   <td className="px-3 py-2 whitespace-nowrap text-foreground">{sourceLabel(r.source)}</td>
-                  <td className="px-3 py-2 max-w-[200px] text-foreground">{r.subject || '—'}</td>
-                  <td className="px-3 py-2 whitespace-nowrap text-foreground">{r.email || '—'}</td>
+                  <td className="px-3 py-2 max-w-[200px] text-foreground">{r.subject || '-'}</td>
+                  <td className="px-3 py-2 whitespace-nowrap text-foreground">{r.email || '-'}</td>
                   <td className="px-3 py-2 max-w-[120px] text-meta text-muted-foreground">
                     {cellPreview(pagePathFromPayload(r.payload), 32)}
                   </td>

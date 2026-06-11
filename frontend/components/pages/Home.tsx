@@ -42,6 +42,7 @@ import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { useHomePageConfig } from '@/lib/home-config';
 import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
+import { HomeHeroAccentRotator } from '@/components/home/HomeHeroAccentRotator';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 
 import * as siteData from "@/data/siteData";
@@ -178,7 +179,7 @@ export function Home() {
     <div className="flex flex-col min-h-screen overflow-x-hidden selection:bg-brand-orange selection:text-white">
       {/* Hero Section */}
       <section className="relative min-h-0 md:min-h-[85vh] lg:min-h-[90vh] flex items-center pt-8 pb-12 sm:pt-12 sm:pb-16 md:pt-16 md:pb-20 lg:pt-20 lg:pb-24 overflow-x-hidden max-lg:overflow-y-visible lg:overflow-hidden bg-gradient-to-br from-violet-50/70 via-background to-orange-50/30 dark:from-[#0f0e38] dark:via-[#07071c] dark:to-[#12081a]">
-        {/* PMS gradient ambient — orange + blue-purple from logo system */}
+        {/* PMS gradient ambient: orange + blue-purple from logo system */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-[-12%] right-[-8%] w-[42%] h-[42%] rounded-full blur-[120px] opacity-30 bg-pms-gradient-orange" />
           <div className="absolute bottom-[-15%] left-[-12%] w-[48%] h-[48%] rounded-full blur-[120px] opacity-40 bg-pms-gradient-blue-purple" />
@@ -198,13 +199,11 @@ export function Home() {
                 {get('hero_badge', HOME_COPY.heroBadge)}
               </Badge>
               
-              <p
-                role="heading"
-                aria-level={1}
-                className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-6 sm:mb-8 tracking-tight leading-[1.1] text-balance"
-              >
+              <h2 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-[1.1] text-balance">
                 {homeCms.heroTitle || get('hero_title', HOME_COPY.heroTitle)}
-              </p>
+              </h2>
+
+              <HomeHeroAccentRotator />
               
               <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 sm:mb-10 max-w-lg leading-relaxed font-medium">
                 {homeCms.heroSubtitle || get('hero_subtitle', HOME_COPY.heroSubtitle)}
@@ -234,7 +233,7 @@ export function Home() {
             </motion.div>
 
             <div id={PMP_ROADMAP_FORM_ANCHOR} className="scroll-mt-24 contents">
-              {/* Hero lead form — tablet/mobile */}
+              {/* Hero lead form: tablet/mobile */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -309,7 +308,7 @@ export function Home() {
           <div className="rounded-2xl border border-brand-purple/20 bg-brand-purple/5 p-6 sm:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h2 className="font-heading text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                PMP exam 2026 — what&apos;s changing?
+                PMP exam 2026: what&apos;s changing?
               </h2>
               <p className="text-slate-600 dark:text-slate-400 max-w-xl">
                 Independent guides for the 2026 transition, study plans, and domain focus areas.

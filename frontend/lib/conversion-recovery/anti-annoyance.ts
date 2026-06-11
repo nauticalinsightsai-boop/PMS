@@ -8,7 +8,7 @@ import {
   isCookieGateOpen,
   isLeadConverted,
   isOptedOut,
-  wasCenterDialogShownOnPage,
+  wasCenterDialogVariantShownOnPage,
 } from './session-state';
 
 const EXCLUDED_PREFIXES = ['/checkout', '/admin', '/login'];
@@ -37,7 +37,12 @@ export type CanShowResult = { allowed: true } | { allowed: false; reason: string
 export function canShowSurface(
   surface: RecoverySurface,
   pagePath: string,
-  opts?: { centerDialogOpen?: boolean; barRotation?: boolean },
+  opts?: {
+    centerDialogOpen?: boolean;
+    barRotation?: boolean;
+    intentRecovery?: boolean;
+    variant?: string;
+  },
 ): CanShowResult {
   if (isOptedOut()) return { allowed: false, reason: 'opt_out' };
   if (isLeadConverted()) return { allowed: false, reason: 'converted' };
@@ -45,7 +50,9 @@ export function canShowSurface(
   if (isExcludedPath(pagePath)) return { allowed: false, reason: 'excluded_path' };
   if (isCalendlyOverlayOpen()) return { allowed: false, reason: 'calendly_open' };
 
-  const skipCooldown = surface === 'bottom_bar' && opts?.barRotation === true;
+  const skipCooldown =
+    (surface === 'bottom_bar' && opts?.barRotation === true) ||
+    (surface === 'center_dialog' && opts?.intentRecovery === true);
   const lastAt = getLastSurfaceAt();
   if (!skipCooldown && lastAt && Date.now() - lastAt < COOLDOWN_MS) {
     return { allowed: false, reason: 'cooldown' };
@@ -56,7 +63,7 @@ export function canShowSurface(
     if (getCenterDialogSessionCount() >= MAX_CENTER_SESSION) {
       return { allowed: false, reason: 'center_session_cap' };
     }
-    if (wasCenterDialogShownOnPage(pagePath)) {
+    if (opts?.variant && wasCenterDialogVariantShownOnPage(pagePath, opts.variant)) {
       return { allowed: false, reason: 'center_page_cap' };
     }
     return { allowed: true };

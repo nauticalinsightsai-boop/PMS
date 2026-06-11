@@ -218,7 +218,7 @@ export function tierDeliveryLine(deliveryMode: string | null | undefined): strin
 }
 
 /**
- * Primary pathway CTA per tier — opens programme preview modal, then enrollment and/or Calendly.
+ * Primary pathway CTA per tier: opens programme preview modal, then enrollment and/or Calendly.
  */
 export function resolveTierPathwayCta(
   tierId: string,

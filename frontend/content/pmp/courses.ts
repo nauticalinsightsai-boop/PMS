@@ -56,7 +56,7 @@ const courses: PmpCourseContent[] = [
     slug: 'pmp-foundation',
     path: '/pmp-foundation',
     tier: 'foundation',
-    title: 'PMP Foundation course — PMP exam preparation',
+    title: 'PMP Foundation course. PMP exam preparation',
     description:
       'Foundation-tier PMP exam preparation: core ECO coverage, baseline practice, study planning, and orientation to the 2026 exam transition.',
     h1: 'PMP Foundation course for PMP exam preparation',
@@ -65,7 +65,7 @@ const courses: PmpCourseContent[] = [
     forLearners:
       'New PMP candidates, career-changers, and experienced PMs who want a guided start before intensive scenario practice.',
     notForLearners:
-      'Candidates who are already scoring consistently on full timed mocks and need only final remediation — consider Mastery instead.',
+      'Candidates who are already scoring consistently on full timed mocks and need only final remediation: consider Mastery instead.',
     outcomes: resolvePathwayTierOutcomes('pmp', 'foundation'),
     modules: foundationModules,
     examRelevance:
@@ -77,7 +77,7 @@ const courses: PmpCourseContent[] = [
     slug: 'pmp-professional',
     path: '/pmp-professional',
     tier: 'professional',
-    title: 'PMP Professional course — structured exam readiness',
+    title: 'PMP Professional course: structured exam readiness',
     description:
       'Professional-tier PMP preparation with structured mocks, scenario practice, cohort support, and readiness checkpoints before Pearson VUE.',
     h1: 'PMP Professional course for PMP exam readiness',
@@ -86,11 +86,11 @@ const courses: PmpCourseContent[] = [
     forLearners:
       'Candidates with PM experience who are actively preparing to sit PMP within 6–12 weeks and need scenario-heavy practice.',
     notForLearners:
-      'Complete beginners who have not yet mapped ECO topics — start with Foundation unless the diagnostic suggests otherwise.',
+      'Complete beginners who have not yet mapped ECO topics: start with Foundation unless the diagnostic suggests otherwise.',
     outcomes: resolvePathwayTierOutcomes('pmp', 'professional'),
     modules: professionalModules,
     examRelevance:
-      'Professional emphasizes situational judgment across People, Process, and Business Environment — skills emphasized in current and updated 2026 exam narratives. Verify weights on PMI.org.',
+      'Professional emphasizes situational judgment across People, Process, and Business Environment: skills emphasized in current and updated 2026 exam narratives. Verify weights on PMI.org.',
     enrollPath: enrollPath('pmp', 'professional'),
     faqs: [
       {
@@ -105,7 +105,7 @@ const courses: PmpCourseContent[] = [
     slug: 'pmp-mastery',
     path: '/pmp-mastery',
     tier: 'mastery',
-    title: 'PMP Mastery program — scenario practice & final readiness',
+    title: 'PMP Mastery program: scenario practice & final readiness',
     description:
       'Mastery-tier PMP preparation: intensive mock exams, weak-area remediation, mentor review, and exam-week discipline for high-confidence readiness.',
     h1: 'PMP Mastery program for scenario practice and final exam readiness',

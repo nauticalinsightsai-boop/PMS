@@ -19,20 +19,20 @@ function pathwayEnrollReturnCopy(tierId: RecoveryTierId, ctx: LeadRecoveryContex
   if (tierId === 'foundation') {
     return {
       headline: 'Questions before you enroll?',
-      body: `Foundation is digital and self-paced. Tell us your timeline for ${cert} — we'll help you start with structure.`,
+      body: `Foundation is digital and self-paced. Tell us your timeline for ${cert}: we'll help you start with structure.`,
       submitLabel: 'Talk to us first',
     };
   }
   if (tierId === 'professional') {
     return {
       headline: 'Reserve without paying yet?',
-      body: `Tell us your start date for ${cert} ${tier} — we'll confirm seat availability.`,
+      body: `Tell us your start date for ${cert} ${tier}: we'll confirm seat availability.`,
       submitLabel: 'Hold my place',
     };
   }
   return {
     headline: 'Mastery enrollment follows a conversation',
-    body: `Share your details — we'll outline readiness review and next steps for ${cert} ${tier}.`,
+    body: `Share your details: we'll outline readiness review and next steps for ${cert} ${tier}.`,
     submitLabel: 'Request mentor follow-up',
   };
 }
@@ -43,40 +43,40 @@ function pathwayCalendlyCopy(tierId: RecoveryTierId, explored: boolean): Recover
     if (tierId === 'foundation') {
       return {
         headline: 'Prefer we call you first?',
-        body: "Skip the calendar — we'll map your Foundation pathway and reply within 24 hours.",
+        body: "Skip the calendar: we'll map your Foundation pathway and reply within 24 hours.",
         submitLabel: 'Request callback',
       };
     }
     if (tierId === 'professional') {
       return {
         headline: 'Stop overthinking',
-        body: "Book a mentor call later — for now, leave WhatsApp and we'll reach out in 24 hours.",
+        body: "Book a mentor call later: for now, leave WhatsApp and we'll reach out in 24 hours.",
         submitLabel: 'Request callback',
       };
     }
     return {
       headline: "Mastery isn't a quick click",
-      body: "Leave your details — we'll schedule the right mentor conversation for you.",
+      body: "Leave your details: we'll schedule the right mentor conversation for you.",
       submitLabel: 'Request callback',
     };
   }
   if (tierId === 'foundation') {
     return {
       headline: 'Still deciding on Foundation?',
-      body: "Share your details — we'll answer questions before you enroll.",
+      body: "Share your details: we'll answer questions before you enroll.",
       submitLabel: DEFAULT_SUBMIT,
     };
   }
   if (tierId === 'professional') {
     return {
       headline: 'Need help choosing a cohort?',
-      body: 'You looked at scheduling — we can hold a seat while you decide. Share your details.',
+      body: 'You looked at scheduling: we can hold a seat while you decide. Share your details.',
       submitLabel: DEFAULT_SUBMIT,
     };
   }
   return {
     headline: "Didn't find a time that works?",
-    body: `We'll follow up with ${tier} mentor options — no calendar needed right now.`,
+    body: `We'll follow up with ${tier} mentor options: no calendar needed right now.`,
     submitLabel: DEFAULT_SUBMIT,
   };
 }
@@ -86,27 +86,27 @@ function pathwayExitCopy(tierId: RecoveryTierId, ctx: LeadRecoveryContext): Reco
   if (tierId === 'foundation') {
     return {
       headline: 'Not ready to enroll in Foundation?',
-      body: `Leave your name and WhatsApp — we'll confirm eligibility and send a structured ${cert} study plan.`,
+      body: `Leave your name and WhatsApp: we'll confirm eligibility and send a structured ${cert} study plan.`,
       submitLabel: 'Get my Foundation roadmap',
     };
   }
   if (tierId === 'professional') {
     return {
       headline: 'Comparing Professional?',
-      body: `Blended live weekends + LMS. Leave your details — we'll recommend whether Professional fits your schedule.`,
+      body: `Blended live weekends + LMS. Leave your details: we'll recommend whether Professional fits your schedule.`,
       submitLabel: DEFAULT_SUBMIT,
     };
   }
   if (tierId === 'mastery') {
     return {
       headline: 'Mastery starts with a conversation',
-      body: `Leave name + WhatsApp — a mentor will outline readiness review and next steps for ${cert}.`,
+      body: `Leave name + WhatsApp: a mentor will outline readiness review and next steps for ${cert}.`,
       submitLabel: 'Request mentor follow-up',
     };
   }
   return {
     headline: 'Which tier fits you?',
-    body: "Foundation, Professional, or Mastery — tell us your preference and we'll recommend the right next step.",
+    body: "Foundation, Professional, or Mastery: tell us your preference and we'll recommend the right next step.",
     submitLabel: DEFAULT_SUBMIT,
     showTierPills: true,
   };
@@ -115,52 +115,52 @@ function pathwayExitCopy(tierId: RecoveryTierId, ctx: LeadRecoveryContext): Reco
 const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContext) => RecoveryCopy>> = {
   home_roadmap_partial: () => ({
     headline: 'Almost there',
-    body: "Name + WhatsApp is enough — we'll map your PM certification roadmap for you.",
+    body: "Name + WhatsApp is enough: we'll map your PM certification roadmap for you.",
     submitLabel: 'Submit quick details',
   }),
   home_insights_partial: () => ({
     headline: 'Almost there',
-    body: "Share name and WhatsApp — we'll map your certification roadmap within 24 hours.",
+    body: "Share name and WhatsApp: we'll map your certification roadmap within 24 hours.",
     submitLabel: 'Submit quick details',
   }),
   home_calendly_fast: () => ({
     headline: 'Prefer we reach out first?',
-    body: "Stop overthinking — leave your details and we'll map your pathway within 24 hours.",
+    body: "Stop overthinking: leave your details and we'll map your pathway within 24 hours.",
     submitLabel: 'Request callback',
   }),
   home_calendly_explored: () => ({
     headline: 'Still deciding?',
-    body: "Leave your details — we'll follow up with a roadmap. No calendar needed.",
+    body: "Leave your details: we'll follow up with a roadmap. No calendar needed.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   home_register_exit: () => ({
     headline: 'Talk to a mentor instead?',
-    body: "Leave name + WhatsApp — we'll match you to the right certification pathway.",
+    body: "Leave name + WhatsApp: we'll match you to the right certification pathway.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   home_tool_calendly_bounce: () => ({
     headline: 'Want help choosing a tool?',
-    body: "Leave your details — we'll recommend the right next step for your prep.",
+    body: "Leave your details: we'll recommend the right next step for your prep.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   cert_roadmap_partial: (ctx) => ({
     headline: 'Almost done',
-    body: `Name + WhatsApp is enough — we'll map your ${certLabel(ctx)} roadmap.`,
+    body: `Name + WhatsApp is enough: we'll map your ${certLabel(ctx)} roadmap.`,
     submitLabel: 'Submit quick details',
   }),
   nav_register_partial: () => ({
     headline: 'Quick question before you go?',
-    body: 'Leave name + WhatsApp — a mentor will follow up within 24 hours.',
+    body: 'Leave name + WhatsApp: a mentor will follow up within 24 hours.',
     submitLabel: DEFAULT_SUBMIT,
   }),
   register_modal_partial: () => ({
     headline: 'Can we reach out instead?',
-    body: "Just name + WhatsApp — we'll map your pathway and reply within 24 hours.",
+    body: "Just name + WhatsApp: we'll map your pathway and reply within 24 hours.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   enroll_partial: (ctx) => ({
     headline: 'Questions before checkout?',
-    body: `Tell us what's holding you back on ${certLabel(ctx)} enrollment — we'll help before you pay.`,
+    body: `Tell us what's holding you back on ${certLabel(ctx)} enrollment: we'll help before you pay.`,
     submitLabel: 'Get help first',
   }),
   contact_partial: () => ({
@@ -170,17 +170,17 @@ const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContex
   }),
   scholarship_partial: () => ({
     headline: 'Continue your scholarship request',
-    body: "Leave email or WhatsApp — we'll follow up on regional pricing eligibility.",
+    body: "Leave email or WhatsApp: we'll follow up on regional pricing eligibility.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   waitlist_partial: () => ({
     headline: 'Join the waitlist faster',
-    body: "Leave your email — we'll add you and notify you when seats open.",
+    body: "Leave your email: we'll add you and notify you when seats open.",
     submitLabel: 'Join waitlist',
   }),
   mastery_form_partial: () => ({
     headline: 'Continue your Mastery request',
-    body: "Just name + WhatsApp — we'll complete the consultation request for you.",
+    body: "Just name + WhatsApp: we'll complete the consultation request for you.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   channel_landing_partial: () => ({
@@ -195,17 +195,17 @@ const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContex
   }),
   channel_calendly_bounce: () => ({
     headline: "Didn't book a time?",
-    body: "Leave name + WhatsApp — we'll reach out to schedule for you.",
+    body: "Leave name + WhatsApp: we'll reach out to schedule for you.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   services_contact_nudge: () => ({
     headline: 'Exploring PM services?',
-    body: "Leave your details — we'll recommend the right engagement for your team.",
+    body: "Leave your details: we'll recommend the right engagement for your team.",
     submitLabel: 'Request follow-up',
   }),
   bottom_bar_r1: () => ({
     headline: 'Plan your certification pathway',
-    body: 'Prepare with structure — talk to a mentor or map your roadmap.',
+    body: 'Prepare with structure: talk to a mentor or map your roadmap.',
     submitLabel: DEFAULT_SUBMIT,
   }),
   bottom_bar_r2: () => ({
@@ -215,12 +215,12 @@ const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContex
   }),
   bottom_bar_r3: () => ({
     headline: 'Join 1,284+ professionals',
-    body: "Don't study in isolation — connect with the PM Structure network.",
+    body: "Don't study in isolation: connect with the PM Structure network.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   bottom_bar_r4: () => ({
     headline: 'Map your roadmap in 24 hours',
-    body: "Leave WhatsApp — we'll follow up with a structured certification plan.",
+    body: "Leave WhatsApp: we'll follow up with a structured certification plan.",
     submitLabel: DEFAULT_SUBMIT,
   }),
 };

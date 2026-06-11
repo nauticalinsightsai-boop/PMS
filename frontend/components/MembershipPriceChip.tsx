@@ -19,7 +19,7 @@ export function MembershipPriceChip({
   price: string | null | undefined;
   className?: string;
 }) {
-  const displayPrice = price?.trim() || '—';
+  const displayPrice = price?.trim() || '. ';
   const [hintOpen, setHintOpen] = useState(false);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 

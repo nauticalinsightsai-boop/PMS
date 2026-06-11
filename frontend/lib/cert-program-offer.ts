@@ -20,7 +20,7 @@ export type CertProgramOffer = {
 const UNTIL_YOU_PASS_HEADLINE = 'Support until you pass';
 
 function untilYouPassSubline(certName: string): string {
-  return `Structured coaching, accountability, and exam readiness — we stay with you through your ${certName} journey, not just until checkout.`;
+  return `Structured coaching, accountability, and exam readiness: we stay with you through your ${certName} journey, not just until checkout.`;
 }
 
 function roadmapCtaLabel(certName: string): string {
@@ -31,7 +31,7 @@ function roadmapCtaLabel(certName: string): string {
 export const ROADMAP_CTA_LABEL_MOBILE = 'Get my roadmap & seat';
 
 const FINAL_CTA_SUBTITLE =
-  'Share your experience in the form above — or enroll directly when cohort seats are open.';
+  'Share your experience in the form above: or enroll directly when cohort seats are open.';
 
 function familyHighlights(certName: string, familyId: string): CertProgramHighlight[] {
   if (familyId === 'PRINCE2') {

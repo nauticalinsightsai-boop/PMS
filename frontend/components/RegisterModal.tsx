@@ -71,7 +71,7 @@ export function RegisterModal({ trigger, recoveryVariant = 'register_modal_parti
       const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined;
       await submitPublicInteraction({
         source: 'consultation',
-        subject: `Pathway request — ${certLabel}${tierLabel ? ` · ${tierLabel}` : ''}`,
+        subject: `Pathway request: ${certLabel}${tierLabel ? ` · ${tierLabel}` : ''}`,
         email,
         formContext: {
           formId: 'register_modal',
@@ -135,7 +135,7 @@ export function RegisterModal({ trigger, recoveryVariant = 'register_modal_parti
         {submitted ? (
           <DialogBody>
             <p className="py-4 text-sm text-green-700 dark:text-green-400">
-              Thanks — we received your request.{' '}
+              Thanks: we received your request.{' '}
               <Link href="/contact" className="underline text-brand-orange">
                 Contact us
               </Link>{' '}

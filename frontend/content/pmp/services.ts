@@ -7,7 +7,7 @@ const services: PmpServiceContent[] = [
     slug: 'pmp-readiness-diagnostic',
     path: '/pmp-readiness-diagnostic',
     kind: 'diagnostic',
-    title: 'PMP readiness diagnostic — pathway fit & timing',
+    title: 'PMP readiness diagnostic: pathway fit & timing',
     description:
       'Free structured PMP readiness diagnostic: target exam month, before/after July 2026, study hours, and recommended Foundation, Professional, or Mastery pathway.',
     h1: 'PMP readiness diagnostic',
@@ -24,7 +24,7 @@ const services: PmpServiceContent[] = [
         id: 'pathway-fit',
         heading: 'How recommendations work',
         body:
-          'Results suggest Foundation for early orientation, Professional for structured readiness with scenario practice, or Mastery for intensive final preparation. Recommendations are guidance only — confirm eligibility and exam dates on PMI.org.',
+          'Results suggest Foundation for early orientation, Professional for structured readiness with scenario practice, or Mastery for intensive final preparation. Recommendations are guidance only: confirm eligibility and exam dates on PMI.org.',
       },
       {
         id: 'privacy',
@@ -48,12 +48,12 @@ const services: PmpServiceContent[] = [
     slug: 'pmp-scenario-practice',
     path: '/pmp-scenario-practice',
     kind: 'scenario',
-    title: 'PMP scenario practice — situational exam preparation',
+    title: 'PMP scenario practice: situational exam preparation',
     description:
       'Scenario-based PMP practice aligned to ECO themes: people, process, business environment, agile/hybrid contexts, and professional responsibility.',
     h1: 'PMP scenario practice',
     directAnswer:
-      'Scenario practice trains situational judgment — the skill most PMP candidates need for both current and post–July 2026 exam formats. PM Structure provides practice within Professional and Mastery pathways.',
+      'Scenario practice trains situational judgment: the skill most PMP candidates need for both current and post–July 2026 exam formats. PM Structure provides practice within Professional and Mastery pathways.',
     sections: [
       {
         id: 'categories',
@@ -76,12 +76,12 @@ const services: PmpServiceContent[] = [
     slug: 'pmp-mock-exam',
     path: '/pmp-mock-exam',
     kind: 'mock',
-    title: 'PMP mock exams — timed practice & review',
+    title: 'PMP mock exams: timed practice & review',
     description:
       'When to take PMP mock exams, how to review results, and how mock cadence fits Foundation, Professional, and Mastery preparation on PM Structure.',
     h1: 'PMP mock exams',
     directAnswer:
-      'Mock exams simulate pacing and stamina for the PMP test. Use them after core content review, log errors by domain, and repeat on a schedule — not only once before test day.',
+      'Mock exams simulate pacing and stamina for the PMP test. Use them after core content review, log errors by domain, and repeat on a schedule: not only once before test day.',
     sections: [
       {
         id: 'when',
@@ -104,7 +104,7 @@ const services: PmpServiceContent[] = [
     slug: 'pmp-q-and-a-support',
     path: '/pmp-q-and-a-support',
     kind: 'support',
-    title: 'PMP Q&A support — cohort questions & boundaries',
+    title: 'PMP Q&A support: cohort questions & boundaries',
     description:
       'What Q&A and community support includes in PMP pathways, response boundaries, and how it differs from official PMI exam support.',
     h1: 'PMP Q&A support',
@@ -132,7 +132,7 @@ const services: PmpServiceContent[] = [
     slug: 'pmp-enrollment',
     path: '/pmp-enrollment',
     kind: 'enrollment',
-    title: 'PMP enrollment — pathway selection & checkout',
+    title: 'PMP enrollment: pathway selection & checkout',
     description:
       'Indexable enrollment hub linking to PMP Foundation, Professional, and Mastery pathways and secure checkout. Payment pages are not indexed.',
     h1: 'PMP enrollment hub',
@@ -143,7 +143,7 @@ const services: PmpServiceContent[] = [
         id: 'tiers',
         heading: 'Pathway tiers',
         body:
-          'Foundation — core orientation and baseline practice · Professional — structured readiness with scenario practice · Mastery — intensive mocks and weak-area remediation',
+          'Foundation: core orientation and baseline practice · Professional: structured readiness with scenario practice · Mastery: intensive mocks and weak-area remediation',
       },
       {
         id: 'checkout',

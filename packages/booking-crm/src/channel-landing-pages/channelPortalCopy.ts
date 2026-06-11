@@ -1,5 +1,5 @@
 /**
- * Per-channel portal copy — every scheduleTierCta and targetMessage must be unique.
+ * Per-channel portal copy: every scheduleTierCta and targetMessage must be unique.
  * Persona: qualification-first, evidence-led, no hype (see docs/voice/PORTAL_COPY_RULES.md).
  */
 import { ALL_CHANNELS } from '../constants/channelGroups'
@@ -15,7 +15,7 @@ export type ChannelPortalCopy = {
   schedulingBody?: string
   heroCardTitle?: string
   heroCardBody?: string
-  /** One line under tier heading — strategic booking hint (not the button label). */
+  /** One line under tier heading: strategic booking hint (not the button label). */
   tierSchedulingLine?: string
 }
 

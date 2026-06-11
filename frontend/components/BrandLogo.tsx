@@ -19,7 +19,7 @@ const SIZE_MAP = {
 
 type BrandLogoSize = keyof typeof SIZE_MAP;
 
-const BRAND_ALT = 'PM Structure — Project Management Structure';
+const BRAND_ALT = 'PM Structure. Project Management Structure';
 
 /** Wordmark for light backgrounds (card pills, family tiles). */
 export function BrandLogoOnLight({ size = 'card', className }: { size?: 'card' | 'mark'; className?: string }) {

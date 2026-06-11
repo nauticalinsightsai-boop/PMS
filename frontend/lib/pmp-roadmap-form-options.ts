@@ -19,7 +19,7 @@ export const PMP_JOB_EXPERIENCE_OPTIONS = [
   { value: '10-plus', label: '10+ years' },
 ] as const;
 
-/** Homepage lead form — primary certification family interest */
+/** Homepage lead form: primary certification family interest */
 export const HOME_CERT_INTEREST_OPTIONS = [
   { value: 'pmp', label: 'PMP' },
   { value: 'prince2', label: 'PRINCE2' },

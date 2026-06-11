@@ -20,7 +20,7 @@ export const complaintsDocument: LegalDocument = {
     section(
       'privacy',
       '3. Privacy complaints',
-      `For data protection complaints, email ${LEGAL_SUPPORT_EMAIL} with subject “Privacy complaint” and your country. EU/UK users may also contact their supervisory authority — see regional privacy addenda at [/legal/privacy](/legal/privacy).`,
+      `For data protection complaints, email ${LEGAL_SUPPORT_EMAIL} with subject “Privacy complaint” and your country. EU/UK users may also contact their supervisory authority: see regional privacy addenda at [/legal/privacy](/legal/privacy).`,
     ),
     section(
       'accessibility',

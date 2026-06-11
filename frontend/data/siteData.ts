@@ -67,18 +67,18 @@ export const certifications: CertificationSummary[] = [
     prerequisites: "Secondary degree + 23 hours of project management education completed before the exam.",
     examFormat: "150 questions; 180 minutes; includes 15 unscored pretest questions (135 scored). Pass score not published (psychometric).",
     registrationSteps: "Create PMI account → enter education + 23 hours → application acceptance → pay → schedule at Pearson VUE or online → up to three attempts in a year.",
-    officialFee: "$225 (member) – $300 (full).",
+    officialFee: "$225 (member): $300 (full).",
     trainingPriceRange: "~$995–$1,795 for structured prep.",
     learningOutcomes: ["Core PM concepts", "Basic scheduling/cost/risk vocabulary", "Agile fundamentals", "Business analysis basics aligned to CAPM domains"],
     suggestedResources: ["CAPM ECO", "PMI on-demand/instructor-led references", "PMI certification handbook policies"],
-    recommendedCTA: "Earn your CAPM — complete the 23 hours, practice with exam-style questions, and schedule with confidence.",
+    recommendedCTA: "Earn your CAPM: complete the 23 hours, practice with exam-style questions, and schedule with confidence.",
     regionalDemand: "CAPM is positioned as a global foundational credential and is exam-delivered in multiple languages; commonly attractive in early-career markets and outsourcing hubs."
   },
   {
     id: "pmp",
     name: "PMP®",
     familyId: "PMI",
-    desc: "Project Management Professional — structured PMI exam-preparation support for experienced project leaders.",
+    desc: "Project Management Professional: structured PMI exam-preparation support for experienced project leaders.",
     outputValue: "Core flagship / strongest broad PM value",
     pricing: {
       Foundation: { duration: "2 wks", price: 250 },
@@ -115,7 +115,7 @@ export const certifications: CertificationSummary[] = [
       ],
     },
     suggestedResources: ["PMP Exam Content Outline (ECO)", "Sample questions", "PMI certification handbook policies"],
-    recommendedCTA: "Check eligibility and start your PMP path — build a plan, train to 35+ hours, and book your exam.",
+    recommendedCTA: "Check eligibility and start your PMP path: build a plan, train to 35+ hours, and book your exam.",
     regionalDemand: "PMP has very large global holder base; PMI highlights top countries including China and Canada (with the US also listed)."
   },
   {
@@ -135,11 +135,11 @@ export const certifications: CertificationSummary[] = [
     prerequisites: "High school diploma or higher; agile experience via one of multiple pathways (e.g., 2 years agile experience, or PMP, etc.); 21 hours of formal agile training.",
     examFormat: "120 questions; 180 minutes; pass score not published (psychometric).",
     registrationSteps: "Confirm eligibility → apply → pay/schedule → study → earn → maintain.",
-    officialFee: "$435 (member) – $495 (full).",
+    officialFee: "$435 (member): $495 (full).",
     trainingPriceRange: "~$900–$2,000 depending on provider/format.",
     learningOutcomes: ["Agile principles", "Backlog/value delivery", "Team facilitation", "Agile planning/estimation", "Hybrid tailoring and governance"],
     suggestedResources: ["PMI-ACP ECO", "PMI/ATP exam prep pathways", "PMI certification handbook"],
-    recommendedCTA: "Prove your agile delivery skills — validate experience, complete 21 hours, and book your PMI-ACP exam.",
+    recommendedCTA: "Prove your agile delivery skills: validate experience, complete 21 hours, and book your PMI-ACP exam.",
     regionalDemand: "Agile credentials tend to be strongest where software/product delivery is high; PMI frames PMI-ACP as a 'gold standard'."
   },
   {
@@ -159,11 +159,11 @@ export const certifications: CertificationSummary[] = [
     prerequisites: "Secondary diploma + 36 months project risk experience (past 5 years) + 40 hours project risk education.",
     examFormat: "115 questions; 150 minutes; pass score not published (psychometric).",
     registrationSteps: "Check eligibility → complete application → identity verification via Persona → pay/schedule → sit exam.",
-    officialFee: "$520 (member) – $670 (full).",
+    officialFee: "$520 (member): $670 (full).",
     trainingPriceRange: "~$1,199–$1,695 for bootcamp-style prep.",
     learningOutcomes: ["Risk planning strategy", "Qualitative/quantitative analysis", "Responses and reserves", "Governance/reporting", "Risk integration in schedules/costs"],
     suggestedResources: ["PMI-RMP ECO", "PMI exam prep resources", "PMI certification handbook"],
-    recommendedCTA: "Become the risk specialist teams rely on — meet the 40-hour education requirement and validate your risk leadership.",
+    recommendedCTA: "Become the risk specialist teams rely on: meet the 40-hour education requirement and validate your risk leadership.",
     regionalDemand: "Best positioned in infrastructure, energy, construction, and regulated sectors where risk governance is explicit."
   },
   {
@@ -183,11 +183,11 @@ export const certifications: CertificationSummary[] = [
     prerequisites: "Multiple sets (A/B/C) based on education, requiring 36–60 months BA experience and 35 contact hours in BA practices.",
     examFormat: "200 questions; 240 minutes; pass score not published (psychometric).",
     registrationSteps: "Check eligibility (choose Set A/B/C) → apply → pay/schedule → up to three attempts/year eligibility.",
-    officialFee: "$405 (member) – $555 (full).",
+    officialFee: "$405 (member): $555 (full).",
     trainingPriceRange: "~$995 (on-demand) to ~$1,995+ (instructor-led).",
     learningOutcomes: ["Needs assessment", "Requirements elicitation/analysis", "Traceability", "Stakeholder alignment", "Evaluation and value realization"],
     suggestedResources: ["PMI-PBA handbook", "PMI-PBA ECO and domain breakdown", "PMI certification handbook"],
-    recommendedCTA: "Formalize your BA leadership — meet the 35 contact hours and prepare with role-based cases.",
+    recommendedCTA: "Formalize your BA leadership: meet the 35 contact hours and prepare with role-based cases.",
     regionalDemand: "Strong in ERP/IT services, banking, and product orgs where BA is a defined role."
   },
   {
@@ -207,11 +207,11 @@ export const certifications: CertificationSummary[] = [
     prerequisites: "Multiple sets; Set A: secondary degree + 40 months scheduling experience + 40 hours scheduling education; Set B: four-year degree + 24 months experience + 30 hours education.",
     examFormat: "170 questions; 210 minutes; includes 20 unscored pretest questions (150 scored). Pass score not published (psychometric).",
     registrationSteps: "Check eligibility → apply → pay/schedule → sit exam (attempts policy per PMI).",
-    officialFee: "$520 (member) – $670 (full).",
+    officialFee: "$520 (member): $670 (full).",
     trainingPriceRange: "Examples range from ~$1,275 (live online) to ~$2,975 (classroom).",
     learningOutcomes: ["CPM fundamentals", "Baselines/change control", "Monitoring/forecasting", "Schedule risk interfaces", "Stakeholder reporting"],
     suggestedResources: ["PMI-SP ECO", "PMI reference lists and prep resources", "PMI certification handbook"],
-    recommendedCTA: "Own the schedule — meet eligibility, train to the required hours, and master control techniques.",
+    recommendedCTA: "Own the schedule: meet eligibility, train to the required hours, and master control techniques.",
     regionalDemand: "Especially relevant for construction, EPC, infrastructure megaprojects, and regulated industries."
   },
   {
@@ -231,11 +231,11 @@ export const certifications: CertificationSummary[] = [
     prerequisites: "Secondary degree; 3 years project-related experience within last 8 years OR PMP in good standing; 10 hours of PMO education.",
     examFormat: "120 questions; 165 minutes; pass score not published (psychometric).",
     registrationSteps: "Check eligibility → apply (audit possible) → pay/schedule → sit exam.",
-    officialFee: "$475 (member) – $655 (full).",
+    officialFee: "$475 (member): $655 (full).",
     trainingPriceRange: "PMI prep course: $160–$200 (10 hours); bootcamp examples ~$999.",
     learningOutcomes: ["PMO operating model", "Strategic alignment", "Performance metrics", "Governance cadence", "Continuous improvement of PMO services"],
     suggestedResources: ["PMI-PMOCP ECO", "PMI prep course (10 hours) and related materials"],
-    recommendedCTA: "Design and run a value-driven PMO — hit the 10-hour requirement and prepare for PMI-PMOCP.",
+    recommendedCTA: "Design and run a value-driven PMO: hit the 10-hour requirement and prepare for PMI-PMOCP.",
     regionalDemand: "Most marketable where PMO maturity is increasing (enterprise services, finance, large delivery orgs)."
   },
   {
@@ -255,11 +255,11 @@ export const certifications: CertificationSummary[] = [
     prerequisites: "Complete four required foundational course modules (6–10 hours each) + 3 years on-the-job experience in construction/built environment projects (past 10 years).",
     examFormat: "120 questions; 230 minutes; pass score not published (psychometric).",
     registrationSteps: "Complete modules → check eligibility → apply (document experience/training) → pay/schedule → study/take exam.",
-    officialFee: "$399 (member) – $499 (full).",
+    officialFee: "$399 (member): $499 (full).",
     trainingPriceRange: "Examples include ~$2,399 for a 56-contact-hour instructor-led package.",
     learningOutcomes: ["Contract planning", "Construction execution controls", "Stakeholder/safety interfaces", "Schedule/cost integration", "Sustainability-aware delivery"],
     suggestedResources: ["PMI-CP ECO", "The four official modules", "PMI certification handbook"],
-    recommendedCTA: "Become PMI-CP ready — complete the four modules, validate experience, and master construction delivery.",
+    recommendedCTA: "Become PMI-CP ready: complete the four modules, validate experience, and master construction delivery.",
     regionalDemand: "Strong where infrastructure/building pipelines are high; PMI positions this around 'future-proof' skills."
   },
   {
@@ -279,16 +279,16 @@ export const certifications: CertificationSummary[] = [
     prerequisites: "Official page states 'No experience required' (bundle includes a 21-hour exam prep course).",
     examFormat: "120 questions; 160 minutes; pass score not published (psychometric).",
     registrationSteps: "Steps to certification include eligibility/details/scheduling/study/earn (structured per bundle).",
-    officialFee: "$699 (member) – $899 (full).",
+    officialFee: "$699 (member): $899 (full).",
     trainingPriceRange: "Examples: premium bundles around ~$889; low-cost practice/prep offerings exist.",
     learningOutcomes: ["Scope AI initiatives", "Align AI to business needs", "Govern ethical/measurable outcomes", "Manage DataOps dependencies", "Cross-functional delivery patterns"],
     suggestedResources: ["PMI-CPMAI ECO", "Official 21-hour exam prep course", "PMI certification handbook"],
-    recommendedCTA: "Lead AI projects with structure — complete the 21-hour track and prove PMI-CPMAI readiness.",
+    recommendedCTA: "Lead AI projects with structure: complete the 21-hour track and prove PMI-CPMAI readiness.",
     regionalDemand: "AI PM demand is cross-region; PMI positions CPMAI as 'tool-agnostic' and structured for scaling AI outcomes."
   },
   {
     id: "gpm-b",
-    name: "Green Project Manager – Basic (GPM-b)™",
+    name: "Green Project Manager: Basic (GPM-b)™",
     familyId: "PMI",
     desc: "Green Project Manager - Sustainable project delivery.",
     outputValue: "Sustainability / green delivery value",
@@ -303,11 +303,11 @@ export const certifications: CertificationSummary[] = [
     prerequisites: "Requires qualifying certification/degree (CAPM/PMP/etc.) or qualifying master's degree; bundle fulfills training requirement.",
     examFormat: "75 multiple-choice questions; 90 minutes; pass rules unspecified.",
     registrationSteps: "Buy bundle → confirm eligibility → apply → schedule → take exam.",
-    officialFee: "Bundle pricing $399 (member) – $525 (full) (course + exam bundle).",
+    officialFee: "Bundle pricing $399 (member): $525 (full) (course + exam bundle).",
     trainingPriceRange: "Bundle-based; typical third-party training is unspecified.",
     learningOutcomes: ["Sustainability management plan concepts", "Impacts assessment", "Sustainability-integrated governance and communications", "Ethics-focused delivery language"],
     suggestedResources: ["GPM-b ECO", "Official bundle course materials"],
-    recommendedCTA: "Add sustainability to your PM toolkit — confirm eligibility and complete the GPM-b pathway.",
+    recommendedCTA: "Add sustainability to your PM toolkit: confirm eligibility and complete the GPM-b pathway.",
     regionalDemand: "Strong positioning in construction/infrastructure and corporate ESG-driven programs."
   },
   {
@@ -327,11 +327,11 @@ export const certifications: CertificationSummary[] = [
     prerequisites: "Sets A/B/C based on education; includes project management experience (or PMP) and 36–84 months program management experience. Panel review is part of the pathway.",
     examFormat: "170 questions; 240 minutes; pass score not published (psychometric).",
     registrationSteps: "Eligibility → application → pay → panel review → schedule exam; up to three attempts/year eligibility.",
-    officialFee: "$800 (member) – $1,000 (full).",
+    officialFee: "$800 (member): $1,000 (full).",
     trainingPriceRange: "Published ranges ~$800–$2,800 depending on provider/location.",
     learningOutcomes: ["Program strategy alignment", "Governance structures", "Benefits management", "Stakeholder engagement", "Coordination across projects"],
     suggestedResources: ["PgMP ECO", "Sample questions", "PMI certification handbook"],
-    recommendedCTA: "Move from projects to programs — validate experience, pass panel review, and lead strategic outcomes.",
+    recommendedCTA: "Move from projects to programs: validate experience, pass panel review, and lead strategic outcomes.",
     regionalDemand: "Strongest in large enterprises and public-sector/regulated environments with multi-project delivery."
   },
   {
@@ -351,11 +351,11 @@ export const certifications: CertificationSummary[] = [
     prerequisites: "Sets A/B/C include extensive professional and portfolio experience (e.g., Set A: 96 months business experience + 84 months portfolio experience).",
     examFormat: "170 questions; 240 minutes; pass score not published (psychometric).",
     registrationSteps: "Eligibility → application → pay/schedule (panel review typically part of path).",
-    officialFee: "$800 (member) – $1,000 (full).",
+    officialFee: "$800 (member): $1,000 (full).",
     trainingPriceRange: "Example bootcamp pricing ~$1,499 (provider example).",
     learningOutcomes: ["Strategic alignment", "Governance", "Portfolio performance", "Portfolio risk", "Communications management"],
     suggestedResources: ["PfMP ECO", "Official reference list", "PMI certification handbook"],
-    recommendedCTA: "Lead portfolio decisions with confidence — master governance and performance at the executive level.",
+    recommendedCTA: "Lead portfolio decisions with confidence: master governance and performance at the executive level.",
     regionalDemand: "Highest value in mature PMO/portfolio environments; PMI links portfolio maturity to higher program success."
   },
 
@@ -381,7 +381,7 @@ export const certifications: CertificationSummary[] = [
     trainingPriceRange: "Third-party bundles vary; treat as provider-dependent.",
     learningOutcomes: ["PRINCE2 principles/themes/process model", "Roles & governance", "Management stages/controls", "Product-based planning basics"],
     suggestedResources: ["Official PRINCE2 (v7) eBook", "PeopleCert learning kit options", "Official mock exam add-ons"],
-    recommendedCTA: "Learn PRINCE2 governance fast — start with Foundation and build a controlled delivery mindset.",
+    recommendedCTA: "Learn PRINCE2 governance fast: start with Foundation and build a controlled delivery mindset.",
     regionalDemand: "Positioned as globally recognized; uptake is historically strong in the UK and Europe."
   },
   {
@@ -405,7 +405,7 @@ export const certifications: CertificationSummary[] = [
     trainingPriceRange: "Foundation+Practitioner combined training often sits in multi-thousand USD range.",
     learningOutcomes: ["Tailoring PRINCE2 controls", "Management products", "Risk/issues/change integration", "Scenario-based decision-making"],
     suggestedResources: ["Official eBook", "Learning resource kit", "Interactive eLearning", "Mock exam options"],
-    recommendedCTA: "Move from theory to application — become PRINCE2 Practitioner-ready with scenario drills.",
+    recommendedCTA: "Move from theory to application: become PRINCE2 Practitioner-ready with scenario drills.",
     regionalDemand: "Strongest where PRINCE2 is used as an organizational method; strong UK/Europe footprint."
   },
   {
@@ -429,7 +429,7 @@ export const certifications: CertificationSummary[] = [
     trainingPriceRange: "Provider-dependent (often bundled with exam voucher and official materials).",
     learningOutcomes: ["PRINCE2 governance in agile contexts", "Tailoring controls", "Agile behaviors and delivery", "Integrating roles/ceremonies"],
     suggestedResources: ["Official PRINCE2 Agile eBook", "Learning resource kit", "Interactive eLearning", "Mock exam add-on"],
-    recommendedCTA: "Run agile projects with governance — master PRINCE2 Agile Foundation fast.",
+    recommendedCTA: "Run agile projects with governance: master PRINCE2 Agile Foundation fast.",
     regionalDemand: "Strong where hybrid delivery is common; global adoption by both public and private sectors."
   },
   {
@@ -453,7 +453,7 @@ export const certifications: CertificationSummary[] = [
     trainingPriceRange: "Provider-dependent; commonly sold as bundles.",
     learningOutcomes: ["Tailoring PRINCE2 controls for agile", "Scenario-driven decisions", "Integrating agile planning/metrics"],
     suggestedResources: ["Official eBook", "Learning kit", "Interactive eLearning", "Mock exam options"],
-    recommendedCTA: "Prove you can tailor governance for agility — become PRINCE2 Agile Practitioner-ready.",
+    recommendedCTA: "Prove you can tailor governance for agility: become PRINCE2 Agile Practitioner-ready.",
     regionalDemand: "Strong fit for Europe/UK governance-heavy environments and US enterprise hybrid contexts."
   },
   {
@@ -535,7 +535,7 @@ export const certifications: CertificationSummary[] = [
     trainingPriceRange: "Unspecified (varies widely; often free/low-cost in the market).",
     learningOutcomes: ["Vocabulary", "Role map", "Basic variation and waste concepts", "How to participate in projects"],
     suggestedResources: ["PM Structure internal primer", "Aligned public BoK overviews"],
-    recommendedCTA: "Get Six Sigma fluent — start with an executive-friendly White Belt foundation.",
+    recommendedCTA: "Get Six Sigma fluent: start with an executive-friendly White Belt foundation.",
     regionalDemand: "Useful as corporate enablement across regions; strongest when bundled into Yellow/Green adoption."
   },
   {
@@ -559,7 +559,7 @@ export const certifications: CertificationSummary[] = [
     trainingPriceRange: "ASQ official prep eLearning: list $424 / member $324.",
     learningOutcomes: ["Six Sigma fundamentals", "Basic data collection", "Root-cause tools", "Basics of DMAIC support work", "Team roles"],
     suggestedResources: ["CSSYB Body of Knowledge", "ASQ handbook/study guide", "ASQ practice question bank"],
-    recommendedCTA: "Start your Six Sigma journey — build the fundamentals and earn CSSYB readiness.",
+    recommendedCTA: "Start your Six Sigma journey: build the fundamentals and earn CSSYB readiness.",
     regionalDemand: "ASQ operates globally; the belt ladder is recognized across industries."
   },
   {
@@ -583,7 +583,7 @@ export const certifications: CertificationSummary[] = [
     trainingPriceRange: "ASQ prep eLearning: list $824 / member $724.",
     learningOutcomes: ["DMAIC execution", "Basic stats/MSA", "Capability and control charts", "Lean waste reduction", "Project chartering and stakeholder updates"],
     suggestedResources: ["CSSGB BoK", "ASQ handbook and study guide", "ASQ question bank"],
-    recommendedCTA: "Lead measurable improvements — build Green Belt capability with structured practice.",
+    recommendedCTA: "Lead measurable improvements: build Green Belt capability with structured practice.",
     regionalDemand: "Highly transferrable across manufacturing, services, healthcare."
   },
   {
@@ -607,7 +607,7 @@ export const certifications: CertificationSummary[] = [
     trainingPriceRange: "ASQ prep eLearning: list $924 / member $824.",
     learningOutcomes: ["Advanced stats/DOE", "Enterprise deployment", "Team dynamics/leadership", "Risk analysis", "Sustaining control plans and benefits"],
     suggestedResources: ["CSSBB BoK", "ASQ handbook + study guide", "ASQ question bank"],
-    recommendedCTA: "Lead complex transformations — become ASQ Black Belt-ready with intensive practice.",
+    recommendedCTA: "Lead complex transformations: become ASQ Black Belt-ready with intensive practice.",
     regionalDemand: "Strong in manufacturing/healthcare/finance process excellence."
   },
   {
@@ -631,7 +631,7 @@ export const certifications: CertificationSummary[] = [
     trainingPriceRange: "Not standardized; high-end MBB courses are often several thousand.",
     learningOutcomes: ["Enterprise deployment leadership", "Mentoring/coaching systems", "Advanced analytics strategy", "Portfolio evidence writing", "Governance at scale"],
     suggestedResources: ["Master Black Belt portfolio guide", "CMBB BoK references", "ASQ scoring/recert guidance"],
-    recommendedCTA: "Move into enterprise excellence leadership — prepare your portfolio and master the CMBB bar.",
+    recommendedCTA: "Move into enterprise excellence leadership: prepare your portfolio and master the CMBB bar.",
     regionalDemand: "Niche and senior; highest fit for large manufacturing/enterprise orgs."
   },
   {
@@ -655,14 +655,14 @@ export const certifications: CertificationSummary[] = [
     trainingPriceRange: "Unspecified (provider-dependent; often corporate-only).",
     learningOutcomes: ["Project selection governance", "Benefits tracking", "Coaching cadence", "Barrier removal", "Adoption/standardization strategy"],
     suggestedResources: ["PM Structure champion playbook", "ASQ/IASSC belt role definitions"],
-    recommendedCTA: "Sponsor transformation, not just training — become an effective Six Sigma Champion.",
+    recommendedCTA: "Sponsor transformation, not just training: become an effective Six Sigma Champion.",
     regionalDemand: "Highly relevant for enterprise transformation programs and consulting-led deployments."
   },
   {
     id: "foundation-direct",
     name: "Foundation Direct Pathway",
     familyId: "FoundationDirect",
-    desc: "Foundational vocabulary across PMI, PRINCE2, and Six Sigma — best explored after a pathway consultation to confirm fit.",
+    desc: "Foundational vocabulary across PMI, PRINCE2, and Six Sigma: best explored after a pathway consultation to confirm fit.",
     outputValue: "Multi-framework foundation / career bridge",
     pricing: {
       Foundation: { duration: "2 days", price: 150 },
@@ -695,7 +695,7 @@ export const membershipTiers: MembershipTier[] = [
     monthlyPriceUsd: 19,
     yearlyPriceUsd: 199,
     description:
-      "Full platform access plus direct mentor reach-out for your membership month — built for exam-ready momentum.",
+      "Full platform access plus direct mentor reach-out for your membership month: built for exam-ready momentum.",
     features: [
       "All Free features",
       "Full learning platform access",
@@ -764,7 +764,7 @@ export const testimonials: Testimonial[] = [
     name: "Sarah Jenkins",
     role: "Senior PM at TechCorp",
     company: "Global Tech Solutions",
-    content: "The PM Structure PMP pathway gave me a structured study rhythm, weak-area tracking, and mentor-style review. I knew where I stood before exam day — and passed with Above Target in all domains.",
+    content: "The PM Structure PMP pathway gave me a structured study rhythm, weak-area tracking, and mentor-style review. I knew where I stood before exam day: and passed with Above Target in all domains.",
     avatar: "https://i.pravatar.cc/100?u=sarah"
   },
   {

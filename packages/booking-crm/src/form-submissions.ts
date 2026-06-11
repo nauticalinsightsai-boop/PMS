@@ -16,7 +16,7 @@ export const FORM_SOURCE_LABELS: Record<string, string> = {
 
 export function submissionSourceLabel(source: string): string {
   const key = source.trim()
-  if (!key) return '—'
+  if (!key) return '-'
   return FORM_SOURCE_LABELS[key] ?? key.replace(/_/g, ' ')
 }
 

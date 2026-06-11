@@ -48,6 +48,9 @@ import {
   getCertProgramOffer,
 } from '@/lib/cert-program-offer';
 import { EnrollReturnRecovery } from '@/components/conversion-recovery/EnrollReturnRecovery';
+import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnrollTrackedLink';
+import { markIntent } from '@/lib/conversion-recovery/engagement-score';
+import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
 
 function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
   return getOfferingsForSiteCert(siteId).some((o) => {
@@ -69,13 +72,17 @@ export function CertificationDetail() {
   const family = siteData.familyConfigs[cert.familyId] || siteData.familyConfigs["PMI"];
   const enrollmentOpen = certHasOpenEnrollment(cert.id, regionId);
 
+  const foundationOffering = React.useMemo(
+    () => getOfferingsForSiteCert(cert.id).find((o) => o.tierId === 'foundation'),
+    [cert.id],
+  );
+
   const foundationCheckoutHref = React.useMemo(() => {
-    const foundation = getOfferingsForSiteCert(cert.id).find((o) => o.tierId === "foundation");
-    if (!foundation) return null;
-    const status = foundation.regional[regionId as RegionId]?.status;
+    if (!foundationOffering) return null;
+    const status = foundationOffering.regional[regionId as RegionId]?.status;
     if (!canCheckout(status)) return null;
-    return hrefForCtaAction("checkout", foundation.offeringId, cert.id);
-  }, [cert.id, regionId]);
+    return hrefForCtaAction('checkout', foundationOffering.offeringId, cert.id);
+  }, [cert.id, foundationOffering, regionId]);
 
   const programOffer = React.useMemo(
     () => getCertProgramOffer(cert.id, certName, cert.familyId),
@@ -110,7 +117,7 @@ export function CertificationDetail() {
           pagePath="/certifications/pmp"
         />
       ) : null}
-      {/* Subnav — fixed directly under navbar (avoids gap from main padding + sticky top) */}
+      {/* Subnav: fixed directly under navbar (avoids gap from main padding + sticky top) */}
       <section
         className={cn(
           'fixed inset-x-0 z-40 py-3 border-b border-border',
@@ -433,8 +440,9 @@ export function CertificationDetail() {
                 />
                 {enrollmentOpen && foundationCheckoutHref ? (
                   cert.id === 'pmp' ? (
-                    <TrackedConversionLink
+                    <PmpEnrollTrackedLink
                       href={foundationCheckoutHref}
+                      tierSlug="foundation"
                       event={CONVERSION_EVENTS.CLICK_ENROLL_PMP_FOUNDATION}
                       className={cn(
                         buttonVariants({ size: 'lg', variant: 'outline' }),
@@ -442,10 +450,16 @@ export function CertificationDetail() {
                       )}
                     >
                       Enroll in Foundation
-                    </TrackedConversionLink>
+                    </PmpEnrollTrackedLink>
                   ) : (
                     <Link
                       href={foundationCheckoutHref}
+                      onClick={() => {
+                        if (foundationOffering) {
+                          setEnrollStarted(foundationOffering.offeringId, 'foundation', cert.id);
+                          markIntent();
+                        }
+                      }}
                       className={cn(
                         buttonVariants({ size: 'lg', variant: 'outline' }),
                         'inline-flex min-h-14 h-auto w-full items-center justify-center whitespace-normal rounded-2xl border-2 px-5 py-3 text-center text-base font-bold leading-snug shadow-xl transition-all sm:w-auto sm:px-10 sm:py-0 sm:text-lg',

@@ -21,7 +21,7 @@ import {
 import { isLeadRecoveryEnabled } from '@/lib/conversion-recovery/enabled';
 import {
   incrementCenterDialogSessionCount,
-  markCenterDialogShownOnPage,
+  markCenterDialogVariantShownOnPage,
   markLeadConverted,
   pauseBottomBarUntil,
   recordLastSurfaceAt,
@@ -30,12 +30,20 @@ import {
 } from '@/lib/conversion-recovery/session-state';
 import { readStoredConsent } from '@/lib/legal/consent';
 import type { LeadRecoveryContext } from '@/lib/conversion-recovery/types';
+import { enrollReturnVariant, tierIdFromPathwayTier } from '@/lib/conversion-recovery/copy';
+import {
+  consumeEnrollStarted,
+  findPendingEnrollReturn,
+} from '@/lib/conversion-recovery/session-state';
 import { trackFunnelEvent, FUNNEL_EVENTS, trackGenerateLead } from '@/lib/analytics/funnel';
 
 type LeadRecoveryContextValue = {
   dialogOpen: boolean;
   dialogContext: LeadRecoveryContext | null;
-  requestRecovery: (ctx: LeadRecoveryContext, opts?: { requireIntent?: boolean }) => void;
+  requestRecovery: (
+    ctx: LeadRecoveryContext,
+    opts?: { requireIntent?: boolean; intentRecovery?: boolean },
+  ) => boolean;
   dismissDialog: (reason?: string) => void;
   notifyConverted: () => void;
   centerDialogOpen: boolean;
@@ -73,25 +81,36 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
   const [barPausedUntil, setBarPausedUntil] = React.useState(0);
   const servicesTimerRef = React.useRef<number | null>(null);
   const servicesNudgeFiredRef = React.useRef(false);
+  const prevPathnameRef = React.useRef(pathname);
   const [servicesNudgeEligible, setServicesNudgeEligible] = React.useState(false);
 
   const requestRecovery = React.useCallback(
-    (ctx: LeadRecoveryContext, opts?: { requireIntent?: boolean }) => {
-      if (!enabled || !cookieGateReady || cookieBannerVisible) return;
-      if (opts?.requireIntent !== false && !hasShownIntent() && !canShowPassiveCenterDialog()) {
-        return;
+    (ctx: LeadRecoveryContext, opts?: { requireIntent?: boolean; intentRecovery?: boolean }) => {
+      if (!enabled || !cookieGateReady || cookieBannerVisible) return false;
+      const intentRecovery = opts?.intentRecovery ?? opts?.requireIntent !== false;
+      if (
+        opts?.requireIntent !== false &&
+        !intentRecovery &&
+        !hasShownIntent() &&
+        !canShowPassiveCenterDialog()
+      ) {
+        return false;
       }
-      const check = canShowSurface('center_dialog', pathname, { centerDialogOpen: dialogOpen });
+      const check = canShowSurface('center_dialog', pathname, {
+        centerDialogOpen: dialogOpen,
+        intentRecovery,
+        variant: ctx.variant,
+      });
       if (!check.allowed) {
         if (process.env.NODE_ENV === 'development') {
-          console.debug('[lead-recovery] blocked center dialog:', check.reason);
+          console.debug('[lead-recovery] blocked center dialog:', check.reason, ctx.variant);
         }
-        return;
+        return false;
       }
       setDialogContext(ctx);
       setDialogOpen(true);
       incrementCenterDialogSessionCount();
-      markCenterDialogShownOnPage(pathname);
+      markCenterDialogVariantShownOnPage(pathname, ctx.variant);
       recordLastSurfaceAt();
       pauseBottomBarUntil(CENTER_DIALOG_BAR_PAUSE_MS);
       setBarPausedUntil(Date.now() + CENTER_DIALOG_BAR_PAUSE_MS);
@@ -108,6 +127,7 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
         tier_id: ctx.tierId,
         cert_id: ctx.siteCertId,
       });
+      return true;
     },
     [cookieBannerVisible, cookieGateReady, dialogOpen, enabled, pathname],
   );
@@ -158,10 +178,30 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
     if (!enabled) return;
     installCalendlyBookedListener();
     setCalendlyCloseHandler((ctx) => {
-      requestRecovery(ctx, { requireIntent: true });
+      requestRecovery(ctx, { requireIntent: true, intentRecovery: true });
     });
     return initEngagementTracking();
   }, [enabled, requestRecovery]);
+
+  React.useEffect(() => {
+    if (!enabled) return;
+    const prev = prevPathnameRef.current;
+    prevPathnameRef.current = pathname;
+    if (!prev.includes('/enroll') || pathname.includes('/enroll')) return;
+    const pending = findPendingEnrollReturn();
+    if (!pending) return;
+    const shown = requestRecovery(
+      {
+        variant: enrollReturnVariant(pending.tierId),
+        siteCertId: pending.siteCertId,
+        tierId: tierIdFromPathwayTier(pending.tierId),
+        offeringId: pending.offeringId,
+        parentSurface: 'enroll',
+      },
+      { requireIntent: true, intentRecovery: true },
+    );
+    if (shown) consumeEnrollStarted(pending.offeringId);
+  }, [enabled, pathname, requestRecovery]);
 
   React.useEffect(() => {
     if (!enabled) return;

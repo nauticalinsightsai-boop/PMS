@@ -15,9 +15,9 @@ export type PortalSectionProps = {
   isLeadHero?: boolean
   colorMode: PortalColorMode
   onSetColorMode?: (mode: PortalColorMode) => void
-  /** Primary hero CTA — book free mentor intro or scroll to tiers. */
+  /** Primary hero CTA: book free mentor intro or scroll to tiers. */
   onBookMentor?: () => void
-  /** Sticky top bar (professional portals) — tighter spacing, no section margin. */
+  /** Sticky top bar (professional portals): tighter spacing, no section margin. */
   topBar?: boolean
   /** Scope-41 slugs: website section structure (glass, footer chips, hero utilities). */
   portalLayoutChrome?: boolean

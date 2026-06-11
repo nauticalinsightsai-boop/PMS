@@ -167,7 +167,7 @@ export function BottomCtaRotator() {
     if (!inlineName.trim() || !inlinePhone.trim()) return;
     const res = await submitPublicInteraction({
       source: 'lead_recovery',
-      subject: 'Lead recovery — bottom bar micro form',
+      subject: 'Lead recovery: bottom bar micro form',
       email: inlineEmail.trim() || 'noreply@pmstructure.com',
       formContext: {
         formId: 'lead_recovery',

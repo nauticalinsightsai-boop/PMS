@@ -70,7 +70,7 @@ function usageSortIndex(channelId: string): number {
 function channelAriaLabel(channelId: string, label: string): string {
   if (channelId === 'linkedin') return SOCIAL_ARIA_LABELS.linkedin;
   if (channelId === 'twitter') return SOCIAL_ARIA_LABELS.x;
-  return getMediaSocialAriaLabel(label) ?? `${label} — Sheikh M. Abdullah`;
+  return getMediaSocialAriaLabel(label) ?? `${label}: Sheikh M. Abdullah`;
 }
 
 function compareByUsageThenName(a: MediaSocialGridItem, b: MediaSocialGridItem): number {
@@ -81,7 +81,7 @@ function compareByUsageThenName(a: MediaSocialGridItem, b: MediaSocialGridItem):
 }
 
 /**
- * Full Digital Presence grid — one card per CTA Management channel (41 platforms).
+ * Full Digital Presence grid: one card per CTA Management channel (41 platforms).
  * URLs from {@link getChannelProfileUrl}; icons match dashboard channel definitions.
  */
 export function buildCtaChannelsMediaSocialGrid(): MediaSocialGridItem[] {
@@ -95,7 +95,7 @@ export function buildCtaChannelsMediaSocialGrid(): MediaSocialGridItem[] {
   })).sort(compareByUsageThenName);
 }
 
-/** Public Media page grid — syndication platforms only (excludes owned site card). */
+/** Public Media page grid: syndication platforms only (excludes owned site card). */
 export function filterPublicMediaSocialGrid(items: MediaSocialGridItem[]): MediaSocialGridItem[] {
   return items.filter(
     (item) => !item.channelId || !MEDIA_SOCIAL_GRID_PUBLIC_EXCLUDED_IDS.has(item.channelId),

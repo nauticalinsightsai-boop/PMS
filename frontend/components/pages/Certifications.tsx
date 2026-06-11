@@ -191,7 +191,7 @@ export function Certifications() {
         </div>
       </section>
 
-      {/* Main Content — full-width section (same pattern as Home Featured Pathways) */}
+      {/* Main Content: full-width section (same pattern as Home Featured Pathways) */}
       <section className={sectionSurface('soft', 'py-32 relative')}>
         <SectionAmbience tone="soft" />
         <h2 className="sr-only">Browse certification pathways</h2>
@@ -366,9 +366,9 @@ export function Certifications() {
                 
                 <ul className="space-y-6 relative z-10">
                   {[
-                    { title: "Certification target", desc: "PMI, PRINCE2, Six Sigma, or hybrid — matched to your role." },
+                    { title: "Certification target", desc: "PMI, PRINCE2, Six Sigma, or hybrid: matched to your role." },
                     { title: "Weekly capacity", desc: "Foundation, Professional, or Mastery to fit your schedule." },
-                    { title: "Readiness gap", desc: "Content, mocks, governance, or mentorship — what comes first." }
+                    { title: "Readiness gap", desc: "Content, mocks, governance, or mentorship: what comes first." }
                   ].map((item, idx) => (
                     <li key={idx} className="flex gap-5">
                       <div className="h-10 w-10 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 mt-1">

@@ -5,7 +5,7 @@
     "sourceFile": "PM_Structure_Regional_Availability_Matrix.xlsx",
     "offeringCount": 55,
     "businessRules": {
-      "membershipDiscount": "TBD — do not stack on scholarship until confirmed",
+      "membershipDiscount": "TBD: do not stack on scholarship until confirmed",
       "gccCheckoutUsdCents": "single global usdCents per offering",
       "consultationApproval": "manual dashboard before mastery checkout"
     },

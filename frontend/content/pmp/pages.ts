@@ -79,10 +79,10 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-exam-2026',
     path: '/pmp-exam-2026',
-    title: 'PMP exam 2026 — changes, timeline & preparation',
+    title: 'PMP exam 2026: changes, timeline & preparation',
     description:
       'Independent guide to the 2026 PMP exam transition: current vs new format, key dates, domains, and how to prepare with PM Structure.',
-    h1: 'PMP exam 2026 — what candidates need to know',
+    h1: 'PMP exam 2026: what candidates need to know',
     directAnswer:
       'PMI has communicated a transition to an updated PMP exam experience with a key date of 9 July 2026 for the new format. Candidates should confirm official PMI guidance, decide whether to test before or after that date, and align study plans to the exam version they will sit.',
     sections: [
@@ -96,7 +96,7 @@ const pages: PmpPageContent[] = [
         id: 'who-should-read',
         heading: 'Who should use this guide?',
         body:
-          'Project managers planning PMP readiness in 2026, career-changers evaluating timing, and employers supporting certification pathways. PM Structure provides independent preparation pathways — not official PMI registration or exam delivery.',
+          'Project managers planning PMP readiness in 2026, career-changers evaluating timing, and employers supporting certification pathways. PM Structure provides independent preparation pathways: not official PMI registration or exam delivery.',
       },
       {
         id: 'decision-framework',
@@ -136,7 +136,7 @@ const pages: PmpPageContent[] = [
     title: 'PMP current vs new exam (2026 comparison)',
     description:
       'Compare the current PMP exam experience with the post–9 July 2026 format. Independent preparation guidance from PM Structure.',
-    h1: 'PMP current exam vs new exam — 2026 comparison',
+    h1: 'PMP current exam vs new exam: 2026 comparison',
     directAnswer:
       'The main decision is which exam version you will face on your test date. The current experience reflects today’s ECO until PMI’s published transition; the new experience applies from 9 July 2026 onward per PMI communications. Preparation depth and scenario practice matter for both.',
     sections: [
@@ -168,7 +168,7 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-before-8-july-2026',
     path: '/pmp-before-8-july-2026',
-    title: 'PMP exam before 8 July 2026 — candidate guidance',
+    title: 'PMP exam before 8 July 2026: candidate guidance',
     description:
       'Should you take the PMP exam before 8 July 2026? Independent timing and preparation guidance.',
     h1: 'Preparing to sit PMP before 8 July 2026',
@@ -193,7 +193,7 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-after-9-july-2026',
     path: '/pmp-after-9-july-2026',
-    title: 'PMP exam after 9 July 2026 — preparation guide',
+    title: 'PMP exam after 9 July 2026: preparation guide',
     description:
       'How to prepare for the PMP exam from 9 July 2026 onward. Independent readiness guidance.',
     h1: 'Preparing for PMP after 9 July 2026',
@@ -212,7 +212,7 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-exam-timeline-2026',
     path: '/pmp-exam-timeline-2026',
-    title: 'PMP exam timeline 2026 — key dates',
+    title: 'PMP exam timeline 2026: key dates',
     description: '2026 PMP exam transition timeline and decision milestones for candidates.',
     h1: 'PMP exam timeline 2026',
     directAnswer:
@@ -230,7 +230,7 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-new-exam-domain-weighting',
     path: '/pmp-new-exam-domain-weighting',
-    title: 'PMP new exam domain weighting — what to verify',
+    title: 'PMP new exam domain weighting: what to verify',
     description:
       'Orientation on PMP ECO domain weighting for 2026. Verify all percentages with official PMI sources.',
     h1: 'PMP new exam domain weighting (verify with PMI)',
@@ -241,7 +241,7 @@ const pages: PmpPageContent[] = [
         id: 'domains',
         heading: 'Three exam domains (high level)',
         body:
-          'People — leadership, teams, conflict, stakeholders.\nProcess — scope, schedule, risk, quality, delivery.\nBusiness Environment — compliance, value, governance, benefits.\n\n' +
+          'People: leadership, teams, conflict, stakeholders.\nProcess: scope, schedule, risk, quality, delivery.\nBusiness Environment: compliance, value, governance, benefits.\n\n' +
           PMP_SOURCE_TODO,
       },
     ],
@@ -250,7 +250,7 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-business-environment-domain',
     path: '/pmp-business-environment-domain',
-    title: 'PMP Business Environment domain — study focus',
+    title: 'PMP Business Environment domain: study focus',
     description: 'Independent guide to the PMP Business Environment domain for 2026 preparation.',
     h1: 'PMP Business Environment domain',
     directAnswer:
@@ -267,7 +267,7 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-people-domain',
     path: '/pmp-people-domain',
-    title: 'PMP People domain — study focus',
+    title: 'PMP People domain: study focus',
     description: 'Leadership, teams, and stakeholder themes for PMP People domain preparation.',
     h1: 'PMP People domain',
     directAnswer:
@@ -284,7 +284,7 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-process-domain',
     path: '/pmp-process-domain',
-    title: 'PMP Process domain — study focus',
+    title: 'PMP Process domain: study focus',
     description: 'Delivery, risk, scope, and execution focus for the PMP Process domain.',
     h1: 'PMP Process domain',
     directAnswer:
@@ -301,7 +301,7 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-ai-sustainability-value-delivery',
     path: '/pmp-ai-sustainability-value-delivery',
-    title: 'PMP prep — AI, sustainability & value delivery',
+    title: 'PMP prep. AI, sustainability & value delivery',
     description:
       'How AI, sustainability, and value delivery themes appear in modern PMP exam preparation.',
     h1: 'AI, sustainability, and value delivery in PMP prep',
@@ -320,10 +320,10 @@ const pages: PmpPageContent[] = [
     slug: 'pmp-agile-hybrid-predictive',
     path: '/pmp-agile-hybrid-predictive',
     title: 'PMP agile, hybrid & predictive approaches',
-    description: 'Methodology mix in PMP scenario practice — agile, hybrid, and predictive.',
+    description: 'Methodology mix in PMP scenario practice: agile, hybrid, and predictive.',
     h1: 'Agile, hybrid, and predictive approaches for PMP',
     directAnswer:
-      'PMP scenarios may present predictive, agile, or hybrid contexts. Your job is to apply the appropriate framework principles — not to assume one methodology for every question.',
+      'PMP scenarios may present predictive, agile, or hybrid contexts. Your job is to apply the appropriate framework principles: not to assume one methodology for every question.',
     sections: [
       {
         id: 'practice',
@@ -336,7 +336,7 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-study-plan-2026',
     path: '/pmp-study-plan-2026',
-    title: 'PMP study plan 2026 — structured preparation',
+    title: 'PMP study plan 2026: structured preparation',
     description: 'A structured weekly PMP study plan outline for 2026 candidates.',
     h1: 'PMP study plan for 2026',
     directAnswer:

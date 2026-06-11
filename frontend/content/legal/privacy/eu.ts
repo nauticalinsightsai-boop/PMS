@@ -15,7 +15,7 @@ export const privacyEuDocument: LegalDocument = {
     section(
       'bases',
       '2. Lawful bases (summary)',
-      '• Contract — orders and account services.\n• Consent — newsletters and non-essential cookies.\n• Legitimate interests — security and service improvement (balanced against your rights).\n• Legal obligation — compliance and record-keeping.',
+      '• Contract: orders and account services.\n• Consent: newsletters and non-essential cookies.\n• Legitimate interests: security and service improvement (balanced against your rights).\n• Legal obligation: compliance and record-keeping.',
     ),
     section(
       'children',

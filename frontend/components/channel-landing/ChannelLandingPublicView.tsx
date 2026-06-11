@@ -60,7 +60,7 @@ export default function ChannelLandingPublicView({ page }: Props) {
     })
     const res = await submitPublicInteraction({
       source: 'contact',
-      subject: `Channel landing — ${page.label}${page.subtitle ? ` (${page.subtitle})` : ''}`,
+      subject: `Channel landing: ${page.label}${page.subtitle ? ` (${page.subtitle})` : ''}`,
       email,
       website: hp,
       formContext: {

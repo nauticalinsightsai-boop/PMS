@@ -222,7 +222,7 @@ export function Contact() {
                   )}
                   {formSent && !formError && (
                     <p className="text-sm text-green-600 dark:text-green-400 font-medium" role="status">
-                      Thank you — your message has been received. We will respond shortly.
+                      Thank you: your message has been received. We will respond shortly.
                     </p>
                   )}
                   <Button type="submit" variant="brand" className="w-full h-12 text-lg" disabled={submitting}>

@@ -201,7 +201,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
           }`}
           role="status"
         >
-          Draft preview — not visible to the public until you publish.
+          Draft preview: not visible to the public until you publish.
         </div>
       )}
 

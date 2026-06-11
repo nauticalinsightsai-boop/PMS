@@ -33,7 +33,7 @@ function presentationFromProps(props: RegionalPriceProps) {
   });
 }
 
-/** Browse cards — one hero tuition + optional muted global reference. */
+/** Browse cards: one hero tuition + optional muted global reference. */
 function RegionalPriceHero({
   active,
   presentation,
@@ -66,7 +66,7 @@ function RegionalPriceHero({
   );
 }
 
-/** Pathway tier cards — tuition + optional one-line membership hint. */
+/** Pathway tier cards: tuition + optional one-line membership hint. */
 function RegionalPriceTier({
   active,
   presentation,
@@ -111,7 +111,7 @@ function RegionalPriceTier({
   );
 }
 
-/** Compare matrix — tuition column + optional member line. */
+/** Compare matrix: tuition column + optional member line. */
 function RegionalPriceCompare({
   active,
   globalReference,
@@ -138,7 +138,7 @@ function RegionalPriceCompare({
   );
 }
 
-/** Checkout / membership samples — full breakdown. */
+/** Checkout / membership samples: full breakdown. */
 function RegionalPriceFull({
   active,
   presentation,

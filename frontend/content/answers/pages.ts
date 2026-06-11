@@ -9,9 +9,9 @@ const pages: AnswerPageContent[] = [
     description:
       'Independent answer on the 2026 PMP exam transition, key dates, and how candidates should verify official PMI guidance.',
     shortAnswer:
-      'Yes — PMI has communicated an updated PMP exam experience with a transition around 9 July 2026. Confirm dates and scope on PMI.org before scheduling.',
+      'Yes. PMI has communicated an updated PMP exam experience with a transition around 9 July 2026. Confirm dates and scope on PMI.org before scheduling.',
     detailedAnswer:
-      'The PMP credential itself is not going away, but PMI has described a transition to an updated exam experience. Third-party summaries — including this page — are orientation only. Download the current PMP handbook and Exam Content Outline from PMI.org, then map your study plan to the format you will actually sit.',
+      'The PMP credential itself is not going away, but PMI has described a transition to an updated exam experience. Third-party summaries: including this page: are orientation only. Download the current PMP handbook and Exam Content Outline from PMI.org, then map your study plan to the format you will actually sit.',
     whoApplies: 'Anyone planning PMP readiness in 2026, especially candidates deciding whether to test before or after mid-2026.',
     nextSteps: [
       'Read the PM Structure PMP 2026 guide at /pmp-exam-2026',
@@ -100,7 +100,7 @@ const pages: AnswerPageContent[] = [
     description:
       'When it makes sense to target the post-July 2026 PMP exam and how to align practice.',
     shortAnswer:
-      'Yes — if you need more study time, missed the pre-transition window, or want to align preparation to the updated exam narrative PMI describes for post–9 July 2026.',
+      'Yes: if you need more study time, missed the pre-transition window, or want to align preparation to the updated exam narrative PMI describes for post–9 July 2026.',
     detailedAnswer:
       'Post-transition preparation should emphasize situational judgment, professional responsibility, and modern delivery contexts (including agile, hybrid, and emerging themes referenced in updated PMI materials). Use scenario practice and mocks rather than memorization-only study.',
     whoApplies: 'Candidates scheduling on or after the transition window who are not yet exam-ready.',
@@ -130,7 +130,7 @@ const pages: AnswerPageContent[] = [
     shortAnswer:
       'The Business Environment domain covers organizational context, benefits, compliance, value delivery, and how project decisions support business outcomes.',
     detailedAnswer:
-      'In situational PMP questions, Business Environment often tests whether you connect delivery choices to benefits, governance, and stakeholder expectations — not only schedule and budget mechanics. Study it alongside People and Process, and verify task lists in the current PMI Exam Content Outline.',
+      'In situational PMP questions, Business Environment often tests whether you connect delivery choices to benefits, governance, and stakeholder expectations: not only schedule and budget mechanics. Study it alongside People and Process, and verify task lists in the current PMI Exam Content Outline.',
     whoApplies: 'All PMP candidates, especially those who underestimate non-technical scenarios.',
     nextSteps: [
       'Read /pmp-business-environment-domain',
@@ -186,7 +186,7 @@ const pages: AnswerPageContent[] = [
     description:
       'Definition of PMP exam readiness: mocks, domains, situational judgment, and when to schedule.',
     shortAnswer:
-      'PMP readiness means consistent performance on timed mocks, ECO coverage, and confidence in situational judgment — not only finishing course videos.',
+      'PMP readiness means consistent performance on timed mocks, ECO coverage, and confidence in situational judgment: not only finishing course videos.',
     detailedAnswer:
       'Readiness is multidimensional: eligibility approved by PMI, study hours completed, domain weak spots remediated, and stable mock scores near your target. PM Structure offers a readiness diagnostic and pathway tiers to structure this process; outcomes still depend on your experience and exam-day execution.',
     whoApplies: 'Candidates deciding when to schedule Pearson VUE.',
@@ -211,7 +211,7 @@ const pages: AnswerPageContent[] = [
     description:
       'Typical PMP study duration by pathway tier and factors that shorten or lengthen prep.',
     shortAnswer:
-      'Many candidates need several weeks to a few months. PM Structure catalogue guides suggest roughly 2 weeks (Foundation), 6 weeks (Professional), and 12 weeks (Mastery) — your pace may differ.',
+      'Many candidates need several weeks to a few months. PM Structure catalogue guides suggest roughly 2 weeks (Foundation), 6 weeks (Professional), and 12 weeks (Mastery): your pace may differ.',
     detailedAnswer:
       'Duration depends on prior PM experience, weekly study hours, English proficiency, and how quickly you stabilize mock scores. Treat published week ranges as planning guides, not guarantees. Faster timelines are possible for experienced PMs; career-changers often need longer scenario practice.',
     whoApplies: 'Anyone building a 2026 study calendar or employer-sponsored plan.',
@@ -239,7 +239,7 @@ const pages: AnswerPageContent[] = [
     description:
       'Explanation of situational PMP practice and how it fits Foundation, Professional, and Mastery tiers.',
     shortAnswer:
-      'Scenario practice trains how you apply PM concepts in exam-style situations — the skill tested on current and transitioning PMP formats.',
+      'Scenario practice trains how you apply PM concepts in exam-style situations: the skill tested on current and transitioning PMP formats.',
     detailedAnswer:
       'Instead of isolated definitions, scenarios present a project situation and ask what you should do next. Effective practice tags mistakes by domain (People, Process, Business Environment) and revisits weak ECO tasks. PM Structure provides scenario sets within Professional and Mastery pathways.',
     whoApplies: 'Candidates who understand theory but miss application-style questions on mocks.',
@@ -269,7 +269,7 @@ const pages: AnswerPageContent[] = [
     shortAnswer:
       'The ECO is PMI’s published list of domains and tasks used to build the PMP exam. Download the current version from PMI.org and map every study week to it.',
     detailedAnswer:
-      'Third-party summaries cannot replace the official ECO PDF. Use it to build a coverage checklist, allocate hours by domain, and audit mock mistakes. When PMI updates the outline, refresh your plan — especially around 2026 transition messaging.',
+      'Third-party summaries cannot replace the official ECO PDF. Use it to build a coverage checklist, allocate hours by domain, and audit mock mistakes. When PMI updates the outline, refresh your plan: especially around 2026 transition messaging.',
     whoApplies: 'Every PMP candidate at the start of preparation.',
     nextSteps: [
       'Download the ECO from PMI.org',
@@ -295,7 +295,7 @@ const pages: AnswerPageContent[] = [
     description:
       'Clarifies PM Structure’s independent exam-prep status and PMI ATP positioning.',
     shortAnswer:
-      'No — unless formally confirmed on a live page, PM Structure is an independent exam-preparation platform, not a PMI Authorized Training Partner.',
+      'No: unless formally confirmed on a live page, PM Structure is an independent exam-preparation platform, not a PMI Authorized Training Partner.',
     detailedAnswer:
       'We provide structured pathways, LMS access, and practice support. PMI owns the PMP credential, exam delivery, and ATP program. Do not assume ATP benefits (such as specific contact-hour claims) unless explicitly stated on the relevant live page and your order confirmation.',
     whoApplies: 'Anyone comparing PMP providers and contact-hour claims.',
@@ -321,7 +321,7 @@ const pages: AnswerPageContent[] = [
       'Independent answer on exam outcomes, preparation support, and what PM Structure does not promise.',
     shortAnswer: 'No. PM Structure does not guarantee PMP exam passage.',
     detailedAnswer:
-      'Exam results depend on your experience, study discipline, mock performance, and test-day conditions. We provide structured preparation — not official exam items, not PMI registration services, and not outcome guarantees.',
+      'Exam results depend on your experience, study discipline, mock performance, and test-day conditions. We provide structured preparation: not official exam items, not PMI registration services, and not outcome guarantees.',
     whoApplies: 'Candidates evaluating training providers and refund/guarantee marketing.',
     nextSteps: [
       'Use /pmp-readiness-diagnostic for pathway fit',
@@ -346,7 +346,7 @@ const pages: AnswerPageContent[] = [
     shortAnswer:
       'Regional scholarship tiers depend on verified residence and billing country. Checkout is processed in USD equivalent. Official PMI exam fees are excluded.',
     detailedAnswer:
-      'Displayed regional tuition on /certifications/pmp may change with cohort or offers. Scholarship pricing applies only when qualification rules are met. Membership discounts, if shown, apply to platform tuition — not PMI exam fees. Full policy: /legal/regional-pricing.',
+      'Displayed regional tuition on /certifications/pmp may change with cohort or offers. Scholarship pricing applies only when qualification rules are met. Membership discounts, if shown, apply to platform tuition: not PMI exam fees. Full policy: /legal/regional-pricing.',
     whoApplies: 'International candidates comparing tuition across regions.',
     nextSteps: [
       'Read /legal/regional-pricing',
@@ -425,7 +425,7 @@ const pages: AnswerPageContent[] = [
     description:
       'Independent overview of PMI PMP eligibility: experience hours, education, and how to verify before applying.',
     shortAnswer:
-      'PMI requires a combination of project leadership experience and education (35 contact hours for most applicants). Exact rules change — verify on PMI.org before you apply.',
+      'PMI requires a combination of project leadership experience and education (35 contact hours for most applicants). Exact rules change: verify on PMI.org before you apply.',
     detailedAnswer:
       'PM Structure does not grant eligibility. Use PMI’s eligibility calculator and handbook. Our pathways assume you are pursuing or have met PMI requirements before scheduling Pearson VUE.',
     whoApplies: 'Anyone researching whether they can apply for the PMP.',
@@ -447,9 +447,9 @@ const pages: AnswerPageContent[] = [
     title: 'What is the PMP People domain?',
     description: 'Explain the People domain in the PMP Exam Content Outline and how to study it.',
     shortAnswer:
-      'The People domain covers leadership, team performance, conflict, and stakeholder engagement — a core third of the PMP ECO.',
+      'The People domain covers leadership, team performance, conflict, and stakeholder engagement: a core third of the PMP ECO.',
     detailedAnswer:
-      'Study People alongside Process and Business Environment using scenario practice, not definition memorization alone. Domain weights are published by PMI — verify the current ECO before exam day.',
+      'Study People alongside Process and Business Environment using scenario practice, not definition memorization alone. Domain weights are published by PMI: verify the current ECO before exam day.',
     whoApplies: 'PMP candidates mapping study time across ECO domains.',
     nextSteps: ['Read /pmp-people-domain', 'Use /pmp-scenario-practice', 'Review /topics/pmp-exam-preparation'],
     relatedCourses: [{ href: '/pmp-professional', label: 'PMP Professional' }],
@@ -467,7 +467,7 @@ const pages: AnswerPageContent[] = [
     title: 'What is the PMP Process domain?',
     description: 'Explain the Process domain in the PMP ECO and preparation focus on PM Structure.',
     shortAnswer:
-      'The Process domain addresses delivery, scope, schedule, cost, quality, risk, and integration — often the largest ECO weight.',
+      'The Process domain addresses delivery, scope, schedule, cost, quality, risk, and integration: often the largest ECO weight.',
     detailedAnswer:
       'Candidates should connect Process tasks to situational judgment questions. Use timed mocks after covering People and Business Environment themes.',
     whoApplies: 'PMP applicants building a domain-based study plan.',
@@ -485,7 +485,7 @@ const pages: AnswerPageContent[] = [
     title: 'What is PMP mock exam practice?',
     description: 'How timed PMP mocks build readiness and when to use them on PM Structure.',
     shortAnswer:
-      'Mock exams simulate timed PMP-style scenarios so you practice judgment under pressure — not just content recall.',
+      'Mock exams simulate timed PMP-style scenarios so you practice judgment under pressure: not just content recall.',
     detailedAnswer:
       'Use mocks after domain coverage and when scores stabilize. PM Structure publishes mock guidance on /pmp-mock-exam; we do not guarantee pass outcomes.',
     whoApplies: 'Candidates 4–8 weeks from their target exam window.',
@@ -532,7 +532,7 @@ const pages: AnswerPageContent[] = [
     shortAnswer:
       'Project management certification validates experience and knowledge through third-party exams such as PMP, PRINCE2, or Lean Six Sigma belts.',
     detailedAnswer:
-      'PM Structure offers independent exam preparation — not the official exam or credential itself. Compare pathways at /certifications and choose based on career goals, eligibility, and employer demand.',
+      'PM Structure offers independent exam preparation: not the official exam or credential itself. Compare pathways at /certifications and choose based on career goals, eligibility, and employer demand.',
     whoApplies: 'Career changers evaluating whether certification is worth pursuing.',
     nextSteps: ['Browse /certifications', 'Use /certifications/compare', 'Read /topics/project-management-certification'],
     relatedCourses: [{ href: '/pmp-foundation', label: 'PMP Foundation' }],
@@ -603,7 +603,7 @@ const pages: AnswerPageContent[] = [
     title: 'What are the PMP 2026 domain weights?',
     description: 'Orientation on PMP domain weighting for 2026 exam planning.',
     shortAnswer:
-      'PMP uses People, Process, and Business Environment domains. Verify current percentages on PMI.org — do not rely on outdated third-party figures.',
+      'PMP uses People, Process, and Business Environment domains. Verify current percentages on PMI.org: do not rely on outdated third-party figures.',
     detailedAnswer:
       'Domain weights guide study time allocation. PM Structure summarizes orientation at /pmp-new-exam-domain-weighting; always confirm against the latest Exam Content Outline.',
     whoApplies: 'Candidates building a 2026 study plan.',
@@ -624,7 +624,7 @@ const pages: AnswerPageContent[] = [
     shortAnswer:
       'The transition around 9 July 2026 shifts emphasis in exam narratives and ECO tasks. Compare guides on PM Structure and verify on PMI.org.',
     detailedAnswer:
-      'Neither format is inherently easier — readiness and timing matter more than labels. Use /pmp-current-vs-new-exam for a structured comparison.',
+      'Neither format is inherently easier: readiness and timing matter more than labels. Use /pmp-current-vs-new-exam for a structured comparison.',
     whoApplies: 'Candidates choosing when to sit PMP in 2026.',
     nextSteps: ['/pmp-current-vs-new-exam', '/pmp-before-8-july-2026', '/pmp-after-9-july-2026'],
     relatedCourses: [{ href: '/pmp-professional', label: 'PMP Professional' }],
@@ -640,7 +640,7 @@ const pages: AnswerPageContent[] = [
     title: 'Which PM Structure PMP pathway should I choose?',
     description: 'Foundation vs Professional vs Mastery pathway selection.',
     shortAnswer:
-      'Use the readiness diagnostic and pathway comparison on /pmp — Foundation for orientation, Professional for active prep, Mastery for intensive practice.',
+      'Use the readiness diagnostic and pathway comparison on /pmp. Foundation for orientation, Professional for active prep, Mastery for intensive practice.',
     detailedAnswer:
       'Pathway fit depends on experience, hours per week, and exam date. Do not over-buy tier; align mocks and scenario volume to your weak domains.',
     whoApplies: 'New PM Structure PMP enrollees.',
@@ -716,7 +716,7 @@ const pages: AnswerPageContent[] = [
     title: 'Is the new PMP exam harder?',
     description: 'Independent answer on whether the post-2026 PMP format is harder than the current exam.',
     shortAnswer:
-      'Neither format is universally harder — difficulty depends on your experience, study approach, and how well you match the updated Exam Content Outline.',
+      'Neither format is universally harder: difficulty depends on your experience, study approach, and how well you match the updated Exam Content Outline.',
     detailedAnswer:
       'Labels like “harder” often reflect unfamiliar item styles rather than impossible content. Candidates strong in situational judgment and ECO coverage may adapt quickly; those relying on memorized formulas alone may struggle on any format. Compare narratives at /pmp-current-vs-new-exam and verify scope on PMI.org.',
     whoApplies: 'Candidates deciding whether to rush before July 2026 or prepare for the new format.',
@@ -733,7 +733,7 @@ const pages: AnswerPageContent[] = [
     path: '/answers/should-i-rush-pmp-before-july-2026',
     question: 'Should I rush PMP before July 2026?',
     title: 'Should I rush PMP before July 2026?',
-    description: 'When rushing before the PMP transition helps — and when it hurts.',
+    description: 'When rushing before the PMP transition helps: and when it hurts.',
     shortAnswer:
       'Rush only if you are already exam-ready with strong timed mocks and a booked Pearson VUE slot; otherwise prepare properly for the post-transition format.',
     detailedAnswer:
@@ -753,7 +753,7 @@ const pages: AnswerPageContent[] = [
     title: 'Can I prepare for PMP in 30 days?',
     description: 'Realistic 30-day PMP prep expectations and when a short timeline works.',
     shortAnswer:
-      'A 30-day sprint is realistic only for experienced PMs with prior ECO exposure, daily study hours, and strong baseline mocks — not for first-time candidates.',
+      'A 30-day sprint is realistic only for experienced PMs with prior ECO exposure, daily study hours, and strong baseline mocks: not for first-time candidates.',
     detailedAnswer:
       'Most working professionals need several months. If you must sit within 30 days, prioritize timed mocks, error logs, and weak-domain drills over passive video consumption.',
     whoApplies: 'Candidates with an imminent exam window or employer deadline.',
@@ -793,7 +793,7 @@ const pages: AnswerPageContent[] = [
     title: 'What should I do after a low PMP mock score?',
     description: 'Steps to recover from a disappointing PMP mock exam result.',
     shortAnswer:
-      'Log misses by domain, revisit ECO tasks for weak areas, and retake a timed mock only after targeted review — do not schedule the real exam yet.',
+      'Log misses by domain, revisit ECO tasks for weak areas, and retake a timed mock only after targeted review: do not schedule the real exam yet.',
     detailedAnswer:
       'A low mock is diagnostic data, not a verdict. Separate knowledge gaps from timing errors. Use scenario practice for judgment items and schedule the real exam when scores stabilize above your personal threshold.',
     whoApplies: 'Candidates using mocks on Professional or Mastery pathways.',

@@ -10,7 +10,7 @@ export const subprocessorsDocument: LegalDocument = {
     section(
       'list',
       '1. Current subprocessors',
-      '• **Supabase** — database, authentication, and form storage (region per project configuration).\n• **Application hosting** — serves the marketing site and API (e.g. Railway, Vercel, or equivalent production host).\n• **Email delivery** — transactional email (order confirmations, access instructions) and newsletter when opted in.\n• **Analytics** (optional, after cookie consent) — website usage metrics when enabled.',
+      '• **Supabase**: database, authentication, and form storage (region per project configuration).\n• **Application hosting**: serves the marketing site and API (e.g. Railway, Vercel, or equivalent production host).\n• **Email delivery**: transactional email (order confirmations, access instructions) and newsletter when opted in.\n• **Analytics** (optional, after cookie consent): website usage metrics when enabled.',
     ),
     section(
       'purpose',
@@ -34,4 +34,3 @@ export const subprocessorsDocument: LegalDocument = {
     ),
   ],
 };
-

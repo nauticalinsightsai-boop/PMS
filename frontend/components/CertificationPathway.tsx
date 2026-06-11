@@ -111,7 +111,7 @@ function PathwayTierPricingChips({
               {tier.price}
             </p>
           ) : (
-            <p className="text-xs font-extrabold text-slate-400 sm:text-sm">—</p>
+            <p className="text-xs font-extrabold text-slate-400 sm:text-sm">: </p>
           )}
         </StatChip>
 

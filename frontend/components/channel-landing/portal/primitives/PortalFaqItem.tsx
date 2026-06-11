@@ -8,7 +8,7 @@ type Props = {
   answer: string
 }
 
-/** Minimal FAQ row — no card chrome (reduces “tab” noise). */
+/** Minimal FAQ row: no card chrome (reduces “tab” noise). */
 export default function PortalFaqItem({ theme, question, answer }: Props) {
   return (
     <details className="group portal-faq-item border-b last:border-b-0" style={{ borderColor: theme.cardBorder }}>

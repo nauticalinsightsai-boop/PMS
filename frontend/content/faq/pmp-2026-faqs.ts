@@ -15,7 +15,7 @@ function pmp(input: PmpFaqInput): FaqEntry {
 
 /** Phase 1: 75 PMP 2026 FAQs across 10 categories (Run 11). */
 export const PMP_2026_FAQS: FaqEntry[] = [
-  // — PMP Exam Change 2026 (6) —
+  // PMP Exam Change 2026 (6)
   pmp({
     id: 'pmp26-change-01',
     pmpCategory: 'pmp-exam-change-2026',
@@ -56,7 +56,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'pmp-exam-change-2026',
     question: 'Does PM Structure teach the 2026 PMP exam?',
     answer:
-      'Yes — our PMP pathways cover concepts relevant to current and transitioning exam narratives. We are an independent prep platform, not PMI or an ATP unless formally stated elsewhere.',
+      'Yes: our PMP pathways cover concepts relevant to current and transitioning exam narratives. We are an independent prep platform, not PMI or an ATP unless formally stated elsewhere.',
     relatedPage: '/pmp',
     complianceRisk: 'medium',
   }),
@@ -100,7 +100,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     relatedPage: '/pmp-exam-2026',
   }),
 
-  // — Current Exam Before 8 July 2026 (5) —
+  // Current Exam Before 8 July 2026 (5)
   pmp({
     id: 'pmp26-before-01',
     pmpCategory: 'current-exam-before-july-2026',
@@ -143,7 +143,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     relatedPage: '/pmp-after-9-july-2026',
   }),
 
-  // — New Exam From 9 July 2026 (5) —
+  // New Exam From 9 July 2026 (5)
   pmp({
     id: 'pmp26-after-01',
     pmpCategory: 'new-exam-from-july-2026',
@@ -186,7 +186,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     relatedPage: '/pmp-study-plan-2026',
   }),
 
-  // — PMP Exam Content Outline (4) —
+  // PMP Exam Content Outline (4)
   pmp({
     id: 'pmp26-eco-01',
     pmpCategory: 'pmp-exam-content-outline',
@@ -220,7 +220,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     sourceUrl: 'https://www.pmi.org',
   }),
 
-  // — Domain Weighting + People/Process/BE (8) —
+  // Domain Weighting + People/Process/BE (8)
   pmp({
     id: 'pmp26-dom-01',
     pmpCategory: 'pmp-domain-weighting',
@@ -258,7 +258,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'pmp-domain-weighting',
     question: 'How are PMP domain weights used in study plans?',
     answer:
-      'Allocate more time to higher-weight domains while maintaining minimum coverage everywhere. Verify weights on PMI.org — do not rely on outdated percentages.',
+      'Allocate more time to higher-weight domains while maintaining minimum coverage everywhere. Verify weights on PMI.org: do not rely on outdated percentages.',
     relatedPage: '/pmp-new-exam-domain-weighting',
     sourceTodo: 'Confirm domain weights from latest ECO.',
   }),
@@ -267,7 +267,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'pmp-domain-weighting',
     question: 'Which PMP domain is hardest for most candidates?',
     answer:
-      'Many candidates report Process or Business Environment as weak areas, but your diagnostics and mocks should drive your plan — not generalizations.',
+      'Many candidates report Process or Business Environment as weak areas, but your diagnostics and mocks should drive your plan: not generalizations.',
     relatedPage: '/pmp-readiness-diagnostic',
   }),
   pmp({
@@ -308,11 +308,11 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'scenario-practice',
     question: 'What professional responsibility topics appear on PMP?',
     answer:
-      'Ethics, fairness, and stakeholder trust appear across domains — especially in situational scenarios. Use scenario practice, not isolated memorization.',
+      'Ethics, fairness, and stakeholder trust appear across domains: especially in situational scenarios. Use scenario practice, not isolated memorization.',
     relatedPage: '/pmp-scenario-practice',
   }),
 
-  // — AI, Sustainability, Value Delivery (6) —
+  // AI, Sustainability, Value Delivery (6)
   pmp({
     id: 'pmp26-ai-01',
     pmpCategory: 'ai-in-project-management',
@@ -334,7 +334,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'value-delivery',
     question: 'What is value delivery in PMP context?',
     answer:
-      'Value delivery connects outcomes, benefits, and stakeholder expectations to project decisions — a common theme in situational questions.',
+      'Value delivery connects outcomes, benefits, and stakeholder expectations to project decisions: a common theme in situational questions.',
     relatedPage: '/pmp-ai-sustainability-value-delivery',
   }),
   pmp({
@@ -342,7 +342,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'ai-in-project-management',
     question: 'How should I study AI topics for PMP?',
     answer:
-      'Focus on governance, ethics, and decision-making around AI tools — not vendor-specific certifications. Use scenario practice, not memorization of headlines.',
+      'Focus on governance, ethics, and decision-making around AI tools: not vendor-specific certifications. Use scenario practice, not memorization of headlines.',
     relatedPage: '/pmp-scenario-practice',
   }),
   pmp({
@@ -362,7 +362,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     relatedPage: '/pmp-exam-2026',
   }),
 
-  // — Eligibility, Application, 35 Contact Hours (8) —
+  // Eligibility, Application, 35 Contact Hours (8)
   pmp({
     id: 'pmp26-elig-01',
     pmpCategory: 'eligibility-application-contact-hours',
@@ -408,7 +408,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'eligibility-application-contact-hours',
     question: 'Can I sit PMP without project management experience?',
     answer:
-      'PMP requires qualifying project leadership experience per PMI rules. CAPM may suit earlier-career candidates — see [/certifications/capm](/certifications/capm).',
+      'PMP requires qualifying project leadership experience per PMI rules. CAPM may suit earlier-career candidates: see [/certifications/capm](/certifications/capm).',
     relatedPage: '/certifications/capm',
   }),
   pmp({
@@ -428,7 +428,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     sourceUrl: 'https://www.pearsonvue.com/pmi',
   }),
 
-  // — Study Plan, Scenario, Mock, Diagnostic (10) —
+  // Study Plan, Scenario, Mock, Diagnostic (10)
   pmp({
     id: 'pmp26-study-01',
     pmpCategory: 'study-plan',
@@ -450,7 +450,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'pmp-readiness',
     question: 'What is PMP readiness?',
     answer:
-      'Readiness means consistent mock performance, domain coverage, and confidence in situational judgment — not only finishing videos.',
+      'Readiness means consistent mock performance, domain coverage, and confidence in situational judgment: not only finishing videos.',
     relatedPage: '/pmp-readiness-diagnostic',
   }),
   pmp({
@@ -474,7 +474,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'mock-exams',
     question: 'How many PMP mock exams should I take?',
     answer:
-      'Most candidates benefit from multiple timed attempts with error logging — exact count depends on your baseline and exam date.',
+      'Most candidates benefit from multiple timed attempts with error logging: exact count depends on your baseline and exam date.',
     relatedPage: '/pmp-mock-exam',
   }),
   pmp({
@@ -498,7 +498,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'study-plan',
     question: 'How long does PMP preparation take?',
     answer:
-      'Catalogue guides suggest roughly 2 weeks (Foundation), 6 weeks (Professional), and 12 weeks (Mastery) — your pace may differ.',
+      'Catalogue guides suggest roughly 2 weeks (Foundation), 6 weeks (Professional), and 12 weeks (Mastery): your pace may differ.',
     relatedPage: '/certifications/pmp',
   }),
   pmp({
@@ -534,7 +534,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     relatedPage: '/pmp-mock-exam',
   }),
 
-  // — Foundation / Professional / Mastery tiers (6) —
+  // Foundation / Professional / Mastery tiers (6)
   pmp({
     id: 'pmp26-tier-01',
     pmpCategory: 'pmp-foundation',
@@ -588,7 +588,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     relatedCourse: '/pmp-mastery',
   }),
 
-  // — Pricing, Regional Access, LMS, Disclaimer (7) —
+  // Pricing, Regional Access, LMS, Disclaimer (7)
   pmp({
     id: 'pmp26-price-01',
     pmpCategory: 'regional-pricing',
@@ -610,7 +610,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'independent-platform-disclaimer',
     question: 'Is PM Structure a PMI Authorized Training Partner (ATP)?',
     answer:
-      'No — unless formally confirmed on a live page, we are an independent exam-preparation platform.',
+      'No: unless formally confirmed on a live page, we are an independent exam-preparation platform.',
     complianceRisk: 'high',
   }),
   pmp({
@@ -645,7 +645,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     relatedPage: '/pmp-q-and-a-support',
   }),
 
-  // — Phase 10 gap FAQs —
+  // Phase 10 gap FAQs
   pmp({
     id: 'pmp26-gap-01',
     pmpCategory: 'pmp-exam-change-2026',
@@ -659,7 +659,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'new-exam-from-july-2026',
     question: 'Should I wait for the new PMP exam after July 2026?',
     answer:
-      'Waiting can make sense if you prefer the updated ECO narrative — but timelines and eligibility are personal. See [/pmp-after-9-july-2026](/pmp-after-9-july-2026).',
+      'Waiting can make sense if you prefer the updated ECO narrative: but timelines and eligibility are personal. See [/pmp-after-9-july-2026](/pmp-after-9-july-2026).',
     relatedPage: '/pmp-after-9-july-2026',
   }),
   pmp({
@@ -667,7 +667,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'agile-hybrid-predictive',
     question: 'Does the PMP exam test agile, hybrid, and predictive delivery?',
     answer:
-      'PMP scenarios often blend approaches. Study situational judgment across methods — see [/pmp-current-vs-new-exam](/pmp-current-vs-new-exam).',
+      'PMP scenarios often blend approaches. Study situational judgment across methods: see [/pmp-current-vs-new-exam](/pmp-current-vs-new-exam).',
     relatedPage: '/pmp-current-vs-new-exam',
   }),
   pmp({
@@ -721,7 +721,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'agile-hybrid-predictive',
     question: 'How should I study agile, hybrid, and predictive for PMP?',
     answer:
-      'Use situational practice across all three — see [/pmp-agile-hybrid-predictive](/pmp-agile-hybrid-predictive) and [/pmp-scenario-practice](/pmp-scenario-practice).',
+      'Use situational practice across all three: see [/pmp-agile-hybrid-predictive](/pmp-agile-hybrid-predictive) and [/pmp-scenario-practice](/pmp-scenario-practice).',
     relatedPage: '/pmp-agile-hybrid-predictive',
     relatedPages: ['/topics/predictive-project-management'],
   }),

@@ -25,7 +25,7 @@ import { enrollSuccessPath } from '@/lib/enrollment-routes';
 import { getOfferingById } from '@/lib/regional-catalogue';
 import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { useFormPartialRecovery } from '@/components/conversion-recovery/useFormPartialRecovery';
-import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
+import { setEnrollStarted, consumeEnrollStarted } from '@/lib/conversion-recovery/session-state';
 
 type ProgramEnrollmentFormProps = {
   offeringId: string;
@@ -66,7 +66,8 @@ export function ProgramEnrollmentForm({ offeringId, siteCertId, tierSlug }: Prog
       offeringId,
       parentSurface: 'enroll',
     },
-    onRequestRecovery: (ctx) => recovery?.requestRecovery(ctx, { requireIntent: true }),
+    onRequestRecovery: (ctx) =>
+      recovery?.requestRecovery(ctx, { requireIntent: true, intentRecovery: true }),
   });
 
   React.useEffect(() => {
@@ -129,6 +130,7 @@ export function ProgramEnrollmentForm({ offeringId, siteCertId, tierSlug }: Prog
         setError(checkout.error);
       } else if (checkout.data?.session?.url) {
         setCheckoutStarted(true);
+        consumeEnrollStarted(offeringId);
         recovery?.notifyConverted();
         window.location.href = checkout.data.session.url;
       } else {
@@ -147,7 +149,7 @@ export function ProgramEnrollmentForm({ offeringId, siteCertId, tierSlug }: Prog
         <h2 className="text-xl font-bold">{data.offering.courseName}</h2>
         <p className="text-sm text-slate-500">{tierLabel}</p>
         <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-          Complete your details below. Country fields are pre-filled from your selected region — you can change them
+          Complete your details below. Country fields are pre-filled from your selected region: you can change them
           if needed.
         </p>
       </div>

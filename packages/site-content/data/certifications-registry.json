@@ -14,23 +14,23 @@
       "detailHeroTitle": "CAPM® Pathway",
       "detailHeroSubtitle": "Certified Associate in Project Management - Entry level fundamentals.",
       "outputValue": "Entry / junior PM signal",
-      "recommendedCta": "Earn your CAPM — complete the 23 hours, practice with exam-style questions, and schedule with confidence.",
+      "recommendedCta": "Earn your CAPM: complete the 23 hours, practice with exam-style questions, and schedule with confidence.",
       "targetAudience": "Early-career PMs, coordinators, graduates, career-changers; 'no experience required.'"
     },
     {
       "id": "pmp",
       "name": "PMP®",
       "familyId": "PMI",
-      "desc": "Project Management Professional — structured PMI exam-preparation support for experienced project leaders.",
+      "desc": "Project Management Professional: structured PMI exam-preparation support for experienced project leaders.",
       "color": "#6D28D9",
       "gradient": "from-[#D8B4FE] to-[#6D28D9]",
       "hidden": false,
       "archived": false,
       "sortOrder": 1,
       "detailHeroTitle": "PMP® Pathway",
-      "detailHeroSubtitle": "Project Management Professional — structured PMI exam-preparation support for experienced project leaders.",
+      "detailHeroSubtitle": "Project Management Professional: structured PMI exam-preparation support for experienced project leaders.",
       "outputValue": "Core flagship / strongest broad PM value",
-      "recommendedCta": "Check eligibility and start your PMP path — build a plan, train to 35+ hours, and book your exam.",
+      "recommendedCta": "Check eligibility and start your PMP path: build a plan, train to 35+ hours, and book your exam.",
       "targetAudience": "Project managers leading cross-functional teams; professionals seeking a globally recognized PM credential."
     },
     {
@@ -46,7 +46,7 @@
       "detailHeroTitle": "PMI-ACP® Pathway",
       "detailHeroSubtitle": "Agile Certified Practitioner - Agile principles and practices.",
       "outputValue": "Agile specialist / high practical value",
-      "recommendedCta": "Prove your agile delivery skills — validate experience, complete 21 hours, and book your PMI-ACP exam.",
+      "recommendedCta": "Prove your agile delivery skills: validate experience, complete 21 hours, and book your PMI-ACP exam.",
       "targetAudience": "Scrum masters, product owners, agile team leads, PMs in agile/hybrid delivery."
     },
     {
@@ -62,7 +62,7 @@
       "detailHeroTitle": "PMI-RMP® Pathway",
       "detailHeroSubtitle": "Risk Management Professional - Advanced risk management.",
       "outputValue": "Risk specialist / strong niche value",
-      "recommendedCta": "Become the risk specialist teams rely on — meet the 40-hour education requirement and validate your risk leadership.",
+      "recommendedCta": "Become the risk specialist teams rely on: meet the 40-hour education requirement and validate your risk leadership.",
       "targetAudience": "Risk leads, PMs on complex projects, PMO/portfolio risk professionals."
     },
     {
@@ -78,7 +78,7 @@
       "detailHeroTitle": "PMI-PBA® Pathway",
       "detailHeroSubtitle": "Professional in Business Analysis.",
       "outputValue": "BA + requirements specialist / strong business value",
-      "recommendedCta": "Formalize your BA leadership — meet the 35 contact hours and prepare with role-based cases.",
+      "recommendedCta": "Formalize your BA leadership: meet the 35 contact hours and prepare with role-based cases.",
       "targetAudience": "Business analysts, product/business analysis leads, PMs doing requirements/benefits work."
     },
     {
@@ -94,7 +94,7 @@
       "detailHeroTitle": "PMI-SP® Pathway",
       "detailHeroSubtitle": "Scheduling Professional - Advanced scheduling and planning.",
       "outputValue": "Precision / planning specialist value",
-      "recommendedCta": "Own the schedule — meet eligibility, train to the required hours, and master control techniques.",
+      "recommendedCta": "Own the schedule: meet eligibility, train to the required hours, and master control techniques.",
       "targetAudience": "Planners/schedulers, controls engineers, PMs in complex schedule-driven environments."
     },
     {
@@ -110,7 +110,7 @@
       "detailHeroTitle": "PMI-PMOCP™ Pathway",
       "detailHeroSubtitle": "PMO Certified Professional - Governance and maturity.",
       "outputValue": "Governance / maturity specialist value",
-      "recommendedCta": "Design and run a value-driven PMO — hit the 10-hour requirement and prepare for PMI-PMOCP.",
+      "recommendedCta": "Design and run a value-driven PMO: hit the 10-hour requirement and prepare for PMI-PMOCP.",
       "targetAudience": "PMO managers, PMO leads, transformation/portfolio governance professionals."
     },
     {
@@ -126,7 +126,7 @@
       "detailHeroTitle": "Construction Professional (PMI-CP)™ Pathway",
       "detailHeroSubtitle": "Construction Professional - Built environment leadership.",
       "outputValue": "Built environment / grounded leadership",
-      "recommendedCta": "Become PMI-CP ready — complete the four modules, validate experience, and master construction delivery.",
+      "recommendedCta": "Become PMI-CP ready: complete the four modules, validate experience, and master construction delivery.",
       "targetAudience": "Construction PMs, site/project controls leaders, built-environment delivery roles."
     },
     {
@@ -142,12 +142,12 @@
       "detailHeroTitle": "Managing AI (PMI-CPMAI)™ Pathway",
       "detailHeroSubtitle": "AI in Project Management - Future-facing leadership.",
       "outputValue": "Advanced / future-facing AI leadership",
-      "recommendedCta": "Lead AI projects with structure — complete the 21-hour track and prove PMI-CPMAI readiness.",
+      "recommendedCta": "Lead AI projects with structure: complete the 21-hour track and prove PMI-CPMAI readiness.",
       "targetAudience": "PMs, technologists, data/AI professionals, consultants delivering AI initiatives."
     },
     {
       "id": "gpm-b",
-      "name": "Green Project Manager – Basic (GPM-b)™",
+      "name": "Green Project Manager: Basic (GPM-b)™",
       "familyId": "PMI",
       "desc": "Green Project Manager - Sustainable project delivery.",
       "color": "#15803D",
@@ -155,10 +155,10 @@
       "hidden": false,
       "archived": false,
       "sortOrder": 9,
-      "detailHeroTitle": "Green Project Manager – Basic (GPM-b)™ Pathway",
+      "detailHeroTitle": "Green Project Manager: Basic (GPM-b)™ Pathway",
       "detailHeroSubtitle": "Green Project Manager - Sustainable project delivery.",
       "outputValue": "Sustainability / green delivery value",
-      "recommendedCta": "Add sustainability to your PM toolkit — confirm eligibility and complete the GPM-b pathway.",
+      "recommendedCta": "Add sustainability to your PM toolkit: confirm eligibility and complete the GPM-b pathway.",
       "targetAudience": "PMs adding sustainability capability; professionals needing ethics/sustainability framing within PM work."
     },
     {
@@ -174,7 +174,7 @@
       "detailHeroTitle": "PgMP® Pathway",
       "detailHeroSubtitle": "Program Management Professional.",
       "outputValue": "Senior leadership / programme-level value",
-      "recommendedCta": "Move from projects to programs — validate experience, pass panel review, and lead strategic outcomes.",
+      "recommendedCta": "Move from projects to programs: validate experience, pass panel review, and lead strategic outcomes.",
       "targetAudience": "Senior program managers; PMO leaders responsible for program governance and benefits delivery."
     },
     {
@@ -190,7 +190,7 @@
       "detailHeroTitle": "PfMP® Pathway",
       "detailHeroSubtitle": "Portfolio Management Professional.",
       "outputValue": "Executive / highest portfolio signal",
-      "recommendedCta": "Lead portfolio decisions with confidence — master governance and performance at the executive level.",
+      "recommendedCta": "Lead portfolio decisions with confidence: master governance and performance at the executive level.",
       "targetAudience": "Portfolio managers, PMO directors, strategy execution leaders."
     },
     {
@@ -206,7 +206,7 @@
       "detailHeroTitle": "PRINCE2® 7 Foundation Pathway",
       "detailHeroSubtitle": "Projects in Controlled Environments - Process-based method.",
       "outputValue": "Core structured methodology value",
-      "recommendedCta": "Learn PRINCE2 governance fast — start with Foundation and build a controlled delivery mindset.",
+      "recommendedCta": "Learn PRINCE2 governance fast: start with Foundation and build a controlled delivery mindset.",
       "targetAudience": "PMs, team leads, analysts, coordinators; organizations standardizing project governance language."
     },
     {
@@ -222,7 +222,7 @@
       "detailHeroTitle": "PRINCE2® 7 Practitioner Pathway",
       "detailHeroSubtitle": "Advanced application of the PRINCE2 method.",
       "outputValue": "Practitioner-level governance mastery",
-      "recommendedCta": "Move from theory to application — become PRINCE2 Practitioner-ready with scenario drills.",
+      "recommendedCta": "Move from theory to application: become PRINCE2 Practitioner-ready with scenario drills.",
       "targetAudience": "Practicing PMs and delivery leads implementing PRINCE2 governance in real projects."
     },
     {
@@ -238,7 +238,7 @@
       "detailHeroTitle": "PRINCE2 Agile® Foundation Pathway",
       "detailHeroSubtitle": "Structured agile governance value.",
       "outputValue": "Structured agile governance value",
-      "recommendedCta": "Run agile projects with governance — master PRINCE2 Agile Foundation fast.",
+      "recommendedCta": "Run agile projects with governance: master PRINCE2 Agile Foundation fast.",
       "targetAudience": "PMs, agile leads, teams operating in hybrid governance environments."
     },
     {
@@ -254,7 +254,7 @@
       "detailHeroTitle": "PRINCE2 Agile® Practitioner Pathway",
       "detailHeroSubtitle": "Advanced application of PRINCE2 Agile.",
       "outputValue": "Practitioner-level agile governance mastery",
-      "recommendedCta": "Prove you can tailor governance for agility — become PRINCE2 Agile Practitioner-ready.",
+      "recommendedCta": "Prove you can tailor governance for agility: become PRINCE2 Agile Practitioner-ready.",
       "targetAudience": "PMs and leads delivering agile work under formal governance."
     },
     {
@@ -334,7 +334,7 @@
       "detailHeroTitle": "Six Sigma White Belt Pathway",
       "detailHeroSubtitle": "Awareness-level introduction to Six Sigma language and basic improvement thinking.",
       "outputValue": "Entry / awareness value",
-      "recommendedCta": "Get Six Sigma fluent — start with an executive-friendly White Belt foundation.",
+      "recommendedCta": "Get Six Sigma fluent: start with an executive-friendly White Belt foundation.",
       "targetAudience": "Entire organization awareness; new joiners; cross-functional teams."
     },
     {
@@ -350,7 +350,7 @@
       "detailHeroTitle": "Six Sigma Yellow Belt (CSSYB) Pathway",
       "detailHeroSubtitle": "Foundational Six Sigma credential for supporting improvement projects.",
       "outputValue": "Foundational improvement value",
-      "recommendedCta": "Start your Six Sigma journey — build the fundamentals and earn CSSYB readiness.",
+      "recommendedCta": "Start your Six Sigma journey: build the fundamentals and earn CSSYB readiness.",
       "targetAudience": "Team members supporting projects; professionals new to structured process improvement."
     },
     {
@@ -366,7 +366,7 @@
       "detailHeroTitle": "Six Sigma Green Belt (CSSGB) Pathway",
       "detailHeroSubtitle": "Validates competence to lead smaller improvement projects using DMAIC.",
       "outputValue": "Applied improvement / strong practitioner value",
-      "recommendedCta": "Lead measurable improvements — build Green Belt capability with structured practice.",
+      "recommendedCta": "Lead measurable improvements: build Green Belt capability with structured practice.",
       "targetAudience": "Process improvement leads, operations excellence roles, quality professionals leading projects."
     },
     {
@@ -382,7 +382,7 @@
       "detailHeroTitle": "Six Sigma Black Belt (CSSBB) Pathway",
       "detailHeroSubtitle": "Advanced credential for leading complex improvement projects and coaching teams.",
       "outputValue": "Advanced improvement leadership value",
-      "recommendedCta": "Lead complex transformations — become ASQ Black Belt-ready with intensive practice.",
+      "recommendedCta": "Lead complex transformations: become ASQ Black Belt-ready with intensive practice.",
       "targetAudience": "Senior improvement leaders; quality/OpEx professionals leading cross-functional projects."
     },
     {
@@ -398,7 +398,7 @@
       "detailHeroTitle": "Master Black Belt (CMBB) Pathway",
       "detailHeroSubtitle": "Top-tier credential with portfolio review plus exam and performance-based assessment.",
       "outputValue": "Highest / darkest improvement signal",
-      "recommendedCta": "Move into enterprise excellence leadership — prepare your portfolio and master the CMBB bar.",
+      "recommendedCta": "Move into enterprise excellence leadership: prepare your portfolio and master the CMBB bar.",
       "targetAudience": "Senior MBBs / senior CSSBBs with deep enterprise deployment and mentoring experience."
     },
     {
@@ -414,21 +414,21 @@
       "detailHeroTitle": "Six Sigma Champion Pathway",
       "detailHeroSubtitle": "Executive/leadership role focused on selecting projects and sponsoring benefits realization.",
       "outputValue": "Executive sponsorship value",
-      "recommendedCta": "Sponsor transformation, not just training — become an effective Six Sigma Champion.",
+      "recommendedCta": "Sponsor transformation, not just training: become an effective Six Sigma Champion.",
       "targetAudience": "Directors, functional leaders, transformation sponsors, PMO/OpEx sponsors."
     },
     {
       "id": "foundation-direct",
       "name": "Foundation Direct Pathway",
       "familyId": "FoundationDirect",
-      "desc": "Foundational vocabulary across PMI, PRINCE2, and Six Sigma — best explored after a pathway consultation to confirm fit.",
+      "desc": "Foundational vocabulary across PMI, PRINCE2, and Six Sigma: best explored after a pathway consultation to confirm fit.",
       "color": "#F97316",
       "gradient": "from-brand-orange to-brand-deep",
       "hidden": false,
       "archived": false,
       "sortOrder": 26,
       "detailHeroTitle": "Foundation Direct Pathway Pathway",
-      "detailHeroSubtitle": "Foundational vocabulary across PMI, PRINCE2, and Six Sigma — best explored after a pathway consultation to confirm fit.",
+      "detailHeroSubtitle": "Foundational vocabulary across PMI, PRINCE2, and Six Sigma: best explored after a pathway consultation to confirm fit.",
       "outputValue": "Multi-framework foundation / career bridge",
       "recommendedCta": "",
       "targetAudience": "Fresh graduates, career changers, and executives needing a quick PM bridge."

@@ -78,7 +78,7 @@ export function buildCertMetadata(certId: string): Metadata {
 export const defaultSiteMetadata: Metadata = {
   metadataBase: new URL(PMS_SITE_URL),
   title: {
-    default: `${PMS_SITE_NAME} — Project readiness`,
+    default: `${PMS_SITE_NAME}. Project readiness`,
     template: `%s | ${PMS_SITE_NAME}`,
   },
   description: PMS_SITE_DESCRIPTION,

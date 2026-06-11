@@ -67,6 +67,6 @@ export const PMP_EXAM_2026_PRIORITY_ANSWERS: PriorityAnswerLink[] = [
   {
     href: '/answers/what-are-the-pmp-2026-domain-weights',
     label: 'What are the 2026 domain weights?',
-    description: 'Orientation only — verify on PMI.org.',
+    description: 'Orientation only: verify on PMI.org.',
   },
 ];

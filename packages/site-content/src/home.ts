@@ -219,7 +219,7 @@ export function defaultHomePageConfigV2(): HomePageConfigV2 {
         visible: true,
         heading: 'Prepare with structure. Lead with confidence.',
         description:
-          'Independent certification readiness pathways across PMI, PRINCE2, and Lean Six Sigma — built for professionals who want clarity, not chaos.',
+          'Independent certification readiness pathways across PMI, PRINCE2, and Lean Six Sigma: built for professionals who want clarity, not chaos.',
         primaryCta: 'Talk to Mentor',
         primaryAction: 'register_modal',
         primaryLink: '/contact?topic=consultation',

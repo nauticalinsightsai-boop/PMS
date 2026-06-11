@@ -13,7 +13,7 @@ import { LeadRecoveryDialog } from '@/components/conversion-recovery/LeadRecover
 import { BottomCtaRotator } from '@/components/conversion-recovery/BottomCtaRotator';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 
-/** Matches Navbar inner `h-16` — keep main padding and fixed subnav offset in sync */
+/** Matches Navbar inner `h-16`: keep main padding and fixed subnav offset in sync */
 export const PUBLIC_NAVBAR_HEIGHT_CLASS = 'pt-16';
 export const PUBLIC_NAVBAR_OFFSET_CLASS = '-mt-16';
 export const PUBLIC_NAVBAR_TOP_CLASS = 'top-16';

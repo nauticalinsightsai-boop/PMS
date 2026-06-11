@@ -18,7 +18,7 @@ type Props = {
   afterLabel?: ReactNode
 }
 
-/** Engagement-style expand/collapse — click or hover to open, closes on leave/outside click. */
+/** Engagement-style expand/collapse: click or hover to open, closes on leave/outside click. */
 export default function PortalExpandableSection({
   theme,
   sectionOrder,

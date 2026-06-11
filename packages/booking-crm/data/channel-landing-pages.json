@@ -671,7 +671,7 @@
         {
           "id": "career-pathway",
           "title": "Career & Pathway Session",
-          "description": "Move from reels, stories, or feed to a live session — brand partnerships, creator strategy, or project sponsorship.",
+          "description": "Move from reels, stories, or feed to a live session: brand partnerships, creator strategy, or project sponsorship.",
           "durationLabel": "30 Minutes",
           "priceLabel": "$129",
           "recommended": true,
@@ -1026,7 +1026,7 @@
         {
           "id": "career-pathway",
           "title": "Career & Pathway Session",
-          "description": "Continue the Bluesky conversation with a booked block — fit, project scope, or career guidance after posts or threads.",
+          "description": "Continue the Bluesky conversation with a booked block: fit, project scope, or career guidance after posts or threads.",
           "durationLabel": "30 Minutes",
           "priceLabel": "$175",
           "recommended": true,
@@ -2162,7 +2162,7 @@
         {
           "id": "career-pathway",
           "title": "Career & Pathway Session",
-          "description": "For server members — channel strategy, community programs, or project direction after Discord engagement.",
+          "description": "For server members: channel strategy, community programs, or project direction after Discord engagement.",
           "durationLabel": "30 Minutes",
           "priceLabel": "$159",
           "recommended": true,
@@ -2852,7 +2852,7 @@
       "createdAt": "2026-05-28T11:54:35.579Z",
       "updatedAt": "2026-05-28T16:20:00.936Z",
       "contextLabel": "WEBINAR REGISTRATION",
-      "headline": "Live webinar — book your session",
+      "headline": "Live webinar: book your session",
       "subheadline": "Watch the briefing, understand what we cover, then choose a free intro seat or a paid working session.",
       "body": "",
       "targetMessage": "Name the webinar title or replay when you book so we align the session to what you watched.",
@@ -2863,7 +2863,7 @@
         {
           "id": "mentor-intro",
           "title": "Free Mentor Intro",
-          "description": "Join the intro seat — session overview, Q&A framing, and whether the paid working session fits your situation.",
+          "description": "Join the intro seat: session overview, Q&A framing, and whether the paid working session fits your situation.",
           "durationLabel": "15 Minutes",
           "priceLabel": "Free",
           "isFree": true,
@@ -2874,7 +2874,7 @@
         {
           "id": "career-pathway",
           "title": "Career & Pathway Session",
-          "description": "Extended working block after the webinar — implementation depth, program questions, and structured next steps with principal advisory.",
+          "description": "Extended working block after the webinar: implementation depth, program questions, and structured next steps with principal advisory.",
           "durationLabel": "30 Minutes",
           "priceLabel": "$199",
           "recommended": true,

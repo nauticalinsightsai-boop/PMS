@@ -1,16 +1,41 @@
+const INTENT_KEY = 'pms-recovery-has-intent';
+
 let score = 0;
 let hasIntent = false;
+
+function readPersistedIntent(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return sessionStorage.getItem(INTENT_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function persistIntent(): void {
+  if (typeof window === 'undefined') return;
+  try {
+    sessionStorage.setItem(INTENT_KEY, '1');
+  } catch {
+    /* private mode */
+  }
+}
+
+if (typeof window !== 'undefined') {
+  hasIntent = readPersistedIntent();
+}
 
 export function getEngagementScore(): number {
   return score;
 }
 
 export function hasShownIntent(): boolean {
-  return hasIntent;
+  return hasIntent || readPersistedIntent();
 }
 
 export function markIntent(): void {
   hasIntent = true;
+  persistIntent();
   score += 3;
 }
 

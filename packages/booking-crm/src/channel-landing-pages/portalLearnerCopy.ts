@@ -20,7 +20,7 @@ export function learnerAudienceTone(channelId: string, label: string): LearnerAu
   return 'community'
 }
 
-/** Quotes tab first in UI — learner voices before platform stats. */
+/** Quotes tab first in UI: learner voices before platform stats. */
 export function getCredibilityTabLabels(
   channelId: string,
   _label = ''
@@ -35,7 +35,7 @@ export function getCredibilityTabLabels(
   return { quotes: 'Learner voices', metrics: 'Platform track record' }
 }
 
-/** Platform-native success stories — two per channel from {@link getPortalLearnerStories}. */
+/** Platform-native success stories: two per channel from {@link getPortalLearnerStories}. */
 export function buildLearnerSocialProof(channelId: string, _channelLabel: string): PortalSocialProofItem[] {
   return getPortalLearnerStories(channelId)
 }
@@ -224,7 +224,7 @@ export function buildLearnerFaq(
   ]
 }
 
-/** Portal hero/context lines — PM Structure brand; audience-appropriate referral. */
+/** Portal hero/context lines. PM Structure brand; audience-appropriate referral. */
 export function getLearnerPortalSurfaceCopy(
   channelId: string,
   channelLabel: string,

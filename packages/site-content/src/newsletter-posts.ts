@@ -57,7 +57,7 @@ export function slugifyNewsletterTitle(title: string): string {
 
 export function formatNewsletterPostDate(iso: string): string {
   const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return '—';
+  if (Number.isNaN(date.getTime())) return '. ';
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
@@ -140,7 +140,7 @@ export function defaultNewsletterPostsRegistry(): NewsletterPostsRegistry {
         featuredImageUrl: '',
         audioUrl: '',
         content:
-          'I vividly remember sitting across from a Project Director during a tense budget meeting for a massive offshore expansion project. The conversation turned to safety investment—and whether it was optional.\n\n## The Moral Reason\n\nEvery organization has an ethical duty to protect people who depend on its operations.\n\n## The Legal Reason\n\nRegulators expect documented controls, not good intentions.\n\n## The Financial Reason\n\nAccidents destroy margin through downtime, fines, and reputational loss.',
+          'I vividly remember sitting across from a Project Director during a tense budget meeting for a massive offshore expansion project. The conversation turned to safety investment: and whether it was optional.\n\n## The Moral Reason\n\nEvery organization has an ethical duty to protect people who depend on its operations.\n\n## The Legal Reason\n\nRegulators expect documented controls, not good intentions.\n\n## The Financial Reason\n\nAccidents destroy margin through downtime, fines, and reputational loss.',
       },
       {
         id: 'post-certification-strategies-2026',

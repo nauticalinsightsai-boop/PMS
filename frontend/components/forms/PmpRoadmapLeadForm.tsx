@@ -45,7 +45,7 @@ type PmpRoadmapLeadFormProps = {
   placement: PmpRoadmapFormPlacement;
   variant?: 'hero' | 'insights' | 'cert';
   className?: string;
-  /** Certification detail pages — drives headline and submission metadata */
+  /** Certification detail pages: drives headline and submission metadata */
   certId?: string;
   certName?: string;
   familyId?: string;
@@ -63,7 +63,7 @@ const PLACEMENT_LABELS: Record<PmpRoadmapFormPlacement, string> = {
 
 function placementLabel(placement: PmpRoadmapFormPlacement, certName?: string): string {
   const base = PLACEMENT_LABELS[placement];
-  return certName ? `${certName} — ${base}` : base;
+  return certName ? `${certName}: ${base}` : base;
 }
 
 function PmsFormHeaderMark({ compact }: { compact: boolean }) {
@@ -110,8 +110,8 @@ export function PmpRoadmapLeadForm({
     ? 'Build your PM certification roadmap'
     : `Build your ${roadmapLabel} roadmap`;
   const formSubtitle = isHomeForm
-    ? "Share your experience — we'll map a study plan for you."
-    : `Share your experience — we'll map a ${certName ? certName : 'PMP'} study plan for you.`;
+    ? "Share your experience: we'll map a study plan for you."
+    : `Share your experience: we'll map a ${certName ? certName : 'PMP'} study plan for you.`;
 
   const [fullName, setFullName] = React.useState('');
   const [dialValue, setDialValue] = React.useState('us');
@@ -262,7 +262,7 @@ export function PmpRoadmapLeadForm({
     const phoneFull = `${dialCode} ${phone.trim()}`.trim();
     const res = await submitPublicInteraction({
       source: certId ? 'cert_roadmap_lead' : 'pmp_roadmap_lead',
-      subject: `${roadmapLabel} roadmap — ${placementLabel(placement, certName)}`,
+      subject: `${roadmapLabel} roadmap: ${placementLabel(placement, certName)}`,
       email,
       website: honeypot,
       formContext: {
@@ -314,7 +314,7 @@ export function PmpRoadmapLeadForm({
     return (
       <div className={cn(shellClass, 'p-8 sm:p-10')}>
         <p className="text-base font-semibold text-green-700 dark:text-green-400">
-          Thanks — we received your details and will follow up with your {roadmapLabel} roadmap.
+          Thanks: we received your details and will follow up with your {roadmapLabel} roadmap.
         </p>
         <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
           Questions?{' '}

@@ -159,7 +159,7 @@ function CommunityNetworkContent() {
                     <div className="h-10 w-10 rounded-full bg-brand-purple shrink-0 shadow-md" />
                     <div>
                       <div className="font-bold text-lg text-slate-900 dark:text-white leading-relaxed tracking-tight">&quot;The study circles were the reason I passed my PMP on the first try. The support is unmatched.&quot;</div>
-                      <div className="text-sm text-slate-500 dark:text-slate-400 mt-3 font-bold uppercase tracking-widest">— Sarah J., Senior PM</div>
+                      <div className="text-sm text-slate-500 dark:text-slate-400 mt-3 font-bold uppercase tracking-widest">. Sarah J., Senior PM</div>
                     </div>
                   </div>
                 </div>

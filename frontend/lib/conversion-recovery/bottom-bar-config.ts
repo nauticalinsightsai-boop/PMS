@@ -36,7 +36,7 @@ function defaultRotations(): BottomBarRotation[] {
     },
     {
       id: 'r2',
-      headline: 'PMP 2026 is changing — check readiness',
+      headline: 'PMP 2026 is changing: check readiness',
       body: 'Use the diagnostic or talk to a mentor before exam day.',
       primary: { type: 'link', href: '/pmp-readiness-diagnostic', label: CTAS.readinessCheck },
       secondary: { type: 'link', href: '/pmp-exam-2026', label: 'PMP 2026 guide' },
@@ -46,7 +46,7 @@ function defaultRotations(): BottomBarRotation[] {
     {
       id: 'r3',
       headline: 'Join 1,284+ professionals in the network',
-      body: "Don't study in isolation — connect with structured prep circles.",
+      body: "Don't study in isolation: connect with structured prep circles.",
       primary: { type: 'link', href: '/community', label: 'Join community' },
       secondary: { type: 'register_modal' },
       dismissLabel: 'Skip',
@@ -55,7 +55,7 @@ function defaultRotations(): BottomBarRotation[] {
     {
       id: 'r4',
       headline: 'Map your roadmap in 24 hours',
-      body: "Leave WhatsApp — we'll follow up with a structured certification plan.",
+      body: "Leave WhatsApp: we'll follow up with a structured certification plan.",
       primary: { type: 'micro_form' },
       dismissLabel: "Don't ask again",
       variant: 'bottom_bar_r4',
@@ -69,7 +69,7 @@ const GROUP_ROTATIONS: Partial<Record<BottomBarPageGroup, BottomBarRotation[]>> 
     {
       id: 'cert-r1',
       headline: 'Build your certification roadmap',
-      body: "Share your experience — we'll map a study plan for your tier.",
+      body: "Share your experience: we'll map a study plan for your tier.",
       primary: { type: 'scroll', anchor: 'cert-roadmap-form', label: 'Get my roadmap' },
       secondary: { type: 'calendly_hero' },
       dismissLabel: 'Not now',
@@ -80,7 +80,7 @@ const GROUP_ROTATIONS: Partial<Record<BottomBarPageGroup, BottomBarRotation[]>> 
   pmp_seo: [
     {
       id: 'pmp-r1',
-      headline: 'PMP 2026 — get structured guidance',
+      headline: 'PMP 2026: get structured guidance',
       body: 'Compare pathways or check readiness before you commit.',
       primary: { type: 'link', href: '/pmp-readiness-diagnostic', label: CTAS.readinessCheck },
       secondary: { type: 'link', href: '/certifications/pmp', label: 'PMP pathways' },
@@ -139,7 +139,7 @@ export function getRotationsForPath(pathname: string): BottomBarRotation[] {
     copy[1] = {
       ...copy[1],
       headline: 'Still thinking about Foundation?',
-      body: "Leave WhatsApp — we'll follow up before you enroll.",
+      body: "Leave WhatsApp: we'll follow up before you enroll.",
     };
     return copy;
   }

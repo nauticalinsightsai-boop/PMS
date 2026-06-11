@@ -57,7 +57,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'about',
     'What is PM Structure?',
-    `${BRAND.name} is an independent exam-preparation and project management learning platform. We offer structured readiness pathways for PMI®, PRINCE2®, and Lean Six Sigma—not official exams and not a certification body. See [Terms](/legal/terms) and [pricing disclaimers](/legal/pricing-disclaimers).`,
+    `${BRAND.name} is an independent exam-preparation and project management learning platform. We offer structured readiness pathways for PMI®, PRINCE2®, and Lean Six Sigma: not official exams and not a certification body. See [Terms](/legal/terms) and [pricing disclaimers](/legal/pricing-disclaimers).`,
     'about-what',
   ),
   P(
@@ -93,7 +93,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'pathways',
     'What is included in Professional tier delivery?',
-    'Typical Professional delivery includes exam-focused LMS, practice exams, templates, WhatsApp support, and limited review—varies by offering. Check the pathway card on your certification page.',
+    'Typical Professional delivery includes exam-focused LMS, practice exams, templates, WhatsApp support, and limited review: varies by offering. Check the pathway card on your certification page.',
     'pathways-pro',
   ),
   P(
@@ -141,7 +141,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'timeline',
     'What is a readiness review?',
-    'A structured check of mock scores, weak domains, and study plan before you book the official exam—on higher tiers or via consultation.',
+    'A structured check of mock scores, weak domains, and study plan before you book the official exam: on higher tiers or via consultation.',
     'timeline-readiness',
   ),
   P(
@@ -231,7 +231,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'pricing',
     'Do URL parameters like ?currency= or ?region= create separate indexed pages?',
-    'No. Marketing pages use a single canonical URL without currency or region query parameters. Regional tuition is selected in the region modal and stored locally — not via indexable URL variants.',
+    'No. Marketing pages use a single canonical URL without currency or region query parameters. Regional tuition is selected in the region modal and stored locally: not via indexable URL variants.',
     'pricing-query-canonical',
   ),
   P(
@@ -267,7 +267,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'membership',
     'Can I access the community without paying?',
-    'Yes—public community is on the free tier. Private study circles and mentor Q&A are typically paid membership benefits.',
+    'Yes: public community is on the free tier. Private study circles and mentor Q&A are typically paid membership benefits.',
     'member-free',
   ),
   P(
@@ -279,7 +279,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'consultation',
     'What is a pathway consultation?',
-    'An advisory conversation to match your experience and goals to the right pathway—book via [/contact](/contact) or certification CTAs.',
+    'An advisory conversation to match your experience and goals to the right pathway: book via [/contact](/contact) or certification CTAs.',
     'consult-what',
   ),
   P(
@@ -291,7 +291,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'consultation',
     'Do you offer corporate training?',
-    'Yes—we offer cohort and corporate training.\n\n• See [/pm-service](/pm-service) for scope.\n• Read [Services terms](/legal/services).\n• Email support at support@pmstructure.com with team size, region, and target certifications for a quote.',
+    'Yes: we offer cohort and corporate training.\n\n• See [/pm-service](/pm-service) for scope.\n• Read [Services terms](/legal/services).\n• Email support at support@pmstructure.com with team size, region, and target certifications for a quote.',
     'consult-corp',
   ),
   P(
@@ -303,7 +303,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'exams',
     'What are typical official PMP exam fees?',
-    'PMI member and non-member fees change—check pmi.org. Our tuition excludes those fees.',
+    'PMI member and non-member fees change: check pmi.org. Our tuition excludes those fees.',
     'exams-fees',
   ),
   P(
@@ -339,7 +339,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'privacy',
     'Can children under 13 use PM Structure?',
-    'No—our services are not directed at children.\n\n• Minimum purchase age is 18 (or age of majority).\n• We do not knowingly collect data from children under 16.\n• Parents or guardians: email support at support@pmstructure.com immediately if you believe a child’s data was collected.',
+    'No: our services are not directed at children.\n\n• Minimum purchase age is 18 (or age of majority).\n• We do not knowingly collect data from children under 16.\n• Parents or guardians: email support at support@pmstructure.com immediately if you believe a child’s data was collected.',
     'privacy-children',
   ),
   P(
@@ -350,7 +350,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   ),
   P(
     'support',
-    'I have a problem at checkout—what should I do?',
+    'I have a problem at checkout: what should I do?',
     'Confirm region, email, residence/billing country, and scholarship verification. For Mastery, ensure consultation is approved. Contact support with your offering ID.',
     'support-checkout',
   ),
@@ -363,7 +363,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'support',
     'Is my payment secure?',
-    'Checkout records your request and pricing selection. Payment is arranged offline — we do not process cards on this website.',
+    'Checkout records your request and pricing selection. Payment is arranged offline: we do not process cards on this website.',
     'support-pay',
   ),
   P(
@@ -374,7 +374,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   ),
   P(
     'geo',
-    "PM Structure vs official PMI training—what's the difference?",
+    "PM Structure vs official PMI training: what's the difference?",
     'Official PMI providers may offer contact hours under PMI rules; we focus on structured exam readiness as an independent platform.',
     'geo-vs-pmi',
   ),
@@ -387,7 +387,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'geo',
     'How long is the PM Structure PMP course?',
-    'Planned guides: Foundation ~2 weeks, Professional ~6 weeks, Mastery ~12 weeks on the PMP page—your pace may differ.',
+    'Planned guides: Foundation ~2 weeks, Professional ~6 weeks, Mastery ~12 weeks on the PMP page: your pace may differ.',
     'geo-length',
   ),
   P(

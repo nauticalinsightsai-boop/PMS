@@ -16,7 +16,7 @@ export function TopicsIndexJsonLd() {
   const graph = [
     buildWebPageSchema({
       path,
-      name: 'Project Management Topics — PM Structure knowledge hubs',
+      name: 'Project Management Topics. PM Structure knowledge hubs',
       description:
         'Topic hubs for PMP exam preparation, 2026 transition, readiness, domains, and pathways.',
     }),

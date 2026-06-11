@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 
-/** Brand gradient washes for page sections — reduces flat white/black feel */
+/** Brand gradient washes for page sections: reduces flat white/black feel */
 export type SectionTone = 'warm' | 'cool' | 'purple' | 'blend' | 'soft';
 
 const toneBackground: Record<SectionTone, string> = {

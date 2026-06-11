@@ -1,7 +1,10 @@
+import { markIntent } from './engagement-score';
+
 const OPT_OUT_KEY = 'pms-recovery-opt-out-until';
 const CONVERTED_KEY = 'pms-lead-converted';
 const CENTER_COUNT_KEY = 'pms-recovery-center-count';
 const CENTER_PAGE_KEY = 'pms-recovery-center-page';
+const CENTER_PAGE_VARIANTS_KEY = 'pms-recovery-center-page-variants';
 const BAR_SESSION_COUNT_KEY = 'pms-recovery-bar-session-count';
 const BAR_PAGE_ROTATION_KEY = 'pms-recovery-bar-page-rotation';
 const LAST_SURFACE_AT_KEY = 'pms-recovery-last-surface-at';
@@ -83,6 +86,33 @@ export function markCenterDialogShownOnPage(pagePath: string): void {
   safeSessionSet(CENTER_PAGE_KEY, pagePath);
 }
 
+export function wasCenterDialogVariantShownOnPage(pagePath: string, variant: string): boolean {
+  const raw = safeSessionGet(CENTER_PAGE_VARIANTS_KEY);
+  if (!raw) return false;
+  try {
+    const map = JSON.parse(raw) as Record<string, string[]>;
+    return map[pagePath]?.includes(variant) ?? false;
+  } catch {
+    return false;
+  }
+}
+
+export function markCenterDialogVariantShownOnPage(pagePath: string, variant: string): void {
+  markCenterDialogShownOnPage(pagePath);
+  let map: Record<string, string[]> = {};
+  try {
+    const raw = safeSessionGet(CENTER_PAGE_VARIANTS_KEY);
+    if (raw) map = JSON.parse(raw) as Record<string, string[]>;
+  } catch {
+    map = {};
+  }
+  const list = map[pagePath] ?? [];
+  if (!list.includes(variant)) {
+    map[pagePath] = [...list, variant];
+    safeSessionSet(CENTER_PAGE_VARIANTS_KEY, JSON.stringify(map));
+  }
+}
+
 export function getBarSessionCount(): number {
   return Number(safeSessionGet(BAR_SESSION_COUNT_KEY) ?? '0') || 0;
 }
@@ -123,6 +153,7 @@ export function setEnrollStarted(offeringId: string, tierId: string, siteCertId:
     `${ENROLL_STARTED_PREFIX}${offeringId}`,
     JSON.stringify({ offeringId, tierId, siteCertId, at: Date.now() }),
   );
+  markIntent();
 }
 
 export function consumeEnrollStarted(offeringId: string): {

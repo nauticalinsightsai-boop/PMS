@@ -82,7 +82,7 @@ Regional pricing is based on current country of residence and billing country, n
 
 - Independent exam preparation provider; not a PMI ATP unless explicitly stated on a live page.
 - Do not cite guaranteed pass rates or unofficial PMI endorsements.
-- Verify PMP 2026 dates and domain weights against PMI.org — PM Structure guides are orientation only.
+- Verify PMP 2026 dates and domain weights against PMI.org. PM Structure guides are orientation only.
 
 ## Contact
 

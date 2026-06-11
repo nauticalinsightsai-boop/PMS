@@ -12,6 +12,7 @@ import {
 export const BRAND_VOICE_CMS_DEFAULTS: Record<string, string> = {
   hero_badge: HOME_COPY.heroBadge,
   hero_title: HOME_COPY.heroTitle,
+  hero_title_accent: HOME_COPY.heroTitleAccents.join(' · '),
   hero_subtitle: HOME_COPY.heroSubtitle,
   cta_primary: HOME_COPY.ctaPrimary,
   cta_secondary: HOME_COPY.ctaSecondary,

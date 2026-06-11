@@ -4,7 +4,7 @@ import { getNewsletterArticleHref } from '@pms/site-content/newsletter-posts';
 export type { NewsletterArticle };
 export { getNewsletterArticleHref };
 
-/** File-based seed articles — merged with published CMS posts on the public site. */
+/** File-based seed articles: merged with published CMS posts on the public site. */
 export const newsletterArticles: NewsletterArticle[] = [
   {
     slug: '2026-pmp-exam-changes',
@@ -17,9 +17,9 @@ export const newsletterArticles: NewsletterArticle[] = [
     readTime: '8 min read',
     image: 'https://picsum.photos/seed/pmp/800/600',
     body: [
-      'PMI’s latest Exam Content Outline shifts emphasis toward hybrid delivery, stakeholder engagement, and value-driven decision-making. If you prepared under the previous ECO, you do not need to start from zero—but you should remap your study plan to the new task domains.',
+      'PMI’s latest Exam Content Outline shifts emphasis toward hybrid delivery, stakeholder engagement, and value-driven decision-making. If you prepared under the previous ECO, you do not need to start from zero: but you should remap your study plan to the new task domains.',
       'We recommend anchoring weekly study blocks to official task statements, then validating weak areas with timed mocks. Structure matters more than volume: three focused sessions often outperform scattered evening reading.',
-      'For 2026 candidates, prioritize situational judgment over memorizing inputs/outputs. The exam rewards practitioners who can select the best next action under constraints—exactly how real projects run.',
+      'For 2026 candidates, prioritize situational judgment over memorizing inputs/outputs. The exam rewards practitioners who can select the best next action under constraints: exactly how real projects run.',
     ],
   },
   {
@@ -51,7 +51,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     body: [
       'Heat maps are useful for communication, but they rarely capture dependency chains that amplify small failures. Start with interface risks between vendors, regulators, and internal ops.',
       'Pre-mortems and scenario trees help teams articulate low-probability, high-impact events without being dismissed as pessimism. The goal is prepared response, not paralysis.',
-      'Reserve capacity—schedule, budget, and decision bandwidth—is the bridge between identification and resilience. Track reserves explicitly so they are not silently consumed.',
+      'Reserve capacity: schedule, budget, and decision bandwidth: is the bridge between identification and resilience. Track reserves explicitly so they are not silently consumed.',
     ],
   },
   {
@@ -65,7 +65,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     readTime: '15 min read',
     image: 'https://picsum.photos/seed/ai/800/600',
     body: [
-      'AI assistants accelerate drafting status reports, summarizing RAID logs, and generating what-if scenarios—but the PM still owns judgment, ethics, and stakeholder trust.',
+      'AI assistants accelerate drafting status reports, summarizing RAID logs, and generating what-if scenarios: but the PM still owns judgment, ethics, and stakeholder trust.',
       'Start with low-risk workflows: meeting notes, comms templates, and backlog refinement prompts. Validate outputs against your standards before they reach executives.',
       'The competitive edge in 2026 is not “using AI” but integrating it into disciplined routines: weekly planning, readiness reviews, and lessons-learned capture.',
     ],
@@ -81,7 +81,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     readTime: '7 min read',
     image: 'https://picsum.photos/seed/prince/800/600',
     body: [
-      'The seventh edition sharpens language around sustainability, data, and people—without abandoning the principles/themes/process spine practitioners already know.',
+      'The seventh edition sharpens language around sustainability, data, and people: without abandoning the principles/themes/process spine practitioners already know.',
       'If you certified on earlier versions, focus gap study on tailoring guidance and modern governance patterns rather than re-memorizing the entire manual.',
       'PRINCE2 remains strongest where accountability and stage boundaries are non-negotiable. Pair it with agile delivery teams through clear interface roles.',
     ],
@@ -97,7 +97,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     readTime: '20 min read',
     image: 'https://picsum.photos/seed/pmo/800/600',
     body: [
-      'A PMO earns credibility by solving one painful executive problem first—portfolio visibility, resource conflicts, or benefits tracking—not by publishing templates nobody uses.',
+      'A PMO earns credibility by solving one painful executive problem first: portfolio visibility, resource conflicts, or benefits tracking: not by publishing templates nobody uses.',
       'Phase the rollout: charter and success metrics, then minimum viable standards, then tooling. Each phase should ship a visible win within a quarter.',
       'Measure the PMO like a product: cycle time for decisions, forecast accuracy, and satisfaction from project managers in the field.',
     ],

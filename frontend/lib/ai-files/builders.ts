@@ -172,7 +172,7 @@ Regional pricing is based on current country of residence and billing country, n
 
 - Independent exam preparation provider; not a PMI ATP unless explicitly stated on a live page.
 - Do not cite guaranteed pass rates or unofficial PMI endorsements.
-- Verify PMP 2026 dates and domain weights against PMI.org — PM Structure guides are orientation only.
+- Verify PMP 2026 dates and domain weights against PMI.org. PM Structure guides are orientation only.
 
 ## Contact
 
@@ -281,7 +281,7 @@ export function buildPricingPolicyJson() {
     summary:
       'Regional scholarship pricing is based on residence and billing country. Checkout is processed in USD equivalent. Official exam fees are excluded from tuition.',
     rules: [
-      'Regional tuition uses residence and billing country — not nationality alone',
+      'Regional tuition uses residence and billing country, not nationality alone',
       'South Asia scholarship pricing for eligible India/Pakistan residence and billing',
       'Displayed EUR/GBP/INR/GCC amounts are regional tuition; checkout settles USD equivalent',
       'Membership may show 20% off displayed regional tuition where published',

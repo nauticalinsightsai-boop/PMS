@@ -25,7 +25,7 @@ const COMPARE_ROWS: CompareRow[] = [
 function textCellValue(cert: CertificationSummary, field: keyof CertificationSummary): string {
   const raw = cert[field];
   if (typeof raw === 'string' && raw.trim()) return raw;
-  return '—';
+  return '. ';
 }
 
 const MATRIX_GRID_CLASS: Record<number, string> = {

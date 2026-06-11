@@ -6,7 +6,7 @@ export type FaqHubSection = {
   clusterIds: FaqClusterId[];
 };
 
-/** Grouped tabs for /faq — PMP-first (Phase 10). */
+/** Grouped tabs for /faq. PMP-first (Phase 10). */
 export const FAQ_HUB_SECTIONS: FaqHubSection[] = [
   {
     id: 'pmp-2026',

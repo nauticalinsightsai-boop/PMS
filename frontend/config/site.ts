@@ -1,5 +1,5 @@
 /**
- * Central public identity & brand configuration — single source of truth.
+ * Central public identity & brand configuration: single source of truth.
  * Use for metadata defaults, JSON-LD, footer/social links, and SEO fallbacks.
  */
 
@@ -58,7 +58,7 @@ export const SITE_BRAND_ECOSYSTEM = [
 
 export type SiteBrandEcosystemId = (typeof SITE_BRAND_ECOSYSTEM)[number]['id'];
 
-/** schema.org sameAs — canonical site, legacy alias, and public profiles. */
+/** schema.org sameAs: canonical site, legacy alias, and public profiles. */
 export const SITE_ORGANIZATION_SAME_AS: readonly string[] = [
   SITE_CANONICAL_ORIGIN,
   SITE_LEGACY_BRAND_ORIGIN,
@@ -69,7 +69,7 @@ export const SITE_ORGANIZATION_SAME_AS: readonly string[] = [
 // TODO: Add /public/og-default.jpg (1200×630) and set SITE_OG_IMAGE_PATH to '/og-default.jpg'.
 export const SITE_OG_IMAGE_PATH = '/brand/logo-sa-dark.png';
 
-/** Homepage — verified SEO / Open Graph copy. */
+/** Homepage: verified SEO / Open Graph copy. */
 export const SITE_HOME_SEO = {
   title:
     'Sheikh M. Abdullah | Naval Architect, Offshore Project Manager & Floating Infrastructure Strategist',
@@ -103,7 +103,7 @@ export const SITE_SEO_DEFAULTS = {
   organizationSameAs: [...SITE_ORGANIZATION_SAME_AS],
 } as const;
 
-/** Person schema helpers — aligned with canonical JSON-LD in site-person.ts */
+/** Person schema helpers: aligned with canonical JSON-LD in site-person.ts */
 export const SITE_PERSON_SCHEMA = {
   name: 'Sheikh M. Abdullah',
   alternateName: ['Sh3ikhMABZ', 'sh3ikhmabz', 'Sheikh Abdullah'],

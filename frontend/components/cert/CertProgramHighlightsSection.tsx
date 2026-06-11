@@ -39,7 +39,7 @@ type CertProgramHighlightsProps = {
   offer: CertProgramOffer;
   roadmapAnchor?: string;
   className?: string;
-  /** Cert detail page: form is in hero — hide redundant scroll CTAs */
+  /** Cert detail page: form is in hero: hide redundant scroll CTAs */
   embedded?: boolean;
 };
 

@@ -54,7 +54,7 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
     const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined
     const res = await submitPublicInteraction({
       source: 'meeting_booking',
-      subject: `Portal booking — ${page.label}${page.subtitle ? ` (${page.subtitle})` : ''}`,
+      subject: `Portal booking: ${page.label}${page.subtitle ? ` (${page.subtitle})` : ''}`,
       email,
       website: hp,
       formContext: {
@@ -99,7 +99,7 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
       </h4>
       {submitted ? (
         <p className="text-body-sm" style={{ color: theme.primary }}>
-          Thank you — we will follow up shortly.
+          Thank you: we will follow up shortly.
         </p>
       ) : (
         <form onSubmit={handleFormSubmit} className={`space-y-3 ${portalFormMaxWidthClass()}`}>

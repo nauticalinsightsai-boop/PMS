@@ -1,5 +1,5 @@
 /**
- * Social profile URLs and footer/media grids — derived from @/config/site.
+ * Social profile URLs and footer/media grids: derived from @/config/site.
  */
 import {
   SITE_BRAND_ECOSYSTEM,
@@ -15,7 +15,7 @@ import {
   SITE_USERNAME,
 } from '@/config/site';
 
-/** Syndication + social — single grid on Media (Digital Presence & Syndication). */
+/** Syndication + social: single grid on Media (Digital Presence & Syndication). */
 export type MediaSocialGridItem =
   | {
       name: string;

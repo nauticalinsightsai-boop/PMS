@@ -85,7 +85,7 @@ export function CompareCertPicker({
           </h2>
           <p className="text-slate-500 dark:text-slate-400 font-medium mt-1">
             Pick up to {MAX_COMPARE_CERTS} pathways across PMI®, PRINCE2®, and Lean Six Sigma.
-            Use the family tabs to browse each catalogue — your selection is kept when you switch.
+            Use the family tabs to browse each catalogue: your selection is kept when you switch.
           </p>
         </div>
         <Badge
@@ -163,7 +163,7 @@ export function CompareCertPicker({
         </div>
 
         <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          Browsing {FAMILY_LABEL[familyFilter]} — suggested:{' '}
+          Browsing {FAMILY_LABEL[familyFilter]}: suggested:{' '}
           {FAMILY_FEATURED_CERT_IDS[familyFilter]
             .map((id) => certifications.find((c) => c.id === id)?.name)
             .filter(Boolean)

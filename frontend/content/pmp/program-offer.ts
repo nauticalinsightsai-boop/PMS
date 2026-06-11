@@ -5,7 +5,7 @@ export const PMP_PROGRAM_CTA_LABEL = 'Get My PMP Roadmap & Secure My Seat';
 
 export const PMP_UNTIL_YOU_PASS_HEADLINE = 'Support until you pass';
 export const PMP_UNTIL_YOU_PASS_SUBLINE =
-  'Structured coaching, accountability, and exam readiness — we stay with you through your PMP journey, not just until checkout.';
+  'Structured coaching, accountability, and exam readiness: we stay with you through your PMP journey, not just until checkout.';
 
 export const PMP_PROGRAM_HIGHLIGHTS = [
   {
@@ -76,7 +76,7 @@ export const PMP_PARTICIPANT_QUOTES: readonly PmpParticipantQuote[] = [
     name: 'Priya Sharma',
     role: 'IT Delivery Manager',
     quote:
-      'The mastermind group made the difference — peer questions surfaced gaps my solo study missed.',
+      'The mastermind group made the difference: peer questions surfaced gaps my solo study missed.',
     avatar: 'https://i.pravatar.cc/100?u=priya-pmp',
   },
   {
@@ -141,7 +141,7 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
     position: 'Transformation Lead, Banking',
     programme: 'PMP® Mastery pathway',
     comment:
-      '90-day mastermind accountability plus last-day cram pack — passed second attempt with confidence after structured retake plan.',
+      '90-day mastermind accountability plus last-day cram pack: passed second attempt with confidence after structured retake plan.',
     avatar: 'https://i.pravatar.cc/100?u=fatima-pmp',
   },
   {

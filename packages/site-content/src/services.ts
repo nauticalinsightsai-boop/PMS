@@ -67,7 +67,7 @@ export function defaultServicesPageConfig(): ServicesPageConfig {
       {
         id: 'corporate-training',
         title: 'Corporate training',
-        description: 'Cohort pathways with shared language and governance — not content-only delivery.',
+        description: 'Cohort pathways with shared language and governance: not content-only delivery.',
         benefits: ['Custom Curriculum', 'Interactive Workshops', 'Post-Training Support'],
         iconKey: 'globe',
         visible: true,

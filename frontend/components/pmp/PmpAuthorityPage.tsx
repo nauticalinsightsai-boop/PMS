@@ -103,7 +103,7 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
             {page.path === '/pmp-exam-2026' ? (
               <PmpPriorityAnswers
                 links={PMP_EXAM_2026_PRIORITY_ANSWERS}
-                heading="2026 transition — direct answers"
+                heading="2026 transition: direct answers"
               />
             ) : null}
 

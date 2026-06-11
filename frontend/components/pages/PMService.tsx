@@ -133,7 +133,7 @@ export function PMService() {
           <div className="flex justify-center mb-8">
             <ShieldCheck className="h-16 w-16 text-brand-orange opacity-50" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-slate-900 dark:text-white">&quot;PM Structure helped our team establish governance rhythm and reporting discipline — delivery became clearer within the first quarter.&quot;</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-slate-900 dark:text-white">&quot;PM Structure helped our team establish governance rhythm and reporting discipline: delivery became clearer within the first quarter.&quot;</h2>
           <div className="flex items-center justify-center gap-4">
             <div className="h-12 w-12 rounded-full bg-slate-200" />
             <div className="text-left">

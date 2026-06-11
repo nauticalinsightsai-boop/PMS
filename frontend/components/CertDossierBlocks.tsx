@@ -114,7 +114,7 @@ export function ExpandableExamRegistration({
       <p className="mt-1.5 text-xs font-semibold text-slate-400 dark:text-slate-500">
         {expanded
           ? 'Official exam and registration'
-          : `${totalItems} details — hover or tap to expand`}
+          : `${totalItems} details: hover or tap to expand`}
       </p>
 
       <div
@@ -184,7 +184,7 @@ export function ExpandableLearningOutcomes({
       <p className="mt-1.5 text-xs font-semibold text-slate-400 dark:text-slate-500">
         {expanded
           ? 'All outcomes'
-          : `${outcomes.length} outcomes — hover or tap to expand`}
+          : `${outcomes.length} outcomes: hover or tap to expand`}
       </p>
 
       <div

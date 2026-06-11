@@ -33,7 +33,7 @@ export const privacyGlobalDocument: LegalDocument = {
     section(
       'bases',
       '4. Legal bases (where GDPR applies)',
-      '• Contract — delivering your order and account.\n• Consent — marketing/newsletter and optional analytics cookies.\n• Legitimate interests — security, fraud prevention, and product improvement where balanced against your rights.\n• Legal obligation — tax, accounting, and regulatory requirements.',
+      '• Contract: delivering your order and account.\n• Consent: marketing/newsletter and optional analytics cookies.\n• Legitimate interests: security, fraud prevention, and product improvement where balanced against your rights.\n• Legal obligation: tax, accounting, and regulatory requirements.',
     ),
     section(
       'sharing',
@@ -77,4 +77,3 @@ export const privacyGlobalDocument: LegalDocument = {
     ),
   ],
 };
-

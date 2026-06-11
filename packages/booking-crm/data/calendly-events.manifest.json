@@ -10,7 +10,7 @@
   "events": [
     {
       "id": "001",
-      "name": "Website Hero — Book Consultation",
+      "name": "Website Hero. Book Consultation",
       "slug": "go-website-hero-consultation",
       "family": "website-hero",
       "tierKind": "hero",
@@ -71,7 +71,7 @@
     },
     {
       "id": "002",
-      "name": "Website — Discovery & Mentorship",
+      "name": "Website. Discovery & Mentorship",
       "slug": "go-website-discovery",
       "family": "website",
       "tierKind": "discovery",
@@ -137,7 +137,7 @@
     },
     {
       "id": "003",
-      "name": "Website — Executive Discussion",
+      "name": "Website. Executive Discussion",
       "slug": "go-website-executive",
       "family": "website",
       "tierKind": "executive",
@@ -203,7 +203,7 @@
     },
     {
       "id": "004",
-      "name": "Website — Expert Services Discussion",
+      "name": "Website. Expert Services Discussion",
       "slug": "go-website-services",
       "family": "website",
       "tierKind": "services",
@@ -269,7 +269,7 @@
     },
     {
       "id": "005",
-      "name": "Webinar — Discovery & Mentorship",
+      "name": "Webinar. Discovery & Mentorship",
       "slug": "go-webinar-discovery",
       "family": "webinar",
       "tierKind": "discovery",
@@ -335,7 +335,7 @@
     },
     {
       "id": "006",
-      "name": "Webinar — Executive Discussion",
+      "name": "Webinar. Executive Discussion",
       "slug": "go-webinar-executive",
       "family": "webinar",
       "tierKind": "executive",
@@ -401,7 +401,7 @@
     },
     {
       "id": "007",
-      "name": "Writing / Publishing — Discovery & Mentorship",
+      "name": "Writing / Publishing. Discovery & Mentorship",
       "slug": "go-writing-discovery",
       "family": "writing",
       "tierKind": "discovery",
@@ -472,7 +472,7 @@
     },
     {
       "id": "008",
-      "name": "Writing / Publishing — Executive Discussion",
+      "name": "Writing / Publishing. Executive Discussion",
       "slug": "go-writing-executive",
       "family": "writing",
       "tierKind": "executive",
@@ -543,7 +543,7 @@
     },
     {
       "id": "009",
-      "name": "Social Distribution — Discovery & Mentorship",
+      "name": "Social Distribution. Discovery & Mentorship",
       "slug": "go-social-discovery",
       "family": "social",
       "tierKind": "discovery",
@@ -619,7 +619,7 @@
     },
     {
       "id": "010",
-      "name": "Social Distribution — Executive Discussion",
+      "name": "Social Distribution. Executive Discussion",
       "slug": "go-social-executive",
       "family": "social",
       "tierKind": "executive",
@@ -695,7 +695,7 @@
     },
     {
       "id": "011",
-      "name": "Video Platform — Discovery & Mentorship",
+      "name": "Video Platform. Discovery & Mentorship",
       "slug": "go-video-discovery",
       "family": "video",
       "tierKind": "discovery",
@@ -764,7 +764,7 @@
     },
     {
       "id": "012",
-      "name": "Video Platform — Executive Discussion",
+      "name": "Video Platform. Executive Discussion",
       "slug": "go-video-executive",
       "family": "video",
       "tierKind": "executive",
@@ -833,7 +833,7 @@
     },
     {
       "id": "013",
-      "name": "Audio / Podcast — Discovery & Mentorship",
+      "name": "Audio / Podcast. Discovery & Mentorship",
       "slug": "go-audio-discovery",
       "family": "audio",
       "tierKind": "discovery",
@@ -904,7 +904,7 @@
     },
     {
       "id": "014",
-      "name": "Audio / Podcast — Executive Discussion",
+      "name": "Audio / Podcast. Executive Discussion",
       "slug": "go-audio-executive",
       "family": "audio",
       "tierKind": "executive",
@@ -975,7 +975,7 @@
     },
     {
       "id": "015",
-      "name": "Community / Direct — Discovery & Mentorship",
+      "name": "Community / Direct. Discovery & Mentorship",
       "slug": "go-community-discovery",
       "family": "community",
       "tierKind": "discovery",
@@ -1045,7 +1045,7 @@
     },
     {
       "id": "016",
-      "name": "Community / Direct — Executive Discussion",
+      "name": "Community / Direct. Executive Discussion",
       "slug": "go-community-executive",
       "family": "community",
       "tierKind": "executive",
@@ -1115,7 +1115,7 @@
     },
     {
       "id": "017",
-      "name": "Discovery / Search — Discovery & Mentorship",
+      "name": "Discovery / Search. Discovery & Mentorship",
       "slug": "go-search-discovery",
       "family": "search",
       "tierKind": "discovery",
@@ -1185,7 +1185,7 @@
     },
     {
       "id": "018",
-      "name": "Discovery / Search — Executive Discussion",
+      "name": "Discovery / Search. Executive Discussion",
       "slug": "go-search-executive",
       "family": "search",
       "tierKind": "executive",
@@ -1255,7 +1255,7 @@
     },
     {
       "id": "019",
-      "name": "LinkedIn — Discovery & Mentorship",
+      "name": "LinkedIn. Discovery & Mentorship",
       "slug": "go-linkedin-discovery",
       "family": "linkedin",
       "tierKind": "discovery",
@@ -1321,7 +1321,7 @@
     },
     {
       "id": "020",
-      "name": "LinkedIn — Executive Discussion",
+      "name": "LinkedIn. Executive Discussion",
       "slug": "go-linkedin-executive",
       "family": "linkedin",
       "tierKind": "executive",
@@ -1387,7 +1387,7 @@
     },
     {
       "id": "021",
-      "name": "YouTube — Discovery & Mentorship",
+      "name": "YouTube. Discovery & Mentorship",
       "slug": "go-youtube-discovery",
       "family": "youtube",
       "tierKind": "discovery",
@@ -1453,7 +1453,7 @@
     },
     {
       "id": "022",
-      "name": "YouTube — Executive Discussion",
+      "name": "YouTube. Executive Discussion",
       "slug": "go-youtube-executive",
       "family": "youtube",
       "tierKind": "executive",
@@ -1519,7 +1519,7 @@
     },
     {
       "id": "023",
-      "name": "Email — Discovery & Mentorship",
+      "name": "Email. Discovery & Mentorship",
       "slug": "go-email-discovery",
       "family": "email",
       "tierKind": "discovery",
@@ -1585,7 +1585,7 @@
     },
     {
       "id": "024",
-      "name": "Email — Executive Discussion",
+      "name": "Email. Executive Discussion",
       "slug": "go-email-executive",
       "family": "email",
       "tierKind": "executive",
@@ -1651,7 +1651,7 @@
     },
     {
       "id": "025",
-      "name": "RSS Feeds — Discovery & Mentorship",
+      "name": "RSS Feeds. Discovery & Mentorship",
       "slug": "go-rss-feeds-discovery",
       "family": "rss-feeds",
       "tierKind": "discovery",
@@ -1717,7 +1717,7 @@
     },
     {
       "id": "026",
-      "name": "RSS Feeds — Executive Discussion",
+      "name": "RSS Feeds. Executive Discussion",
       "slug": "go-rss-feeds-executive",
       "family": "rss-feeds",
       "tierKind": "executive",
@@ -1783,7 +1783,7 @@
     },
     {
       "id": "027",
-      "name": "Syndicated — Expert Services Discussion",
+      "name": "Syndicated. Expert Services Discussion",
       "slug": "go-syndicated-services",
       "family": "syndicated",
       "tierKind": "services",
@@ -1850,7 +1850,7 @@
     },
     {
       "id": "028",
-      "name": "Syndicated / RSS / Feeds — Discovery & Mentorship",
+      "name": "Syndicated / RSS / Feeds. Discovery & Mentorship",
       "slug": "go-syndicated-discovery",
       "family": "syndicated",
       "tierKind": "discovery",
@@ -1918,7 +1918,7 @@
     },
     {
       "id": "029",
-      "name": "Syndicated / RSS / Feeds — Executive Discussion",
+      "name": "Syndicated / RSS / Feeds. Executive Discussion",
       "slug": "go-syndicated-executive",
       "family": "syndicated",
       "tierKind": "executive",

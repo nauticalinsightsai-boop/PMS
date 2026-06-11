@@ -76,7 +76,7 @@ export function About() {
               </h2>
               <div className="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed font-medium text-lg">
                 <p>
-                  {get('story_text_1', `${BRAND.name} began as a structured study circle for busy project professionals preparing for PMI exams. The gap was never lack of material — it was lack of pathway, accountability, and readiness measurement.`)}
+                  {get('story_text_1', `${BRAND.name} began as a structured study circle for busy project professionals preparing for PMI exams. The gap was never lack of material: it was lack of pathway, accountability, and readiness measurement.`)}
                 </p>
                 <p>
                   {get('story_text_2', `Today we support learners and teams across regions with independent exam-preparation pathways, advisory services, and practical tools. Our focus remains certification readiness, governance thinking, and delivery discipline.`)}

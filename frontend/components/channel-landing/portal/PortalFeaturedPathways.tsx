@@ -17,7 +17,7 @@ function certFor(id: string) {
   return certifications.find((c) => c.id === id) ?? certifications[0];
 }
 
-/** Compact portal card titles — drop redundant family prefix where the badge already shows PMI. */
+/** Compact portal card titles: drop redundant family prefix where the badge already shows PMI. */
 function portalPathwayTitle(certId: string, fallback: string) {
   if (certId === 'pmi-rmp') return 'RMP®';
   return fallback;

@@ -8,7 +8,7 @@ import {
 
 const UNTIL_YOU_PASS = 'Support until you pass';
 const FINAL_CTA_SUBTITLE =
-  'Share your experience in the form above — or enroll directly when cohort seats are open.';
+  'Share your experience in the form above: or enroll directly when cohort seats are open.';
 
 function offer(
   certName: string,
@@ -52,7 +52,7 @@ function pmiPack(certName: string, examFocus: string, educationNote: string): Ce
       id: 'mastermind',
       title: 'Peer Learning Community',
       description:
-        'Cohort peers preparing for the same credential — share questions, cases, and exam tactics.',
+        'Cohort peers preparing for the same credential: share questions, cases, and exam tactics.',
     },
     {
       id: 'last-day',
@@ -69,7 +69,7 @@ function prince2Pack(certName: string, examFocus: string): CertProgramHighlight[
       id: 'live-training',
       title: `${certName} Live Training`,
       description:
-        'Principles, themes, and processes taught with recordings — tailored to Foundation or Practitioner level.',
+        'Principles, themes, and processes taught with recordings: tailored to Foundation or Practitioner level.',
     },
     {
       id: 'governance',
@@ -115,7 +115,7 @@ function sixSigmaPack(certName: string, beltFocus: string): CertProgramHighlight
       id: 'dmaic',
       title: 'DMAIC Project Application',
       description:
-        'Practice improvement projects with measurable outcomes — not exam trivia in isolation.',
+        'Practice improvement projects with measurable outcomes: not exam trivia in isolation.',
     },
     {
       id: 'exam-prep',
@@ -144,7 +144,7 @@ function sixSigmaPack(certName: string, beltFocus: string): CertProgramHighlight
   ];
 }
 
-/** Per-certification programme copy — keyed by site cert id */
+/** Per-certification programme copy: keyed by site cert id */
 export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
   pmp: {
     differentiatorHeadline: PMP_UNTIL_YOU_PASS_HEADLINE,
@@ -156,7 +156,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   capm: offer(
     'CAPM®',
-    'Entry-level PM credential with structured support — we guide you through the 23 contact hours, practice, and exam booking.',
+    'Entry-level PM credential with structured support: we guide you through the 23 contact hours, practice, and exam booking.',
     pmiPack(
       'CAPM®',
       'CAPM domain fundamentals and agile basics',
@@ -176,7 +176,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'pmi-rmp': offer(
     'PMI-RMP®',
-    'Risk specialist pathway — structured coaching through 40 hours of risk education, qualitative/quantitative practice, and exam day.',
+    'Risk specialist pathway: structured coaching through 40 hours of risk education, qualitative/quantitative practice, and exam day.',
     [
       ...pmiPack('PMI-RMP®', 'risk planning and response strategies', '40 hours of project risk education').slice(
         0,
@@ -204,7 +204,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'pmi-pba': offer(
     'PMI-PBA®',
-    'Business analysis leadership — coaching through 35 contact hours, requirements cases, and PMI-PBA exam preparation.',
+    'Business analysis leadership: coaching through 35 contact hours, requirements cases, and PMI-PBA exam preparation.',
     pmiPack(
       'PMI-PBA®',
       'needs assessment, elicitation, traceability, and value realization',
@@ -214,7 +214,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'pmi-sp': offer(
     'PMI-SP®',
-    'Scheduling specialist pathway — master CPM, baselines, and controls with 30–40 hour education support and exam drills.',
+    'Scheduling specialist pathway: master CPM, baselines, and controls with 30–40 hour education support and exam drills.',
     pmiPack(
       'PMI-SP®',
       'CPM, monitoring, forecasting, and schedule risk interfaces',
@@ -224,7 +224,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'pmi-pmocp': offer(
     'PMI-PMOCP™',
-    'PMO governance credential — hit the 10-hour PMO education requirement and prepare for operating-model exam scenarios.',
+    'PMO governance credential: hit the 10-hour PMO education requirement and prepare for operating-model exam scenarios.',
     pmiPack(
       'PMI-PMOCP™',
       'PMO operating models, metrics, and governance cadence',
@@ -234,7 +234,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'pmi-cp': offer(
     'Construction Professional (PMI-CP)™',
-    'Built-environment credential — complete the four official modules, validate experience, and master construction delivery controls.',
+    'Built-environment credential: complete the four official modules, validate experience, and master construction delivery controls.',
     pmiPack(
       'Construction Professional (PMI-CP)™',
       'contract planning, execution controls, and schedule/cost integration',
@@ -244,7 +244,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'pmi-cpmai': offer(
     'Managing AI (PMI-CPMAI)™',
-    'AI in project management — structured pathway through the 21-hour prep track, ethical governance, and PMI-CPMAI exam readiness.',
+    'AI in project management: structured pathway through the 21-hour prep track, ethical governance, and PMI-CPMAI exam readiness.',
     pmiPack(
       'Managing AI (PMI-CPMAI)™',
       'scoping AI initiatives, DataOps dependencies, and measurable outcomes',
@@ -253,8 +253,8 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
   ),
 
   'gpm-b': offer(
-    'Green Project Manager – Basic (GPM-b)™',
-    'Sustainability in PM — confirm eligibility, complete bundle training, and prepare for ethics-focused green delivery scenarios.',
+    'Green Project Manager: Basic (GPM-b)™',
+    'Sustainability in PM: confirm eligibility, complete bundle training, and prepare for ethics-focused green delivery scenarios.',
     pmiPack(
       'GPM-b™',
       'sustainability management plans and impacts assessment',
@@ -264,7 +264,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   pgmp: offer(
     'PgMP®',
-    'Program management leadership — panel-review preparation, benefits governance coaching, and PgMP exam readiness.',
+    'Program management leadership: panel-review preparation, benefits governance coaching, and PgMP exam readiness.',
     pmiPack(
       'PgMP®',
       'program strategy alignment, benefits management, and governance structures',
@@ -274,7 +274,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   pfmp: offer(
     'PfMP®',
-    'Portfolio executive credential — governance, performance, and strategic alignment coaching through PfMP exam preparation.',
+    'Portfolio executive credential: governance, performance, and strategic alignment coaching through PfMP exam preparation.',
     pmiPack(
       'PfMP®',
       'portfolio governance, risk, and strategic alignment',
@@ -284,7 +284,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   prince2: offer(
     'PRINCE2® 7 Foundation',
-    'Controlled-delivery methodology — learn PRINCE2 principles, themes, and processes with exam-focused Foundation preparation.',
+    'Controlled-delivery methodology: learn PRINCE2 principles, themes, and processes with exam-focused Foundation preparation.',
     prince2Pack(
       'PRINCE2® 7 Foundation',
       'Foundation Objective-Testing Drills',
@@ -293,7 +293,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'prince2-practitioner': offer(
     'PRINCE2® 7 Practitioner',
-    'Practitioner-level governance — scenario coaching, tailoring practice, and open-book exam preparation.',
+    'Practitioner-level governance: scenario coaching, tailoring practice, and open-book exam preparation.',
     prince2Pack(
       'PRINCE2® 7 Practitioner',
       'Practitioner Scenario & Open-Book Drills',
@@ -302,7 +302,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'prince2-agile': offer(
     'PRINCE2 Agile® Foundation',
-    'Hybrid governance — combine agile behaviors with PRINCE2 controls through Foundation-focused live training.',
+    'Hybrid governance: combine agile behaviors with PRINCE2 controls through Foundation-focused live training.',
     prince2Pack(
       'PRINCE2 Agile® Foundation',
       'Agile Foundation Objective-Testing Drills',
@@ -311,7 +311,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'prince2-agile-practitioner': offer(
     'PRINCE2 Agile® Practitioner',
-    'Tailor governance for agile delivery — Practitioner scenarios, metrics integration, and open-book exam practice.',
+    'Tailor governance for agile delivery. Practitioner scenarios, metrics integration, and open-book exam practice.',
     prince2Pack(
       'PRINCE2 Agile® Practitioner',
       'Agile Practitioner Scenario Drills',
@@ -320,31 +320,31 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   msp: offer(
     'MSP®',
-    'Programme governance — MSP principles, themes, and transformation flows with Foundation-to-Practitioner exam support.',
+    'Programme governance. MSP principles, themes, and transformation flows with Foundation-to-Practitioner exam support.',
     prince2Pack('MSP®', 'MSP Governance Exam Drills'),
   ),
 
   mop: offer(
     'MoP®',
-    'Portfolio management governance — MoP principles and portfolio decision-making with structured exam preparation.',
+    'Portfolio management governance. MoP principles and portfolio decision-making with structured exam preparation.',
     prince2Pack('MoP®', 'MoP Portfolio Exam Drills'),
   ),
 
   mor: offer(
     'M_o_R®',
-    'Enterprise risk governance — M_o_R frameworks, appetite, and response strategies with exam-focused coaching.',
+    'Enterprise risk governance. M_o_R frameworks, appetite, and response strategies with exam-focused coaching.',
     prince2Pack('M_o_R®', 'M_o_R Risk Governance Exam Drills'),
   ),
 
   p3o: offer(
     'P3O®',
-    'PMO and portfolio office governance — P3O models, functions, and maturity with certification exam support.',
+    'PMO and portfolio office governance. P3O models, functions, and maturity with certification exam support.',
     prince2Pack('P3O®', 'P3O Office Governance Exam Drills'),
   ),
 
   'lss-white': offer(
     'Six Sigma White Belt',
-    'Organization-wide awareness — introduce Six Sigma language, roles, and improvement participation for every team member.',
+    'Organization-wide awareness: introduce Six Sigma language, roles, and improvement participation for every team member.',
     sixSigmaPack(
       'Six Sigma White Belt',
       'vocabulary, waste concepts, and project participation basics',
@@ -353,7 +353,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'lss-yellow': offer(
     'Six Sigma Yellow Belt (CSSYB)',
-    'Foundational belt — build DMAIC support skills, root-cause tools, and CSSYB exam readiness with ASQ-aligned practice.',
+    'Foundational belt: build DMAIC support skills, root-cause tools, and CSSYB exam readiness with ASQ-aligned practice.',
     sixSigmaPack(
       'Six Sigma Yellow Belt',
       'fundamentals, data collection, and team support roles',
@@ -362,7 +362,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'lss-green': offer(
     'Six Sigma Green Belt (CSSGB)',
-    'Lead improvement projects — DMAIC execution, basic stats, and CSSGB exam preparation with project evidence support.',
+    'Lead improvement projects. DMAIC execution, basic stats, and CSSGB exam preparation with project evidence support.',
     sixSigmaPack(
       'Six Sigma Green Belt',
       'DMAIC project leadership and capability analysis',
@@ -371,7 +371,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'lss-black': offer(
     'Six Sigma Black Belt (CSSBB)',
-    'Advanced improvement leadership — DOE, enterprise deployment, and CSSBB exam prep with affidavit project coaching.',
+    'Advanced improvement leadership. DOE, enterprise deployment, and CSSBB exam prep with affidavit project coaching.',
     sixSigmaPack(
       'Six Sigma Black Belt',
       'advanced stats, enterprise deployment, and cross-functional leadership',
@@ -380,7 +380,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'lss-master': offer(
     'Master Black Belt (CMBB)',
-    'Enterprise excellence — portfolio review coaching, mentoring systems, and CMBB exam plus performance assessment prep.',
+    'Enterprise excellence: portfolio review coaching, mentoring systems, and CMBB exam plus performance assessment prep.',
     sixSigmaPack(
       'Master Black Belt',
       'enterprise deployment leadership and portfolio evidence',
@@ -389,7 +389,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'lss-champion': offer(
     'Six Sigma Champion',
-    'Executive sponsorship — project selection governance, benefits tracking, and transformation barrier removal coaching.',
+    'Executive sponsorship: project selection governance, benefits tracking, and transformation barrier removal coaching.',
     sixSigmaPack(
       'Six Sigma Champion',
       'sponsor cadence, benefits realization, and adoption strategy',
@@ -398,7 +398,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'foundation-direct': offer(
     'Foundation Direct Pathway',
-    'Multi-framework bridge — compare PMI, PRINCE2, and Six Sigma pathways and map the right credential for your career stage.',
+    'Multi-framework bridge: compare PMI, PRINCE2, and Six Sigma pathways and map the right credential for your career stage.',
     [
       {
         id: 'live-training',
@@ -416,7 +416,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
         id: 'exam-prep',
         title: 'Certification Comparison Labs',
         description:
-          'Side-by-side scenarios showing when each framework applies — before you commit to a full pathway.',
+          'Side-by-side scenarios showing when each framework applies: before you commit to a full pathway.',
       },
       {
         id: 'coaching',
@@ -428,7 +428,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
         id: 'mastermind',
         title: 'Cohort Discovery Group',
         description:
-          'Peers exploring PM credentials together — share backgrounds and pathway decisions.',
+          'Peers exploring PM credentials together: share backgrounds and pathway decisions.',
       },
       {
         id: 'last-day',

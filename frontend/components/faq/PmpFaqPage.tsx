@@ -33,7 +33,7 @@ export function PmpFaqPage() {
             PMP Frequently Asked Questions
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-lg mx-auto">
-            PMP exam 2026 transition, domains, readiness, pathways, pricing, and compliance — answered
+            PMP exam 2026 transition, domains, readiness, pathways, pricing, and compliance: answered
             for PM Structure candidates.
           </p>
           <div className="flex flex-wrap justify-center gap-3">

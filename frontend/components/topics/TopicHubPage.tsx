@@ -10,7 +10,7 @@ import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { cn } from '@/lib/utils';
 
 function topicShortName(h1: string): string {
-  return h1.replace(/ — PM Structure knowledge hub$/i, '').trim();
+  return h1.replace(/. PM Structure knowledge hub$/i, '').trim();
 }
 
 export function TopicHubPage({ hub }: { hub: TopicHubContent }) {

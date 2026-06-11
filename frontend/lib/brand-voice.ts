@@ -1,12 +1,12 @@
 /**
 
- * PM Structure brand voice — source: PM_STRUCTURE_BRAND_VOICE.md
+ * PM Structure brand voice: source: PM_STRUCTURE_BRAND_VOICE.md
 
  *
 
  * Brevity: CTAs ≤5 words; hero titles one line; subtitles one short sentence.
 
- * Save longer explanation for body copy, FAQs, and detail sections — not buttons or H1s.
+ * Save longer explanation for body copy, FAQs, and detail sections: not buttons or H1s.
 
  */
 
@@ -91,7 +91,7 @@ export const CTAS = {
 
   talkToMentor: 'Talk to Mentor',
 
-  /** Professional & Mastery pathway modal — mentor scheduling (≤5 words). */
+  /** Professional & Mastery pathway modal: mentor scheduling (≤5 words). */
   pathwayMentorCta: 'Talk to your mentor',
 
   /** Professional & Mastery enrollment CTA (≤5 words). */
@@ -120,7 +120,16 @@ export const HOME_COPY = {
 
   heroBadge: 'Prepare with structure',
 
-  heroTitle: 'PMP & project management exam prep',
+  heroTitle: 'Project management guidance',
+
+  heroTitleAccents: [
+    'PMP mentorship',
+    'Certification mentorship',
+    'Certification readiness',
+  ] as const,
+
+  /** @deprecated Use heroTitleAccents; kept for CMS default string */
+  heroTitleAccent: 'PMP mentorship',
 
   heroSubtitle: BRAND_LINES.promise,
 
@@ -132,7 +141,7 @@ export const HOME_COPY = {
 
   frameworksSubtitle:
 
-    'PMI, PRINCE2, and Six Sigma — structured for readiness, not random content.',
+    'PMI, PRINCE2, and Six Sigma: structured for readiness, not random content.',
 
   featuredSubtitle:
 
@@ -140,7 +149,7 @@ export const HOME_COPY = {
 
   membershipSubtitle:
 
-    'Tools and support for measurable progress — not passive access.',
+    'Tools and support for measurable progress: not passive access.',
 
 } as const;
 
@@ -165,7 +174,7 @@ export const CERTIFICATIONS_COPY = {
   nextCohortLabel: 'Next cohort',
 
   nextCohortHint:
-    'Cohorts run from August 2026 onward. If a pathway shows “next cohort”, that intake is not open yet — view the overview or join the waitlist.',
+    'Cohorts run from August 2026 onward. If a pathway shows “next cohort”, that intake is not open yet: view the overview or join the waitlist.',
 
   familyMorePathways: 'More in this family',
 
@@ -181,7 +190,7 @@ export const COMMUNITY_COPY = {
 
   heroSubtitle:
 
-    'Peers, study circles, and practical templates — beyond solo self-study.',
+    'Peers, study circles, and practical templates: beyond solo self-study.',
 
 } as const;
 
@@ -200,7 +209,7 @@ export const REGION_COPY = {
   compliance:
     'Prices exclude official exam fees, certification-body fees, taxes, vouchers, membership fees, and third-party charges. PM Structure is currently an independent exam-prep and project management learning platform.',
   originalPriceLabel: 'Original price',
-  /** Browse/compare surfaces — less “sale” framing than “Original price”. */
+  /** Browse/compare surfaces: less “sale” framing than “Original price”. */
   globalReferenceLabel: 'Global reference',
   scholarshipPriceLabel: 'Regional Scholarship price',
   scholarshipChipSubtitle: 'Regional scholarship',
@@ -227,5 +236,3 @@ export const SERVICES_COPY = {
     'Pathway consultation, readiness reviews, training, and governance support.',
 
 } as const;
-
-

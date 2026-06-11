@@ -19,7 +19,7 @@ import { getCertDurationLabel, getListingPriceForCert } from '@/lib/regional-cat
 import type { CertificationSummary } from '@/types/site';
 import type { RegionId } from '@/types/regional-catalogue';
 
-/** Prep time, tuition, and membership — three aligned chips from the same listing tier. */
+/** Prep time, tuition, and membership: three aligned chips from the same listing tier. */
 function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
   const { regionId, gccCountry } = useRegion();
   const listing = getListingPriceForCert(certId, regionId, gccCountry);
@@ -72,7 +72,7 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
               {listing.active}
             </p>
           ) : (
-            <p className="text-xs font-extrabold text-slate-400 sm:text-sm">—</p>
+            <p className="text-xs font-extrabold text-slate-400 sm:text-sm">: </p>
           )}
         </StatChip>
 
@@ -141,7 +141,7 @@ function PathwayCardCta({
   );
 }
 
-/** Home — original featured card with gradient visual header and brand accents */
+/** Home: original featured card with gradient visual header and brand accents */
 function PathwayFeaturedVisualCard({
   cert,
   familyLabel,
@@ -201,7 +201,7 @@ function PathwayFeaturedVisualCard({
   );
 }
 
-/** Certifications listing — catalog card with cert-colored accents, no visual header */
+/** Certifications listing: catalog card with cert-colored accents, no visual header */
 function PathwayFeaturedCatalogCard({
   cert,
   familyLabel,

@@ -14,7 +14,7 @@ import { RegionalPriceFromDisplay } from '@/components/RegionalPrice';
 
 const STATUS_LABEL: Partial<Record<OfferingStatus, string>> = {
   direct_checkout: 'Open enrolment',
-  scholarship_verify: 'Scholarship — verify',
+  scholarship_verify: 'Scholarship: verify',
   consultation_required: 'Consultation',
   scholarship_unavailable: 'Global pricing',
   global_only: 'Global only',

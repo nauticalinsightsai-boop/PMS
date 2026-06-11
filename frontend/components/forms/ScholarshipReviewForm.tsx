@@ -28,7 +28,7 @@ export function ScholarshipReviewForm({ offeringId }: { offeringId?: string }) {
     const ctx = offeringFormContext('scholarship_review', 'Scholarship review', offeringId, regionId);
     await submitPublicInteraction({
       source: 'scholarship_review',
-      subject: `Scholarship review — ${ctx.certName ?? offeringId ?? 'general'}`,
+      subject: `Scholarship review: ${ctx.certName ?? offeringId ?? 'general'}`,
       email,
       formContext: ctx,
       payload: { notes, offeringId, regionId },

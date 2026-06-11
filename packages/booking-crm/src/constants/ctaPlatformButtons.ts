@@ -4,7 +4,7 @@ import type { PlatformCategory } from '../types/distribution'
 import { resolveChannelIdFromLegacyKey } from '../channel-landing-pages/migrateChannelPages'
 
 /**
- * @deprecated Per-type rows — used only for distribution obligations, not CTA landing pages.
+ * @deprecated Per-type rows: used only for distribution obligations, not CTA landing pages.
  * CTA landing pages use one page per {@link CtaChannelEntry} (channel id).
  */
 export type CtaPlatformButton = {
@@ -23,7 +23,7 @@ export type CtaChannelEntry = {
   icon: string
 }
 
-/** Top tab labels — platform category row */
+/** Top tab labels: platform category row */
 export const CTA_PLATFORM_CATEGORY_TABS: { id: PlatformCategory; label: string }[] = [
   { id: 'Core / Owned Platform', label: 'Owned' },
   { id: 'Writing / Publishing', label: 'Publishing' },

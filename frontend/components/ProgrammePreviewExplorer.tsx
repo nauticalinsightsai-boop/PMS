@@ -331,7 +331,7 @@ export function ProgrammePreviewExplorer({
       <div>
         <p className="text-label mb-3">Explore materials</p>
         <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-3 -mt-1">
-          Tap a section to open it fullscreen — guide, slides, and video stay in this window.
+          Tap a section to open it fullscreen: guide, slides, and video stay in this window.
         </p>
         <Accordion
           {...({

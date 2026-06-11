@@ -9,7 +9,7 @@ type Props = {
   groupName: string
 }
 
-/** Expand/collapse value line — grouped so one open at a time in supporting browsers. */
+/** Expand/collapse value line: grouped so one open at a time in supporting browsers. */
 export default function PortalValueAccordionItem({ theme, title, body, groupName }: Props) {
   return (
     <details

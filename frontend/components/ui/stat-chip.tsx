@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
-/** Compact label + value cell — content centered within the chip area. */
+/** Compact label + value cell: content centered within the chip area. */
 export function StatChip({
   label,
   subtitle,

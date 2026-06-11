@@ -9,7 +9,7 @@ export function AnswersIndexPage() {
       <SectionAmbience tone="cool" />
       <div className="container max-w-3xl mx-auto px-4 relative z-10">
           <h1 className="font-heading text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-            Direct answers — PMP &amp; pathways
+            Direct answers. PMP &amp; pathways
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-400 mb-10">
             Concise answers for search and AI citation. Each page links to deeper guides, pathways, and

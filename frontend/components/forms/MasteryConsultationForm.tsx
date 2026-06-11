@@ -29,7 +29,7 @@ export function MasteryConsultationForm({ offeringId }: { offeringId: string }) 
     const ctx = offeringFormContext('mastery_consultation', 'Mastery consultation', offeringId, regionId);
     await submitPublicInteraction({
       source: 'consultation',
-      subject: `Mastery consultation — ${ctx.certName ?? offeringId}`,
+      subject: `Mastery consultation: ${ctx.certName ?? offeringId}`,
       email,
       formContext: ctx,
       payload: { name, notes, offeringId, regionId, topic: 'mastery_consultation' },

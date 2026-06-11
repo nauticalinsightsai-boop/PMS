@@ -15,7 +15,7 @@ export function useEnrollReturnRecovery(siteCertId: string, certName?: string): 
   React.useEffect(() => {
     const pending = findPendingEnrollReturn();
     if (!pending || pending.siteCertId !== siteCertId) return;
-    recovery?.requestRecovery(
+    const shown = recovery?.requestRecovery(
       {
         variant: enrollReturnVariant(pending.tierId),
         siteCertId: pending.siteCertId,
@@ -24,8 +24,8 @@ export function useEnrollReturnRecovery(siteCertId: string, certName?: string): 
         offeringId: pending.offeringId,
         parentSurface: 'enroll',
       },
-      { requireIntent: true },
+      { requireIntent: true, intentRecovery: true },
     );
-    consumeEnrollStarted(pending.offeringId);
-  }, [certName, recovery, siteCertId]);
+    if (shown) consumeEnrollStarted(pending.offeringId);
+  }, [certName, recovery, recovery?.cookieGateReady, siteCertId]);
 }

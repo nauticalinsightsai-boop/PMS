@@ -12,7 +12,7 @@ export const certificationRegistryEntrySchema = z.object({
   hidden: z.boolean().default(false),
   archived: z.boolean().default(false),
   sortOrder: z.number().optional(),
-  /** Detail page hero — overrides siteData when published */
+  /** Detail page hero: overrides siteData when published */
   detailHeroTitle: z.string().optional(),
   detailHeroSubtitle: z.string().optional(),
   outputValue: z.string().optional(),

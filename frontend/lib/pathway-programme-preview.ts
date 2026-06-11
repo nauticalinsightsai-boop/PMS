@@ -39,7 +39,7 @@ export interface ProgrammePreviewContent {
 
 const PMP_FOUNDATION_INFOGRAPHIC: ProgrammeInfographicHero = {
   title: 'PMP® Foundation: 14-Day Roadmap to 2026 Project Mastery',
-  subtitle: 'Week 1 — mindset & strategy · Week 2 — mechanics & career acceleration',
+  subtitle: 'Week 1: mindset & strategy · Week 2: mechanics & career acceleration',
   imageSrc: '/programme/pmp-foundation-roadmap.png',
   steps: [],
 };
@@ -81,7 +81,7 @@ const PROGRAMME_PREVIEW_BY_OFFERING: Partial<
         id: 'guide',
         kind: 'pdf',
         title: 'Programme guide',
-        description: 'Chapter 0 — programme foundation (read in this window).',
+        description: 'Chapter 0: programme foundation (read in this window).',
         available: true,
         pdfSrc: '/programme/pmp-foundation-program-guide.pdf',
         inlineSections: PMP_FOUNDATION_GUIDE,
@@ -90,7 +90,7 @@ const PROGRAMME_PREVIEW_BY_OFFERING: Partial<
         id: 'slides',
         kind: 'slides',
         title: 'Session slides',
-        description: 'D0 — 2026 PMP Navigator deck (read in this window).',
+        description: 'D0: 2026 PMP Navigator deck (read in this window).',
         available: true,
         slidesPdfSrc: '/programme/pmp-foundation-session-slides.pdf',
       },
@@ -100,7 +100,7 @@ const PROGRAMME_PREVIEW_BY_OFFERING: Partial<
         title: 'Overview video',
         description: 'Watch the Foundation orientation in this window.',
         available: true,
-        videoTitle: 'Architecting the 2026 Project Leader — 14-Day PMP Foundation',
+        videoTitle: 'Architecting the 2026 Project Leader: 14-Day PMP Foundation',
         videoSrc: '/videos/programme/pmp-foundation-orientation.mp4',
         videoEmbedUrl: null,
       },
@@ -117,7 +117,7 @@ function defaultInfographic(programmeTitle: string, offeringId: string): Program
 
   return {
     title: programmeTitle,
-    subtitle: `${tier} pathway — structure, delivery, and exam-readiness milestones.`,
+    subtitle: `${tier} pathway: structure, delivery, and exam-readiness milestones.`,
     steps: [
       { label: 'Enrol', detail: 'Confirm region, tier, and study start date' },
       { label: 'Learn', detail: 'LMS modules, templates, and milestone checkpoints' },
@@ -163,7 +163,7 @@ function defaultPanels(programmeTitle: string): ProgrammePreviewPanel[] {
       title: 'Overview video',
       description: 'Programme orientation video.',
       available: false,
-      videoTitle: `${programmeTitle} — overview`,
+      videoTitle: `${programmeTitle}: overview`,
       videoSrc: null,
       videoEmbedUrl: null,
     },

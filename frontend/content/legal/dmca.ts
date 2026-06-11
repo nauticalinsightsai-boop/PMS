@@ -15,7 +15,7 @@ export const dmcaDocument: LegalDocument = {
     section(
       'agent',
       '2. Designated contact',
-      `Email ${LEGAL_SUPPORT_EMAIL} — Subject: DMCA Notice.`,
+      `Email ${LEGAL_SUPPORT_EMAIL}. Subject: DMCA Notice.`,
     ),
     section(
       'counter',
@@ -33,5 +33,4 @@ export const dmcaDocument: LegalDocument = {
       legalSupportSection('copyright'),
     ),
   ],
-};
-
+};

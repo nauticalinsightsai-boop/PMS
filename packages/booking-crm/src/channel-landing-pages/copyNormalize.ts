@@ -1,9 +1,12 @@
 /** Replace em/en dashes in portal marketing strings with plainer punctuation. */
 export function normalizePortalCopyString(text: string): string {
   return text
-    .replace(/\s*—\s*/g, '. ')
-    .replace(/\s+–\s+/g, '. ')
+    .replace(/\s*—\s*([A-Z"'(])/g, '. $1')
+    .replace(/\s*—\s*/g, ': ')
+    .replace(/\s+–\s+/g, ': ')
     .replace(/\.\s+\./g, '.')
+    .replace(/:\s+:/g, ':')
+    .replace(/\?\s+\./g, '?')
     .trim()
 }
 

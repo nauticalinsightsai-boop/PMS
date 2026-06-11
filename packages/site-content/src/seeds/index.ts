@@ -11,7 +11,7 @@ import { defaultAboutPageConfig } from '../about';
 import { defaultNewsletterHubConfig } from '../newsletter';
 import bundledRegistry from '../../data/certifications-registry.json';
 
-/** Full registry from siteData (27 certs) — regenerate via npm run build:cert-registry */
+/** Full registry from siteData (27 certs): regenerate via npm run build:cert-registry */
 export function defaultCertificationsRegistry(): CertificationsRegistry {
   return certificationsRegistrySchema.parse(bundledRegistry);
 }

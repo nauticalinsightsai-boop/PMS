@@ -10,7 +10,7 @@ export async function generateMetadata({
   params: Promise<{ country: string }>;
 }): Promise<Metadata> {
   const { country } = await params;
-  return { title: `Privacy Policy (GCC — ${country.toUpperCase()}) | ${BRAND.name}` };
+  return { title: `Privacy Policy (GCC: ${country.toUpperCase()}) | ${BRAND.name}` };
 }
 
 export default async function Page({ params }: { params: Promise<{ country: string }> }) {

@@ -38,7 +38,7 @@ export function defaultAboutPageConfig(): AboutPageConfig {
     },
     mission: {
       title: 'Our mission',
-      subtitle: 'Prepare professionals with structure — not shortcuts.',
+      subtitle: 'Prepare professionals with structure: not shortcuts.',
     },
     blocks: [],
   };

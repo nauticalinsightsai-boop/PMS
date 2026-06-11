@@ -1,5 +1,5 @@
 /**
- * PM Structure public site — canonical SEO, JSON-LD, and legal entity (not personal brand site.ts).
+ * PM Structure public site: canonical SEO, JSON-LD, and legal entity (not personal brand site.ts).
  */
 import { BRAND } from '@/lib/brand-voice';
 
@@ -16,7 +16,7 @@ export const PMS_SITE_DESCRIPTION =
 export const PMS_SUPPORT_EMAIL =
   process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || 'support@pmstructure.com';
 
-/** @deprecated Use PMS_SUPPORT_EMAIL — kept for env compatibility only. */
+/** @deprecated Use PMS_SUPPORT_EMAIL: kept for env compatibility only. */
 export const PMS_LEGAL_EMAIL =
   process.env.NEXT_PUBLIC_LEGAL_EMAIL?.trim() || PMS_SUPPORT_EMAIL;
 
@@ -77,7 +77,7 @@ export function isContactPhoneConfigured(): boolean {
   return true;
 }
 
-/** Controller line for privacy/terms — no bracket placeholders in published copy. */
+/** Controller line for privacy/terms: no bracket placeholders in published copy. */
 export function formatLegalControllerLine(): string {
   if (isLegalEntityConfigured()) {
     return `${PMS_LEGAL_ENTITY_NAME}, ${PMS_LEGAL_ENTITY_ADDRESS}`;
@@ -94,4 +94,3 @@ export const PMS_ORGANIZATION_SAME_AS: readonly string[] = [
   PMS_SITE_URL,
   `https://${BRAND.domain}`,
 ];
-

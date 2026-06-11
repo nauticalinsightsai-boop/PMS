@@ -91,7 +91,7 @@ export function LeadRecoveryDialog() {
 
     const res = await submitPublicInteraction({
       source: 'lead_recovery',
-      subject: `Lead recovery — ${ctx.variant}`,
+      subject: `Lead recovery: ${ctx.variant}`,
       email: email.trim() || `${phoneFull.replace(/\D/g, '')}@whatsapp.lead`,
       website: honeypot,
       formContext: {
@@ -155,7 +155,7 @@ export function LeadRecoveryDialog() {
         {submitted ? (
           <DialogBody>
             <p className="text-sm font-semibold text-green-700 dark:text-green-400">
-              Thanks — we received your details and will follow up within 24 hours.
+              Thanks: we received your details and will follow up within 24 hours.
             </p>
             <Button type="button" className="mt-4 w-full" onClick={() => dismissDialog('success')}>
               Close
