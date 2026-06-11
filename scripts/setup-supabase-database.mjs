@@ -34,13 +34,13 @@ const migrationsDir = path.join(ROOT, 'supabase', 'migrations');
 if (!databaseUrl || databaseUrl.includes('YOUR_DB_PASSWORD')) {
   console.log(`
 ╔══════════════════════════════════════════════════════════════╗
-║  PM Structure — Supabase database setup                      ║
+║  PM Structure. Supabase database setup                      ║
 ╚══════════════════════════════════════════════════════════════╝
 
 Project in .env.local: ${ref}
 https://supabase.com/dashboard/project/${ref}
 
-No database password in .env.local — use SQL Editor (no password needed):
+No database password in .env.local: use SQL Editor (no password needed):
 
   1. Open SQL Editor for project ${ref}
   2. Paste entire file: supabase/manual-full-setup.sql

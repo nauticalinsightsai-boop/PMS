@@ -1,10 +1,10 @@
-# Run 17 — Validation Scripts Report
+# Run 17. Validation Scripts Report
 
 **Date:** 2026-06-10
 
 ## Suite
 
-`seo:check` — **17 scripts** (was 16):
+`seo:check`: **17 scripts** (was 16):
 
 | New / updated | Purpose |
 |---------------|---------|
@@ -24,10 +24,10 @@ npm run seo:postbuild  # SSR H1 + answer body in static HTML
 
 ## CI / pre-deploy
 
-- `npm run seo:release-verify` — single command for release gate
-- `.github/workflows/seo-release.yml` — CI on frontend/seo path changes
-- `npm run seo:smoke-urls` — post-deploy URL list for GSC/manual checks
+- `npm run seo:release-verify`: single command for release gate
+- `.github/workflows/seo-release.yml`. CI on frontend/seo path changes
+- `npm run seo:smoke-urls`: post-deploy URL list for GSC/manual checks
 
 ## Post-deploy only
 
-GSC/Bing submit, Rich Results Test, AI answer baseline — not automatable in repo.
+GSC/Bing submit, Rich Results Test, AI answer baseline: not automatable in repo.

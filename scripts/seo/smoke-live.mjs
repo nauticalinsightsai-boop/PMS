@@ -1,5 +1,5 @@
 /**
- * Post-deploy live smoke test — HTTP 200 + H1 + canonical on priority URLs.
+ * Post-deploy live smoke test. HTTP 200 + H1 + canonical on priority URLs.
  * Usage: node scripts/seo/smoke-live.mjs [--base=https://www.pmstructure.com]
  */
 import { execFileSync } from 'child_process';
@@ -55,25 +55,25 @@ for (const check of checks) {
     const lower = body.toLowerCase();
 
     if (status < 200 || status >= 400) {
-      console.error(`FAIL ${check.path} — HTTP ${status || 'unknown'}`);
+      console.error(`FAIL ${check.path}. HTTP ${status || 'unknown'}`);
       failed = true;
       continue;
     }
 
     if (check.needH1 && !lower.includes('<h1')) {
-      console.error(`FAIL ${check.path} — no <h1 in response`);
+      console.error(`FAIL ${check.path}: no <h1 in response`);
       failed = true;
       continue;
     }
 
     if (check.needCanonical && !lower.includes('rel="canonical"')) {
-      console.error(`FAIL ${check.path} — no canonical link`);
+      console.error(`FAIL ${check.path}: no canonical link`);
       failed = true;
       continue;
     }
 
     if (check.needText && !lower.includes(check.needText.toLowerCase())) {
-      console.error(`FAIL ${check.path} — missing "${check.needText}" in body`);
+      console.error(`FAIL ${check.path}: missing "${check.needText}" in body`);
       failed = true;
       continue;
     }
@@ -81,7 +81,7 @@ for (const check of checks) {
     passed++;
     console.log(`OK   ${check.path} (${status})`);
   } catch (err) {
-    console.error(`FAIL ${check.path} — ${err.message}`);
+    console.error(`FAIL ${check.path}: ${err.message}`);
     failed = true;
   }
 }
@@ -92,7 +92,7 @@ const stamp = new Date().toISOString().slice(0, 10);
 const reportPath = path.join(outDir, `SMOKE_LIVE_${stamp}.md`);
 fs.writeFileSync(
   reportPath,
-  `# Live smoke test — ${stamp}\n\nBase: ${base}\n\nPassed: ${passed}/${checks.length}\nStatus: ${failed ? 'FAIL' : 'PASS'}\n`,
+  `# Live smoke test: ${stamp}\n\nBase: ${base}\n\nPassed: ${passed}/${checks.length}\nStatus: ${failed ? 'FAIL' : 'PASS'}\n`,
 );
 
 console.log(`\nReport: ${reportPath}`);

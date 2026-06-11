@@ -1,14 +1,14 @@
-# PM Structure — Sitemap Plan
+# PM Structure. Sitemap Plan
 
 **Canonical host:** `https://pmstructure.com`  
 **Implementation:** [`frontend/app/sitemap.ts`](../frontend/app/sitemap.ts), [`frontend/lib/sitemap/helpers.ts`](../frontend/lib/sitemap/helpers.ts)
 
-## Current architecture (Run 4 — monolithic, documented defer)
+## Current architecture (Run 4: monolithic, documented defer)
 
 | Item | Status |
 |------|--------|
 | Sitemap index | Single `/sitemap.xml` (Next.js default) |
-| Category split | **Optional** — criteria met (PMP live, 35 answers, 26 topics, `/pmp-faq`); monolithic still OK (&lt;500 URLs) |
+| Category split | **Optional**: criteria met (PMP live, 35 answers, 26 topics, `/pmp-faq`); monolithic still OK (&lt;500 URLs) |
 | URL count | ~274 static URLs (monolithic sitemap) |
 | `/pmp-faq` | Included in marketing + `pmp-faq.json` AI export |
 | Guard | `buildSitemapEntry()` + `assertIndexable()` |

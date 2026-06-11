@@ -9,7 +9,7 @@ export type InsertInteractionResult =
   | {
       ok: true;
       id: string;
-      /** True only when sync finished inline (always false for public POST — sync runs in background). */
+      /** True only when sync finished inline (always false for public POST: sync runs in background). */
       sheetsSynced: boolean;
       /** True when a background Sheets append was queued. */
       sheetsSyncPending: boolean;
@@ -18,7 +18,7 @@ export type InsertInteractionResult =
   | { ok: false; error: string };
 
 /**
- * Queue Google Sheets append after Supabase insert. Never throws — errors are logged and stored on the row.
+ * Queue Google Sheets append after Supabase insert. Never throws: errors are logged and stored on the row.
  */
 export function scheduleGoogleSheetsSync(
   supabase: SupabaseClient,
@@ -95,7 +95,7 @@ export async function insertFormSubmission(params: {
     };
   }
 
-    console.warn('[interactions] Google Sheets not configured — row saved to Supabase only', {
+    console.warn('[interactions] Google Sheets not configured: row saved to Supabase only', {
       submissionId: row.id,
     });
 
@@ -112,7 +112,7 @@ export type RetrySheetsResult =
   | { ok: true; synced: boolean; error: string | null }
   | { ok: false; error: string; status: 404 | 400 | 503 };
 
-/** Admin retry: re-append row to Google Sheets (may duplicate if already synced — use when sync failed). */
+/** Admin retry: re-append row to Google Sheets (may duplicate if already synced: use when sync failed). */
 export async function retryFormSubmissionSheetsSync(submissionId: string): Promise<RetrySheetsResult> {
   if (!isSupabaseConfigured()) {
     return { ok: false, error: 'Supabase is not configured.', status: 503 };

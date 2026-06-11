@@ -1324,7 +1324,7 @@ They complete videos, but they do not test whether they can think through scenar
 
 Readiness is built through repeated practice, weak-area tracking, and structured revision.
 
-If your exam is within the next 6–8 weeks, start with a readiness review before choosing a pathway.
+If your exam is within the next 6-8 weeks, start with a readiness review before choosing a pathway.
 ```
 
 ---
@@ -1520,11 +1520,11 @@ PM Structure videos should be:
 Reel structure:
 
 ```text
-0–3 sec: Hook
-3–15 sec: Problem
-15–35 sec: Explanation
-35–50 sec: Practical advice
-50–60 sec: CTA
+0-3 sec: Hook
+3-15 sec: Problem
+15-35 sec: Explanation
+35-50 sec: Practical advice
+50-60 sec: CTA
 ```
 
 Example CTA:

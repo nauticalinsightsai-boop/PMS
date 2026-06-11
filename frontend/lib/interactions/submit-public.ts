@@ -21,7 +21,7 @@ export type ClientInteractionBody = {
   payload?: Record<string, unknown>;
   /** Merged into payload for CRM origin / page tracking */
   formContext?: WebsiteFormContextInput;
-  /** Honeypot — leave empty */
+  /** Honeypot: leave empty */
   website?: string;
   company?: string;
 };

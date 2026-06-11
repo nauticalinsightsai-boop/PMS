@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /** All candidate paths for channel landing data (first existing wins). */
 export function resolveChannelLandingPagesPath(): string {
   const candidates = [
-    /** Bundled with @pms/booking-crm — always present in production builds */
+    /** Bundled with @pms/booking-crm: always present in production builds */
     path.resolve(__dirname, '../data/channel-landing-pages.json'),
     path.resolve(__dirname, '../../../data/channel-landing-pages.json'),
     path.resolve(process.cwd(), 'data/channel-landing-pages.json'),

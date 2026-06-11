@@ -8,7 +8,7 @@ export const CALENDLY_BOOKING_HANDLE = 'booking-sh3ikhmabz';
 
 const base = `https://calendly.com/${CALENDLY_BOOKING_HANDLE}`;
 
-/** Engagement tiers + Home hero — aliases for website manifest slugs. */
+/** Engagement tiers + Home hero: aliases for website manifest slugs. */
 export const CALENDLY_DEFAULT_SCHEDULING_URLS = {
  guideDownload: resolveCalendlyEventUrl('go-website-discovery') || `${base}/go-website-discovery`,
  projectReview: resolveCalendlyEventUrl('go-website-executive') || `${base}/go-website-executive`,
@@ -42,5 +42,4 @@ export function getDefaultCalendlySchedulingUrlForService(
   default:
    return '';
  }
-}
-
+}

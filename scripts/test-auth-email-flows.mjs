@@ -97,7 +97,7 @@ async function testForgotPassword(db) {
 
   if (error) throw error;
   if (!tokens?.length) {
-    throw new Error('No reset token created — user may not exist in user_credentials');
+    throw new Error('No reset token created: user may not exist in user_credentials');
   }
   console.log('  reset token created in DB:', tokens[0].id);
   console.log('  check inbox for reset email (SMTP)');
@@ -186,7 +186,7 @@ async function main() {
   const smtpOk = Boolean(process.env.SMTP_HOST?.trim() || process.env.RESEND_API_KEY?.trim());
   console.log('  SMTP/Resend configured:', smtpOk);
   if (!smtpOk) {
-    console.warn('  Warning: no SMTP — emails will not reach inbox');
+    console.warn('  Warning: no SMTP: emails will not reach inbox');
   }
 
   const db = await getDb();

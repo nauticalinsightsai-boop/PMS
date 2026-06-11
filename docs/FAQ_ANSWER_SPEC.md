@@ -2,10 +2,10 @@
 
 Every FAQ answer uses:
 
-1. **Lead** — one sentence answering the question.
-2. **Detail** — lines starting with `•` (bullet) for steps or facts.
-3. **Links** — `[label](/path)` to legal, certs, contact.
-4. **Support** — `Email support at support@pmstructure.com` + include order email, region, offering ID when relevant.
+1. **Lead**: one sentence answering the question.
+2. **Detail**: lines starting with `•` (bullet) for steps or facts.
+3. **Links**: `[label](/path)` to legal, certs, contact.
+4. **Support**: `Email support at support@pmstructure.com` + include order email, region, offering ID when relevant.
 
 **Contact:** support@pmstructure.com only (privacy, billing, refunds, DSAR, parents).
 

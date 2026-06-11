@@ -1,5 +1,5 @@
 /**
- * Interaction inbox Google Sheets bridge — implementation in @/lib/google/sheets-append.
+ * Interaction inbox Google Sheets bridge: implementation in @/lib/google/sheets-append.
  * Server-only; never import from client components.
  */
 export {

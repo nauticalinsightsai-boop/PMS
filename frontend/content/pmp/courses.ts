@@ -69,7 +69,7 @@ const courses: PmpCourseContent[] = [
     outcomes: resolvePathwayTierOutcomes('pmp', 'foundation'),
     modules: foundationModules,
     examRelevance:
-      'Foundation covers concepts relevant to both the current PMP format and the post–9 July 2026 transition. Confirm domain emphasis on the latest PMI Exam Content Outline before scheduling.',
+      'Foundation covers concepts relevant to both the current PMP format and the post-9 July 2026 transition. Confirm domain emphasis on the latest PMI Exam Content Outline before scheduling.',
     enrollPath: enrollPath('pmp', 'foundation'),
     faqs: tierFaqs('Foundation'),
   },
@@ -84,7 +84,7 @@ const courses: PmpCourseContent[] = [
     directAnswer:
       'The Professional tier targets candidates with foundational knowledge who need structured readiness, timed practice, and feedback loops before scheduling Pearson VUE.',
     forLearners:
-      'Candidates with PM experience who are actively preparing to sit PMP within 6–12 weeks and need scenario-heavy practice.',
+      'Candidates with PM experience who are actively preparing to sit PMP within 6-12 weeks and need scenario-heavy practice.',
     notForLearners:
       'Complete beginners who have not yet mapped ECO topics: start with Foundation unless the diagnostic suggests otherwise.',
     outcomes: resolvePathwayTierOutcomes('pmp', 'professional'),

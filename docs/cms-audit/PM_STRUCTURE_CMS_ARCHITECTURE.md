@@ -1,4 +1,4 @@
-# PM Structure — dashboard-controlled CMS architecture
+# PM Structure: dashboard-controlled CMS architecture
 
 Handoff document for extending the **PM Structure** monorepo (`@pms/*`). Describes how public pages, the admin dashboard, and Supabase storage connect today, and what to build next.
 
@@ -14,9 +14,9 @@ Handoff document for extending the **PM Structure** monorepo (`@pms/*`). Describ
 | Marketing API | `backend/` (`@pms/backend`) | **3001** | Checkout, regions, public `form_submissions` |
 | Dashboard UI | `dashboard/frontend/` (`@pms/dashboard-frontend`) | **5174** | All `/dashboard/**` CMS + CRM |
 | Dashboard API | `dashboard/backend/` (`@pms/dashboard-backend`) | **3002** | Interactions, admin mutations (rewritten from dashboard as `/api/*`) |
-| Shared content | `packages/site-content/` | — | Zod schemas, seeds, `FIELD_KEYS` |
-| Shared UI | `packages/ui/` | — | Tailwind globals, Button, etc. |
-| Booking CRM | `packages/booking-crm/` | — | CTA, channel landing (`/go/*`) |
+| Shared content | `packages/site-content/` |: | Zod schemas, seeds, `FIELD_KEYS` |
+| Shared UI | `packages/ui/` |: | Tailwind globals, Button, etc. |
+| Booking CRM | `packages/booking-crm/` |: | CTA, channel landing (`/go/*`) |
 
 **Dev:** `npm run dev` from repo root (gateway + all apps). Dashboard only: `npm run dev:dashboard`.
 
@@ -58,9 +58,9 @@ Handoff document for extending the **PM Structure** monorepo (`@pms/*`). Describ
 | `/contact` | Contact | `/dashboard/site-system/pages/contact` | page document or seed | Contact page |
 | `/newsletter` | Newsletter hub | `/dashboard/booking-crm/newsletter` | `newsletter_hub_config` + `newsletter_posts_registry` + file seed | `getPublishedNewsletterArticles()` |
 | `/newsletter/[slug]` | Article | `/dashboard/booking-crm/newsletter/[id]/edit` | same | article detail page |
-| `/legal/*` | Legal | — | `frontend/content/legal/` (file-based) | legal routes |
+| `/legal/*` | Legal |: | `frontend/content/legal/` (file-based) | legal routes |
 | `/go/[slug]` | Channel portals | marketing app | `data/channel-landing-pages.json` | `frontend/app/go/` |
-| Site snippets | SEO badges | `/dashboard/site-system/website-data` | `global_content` | `useWebsiteData()` — legacy only |
+| Site snippets | SEO badges | `/dashboard/site-system/website-data` | `global_content` | `useWebsiteData()`: legacy only |
 | Settings | Nav, footer | `/dashboard/site-system/settings` | `site_settings` | various |
 | **Posts** | (future blog) | `/dashboard/cms/posts` | `cms_posts_registry` | not wired to marketing yet |
 | **Topics** | taxonomy | `/dashboard/cms/topics` | `cms_topics_registry` | not wired yet |
@@ -148,8 +148,8 @@ Each structured page has a **Zod schema** in `packages/site-content/src/*.ts`.
 - **Mode toggles:** Publisher | Booking CRM | Admin Controls (`DashboardModeContext`).
 - **Sidebar:** collapsible, hover-expand (`DashboardLayout.tsx`).
 - **Editors:** Save Draft, Publish, toasts, preview where implemented.
-- **Topics-style CMS:** Posts, Topics, Newsletter — list + create/edit (Basic Info, Feature Image, SEO, Content).
-- **Navigation:** use `NavLinkButton` for edit links — **not** `Button render={<Link />}` (Base UI breaks link navigation).
+- **Topics-style CMS:** Posts, Topics, Newsletter: list + create/edit (Basic Info, Feature Image, SEO, Content).
+- **Navigation:** use `NavLinkButton` for edit links: **not** `Button render={<Link />}` (Base UI breaks link navigation).
 
 ---
 
@@ -174,7 +174,7 @@ SUPABASE_SERVICE_ROLE_KEY=
 # NEXT_PUBLIC_ALLOW_DEMO_LOGIN=true
 ```
 
-**RLS:** `website_data` published rows readable by anon; drafts need authenticated Supabase session. Demo login may not load draft CMS rows — use real Supabase auth for full editing.
+**RLS:** `website_data` published rows readable by anon; drafts need authenticated Supabase session. Demo login may not load draft CMS rows: use real Supabase auth for full editing.
 
 ---
 
@@ -182,7 +182,7 @@ SUPABASE_SERVICE_ROLE_KEY=
 
 1. ~~Wire `newsletter_posts_registry` to public `/newsletter`~~ (merged with file seed via `frontend/lib/newsletter/articles.ts`).
 2. Complete FAQ / Contact / Compare editors → public wiring.
-3. Implement or remove stub routes (`/dashboard/site-system/portfolio`, `media`, `insights` — currently redirect/placeholder).
+3. Implement or remove stub routes (`/dashboard/site-system/portfolio`, `media`, `insights`: currently redirect/placeholder).
 4. Optional: CMS API layer on `dashboard/backend` with `{ intent: 'saveDraft' | 'publish' }`.
 5. Enhance `/dashboard/migrate` with published counts per `field_key`.
 6. SEO revalidate hook after `WebsiteDataService.publish`.
@@ -193,9 +193,9 @@ SUPABASE_SERVICE_ROLE_KEY=
 ## Pitfalls
 
 - Do not bind public pages to dashboard draft or localStorage (except `?previewKey=`).
-- One `field_key` per page/domain — no mega JSON blob.
+- One `field_key` per page/domain: no mega JSON blob.
 - `global_content` is legacy; do not duplicate structured page copy there.
-- Newsletter content is split across file seed, dashboard registry, and hub config — consolidate when wiring public site.
+- Newsletter content is split across file seed, dashboard registry, and hub config: consolidate when wiring public site.
 - Home primary CTA may ignore `primaryLink` until fixed (see EDITOR_RUNBOOK).
 
 ---

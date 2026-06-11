@@ -2,7 +2,7 @@
 
 | Date | Platform | URL | Status | Issue | Action | Next check |
 |------|----------|-----|--------|-------|--------|------------|
-| 2026-06-10 | Production | https://pmstructure.com/sitemap.xml | VERIFIED | — | 203 URLs live; `seo:production-check` + `seo:smoke-live` 10/10 | Re-check after GSC submit |
+| 2026-06-10 | Production | https://pmstructure.com/sitemap.xml | VERIFIED |: | 203 URLs live; `seo:production-check` + `seo:smoke-live` 10/10 | Re-check after GSC submit |
 | 2026-06-10 | Production | https://pmstructure.com/pmp-faq | LIVE 200 | Was 404 pre-deploy | Submit sitemap in GSC; URL-inspect + request indexing | 7 days |
 | 2026-06-10 | Google | sitemap submission | MANUAL_REQUIRED | No GSC API in repo | Owner: GSC → Sitemaps → submit `sitemap.xml` | After owner confirms |
 | 2026-06-10 | Bing | sitemap submission | MANUAL_REQUIRED | Bing ping returns 410 (deprecated) | Import from GSC or submit sitemap in Bing Webmaster | After GSC |

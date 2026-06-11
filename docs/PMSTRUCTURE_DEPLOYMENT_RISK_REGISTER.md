@@ -1,4 +1,4 @@
-# PM Structure — Deployment Risk Register
+# PM Structure. Deployment Risk Register
 
 | Risk | Severity | Mitigation | Status |
 |------|----------|------------|--------|

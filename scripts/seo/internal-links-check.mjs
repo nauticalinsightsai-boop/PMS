@@ -1,5 +1,5 @@
 /**
- * Internal linking guard — PMP hub, homepage, and footer link to answers/topics.
+ * Internal linking guard. PMP hub, homepage, and footer link to answers/topics.
  */
 import fs from 'fs';
 import path from 'path';

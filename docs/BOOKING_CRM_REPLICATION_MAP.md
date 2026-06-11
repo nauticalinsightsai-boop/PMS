@@ -9,7 +9,7 @@ Recreate the X1 Booking CRM experience on PMS with feature parity: CTA managemen
 | CTA Management | `/dashboard/booking-crm/cta` |
 | Sheets records | `/dashboard/booking-crm/interactions/sheets` |
 | Public portal | `http://localhost:3000/go/{channel}` |
-| Channel API | `/api/channel-landing-pages` (dashboard frontend — local route) |
+| Channel API | `/api/channel-landing-pages` (dashboard frontend: local route) |
 
 **Redirect helpers:** `dashboard/frontend/lib/dashboard/bookingCrmRedirects.ts`  
 **Legacy alias:** `/dashboard/members-revenue/*` → `/dashboard/booking-crm/*`

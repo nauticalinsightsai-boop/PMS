@@ -10,6 +10,7 @@ import {
 } from '@/lib/conversion-recovery/engagement-score';
 import {
   canShowSurface,
+  isExcludedPath,
 } from '@/lib/conversion-recovery/anti-annoyance';
 import {
   CENTER_DIALOG_BAR_PAUSE_MS,
@@ -42,7 +43,12 @@ type LeadRecoveryContextValue = {
   dialogContext: LeadRecoveryContext | null;
   requestRecovery: (
     ctx: LeadRecoveryContext,
-    opts?: { requireIntent?: boolean; intentRecovery?: boolean },
+    opts?: {
+      requireIntent?: boolean;
+      intentRecovery?: boolean;
+      bypassPageVariantCap?: boolean;
+      bypassSessionCap?: boolean;
+    },
   ) => boolean;
   dismissDialog: (reason?: string) => void;
   notifyConverted: () => void;
@@ -85,8 +91,19 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
   const [servicesNudgeEligible, setServicesNudgeEligible] = React.useState(false);
 
   const requestRecovery = React.useCallback(
-    (ctx: LeadRecoveryContext, opts?: { requireIntent?: boolean; intentRecovery?: boolean }) => {
-      if (!enabled || !cookieGateReady || cookieBannerVisible) return false;
+    (
+      ctx: LeadRecoveryContext,
+      opts?: {
+        requireIntent?: boolean;
+        intentRecovery?: boolean;
+        bypassPageVariantCap?: boolean;
+        bypassSessionCap?: boolean;
+      },
+    ) => {
+      const pathwayExitRecovery =
+        ctx.parentSurface === 'pathway_modal' && ctx.variant.endsWith('_exit');
+      if (!enabled || cookieBannerVisible || isExcludedPath(pathname)) return false;
+      if (!cookieGateReady && !(pathwayExitRecovery && hasShownIntent())) return false;
       const intentRecovery = opts?.intentRecovery ?? opts?.requireIntent !== false;
       if (
         opts?.requireIntent !== false &&
@@ -100,6 +117,8 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
         centerDialogOpen: dialogOpen,
         intentRecovery,
         variant: ctx.variant,
+        bypassPageVariantCap: opts?.bypassPageVariantCap,
+        bypassSessionCap: opts?.bypassSessionCap,
       });
       if (!check.allowed) {
         if (process.env.NODE_ENV === 'development') {
@@ -173,6 +192,13 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
       }
     }, 60_000);
   }, [pathname]);
+
+  React.useEffect(() => {
+    if (isExcludedPath(pathname) && dialogOpen) {
+      setDialogOpen(false);
+      setDialogContext(null);
+    }
+  }, [dialogOpen, pathname]);
 
   React.useEffect(() => {
     if (!enabled) return;

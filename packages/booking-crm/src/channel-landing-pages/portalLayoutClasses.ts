@@ -4,14 +4,14 @@ import type { PortalLayoutVariant } from './platformOfferPack'
 export const PORTAL_SHELL_MAX_WIDTH_CLASS = 'max-w-4xl mx-auto w-full min-w-0'
 
 /**
- * Main portal column — same width on mobile and desktop for all layout variants.
+ * Main portal column: same width on mobile and desktop for all layout variants.
  * `layoutVariant` is kept for call-site compatibility; bold/impulse no longer narrows the shell.
  */
 export function portalShellMaxWidthClass(_layoutVariant?: PortalLayoutVariant): string {
   return PORTAL_SHELL_MAX_WIDTH_CLASS
 }
 
-/** Presence strip inner row — matches {@link portalShellMaxWidthClass}. */
+/** Presence strip inner row: matches {@link portalShellMaxWidthClass}. */
 export function portalPresenceStripWidthClass(layoutVariant?: PortalLayoutVariant): string {
   return portalShellMaxWidthClass(layoutVariant)
 }

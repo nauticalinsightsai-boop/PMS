@@ -1,6 +1,6 @@
 @import "../../packages/ui/src/globals.css";
 
-/* Enrollment seat reservation — Calendly inline widget flush with card */
+/* Enrollment seat reservation. Calendly inline widget flush with card */
 .seat-reservation-calendly .calendly-inline-widget {
   min-width: 100% !important;
   width: 100% !important;
@@ -12,8 +12,18 @@
   min-width: 100% !important;
 }
 
-/* Enrollment seat deposit — Stripe Embedded Checkout */
+/* Enrollment seat deposit. Stripe Embedded Checkout (matches site card surfaces) */
+.seat-deposit-stripe-embedded {
+  background: var(--card);
+  color: var(--card-foreground);
+}
+
 .seat-deposit-stripe-embedded iframe {
   width: 100% !important;
   min-width: 100% !important;
+  background: transparent !important;
+}
+
+.dark .seat-deposit-stripe-embedded {
+  background: var(--card);
 }

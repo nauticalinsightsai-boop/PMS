@@ -1,10 +1,10 @@
-# PM Structure — Remaining Implementation Plan (Phases 3–19)
+# PM Structure. Remaining Implementation Plan (Phases 3-19)
 
-**Status:** **FINAL (2026-06-10)** — Runs 2–20 shipped; human sign-off closed per `PMSTRUCTURE_FOUNDATION_SIGNOFF.md`. Optional ops: Bing, Rich Results, AI baseline, monitoring.  
-**Prerequisites:** Run 2 (SSR/crawl) and Run 3 (index/noindex) — **done**
+**Status:** **FINAL (2026-06-10)**. Runs 2-20 shipped; human sign-off closed per `PMSTRUCTURE_FOUNDATION_SIGNOFF.md`. Optional ops: Bing, Rich Results, AI baseline, monitoring.  
+**Prerequisites:** Run 2 (SSR/crawl) and Run 3 (index/noindex): **done**
 
 **Canonical domain (production):** `https://pmstructure.com`  
-**Brand:** PM Structure — independent project management exam-prep and professional learning platform.
+**Brand:** PM Structure: independent project management exam-prep and professional learning platform.
 
 ---
 
@@ -52,7 +52,7 @@
 
 ---
 
-# PHASE 3 — SITEMAP + ROBOTS
+# PHASE 3. SITEMAP + ROBOTS
 
 **Run ID:** Run 4  
 **Objective:** Create a crawler-safe sitemap index and robots system.  
@@ -94,12 +94,12 @@
 **Stop condition:** Sitemap + robots implemented and validated in dedicated phase only  
 **Expected output:** 13-sitemap architecture live, validation script passing  
 **Human decisions:** Index 41 `/go/*` channel pages in sitemap or separate lower-priority sitemap  
-**Full Run 4 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 4 — SITEMAP + ROBOTS (complete checklist, Option A/B, validation, 14-point report)  
+**Full Run 4 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 4. SITEMAP + ROBOTS (complete checklist, Option A/B, validation, 14-point report)  
 **Canonical:** Use `PMS_SITE_URL` from `frontend/config/pms-site.ts` (www confirmed; not hardcoded apex unless env changes)
 
 ---
 
-# PHASE 4 — CANONICAL SYSTEM
+# PHASE 4. CANONICAL SYSTEM
 
 **Run ID:** Run 5  
 **Objective:** One clean canonical URL system across all indexable public routes.  
@@ -110,25 +110,25 @@
 
 **Dependencies:** Run 2 (SSR), Run 3 (index matrix), Phase 3 / Run 4 (sitemap URLs must match canonicals)
 
-**Full Run 5 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 5 — CANONICAL URL SYSTEM (complete checklist, gaps audit, 16-point report)
+**Full Run 5 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 5. CANONICAL URL SYSTEM (complete checklist, gaps audit, 16-point report)
 
-**Canonical domain:** `PMS_SITE_URL` from `frontend/config/pms-site.ts` (www confirmed in codebase; user specs sometimes say apex — env is source of truth)
+**Canonical domain:** `PMS_SITE_URL` from `frontend/config/pms-site.ts` (www confirmed in codebase; user specs sometimes say apex: env is source of truth)
 
 ### Known gaps (pre-implementation audit)
 
 | Route | Issue |
 |-------|-------|
-| `/legal/terms`, `/privacy`, `/cookies`, `/services`, `/pricing-disclaimers` | Metadata title only — no `alternates.canonical` |
+| `/legal/terms`, `/privacy`, `/cookies`, `/services`, `/pricing-disclaimers` | Metadata title only: no `alternates.canonical` |
 | `/legal/privacy/[region]`, `/legal/privacy/gcc/[country]` | No canonical |
 | `/blog/[slug]`, `/newsletter/[slug]` | No explicit canonical (metadataBase only) |
-| `/go/[channel]` | Relative canonical — verify absolute resolution |
-| `/store` | Redirects to `/community?view=store` — canonical should be `/community` |
+| `/go/[channel]` | Relative canonical: verify absolute resolution |
+| `/store` | Redirects to `/community?view=store`: canonical should be `/community` |
 
 ### Implementation tasks
 
 * [ ] Identify current metadata/SEO utilities (`site-metadata.ts`, `buildPageMetadata`)
 * [ ] Identify all route definitions and canonical coverage
-* [ ] Create `frontend/lib/canonical.ts` — `canonicalUrl`, `stripQueryParams`, `STRIPPED_QUERY_KEYS`
+* [ ] Create `frontend/lib/canonical.ts`: `canonicalUrl`, `stripQueryParams`, `STRIPPED_QUERY_KEYS`
 * [ ] Integrate helper into `buildPageMetadata` (canonical + openGraph.url)
 * [ ] Strip UTM: utm_source, utm_medium, utm_campaign, utm_content, utm_term
 * [ ] Strip tracking: gclid, fbclid, msclkid
@@ -140,10 +140,10 @@
 * [ ] Legal → all ~27 routes with clean path canonicals
 * [ ] Blog/newsletter articles → `/blog/{slug}`, `/newsletter/{slug}`
 * [ ] Go portals → `/go/{channel}`
-* [ ] Future PMP/answers/topics — TODO in ROUTE_INVENTORY only
-* [ ] Noindex pages (checkout, enroll) — not authority canonicals; self-canonical + noindex OK
+* [ ] Future PMP/answers/topics. TODO in ROUTE_INVENTORY only
+* [ ] Noindex pages (checkout, enroll): not authority canonicals; self-canonical + noindex OK
 * [ ] Sitemap URLs === canonical URLs (shared function)
-* [ ] Document URL normalization (www, https, trailing slash) — minimal safe redirects only
+* [ ] Document URL normalization (www, https, trailing slash): minimal safe redirects only
 * [ ] Regional pricing: widgets hydrate without changing canonical
 * [ ] Add `scripts/seo/canonical-check.mjs` + `npm run seo:canonical-check`
 * [ ] Update ROUTE_INVENTORY, INDEXING_MATRIX, SITEMAP_PLAN, master plan Phase 4 checkboxes
@@ -167,7 +167,7 @@
 
 ---
 
-# PHASE 5 — H1/H2/H3 HEADING FIXES
+# PHASE 5. H1/H2/H3 HEADING FIXES
 
 **Run ID:** Run 6  
 **Objective:** Fix heading hierarchy on existing public indexable pages for SEO, SERP, AEO, GEO, accessibility, and AI readability.  
@@ -176,19 +176,19 @@
 **Input docs:** `HEADING_SERP_ONPAGE_SEO_PLAN`, `ROUTE_INVENTORY`, `INDEXING_MATRIX`, `VALIDATION_SCRIPTS_PLAN`, `DEPLOYMENT_CHECKLIST`  
 **Files likely affected:** `Home.tsx`, `brand-voice.ts`, `CertificationDetail.tsx`, `Certifications.tsx`, `Compare.tsx`, `FAQ.tsx`, `PathwayFeaturedCard.tsx`, `FamilyExploreCard.tsx`, `CertificationPathway.tsx`, legal/blog/newsletter/community pages, `ChannelLandingPublicView.tsx`, `scripts/seo/headings-check.mjs`, `scripts/seo/h1-check.mjs`
 
-**Dependencies:** Run 2 (SSR content visible); Run 3 (index/noindex — skip checkout/enroll/dashboard)
+**Dependencies:** Run 2 (SSR content visible); Run 3 (index/noindex: skip checkout/enroll/dashboard)
 
-**Full Run 6 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 6 — H1/H2/H3 HEADING STRUCTURE FIXES (complete checklist, codebase audit, 14-point report)
+**Full Run 6 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 6. H1/H2/H3 HEADING STRUCTURE FIXES (complete checklist, codebase audit, 14-point report)
 
 ### Known gaps (pre-implementation audit)
 
 | Area | Issue |
 |------|-------|
-| `Home.tsx` | H1 = "Structured project management capability" — vague; needs certification-focused H1 |
-| `FAQ.tsx` | H1 generic; AccordionTrigger questions not H3 — crawlability risk |
-| `CardTitle` | Already `<div>` — good; promote visible card titles to H3 under section H2 |
-| PMP routes | Do not exist — document heading templates only |
-| `RegionGate` | Loading text in `<p>` — Run 2 removes gate; verify no loading H1 |
+| `Home.tsx` | H1 = "Structured project management capability": vague; needs certification-focused H1 |
+| `FAQ.tsx` | H1 generic; AccordionTrigger questions not H3: crawlability risk |
+| `CardTitle` | Already `<div>`: good; promote visible card titles to H3 under section H2 |
+| PMP routes | Do not exist: document heading templates only |
+| `RegionGate` | Loading text in `<p>`. Run 2 removes gate; verify no loading H1 |
 
 ### Global rules
 
@@ -214,19 +214,19 @@
 * [ ] Fix legal H1/H2/H3 (`LegalDocumentLayout.tsx`)
 * [ ] Fix blog/newsletter article hierarchy
 * [ ] Fix About, Contact, Community, Membership, PMService, `/go/*` portals
-* [ ] Document PMP/answer/topic heading templates — no new pages
+* [ ] Document PMP/answer/topic heading templates: no new pages
 * [ ] Title/meta: document mismatches; fix safe cases only
 * [ ] Add `seo:h1-check` and `seo:headings` scripts
 * [ ] Update HEADING_SERP, ROUTE_INVENTORY, PHASE_EXECUTION_BOARD, master plan
 
 ### Validation (10 manual + automated)
 
-1. Homepage outline — one meaningful H1  
+1. Homepage outline: one meaningful H1  
 2. `/certifications/pmp` outline  
-3. `/faq` — questions crawlable in view-source  
+3. `/faq`: questions crawlable in view-source  
 4. `/legal/terms` outline  
 5. `/blog/{slug}` outline  
-6. Disable JS — headings visible (Run 2)  
+6. Disable JS: headings visible (Run 2)  
 7. Ripgrep `<h1`  
 8. Ripgrep "Loading your regional experience"  
 9. Cards not outputting H1  
@@ -237,7 +237,7 @@
 
 ---
 
-# PHASE 6 — AI FILES
+# PHASE 6. AI FILES
 
 **Run ID:** Run 7  
 **Objective:** Public AI-readable machine-readable visibility layer for crawlers, AI search, and answer engines.  
@@ -248,39 +248,39 @@
 
 **Dependencies:** Run 5 (canonical URLs in JSON); Run 3 (noindex routes for doNotCite lists)
 
-**Full Run 7 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 7 — AI FILES (100+ granular todos in plan frontmatter)
+**Full Run 7 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 7. AI FILES (100+ granular todos in plan frontmatter)
 
 ### Current state
 
 | Asset | Status |
 |-------|--------|
-| `frontend/public/llms.txt` | Exists — basic; needs expansion |
+| `frontend/public/llms.txt` | Exists: basic; needs expansion |
 | All other AI JSON/XML | Missing |
 | FAQ source | `content/faq/data.ts` (~73 entries) |
-| PMP dedicated routes | **Missing** — mark `planned` in JSON |
+| PMP dedicated routes | **Missing**: mark `planned` in JSON |
 
 ### Compliance (mandatory in every file)
 
-* Independent exam-prep platform — no PMI ATP, no guaranteed pass, no official partner claims unless owner confirms
+* Independent exam-prep platform: no PMI ATP, no guaranteed pass, no official partner claims unless owner confirms
 * Safe: preparation support, readiness pathway, scenario practice, diagnostic readiness
 * Unsafe: official PMP training provider, PMI-approved, guaranteed pass, certified by PMI
 
 ### Required public files (14+)
 
-* [ ] `/llms.txt` — expand with disclaimer, PMP cluster, cite/exclude lists, lastUpdated
-* [ ] `/entity.json` — brand entity, topics, certifications, compliance, bestPagesToCite
-* [ ] `/ai-profile.json` — summary, audience, pmpPriority, recommendedCitations, doNotCite
-* [ ] `/courses.json` — from site-content; status available/planned; PMP priority
-* [ ] `/certifications.json` — PMP strongest; PMI-RMP, PRINCE2, Six Sigma
-* [ ] `/learning-pathways.json` — PMP tiers + other cert pathways
-* [ ] `/pricing-policy.json` — regional pricing; checkout/payment noindex
-* [ ] `/pmp-2026.json` — planned if route missing; officialSourceTodo; no fabricated claims
-* [ ] `/pmp-keywords.json` — keyword groups; no fake volume/ranking
-* [ ] `/pmp-faq.json` — from existing PMP FAQs; schemaEligible only if published
-* [ ] `/pmp-routes.json` — live `/certifications/pmp` + planned route map
-* [ ] `/faq.json` — full FAQ index; must match visible /faq content
-* [ ] `/rss.xml`, `/feed.xml` — if blog+newsletter published content exists
-* [ ] `/humans.txt` — optional
+* [ ] `/llms.txt`: expand with disclaimer, PMP cluster, cite/exclude lists, lastUpdated
+* [ ] `/entity.json`: brand entity, topics, certifications, compliance, bestPagesToCite
+* [ ] `/ai-profile.json`: summary, audience, pmpPriority, recommendedCitations, doNotCite
+* [ ] `/courses.json`: from site-content; status available/planned; PMP priority
+* [ ] `/certifications.json`. PMP strongest; PMI-RMP, PRINCE2, Six Sigma
+* [ ] `/learning-pathways.json`. PMP tiers + other cert pathways
+* [ ] `/pricing-policy.json`: regional pricing; checkout/payment noindex
+* [ ] `/pmp-2026.json`: planned if route missing; officialSourceTodo; no fabricated claims
+* [ ] `/pmp-keywords.json`: keyword groups; no fake volume/ranking
+* [ ] `/pmp-faq.json`: from existing PMP FAQs; schemaEligible only if published
+* [ ] `/pmp-routes.json`: live `/certifications/pmp` + planned route map
+* [ ] `/faq.json`: full FAQ index; must match visible /faq content
+* [ ] `/rss.xml`, `/feed.xml`: if blog+newsletter published content exists
+* [ ] `/humans.txt`: optional
 
 ### Implementation architecture
 
@@ -301,7 +301,7 @@
 
 ---
 
-# PHASE 7 — SCHEMA / JSON-LD SYSTEM
+# PHASE 7. SCHEMA / JSON-LD SYSTEM
 
 **Run ID:** Run 8  
 **Objective:** Reliable JSON-LD structured data matching visible page content.  
@@ -312,7 +312,7 @@
 
 **Dependencies:** Run 5 (canonical URLs); Run 6 (H1/title alignment); Run 7 (AI file consistency); Run 2 (SSR JSON-LD)
 
-**Full Run 8 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 8 — SCHEMA / JSON-LD (75+ granular todos in plan frontmatter)
+**Full Run 8 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 8. SCHEMA / JSON-LD (75+ granular todos in plan frontmatter)
 
 ### Current state (codebase audit)
 
@@ -320,13 +320,13 @@
 |-----------|--------|-----|
 | `OrganizationJsonLd` | Global via PublicShell | No `@id`; may be client-blocked (Run 2) |
 | `CertJsonLd` | `/certifications/[id]` | Course + Breadcrumb; no `@id`, no WebPage |
-| `FaqJsonLd` | `/faq` | **All FAQs in schema** — may not match visible tabbed FAQs |
+| `FaqJsonLd` | `/faq` | **All FAQs in schema**: may not match visible tabbed FAQs |
 | WebSite, WebPage, Article, CollectionPage | Missing | Must add |
 | `frontend/lib/schema/` | Missing | Create shared builders |
 
 ### Compliance (mandatory)
 
-* Independent platform — no PMI ATP, guaranteed pass, fake AggregateRating/reviews/dates/instructors
+* Independent platform: no PMI ATP, guaranteed pass, fake AggregateRating/reviews/dates/instructors
 * Schema must match **visible** page content only
 * No schema on checkout, enroll, dashboard, login, admin, API
 
@@ -345,7 +345,7 @@
 | `/blog/[slug]`, `/newsletter/[slug]` | Article, BreadcrumbList |
 | `/legal/*` | WebPage, BreadcrumbList |
 | `/about` | AboutPage, Organization, BreadcrumbList |
-| `/pmp*` | Document TODO — routes N/A |
+| `/pmp*` | Document TODO: routes N/A |
 
 ### Implementation tasks
 
@@ -357,7 +357,7 @@
 * [ ] Add CollectionPage on cert hub
 * [ ] Add WebPage + Breadcrumb on legal pages
 * [ ] Offer schema: audit regional pricing; omit unless safe
-* [ ] PMP schema: document TODO for Phase 8–9 routes
+* [ ] PMP schema: document TODO for Phase 8-9 routes
 * [ ] `seo:schema-check` + SCHEMA_MATRIX update
 
 ### Validation (10 manual + automated)
@@ -378,7 +378,7 @@
 
 ---
 
-# PHASE 8 — PMP 2026 AUTHORITY CLUSTER
+# PHASE 8. PMP 2026 AUTHORITY CLUSTER
 
 **Run ID:** Run 9  
 **Objective:** Make PMP the dominant authority cluster.  
@@ -387,12 +387,12 @@
 **Input docs:** `CONTENT_CLUSTER_MAP`, `HEADING_SERP_PLAN`, `SCHEMA_MATRIX`  
 **Files likely affected:** `frontend/app/(site)/pmp/**` (new routes), content modules, `pmp-2026.json`
 
-**Dependencies:** Run 2, Run 3, Phase 4–7 foundations
+**Dependencies:** Run 2, Run 3, Phase 4-7 foundations
 
 ### Core pages to build
 
-* [ ] `/pmp` — hub
-* [ ] `/pmp-exam-2026` — **main authority anchor**
+* [ ] `/pmp`: hub
+* [ ] `/pmp-exam-2026`: **main authority anchor**
 * [ ] `/pmp-current-vs-new-exam`
 * [ ] `/pmp-before-8-july-2026`
 * [ ] `/pmp-after-9-july-2026`
@@ -422,13 +422,13 @@
 
 ---
 
-# PHASE 9 — PMP COURSE / PATHWAY PAGES
+# PHASE 9. PMP COURSE / PATHWAY PAGES
 
 **Run ID:** Run 10  
-**Objective:** PMP commercial/course pathway system — Foundation, Professional, Mastery, Diagnostic, Scenario, Mock, Q&A, enrollment, LMS handoff.  
-**Dependencies:** Run 9 (PMP hub + 2026 cluster); Runs 5–8 (canonical, headings, AI files, schema)
+**Objective:** PMP commercial/course pathway system. Foundation, Professional, Mastery, Diagnostic, Scenario, Mock, Q&A, enrollment, LMS handoff.  
+**Dependencies:** Run 9 (PMP hub + 2026 cluster); Runs 5-8 (canonical, headings, AI files, schema)
 
-**Full Run 10 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 10 — PMP COURSE / PATHWAY PAGES (95 granular todos)
+**Full Run 10 spec:** Cursor plan `seo_aeo_master_docs_37e5bd87.plan.md` → RUN 10. PMP COURSE / PATHWAY PAGES (95 granular todos)
 
 ### MVP minimum (implement first)
 
@@ -436,7 +436,7 @@
 
 **Follow-up if not content-ready:** `/pmp-mock-exam`, `/pmp-q-and-a-support` (or `/pmp-community-support`), `/pmp-enrollment`
 
-**Enroll handoff:** `/certifications/pmp/{foundation|professional|mastery}/enroll` — **noindex**
+**Enroll handoff:** `/certifications/pmp/{foundation|professional|mastery}/enroll`: **noindex**
 
 ### Per-page requirements
 
@@ -445,7 +445,7 @@
 * Current vs new PMP exam relevance | pathway comparison table
 * Regional pricing note (no value changes) | LMS handoff | FAQ preview
 * Compliance disclaimer | canonical | index | sitemap
-* Course + FAQPage (visible) + Breadcrumb schema — **no fake Offer/ratings**
+* Course + FAQPage (visible) + Breadcrumb schema: **no fake Offer/ratings**
 
 ### Shared components
 
@@ -461,7 +461,7 @@ Regenerate `courses.json`, `learning-pathways.json`, `pmp-routes.json`, `pmp-faq
 
 ---
 
-# PHASE 10 — PMP FAQ DOMINANCE
+# PHASE 10. PMP FAQ DOMINANCE
 
 **Run ID:** Run 11  
 **Objective:** PMP as strongest FAQ category for AEO.  
@@ -498,11 +498,11 @@ Regenerate `courses.json`, `learning-pathways.json`, `pmp-routes.json`, `pmp-faq
 
 ---
 
-# PHASE 11 — PMP ANSWER PAGES
+# PHASE 11. PMP ANSWER PAGES
 
 **Run ID:** Run 12  
 **Objective:** Direct-question pages for AI/search (`/answers/[slug]`).  
-**Dependencies:** Phase 8–10 content
+**Dependencies:** Phase 8-10 content
 
 ### Priority slugs
 
@@ -529,7 +529,7 @@ Regenerate `courses.json`, `learning-pathways.json`, `pmp-routes.json`, `pmp-faq
 
 ---
 
-# PHASE 12 — PMP TOPIC HUBS
+# PHASE 12. PMP TOPIC HUBS
 
 **Run ID:** Run 13  
 **Objective:** Topical authority at `/topics/[slug]`.  
@@ -554,7 +554,7 @@ Regenerate `courses.json`, `learning-pathways.json`, `pmp-routes.json`, `pmp-faq
 
 ---
 
-# PHASE 13 — REGIONAL PRICING SEO
+# PHASE 13. REGIONAL PRICING SEO
 
 **Run ID:** Run 14  
 **Objective:** Regional pricing SEO-safe after Run 2 fix.  
@@ -575,7 +575,7 @@ Regenerate `courses.json`, `learning-pathways.json`, `pmp-routes.json`, `pmp-faq
 
 ---
 
-# PHASE 14 — CONVERSION FLOW TRACKING
+# PHASE 14. CONVERSION FLOW TRACKING
 
 **Run ID:** Run 15  
 **Objective:** Map and instrument conversion paths.  
@@ -601,7 +601,7 @@ Regenerate `courses.json`, `learning-pathways.json`, `pmp-routes.json`, `pmp-faq
 
 ---
 
-# PHASE 15 — LEGAL / COMPLIANCE
+# PHASE 15. LEGAL / COMPLIANCE
 
 **Run ID:** Run 16  
 **Objective:** Trust pages and misleading-claim prevention.  
@@ -623,7 +623,7 @@ Regenerate `courses.json`, `learning-pathways.json`, `pmp-routes.json`, `pmp-faq
 
 ---
 
-# PHASE 16 — VALIDATION SCRIPTS
+# PHASE 16. VALIDATION SCRIPTS
 
 **Run ID:** Run 17  
 **Objective:** Automate SEO/AEO/GEO safety checks.  
@@ -640,7 +640,7 @@ Regenerate `courses.json`, `learning-pathways.json`, `pmp-routes.json`, `pmp-faq
 
 ---
 
-# PHASE 17 — DEPLOYMENT CHECKLIST
+# PHASE 17. DEPLOYMENT CHECKLIST
 
 **Run ID:** Run 18  
 **Objective:** Pre/post deploy gate.  
@@ -656,7 +656,7 @@ Regenerate `courses.json`, `learning-pathways.json`, `pmp-routes.json`, `pmp-faq
 
 ---
 
-# PHASE 18 — GSC / BING SUBMISSION
+# PHASE 18. GSC / BING SUBMISSION
 
 **Run ID:** Run 19  
 **Objective:** Search Console + Bing operational runbook.  
@@ -674,11 +674,11 @@ Regenerate `courses.json`, `learning-pathways.json`, `pmp-routes.json`, `pmp-faq
 
 ---
 
-# PHASE 19 — AI ANSWER TESTING
+# PHASE 19. AI ANSWER TESTING
 
 **Run ID:** Run 20  
 **Objective:** Track AI/search citation accuracy.  
-**Dependencies:** Phases 6–12 content live
+**Dependencies:** Phases 6-12 content live
 
 ### Platforms
 
@@ -700,8 +700,8 @@ platform, query, date, cited Y/N, correct page, accuracy, false affiliation, fal
 
 | Run | Phase | Name |
 |-----|-------|------|
-| 2 | — | Crawlability fix |
-| 3 | — | Index/noindex |
+| 2 |: | Crawlability fix |
+| 3 |: | Index/noindex |
 | 4 | 3 | Sitemap + robots |
 | 5 | 4 | Canonical system |
 | 6 | 5 | Headings |
@@ -720,4 +720,4 @@ platform, query, date, cited Y/N, correct page, accuracy, false affiliation, fal
 | 19 | 18 | GSC/Bing |
 | 20 | 19 | AI answer testing |
 
-*Phases 13–15 can partially parallel after Phase 9.*
+*Phases 13-15 can partially parallel after Phase 9.*

@@ -28,7 +28,7 @@ const smtpHost = process.env.SMTP_HOST?.trim();
 const resendKey = process.env.RESEND_API_KEY?.trim();
 const fromEmail = process.env.AUTH_EMAIL_FROM?.trim() || process.env.SMTP_USER?.trim() || 'onboarding@resend.dev';
 const fromName = process.env.AUTH_EMAIL_FROM_NAME?.trim() || 'PM Structure';
-const subject = 'PM Structure — email test';
+const subject = 'PM Structure: email test';
 const text = 'If you received this, dashboard auth email (OTP + password reset) is configured correctly.';
 
 if (!smtpHost && !resendKey) {

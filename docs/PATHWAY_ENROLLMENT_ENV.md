@@ -1,6 +1,6 @@
-# Pathway enrollment — environment variables
+# Pathway enrollment: environment variables
 
-Configure these on the **marketing site** service (`frontend` / `@pms/frontend`). Values are public (`NEXT_PUBLIC_*`) and baked in at build time — **redeploy after changing**.
+Configure these on the **marketing site** service (`frontend` / `@pms/frontend`). Values are public (`NEXT_PUBLIC_*`) and baked in at build time: **redeploy after changing**.
 
 Store secrets only in Railway or `.env.local` (never commit real URLs with tracking tokens if you prefer; the Calendly links themselves are public).
 
@@ -21,10 +21,10 @@ Naming rule:
 NEXT_PUBLIC_CALENDLY_PATHWAY_{SITE_CERT_ID}_{TIER_ID}
 ```
 
-- `SITE_CERT_ID` — slug from `/certifications/{id}/` (hyphens → underscores, uppercase), e.g. `PMP`, `PMI_ACP`, `PRINCE2_AGILE_PRACTITIONER`
-- `TIER_ID` — matrix tier: `FOUNDATION`, `PROFESSIONAL`, `MASTERY`, `MASTERY_CORPORATE`, `MASTERY_ADVISORY`
+- `SITE_CERT_ID`: slug from `/certifications/{id}/` (hyphens → underscores, uppercase), e.g. `PMP`, `PMI_ACP`, `PRINCE2_AGILE_PRACTITIONER`
+- `TIER_ID`: matrix tier: `FOUNDATION`, `PROFESSIONAL`, `MASTERY`, `MASTERY_CORPORATE`, `MASTERY_ADVISORY`
 
-Example (flagship PMP — set these first):
+Example (flagship PMP: set these first):
 
 ```env
 NEXT_PUBLIC_CALENDLY_PATHWAY_PMP_FOUNDATION=https://calendly.com/booking-sh3ikhmabz/your-pmp-foundation-event
@@ -123,5 +123,5 @@ Then edit each URL and restart `npm run dev`.
 
 ## Related docs
 
-- [ENV_CHECKLIST.md](./audits/ENV_CHECKLIST.md) — full stack env index
+- [ENV_CHECKLIST.md](./audits/ENV_CHECKLIST.md): full stack env index
 - Home / engagement Calendly: `NEXT_PUBLIC_CALENDLY_EVENT_URL*` in `frontend/lib/calendly/embed-url.ts`

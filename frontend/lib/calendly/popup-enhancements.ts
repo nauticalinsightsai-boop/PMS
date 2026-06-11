@@ -178,7 +178,7 @@ function enforcePopupContainment(overlay: HTMLElement): void {
   scrollContainer.style.setProperty('flex', '1 1 auto', 'important');
   scrollContainer.style.setProperty('min-height', '0', 'important');
   scrollContainer.style.setProperty('max-height', '100%', 'important');
-  /* Host scroll surface duplicates the iframe’s own scrollbar — keep layout, drop outer bar. */
+  /* Host scroll surface duplicates the iframe’s own scrollbar: keep layout, drop outer bar. */
   scrollContainer.style.setProperty('overflow-y', 'hidden', 'important');
   scrollContainer.style.setProperty('overflow-x', 'hidden', 'important');
   scrollContainer.style.setProperty('overscroll-behavior', 'contain', 'important');
@@ -287,7 +287,7 @@ function bindOverlay(overlay: HTMLElement): void {
  glyph.style.marginTop = '-2px';
  btn.appendChild(glyph);
 
- /** Top-right of the Calendly modal card (inset), viewport coordinates — not above it (avoids overlay clip). */
+ /** Top-right of the Calendly modal card (inset), viewport coordinates: not above it (avoids overlay clip). */
  const positionCloseBtn = () => {
   const popupEl = overlay.querySelector('.calendly-popup') as HTMLElement | null;
   if (!popupEl) return;

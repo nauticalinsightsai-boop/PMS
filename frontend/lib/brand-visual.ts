@@ -1,19 +1,19 @@
 /**
- * PM Structure brand visual system — aligned with PM_STRUCTURE_BRAND_VISUAL_SYSTEM.md
+ * PM Structure brand visual system: aligned with PM_STRUCTURE_BRAND_VISUAL_SYSTEM.md
  * Logo/icon gradients (user-specified) + approved PMS palette.
  */
 
 import type { CSSProperties } from 'react';
 import { cn } from '@/lib/utils';
 
-/** Family default gradients — keep in sync with `familyConfigs` in siteData. */
+/** Family default gradients: keep in sync with `familyConfigs` in siteData. */
 const FAMILY_GRADIENT_CLASSES: Record<string, string> = {
   PMI: 'bg-gradient-to-r from-[#2851b9] to-[#bc6ae2]',
   PRINCE2: 'bg-gradient-to-r from-[#0859b3] to-[#57d5e2]',
   SixSigma: 'bg-gradient-to-r from-[#262a33] to-[#434855]',
 };
 
-/** Full wordmark PNGs — `frontend/public/brand/` */
+/** Full wordmark PNGs: `frontend/public/brand/` */
 export const BRAND_LOGO = {
   light: '/brand/pms-logo-light.png',
   dark: '/brand/pms-logo-dark.png',
@@ -45,10 +45,10 @@ export const PMS_COLORS = {
   /** CTA / accent anchor (orange gradient start) */
   orangeStart: '#ff4a38',
   orangeEnd: '#ff884a',
-  /** Blue–purple (logo) */
+  /** Blue-purple (logo) */
   bluePurpleStart: '#2851b9',
   bluePurpleEnd: '#bc6ae2',
-  /** Blue–cyan (logo, vertical) */
+  /** Blue-cyan (logo, vertical) */
   blueCyanStart: '#0859b3',
   blueCyanEnd: '#57d5e2',
   /** Cover / hero */
@@ -56,13 +56,13 @@ export const PMS_COLORS = {
   coverEnd: '#EF67CA',
 } as const;
 
-/** CSS `linear-gradient(...)` values — use with style or utility classes */
+/** CSS `linear-gradient(...)` values: use with style or utility classes */
 export const PMS_GRADIENTS = {
-  /** Logo orange-red — 90° */
+  /** Logo orange-red: 90° */
   orangeRed: `linear-gradient(90deg, ${PMS_COLORS.orangeStart} 0%, ${PMS_COLORS.orangeEnd} 100%)`,
-  /** Logo blue–purple — 90° */
+  /** Logo blue-purple: 90° */
   bluePurple: `linear-gradient(90deg, ${PMS_COLORS.bluePurpleStart} 0%, ${PMS_COLORS.bluePurpleEnd} 100%)`,
-  /** Logo blue–cyan — 180° */
+  /** Logo blue-cyan: 180° */
   blueCyan: `linear-gradient(180deg, ${PMS_COLORS.blueCyanStart} 0%, ${PMS_COLORS.blueCyanEnd} 100%)`,
   /** Cover / campaign hero */
   cover: `linear-gradient(90deg, ${PMS_COLORS.coverStart} 0%, ${PMS_COLORS.coverEnd} 100%)`,
@@ -102,7 +102,7 @@ export function getCertGradientClassName(cert: {
   return undefined;
 }
 
-/** Pathway card / visual header background — cert-specific when defined. */
+/** Pathway card / visual header background: cert-specific when defined. */
 export function getCertHeaderBackground(cert: {
   gradient?: string;
   familyId: string;

@@ -1,4 +1,4 @@
-# Release verification — 2026-06-10
+# Release verification: 2026-06-10
 
 **Branch:** local release run (not pushed)  
 **Canonical:** `https://pmstructure.com`  
@@ -32,7 +32,7 @@
 
 ## URL pre-inspection (HTTP readiness)
 
-Per `PMSTRUCTURE_GSC_BING_SUBMISSION_PLAN.md` — live HEAD checks on **apex** before GSC “Request indexing”:
+Per `PMSTRUCTURE_GSC_BING_SUBMISSION_PLAN.md`: live HEAD checks on **apex** before GSC “Request indexing”:
 
 | URL | Status |
 |-----|--------|
@@ -52,7 +52,7 @@ Per `PMSTRUCTURE_GSC_BING_SUBMISSION_PLAN.md` — live HEAD checks on **apex** b
 | `/newsletter` | 200 |
 | `/pmp-faq` | 200 |
 
-**GSC/Bing URL Inspection** (render + index status): **owner manual** — use URLs in `reports/seo/google-priority-urls.txt`.
+**GSC/Bing URL Inspection** (render + index status): **owner manual**: use URLs in `reports/seo/google-priority-urls.txt`.
 
 ---
 
@@ -60,7 +60,7 @@ Per `PMSTRUCTURE_GSC_BING_SUBMISSION_PLAN.md` — live HEAD checks on **apex** b
 
 ### Google Search Console
 
-1. Open property (`https://pmstructure.com` or `https://www.pmstructure.com` — match verification).
+1. Open property (`https://pmstructure.com` or `https://www.pmstructure.com`: match verification).
 2. **Sitemaps** → add: `sitemap.xml` (full URL e.g. `https://www.pmstructure.com/sitemap.xml` if `www` property).
 3. **URL inspection** → each row in `reports/seo/google-priority-urls.txt` → **Request indexing** for PMP/FAQ/answer priorities.
 
@@ -75,7 +75,7 @@ Per `PMSTRUCTURE_GSC_BING_SUBMISSION_PLAN.md` — live HEAD checks on **apex** b
 Per `PMSTRUCTURE_AI_ANSWER_TESTING_SHEET.md`:
 
 - Sheet: `reports/seo/ai-answer-test-queries.csv` (86 queries, status `NOT TESTED`).
-- Run queries 1–28 (× 9 platforms, or sample 28 × 5 if time-boxed).
+- Run queries 1-28 (× 9 platforms, or sample 28 × 5 if time-boxed).
 - Log columns: Date, Platform, Query, Cited, URL, Accuracy, False ATP, False guarantee, Fix priority, Notes.
 - **Pass criteria:** ≥40% cite on top 15 PMP 2026 queries; zero false ATP/guarantee attribution.
 

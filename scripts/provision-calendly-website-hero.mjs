@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Provision Calendly event type: Website Hero — Book Consultation
+ * Provision Calendly event type: Website Hero. Book Consultation
  *
  * Requires CALENDLY_API_TOKEN (Personal Access Token) in env or .env.local
  * Create token: Calendly → Integrations → API & Webhooks
@@ -24,7 +24,7 @@ const ROOT = path.resolve(__dirname, '..');
 
 const BOOKING_HANDLE = 'booking-sh3ikhmabz';
 const EVENT_SLUG = 'go-website-hero-consultation';
-const EVENT_NAME = 'Website Hero — Book Consultation';
+const EVENT_NAME = 'Website Hero. Book Consultation';
 const DURATION_MINUTES = 20;
 const DESCRIPTION =
   'A focused consultation session for professionals, project teams, and collaborators visiting the PMStructure website. Use this session to discuss general project inquiries, delivery strategy, or certification guidance. Ideal for actionable and structured discussion.';
@@ -97,7 +97,7 @@ function customQuestionsPayload() {
       position: 2,
       enabled: true,
       required: true,
-      answer_choices: ['0–2', '3–5', '6–10', '10+'],
+      answer_choices: ['0-2', '3-5', '6-10', '10+'],
     },
     {
       name: 'Please describe your specific question or concern',
@@ -174,7 +174,7 @@ async function main() {
   };
 
   if (eventType) {
-    console.log('Event type exists — updating…', eventType.uri);
+    console.log('Event type exists: updating…', eventType.uri);
     const updated = await calendlyFetch('PATCH', eventType.uri.replace('https://api.calendly.com', ''), {
       name: EVENT_NAME,
       description_plain: DESCRIPTION,

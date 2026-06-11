@@ -2,8 +2,8 @@
  * Server-only Google Sheets env parsing (never import from client components).
  *
  * Credentials (first match wins):
- * 1. GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH — local file (e.g. .secrets/google-sheets-sa.json)
- * 2. GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64 — production (Railway/Vercel; no filesystem)
+ * 1. GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH: local file (e.g.secrets/google-sheets-sa.json)
+ * 2. GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64: production (Railway/Vercel; no filesystem)
  *
  * Inline GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON is not supported (dotenv breaks PEM).
  */
@@ -157,7 +157,7 @@ export function normalizePrivateKeyPem(key: string): string {
 }
 
 /**
- * Parse service account JSON — handles one-line JSON and double-encoded strings.
+ * Parse service account JSON: handles one-line JSON and double-encoded strings.
  */
 export function parseServiceAccountJson(raw: string): ParsedServiceAccount {
   let text = raw.trim();

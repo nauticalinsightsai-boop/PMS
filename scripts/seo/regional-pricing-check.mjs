@@ -1,5 +1,5 @@
 /**
- * Run 14 — regional pricing SEO guards.
+ * Run 14: regional pricing SEO guards.
  */
 import fs from 'fs';
 import path from 'path';
@@ -42,7 +42,7 @@ if (!indexing.includes("'/checkout'")) {
 
 const pricingJson = path.join(root, 'frontend/public/pricing-policy.json');
 if (!fs.existsSync(pricingJson)) {
-  fail('missing frontend/public/pricing-policy.json — run build or seo:generate-ai-files');
+  fail('missing frontend/public/pricing-policy.json: run build or seo:generate-ai-files');
 } else {
   const policy = JSON.parse(fs.readFileSync(pricingJson, 'utf8'));
   if (!policy.policyUrl?.includes('/legal/regional-pricing')) {

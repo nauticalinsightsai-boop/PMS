@@ -66,7 +66,7 @@ export async function getBlogArticle(slug: string): Promise<BlogArticle | undefi
   return articles.find((a) => a.slug === slug);
 }
 
-/** Client hook data loader — same merge rules as server. */
+/** Client hook data loader: same merge rules as server. */
 export async function loadBlogArticlesClient(): Promise<BlogArticle[]> {
   return getPublishedBlogArticles();
 }

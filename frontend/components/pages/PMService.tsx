@@ -10,6 +10,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import Link from "next/link";
+import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { SERVICES_COPY, CTAS } from "@/lib/brand-voice";
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
@@ -54,11 +55,16 @@ export function PMService() {
               {hero.subtitle || SERVICES_COPY.heroSubtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Link href="/contact?topic=consultation">
-                <Button size="lg" variant="brand" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20">
-                  {CTAS.pathwayConsultation}
-                </Button>
-              </Link>
+              <WebsiteCalendlyButton
+                size="lg"
+                variant="brand"
+                className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20"
+                tier="services"
+                funnelLabel="pm_service_hero_consultation"
+                utm={{ utm_source: 'pmstructure', utm_medium: 'pm_service', utm_campaign: 'hero' }}
+              >
+                {CTAS.pathwayConsultation}
+              </WebsiteCalendlyButton>
               <Link href="#services">
                 <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white h-14 px-10 rounded-2xl font-bold text-lg">
                   View Case Studies
@@ -154,11 +160,16 @@ export function PMService() {
               <p className="text-slate-900 dark:text-slate-300 text-xl mb-12 leading-relaxed font-medium">
                 Our team is standing by to help you solve your most complex project management challenges.
               </p>
-              <Link href="/contact">
-                <Button size="lg" variant="brand" className="h-16 px-12 rounded-2xl font-bold text-xl shadow-xl">
-                  Contact Our Experts
-                </Button>
-              </Link>
+              <WebsiteCalendlyButton
+                size="lg"
+                variant="brand"
+                className="h-16 px-12 rounded-2xl font-bold text-xl shadow-xl"
+                tier="services"
+                funnelLabel="pm_service_final_cta"
+                utm={{ utm_source: 'pmstructure', utm_medium: 'pm_service', utm_campaign: 'final' }}
+              >
+                Contact Our Experts
+              </WebsiteCalendlyButton>
             </div>
           </div>
         </div>

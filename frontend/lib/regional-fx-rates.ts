@@ -1,7 +1,6 @@
 /**
  * Approximate FX per 1 USD for global-reference display labels only.
- * Checkout still uses matrix `usdCents`; these rates convert global USD list price
- * into the learner's regional currency for comparison with scholarship tuition.
+ * Checkout uses matrix regional `display` amounts in local currency.
  */
 export const GLOBAL_REFERENCE_FX_PER_USD: Record<string, number> = {
   AED: 3.6725,

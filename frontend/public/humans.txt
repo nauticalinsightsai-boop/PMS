@@ -1,5 +1,5 @@
 /* TEAM */
-PM Structure — support@pmstructure.com
+PM Structure: support@pmstructure.com
 
 /* SITE */
 Standards: HTML5, Next.js App Router, JSON-LD

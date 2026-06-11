@@ -1,4 +1,4 @@
-# PM Structure — Answer Pages Map
+# PM Structure. Answer Pages Map
 
 **Run:** 12 (Phase 11)  
 **Route:** `/answers/[slug]`  

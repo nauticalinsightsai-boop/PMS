@@ -42,10 +42,10 @@ let failed = false;
 for (const route of surfaceRoutes) {
   const total = countTags(route);
   if (total < 5 || total > 10) {
-    console.error(`faq-surface FAIL: ${route} has ${total} tags (expected 5–10)`);
+    console.error(`faq-surface FAIL: ${route} has ${total} tags (expected 5-10)`);
     failed = true;
   }
 }
 
 if (failed) process.exit(1);
-console.log(`faq-surface OK (${surfaceRoutes.length} routes, 5–10 tags each)`);
+console.log(`faq-surface OK (${surfaceRoutes.length} routes, 5-10 tags each)`);

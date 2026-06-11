@@ -1,4 +1,4 @@
-# PM Structure — Final Owner Review Checklist
+# PM Structure. Final Owner Review Checklist
 
 **Audit date:** 2026-06-10  
 **Purpose:** Human sign-off before treating v2 SEO/AEO/GEO stack as production-complete.
@@ -41,21 +41,21 @@ Mark each item after review. Do not check items you have not personally verified
 
 ## FAQ & answer content
 
-- [ ] `/pmp-faq` — spot-check 10 high-traffic questions for accuracy
-- [ ] `/faq` — general certification FAQs are accurate
-- [ ] Sample `/answers/*` pages (at least 5) — no unsafe claims
-- [ ] Sample `/topics/*` hubs (at least 5) — internal links and summaries correct
+- [ ] `/pmp-faq`: spot-check 10 high-traffic questions for accuracy
+- [ ] `/faq`: general certification FAQs are accurate
+- [ ] Sample `/answers/*` pages (at least 5): no unsafe claims
+- [ ] Sample `/topics/*` hubs (at least 5): internal links and summaries correct
 - [ ] FAQ denying guarantee / ATP / affiliation reads clearly to a lay reader
 
 ---
 
 ## Legal & compliance
 
-- [ ] `/legal/privacy` — reviewed (or scheduled for counsel review)
-- [ ] `/legal/terms` — reviewed
-- [ ] `/legal/refunds` — business refund/cancellation rules finalized
-- [ ] `/legal/cookies` — cookie policy acceptable
-- [ ] `/legal/services` — services terms acceptable
+- [ ] `/legal/privacy`: reviewed (or scheduled for counsel review)
+- [ ] `/legal/terms`: reviewed
+- [ ] `/legal/refunds`: business refund/cancellation rules finalized
+- [ ] `/legal/cookies`: cookie policy acceptable
+- [ ] `/legal/services`: services terms acceptable
 - [ ] Trademark disclaimers (PMI, PRINCE2, ITIL, etc.) present where needed
 - [ ] Form privacy links work (`/contact`, diagnostic, newsletter)
 
@@ -75,12 +75,12 @@ Mark each item after review. Do not check items you have not personally verified
 
 ## AI public files
 
-- [ ] `/llms.txt` — approved public summary and deny-list
-- [ ] `/entity.json` — entity description accurate
-- [ ] `/ai-profile.json` — no unsafe claims
-- [ ] `/pmp-faq.json`, `/faq.json` — answers match live pages
-- [ ] `/pmp-2026.json` — dates and disclaimers acceptable
-- [ ] `/pricing-policy.json` — disclaimer acceptable
+- [ ] `/llms.txt`: approved public summary and deny-list
+- [ ] `/entity.json`: entity description accurate
+- [ ] `/ai-profile.json`: no unsafe claims
+- [ ] `/pmp-faq.json`, `/faq.json`: answers match live pages
+- [ ] `/pmp-2026.json`: dates and disclaimers acceptable
+- [ ] `/pricing-policy.json`: disclaimer acceptable
 - [ ] No private URLs (checkout, admin, dashboard, session) promoted as cite targets
 
 ---
@@ -88,8 +88,8 @@ Mark each item after review. Do not check items you have not personally verified
 ## Deployment decision
 
 - [ ] Read `PMSTRUCTURE_FINAL_DEPLOYMENT_DECISION.md`
-- [ ] Read `PMSTRUCTURE_FINAL_FIX_BACKLOG.md` — agree on priority fixes
-- [ ] Read `PMSTRUCTURE_FINAL_GO_LIVE_CONTROL_CENTER.md` — agree on overall status
+- [ ] Read `PMSTRUCTURE_FINAL_FIX_BACKLOG.md`: agree on priority fixes
+- [ ] Read `PMSTRUCTURE_FINAL_GO_LIVE_CONTROL_CENTER.md`: agree on overall status
 - [ ] Approve deploy of v2 build to production
 - [ ] Approve GSC/Bing submission after deploy
 - [ ] Approve AI testing baseline schedule

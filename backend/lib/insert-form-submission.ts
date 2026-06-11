@@ -7,7 +7,7 @@ export type InsertFormSubmissionInput = {
   email?: string;
   payload?: Record<string, unknown>;
   metadata?: Record<string, unknown>;
-  /** Honeypot — non-empty submissions are rejected silently */
+  /** Honeypot: non-empty submissions are rejected silently */
   website?: string;
   company?: string;
 };

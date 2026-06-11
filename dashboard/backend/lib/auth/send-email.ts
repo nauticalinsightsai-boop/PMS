@@ -80,7 +80,7 @@ function shouldLogAuthEmailInDev(): boolean {
   );
 }
 
-/** Login OTP — plain text + simple HTML for inbox clients. */
+/** Login OTP: plain text + simple HTML for inbox clients. */
 export async function sendLoginOtpEmail(to: string, code: string): Promise<void> {
   const subject = 'Your PM Structure login code';
   const text = `Your verification code is ${code}. It expires in 10 minutes.\n\nIf you did not try to sign in, ignore this email.`;
@@ -94,5 +94,5 @@ export async function sendLoginOtpEmail(to: string, code: string): Promise<void>
 
 export function logLoginOtpForDev(email: string, code: string): void {
   if (!shouldLogAuthEmailInDev()) return;
-  console.log(`\n[login-otp] Email not configured — dev code for ${email}: ${code}\n`);
+  console.log(`\n[login-otp] Email not configured: dev code for ${email}: ${code}\n`);
 }

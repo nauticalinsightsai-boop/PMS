@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 
-/** Marketing page H1 — capped at 7xl on large screens */
+/** Marketing page H1: capped at 7xl on large screens */
 export const textHero = cn(
   'font-heading text-4xl font-bold tracking-tight leading-[1.1]',
   'sm:text-5xl md:text-6xl lg:text-7xl',

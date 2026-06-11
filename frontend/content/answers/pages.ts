@@ -100,7 +100,7 @@ const pages: AnswerPageContent[] = [
     description:
       'When it makes sense to target the post-July 2026 PMP exam and how to align practice.',
     shortAnswer:
-      'Yes: if you need more study time, missed the pre-transition window, or want to align preparation to the updated exam narrative PMI describes for post–9 July 2026.',
+      'Yes: if you need more study time, missed the pre-transition window, or want to align preparation to the updated exam narrative PMI describes for post-9 July 2026.',
     detailedAnswer:
       'Post-transition preparation should emphasize situational judgment, professional responsibility, and modern delivery contexts (including agile, hybrid, and emerging themes referenced in updated PMI materials). Use scenario practice and mocks rather than memorization-only study.',
     whoApplies: 'Candidates scheduling on or after the transition window who are not yet exam-ready.',
@@ -398,7 +398,7 @@ const pages: AnswerPageContent[] = [
     shortAnswer:
       'Foundation orients new candidates; Professional adds structured scenario practice and mocks; Mastery provides intensive final preparation and weak-area remediation.',
     detailedAnswer:
-      'Foundation is for baseline ECO coverage and study planning. Professional suits active exam prep within roughly 6–12 weeks. Mastery is for high-volume practice and exam-week discipline. Use the comparison table on /pmp and the readiness diagnostic if unsure.',
+      'Foundation is for baseline ECO coverage and study planning. Professional suits active exam prep within roughly 6-12 weeks. Mastery is for high-volume practice and exam-week discipline. Use the comparison table on /pmp and the readiness diagnostic if unsure.',
     whoApplies: 'Candidates choosing their first PMP pathway tier.',
     nextSteps: [
       'Compare on /pmp',
@@ -488,7 +488,7 @@ const pages: AnswerPageContent[] = [
       'Mock exams simulate timed PMP-style scenarios so you practice judgment under pressure: not just content recall.',
     detailedAnswer:
       'Use mocks after domain coverage and when scores stabilize. PM Structure publishes mock guidance on /pmp-mock-exam; we do not guarantee pass outcomes.',
-    whoApplies: 'Candidates 4–8 weeks from their target exam window.',
+    whoApplies: 'Candidates 4-8 weeks from their target exam window.',
     nextSteps: ['Read /pmp-mock-exam', 'Take /pmp-readiness-diagnostic', 'Review mock scores weekly'],
     relatedCourses: [{ href: '/pmp-mastery', label: 'PMP Mastery' }],
     relatedPages: [{ href: '/pmp-scenario-practice', label: 'Scenario practice' }],

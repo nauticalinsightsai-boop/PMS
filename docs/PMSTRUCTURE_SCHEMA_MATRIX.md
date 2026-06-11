@@ -1,4 +1,4 @@
-# PM Structure — Schema Matrix
+# PM Structure. Schema Matrix
 
 **Implementation:** [`frontend/lib/schema/index.ts`](../frontend/lib/schema/index.ts), [`frontend/components/seo/`](../frontend/components/seo/)
 
@@ -14,8 +14,8 @@
 | Route pattern | Schema types | Component / builder | Status |
 |---------------|--------------|---------------------|--------|
 | `/` | Organization, WebSite | OrganizationJsonLd | live; WebPage TODO |
-| `/faq` | FAQPage | FaqJsonLd | live — must match crawlable FAQ DOM |
-| `/pmp-faq` | FAQPage | PmpFaqPageJsonLd | live — published PMP FAQs only |
+| `/faq` | FAQPage | FaqJsonLd | live: must match crawlable FAQ DOM |
+| `/pmp-faq` | FAQPage | PmpFaqPageJsonLd | live: published PMP FAQs only |
 | `/certifications/[id]` | Course, BreadcrumbList | CertJsonLd | live |
 | `/about`, `/contact`, marketing | WebPage, Breadcrumb | buildWebPageSchema | planned |
 | `/blog/[slug]` | Article, Breadcrumb | planned Run 8+ | missing |
@@ -40,7 +40,7 @@
 | No `Offer` / `AggregateOffer` on `/certifications/*` with live matrix prices | enforced |
 | No `price` / `priceCurrency` on `Course` JSON-LD | enforced |
 | Regional tuition explained in visible HTML + `/legal/regional-pricing` | live |
-| `pricing-policy.json` for AI citation — not a substitute for Offer schema | live |
+| `pricing-policy.json` for AI citation: not a substitute for Offer schema | live |
 | Future static global reference `Offer` only after legal sign-off | TODO |
 
 **Rationale:** Regional scholarship amounts change by region, cohort, and verification. Emitting volatile Offer schema risks rich-result penalties and misquotes in AI answers.

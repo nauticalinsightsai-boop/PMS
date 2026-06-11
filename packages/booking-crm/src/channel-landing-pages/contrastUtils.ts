@@ -21,7 +21,7 @@ function relativeLuminance(r: number, g: number, b: number): number {
   return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs
 }
 
-/** Contrast ratio between two sRGB colors (1–21). */
+/** Contrast ratio between two sRGB colors (1-21). */
 export function contrastRatio(fgHex: string, bgHex: string): number {
   const fg = parseHexColor(fgHex)
   const bg = parseHexColor(bgHex)
@@ -60,7 +60,7 @@ export function pickButtonForeground(bgHex: string): string {
   return luma > 0.58 ? DARK_ON_LIGHT : LIGHT_ON_DARK
 }
 
-/** Body text on surfaces — prefers WCAG AA when both candidates work. */
+/** Body text on surfaces: prefers WCAG AA when both candidates work. */
 export function pickReadableForeground(
   bgHex: string,
   options?: { light?: string; dark?: string; minRatio?: number }

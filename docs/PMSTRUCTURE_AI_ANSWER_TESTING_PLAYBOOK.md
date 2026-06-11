@@ -1,6 +1,6 @@
 # AI Answer Testing Playbook
 
-**Domain:** https://pmstructure.com (apex only — never cite www)
+**Domain:** https://pmstructure.com (apex only: never cite www)
 
 ## Generate sheet
 

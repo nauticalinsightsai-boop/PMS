@@ -1,7 +1,7 @@
 -- ============================================================
 -- PM Structure: dashboard_one auth + OTP
 -- Paste ALL of this file into Supabase → SQL Editor → Run
--- (No \ir or \set — those only work in psql terminal, not here)
+-- (No \ir or \set: those only work in psql terminal, not here)
 -- ============================================================
 
 create schema if not exists dashboard_one;

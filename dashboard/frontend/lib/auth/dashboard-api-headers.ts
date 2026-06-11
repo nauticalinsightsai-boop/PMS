@@ -1,4 +1,4 @@
-/** localStorage key — must match AuthContext `AUTH_API_TOKEN_KEY`. */
+/** localStorage key: must match AuthContext `AUTH_API_TOKEN_KEY`. */
 export const AUTH_API_TOKEN_KEY = 'auth_api_token';
 
 /** Bearer headers for dashboard CMS API calls from the browser. */

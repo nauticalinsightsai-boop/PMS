@@ -1,4 +1,4 @@
-# PM Structure — Brand Visual System (repo copy)
+# PM Structure. Brand Visual System (repo copy)
 
 Source of truth for design tokens in code: `frontend/lib/brand-visual.ts` and `frontend/app/globals.css`.
 
@@ -22,7 +22,7 @@ Source of truth for design tokens in code: `frontend/lib/brand-visual.ts` and `f
 
 ## Typography
 
-**Montserrat** — headings and body (per locked visual system).
+**Montserrat**: headings and body (per locked visual system).
 
 ## Utilities (Tailwind)
 

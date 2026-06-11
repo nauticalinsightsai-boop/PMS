@@ -105,13 +105,13 @@ const UI_STEPS = {
     limits: '2 meetings per day',
     buffer: '15 min before / 15 min after',
     guests: 'On',
-    payment: 'Paid — connect Stripe in Calendly UI',
+    payment: 'Paid: connect Stripe in Calendly UI',
   },
   services: {
     limits: '2 meetings per day',
     buffer: '15 min before / 15 min after',
     guests: 'On',
-    payment: 'Paid — connect Stripe in Calendly UI',
+    payment: 'Paid: connect Stripe in Calendly UI',
   },
   hero: {
     limits: '2 meetings per day',
@@ -122,11 +122,11 @@ const UI_STEPS = {
 };
 
 const STANDARD_QUESTIONS = [
-  'Phone Number — Required — Phone',
-  'Certification of Interest — Required — Multi-select: PMP, PRINCE2, Six Sigma + Other text',
-  'Years of Experience — Required — Single-select: 0–2, 3–5, 6–10, 10+',
-  'Please describe your specific question or concern — Optional — Long text',
-  'LinkedIn Profile URL — Optional — Short text',
+  'Phone Number. Required. Phone',
+  'Certification of Interest. Required. Multi-select: PMP, PRINCE2, Six Sigma + Other text',
+  'Years of Experience. Required. Single-select: 0-2, 3-5, 6-10, 10+',
+  'Please describe your specific question or concern. Optional. Long text',
+  'LinkedIn Profile URL. Optional. Short text',
 ];
 
 function writeUiChecklist(events, existingTypes) {
@@ -152,7 +152,7 @@ function writeUiChecklist(events, existingTypes) {
     const tpl = templateFor(event);
     const ui = UI_STEPS[tpl];
     const live = findEventForManifest(event, existingTypes);
-    const url = live?.scheduling_url ?? event.urls?.fallback ?? event.urls?.primary ?? '—';
+    const url = live?.scheduling_url ?? event.urls?.fallback ?? event.urls?.primary ?? '. ';
     lines.push(
       `| ${event.id} | ${event.name.replace(/\|/g, '/')} | ${tpl} | ${event.durationMinutes} min | ${ui.limits} | ${ui.buffer} | ${ui.guests} | ${ui.payment} | [Open](${url}) |`,
     );
@@ -164,10 +164,10 @@ function writeUiChecklist(events, existingTypes) {
     '',
     '1. Open [Scheduling](https://calendly.com/app/scheduling/meeting_types/user/me)',
     '2. Click event → **Edit** → **More options**',
-    '3. **Invitee questions** — add the 5 standard questions above',
-    '4. **Limits and buffers** — set daily limit + buffer times',
-    '5. **Payment** — executive + services tiers: enable Stripe',
-    '6. **Guests** — off for discovery/hero, on for executive/services',
+    '3. **Invitee questions**: add the 5 standard questions above',
+    '4. **Limits and buffers**: set daily limit + buffer times',
+    '5. **Payment**: executive + services tiers: enable Stripe',
+    '6. **Guests**: off for discovery/hero, on for executive/services',
     '',
   );
 
@@ -268,7 +268,7 @@ async function main() {
     report.push('| ID | Slug | Issue | URL |');
     report.push('|----|------|-------|-----|');
     for (const row of audit) {
-      report.push(`| ${row.id} | ${row.slug} | ${row.issue} | ${row.url ?? '—'} |`);
+      report.push(`| ${row.id} | ${row.slug} | ${row.issue} | ${row.url ?? '. '} |`);
     }
   }
 

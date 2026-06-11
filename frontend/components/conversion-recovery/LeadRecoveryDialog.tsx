@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   Dialog,
   DialogBody,
@@ -34,6 +35,9 @@ import type { LeadRecoveryContext, RecoveryTierId } from '@/lib/conversion-recov
 import { useLeadRecovery } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { trackFunnelEvent, FUNNEL_EVENTS, trackGenerateLead } from '@/lib/analytics/funnel';
 import { isLeadRecoveryEnabled } from '@/lib/conversion-recovery/enabled';
+import { isExcludedPath } from '@/lib/conversion-recovery/anti-annoyance';
+import { openPathwayConsultationCalendly } from '@/lib/pathway-consultation-scheduling';
+import { tierIdFromPathwayTier } from '@/lib/conversion-recovery/copy';
 
 const TIER_PILLS: { id: RecoveryTierId; label: string }[] = [
   { id: 'foundation', label: 'Foundation' },
@@ -42,6 +46,7 @@ const TIER_PILLS: { id: RecoveryTierId; label: string }[] = [
 ];
 
 export function LeadRecoveryDialog() {
+  const pathname = usePathname() ?? '/';
   const enabled = isLeadRecoveryEnabled();
   const { regionId } = useRegion();
   const { dialogOpen, dialogContext, dismissDialog, notifyConverted } = useLeadRecovery();
@@ -69,12 +74,22 @@ export function LeadRecoveryDialog() {
     }
   }, [dialogOpen]);
 
-  if (!enabled || !dialogContext) return null;
+  if (!enabled || !dialogContext || isExcludedPath(pathname)) return null;
 
   const copy = resolveRecoveryCopy({
     ...dialogContext,
     preferredTier: preferredTier || dialogContext.preferredTier,
   });
+
+  const handleScheduleCall = () => {
+    if (!dialogContext.siteCertId || !dialogContext.tierId) return;
+    dismissDialog('schedule_call');
+    openPathwayConsultationCalendly(
+      dialogContext.siteCertId,
+      tierIdFromPathwayTier(dialogContext.tierId),
+      dialogContext.offeringId ?? '',
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,7 +162,10 @@ export function LeadRecoveryDialog() {
 
   return (
     <Dialog open={dialogOpen} onOpenChange={(open) => !open && dismissDialog('backdrop')}>
-      <DialogContent className="rounded-[2rem] sm:max-w-md z-[115]">
+      <DialogContent
+        className="rounded-[2rem] sm:max-w-md z-[131]"
+        overlayClassName="z-[130] bg-black/50"
+      >
         <DialogHeader>
           <DialogTitle className="text-xl font-bold pr-8">{copy.headline}</DialogTitle>
           <DialogDescription className="text-sm leading-relaxed">{copy.body}</DialogDescription>
@@ -254,6 +272,16 @@ export function LeadRecoveryDialog() {
               </p>
             </DialogBody>
             <DialogFooter className="flex-col gap-2 sm:flex-col">
+              {copy.showScheduleCall && dialogContext.siteCertId && dialogContext.tierId ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full h-11 font-bold border-brand-orange/30 text-brand-orange hover:bg-brand-orange/5"
+                  onClick={handleScheduleCall}
+                >
+                  {copy.scheduleCallLabel ?? 'Schedule a call at your convenience'}
+                </Button>
+              ) : null}
               <Button type="submit" variant="brand" className="w-full h-11 font-bold" disabled={submitting}>
                 {submitting ? 'Sending…' : copy.submitLabel}
               </Button>

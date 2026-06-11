@@ -1,4 +1,4 @@
-# PM Structure — Implementation Dependency Map
+# PM Structure. Implementation Dependency Map
 
 ```mermaid
 flowchart TB
@@ -67,7 +67,7 @@ flowchart TB
 
 | Phase | Blocked until |
 |-------|----------------|
-| Run 2 Crawlability | — (first implementation) |
+| Run 2 Crawlability |. (first implementation) |
 | Run 3 Index/noindex | Run 2 |
 | Phase 3 Sitemap | Run 3 (final index matrix) |
 | Phase 4 Canonical | Run 3 |
@@ -79,9 +79,9 @@ flowchart TB
 | Phase 10 PMP FAQ | Phase 9 (course links) |
 | Phase 11 Answers | Phases 8, 10 |
 | Phase 12 Topic hubs | Phases 8, 11 |
-| Phase 16 Validation | Rules from phases 3–7 defined |
+| Phase 16 Validation | Rules from phases 3-7 defined |
 | Phase 18 GSC | Phase 3 sitemap + Phase 8+ URLs |
-| Phase 19 AI testing | Phases 6, 8–12 content live |
+| Phase 19 AI testing | Phases 6, 8-12 content live |
 
 ---
 
@@ -89,10 +89,10 @@ flowchart TB
 
 | Phase | Recommended after |
 |-------|-------------------|
-| Phase 6 AI files (core) | Phase 4 — entity.json, faq.json can ship before PMP pages |
-| Phase 13 Regional pricing | Run 2 — confirm non-blocking |
-| Phase 14 Conversion | Phase 9 — CTAs on course pages |
-| Phase 15 Legal | Anytime — update before Phase 8 public copy push |
+| Phase 6 AI files (core) | Phase 4: entity.json, faq.json can ship before PMP pages |
+| Phase 13 Regional pricing | Run 2: confirm non-blocking |
+| Phase 14 Conversion | Phase 9. CTAs on course pages |
+| Phase 15 Legal | Anytime: update before Phase 8 public copy push |
 | Phase 17 Deploy | Phase 16 |
 
 ---
@@ -101,12 +101,12 @@ flowchart TB
 
 | Consumer | Requires data from |
 |----------|-------------------|
-| `sitemap-pmp.xml` | PMP route modules (Phase 8–9) |
+| `sitemap-pmp.xml` | PMP route modules (Phase 8-9) |
 | `pmp-faq.json` | FAQ data model (Phase 10) |
-| `pmp-routes.json` | Route registry (Phase 8–9) |
+| `pmp-routes.json` | Route registry (Phase 8-9) |
 | FAQPage schema | Visible FAQ on same page |
 | Course schema | Course page content + stable Offer |
-| `seo:pmp-check` | All `/pmp*` routes (Phase 8–9) |
+| `seo:pmp-check` | All `/pmp*` routes (Phase 8-9) |
 | GSC inspection list | Live deploy of priority URLs |
 
 ---

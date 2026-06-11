@@ -20,7 +20,7 @@ export const privacyEuDocument: LegalDocument = {
     section(
       'children',
       '3. Children',
-      'Our services are not directed at children under 16. In some member states, parental consent may be required for information society services offered to children aged 13–16. We do not knowingly process children’s data for marketing.',
+      'Our services are not directed at children under 16. In some member states, parental consent may be required for information society services offered to children aged 13-16. We do not knowingly process children’s data for marketing.',
     ),
     section(
       'retention',

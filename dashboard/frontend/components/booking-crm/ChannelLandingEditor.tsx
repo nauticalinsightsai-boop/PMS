@@ -151,7 +151,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
         } catch (e) {
           addNotification(
             'error',
-            e instanceof Error ? e.message : 'Tier durations must match 15–30 / 30–45 / 60–90 min bands'
+            e instanceof Error ? e.message : 'Tier durations must match 15-30 / 30-45 / 60-90 min bands'
           )
           return
         }
@@ -181,7 +181,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
         if (intent === 'publish') {
           addNotification('success', 'Published. Copy the public link from the toolbar.')
         } else if (intent === 'unpublish') {
-          addNotification('info', 'Unpublished — link no longer works.')
+          addNotification('info', 'Unpublished: link no longer works.')
         } else {
           addNotification('success', 'Draft saved')
         }
@@ -203,7 +203,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
     try {
       await navigator.clipboard.writeText(link)
       setCopied(true)
-      addNotification('success', 'Link copied — paste on your platforms')
+      addNotification('success', 'Link copied: paste on your platforms')
       setTimeout(() => setCopied(false), 2000)
     } catch {
       addNotification('error', 'Could not copy link')
@@ -394,7 +394,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
             <>
               <label className="block">
                 <span className="text-meta text-muted-foreground">
-                  Webinar overview (what it covers — shown on /go/webinar)
+                  Webinar overview (what it covers: shown on /go/webinar)
                 </span>
                 <textarea
                   value={draft.webinarAbout ?? ''}
@@ -530,7 +530,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
                   if (mins < limits.min || mins > limits.max) {
                     return (
                       <p className="text-meta text-amber-600 col-span-2">
-                        Use {limits.min}–{limits.max} minutes for {tier.id}
+                        Use {limits.min}-{limits.max} minutes for {tier.id}
                       </p>
                     )
                   }
@@ -551,7 +551,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
           <h3 className="text-h4 text-foreground">Action & booking</h3>
           <label className="block">
             <span className="text-meta text-muted-foreground">
-              Stored primary button text (legacy — tier buttons use pack CTA)
+              Stored primary button text (legacy: tier buttons use pack CTA)
             </span>
             <input
               value={draft.primaryButtonText}

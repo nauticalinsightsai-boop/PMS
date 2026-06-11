@@ -1,13 +1,13 @@
 export type PhoneDialOption = {
   /** Unique select value */
   value: string;
-  /** 2–3 letter display prefix (ISO-style) */
+  /** 2-3 letter display prefix (ISO-style) */
   prefix: string;
   code: string;
   label: string;
 };
 
-/** ITU-T E.164 calling codes — priority markets first, then alphabetical. */
+/** ITU-T E.164 calling codes: priority markets first, then alphabetical. */
 export const PHONE_DIAL_CODES: readonly PhoneDialOption[] = [
   {
     "value": "us",

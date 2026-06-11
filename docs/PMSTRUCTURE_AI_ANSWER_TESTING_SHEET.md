@@ -1,4 +1,4 @@
-# PM Structure — AI Answer Testing Sheet
+# PM Structure. AI Answer Testing Sheet
 
 **Run:** 20 (Phase 19)  
 **Property:** https://pmstructure.com  
@@ -28,8 +28,8 @@
 | Cited pmstructure.com | Y / N / partial |
 | Cited URL | Best matching path on site |
 | Accuracy | correct / partial / wrong / no cite |
-| False ATP claim | Y / N — attributed PM Structure as PMI ATP incorrectly |
-| False guarantee | Y / N — attributed pass guarantee incorrectly |
+| False ATP claim | Y / N: attributed PM Structure as PMI ATP incorrectly |
+| False guarantee | Y / N: attributed pass guarantee incorrectly |
 | Fix priority | P0 (false ATP/guarantee) / P1 (wrong cite) / P2 (no cite) / P3 (partial) |
 | Notes | Competitor cited instead, outdated dates, etc. |
 
@@ -75,7 +75,7 @@
 | 27 | PM Structure independent exam prep platform | `/` or `/legal/pricing-disclaimers` |
 | 28 | PMP FAQ 2026 PM Structure | `/faq` (pmp-2026 section) |
 
-### Extended queries (new answer/hub pages — add to monthly rotation)
+### Extended queries (new answer/hub pages: add to monthly rotation)
 
 | Query | Target cite URL |
 |-------|-----------------|
@@ -94,18 +94,18 @@
 
 - Top 15 PMP 2026 queries cite `pmstructure.com` at least 40% of platforms on baseline
 - Zero false ATP or guaranteed-pass attribution to PM Structure
-- Preferred URLs are `/answers/*`, `/pmp-exam-2026`, or `/topics/pmp-exam-2026` — not homepage-only for specific questions
+- Preferred URLs are `/answers/*`, `/pmp-exam-2026`, or `/topics/pmp-exam-2026`: not homepage-only for specific questions
 
 ## Schedule
 
 | When | Action |
 |------|--------|
-| T+7d post sitemap | Baseline round (all 28 × 9 = 252 cells — sample 28 × 5 if time-boxed) |
-| Monthly | Re-test queries 1–10 + any failed cells |
+| T+7d post sitemap | Baseline round (all 28 × 9 = 252 cells: sample 28 × 5 if time-boxed) |
+| Monthly | Re-test queries 1-10 + any failed cells |
 | After content release | Re-test affected query rows |
 
 ## Sample log row
 
 | Date | Platform | Query | Cited | URL | Accuracy | False ATP | False guarantee | Fix priority | Notes |
 |------|----------|-------|-------|-----|----------|-----------|-----------------|--------------|-------|
-| 2026-07-01 | Perplexity | Is the PMP exam changing in 2026? | Y | /answers/is-the-pmp-exam-changing-in-2026 | correct | N | N | — | Also cited PMI.org |
+| 2026-07-01 | Perplexity | Is the PMP exam changing in 2026? | Y | /answers/is-the-pmp-exam-changing-in-2026 | correct | N | N |: | Also cited PMI.org |

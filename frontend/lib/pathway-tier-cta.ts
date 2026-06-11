@@ -72,12 +72,12 @@ function foundationCta(
   if (status === 'consultation_required') {
     return {
       label: enrollLabel,
-      modalMode: 'consultation',
-      proceedHref: consultationHref,
-      proceedLabel: 'Talk to an advisor',
-      enrollHref: null,
+      modalMode: 'enroll',
+      proceedHref: enrollHref,
+      proceedLabel: enrollLabel,
+      enrollHref,
       enrollLabel,
-      showConsultationInModal: true,
+      showConsultationInModal: false,
     };
   }
   if (status === 'scholarship_unavailable') {
@@ -137,13 +137,13 @@ function professionalOrMasteryCta(
 
   if (status === 'scholarship_verify') {
     return {
-      label: 'View pathway',
+      label: enrollHref ? PRO_MASTERY_ENROLL_LABEL : 'View pathway',
       modalMode: 'scholarship',
       proceedHref: scholarshipHref,
       proceedLabel: 'Request scholarship review',
       enrollHref,
       enrollLabel: PRO_MASTERY_ENROLL_LABEL,
-      ...mentorModalFields(true),
+      ...mentorModalFields(!enrollHref),
     };
   }
   if (status === 'waitlist') {
@@ -173,13 +173,13 @@ function professionalOrMasteryCta(
   }
 
   return {
-    label: 'View pathway',
-    modalMode: 'consultation',
-    proceedHref: consultationHref,
-    proceedLabel: CTAS.pathwayMentorCta,
+    label: enrollHref ? PRO_MASTERY_ENROLL_LABEL : 'View pathway',
+    modalMode: enrollHref ? 'enroll' : 'consultation',
+    proceedHref: enrollHref ?? consultationHref,
+    proceedLabel: enrollHref ? PRO_MASTERY_ENROLL_LABEL : CTAS.pathwayMentorCta,
     enrollHref,
     enrollLabel: PRO_MASTERY_ENROLL_LABEL,
-    ...mentorModalFields(true),
+    ...mentorModalFields(!enrollHref),
   };
 }
 

@@ -29,7 +29,7 @@ function hasSupabaseAuthCookies(request: NextRequest): boolean {
 }
 
 /**
- * Layer 3 — dashboard HTML routes (/dashboard/**).
+ * Layer 3: dashboard HTML routes (/dashboard/**).
  * Without AUTH_SESSION_SECRET in production, returns false (locked).
  */
 export async function isDashboardRouteAuthorized(

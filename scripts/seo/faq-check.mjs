@@ -22,7 +22,7 @@ try {
     fs.readFileSync(path.join(frontend, 'public/pmp-faq.json'), 'utf8'),
   );
 } catch {
-  console.warn('faq-check: pmp-faq.json not found — run seo:generate-ai-files');
+  console.warn('faq-check: pmp-faq.json not found: run seo:generate-ai-files');
 }
 
 const pmp2026Count = (pmpFaqs.match(/id: 'pmp26-/g) || []).length;

@@ -1,3 +1,5 @@
+import type { WebsiteCalendlyTier } from '@/lib/calendly/website-events';
+
 export type RecoverySurface = 'center_dialog' | 'bottom_bar';
 
 export type RecoveryTierId = 'foundation' | 'professional' | 'mastery' | 'unknown';
@@ -55,10 +57,13 @@ export type RecoveryCopy = {
   body: string;
   submitLabel: string;
   showTierPills?: boolean;
+  showScheduleCall?: boolean;
+  scheduleCallLabel?: string;
 };
 
 export type BottomBarAction =
   | { type: 'calendly_hero' }
+  | { type: 'calendly'; tier: WebsiteCalendlyTier; label?: string }
   | { type: 'link'; href: string; label: string }
   | { type: 'register_modal' }
   | { type: 'micro_form' }

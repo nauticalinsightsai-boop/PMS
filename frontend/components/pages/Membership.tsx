@@ -22,6 +22,7 @@ import {
   MEMBERSHIP_PRICING,
 } from '@/lib/membership-plans';
 import { getRegionalMembershipAmounts } from '@/lib/membership-regional-pricing';
+import { membershipCheckoutHref, type MembershipCheckoutTier } from '@/lib/membership-checkout';
 import { MARKETING_STOCK_IMAGES } from '@/lib/marketing-stock-images';
 
 import * as siteData from "@/data/siteData";
@@ -196,7 +197,7 @@ export function Membership() {
             {formatMembershipSavingsPercent(proRegional.monthlyNumeric, proRegional.yearlyNumeric)}
             ). Mastery is {masteryRegional.monthly}/month or {masteryRegional.yearly}/year (
             {formatMembershipSavingsPercent(masteryRegional.monthlyNumeric, masteryRegional.yearlyNumeric)}
-            ). Checkout is processed in USD equivalent.
+            ). Checkout is charged in your regional currency where supported.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
             {tiers.map((tier, index) => {
@@ -287,17 +288,37 @@ export function Membership() {
                     </div>
                   </CardContent>
                   <CardFooter className="flex justify-center px-8 pb-8 pt-[10%]">
-                    <Link
-                      href={tier.highlight ? "/membership" : "/contact"}
-                      className="w-full max-w-[280px]"
-                    >
-                      <Button
-                        variant={tier.highlight ? "brand" : "outline"}
-                        className="w-full h-14 text-lg font-bold rounded-2xl transition-all"
-                      >
-                        {tier.cta}
-                      </Button>
-                    </Link>
+                    {(() => {
+                      const tierId: MembershipCheckoutTier | null =
+                        tier.name === 'Professional'
+                          ? 'professional'
+                          : tier.name === 'Mastery'
+                            ? 'mastery'
+                            : null;
+                      if (!tierId) {
+                        return (
+                          <Button
+                            type="button"
+                            disabled
+                            variant="outline"
+                            aria-disabled="true"
+                            className="w-full max-w-[280px] h-14 text-lg font-bold rounded-2xl opacity-70 cursor-default"
+                          >
+                            {tier.cta}
+                          </Button>
+                        );
+                      }
+                      return (
+                        <Link href={membershipCheckoutHref(tierId, billing)} className="w-full max-w-[280px]">
+                          <Button
+                            variant={tier.highlight ? 'brand' : 'outline'}
+                            className="w-full h-14 text-lg font-bold rounded-2xl transition-all"
+                          >
+                            {tier.cta}
+                          </Button>
+                        </Link>
+                      );
+                    })()}
                   </CardFooter>
                 </Card>
               </motion.div>

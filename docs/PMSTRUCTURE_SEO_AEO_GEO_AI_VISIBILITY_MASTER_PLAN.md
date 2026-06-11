@@ -1,9 +1,9 @@
-# PM Structure — SEO / AEO / GEO / AI Visibility Master Plan (Run 1)
+# PM Structure. SEO / AEO / GEO / AI Visibility Master Plan (Run 1)
 
 **Brand:** PM Structure  
 **Primary website:** https://www.pmstructure.com  
 **Canonical domain (confirmed):** `https://www.pmstructure.com`  
-**Scope (Run 1):** Documentation and inventory only — no runtime code, content, metadata, redirect, or component changes until a later implementation run.
+**Scope (Run 1):** Documentation and inventory only: no runtime code, content, metadata, redirect, or component changes until a later implementation run.
 
 **Compliance positioning:** PM Structure is an independent project management exam-prep and professional learning platform. Do not claim PMI ATP status, official PMI affiliation, official PMI training partner status, guaranteed pass, official certification provider status, or formal accreditation unless explicitly confirmed in code/content or by the owner.
 
@@ -11,7 +11,7 @@
 
 ## Terminology: SERP (not SREP)
 
-**SERP** = Search Engine Results Page — the page Google, Bing, or another search engine shows after a query.
+**SERP** = Search Engine Results Page: the page Google, Bing, or another search engine shows after a query.
 
 Example query: *"PMP exam change 2026"*
 
@@ -69,9 +69,9 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 1 — FULL WEBSITE ROUTE INVENTORY
+# PHASE 1. FULL WEBSITE ROUTE INVENTORY
 
-## Phase 1 — Route discovery tasks
+## Phase 1. Route discovery tasks
 
 * [ ] Crawl all current app routes from the codebase (`frontend/app/**`, `dashboard/frontend/app/**`, `backend/app/api/**`, `dashboard/backend/app/api/**`)
 * [ ] Identify all static routes
@@ -89,26 +89,26 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Add required action for every route
 * [ ] Add route-priority classification (critical / high / medium / low)
 
-## Phase 1 — Marketing static routes (document each in inventory)
+## Phase 1. Marketing static routes (document each in inventory)
 
-* [ ] Document `/` — `frontend/app/(site)/page.tsx` — homepage — RegionGate blocked — critical
-* [ ] Document `/about` — `frontend/app/(site)/about/page.tsx`
-* [ ] Document `/contact` — `frontend/app/(site)/contact/page.tsx`
-* [ ] Document `/faq` — `frontend/app/(site)/faq/page.tsx`
-* [ ] Document `/membership` — `frontend/app/(site)/membership/page.tsx`
-* [ ] Document `/community` — `frontend/app/(site)/community/page.tsx`
-* [ ] Document `/pm-service` — `frontend/app/(site)/pm-service/page.tsx`
-* [ ] Document `/blog` — `frontend/app/(site)/blog/page.tsx`
-* [ ] Document `/newsletter` — `frontend/app/(site)/newsletter/page.tsx`
-* [ ] Document `/certifications` — `frontend/app/(site)/certifications/page.tsx`
-* [ ] Document `/certifications/compare` — `frontend/app/(site)/certifications/compare/page.tsx`
-* [ ] Document `/compare` — redirect to `/certifications/compare`
-* [ ] Document `/store` — redirect to `/community?view=store`
+* [ ] Document `/`: `frontend/app/(site)/page.tsx`: homepage. RegionGate blocked: critical
+* [ ] Document `/about`: `frontend/app/(site)/about/page.tsx`
+* [ ] Document `/contact`: `frontend/app/(site)/contact/page.tsx`
+* [ ] Document `/faq`: `frontend/app/(site)/faq/page.tsx`
+* [ ] Document `/membership`: `frontend/app/(site)/membership/page.tsx`
+* [ ] Document `/community`: `frontend/app/(site)/community/page.tsx`
+* [ ] Document `/pm-service`: `frontend/app/(site)/pm-service/page.tsx`
+* [ ] Document `/blog`: `frontend/app/(site)/blog/page.tsx`
+* [ ] Document `/newsletter`: `frontend/app/(site)/newsletter/page.tsx`
+* [ ] Document `/certifications`: `frontend/app/(site)/certifications/page.tsx`
+* [ ] Document `/certifications/compare`: `frontend/app/(site)/certifications/compare/page.tsx`
+* [ ] Document `/compare`: redirect to `/certifications/compare`
+* [ ] Document `/store`: redirect to `/community?view=store`
 
-## Phase 1 — Certification detail routes (27 certs)
+## Phase 1. Certification detail routes (27 certs)
 
 * [ ] Document `/certifications/capm`
-* [ ] Document `/certifications/pmp` — **PMP authority anchor (current)** — critical
+* [ ] Document `/certifications/pmp`: **PMP authority anchor (current)**: critical
 * [ ] Document `/certifications/pmi-acp`
 * [ ] Document `/certifications/pmi-rmp`
 * [ ] Document `/certifications/pmi-pba`
@@ -135,27 +135,27 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Document `/certifications/lss-champion`
 * [ ] Document `/certifications/foundation-direct`
 
-## Phase 1 — Enroll routes (noindex class)
+## Phase 1. Enroll routes (noindex class)
 
-* [ ] Document enroll pattern `/certifications/[id]/[tierSlug]/enroll` — `frontend/app/(site)/certifications/[id]/[tierSlug]/enroll/page.tsx`
+* [ ] Document enroll pattern `/certifications/[id]/[tierSlug]/enroll`: `frontend/app/(site)/certifications/[id]/[tierSlug]/enroll/page.tsx`
 * [ ] Document enroll success `/certifications/[id]/[tierSlug]/enroll/success`
 * [ ] Inventory all tier slugs: foundation, professional, mastery, mastery-corporate, mastery-advisory
 * [ ] Flag all enroll routes: noindex, sitemap exclude, conversion page
 
-## Phase 1 — Checkout routes
+## Phase 1. Checkout routes
 
-* [ ] Document `/checkout` — noindex (current)
-* [ ] Document `/checkout/success` — **missing noindex metadata** — fix in implementation
-* [ ] Document `/checkout/cancel` — **missing noindex metadata** — fix in implementation
+* [ ] Document `/checkout`: noindex (current)
+* [ ] Document `/checkout/success`: **missing noindex metadata**: fix in implementation
+* [ ] Document `/checkout/cancel`: **missing noindex metadata**: fix in implementation
 
-## Phase 1 — Blog routes
+## Phase 1. Blog routes
 
 * [ ] Document `/blog/[slug]` dynamic route
 * [ ] Document seed slug `workplace-safety-basics`
-* [ ] Document draft slug `employer-compliance-checklist-2026` — noindex until published
+* [ ] Document draft slug `employer-compliance-checklist-2026`: noindex until published
 * [ ] Inventory CMS-published blog slugs from Supabase
 
-## Phase 1 — Newsletter routes
+## Phase 1. Newsletter routes
 
 * [ ] Document `/newsletter/[slug]` dynamic route
 * [ ] Document slug `2026-pmp-exam-changes`
@@ -166,7 +166,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Document slug `building-high-performance-pmo`
 * [ ] Inventory CMS-published newsletter slugs
 
-## Phase 1 — Legal routes
+## Phase 1. Legal routes
 
 * [ ] Document `/legal` hub
 * [ ] Document `/legal/terms`
@@ -200,7 +200,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Document `/legal/privacy/gcc/kw`
 * [ ] Document `/legal/privacy/gcc/om`
 
-## Phase 1 — Go channel portal routes (41 published + 1 draft)
+## Phase 1. Go channel portal routes (41 published + 1 draft)
 
 * [ ] Document `/go` redirect to `/go/website`
 * [ ] Document `/go/website`
@@ -244,14 +244,14 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Document `/go/content-aggregators`
 * [ ] Document `/go/api-ai-fed`
 * [ ] Document `/go/webinar`
-* [ ] Document `/go/vk` — draft — noindex unless `?preview=1`
+* [ ] Document `/go/vk`: draft: noindex unless `?preview=1`
 
-## Phase 1 — SEO infrastructure routes
+## Phase 1. SEO infrastructure routes
 
-* [ ] Document `/sitemap.xml` — `frontend/app/sitemap.ts`
-* [ ] Document `/robots.txt` — `frontend/app/robots.ts`
+* [ ] Document `/sitemap.xml`: `frontend/app/sitemap.ts`
+* [ ] Document `/robots.txt`: `frontend/app/robots.ts`
 
-## Phase 1 — Public API routes (`backend/app/api`)
+## Phase 1. Public API routes (`backend/app/api`)
 
 * [ ] Document `GET /api/health`
 * [ ] Document `GET /api/catalogue`
@@ -267,7 +267,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Document `GET /api/checkout/session/[id]`
 * [ ] Document `POST /api/stripe/webhook`
 
-## Phase 1 — Dashboard private routes (noindex class)
+## Phase 1. Dashboard private routes (noindex class)
 
 * [ ] Document `/login` and `/login/update-password`
 * [ ] Document `/dashboard` hub
@@ -281,13 +281,13 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Document legacy `/dashboard/members-revenue/**` redirects
 * [ ] Flag dashboard: noindex, robots disallow, sitemap exclude
 
-## Phase 1 — Dashboard API routes
+## Phase 1. Dashboard API routes
 
 * [ ] Inventory all `dashboard/backend/app/api/**` routes
 * [ ] Classify auth-guarded vs unguarded admin endpoints
 * [ ] Flag unguarded sensitive routes for security + noindex (API not indexed)
 
-## Phase 1 — Planned future routes (not yet in codebase)
+## Phase 1. Planned future routes (not yet in codebase)
 
 * [ ] Add planned `/pmp` hub to inventory
 * [ ] Add planned `/pmp-exam-2026` to inventory
@@ -324,9 +324,9 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 1A — SERP, HEADING STRUCTURE, AND ON-PAGE SEO
+# PHASE 1A. SERP, HEADING STRUCTURE, AND ON-PAGE SEO
 
-## Phase 1A — H1 tasks
+## Phase 1A. H1 tasks
 
 * [ ] Add H1 extraction to the route inventory
 * [ ] Record H1 count for every public route
@@ -335,8 +335,8 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Flag pages where H1 is vague
 * [ ] Flag pages where H1 is "Loading," "Coming Soon," "Welcome," or similar
 * [ ] Flag pages where hero cards/slides create multiple H1s
-* [ ] Flag homepage H1 "Structured project management capability" — recommend certification-focused H1
-* [ ] Recommend corrected H1 for `/` — "Project Management Certification Preparation for PMP, PMI-RMP, PRINCE2 and Six Sigma"
+* [ ] Flag homepage H1 "Structured project management capability": recommend certification-focused H1
+* [ ] Recommend corrected H1 for `/`. "Project Management Certification Preparation for PMP, PMI-RMP, PRINCE2 and Six Sigma"
 * [ ] Recommend corrected H1 for every indexable certification page
 * [ ] Recommend corrected H1 for every planned PMP authority page
 * [ ] Ensure every course page has one clear H1 (implementation)
@@ -346,7 +346,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Ensure every legal page has a simple legal H1
 * [ ] Add automated H1 validation if feasible (`seo:h1-check`)
 
-## Phase 1A — H2 tasks
+## Phase 1A. H2 tasks
 
 * [ ] Add H2 extraction to the route inventory
 * [ ] Record H2 count and H2 text for every public route
@@ -361,7 +361,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Ensure H2s align with SERP/AEO/GEO targets
 * [ ] Add automated H2 validation if feasible (`seo:headings`)
 
-## Phase 1A — H3 tasks
+## Phase 1A. H3 tasks
 
 * [ ] Add H3 extraction to the route inventory
 * [ ] Record H3 count and H3 text for every public route
@@ -374,7 +374,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Ensure H3s support the page's SERP target
 * [ ] Add automated H3/hierarchy validation if feasible
 
-## Phase 1A — Title / meta / heading alignment
+## Phase 1A. Title / meta / heading alignment
 
 * [ ] Add title/H1 alignment check
 * [ ] Add meta description/H1 alignment check
@@ -387,7 +387,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Ensure every legal page uses a simple legal H1
 * [ ] Fix legal static pages missing `buildPageMetadata` canonical/description
 
-## Phase 1A — SERP / AEO / GEO inventory columns
+## Phase 1A. SERP / AEO / GEO inventory columns
 
 * [ ] Add SERP target column to route inventory
 * [ ] Add AEO target question column to route inventory
@@ -400,7 +400,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Add CTA requirement column to route inventory
 * [ ] Add content gap column to route inventory
 
-## Phase 1A — Create `docs/PMSTRUCTURE_HEADING_SERP_ONPAGE_SEO_PLAN.md`
+## Phase 1A. Create `docs/PMSTRUCTURE_HEADING_SERP_ONPAGE_SEO_PLAN.md`
 
 * [ ] Write SERP education section
 * [ ] Write H1/H2/H3/H4 rules
@@ -410,7 +410,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 2 — CRITICAL CRAWLABILITY AND RENDERING FIX PLAN
+# PHASE 2. CRITICAL CRAWLABILITY AND RENDERING FIX PLAN
 
 * [ ] Identify why the homepage renders "Loading your regional experience…" (`RegionGate.tsx` + `RegionContext.tsx`)
 * [ ] Identify whether IP detection blocks page rendering
@@ -420,12 +420,12 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Plan fallback default region/pricing state (global USD)
 * [ ] Plan noscript fallback content
 * [ ] Plan crawler-rendering validation tasks (`seo:render-check`)
-* [ ] Document that `/go/*` bypasses RegionGate — more crawlable than main site
+* [ ] Document that `/go/*` bypasses RegionGate: more crawlable than main site
 * [ ] Add implementation tasks to master plan for removing RegionGate content block
 
 ---
 
-# PHASE 3 — INDEX / NOINDEX PLAN
+# PHASE 3. INDEX / NOINDEX PLAN
 
 * [ ] Create complete indexing matrix in `docs/PMSTRUCTURE_INDEXING_MATRIX.md`
 * [ ] Plan index/follow metadata for completed public authority pages
@@ -435,13 +435,13 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Add noindex validation tasks (`seo:noindex-check`)
 * [ ] Index: homepage, about, course overview, certification overview, PMP hub, PMP 2026, FAQ, answers, topics, blog, legal, contact
 * [ ] Noindex: login, account, dashboard, admin, checkout, payment, success, cancel, thank-you, LMS private, API, draft, preview, test, placeholder, loading-only, coming-soon, duplicate regional/currency URLs
-* [ ] Fix `/checkout/success` and `/checkout/cancel` — add noindex metadata
-* [ ] Add dashboard `/login`, `/dashboard/**` — noindex + robots disallow
+* [ ] Fix `/checkout/success` and `/checkout/cancel`: add noindex metadata
+* [ ] Add dashboard `/login`, `/dashboard/**`: noindex + robots disallow
 * [ ] Decide indexing strategy for 41 `/go/*` channel landers (document in indexing matrix)
 
 ---
 
-# PHASE 4 — SITEMAP AND ROBOTS PLAN
+# PHASE 4. SITEMAP AND ROBOTS PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_SITEMAP_PLAN.md`
 * [ ] Audit existing sitemap generation (`frontend/app/sitemap.ts`)
@@ -459,7 +459,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Plan `/sitemap-topics.xml`
 * [ ] Plan `/sitemap-legal.xml`
 * [ ] Plan optional `/sitemap-portals.xml` for `/go/*` channels
-* [ ] Plan robots.txt rules — extend disallow for `/dashboard`, `/login`, `/admin`, enroll paths
+* [ ] Plan robots.txt rules: extend disallow for `/dashboard`, `/login`, `/admin`, enroll paths
 * [ ] Add sitemap validation tasks (`seo:sitemap-check`)
 * [ ] Rule: only canonical `https://www.pmstructure.com` URLs
 * [ ] Rule: exclude all noindex pages
@@ -469,7 +469,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 5 — CANONICAL URL PLAN
+# PHASE 5. CANONICAL URL PLAN
 
 * [ ] Audit all current canonical URLs
 * [ ] Plan shared canonical URL helper (extend `buildPageMetadata`)
@@ -485,7 +485,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 6 — AI FILE LAYER PLAN
+# PHASE 6. AI FILE LAYER PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_AI_FILES_PLAN.md`
 * [ ] Plan `llms.txt` expansion (current: `frontend/public/llms.txt`)
@@ -511,13 +511,13 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 7 — SCHEMA / JSON-LD PLAN
+# PHASE 7. SCHEMA / JSON-LD PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_SCHEMA_MATRIX.md`
 * [ ] Audit existing JSON-LD (`OrganizationJsonLd`, `CertJsonLd`, `FaqJsonLd`)
 * [ ] Plan shared schema builder utilities
-* [ ] Plan Organization schema — `@id` `https://www.pmstructure.com/#organization`
-* [ ] Plan WebSite schema — `@id` `https://www.pmstructure.com/#website`
+* [ ] Plan Organization schema: `@id` `https://www.pmstructure.com/#organization`
+* [ ] Plan WebSite schema: `@id` `https://www.pmstructure.com/#website`
 * [ ] Plan EducationalOrganization where appropriate
 * [ ] Plan Course schema for every course/cert page
 * [ ] Plan Offer schema for pricing/course pages
@@ -538,7 +538,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 8 — PMP DOMINANCE AND PMP AUTHORITY PLAN
+# PHASE 8. PMP DOMINANCE AND PMP AUTHORITY PLAN
 
 * [ ] Make `/pmp-exam-2026` the main PMP authority anchor (new page)
 * [ ] Plan PMP hub `/pmp`
@@ -580,7 +580,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 9 — COURSE PAGE SYSTEM PLAN
+# PHASE 9. COURSE PAGE SYSTEM PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_COURSE_PAGE_MAP.md`
 * [ ] Plan course data model (extend regional catalogue + site-content)
@@ -637,10 +637,10 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 10 — FAQ EXPANSION PLAN
+# PHASE 10. FAQ EXPANSION PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_FAQ_EXPANSION_MAP.md`
-* [ ] Audit existing FAQ (`frontend/content/faq/data.ts` — ~73 entries)
+* [ ] Audit existing FAQ (`frontend/content/faq/data.ts`: ~73 entries)
 * [ ] Plan FAQ data model extension
 * [ ] Plan FAQ hub page improvements (`/faq`)
 * [ ] Plan FAQ category pages if useful
@@ -678,7 +678,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 11 — ANSWER PAGES PLAN
+# PHASE 11. ANSWER PAGES PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_ANSWER_PAGES_MAP.md`
 * [ ] Plan answer page data model
@@ -716,7 +716,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 12 — TOPIC HUBS PLAN
+# PHASE 12. TOPIC HUBS PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_TOPIC_HUBS_MAP.md`
 * [ ] Plan topic hub data model
@@ -746,11 +746,11 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 13 — CONTENT CLUSTER MAP PLAN
+# PHASE 13. CONTENT CLUSTER MAP PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_CONTENT_CLUSTER_MAP.md`
-* [ ] Cluster 1: PMP Exam 2026 Transition — pillar `/pmp-exam-2026`
-* [ ] Cluster 2: PMP Preparation Pathway — pillar `/pmp`
+* [ ] Cluster 1: PMP Exam 2026 Transition: pillar `/pmp-exam-2026`
+* [ ] Cluster 2: PMP Preparation Pathway: pillar `/pmp`
 * [ ] Cluster 3: PMP Foundation / Professional / Mastery
 * [ ] Cluster 4: PMP Scenario Practice and Mock Exams
 * [ ] Cluster 5: PMI-RMP Preparation
@@ -770,7 +770,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 14 — REGIONAL PRICING AND CURRENCY SEO PLAN
+# PHASE 14. REGIONAL PRICING AND CURRENCY SEO PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_REGIONAL_PRICING_SEO_PLAN.md`
 * [ ] Audit current regional pricing logic (`RegionContext`, `RegionGate`, `regional-catalogue.json`)
@@ -791,7 +791,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 15 — CONVERSION FLOW MAP PLAN
+# PHASE 15. CONVERSION FLOW MAP PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_CONVERSION_FLOW_MAP.md`
 * [ ] Map flow: organic search → PMP 2026 page → diagnostic → PMP pathway → enrollment
@@ -818,7 +818,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 16 — LEGAL AND COMPLIANCE PLAN
+# PHASE 16. LEGAL AND COMPLIANCE PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_LEGAL_COMPLIANCE_MAP.md`
 * [ ] Audit all existing legal pages (~27 routes)
@@ -829,7 +829,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Plan refund/cancellation policy (`/legal/refunds`)
 * [ ] Plan regional pricing policy (`/legal/regional-pricing`)
 * [ ] Plan LMS access terms
-* [ ] Plan AI chat disclaimer (`/legal/ai` exists — verify content)
+* [ ] Plan AI chat disclaimer (`/legal/ai` exists: verify content)
 * [ ] Plan privacy wording for forms, analytics, payment, LMS, email
 * [ ] Plan cookie policy (`/legal/cookies`)
 * [ ] Plan legal footer links on all public pages
@@ -841,7 +841,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 17 — VALIDATION SCRIPTS PLAN
+# PHASE 17. VALIDATION SCRIPTS PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_VALIDATION_SCRIPTS_PLAN.md`
 * [ ] Plan script directory `scripts/seo/`
@@ -903,7 +903,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 18 — DEPLOYMENT CHECKLIST PLAN
+# PHASE 18. DEPLOYMENT CHECKLIST PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_DEPLOYMENT_CHECKLIST.md`
 
@@ -949,7 +949,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 19 — GOOGLE SEARCH CONSOLE AND BING PLAN
+# PHASE 19. GOOGLE SEARCH CONSOLE AND BING PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_GSC_BING_SUBMISSION_PLAN.md`
 * [ ] Add domain property for pmstructure.com in GSC
@@ -984,7 +984,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# PHASE 20 — AI ANSWER TESTING PLAN
+# PHASE 20. AI ANSWER TESTING PLAN
 
 * [ ] Create `docs/PMSTRUCTURE_AI_ANSWER_TESTING_SHEET.md`
 * [ ] Add query list (brand, PMP, other certs, conversion)
@@ -1067,11 +1067,11 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# APPENDIX A — 25-point deliverable summary
+# APPENDIX A: 25-point deliverable summary
 
 1. **Files to create:** 19 PMSTRUCTURE docs (this master plan + 18 siblings)
 2. **Files inspected:** `frontend/app/**`, `frontend/components/seo/**`, `frontend/content/faq/**`, `frontend/content/legal/**`, `packages/site-content/**`, `docs/PRE_LAUNCH_LEGAL_SEO_AUDIT.md`, `scripts/legal-seo-check.mjs`
-3. **Route inventory summary:** ~110–120 current indexable URLs; 50+ private dashboard routes; 13 public API routes; 70+ planned routes
+3. **Route inventory summary:** ~110-120 current indexable URLs; 50+ private dashboard routes; 13 public API routes; 70+ planned routes
 4. **Critical crawlability risk:** RegionGate client-only spinner on all `(site)` pages
 5. **Heading/SERP risks:** Vague homepage H1; legal pages missing canonicals; no Article schema on content pages
 6. **Missing page categories:** PMP cluster, answers, topics, dedicated courses, diagnostic
@@ -1097,7 +1097,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-# APPENDIX B — Recommended implementation order (post-documentation)
+# APPENDIX B. Recommended implementation order (post-documentation)
 
 | Wave | Focus |
 |------|-------|
@@ -1116,4 +1116,4 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 
 ---
 
-*End of master plan — Run 1 documentation. Sibling files carry route-level row tasks and expanded per-page SERP/heading matrices.*
+*End of master plan. Run 1 documentation. Sibling files carry route-level row tasks and expanded per-page SERP/heading matrices.*

@@ -1,4 +1,4 @@
-# Live smoke test — 2026-06-10
+# Live smoke test: 2026-06-10
 
 Base: https://pmstructure.com
 

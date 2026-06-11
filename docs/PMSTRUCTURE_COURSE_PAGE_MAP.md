@@ -1,4 +1,4 @@
-# PM Structure — Course Page Map (stub)
+# PM Structure. Course Page Map (stub)
 
 **Run:** 10 (Phase 9)  
 **Prerequisite:** Run 9 PMP hub

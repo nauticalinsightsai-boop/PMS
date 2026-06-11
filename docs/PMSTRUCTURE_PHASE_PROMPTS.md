@@ -1,9 +1,9 @@
-# PM Structure — Phase Prompts (Copy-Paste for Cursor)
+# PM Structure. Phase Prompts (Copy-Paste for Cursor)
 
 Use one prompt per implementation run. Do not combine phases unless explicitly noted.
 
 **Global constraints for every implementation run:**
-- PM Structure is an independent exam-prep platform — no PMI ATP, no guaranteed pass claims unless owner confirms.
+- PM Structure is an independent exam-prep platform: no PMI ATP, no guaranteed pass claims unless owner confirms.
 - Canonical domain: `https://www.pmstructure.com`
 - Implement ONLY the phase named in the prompt.
 - Read listed docs first; inspect codebase if missing.
@@ -11,7 +11,7 @@ Use one prompt per implementation run. Do not combine phases unless explicitly n
 
 ---
 
-## Run 2 — Critical Crawlability Fix
+## Run 2. Critical Crawlability Fix
 
 ```
 You are working in the PMStructure.com codebase (Next.js 15, frontend/).
@@ -20,7 +20,7 @@ Implement ONLY Run 2: Critical Crawlability and Rendering Fix.
 
 Read: docs/PMSTRUCTURE_SEO_AEO_GEO_AI_VISIBILITY_MASTER_PLAN.md (Phase 2), docs/PMSTRUCTURE_REMAINING_IMPLEMENTATION_PLAN.md, and the Run 2 section in the Cursor plan file.
 
-Root cause: RegionGate.tsx wraps all (site) pages via PublicShell.tsx — crawlers see only "Loading your regional experience…" before hydration.
+Root cause: RegionGate.tsx wraps all (site) pages via PublicShell.tsx: crawlers see only "Loading your regional experience…" before hydration.
 
 Goals:
 - Public indexable pages render meaningful HTML before JS hydration.
@@ -36,7 +36,7 @@ Deliver 13-point report from plan. Stop after this phase.
 
 ---
 
-## Run 3 — Index / Noindex Control
+## Run 3. Index / Noindex Control
 
 ```
 Implement ONLY Run 3: Index / Noindex Control System in PMStructure.com codebase.
@@ -49,7 +49,7 @@ Goals:
 - index,follow on public authority pages (explicit via indexing-metadata helper).
 - noindex,nofollow on dashboard, login, checkout, success, cancel, enroll, enroll/success.
 - Update sitemap.ts to exclude noindex routes.
-- Review robots.ts — do not disallow /checkout if it blocks noindex meta crawl.
+- Review robots.ts: do not disallow /checkout if it blocks noindex meta crawl.
 
 Do NOT: build PMP pages, full 13-sitemap split, schema expansion.
 
@@ -60,7 +60,7 @@ Deliver 14-point report. Stop after this phase.
 
 ---
 
-## Run 4 — Phase 3: Sitemap + Robots
+## Run 4. Phase 3: Sitemap + Robots
 
 ```
 Implement ONLY Phase 3: Sitemap + Robots for PMStructure.com (Next.js 15 App Router).
@@ -97,12 +97,12 @@ Deliver 14-point report. Stop after this phase only.
 
 ---
 
-## Run 5 — Phase 4: Canonical System
+## Run 5. Phase 4: Canonical System
 
 ```
 You are working inside the PMStructure.com codebase (Next.js 15 App Router, frontend/).
 
-Implement ONLY this phase: PHASE 4 — CANONICAL URL SYSTEM.
+Implement ONLY this phase: PHASE 4. CANONICAL URL SYSTEM.
 
 Do NOT implement unrelated SEO phases, PMP pages, FAQ expansion, answer pages, topic hubs, full schema, AI files, course content changes, pricing values, or legal language (unless required for canonical safety).
 
@@ -127,11 +127,11 @@ Prerequisites: Run 2 (SSR), Run 3 (index/noindex), Run 4 (sitemap).
 
 CANONICAL DOMAIN:
 - Single source of truth: PMS_SITE_URL from frontend/config/pms-site.ts (currently https://www.pmstructure.com).
-- User spec may say apex pmstructure.com — use env, do not hardcode two domains in page files.
+- User spec may say apex pmstructure.com: use env, do not hardcode two domains in page files.
 - All canonicals: HTTPS, no UTM, no region/currency/session/checkout tokens.
 - Do not canonicalize private/dashboard/account/payment/checkout/success/cancel/thank-you/API/draft/preview/loading pages as authority pages.
 
-SCOPE — existing routes only: homepage, about, certifications, blog, newsletter, legal (all variants), faq, contact, community, membership, pm-service, /go/* portals. Future /pmp*, /answers/*, /topics/* — document TODO only, do not create.
+SCOPE: existing routes only: homepage, about, certifications, blog, newsletter, legal (all variants), faq, contact, community, membership, pm-service, /go/* portals. Future /pmp*, /answers/*, /topics/*: document TODO only, do not create.
 
 TECHNICAL (Next.js App Router):
 - Create frontend/lib/canonical.ts: canonicalUrl(), stripQueryParams(), STRIPPED_QUERY_KEYS.
@@ -140,7 +140,7 @@ TECHNICAL (Next.js App Router):
 - Sitemap entries MUST use same canonicalUrl() as metadata (Run 4 helpers).
 - Middleware/next.config: document www/http/trailing-slash; only implement safe redirects; do not break checkout/payment/API.
 
-REGIONAL PRICING: Client-side RegionContext — canonical strips ?currency=, ?region=, ?country=; do not break pricing widgets.
+REGIONAL PRICING: Client-side RegionContext: canonical strips ?currency=, ?region=, ?country=; do not break pricing widgets.
 
 UTM/TRACKING: Strip utm_*, gclid, fbclid, msclkid from canonical; runtime navigation unchanged for analytics.
 
@@ -153,12 +153,12 @@ DELIVER 16-point report from Cursor plan Run 5. Stop after this phase only.
 
 ---
 
-## Run 6 — Phase 5: H1/H2/H3 Headings
+## Run 6. Phase 5: H1/H2/H3 Headings
 
 ```
 You are working inside the PMStructure.com codebase (Next.js 15 App Router, frontend/).
 
-Implement ONLY this phase: PHASE 5 — H1 / H2 / H3 HEADING STRUCTURE FIXES.
+Implement ONLY this phase: PHASE 5. H1 / H2 / H3 HEADING STRUCTURE FIXES.
 
 Do NOT implement unrelated SEO phases, new PMP pages, FAQ expansion, answer pages, topic hubs, AI files, full schema, pricing values, payment logic, or course business logic. Do not rewrite entire website content unless required for heading clarity.
 
@@ -181,14 +181,14 @@ READ FIRST (if present):
 
 Prerequisites: Run 2 (SSR headings visible); Run 3 (index/noindex matrix).
 
-SCOPE — existing pages only: /, /about, /contact, /faq, /community, /membership, /pm-service, /certifications/*, /blog, /newsletter, /legal/*, /go/*. Do NOT create /pmp*, /answers/*, /topics/* — document templates only.
+SCOPE: existing pages only: /, /about, /contact, /faq, /community, /membership, /pm-service, /certifications/*, /blog, /newsletter, /legal/*, /go/*. Do NOT create /pmp*, /answers/*, /topics/*: document templates only.
 
 SKIP (no heading SEO): checkout, enroll, dashboard, login, admin, draft portals. Confirm noindex.
 
 GLOBAL RULES: H1=page topic; H2=major section/search question; H3=subsection/card/FAQ question; CardTitle stays div (ui/card.tsx); visual styling ≠ semantic level.
 
 KNOWN GAPS:
-- Home.tsx H1 = "Structured project management capability" (HOME_COPY.heroTitle) — replace with recommended certification-focused H1.
+- Home.tsx H1 = "Structured project management capability" (HOME_COPY.heroTitle): replace with recommended certification-focused H1.
 - FAQ.tsx: cluster H2s OK; AccordionTrigger questions need H3 or crawlable question markup.
 - CertificationDetail.tsx: good H1 pattern; audit H2 labels.
 - No PMP dedicated routes exist yet.
@@ -208,12 +208,12 @@ DELIVER 14-point report from Cursor plan Run 6. Stop after this phase only.
 
 ---
 
-## Run 7 — Phase 6: AI Files
+## Run 7. Phase 6: AI Files
 
 ```
 You are working inside the PMStructure.com codebase (Next.js 15, frontend/).
 
-Implement ONLY this phase: PHASE 6 — AI FILES / MACHINE-READABLE VISIBILITY LAYER.
+Implement ONLY this phase: PHASE 6. AI FILES / MACHINE-READABLE VISIBILITY LAYER.
 
 Do NOT implement unrelated SEO phases, new PMP pages, FAQ expansion, answer pages, topic hubs, full schema, pricing/payment/course logic changes, or unsupported claims.
 
@@ -225,7 +225,7 @@ Prerequisites: Run 5 canonical URLs (canonicalUrl/PMS_SITE_URL in all JSON).
 
 COMPLIANCE: PM Structure = independent exam-prep platform. Do NOT claim PMI ATP, official partner, guaranteed pass, or official certification provider unless owner confirmed. Use safe language: preparation support, readiness pathway, scenario practice.
 
-CANONICAL: All URLs via PMS_SITE_URL / canonicalUrl() — HTTPS, no UTM/currency/checkout/dashboard/session/noindex citation URLs.
+CANONICAL: All URLs via PMS_SITE_URL / canonicalUrl(). HTTPS, no UTM/currency/checkout/dashboard/session/noindex citation URLs.
 
 REQUIRED FILES:
 - /llms.txt (expand existing frontend/public/llms.txt)
@@ -240,14 +240,14 @@ DATA SOURCES (generate from source, do not duplicate hardcoded):
 - packages/site-content, blog/posts.ts, newsletter/articles.ts
 - frontend/config/pms-site.ts (PMS_SITE_URL, PMS_SUPPORT_EMAIL)
 
-PMP ROUTES: /pmp, /pmp-exam-2026, etc. do NOT exist — mark status planned in JSON; cite live /certifications/pmp; TODO in AI_FILES_PLAN.
+PMP ROUTES: /pmp, /pmp-exam-2026, etc. do NOT exist: mark status planned in JSON; cite live /certifications/pmp; TODO in AI_FILES_PLAN.
 
 IMPLEMENTATION:
 - frontend/lib/ai-files/ builders + compliance constants
 - scripts/generate-ai-files.mjs → frontend/public/
 - scripts/seo/ai-files-check.mjs + npm run seo:ai-files-check
 - pmp-2026.json: officialSourceTodo for unverified claims; domain weights only if verified
-- pmp-keywords.json: planning map only — no fake volume/ranking
+- pmp-keywords.json: planning map only: no fake volume/ranking
 - faq.json/pmp-faq.json: schemaEligible only for published visible FAQs
 
 SECURITY SCAN: no private data, payment/session URLs, dashboard/admin, secrets, guaranteed pass, unsupported PMI claims.
@@ -259,12 +259,12 @@ DELIVER 13-point report from Cursor plan Run 7. Stop after this phase only.
 
 ---
 
-## Run 8 — Phase 7: Schema / JSON-LD
+## Run 8. Phase 7: Schema / JSON-LD
 
 ```
 You are working inside the PMStructure.com codebase (Next.js 15 App Router, frontend/).
 
-Implement ONLY this phase: PHASE 7 — SCHEMA / JSON-LD STRUCTURED DATA SYSTEM.
+Implement ONLY this phase: PHASE 7. SCHEMA / JSON-LD STRUCTURED DATA SYSTEM.
 
 Do NOT implement unrelated SEO phases, new PMP pages, FAQ expansion, answer/topic pages, pricing/payment/course logic changes, or fake reviews/ratings/accreditation/unsupported claims.
 
@@ -283,7 +283,7 @@ STABLE @id (use PMS_SITE_URL): #organization, #website, #webpage, [path]#course,
 CURRENT STATE:
 - OrganizationJsonLd in PublicShell (no @id)
 - CertJsonLd Course+Breadcrumb on /certifications/[id]
-- FaqJsonLd on /faq — BUG: getFaqForSchema() exports ALL FAQs; must fix to visible FAQs only
+- FaqJsonLd on /faq. BUG: getFaqForSchema() exports ALL FAQs; must fix to visible FAQs only
 - Missing: WebSite, WebPage, Article, CollectionPage, Offer (likely omit)
 
 IMPLEMENTATION:
@@ -295,7 +295,7 @@ IMPLEMENTATION:
 - /legal/*: WebPage + BreadcrumbList
 - FAQPage: visible FAQs only; exclude draft/planned
 - Offer: omit unless price stable in SSR HTML; document decision
-- PMP routes (/pmp*): document TODO — routes do not exist
+- PMP routes (/pmp*): document TODO: routes do not exist
 - NO schema on checkout, enroll, dashboard, login, admin, API
 
 VALIDATION: seo:schema-check; view-source homepage/cert/faq/legal; grep PMI ATP/guaranteed/checkout/dashboard; build/lint; Rich Results Test post-deploy.
@@ -305,7 +305,7 @@ DELIVER 16-point report from Cursor plan Run 8. Stop after this phase only.
 
 ---
 
-## Run 9 — Phase 8: PMP 2026 Authority Cluster
+## Run 9. Phase 8: PMP 2026 Authority Cluster
 
 ```
 Implement ONLY Phase 8: PMP 2026 authority cluster for PMStructure.com.
@@ -316,7 +316,7 @@ Read: docs/PMSTRUCTURE_CONTENT_CLUSTER_MAP.md, docs/PMSTRUCTURE_REMAINING_IMPLEM
 
 Build routes under frontend/app/(site)/pmp/:
 - /pmp (hub)
-- /pmp-exam-2026 (main anchor — prioritize quality)
+- /pmp-exam-2026 (main anchor: prioritize quality)
 - /pmp-current-vs-new-exam, /pmp-before-8-july-2026, /pmp-after-9-july-2026
 - /pmp-exam-timeline-2026, /pmp-new-exam-domain-weighting
 - Domain pages: business-environment, people, process, ai-sustainability-value-delivery, agile-hybrid-predictive
@@ -331,12 +331,12 @@ Do NOT: build all 300 FAQs or answer pages in this run. Stop after phase.
 
 ---
 
-## Run 10 — Phase 9: PMP Course / Pathway Pages
+## Run 10. Phase 9: PMP Course / Pathway Pages
 
 ```
 You are working inside the PMStructure.com codebase (Next.js 15 App Router, frontend/).
 
-Implement ONLY this phase: PHASE 9 — PMP COURSE / PATHWAY PAGES.
+Implement ONLY this phase: PHASE 9. PMP COURSE / PATHWAY PAGES.
 
 Do NOT: full FAQ expansion, answer pages, topic hubs, payment provider changes, pricing value changes, private LMS exposure, ATP/guaranteed-pass claims, fabricated modules/prices/dates/instructors/reviews.
 
@@ -350,7 +350,7 @@ COMPLIANCE: Independent exam-prep. No PMI ATP, official partner, guaranteed pass
 
 MVP MINIMUM (implement first): /pmp-foundation, /pmp-professional, /pmp-mastery, /pmp-readiness-diagnostic, /pmp-scenario-practice. Document mock-exam, q-and-a-support, enrollment as follow-up if not content-ready. NO empty placeholder pages.
 
-ENROLL HANDOFF: CTAs → /certifications/pmp/{foundation|professional|mastery}/enroll (noindex). Data from regional-catalogue, pathway-tier-outcomes, programme-preview — do not invent modules.
+ENROLL HANDOFF: CTAs → /certifications/pmp/{foundation|professional|mastery}/enroll (noindex). Data from regional-catalogue, pathway-tier-outcomes, programme-preview: do not invent modules.
 
 GLOBAL PER PAGE: H1+H2s, short answer, who for/not for, outcomes, modules (existing data), current/new exam relevance, regional pricing note, LMS handoff, FAQ preview, compliance, canonical, index, sitemap, Course+FAQPage(visible)+Breadcrumb schema.
 
@@ -364,7 +364,7 @@ FAQ PREVIEWS: Small visible blocks including ATP and guarantee compliance answer
 
 INTERNAL LINKS: Cross-link all live pathway pages; /pmp and /pmp-exam-2026 link in; homepage/faq link out.
 
-AI FILES: Regenerate courses.json, learning-pathways.json, pmp-routes.json, pmp-faq.json, llms.txt — live=available, unbuilt=planned.
+AI FILES: Regenerate courses.json, learning-pathways.json, pmp-routes.json, pmp-faq.json, llms.txt: live=available, unbuilt=planned.
 
 VALIDATION: each live page loads; H1/meta/canonical/sitemap; grep ATP/guaranteed; enroll+LMS work; build/lint.
 
@@ -373,7 +373,7 @@ DELIVER 19-point report from Cursor plan Run 10. Stop after this phase only.
 
 ---
 
-## Run 11 — Phase 10: PMP FAQ Dominance
+## Run 11. Phase 10: PMP FAQ Dominance
 
 ```
 Implement ONLY Phase 10: PMP FAQ expansion Phase 1 (75 PMP FAQs + compliance flags).
@@ -389,7 +389,7 @@ Do NOT: ship Phase 2 (150) in same run. Stop after phase.
 
 ---
 
-## Run 12 — Phase 11: PMP Answer Pages
+## Run 12. Phase 11: PMP Answer Pages
 
 ```
 Implement ONLY Phase 11: Answer page system at /answers/[slug].
@@ -398,12 +398,12 @@ Template: question H1, short answer, detailed answer, related courses, FAQs, CTA
 
 Build 10 priority PMP answers from ANSWER_PAGES_MAP. Add /answers index. sitemap-answers.xml entries.
 
-Prerequisites: Phases 8–10. Stop after phase.
+Prerequisites: Phases 8-10. Stop after phase.
 ```
 
 ---
 
-## Run 13 — Phase 12: PMP Topic Hubs
+## Run 13. Phase 12: PMP Topic Hubs
 
 ```
 Implement ONLY Phase 12: Topic hubs at /topics and /topics/[slug].
@@ -415,7 +415,7 @@ Prerequisites: Phases 8, 11. Stop after phase.
 
 ---
 
-## Run 14 — Phase 13: Regional Pricing SEO
+## Run 14. Phase 13: Regional Pricing SEO
 
 ```
 Implement ONLY Phase 13: Regional pricing SEO safety audit and docs.
@@ -429,7 +429,7 @@ Stop after phase.
 
 ---
 
-## Run 15 — Phase 14: Conversion Flow Tracking
+## Run 15. Phase 14: Conversion Flow Tracking
 
 ```
 Implement ONLY Phase 14: Conversion flow map and event tracking plan.
@@ -438,14 +438,14 @@ Read: docs/PMSTRUCTURE_CONVERSION_FLOW_MAP.md.
 
 Map all CTAs, forms, Calendly, payment, LMS handoff. Document analytics events. Confirm completion pages noindex. Add compliance notes near forms.
 
-Implementation may be analytics hooks only — no business logic changes.
+Implementation may be analytics hooks only: no business logic changes.
 
 Stop after phase.
 ```
 
 ---
 
-## Run 16 — Phase 15: Legal / Compliance
+## Run 16. Phase 15: Legal / Compliance
 
 ```
 Implement ONLY Phase 15: Legal/compliance documentation and gap fixes.
@@ -461,7 +461,7 @@ Stop after phase.
 
 ---
 
-## Run 17 — Phase 16: Validation Scripts
+## Run 17. Phase 16: Validation Scripts
 
 ```
 Implement ONLY Phase 16: SEO validation script suite in scripts/seo/.
@@ -475,7 +475,7 @@ Stop after phase.
 
 ---
 
-## Run 18 — Phase 17: Deployment Checklist
+## Run 18. Phase 17: Deployment Checklist
 
 ```
 Implement ONLY Phase 17: Finalize docs/PMSTRUCTURE_DEPLOYMENT_CHECKLIST.md and integrate seo:all as pre-deploy gate.
@@ -487,12 +487,12 @@ Stop after phase.
 
 ---
 
-## Run 19 — Phase 18: GSC / Bing Submission
+## Run 19. Phase 18: GSC / Bing Submission
 
 ```
 This is an operational run (mostly manual). Execute docs/PMSTRUCTURE_GSC_BING_SUBMISSION_PLAN.md.
 
-Prerequisites: Production deploy with Runs 2–8+ complete, sitemap live.
+Prerequisites: Production deploy with Runs 2-8+ complete, sitemap live.
 
 Add GSC/Bing properties, submit sitemaps, URL inspect priority list, set up monitoring. Document results in GSC plan doc.
 
@@ -501,7 +501,7 @@ Stop after checklist executed.
 
 ---
 
-## Run 20 — Phase 19: AI Answer Testing
+## Run 20. Phase 19: AI Answer Testing
 
 ```
 Operational run: execute docs/PMSTRUCTURE_AI_ANSWER_TESTING_SHEET.md.
@@ -515,7 +515,7 @@ No code unless sheet template needs formatting. Stop after first test cycle docu
 
 ## Recommended next implementation phase (after this planning run)
 
-**Run 2 — Critical Crawlability and Rendering Fix** (use Run 2 prompt above).
+**Run 2. Critical Crawlability and Rendering Fix** (use Run 2 prompt above).
 
 Blockers: None for starting Run 2.  
-Warnings: Do not skip to Phase 8 PMP content before Runs 2–3.
+Warnings: Do not skip to Phase 8 PMP content before Runs 2-3.

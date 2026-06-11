@@ -21,7 +21,7 @@ export function getInteractionClientIp(request: RequestWithHeaders): string | nu
   return null;
 }
 
-/** Auth / rate-limit helper — same proxy chain as interactions, with fallback. */
+/** Auth / rate-limit helper: same proxy chain as interactions, with fallback. */
 export function getClientIp(request: RequestWithHeaders): string {
   return getInteractionClientIp(request) ?? 'unknown';
 }

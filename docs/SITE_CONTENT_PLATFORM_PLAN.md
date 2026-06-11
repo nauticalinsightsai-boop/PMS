@@ -1,4 +1,4 @@
-# Moved — use canonical plan
+# Moved: use canonical plan
 
 The **single running plan** lives at the repo root:
 

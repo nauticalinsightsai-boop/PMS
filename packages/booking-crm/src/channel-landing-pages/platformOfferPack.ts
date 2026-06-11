@@ -175,7 +175,7 @@ const IMPLEMENTATION_SCOPE_41_SET = new Set(IMPLEMENTATION_SCOPE_41)
 
 /**
  * Website reference layout for every scope-41 `/go/{slug}`: glass cards, footer site
- * chips, hero region-only utilities, qualification intro — platform theme/colors unchanged.
+ * chips, hero region-only utilities, qualification intro: platform theme/colors unchanged.
  */
 export function usesPortalWebsiteLayoutChrome(channelId: string): boolean {
   return IMPLEMENTATION_SCOPE_41_SET.has(channelId)
@@ -192,7 +192,7 @@ export function usesProConsultationPortalLayout(channelId: string): boolean {
   return PRO_CONSULTATION_PORTAL_CHANNELS.has(channelId)
 }
 
-/** @deprecated Impulse layout retired — all `/go/*` portals share {@link PROFESSIONAL_FLOW}. */
+/** @deprecated Impulse layout retired: all `/go/*` portals share {@link PROFESSIONAL_FLOW}. */
 export function isImpulseLayoutChannel(_channelId: string): boolean {
   return false
 }

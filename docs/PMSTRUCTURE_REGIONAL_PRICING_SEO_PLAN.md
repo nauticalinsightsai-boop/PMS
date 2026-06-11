@@ -1,4 +1,4 @@
-# PM Structure — Regional Pricing SEO Plan
+# PM Structure. Regional Pricing SEO Plan
 
 **Run:** 14 (Phase 13)  
 **Site:** https://www.pmstructure.com  
@@ -74,8 +74,8 @@ npm run build -w @pms/frontend       # regenerates pricing-policy.json
 
 **Manual checks**
 
-- [ ] View source on `/certifications/pmp` — body HTML present before hydration
-- [ ] `?currency=AED` on homepage — canonical still `https://www.pmstructure.com/`
+- [ ] View source on `/certifications/pmp`: body HTML present before hydration
+- [ ] `?currency=AED` on homepage: canonical still `https://www.pmstructure.com/`
 - [ ] Checkout and enroll routes show `noindex` in metadata
 - [ ] Region modal does not replace page body with loading text
 

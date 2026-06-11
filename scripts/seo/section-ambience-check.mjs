@@ -1,5 +1,5 @@
 /**
- * Guard: SectionAmbience must not wrap page content (children are ignored — breaks SSR).
+ * Guard: SectionAmbience must not wrap page content (children are ignored: breaks SSR).
  * Correct pattern: <section><SectionAmbience /><div className="relative z-10">…</div></section>
  */
 import fs from 'fs';

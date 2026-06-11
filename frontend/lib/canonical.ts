@@ -18,7 +18,7 @@ export const STRIPPED_QUERY_PARAM_KEYS = new Set([
   'offering',
   'session_id',
   'session',
-  /** Regional / pricing UI — must not create alternate indexed URLs (Run 14). */
+  /** Regional / pricing UI: must not create alternate indexed URLs (Run 14). */
   'currency',
   'region',
   'regionId',

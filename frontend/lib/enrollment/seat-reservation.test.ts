@@ -1,22 +1,24 @@
 import { describe, expect, it } from 'vitest';
 import {
-  formatSeatDeposit,
-  resolveSeatDepositUsd,
+  formatRegionalDepositDisplay,
+  formatEnrollmentUsd,
+  resolveSeatDepositUsdCents,
+  SEAT_DEPOSIT_FRACTION,
 } from '@/lib/enrollment/seat-reservation';
 
 describe('seat-reservation', () => {
-  it('uses $250 deposit for professional and foundation tiers', () => {
-    expect(resolveSeatDepositUsd('professional')).toBe(250);
-    expect(resolveSeatDepositUsd('foundation')).toBe(250);
+  it('uses 25% of pathway tuition for deposit in USD', () => {
+    expect(SEAT_DEPOSIT_FRACTION).toBe(0.25);
+    expect(resolveSeatDepositUsdCents(89900)).toBe(22475);
   });
 
-  it('uses $500 deposit for mastery tiers', () => {
-    expect(resolveSeatDepositUsd('mastery')).toBe(500);
-    expect(resolveSeatDepositUsd('mastery-corporate')).toBe(500);
+  it('formats regional deposit in local currency display', () => {
+    expect(formatRegionalDepositDisplay('PKR 119,999')).toBe('PKR 29,999.75');
+    expect(formatRegionalDepositDisplay('$899')).toBe('$224.75');
   });
 
-  it('formats deposit amounts', () => {
-    expect(formatSeatDeposit(250)).toBe('$250');
-    expect(formatSeatDeposit(500)).toBe('$500');
+  it('formats enrollment USD amounts', () => {
+    expect(formatEnrollmentUsd(224.75)).toBe('$224.75');
+    expect(formatEnrollmentUsd(899)).toBe('$899');
   });
 });

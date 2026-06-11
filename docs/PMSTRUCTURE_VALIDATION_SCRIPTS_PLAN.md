@@ -15,9 +15,9 @@
 
 ## Aggregates
 
-- `seo:check` — all static checks
-- `seo:all` — audit + check + generate-ai-files
-- `seo:release-verify` — build + seo:all + postbuild
+- `seo:check`: all static checks
+- `seo:all`: audit + check + generate-ai-files
+- `seo:release-verify`: build + seo:all + postbuild
 
 ## Reports
 

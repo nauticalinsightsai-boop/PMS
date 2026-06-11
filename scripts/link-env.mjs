@@ -17,10 +17,10 @@ import {
 const rootLocal = path.join(ROOT, '.env.local');
 const example = path.join(ROOT, '.env.example');
 
-const header = `# PM Structure — single local env (repo root only)
+const header = `# PM Structure: single local env (repo root only)
 # All apps (frontend, backend, dashboard/*) read this file automatically.
 # Do not create .env.local in subfolders.
-# Production: set vars per Vercel project — docs/DEPLOYMENT_VERCEL.md`;
+# Production: set vars per Vercel project: docs/DEPLOYMENT_VERCEL.md`;
 
 function main() {
   const merged = loadMonorepoEnv();

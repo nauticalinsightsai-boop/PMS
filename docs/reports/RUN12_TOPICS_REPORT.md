@@ -1,4 +1,4 @@
-# Run 12 — Topic Hubs Report
+# Run 12. Topic Hubs Report
 
 **Date:** 2026-06-10  
 **Phase:** 12 (Run 13 in master plan)

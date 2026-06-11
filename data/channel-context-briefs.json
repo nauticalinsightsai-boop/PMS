@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "PlatformContextBrief per channelId — generated; optional portalCopyOverrides in channelPortalCopy.ts",
+    "description": "PlatformContextBrief per channelId: generated; optional portalCopyOverrides in channelPortalCopy.ts",
     "personaDoc": "docs/voice/PERSONA.md",
     "ssmRoot": "OneDrive/Desktop/SSM"
   },

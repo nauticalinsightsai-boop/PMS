@@ -15,7 +15,7 @@
             "id": 1,
             "visible": true,
             "heading": "Prepare with structure. Lead with confidence.",
-            "description": "Independent certification readiness pathways across PMI, PRINCE2, and Lean Six Sigma — built for professionals who want clarity, not chaos.",
+            "description": "Independent certification readiness pathways across PMI, PRINCE2, and Lean Six Sigma: built for professionals who want clarity, not chaos.",
             "primaryCta": "Book a consultation",
             "primaryAction": "contact",
             "primaryLink": "/contact?topic=consultation",
@@ -348,7 +348,7 @@
           {
             "id": "corporate-training",
             "title": "Corporate training",
-            "description": "Cohort pathways with shared language and governance — not content-only delivery.",
+            "description": "Cohort pathways with shared language and governance: not content-only delivery.",
             "benefits": [
               "Custom Curriculum",
               "Interactive Workshops",
@@ -602,7 +602,7 @@
         },
         "mission": {
           "title": "Our mission",
-          "subtitle": "Prepare professionals with structure — not shortcuts."
+          "subtitle": "Prepare professionals with structure: not shortcuts."
         },
         "blocks": []
       },

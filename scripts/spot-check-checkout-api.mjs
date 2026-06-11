@@ -35,4 +35,4 @@ if (member.status !== 200 || member.json.usdCents !== 71920) {
   process.exit(1);
 }
 
-console.log('PASS checkout API — full 89900, membership 71920 (80%)');
+console.log('PASS checkout API: full 89900, membership 71920 (80%)');

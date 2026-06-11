@@ -1,4 +1,4 @@
-# Run 6 — Headings & SERP Report
+# Run 6. Headings & SERP Report
 
 **Date:** 2026-06-10
 

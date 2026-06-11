@@ -53,7 +53,7 @@ const services: PmpServiceContent[] = [
       'Scenario-based PMP practice aligned to ECO themes: people, process, business environment, agile/hybrid contexts, and professional responsibility.',
     h1: 'PMP scenario practice',
     directAnswer:
-      'Scenario practice trains situational judgment: the skill most PMP candidates need for both current and post–July 2026 exam formats. PM Structure provides practice within Professional and Mastery pathways.',
+      'Scenario practice trains situational judgment: the skill most PMP candidates need for both current and post-July 2026 exam formats. PM Structure provides practice within Professional and Mastery pathways.',
     sections: [
       {
         id: 'categories',

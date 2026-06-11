@@ -490,7 +490,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'pmp-readiness',
     question: 'How many hours per week should I study for PMP?',
     answer:
-      'Common ranges are 8–15 hours for intensive prep, but your diagnostic and work schedule should set the target.',
+      'Common ranges are 8-15 hours for intensive prep, but your diagnostic and work schedule should set the target.',
     relatedPage: '/pmp-readiness-diagnostic',
   }),
   pmp({
@@ -514,7 +514,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'study-plan',
     question: 'What is the best PMP study schedule for working professionals?',
     answer:
-      'Block 60–90 minute sessions, one mock per week, and weekend domain review. Customize via [/pmp-study-plan-2026](/pmp-study-plan-2026).',
+      'Block 60-90 minute sessions, one mock per week, and weekend domain review. Customize via [/pmp-study-plan-2026](/pmp-study-plan-2026).',
     relatedPage: '/pmp-study-plan-2026',
   }),
   pmp({
@@ -809,7 +809,7 @@ for (const entry of PMP_2026_FAQS) {
   if (slug) entry.relatedAnswerSlug = slug;
 }
 
-/** Phase 10: secondary surface tags so each live PMP route has 5–10 related FAQs. */
+/** Phase 10: secondary surface tags so each live PMP route has 5-10 related FAQs. */
 const PMP_SURFACE_EXTRA_TAGS: Record<string, string[]> = {
   '/pmp': [
     'pmp26-change-01',

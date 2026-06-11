@@ -1,4 +1,4 @@
-# PM Structure — Conversion Event Map
+# PM Structure. Conversion Event Map
 
 **Source:** `frontend/lib/analytics/conversion-events.ts`  
 **Transport:** `trackConversionEvent` → `trackFunnelEvent` → GA4 (consent-gated)

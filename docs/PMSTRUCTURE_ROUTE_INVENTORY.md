@@ -1,7 +1,7 @@
-# PM Structure — Route Inventory
+# PM Structure. Route Inventory
 
 **Canonical host:** `https://pmstructure.com` (apex; `www` → 301)  
-**Updated:** v2 Phases 10–19 (2026-06-10)  
+**Updated:** v2 Phases 10-19 (2026-06-10)  
 **Source:** `frontend/app/`, `content/pmp`, `content/faq`, `content/answers`, `content/topics`
 
 ## Column legend
@@ -22,7 +22,7 @@
 | `/` | yes | yes | PMP & project management exam prep | PMP & project management exam prep | Org, WebSite (global) | live |
 | `/about` | yes | yes | About | About PM Structure | WebPage (planned) | live |
 | `/contact` | yes | yes | Contact | Contact us | WebPage (planned) | live |
-| `/faq` | yes | yes | FAQ | FAQ — certifications & support | FAQPage | live |
+| `/faq` | yes | yes | FAQ | FAQ: certifications & support | FAQPage | live |
 | `/pmp-faq` | yes | yes | PMP FAQ | PMP exam FAQ hub | FAQPage | live |
 | `/answers` | yes | yes | Answers | Direct answers index | WebPage | live |
 | `/answers/[slug]` | yes | yes | Answer title | Question H1 | FAQPage + Article | live (35) |
@@ -74,7 +74,7 @@
 |------|-------|---------|-------|
 | `/admin/**` | no | no | `robots: noindex` on admin layout |
 
-## PMP cluster (live — v2 Phase 10)
+## PMP cluster (live: v2 Phase 10)
 
 | Path | Index | Sitemap | Schema | Status |
 |------|-------|---------|--------|--------|

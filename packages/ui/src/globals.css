@@ -472,7 +472,7 @@
     @apply bg-background/80 backdrop-blur-sm;
   }
 
-  /* /go/website — match marketing home hero shell */
+  /* /go/website: match marketing home hero shell */
   .portal-website {
     background-color: transparent !important;
     background-image: linear-gradient(
@@ -557,7 +557,7 @@
     z-index: 1;
   }
 
-  /* /go/* — portal palette drives shadcn text utilities inside portal-root */
+  /* /go/*: portal palette drives shadcn text utilities inside portal-root */
   .portal-root .text-body-sm {
     color: var(--portal-text-muted);
   }

@@ -223,25 +223,25 @@ export const DashboardHome: React.FC = () => {
         <OverviewStatCard
           icon={Globe}
           label="Website Pages"
-          value={isLoading ? '—' : stats.totalPages}
+          value={isLoading ? '. ' : stats.totalPages}
           delta={`${stats.updatedThisMonth} updated this month`}
         />
         <OverviewStatCard
           icon={Layers}
           label="CMS Documents"
-          value={isLoading ? '—' : stats.cmsDocuments}
+          value={isLoading ? '. ' : stats.cmsDocuments}
           delta={`${stats.drafts} draft${stats.drafts === 1 ? '' : 's'} pending`}
         />
         <OverviewStatCard
           icon={FileText}
           label="Published Live"
-          value={isLoading ? '—' : stats.published}
+          value={isLoading ? '. ' : stats.published}
           delta="Live on marketing site"
         />
         <OverviewStatCard
           icon={Users}
           label="Content Modules"
-          value={isLoading ? '—' : Object.keys(CMS_FIELD_META).length}
+          value={isLoading ? '. ' : Object.keys(CMS_FIELD_META).length}
           delta="Managed page configs"
         />
       </div>

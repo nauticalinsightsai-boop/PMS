@@ -217,7 +217,7 @@ export function ScheduleCalendarPage() {
 
   const rangeLabel = useMemo(() => {
     if (view === 'day') return format(anchorDate, 'MMM d, yyyy');
-    if (view === 'week') return `${format(weekStart, 'MMM d')} – ${format(weekEnd, 'MMM d, yyyy')}`;
+    if (view === 'week') return `${format(weekStart, 'MMM d')}: ${format(weekEnd, 'MMM d, yyyy')}`;
     return format(anchorDate, 'MMMM yyyy');
   }, [anchorDate, view, weekStart, weekEnd]);
 
@@ -245,7 +245,7 @@ export function ScheduleCalendarPage() {
         <div className="flex shrink-0 items-center justify-between gap-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-body-sm">
           <span className="flex items-center gap-2">
             <AlertTriangle size={16} className="text-amber-600" />
-            Calendar sync pending — some tasks may be out of date.
+            Calendar sync pending: some tasks may be out of date.
           </span>
           <button type="button" onClick={() => setSyncDismissed(true)} className="text-meta font-semibold">
             Dismiss
@@ -529,7 +529,7 @@ export function ScheduleCalendarPage() {
                           isToday(day) && 'bg-brand-orange/5 ring-1 ring-inset ring-brand-orange/20',
                         )}
                       >
-                        <p className="text-meta text-center text-muted-foreground">{cellTasks.length || '—'}</p>
+                        <p className="text-meta text-center text-muted-foreground">{cellTasks.length || '. '}</p>
                         <div className="mt-1 space-y-1">
                           {cellTasks.map((task) => (
                             <TaskCard

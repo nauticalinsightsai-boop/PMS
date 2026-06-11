@@ -56,10 +56,10 @@ if (indiaDisplay !== '₹44,999') {
 
 console.log(`QA regional matrix: ${catalogue.offerings.length} offerings, ${REGIONS.length} regions`);
 if (issues.length === 0) {
-  console.log('PASS — no issues found');
+  console.log('PASS: no issues found');
   process.exit(0);
 }
-console.log(`FAIL — ${issues.length} issue(s):`);
+console.log(`FAIL: ${issues.length} issue(s):`);
 for (const i of issues.slice(0, 20)) console.log('  -', i);
 if (issues.length > 20) console.log(`  ... and ${issues.length - 20} more`);
 process.exit(1);

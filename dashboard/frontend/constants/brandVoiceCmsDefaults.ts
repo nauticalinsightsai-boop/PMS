@@ -30,7 +30,7 @@ export const BRAND_VOICE_CMS_DEFAULTS: Record<string, string> = {
   pm_service_subtitle: SERVICES_COPY.heroSubtitle,
   membership_subtitle: HOME_COPY.membershipSubtitle,
   faq_subtitle:
-    'Pathways, readiness support, community, and pricing — ask if your case is not listed.',
+    'Pathways, readiness support, community, and pricing: ask if your case is not listed.',
   mission_subtitle: BRAND_LINES.positioning,
   brand_tagline: BRAND_LINES.primary,
   brand_name: BRAND.name,

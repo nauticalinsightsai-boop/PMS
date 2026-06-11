@@ -6,7 +6,7 @@ export default function BlogsPage() {
       basePath="/dashboard/booking-crm/blogs"
       title="Blogs & Insights"
       breadcrumbLabel="Blogs"
-      subtitle="Content Management System — manage blog articles and insights."
+      subtitle="Content Management System: manage blog articles and insights."
       newLabel="New Article"
     />
   );

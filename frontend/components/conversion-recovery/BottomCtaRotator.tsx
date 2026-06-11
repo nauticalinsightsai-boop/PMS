@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { RegisterModal } from '@/components/RegisterModal';
 import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
 import { cn } from '@/lib/utils';
 import { useLeadRecovery } from '@/components/conversion-recovery/LeadRecoveryProvider';
@@ -26,6 +25,7 @@ import {
 import type { BottomBarAction, BottomBarRotation } from '@/lib/conversion-recovery/types';
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
 import { getWebsiteHeroConsultationCalendlyUrl } from '@/lib/calendly/embed-url';
+import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 import { trackFunnelEvent, FUNNEL_EVENTS, trackGenerateLead } from '@/lib/analytics/funnel';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { markIntent, canAccelerateBottomBarMicroForm } from '@/lib/conversion-recovery/engagement-score';
@@ -34,12 +34,26 @@ import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { useRegion } from '@/contexts/RegionContext';
 
 function actionLabel(action: BottomBarAction, rotation: BottomBarRotation): string {
-  if (action.type === 'calendly_hero') return 'Talk to Mentor';
-  if (action.type === 'register_modal') return 'Talk to Mentor';
+  if (action.type === 'calendly_hero' || action.type === 'register_modal') return 'Talk to Mentor';
+  if (action.type === 'calendly') return action.label ?? 'Talk to Mentor';
   if (action.type === 'micro_form') return 'Leave my details';
   if (action.type === 'link') return action.label;
   if (action.type === 'scroll') return action.label;
   return 'Continue';
+}
+
+function openBottomBarCalendly(action: BottomBarAction): void {
+  if (action.type === 'calendly') {
+    void openCalendlyThemedPopup(getWebsiteCalendlyUrl(action.tier), {
+      funnelLabel: `bottom_bar_calendly_${action.tier}`,
+      utm: { utm_source: 'pmstructure', utm_medium: 'bottom_bar', utm_campaign: action.tier },
+    });
+    return;
+  }
+  void openCalendlyThemedPopup(getWebsiteHeroConsultationCalendlyUrl(), {
+    funnelLabel: 'bottom_bar_calendly',
+    utm: { utm_source: 'pmstructure', utm_medium: 'bottom_bar', utm_campaign: 'recovery' },
+  });
 }
 
 export function BottomCtaRotator() {
@@ -140,11 +154,8 @@ export function BottomCtaRotator() {
   const runPrimaryAction = async (action: BottomBarAction) => {
     markIntent();
     dismiss(false);
-    if (action.type === 'calendly_hero') {
-      void openCalendlyThemedPopup(getWebsiteHeroConsultationCalendlyUrl(), {
-        funnelLabel: 'bottom_bar_calendly',
-        utm: { utm_source: 'pmstructure', utm_medium: 'bottom_bar', utm_campaign: 'recovery' },
-      });
+    if (action.type === 'calendly_hero' || action.type === 'register_modal' || action.type === 'calendly') {
+      openBottomBarCalendly(action);
       return;
     }
     if (action.type === 'link') {
@@ -263,21 +274,21 @@ export function BottomCtaRotator() {
                     {actionLabel(primary, rotation)}
                   </Button>
                 </TrackedConversionLink>
-              ) : primary.type === 'register_modal' ? (
-                <RegisterModal
-                  trigger={
-                    <Button
-                      variant="brand"
-                      className="w-full flex-1 font-bold sm:min-w-[11rem]"
-                      onClick={() => {
-                        markIntent();
-                        dismiss(false);
-                      }}
-                    >
-                      {actionLabel(primary, rotation)}
-                    </Button>
-                  }
-                />
+              ) : primary.type === 'register_modal' ||
+                primary.type === 'calendly_hero' ||
+                primary.type === 'calendly' ? (
+                <Button
+                  type="button"
+                  variant="brand"
+                  className="w-full flex-1 font-bold sm:min-w-[11rem]"
+                  onClick={() => {
+                    markIntent();
+                    dismiss(false);
+                    openBottomBarCalendly(primary);
+                  }}
+                >
+                  {actionLabel(primary, rotation)}
+                </Button>
               ) : (
                 <Button
                   type="button"
@@ -289,21 +300,21 @@ export function BottomCtaRotator() {
                 </Button>
               )}
               {secondary ? (
-                secondary.type === 'register_modal' ? (
-                  <RegisterModal
-                    trigger={
-                      <Button
-                        variant="outline"
-                        className="w-full flex-1 font-bold border-slate-300/80 bg-white/50 dark:border-slate-600 dark:bg-slate-900/40 sm:min-w-[11rem]"
-                        onClick={() => {
-                          markIntent();
-                          dismiss(false);
-                        }}
-                      >
-                        {actionLabel(secondary, rotation)}
-                      </Button>
-                    }
-                  />
+                secondary.type === 'register_modal' ||
+                secondary.type === 'calendly_hero' ||
+                secondary.type === 'calendly' ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full flex-1 font-bold border-slate-300/80 bg-white/50 dark:border-slate-600 dark:bg-slate-900/40 sm:min-w-[11rem]"
+                    onClick={() => {
+                      markIntent();
+                      dismiss(false);
+                      openBottomBarCalendly(secondary);
+                    }}
+                  >
+                    {actionLabel(secondary, rotation)}
+                  </Button>
                 ) : secondary.type === 'link' ? (
                   <Link href={secondary.href} className="flex-1 sm:min-w-[11rem]" onClick={() => dismiss(false)}>
                     <Button

@@ -23,7 +23,7 @@ const channelIds = [...match[1].matchAll(/'([^']+)'/g)].map((m) => m[1])
 const checkOnly = process.argv.includes('--check')
 const force = process.argv.includes('--force')
 
-/** Minimal valid 1x1 webp (placeholder only — use generate-learner-avatars.mjs for production). */
+/** Minimal valid 1x1 webp (placeholder only: use generate-learner-avatars.mjs for production). */
 const MINI_WEBP_B64 =
   'UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAQAcJaQAA3AA/vuUAAA='
 const buf = Buffer.from(MINI_WEBP_B64, 'base64')

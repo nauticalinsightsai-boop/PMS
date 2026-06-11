@@ -1,6 +1,6 @@
-# PM Structure — Phase Execution Board
+# PM Structure. Phase Execution Board
 
-**Last updated:** 2026-06-10 — v2 Phases 10–19 implementation pass (PMP FAQ hub, answer pages, topic hubs, validation scripts, deployment docs)
+**Last updated:** 2026-06-10: v2 Phases 10-19 implementation pass (PMP FAQ hub, answer pages, topic hubs, validation scripts, deployment docs)
 
 | v2 Phase | Name | Status |
 |----------|------|--------|
@@ -17,16 +17,16 @@
 
 | Run | Phase | Name | Status |
 |-----|-------|------|--------|
-| 0–5 | 1–4 | Docs, crawl, index, sitemap, canonical | 🟢 |
+| 0-5 | 1-4 | Docs, crawl, index, sitemap, canonical | 🟢 |
 | 6 | 5 | Headings + `seo:headings-check` | 🟢 |
 | 7 | 6 | AI files + `lib/ai-files/` + generated `llms.txt` | 🟢 |
 | 8 | 7 | Schema (Org, WebPage, Article, Service, Collection) | 🟢 |
-| 9–16 | 8–15 | PMP, FAQ, answers, topics, legal, validation | 🟢 |
+| 9-16 | 8-15 | PMP, FAQ, answers, topics, legal, validation | 🟢 |
 | 17 | 16 | Validation scripts (17 `seo:*` checks + render-check) | 🟢 |
 | 18 | 17 | Deployment + production smoke | 🟢 |
 | 19 | 18 | GSC verify + sitemap submit | 🟢 |
 | 20 | 19 | AI testing sheet + baseline schedule | 🟢 |
-| — | Sign-off | `preflight-07-foundation-signoff` | 🟢 |
+|: | Sign-off | `preflight-07-foundation-signoff` | 🟢 |
 
 ## Commands
 

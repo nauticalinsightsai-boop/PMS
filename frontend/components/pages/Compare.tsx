@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Info } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -141,11 +142,13 @@ export function Compare() {
                   Our certification experts can help you map out a personalized professional
                   development plan based on your experience and career aspirations.
                 </p>
-                <Link href="/contact">
-                  <Button className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-md shadow-brand-orange/20">
-                    Talk to an advisor
-                  </Button>
-                </Link>
+                <WebsiteCalendlyButton
+                  className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-md shadow-brand-orange/20"
+                  funnelLabel="compare_talk_to_advisor"
+                  utm={{ utm_source: 'pmstructure', utm_medium: 'compare', utm_campaign: 'advisor' }}
+                >
+                  Talk to an advisor
+                </WebsiteCalendlyButton>
               </div>
             </div>
           </div>

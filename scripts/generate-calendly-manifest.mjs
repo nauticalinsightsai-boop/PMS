@@ -24,7 +24,7 @@ const STANDARD_QUESTIONS = [
     name: 'Years of Experience',
     type: 'single_select',
     required: true,
-    answerChoices: ['0–2', '3–5', '6–10', '10+'],
+    answerChoices: ['0-2', '3-5', '6-10', '10+'],
   },
   {
     name: 'Please describe your specific question or concern',
@@ -155,7 +155,7 @@ function pair(family, idBase) {
   const slugBase = family === 'search' ? 'go-search' : `go-${family}`;
   return [
     buildEvent(String(idBase).padStart(3, '0'), {
-      name: `${label} — Discovery & Mentorship`,
+      name: `${label}. Discovery & Mentorship`,
       slug: `${slugBase}-discovery`,
       family,
       tierKind: 'discovery',
@@ -165,7 +165,7 @@ function pair(family, idBase) {
       portalTierIds: ['mentor-intro', 'discovery'],
     }),
     buildEvent(String(idBase + 1).padStart(3, '0'), {
-      name: `${label} — Executive Discussion`,
+      name: `${label}. Executive Discussion`,
       slug: `${slugBase}-executive`,
       family,
       tierKind: 'executive',
@@ -181,7 +181,7 @@ const events = [];
 
 events.push(
   buildEvent('001', {
-    name: 'Website Hero — Book Consultation',
+    name: 'Website Hero. Book Consultation',
     slug: 'go-website-hero-consultation',
     family: 'website-hero',
     tierKind: 'hero',
@@ -196,7 +196,7 @@ events.push(
 
 events.push(
   buildEvent('002', {
-    name: 'Website — Discovery & Mentorship',
+    name: 'Website. Discovery & Mentorship',
     slug: 'go-website-discovery',
     family: 'website',
     tierKind: 'discovery',
@@ -206,7 +206,7 @@ events.push(
     portalTierIds: ['mentor-intro', 'discovery'],
   }),
   buildEvent('003', {
-    name: 'Website — Executive Discussion',
+    name: 'Website. Executive Discussion',
     slug: 'go-website-executive',
     family: 'website',
     tierKind: 'executive',
@@ -216,7 +216,7 @@ events.push(
     portalTierIds: ['career-pathway', 'executive'],
   }),
   buildEvent('004', {
-    name: 'Website — Expert Services Discussion',
+    name: 'Website. Expert Services Discussion',
     slug: 'go-website-services',
     family: 'website',
     tierKind: 'services',
@@ -234,10 +234,10 @@ for (const family of ['webinar', 'writing', 'social', 'video', 'audio', 'communi
   id += 2;
 }
 
-// 019–026: high-traffic channel pairs (LinkedIn, YouTube, Email, RSS)
+// 019-026: high-traffic channel pairs (LinkedIn, YouTube, Email, RSS)
 events.push(
   buildEvent('019', {
-    name: 'LinkedIn — Discovery & Mentorship',
+    name: 'LinkedIn. Discovery & Mentorship',
     slug: 'go-linkedin-discovery',
     family: 'linkedin',
     tierKind: 'discovery',
@@ -247,7 +247,7 @@ events.push(
     portalTierIds: ['mentor-intro', 'discovery'],
   }),
   buildEvent('020', {
-    name: 'LinkedIn — Executive Discussion',
+    name: 'LinkedIn. Executive Discussion',
     slug: 'go-linkedin-executive',
     family: 'linkedin',
     tierKind: 'executive',
@@ -257,7 +257,7 @@ events.push(
     portalTierIds: ['career-pathway', 'executive'],
   }),
   buildEvent('021', {
-    name: 'YouTube — Discovery & Mentorship',
+    name: 'YouTube. Discovery & Mentorship',
     slug: 'go-youtube-discovery',
     family: 'youtube',
     tierKind: 'discovery',
@@ -267,7 +267,7 @@ events.push(
     portalTierIds: ['mentor-intro', 'discovery'],
   }),
   buildEvent('022', {
-    name: 'YouTube — Executive Discussion',
+    name: 'YouTube. Executive Discussion',
     slug: 'go-youtube-executive',
     family: 'youtube',
     tierKind: 'executive',
@@ -277,7 +277,7 @@ events.push(
     portalTierIds: ['career-pathway', 'executive'],
   }),
   buildEvent('023', {
-    name: 'Email — Discovery & Mentorship',
+    name: 'Email. Discovery & Mentorship',
     slug: 'go-email-discovery',
     family: 'email',
     tierKind: 'discovery',
@@ -287,7 +287,7 @@ events.push(
     portalTierIds: ['mentor-intro', 'discovery'],
   }),
   buildEvent('024', {
-    name: 'Email — Executive Discussion',
+    name: 'Email. Executive Discussion',
     slug: 'go-email-executive',
     family: 'email',
     tierKind: 'executive',
@@ -297,7 +297,7 @@ events.push(
     portalTierIds: ['career-pathway', 'executive'],
   }),
   buildEvent('025', {
-    name: 'RSS Feeds — Discovery & Mentorship',
+    name: 'RSS Feeds. Discovery & Mentorship',
     slug: 'go-rss-feeds-discovery',
     family: 'rss-feeds',
     tierKind: 'discovery',
@@ -307,7 +307,7 @@ events.push(
     portalTierIds: ['mentor-intro', 'discovery'],
   }),
   buildEvent('026', {
-    name: 'RSS Feeds — Executive Discussion',
+    name: 'RSS Feeds. Executive Discussion',
     slug: 'go-rss-feeds-executive',
     family: 'rss-feeds',
     tierKind: 'executive',
@@ -321,7 +321,7 @@ events.push(
 // 027: syndicated services tier (content-aggregators + api-ai-fed discovery alias)
 events.push(
   buildEvent('027', {
-    name: 'Syndicated — Expert Services Discussion',
+    name: 'Syndicated. Expert Services Discussion',
     slug: 'go-syndicated-services',
     family: 'syndicated',
     tierKind: 'services',
@@ -333,10 +333,10 @@ events.push(
   }),
 );
 
-// 028–029 syndicated (user-specified IDs)
+// 028-029 syndicated (user-specified IDs)
 events.push(
   buildEvent('028', {
-    name: 'Syndicated / RSS / Feeds — Discovery & Mentorship',
+    name: 'Syndicated / RSS / Feeds. Discovery & Mentorship',
     slug: 'go-syndicated-discovery',
     family: 'syndicated',
     tierKind: 'discovery',
@@ -347,7 +347,7 @@ events.push(
     portalTierIds: ['mentor-intro', 'discovery'],
   }),
   buildEvent('029', {
-    name: 'Syndicated / RSS / Feeds — Executive Discussion',
+    name: 'Syndicated / RSS / Feeds. Executive Discussion',
     slug: 'go-syndicated-executive',
     family: 'syndicated',
     tierKind: 'executive',

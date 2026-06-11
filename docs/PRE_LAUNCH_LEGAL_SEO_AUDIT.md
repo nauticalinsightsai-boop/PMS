@@ -15,17 +15,17 @@ npm run build -w @pms/frontend
 
 | Gate | Status | Owner |
 |------|--------|-------|
-| `/legalhub` → `/legal` redirects | Code | — |
-| 15+ legal routes (publication copy, no draft banner) | Code | — |
-| All compliance contact → support@pmstructure.com | Code | — |
-| FAQ ≥65 + tabbed UX + FAQPage JSON-LD | Code | — |
-| No banned draft/counsel/placeholder strings in legal+FAQ | Code | — |
-| Full sitemap + robots + llms.txt | Code | — |
-| Per-page metadata + canonicals | Code | — |
-| Organization + Course JSON-LD | Code | — |
+| `/legalhub` → `/legal` redirects | Code |: |
+| 15+ legal routes (publication copy, no draft banner) | Code |: |
+| All compliance contact → support@pmstructure.com | Code |: |
+| FAQ ≥65 + tabbed UX + FAQPage JSON-LD | Code |: |
+| No banned draft/counsel/placeholder strings in legal+FAQ | Code |: |
+| Full sitemap + robots + llms.txt | Code |: |
+| Per-page metadata + canonicals | Code |: |
+| Organization + Course JSON-LD | Code |: |
 | OG default image | `public/og/default.png` | Design |
 | Footer entity/phone from env (hidden until set) | Set `NEXT_PUBLIC_*` | You |
-| No picsum on cert detail hero | Code | — |
+| No picsum on cert detail hero | Code |: |
 | External counsel review (off-site) | Manual | Counsel |
 | GSC/Bing sitemap submit | Post-deploy | You |
 | Lighthouse SEO ≥90 (sample URLs) | Manual | You |
@@ -44,4 +44,4 @@ See [LEGAL_FAQ_CONTENT_AUDIT.md](./LEGAL_FAQ_CONTENT_AUDIT.md) and [FAQ_ANSWER_S
 
 ## hreflang
 
-Single English site; region selector is for pricing only — **no hreflang** implemented.
+Single English site; region selector is for pricing only: **no hreflang** implemented.

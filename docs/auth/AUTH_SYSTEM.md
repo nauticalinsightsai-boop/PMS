@@ -1,4 +1,4 @@
-# PM Structure — dashboard_one authentication
+# PM Structure: dashboard_one authentication
 
 Production admin login uses **`dashboard_one`** in your **PM Structure Supabase project** (separate from Sh3ikhMABZ main site). Passwords are **scrypt** hashes in `dashboard_one.user_credentials`, not Supabase Auth users.
 
@@ -15,8 +15,8 @@ Production admin login uses **`dashboard_one`** in your **PM Structure Supabase 
 
 ## One-time Supabase setup (your side)
 
-1. **Settings → API** — copy Project URL, anon key, **service_role** key.
-2. **Settings → API → Exposed schemas** — add **`dashboard_one`**.
+1. **Settings → API**: copy Project URL, anon key, **service_role** key.
+2. **Settings → API → Exposed schemas**: add **`dashboard_one`**.
 3. Set **`DATABASE_URL`** in repo root `.env` (Database connection string).
 4. Run migrations:
 
@@ -25,7 +25,7 @@ npm run db:migrate
 npm run db:check-supabase
 ```
 
-## `.env.local` (repo root — all apps)
+## `.env.local` (repo root: all apps)
 
 Put **every key** in **repo root `.env.local`** only (not in `frontend/` or `dashboard/*` subfolders):
 
@@ -40,7 +40,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://YOUR_REF.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 SUPABASE_SERVICE_ROLE_KEY=eyJ...
 
-# Email (OTP + reset) — SMTP **or** Resend (SMTP wins if SMTP_HOST is set)
+# Email (OTP + reset). SMTP **or** Resend (SMTP wins if SMTP_HOST is set)
 
 # --- Gmail example ---
 # SMTP_HOST=smtp.gmail.com
@@ -95,7 +95,7 @@ AUTH_EMAIL_FROM=nauticalinsights.ai@gmail.com
 AUTH_EMAIL_FROM_NAME=PM Structure
 ```
 
-Use the **app password** in `SMTP_PASS`, not your normal Gmail password. Remove spaces or keep them — both usually work.
+Use the **app password** in `SMTP_PASS`, not your normal Gmail password. Remove spaces or keep them: both usually work.
 
 ### Outlook / Microsoft 365
 
@@ -120,10 +120,10 @@ Restart `npm run dev` after editing `.env.local`.
 
 ## OTP (optional)
 
-1. Dashboard → **Site System → Security** — enable SMS/email new-device toggles.
+1. Dashboard → **Site System → Security**: enable SMS/email new-device toggles.
 2. Set **E.164 phone** on the same page for SMS.
 3. Configure **SMTP or Resend** in `dashboard/backend/.env.local`.
-4. Test in **incognito** — password OK → 6-digit code → verify → dashboard.
+4. Test in **incognito**: password OK → 6-digit code → verify → dashboard.
 
 ## API routes
 
@@ -142,7 +142,7 @@ Restart `npm run dev` after editing `.env.local`.
 
 ## Same password as main Sh3ikhMABZ site?
 
-Only if both sites point at the **same Supabase project** and same `dashboard_one.user_credentials` row. PM Structure uses its **own** project by default — bootstrap the **same password string** once on PM Structure’s DB.
+Only if both sites point at the **same Supabase project** and same `dashboard_one.user_credentials` row. PM Structure uses its **own** project by default: bootstrap the **same password string** once on PM Structure’s DB.
 
 ## Troubleshooting
 

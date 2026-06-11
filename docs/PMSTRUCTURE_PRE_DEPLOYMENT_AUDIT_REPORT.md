@@ -1,8 +1,8 @@
-# PM Structure — Pre-Deployment Audit Report
+# PM Structure. Pre-Deployment Audit Report
 
 **Date:** 2026-06-10  
-**Branch:** local working tree (v2 Phases 10–19)  
-**Recommendation:** **ready with warnings** — automated gates green; manual GSC/Bing/AI baseline pending
+**Branch:** local working tree (v2 Phases 10-19)  
+**Recommendation:** **ready with warnings**: automated gates green; manual GSC/Bing/AI baseline pending
 
 ## Commands run
 

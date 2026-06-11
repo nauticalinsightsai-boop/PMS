@@ -159,7 +159,7 @@ export function mergeChannelLandingPage(
       status: 'draft',
       createdAt: now,
       updatedAt: now,
-      headline: base.headline ?? `${btn.label} — Schedule a mentor call`,
+      headline: base.headline ?? `${btn.label}. Schedule a mentor call`,
       subheadline: base.subheadline ?? '',
       body: '',
       contextLabel: base.contextLabel ?? '',

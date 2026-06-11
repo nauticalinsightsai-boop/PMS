@@ -68,7 +68,7 @@ export const certifications: CertificationSummary[] = [
     examFormat: "150 questions; 180 minutes; includes 15 unscored pretest questions (135 scored). Pass score not published (psychometric).",
     registrationSteps: "Create PMI account → enter education + 23 hours → application acceptance → pay → schedule at Pearson VUE or online → up to three attempts in a year.",
     officialFee: "$225 (member): $300 (full).",
-    trainingPriceRange: "~$995–$1,795 for structured prep.",
+    trainingPriceRange: "~$995-$1,795 for structured prep.",
     learningOutcomes: ["Core PM concepts", "Basic scheduling/cost/risk vocabulary", "Agile fundamentals", "Business analysis basics aligned to CAPM domains"],
     suggestedResources: ["CAPM ECO", "PMI on-demand/instructor-led references", "PMI certification handbook policies"],
     recommendedCTA: "Earn your CAPM: complete the 23 hours, practice with exam-style questions, and schedule with confidence.",
@@ -92,7 +92,7 @@ export const certifications: CertificationSummary[] = [
     examFormat: "180 questions; 230 minutes; includes 5 unscored pretest questions; pass score not published (psychometric).",
     registrationSteps: "Check eligibility → complete application → pay/schedule exam via Pearson VUE (center or online) → study → sit exam; up to three attempts in one-year eligibility period.",
     officialFee: "Member price $405; full price $655.",
-    trainingPriceRange: "~$500–$3,000 (provider-dependent).",
+    trainingPriceRange: "~$500-$3,000 (provider-dependent).",
     learningOutcomes: ["Define/plan work using predictive + hybrid patterns", "Lead teams and stakeholders", "Manage delivery, risk, and quality", "Tailor agile practices", "Align outcomes to business environment"],
     pathwayOutcomes: {
       foundation: [
@@ -136,7 +136,7 @@ export const certifications: CertificationSummary[] = [
     examFormat: "120 questions; 180 minutes; pass score not published (psychometric).",
     registrationSteps: "Confirm eligibility → apply → pay/schedule → study → earn → maintain.",
     officialFee: "$435 (member): $495 (full).",
-    trainingPriceRange: "~$900–$2,000 depending on provider/format.",
+    trainingPriceRange: "~$900-$2,000 depending on provider/format.",
     learningOutcomes: ["Agile principles", "Backlog/value delivery", "Team facilitation", "Agile planning/estimation", "Hybrid tailoring and governance"],
     suggestedResources: ["PMI-ACP ECO", "PMI/ATP exam prep pathways", "PMI certification handbook"],
     recommendedCTA: "Prove your agile delivery skills: validate experience, complete 21 hours, and book your PMI-ACP exam.",
@@ -160,7 +160,7 @@ export const certifications: CertificationSummary[] = [
     examFormat: "115 questions; 150 minutes; pass score not published (psychometric).",
     registrationSteps: "Check eligibility → complete application → identity verification via Persona → pay/schedule → sit exam.",
     officialFee: "$520 (member): $670 (full).",
-    trainingPriceRange: "~$1,199–$1,695 for bootcamp-style prep.",
+    trainingPriceRange: "~$1,199-$1,695 for bootcamp-style prep.",
     learningOutcomes: ["Risk planning strategy", "Qualitative/quantitative analysis", "Responses and reserves", "Governance/reporting", "Risk integration in schedules/costs"],
     suggestedResources: ["PMI-RMP ECO", "PMI exam prep resources", "PMI certification handbook"],
     recommendedCTA: "Become the risk specialist teams rely on: meet the 40-hour education requirement and validate your risk leadership.",
@@ -180,7 +180,7 @@ export const certifications: CertificationSummary[] = [
     color: "#1D4ED8",
     gradient: "from-[#93C5FD] to-[#1D4ED8]",
     targetAudience: "Business analysts, product/business analysis leads, PMs doing requirements/benefits work.",
-    prerequisites: "Multiple sets (A/B/C) based on education, requiring 36–60 months BA experience and 35 contact hours in BA practices.",
+    prerequisites: "Multiple sets (A/B/C) based on education, requiring 36-60 months BA experience and 35 contact hours in BA practices.",
     examFormat: "200 questions; 240 minutes; pass score not published (psychometric).",
     registrationSteps: "Check eligibility (choose Set A/B/C) → apply → pay/schedule → up to three attempts/year eligibility.",
     officialFee: "$405 (member): $555 (full).",
@@ -232,7 +232,7 @@ export const certifications: CertificationSummary[] = [
     examFormat: "120 questions; 165 minutes; pass score not published (psychometric).",
     registrationSteps: "Check eligibility → apply (audit possible) → pay/schedule → sit exam.",
     officialFee: "$475 (member): $655 (full).",
-    trainingPriceRange: "PMI prep course: $160–$200 (10 hours); bootcamp examples ~$999.",
+    trainingPriceRange: "PMI prep course: $160-$200 (10 hours); bootcamp examples ~$999.",
     learningOutcomes: ["PMO operating model", "Strategic alignment", "Performance metrics", "Governance cadence", "Continuous improvement of PMO services"],
     suggestedResources: ["PMI-PMOCP ECO", "PMI prep course (10 hours) and related materials"],
     recommendedCTA: "Design and run a value-driven PMO: hit the 10-hour requirement and prepare for PMI-PMOCP.",
@@ -252,7 +252,7 @@ export const certifications: CertificationSummary[] = [
     color: "#9A3412",
     gradient: "from-[#FDBA74] to-[#9A3412]",
     targetAudience: "Construction PMs, site/project controls leaders, built-environment delivery roles.",
-    prerequisites: "Complete four required foundational course modules (6–10 hours each) + 3 years on-the-job experience in construction/built environment projects (past 10 years).",
+    prerequisites: "Complete four required foundational course modules (6-10 hours each) + 3 years on-the-job experience in construction/built environment projects (past 10 years).",
     examFormat: "120 questions; 230 minutes; pass score not published (psychometric).",
     registrationSteps: "Complete modules → check eligibility → apply (document experience/training) → pay/schedule → study/take exam.",
     officialFee: "$399 (member): $499 (full).",
@@ -324,11 +324,11 @@ export const certifications: CertificationSummary[] = [
     color: "#F97316",
     gradient: "from-[#FDBA74] to-[#F97316]",
     targetAudience: "Senior program managers; PMO leaders responsible for program governance and benefits delivery.",
-    prerequisites: "Sets A/B/C based on education; includes project management experience (or PMP) and 36–84 months program management experience. Panel review is part of the pathway.",
+    prerequisites: "Sets A/B/C based on education; includes project management experience (or PMP) and 36-84 months program management experience. Panel review is part of the pathway.",
     examFormat: "170 questions; 240 minutes; pass score not published (psychometric).",
     registrationSteps: "Eligibility → application → pay → panel review → schedule exam; up to three attempts/year eligibility.",
     officialFee: "$800 (member): $1,000 (full).",
-    trainingPriceRange: "Published ranges ~$800–$2,800 depending on provider/location.",
+    trainingPriceRange: "Published ranges ~$800-$2,800 depending on provider/location.",
     learningOutcomes: ["Program strategy alignment", "Governance structures", "Benefits management", "Stakeholder engagement", "Coordination across projects"],
     suggestedResources: ["PgMP ECO", "Sample questions", "PMI certification handbook"],
     recommendedCTA: "Move from projects to programs: validate experience, pass panel review, and lead strategic outcomes.",
@@ -463,9 +463,9 @@ export const certifications: CertificationSummary[] = [
     desc: "Managing Successful Programmes.",
     outputValue: "Programme governance / senior value",
     pricing: {
-      Foundation: { duration: "5–7 days", price: 350 },
-      Professional: { duration: "5–6 weeks", price: 1150 },
-      Elite: { duration: "8–10 weeks", price: 1700 }
+      Foundation: { duration: "5-7 days", price: 350 },
+      Professional: { duration: "5-6 weeks", price: 1150 },
+      Elite: { duration: "8-10 weeks", price: 1700 }
     },
     color: "#155E75",
     gradient: "from-[#67E8F9] to-[#155E75]"
@@ -477,9 +477,9 @@ export const certifications: CertificationSummary[] = [
     desc: "Management of Portfolios.",
     outputValue: "Portfolio governance / senior value",
     pricing: {
-      Foundation: { duration: "5–7 days", price: 350 },
-      Professional: { duration: "5–6 weeks", price: 1150 },
-      Elite: { duration: "8–10 weeks", price: 1700 }
+      Foundation: { duration: "5-7 days", price: 350 },
+      Professional: { duration: "5-6 weeks", price: 1150 },
+      Elite: { duration: "8-10 weeks", price: 1700 }
     },
     color: "#1E3A8A",
     gradient: "from-[#93C5FD] to-[#1E3A8A]"
@@ -491,9 +491,9 @@ export const certifications: CertificationSummary[] = [
     desc: "Management of Risk.",
     outputValue: "Risk governance / specialist value",
     pricing: {
-      Foundation: { duration: "4–5 days", price: 300 },
-      Professional: { duration: "4–5 weeks", price: 900 },
-      Elite: { duration: "7–8 weeks", price: 1300 }
+      Foundation: { duration: "4-5 days", price: 300 },
+      Professional: { duration: "4-5 weeks", price: 900 },
+      Elite: { duration: "7-8 weeks", price: 1300 }
     },
     color: "#5B21B6",
     gradient: "from-[#C4B5FD] to-[#5B21B6]"
@@ -505,9 +505,9 @@ export const certifications: CertificationSummary[] = [
     desc: "Portfolio, Programme and Project Offices.",
     outputValue: "PMO governance / specialist value",
     pricing: {
-      Foundation: { duration: "4–5 days", price: 300 },
-      Professional: { duration: "4–5 weeks", price: 900 },
-      Elite: { duration: "7–8 weeks", price: 1300 }
+      Foundation: { duration: "4-5 days", price: 300 },
+      Professional: { duration: "4-5 weeks", price: 900 },
+      Elite: { duration: "7-8 weeks", price: 1300 }
     },
     color: "#334155",
     gradient: "from-[#94A3B8] to-[#155E75]"
@@ -687,7 +687,7 @@ export const membershipTiers: MembershipTier[] = [
       "Basic study guides",
       "Public community & forums",
     ],
-    cta: "Create Free Account",
+    cta: "Already included",
     variant: "outline",
   },
   {

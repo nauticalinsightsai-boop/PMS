@@ -1,4 +1,4 @@
-# Portal conversion & UX plan (Phase 7 — OPT-PORTAL)
+# Portal conversion & UX plan (Phase 7. OPT-PORTAL)
 
 Conversion-first redesign for all `/go/{channel}` public portals. See also [BOOKING_CRM_REPLICATION_MAP.md](./BOOKING_CRM_REPLICATION_MAP.md) and [booking-crm-platform-catalog.md](./booking-crm-platform-catalog.md).
 
@@ -13,7 +13,7 @@ Conversion-first redesign for all `/go/{channel}` public portals. See also [BOOK
 
 ## Brand & copy rules (all 42 slugs)
 
-- **Hero brand:** Project Management Structure (`BRAND.fullName`) — not “PM Structure” as the headline product name.
+- **Hero brand:** Project Management Structure (`BRAND.fullName`): not “PM Structure” as the headline product name.
 - **Positioning:** Mentor-led certification preparation and career guidance.
 - **Never in marketing copy:** “Independent” (Terms / legal only).
 - **Remove from tier UI:** `Best for:` and `Outcome:` on public tier cards.
@@ -28,10 +28,10 @@ Conversion-first redesign for all `/go/{channel}` public portals. See also [BOOK
 
 ## Platform track record metrics (order)
 
-1. Learners who cleared certifications — **1,284+** (`PLATFORM_LEARNERS_CLEARED`)
-2. Issuing bodies covered — PMI · PRINCE2 · Six Sigma
-3. Certification pathways — 55+ structured prep programs
-4. Regional pricing — scholarship tiers by residence
+1. Learners who cleared certifications: **1,284+** (`PLATFORM_LEARNERS_CLEARED`)
+2. Issuing bodies covered. PMI · PRINCE2 · Six Sigma
+3. Certification pathways: 55+ structured prep programs
+4. Regional pricing: scholarship tiers by residence
 
 ## Tier model (template v4)
 
@@ -72,17 +72,17 @@ Dashboard CTA admin: `http://localhost:3000/dashboard/booking-crm/cta` (no query
 | OPT-PORTAL-003 | Hide bestFor/outcome on tier cards |
 | OPT-PORTAL-004 | Trust row above tiers |
 | OPT-PORTAL-005 | Soften free-tier spotlight styling |
-| OPT-PORTAL-020–023 | Learner voices: name/title, curated quotes |
-| OPT-PORTAL-024–026 | Metrics order + MAX_METRICS=4 |
-| OPT-PORTAL-030–032 | Free mentor-intro all channels |
-| OPT-PORTAL-040–043 | Remove services-detail tier |
+| OPT-PORTAL-020-023 | Learner voices: name/title, curated quotes |
+| OPT-PORTAL-024-026 | Metrics order + MAX_METRICS=4 |
+| OPT-PORTAL-030-032 | Free mentor-intro all channels |
+| OPT-PORTAL-040-043 | Remove services-detail tier |
 
 ## Validation
 
-- [x] `/go/webinar` — video → 2 tiers → pathways → Calendly (code)
-- [x] `/go/whatsapp` — human quotes with name + position (code)
-- [x] Sample slugs — free intro; no View services tier (code + JSON migration)
-- [x] Platform tab — 1,284+ cleared → issuing bodies → pathways
+- [x] `/go/webinar`: video → 2 tiers → pathways → Calendly (code)
+- [x] `/go/whatsapp`: human quotes with name + position (code)
+- [x] Sample slugs: free intro; no View services tier (code + JSON migration)
+- [x] Platform tab: 1,284+ cleared → issuing bodies → pathways
 - [x] `portalConversionPacks.test.ts` passes
 
 ## Legal note

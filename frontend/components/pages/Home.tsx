@@ -26,9 +26,8 @@ import {
 } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { RegisterModal } from "@/components/RegisterModal";
+import { WebsiteCalendlyButton } from "@/components/calendly/WebsiteCalendlyButton";
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
-import { getWebsiteHeroConsultationCalendlyUrl } from '@/lib/calendly/embed-url';
 import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
@@ -131,10 +130,10 @@ export function Home() {
 
   const renderPrimaryCta = () => {
     const action = homeCms.primaryAction;
-    const heroConsultationUrl = getWebsiteHeroConsultationCalendlyUrl();
     const primaryLink = homeCms.ctaPrimaryLink || '/contact?topic=consultation';
     const useHeroConsultationCalendly =
       action === 'calendly' ||
+      action === 'register_modal' ||
       (action === 'contact' && primaryLink.includes('topic=consultation'));
     const defaultLabel = CTAS.talkToMentor;
     const label =
@@ -142,34 +141,30 @@ export function Home() {
       get('cta_primary', defaultLabel);
     const btnClass = HERO_BTN;
 
-    if (useHeroConsultationCalendly) {
+    if (action === 'link') {
+      const href = homeCms.ctaPrimaryLink || '/membership';
       return (
-        <Button
-          type="button"
-          size="lg"
-          className={cn(btnClass, 'block')}
-          onClick={() =>
-            void openCalendlyThemedPopup(heroConsultationUrl, {
-              funnelLabel: 'home_hero_consultation',
-              utm: { utm_source: 'pmstructure', utm_medium: 'website', utm_campaign: 'home_hero' },
-            })
-          }
-        >
-          {label}
-        </Button>
+        <Link href={href} className="block w-full sm:w-auto">
+          <Button size="lg" className={btnClass}>{label}</Button>
+        </Link>
       );
     }
 
-    if (action === 'register_modal') {
+    if (useHeroConsultationCalendly) {
       return (
-        <RegisterModal recoveryVariant="home_register_exit" trigger={
-          <Button size="lg" className={cn(btnClass, 'block')}>{label}</Button>
-        } />
+        <WebsiteCalendlyButton
+          size="lg"
+          className={cn(btnClass, 'block')}
+          funnelLabel="home_hero_consultation"
+          utm={{ utm_source: 'pmstructure', utm_medium: 'website', utm_campaign: 'home_hero' }}
+        >
+          {label}
+        </WebsiteCalendlyButton>
       );
     }
-    const href = action === 'contact' ? primaryLink : (homeCms.ctaPrimaryLink || '/membership');
+
     return (
-      <Link href={href} className="block w-full sm:w-auto">
+      <Link href={primaryLink} className="block w-full sm:w-auto">
         <Button size="lg" className={btnClass}>{label}</Button>
       </Link>
     );
@@ -976,12 +971,15 @@ export function Home() {
                     </Button>
                   </Link>
                 ) : (
-                  <RegisterModal recoveryVariant="home_register_exit" trigger={
-                    <Button size="lg" className="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl shadow-xl transition-all group/btn">
-                      {CTAS.talkToMentor}
-                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
-                    </Button>
-                  } />
+                  <WebsiteCalendlyButton
+                    size="lg"
+                    className="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl shadow-xl transition-all group/btn"
+                    funnelLabel="home_final_cta_consultation"
+                    utm={{ utm_source: 'pmstructure', utm_medium: 'website', utm_campaign: 'home_final' }}
+                  >
+                    {CTAS.talkToMentor}
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
+                  </WebsiteCalendlyButton>
                 )}
                 <Link href="/certifications" className="w-full sm:w-auto">
                   <Button

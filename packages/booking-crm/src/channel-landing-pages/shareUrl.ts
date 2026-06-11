@@ -1,6 +1,6 @@
 import type { ChannelLandingPage } from '../types/channelLandingPage'
 
-/** Canonical public path — always `/go/{slug}` (no preview query). */
+/** Canonical public path: always `/go/{slug}` (no preview query). */
 export function buildGoPagePath(page: Pick<ChannelLandingPage, 'slug'>): string | null {
   const slug = page.slug?.trim()
   if (!slug) return null

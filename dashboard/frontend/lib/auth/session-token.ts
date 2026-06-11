@@ -19,7 +19,7 @@ export function createSignedSessionToken(email: string, secret: string): string 
   return `${normalized}.${payload}.${sig}`;
 }
 
-/** Token shape: `{email}.{payload}.{sig}` — email may contain dots. */
+/** Token shape: `{email}.{payload}.{sig}`: email may contain dots. */
 export function parseSignedSessionToken(token: string): {
   emailPrefix: string;
   payload: string;

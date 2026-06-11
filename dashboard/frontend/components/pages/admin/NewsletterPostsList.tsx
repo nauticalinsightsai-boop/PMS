@@ -138,7 +138,7 @@ export function NewsletterPostsList() {
                     <td className="px-4 py-4 font-semibold text-foreground">{post.title}</td>
                     <td className="px-4 py-4 text-muted-foreground">{post.slug}</td>
                     <td className="px-4 py-4 text-muted-foreground">
-                      {post.topics.length > 0 ? post.topics.join(', ') : '—'}
+                      {post.topics.length > 0 ? post.topics.join(', ') : '. '}
                     </td>
                     <td className="px-4 py-4">
                       <span className={statusBadge(post.status)}>{statusBadgeLabel(post.status)}</span>

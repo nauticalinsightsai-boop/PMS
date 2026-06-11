@@ -38,7 +38,7 @@ export function VerificationLogs() {
         {logs.map((l) => (
           <li key={l.id} className="rounded-lg border p-3 text-sm flex justify-between gap-4">
             <div>
-              <div className="font-semibold">{l.region_id ?? '—'}</div>
+              <div className="font-semibold">{l.region_id ?? '. '}</div>
               <div className="text-muted-foreground text-xs">
                 {l.residence_country} / {l.billing_country}
               </div>

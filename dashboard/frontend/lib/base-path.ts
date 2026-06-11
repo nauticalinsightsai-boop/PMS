@@ -11,7 +11,7 @@ export function withBasePath(path: string): string {
 
 /**
  * Path for `next/navigation` when this app’s Next config sets `basePath`.
- * The bundled marketing app has no basePath — use `withBasePath` there instead.
+ * The bundled marketing app has no basePath: use `withBasePath` there instead.
  */
 export function routerPath(path: string): string {
   if (!path.startsWith('/')) path = `/${path}`;

@@ -34,12 +34,12 @@ const globalDisplay = offering.prices.global.display;
 const active = offering.prices.india.display;
 const membership = applyMembershipDiscountDisplay(active);
 
-console.log('India PMP Professional — expected on /certifications/pmp');
+console.log('India PMP Professional: expected on /certifications/pmp');
 console.log('  Original price:             ', globalDisplay);
 console.log('  Regional Scholarship:       ', active);
 console.log('  Membership price (20% off):', membership);
 
 const pass = membership === '₹35,999' && active === '₹44,999';
 console.log('');
-console.log(pass ? 'PASS (catalogue + discount math)' : 'FAIL — check values');
+console.log(pass ? 'PASS (catalogue + discount math)' : 'FAIL: check values');
 process.exit(pass ? 0 : 1);

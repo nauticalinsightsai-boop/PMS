@@ -17,4 +17,4 @@ Published PMP FAQs on `/pmp-faq` and visible related FAQs on PMP surfaces merge 
 
 ## Validation
 
-`npm run seo:faq-check` — minimum 83 PMP FAQs, 27 categories, `/pmp-faq` route, surface relatedPage coverage.
+`npm run seo:faq-check`: minimum 83 PMP FAQs, 27 categories, `/pmp-faq` route, surface relatedPage coverage.

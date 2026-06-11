@@ -1,4 +1,4 @@
-/** Platform channel ids — keep in sync with X1 ALL_CHANNELS / Section 28 catalog. */
+/** Platform channel ids: keep in sync with X1 ALL_CHANNELS / Section 28 catalog. */
 export const BOOKING_CRM_CHANNEL_IDS = [
   'website',
   'webinar',

@@ -1,5 +1,5 @@
 -- ============================================================
--- PM Structure — FULL database setup (one paste in SQL Editor)
+-- PM Structure: FULL database setup (one paste in SQL Editor)
 -- Project: vmuwflogvpaahgjjdlmr (or your PM Structure Supabase project)
 -- Safe to re-run (idempotent where possible)
 -- ============================================================

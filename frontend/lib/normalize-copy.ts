@@ -10,6 +10,9 @@ export function normalizeEmDashText(text: string): string {
         .replace(/\s*—\s*([A-Z"'(])/g, '. $1')
         .replace(/\s*—\s*/g, ': ')
         .replace(/\s+–\s+/g, ': ')
+        .replace(/(\d)–(\d)/g, '$1-$2')
+        .replace(/\u2013/g, '-')
+        .replace(/\u2014/g, ':')
         .replace(/\.\s+\./g, '.')
         .replace(/:\s+:/g, ':')
         .replace(/\?\s+\./g, '?');

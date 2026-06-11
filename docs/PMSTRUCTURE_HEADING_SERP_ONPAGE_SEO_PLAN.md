@@ -1,4 +1,4 @@
-# PM Structure — Heading & SERP On-Page SEO Plan
+# PM Structure. Heading & SERP On-Page SEO Plan
 
 **Canonical host:** `https://www.pmstructure.com`
 
@@ -13,11 +13,11 @@
 
 | Path | H1 (target) | Status |
 |------|-------------|--------|
-| `/` | PMP & project management exam prep | live — `HomeServerHeading` + client aria heading |
+| `/` | PMP & project management exam prep | live: `HomeServerHeading` + client aria heading |
 | `/certifications` | Find your pathway | audit pending |
 | `/certifications/pmp` | PMP® exam preparation (or cert name) | audit pending |
 | `/certifications/compare` | Compare certification pathways | audit pending |
-| `/faq` | FAQ — certifications, pricing & support | live — `FaqServerHeading` |
+| `/faq` | FAQ: certifications, pricing & support | live: `FaqServerHeading` |
 | `/about` | About PM Structure | audit pending |
 | `/contact` | Contact PM Structure | audit pending |
 | `/membership` | Membership | audit pending |

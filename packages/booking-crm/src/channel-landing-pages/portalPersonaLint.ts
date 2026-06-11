@@ -39,7 +39,7 @@ export function lintPortalCopyFields(fields: Record<string, string | undefined>)
       if (field === 'scheduleTierCta' && lower === banned) {
         issues.push({
           field,
-          message: `Avoid generic CTA "${banned}" — use a platform-native phrase`,
+          message: `Avoid generic CTA "${banned}": use a platform-native phrase`,
           severity: 'error',
         })
       } else if (lower.includes(banned) && field === 'scheduleTierCta') {
@@ -53,7 +53,7 @@ export function lintPortalCopyFields(fields: Record<string, string | undefined>)
     if (field === 'scheduleTierCta' && value.includes('→')) {
       issues.push({
         field,
-        message: 'Use one platform-native phrase — avoid arrow CTAs like "Wiki → session"',
+        message: 'Use one platform-native phrase: avoid arrow CTAs like "Wiki → session"',
         severity: 'error',
       })
     }
@@ -61,7 +61,7 @@ export function lintPortalCopyFields(fields: Record<string, string | undefined>)
       if (lower.includes(hype)) {
         issues.push({
           field,
-          message: `Hype language "${hype}" — keep qualification-first tone`,
+          message: `Hype language "${hype}": keep qualification-first tone`,
           severity: 'warning',
         })
       }
@@ -69,7 +69,7 @@ export function lintPortalCopyFields(fields: Record<string, string | undefined>)
     if (value.length > 280 && (field === 'targetMessage' || field === 'subheadline')) {
       issues.push({
         field,
-        message: 'Long for this surface — consider tightening',
+        message: 'Long for this surface: consider tightening',
         severity: 'warning',
       })
     }

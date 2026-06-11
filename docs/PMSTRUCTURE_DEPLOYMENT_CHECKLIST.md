@@ -1,4 +1,4 @@
-# PM Structure — Deployment Checklist
+# PM Structure. Deployment Checklist
 
 **Run:** 18 (Phase 17)  
 **Site:** https://pmstructure.com
@@ -8,9 +8,9 @@
 1. [x] Branch merged to `main`; SEO program shipped
 2. [x] `npm ci` / install on deploy host (Vercel)
 3. [x] Production env: `NEXT_PUBLIC_SITE_URL=https://pmstructure.com`
-4. [x] `npm run build -w @pms/frontend` — 252 pages
+4. [x] `npm run build -w @pms/frontend`: 252 pages
 5. [x] `npm run seo:all` green
-6. [x] `npm run seo:postbuild` — 8 SSR routes
+6. [x] `npm run seo:postbuild`: 8 SSR routes
 7. [x] AI files + generated `llms.txt` (`npm run seo:generate-ai-files`)
 8. [x] Spot-check PMP cluster + FAQ
 9. [x] Spot-check answers + topics
@@ -26,7 +26,7 @@
 ## Post-deploy (18)
 
 1. [x] Homepage SSR H1 in view-source
-2. [x] `https://pmstructure.com/sitemap.xml` — ~181 URLs
+2. [x] `https://pmstructure.com/sitemap.xml`: ~181 URLs
 3. [x] `https://pmstructure.com/robots.txt`
 4. [ ] Rich Results Test: `/faq`
 5. [ ] Rich Results Test: `/certifications/pmp`
@@ -47,7 +47,7 @@
 ### Optional: IndexNow (Bing)
 
 ```bash
-# 1. Set INDEXNOW_KEY in Vercel (8–128 hex chars)
+# 1. Set INDEXNOW_KEY in Vercel (8-128 hex chars)
 # 2. Run once locally to create public/{key}.txt, commit, deploy
 INDEXNOW_KEY=yourkey npm run seo:indexnow
 # 3. After each major release:

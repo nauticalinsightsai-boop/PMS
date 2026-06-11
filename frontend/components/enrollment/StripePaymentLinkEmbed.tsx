@@ -68,7 +68,7 @@ export function StripePaymentLinkEmbed({
     <div className={cn('seat-deposit-stripe-embed w-full min-w-0 space-y-4', className)}>
       <div className="rounded-lg border border-slate-100 bg-slate-50/80 px-4 py-5 dark:border-slate-800 dark:bg-slate-900/40">
         <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-          Stripe hosts checkout for your {depositLabel} seat deposit — name, email, and card details are collected on
+          Stripe hosts checkout for your {depositLabel} seat deposit: name, email, and card details are collected on
           their secure page.
         </p>
         <ul className="mt-3 space-y-1.5 text-[11px] text-slate-500 dark:text-slate-400">

@@ -214,7 +214,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
 
   'pmi-sp': offer(
     'PMI-SP®',
-    'Scheduling specialist pathway: master CPM, baselines, and controls with 30–40 hour education support and exam drills.',
+    'Scheduling specialist pathway: master CPM, baselines, and controls with 30-40 hour education support and exam drills.',
     pmiPack(
       'PMI-SP®',
       'CPM, monitoring, forecasting, and schedule risk interfaces',

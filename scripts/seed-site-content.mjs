@@ -66,7 +66,7 @@ try {
       );
     }
   }
-  console.log(`Done — ${docs.length} documents.`);
+  console.log(`Done: ${docs.length} documents.`);
 } finally {
   await client.end();
 }

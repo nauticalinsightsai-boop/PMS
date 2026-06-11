@@ -1,5 +1,5 @@
 /**
- * Schema safety guards — no ATP claims, payment URLs, or AggregateRating in JSON-LD (Run 8).
+ * Schema safety guards: no ATP claims, payment URLs, or AggregateRating in JSON-LD (Run 8).
  */
 import fs from 'fs';
 import path from 'path';
@@ -40,4 +40,3 @@ for (const dir of schemaDirs) {
 
 if (failed) process.exit(1);
 console.log('schema-guards-check OK');
-

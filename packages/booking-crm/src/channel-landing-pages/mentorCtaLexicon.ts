@@ -100,7 +100,7 @@ const EXACT_PHRASE_REPLACEMENTS: readonly (readonly [string, string])[] = [
   ['Book a longer', 'Schedule a longer'],
   ['Book a mentor', 'Talk to a mentor'],
   ['book a mentor', 'talk to a mentor'],
-  [' — Book a session', ' — Schedule a mentor call'],
+  ['. Book a session', '. Schedule a mentor call'],
   [' - Book a session', ' - Schedule a mentor call'],
   ['Inbox CTA to booked block', 'Inbox CTA to mentor session'],
   ['learners book after', 'learners schedule after'],

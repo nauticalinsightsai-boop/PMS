@@ -31,7 +31,7 @@ export function assertTierDurationsValid(tiers: ConsultationTier[]): void {
     if (minutes == null) continue
     if (minutes < limits.min || minutes > limits.max) {
       throw new Error(
-        `Tier "${tier.id}" duration ${minutes}m is outside ${limits.min}–${limits.max}m (${tier.durationLabel})`
+        `Tier "${tier.id}" duration ${minutes}m is outside ${limits.min}-${limits.max}m (${tier.durationLabel})`
       )
     }
   }

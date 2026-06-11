@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 type BrandIconMarkProps = {
   size?: number;
   className?: string;
-  /** Portal theme toggle — pick one mark explicitly. Omit for site shell (Tailwind dark:). */
+  /** Portal theme toggle: pick one mark explicitly. Omit for site shell (Tailwind dark:). */
   colorMode?: 'light' | 'dark';
   priority?: boolean;
 };

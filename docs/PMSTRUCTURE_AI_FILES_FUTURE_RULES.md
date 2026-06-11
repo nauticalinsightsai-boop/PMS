@@ -1,4 +1,4 @@
-# AI Files — Future Update Rules
+# AI Files. Future Update Rules
 
 When shipping new SEO content, regenerate AI files before deploy:
 

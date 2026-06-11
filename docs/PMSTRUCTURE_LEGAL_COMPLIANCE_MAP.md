@@ -1,4 +1,4 @@
-# PM Structure — Legal & Compliance Map
+# PM Structure. Legal & Compliance Map
 
 **Run:** 16 (Phase 15)  
 **Site:** https://www.pmstructure.com  
@@ -41,7 +41,7 @@
 
 ## Payment terms mapping
 
-No standalone `/legal/payment-terms` route — payment terms are distributed:
+No standalone `/legal/payment-terms` route: payment terms are distributed:
 
 | Topic | Authority page | Section |
 |-------|----------------|---------|
@@ -72,7 +72,7 @@ No standalone `/legal/payment-terms` route — payment terms are distributed:
 |---------|-------|
 | Site `Footer.tsx` | FAQ, Legal hub, Privacy, Terms, Disclaimers (`FOOTER_LEGAL_LINKS`) |
 | Channel portals | `PortalLegalLinks` (same constant) |
-| Legal hub | `legalHubSections` — core, commerce, trust, comms |
+| Legal hub | `legalHubSections`: core, commerce, trust, comms |
 | Resources nav | `/legal` on main footer column |
 
 ---

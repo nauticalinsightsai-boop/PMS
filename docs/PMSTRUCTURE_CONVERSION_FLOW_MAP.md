@@ -1,8 +1,8 @@
-# PM Structure — Conversion Flow Map
+# PM Structure. Conversion Flow Map
 
 **Run:** 15 (Phase 14)  
 **Site:** https://pmstructure.com  
-**Status:** v2 Phase 14 — core events wired 2026-06-10
+**Status:** v2 Phase 14: core events wired 2026-06-10
 
 ## Core journeys
 
@@ -32,7 +32,7 @@
 |------|-------|
 | Channel LP | `/go/[channel]` (indexable) |
 | Pathway | `/certifications/{id}` |
-| Region select | Client modal (`RegionContext`) — not a URL variant |
+| Region select | Client modal (`RegionContext`): not a URL variant |
 | Payment | `/certifications/{id}/{tier}/enroll` or `/checkout` |
 
 ### 4. FAQ → consultation (Calendly)
@@ -41,7 +41,7 @@
 |------|-------|
 | FAQ | `/faq` (consultation cluster) |
 | Contact | `/contact?topic=consultation` |
-| Calendly | External — `lib/calendly/scheduling-urls.ts`, pathway env vars |
+| Calendly | External: `lib/calendly/scheduling-urls.ts`, pathway env vars |
 
 ### 5. Mastery / consultation-gated pathway
 
@@ -92,7 +92,7 @@
 
 ---
 
-## Analytics events (implemented — `lib/analytics/conversion-events.ts`)
+## Analytics events (implemented: `lib/analytics/conversion-events.ts`)
 
 | Event | Trigger | Status |
 |-------|---------|--------|
@@ -114,6 +114,6 @@ Consent-gated via `trackFunnelEvent` → `gtag`. Client-only; no SSR block.
 ## Validation
 
 - [x] Enroll/checkout/success routes in `NOINDEX_PATH_PREFIXES` / patterns
-- [x] Pathway pages link to noindex enroll — not vice versa as only path
+- [x] Pathway pages link to noindex enroll: not vice versa as only path
 - [ ] Post-deploy: manual enroll → success flow test
 - [ ] Post-deploy: Calendly links open correct tier URLs

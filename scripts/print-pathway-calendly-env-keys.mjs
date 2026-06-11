@@ -92,7 +92,7 @@ if (mode === '--dotenv') {
     console.log(`# ${pathwayCalendlyEnvVarName(row.siteCertId, row.tierId)}=`);
   }
   console.log('');
-  console.log('# Enrollment success — WhatsApp + support');
+  console.log('# Enrollment success. WhatsApp + support');
   console.log('# NEXT_PUBLIC_WHATSAPP_URL=https://wa.me/XXXXXXXXXXX');
   process.exit(0);
 }

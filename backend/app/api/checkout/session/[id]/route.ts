@@ -1,38 +1,6 @@
 import { getStripe, isStripeConfigured } from '@/lib/stripe';
-import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
+import { syncPaidOrderFromStripeSession } from '@/lib/sync-paid-order';
 import { jsonError, jsonOk } from '@/lib/response-helpers.js';
-
-async function syncPaidOrderFromSession(sessionId: string, paymentStatus: string, customerEmail: string | null) {
-  if (!isSupabaseConfigured || paymentStatus !== 'paid') return;
-
-  const { data: row } = await supabaseAdmin
-    .from('orders')
-    .select('id, metadata')
-    .eq('stripe_session_id', sessionId)
-    .maybeSingle();
-
-  if (!row) return;
-
-  const priorMetadata =
-    row.metadata && typeof row.metadata === 'object' && !Array.isArray(row.metadata)
-      ? (row.metadata as Record<string, unknown>)
-      : {};
-
-  await supabaseAdmin
-    .from('orders')
-    .update({
-      status: 'paid',
-      updated_at: new Date().toISOString(),
-      ...(customerEmail ? { email: customerEmail } : {}),
-      metadata: {
-        ...priorMetadata,
-        stripePaymentStatus: paymentStatus,
-        stripeCustomerEmail: customerEmail,
-        verifiedVia: 'session_poll',
-      },
-    })
-    .eq('id', row.id);
-}
 
 export async function GET(
   _request: Request,
@@ -58,7 +26,12 @@ export async function GET(
     const paid = session.payment_status === 'paid';
 
     if (paid) {
-      await syncPaidOrderFromSession(id, session.payment_status, customerEmail);
+      await syncPaidOrderFromStripeSession({
+        sessionId: id,
+        paymentStatus: session.payment_status,
+        customerEmail,
+        verifiedVia: 'session_poll',
+      });
     }
 
     return jsonOk({

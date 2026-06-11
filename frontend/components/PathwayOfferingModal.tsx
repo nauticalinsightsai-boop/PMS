@@ -66,16 +66,21 @@ export function PathwayOfferingModal({
 
   const handleOpenChange = (next: boolean) => {
     if (!next && open && actionRef.current === 'none') {
-      recovery?.requestRecovery(
-        {
-          variant: pathwayExitVariant(tierId),
-          siteCertId,
-          tierId: tierIdFromPathwayTier(tierId),
-          offeringId,
-          parentSurface: 'pathway_modal',
-        },
-        { requireIntent: true, intentRecovery: true },
-      );
+      const recoveryCtx = {
+        variant: pathwayExitVariant(tierId),
+        siteCertId,
+        tierId: tierIdFromPathwayTier(tierId),
+        offeringId,
+        parentSurface: 'pathway_modal' as const,
+      };
+      recovery?.requestRecovery(recoveryCtx, {
+        requireIntent: true,
+        intentRecovery: true,
+        bypassPageVariantCap: true,
+        bypassSessionCap: true,
+      });
+      onOpenChange(false);
+      return;
     }
     onOpenChange(next);
   };
@@ -146,7 +151,7 @@ export function PathwayOfferingModal({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="rounded-[2rem] sm:max-w-4xl max-h-[min(92vh,900px)] flex flex-col">
+      <DialogContent className="rounded-[2rem] sm:max-w-6xl lg:max-w-7xl max-h-[min(92vh,900px)] flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold tracking-tight pr-8">{programmeTitle}</DialogTitle>
           <DialogDescription className="text-base font-medium leading-relaxed">{intro}</DialogDescription>
@@ -209,7 +214,7 @@ export function PathwayOfferingModal({
           )}
           {singleOther && (
             <>
-              {pathwayCta.showConsultationInModal && !pathwayCta.enrollHref ? (
+              {pathwayCta.modalMode === 'consultation' || pathwayCta.showConsultationInModal ? (
                 <Button
                   type="button"
                   className={cn(buttonVariants({ variant: 'brand' }), 'h-12 w-full rounded-2xl text-base')}

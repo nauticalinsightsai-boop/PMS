@@ -1,17 +1,17 @@
 # PMS
 
-Project Management certification platform — **Next.js** monorepo (TypeScript + JavaScript).
+Project Management certification platform: **Next.js** monorepo (TypeScript + JavaScript).
 
 ## Structure
 
 | Package | Stack | Internal port (dev) |
 |---------|--------|----------------------|
 | **Dev gateway** (`npm run dev`) | Routes all traffic | **3000** (use this in the browser) |
-| `frontend/` | Next.js 15 — public site | 3050 |
+| `frontend/` | Next.js 15, public site | 3050 |
 | `backend/` | Next.js 15 API routes | 3001 |
 | `dashboard/frontend/` | Next.js 15 admin UI | 5174 |
 | `dashboard/backend/` | Next.js 15 dashboard API | 3002 |
-| `supabase/migrations/` | Postgres schema | — |
+| `supabase/migrations/` | Postgres schema | - |
 
 ## Tech
 
@@ -31,7 +31,7 @@ npm run db:migrate        # applies supabase/migrations/*.sql (needs DATABASE_UR
 npm run dev
 ```
 
-**One env file locally:** edit **repo root `.env.local` only** — no `.env.local` in `frontend/`, `backend/`, or `dashboard/*`. All apps load it via `next.config.ts`. Run `npm run env:link` once to remove old per-folder copies. On Vercel, set vars per project — see `docs/DEPLOYMENT_VERCEL.md`.
+**One env file locally:** edit **repo root `.env.local` only**: no `.env.local` in `frontend/`, `backend/`, or `dashboard/*`. All apps load it via `next.config.ts`. Run `npm run env:link` once to remove old per-folder copies. On Vercel, set vars per project: see `docs/DEPLOYMENT_VERCEL.md`.
 
 ## Scripts
 
@@ -58,7 +58,7 @@ npm run setup:env           # copy .env.example → .env if missing
 2. Set `NEXT_PUBLIC_API_URL=http://localhost:3000` in `frontend/.env.local` (see `.env.example`; gateway proxies to API on :3001).
 3. Place `PM_Structure_Regional_Availability_Matrix.xlsx` (or set `REGIONAL_MATRIX_XLSX_PATH`).
 4. After Excel edits: `npm run import:regional` → `npm run validate:regional` → commit `frontend/data/regional-catalogue.json`.
-5. Checkout records enrollment requests in Supabase — no card payment integration.
+5. Checkout records enrollment requests in Supabase: no card payment integration.
 6. Full spec: `docs/REGIONAL_AVAILABILITY_IMPLEMENTATION_PLAN.md`.
 
 ## URLs (local dev)
@@ -72,7 +72,7 @@ Use **http://localhost:3000** for everything in the browser (`npm run dev` start
 | http://localhost:3000/admin/login | Admin sign-in |
 | http://localhost:3000/go/[channel] | Booking CRM channel portals |
 
-Do not browse internal ports (3050, 5174, 3001, 3002) directly — they are proxied through :3000.
+Do not browse internal ports (3050, 5174, 3001, 3002) directly: they are proxied through :3000.
 
 ## Production (Vercel)
 

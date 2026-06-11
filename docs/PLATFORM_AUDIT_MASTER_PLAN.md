@@ -1,8 +1,8 @@
-# Platform Audit Master Plan (v3 — complete)
+# Platform Audit Master Plan (v3: complete)
 
-> **Site Content Platform (CMS):** [`plan.md`](../plan.md) — living implementation plan for marketing CMS (`@pms/site-content`, Site System editors).
+> **Site Content Platform (CMS):** [`plan.md`](../plan.md): living implementation plan for marketing CMS (`@pms/site-content`, Site System editors).
 
-> **Repo mirror** of Cursor plan [`platform_audit_master_fbbe4d03.plan.md`](file:///c:/Users/Sh3ik/.cursor/plans/platform_audit_master_fbbe4d03.plan.md) — **989 checkboxes**, **968 todos** in plan frontmatter.  
+> **Repo mirror** of Cursor plan [`platform_audit_master_fbbe4d03.plan.md`](file:///c:/Users/Sh3ik/.cursor/plans/platform_audit_master_fbbe4d03.plan.md): **989 checkboxes**, **968 todos** in plan frontmatter.  
 > **Scorecard:** `docs/audits/PLATFORM_AUDIT_SCORECARD.md` (create in Phase 0)
 
 ---
@@ -11,20 +11,20 @@
 
 | Gap in v1 | Resolution in v2 |
 |-----------|------------------|
-| Phase 1 bundled as P1.001–010 | Split into **12 separate command todos** (P1.001–P1.012) |
-| A5 collapsed to one line | **16 explicit Stripe/Calendly/Sheets tasks** (A5.001–A5.016) |
+| Phase 1 bundled as P1.001-010 | Split into **12 separate command todos** (P1.001-P1.012) |
+| A5 collapsed to one line | **16 explicit Stripe/Calendly/Sheets tasks** (A5.001-A5.016) |
 | B3/B4 vague ranges | **Every website route + dashboard page** listed (B3.x, B4.x) |
-| C1.016–042 as range | **42 per-channel todos** (c1-portal-{slug}, c1-preview-{slug}) |
+| C1.016-042 as range | **42 per-channel todos** (c1-portal-{slug}, c1-preview-{slug}) |
 | C2 per-cert as range | **27 certs × 4 region passes** (c2-pathway, c2-global, c2-india, c2-pakistan, c2-gcc) |
-| E1.003–055 as range | **55 per-offering todos** (e1-{offeringId}) |
-| E2.001–042 as range | **42 per-channel data todos** (e2-{slug}) |
-| D1.001–020 as range | **17 legal slugs** + privacy regional variants |
+| E1.003-055 as range | **55 per-offering todos** (e1-{offeringId}) |
+| E2.001-042 as range | **42 per-channel data todos** (e2-{slug}) |
+| D1.001-020 as range | **17 legal slugs** + privacy regional variants |
 | Missing packages/regional-catalogue | **A1.016** + package workspace build |
 | Missing gateway-only vs direct ports | **P0.005**, **B2.018** |
-| Missing CRM queue pages | **B4.012–B4.018** (consultations, bookings, etc.) |
-| Missing test file audit | **F3.001–F3.020** (each `*.test.ts`) |
-| Missing migration audit | **A4.001–A4.004** (each SQL file) |
-| Missing scorecard sign-off per segment | **SC.A1–SC.F6** (32 sign-offs) |
+| Missing CRM queue pages | **B4.012-B4.018** (consultations, bookings, etc.) |
+| Missing test file audit | **F3.001-F3.020** (each `*.test.ts`) |
+| Missing migration audit | **A4.001-A4.004** (each SQL file) |
+| Missing scorecard sign-off per segment | **SC.A1-SC.F6** (32 sign-offs) |
 | Stripe webhook P0 buried | **F2.001** + **A2.006** + **DD.004** |
 | Todos not 1:1 with checkboxes | **Every checkbox ID has matching Cursor todo id** |
 
@@ -75,22 +75,22 @@
 
 ---
 
-## Phase 0 — Infrastructure
+## Phase 0. Infrastructure
 
 - [x] **P0.001** Create this file as repo mirror (done when approved)
 - [x] **P0.002** Create `docs/audits/PLATFORM_AUDIT_SCORECARD.md`
 - [x] **P0.003** Record git SHA, Node, npm versions
-- [x] **P0.004** Env checklist template (Stripe, Supabase, Sheets, Calendly) — no secrets committed
+- [x] **P0.004** Env checklist template (Stripe, Supabase, Sheets, Calendly): no secrets committed
 - [x] **P0.005** Port map: 3000/3001/3002/3050/5174 + conflict resolution
 - [x] **P0.006** Index link: PRE_LAUNCH_LEGAL_SEO, LEGAL_FAQ, PORTAL_CONVERSION, BOOKING_CRM_REPLICATION, REGIONAL_AVAILABILITY
 - [x] **P0.007** Run `node scripts/generate-audit-plan-todos.mjs` → sync Cursor plan todos
-- [x] **P0.008** Severity rubric P0–P3 + segment owners
+- [x] **P0.008** Severity rubric P0-P3 + segment owners
 - [x] **P0.009** Deep-dive report template in `docs/audits/`
 - [x] **P0.010** Tracker labels/milestones for audit program
 
 ---
 
-## Phase 1 — Automated gates (one checkbox per command)
+## Phase 1. Automated gates (one checkbox per command)
 
 - [x] **P1.001** `npm run build`
 - [x] **P1.002** `npm run lint`
@@ -107,9 +107,9 @@
 
 ---
 
-# PART A — Architecture and backend
+# PART A. Architecture and backend
 
-## A1 — Monorepo structure (A1.001–A1.020)
+## A1. Monorepo structure (A1.001-A1.020)
 
 - [x] **A1.001** Verify 6 workspaces in root package.json
 - [x] **A1.002** Map duplicated logic: frontend vs dashboard vs packages
@@ -132,7 +132,7 @@
 - [x] **A1.019** `getGoSlugRedirects()` vs sitemap published slugs
 - [x] **A1.020** Import cycle scan all workspaces
 
-## A2 — API contracts (A2.001–A2.034)
+## A2. API contracts (A2.001-A2.034)
 
 Site API (`backend/app/api/`):
 
@@ -177,7 +177,7 @@ Other:
 - [x] **A2.033** No PII in logs
 - [x] **A2.034** OpenAPI-style route inventory doc
 
-## A3 — Auth (A3.001–A3.016)
+## A3. Auth (A3.001-A3.016)
 
 - [x] **A3.001** Supabase env on dashboard
 - [x] **A3.002** Login flow
@@ -196,7 +196,7 @@ Other:
 - [x] **A3.015** Service role server-only
 - [x] **A3.016** Pen-test admin mutations
 
-## A4 — Data (A4.001–A4.012)
+## A4. Data (A4.001-A4.012)
 
 - [x] **A4.001** Migration `20240517000000_initial_schema.sql`
 - [x] **A4.002** Migration `20260523100000_regional_catalogue.sql`
@@ -211,7 +211,7 @@ Other:
 - [x] **A4.011** Regional Supabase sync integrity
 - [x] **A4.012** Backup/restore procedure
 
-## A5 — Integrations (A5.001–A5.016)
+## A5. Integrations (A5.001-A5.016)
 
 - [x] **A5.001** STRIPE_SECRET_KEY server-only
 - [x] **A5.002** STRIPE_WEBHOOK_SECRET configured
@@ -230,7 +230,7 @@ Other:
 - [x] **A5.015** Dashboard realtime refresh on submit
 - [x] **A5.016** Sheets export CSV columns complete
 
-## A6 — Build (A6.001–A6.010)
+## A6. Build (A6.001-A6.010)
 
 - [x] **A6.001** Build `@pms/frontend`
 - [x] **A6.002** Build `@pms/backend`
@@ -243,7 +243,7 @@ Other:
 - [x] **A6.009** Types: ChannelLandingPage vs JSON
 - [x] **A6.010** Types: RegionId exhaustiveness
 
-## A7 — Legacy / orphans (A7.001–A7.040)
+## A7. Legacy / orphans (A7.001-A7.040)
 
 Redirects:
 
@@ -299,9 +299,9 @@ Other:
 
 ---
 
-# PART B — UI / UX
+# PART B. UI / UX
 
-## B1 — Design system (B1.001–B1.022)
+## B1. Design system (B1.001-B1.022)
 
 - [x] **B1.001** `packages/ui` globals.css tokens
 - [x] **B1.002** Montserrat fonts export
@@ -326,7 +326,7 @@ Other:
 - [x] **B1.021** Border radius scale consistency
 - [x] **B1.022** Deep-dive: complete ui package migration
 
-## B2 — Navigation (B2.001–B2.020)
+## B2. Navigation (B2.001-B2.020)
 
 - [x] **B2.001** Website navbar + active states
 - [x] **B2.002** Website footer entity/email env
@@ -349,7 +349,7 @@ Other:
 - [x] **B2.019** Cross-link: community from nav
 - [x] **B2.020** Cross-link: newsletter from nav
 
-## B3 — Page templates (every route)
+## B3. Page templates (every route)
 
 Website:
 
@@ -391,7 +391,7 @@ Dashboard functional (non-placeholder):
 - [x] **B3.033** `/dashboard/site-system/settings`
 - [x] **B3.034** `/dashboard/site-system/pages/[slug]` sample
 
-## B4 — CMS / admin (B4.001–B4.020)
+## B4. CMS / admin (B4.001-B4.020)
 
 - [x] **B4.001** HomeCmsEditor Tabs
 - [x] **B4.002** Home preview Dialog
@@ -414,7 +414,7 @@ Dashboard functional (non-placeholder):
 - [x] **B4.019** BlogEditor + NewsletterManagement
 - [x] **B4.020** Publish vs draft banner behavior
 
-## B5 — Responsive (B5.001–B5.020)
+## B5. Responsive (B5.001-B5.020)
 
 Gate URLs at 320, 390, 768, 1024, 1440:
 
@@ -439,7 +439,7 @@ Gate URLs at 320, 390, 768, 1024, 1440:
 - [x] **B5.019** Dashboard sidebar mobile
 - [x] **B5.020** Region modal mobile
 
-## B6 — Accessibility (B6.001–B6.025)
+## B6. Accessibility (B6.001-B6.025)
 
 - [x] **B6.001** axe `/`
 - [x] **B6.002** axe `/certifications/pmp`
@@ -467,7 +467,7 @@ Gate URLs at 320, 390, 768, 1024, 1440:
 - [x] **B6.024** Modal aria-labelledby
 - [x] **B6.025** Dashboard login labels
 
-## B7 — Performance (B7.001–B7.012)
+## B7. Performance (B7.001-B7.012)
 
 - [x] **B7.001** Lighthouse `/` mobile
 - [x] **B7.002** Lighthouse `/` desktop
@@ -484,9 +484,9 @@ Gate URLs at 320, 390, 768, 1024, 1440:
 
 ---
 
-# PART C — Conversion
+# PART C. Conversion
 
-## C1 — Portal (42 channels × 2 modes + flow)
+## C1. Portal (42 channels × 2 modes + flow)
 
 **Flow (all channels):**
 
@@ -506,11 +506,11 @@ Gate URLs at 320, 390, 768, 1024, 1440:
 - [x] **C1.F14** Sticky mobile CTA
 - [x] **C1.F15** Preview banner `?preview=1`
 
-**Per channel (live + preview):** all 42 slugs — see **Appendix E** (todo ids `c1-live-{slug}`, `c1-preview-{slug}`).
+**Per channel (live + preview):** all 42 slugs: see **Appendix E** (todo ids `c1-live-{slug}`, `c1-preview-{slug}`).
 
-## C2 — Certification pathways (27 certs × regions)
+## C2. Certification pathways (27 certs × regions)
 
-**27 certs × 5 passes each** — see **Appendix F** (todo ids `c2-{id}-pathway`, `c2-{id}-{region}`).
+**27 certs × 5 passes each**: see **Appendix F** (todo ids `c2-{id}-pathway`, `c2-{id}-{region}`).
 
 Global:
 
@@ -520,7 +520,7 @@ Global:
 - [x] **C2.G04** Bottom banner foundation CTA label
 - [x] **C2.G05** Programme preview modal all offeringIds
 
-## C3 — Checkout (C3.001–C3.015)
+## C3. Checkout (C3.001-C3.015)
 
 - [x] **C3.001** `/checkout?offering=` resolves
 - [x] **C3.002** scholarship_verify gate
@@ -538,7 +538,7 @@ Global:
 - [x] **C3.014** Membership Stripe price IDs
 - [x] **C3.015** Membership success/cancel copy
 
-## C4 — Brand voice (C4.001–C4.012)
+## C4. Brand voice (C4.001-C4.012)
 
 - [x] **C4.001** Grep banned: draft template
 - [x] **C4.002** Grep banned: counsel review
@@ -553,7 +553,7 @@ Global:
 - [x] **C4.011** No marketing "Independent"
 - [x] **C4.012** Channel editor placeholder copy audit
 
-## C5 — Regional UX (C5.001–C5.012)
+## C5. Regional UX (C5.001-C5.012)
 
 - [x] **C5.001** Region selector global on PMP
 - [x] **C5.002** Region selector eu on PMP
@@ -568,7 +568,7 @@ Global:
 - [x] **C5.011** Global reference pricing display
 - [x] **C5.012** Footer link to regional-pricing legal
 
-## C6 — CRM handoff (C6.001–C6.010)
+## C6. CRM handoff (C6.001-C6.010)
 
 - [x] **C6.001** Contact → sheets
 - [x] **C6.002** Consultation → consultations queue
@@ -583,9 +583,9 @@ Global:
 
 ---
 
-# PART D — Content / legal / SEO
+# PART D. Content / legal / SEO
 
-## D1 — Legal (17 slugs + regional privacy)
+## D1. Legal (17 slugs + regional privacy)
 
 - [x] **D1.terms** `/legal/terms`
 - [x] **D1.privacy** `/legal/privacy` hub
@@ -615,7 +615,7 @@ Global:
 - [x] **D1.redirects** legalhub, `/privacy`, pricing alias
 - [x] **D1.support-email** support@pmstructure.com only (no legal@)
 
-## D2 — SEO (D2.001–D2.022)
+## D2. SEO (D2.001-D2.022)
 
 - [x] **D2.001** sitemap.xml includes certs, go, legal, newsletter
 - [x] **D2.002** robots.txt
@@ -641,7 +641,7 @@ Global:
 - [x] **D2.021** Post-deploy: hreflang (if any)
 - [x] **D2.022** Post-deploy: 404 sitemap orphans
 
-## D3 — FAQ (D3.001–D3.010)
+## D3. FAQ (D3.001-D3.010)
 
 - [x] **D3.001** FAQ count ≥65 (`legal-seo.test.ts`)
 - [x] **D3.002** All clusters present per [FAQ_ANSWER_SPEC.md](FAQ_ANSWER_SPEC.md)
@@ -654,22 +654,22 @@ Global:
 - [x] **D3.009** Regional pricing FAQ aligns with matrix
 - [x] **D3.010** Scholarship / verification FAQ matches live flows
 
-## D4 — CMS drift (11 PUBLIC_SITE_PAGES slugs)
+## D4. CMS drift (11 PUBLIC_SITE_PAGES slugs)
 
-- [x] **D4.001** `home` — HomeCms vs `/`
-- [x] **D4.002** `certifications` — hub copy vs live
-- [x] **D4.003** `pm-service` — services page
-- [x] **D4.004** `newsletter` — listing + sample article
-- [x] **D4.005** `community` — community + store view
-- [x] **D4.006** `store` — `/community?view=store`
+- [x] **D4.001** `home`. HomeCms vs `/`
+- [x] **D4.002** `certifications`: hub copy vs live
+- [x] **D4.003** `pm-service`: services page
+- [x] **D4.004** `newsletter`: listing + sample article
+- [x] **D4.005** `community`: community + store view
+- [x] **D4.006** `store`: `/community?view=store`
 - [x] **D4.007** `about`
-- [x] **D4.008** `compare` — `/certifications/compare`
+- [x] **D4.008** `compare`: `/certifications/compare`
 - [x] **D4.009** `faq`
 - [x] **D4.010** `contact`
 - [x] **D4.011** `membership`
 - [x] **D4.012** Publish banner / draft state documented per page
 
-## D5 — Media (D5.001–D5.010)
+## D5. Media (D5.001-D5.010)
 
 - [x] **D5.001** `npm run audit:images` pass
 - [x] **D5.002** No picsum / placeholder URLs in production paths
@@ -684,24 +684,24 @@ Global:
 
 ---
 
-# PART E — Data integrity
+# PART E. Data integrity
 
-## E1 — 55 offerings
+## E1: 55 offerings
 
 - [x] **E1.000** validate-regional-catalogue.mjs pass
 - [x] **E1.000b** qa-regional-matrix.mjs pass
 
-All 55 `offeringId` rows — see **Appendix G** (todo ids `e1-{offeringId}`).
+All 55 `offeringId` rows: see **Appendix G** (todo ids `e1-{offeringId}`).
 
-## E2 — 42 channels
+## E2: 42 channels
 
 See **Appendix H** (todo ids `e2-{slug}`).
 
-## E3 — 27 certs
+## E3: 27 certs
 
 See **Appendix I** (todo ids `e3-{id}`).
 
-## E4 — CRM replication map (E4.001–E4.010)
+## E4. CRM replication map (E4.001-E4.010)
 
 - [x] **E4.001** `/dashboard/booking-crm/cta` loads
 - [x] **E4.002** `/dashboard/booking-crm/interactions/sheets` loads
@@ -716,9 +716,9 @@ See **Appendix I** (todo ids `e3-{id}`).
 
 ---
 
-# PART F — Security / ops
+# PART F. Security / ops
 
-## F1 — Env (F1.001–F1.015)
+## F1. Env (F1.001-F1.015)
 
 - [x] **F1.001** `frontend/.env.example` complete
 - [x] **F1.002** `backend/.env.example` complete
@@ -736,20 +736,20 @@ See **Appendix I** (todo ids `e3-{id}`).
 - [x] **F1.014** CORS / same-origin dashboard API
 - [x] **F1.015** Secret rotation runbook stub
 
-## F2 — Security (F2.001–F2.010)
+## F2. Security (F2.001-F2.010)
 
 - [x] **F2.001** **P0:** Stripe webhook signature verification ([backend/app/api/stripe/webhook/route.ts](../backend/app/api/stripe/webhook/route.ts))
 - [x] **F2.002** Webhook idempotency (duplicate events)
 - [x] **F2.003** Admin routes reject unauthenticated
 - [x] **F2.004** XSS review CMS rich text fields
 - [x] **F2.005** SSRF review external URL fetchers
-- [x] **F2.006** `npm audit` — document accepted risks
+- [x] **F2.006** `npm audit`: document accepted risks
 - [x] **F2.007** Security headers (CSP, HSTS) production
 - [x] **F2.008** Cookie flags Supabase session
 - [x] **F2.009** File upload limits (if any)
 - [x] **F2.010** Dependency review `@supabase`, `stripe`, `xlsx`
 
-## F3 — Test files (F3.001–F3.020)
+## F3. Test files (F3.001-F3.020)
 
 - [x] **F3.001** `frontend/lib/pathway-tier-outcomes.test.ts`
 - [x] **F3.002** `frontend/lib/pathway-programme-preview.test.ts`
@@ -772,7 +772,7 @@ See **Appendix I** (todo ids `e3-{id}`).
 - [x] **F3.019** `dashboard/backend/lib/interactions/request-ip.test.ts`
 - [x] **F3.020** Gap: add `pathway-from-catalogue.test.ts` all certs + backend API tests
 
-## F4 — Deploy readiness (F4.001–F4.008)
+## F4. Deploy readiness (F4.001-F4.008)
 
 - [x] **F4.001** `npm run build` CI gate
 - [x] **F4.002** Supabase migrations applied prod
@@ -783,7 +783,7 @@ See **Appendix I** (todo ids `e3-{id}`).
 - [x] **F4.007** `clean:next` on failed deploy
 - [x] **F4.008** Multi-service Railway topology verified
 
-## F5 — Observability (F5.001–F5.008)
+## F5. Observability (F5.001-F5.008)
 
 - [x] **F5.001** `frontend/app/error.tsx` + `not-found.tsx`
 - [x] **F5.002** Dashboard error boundaries
@@ -794,7 +794,7 @@ See **Appendix I** (todo ids `e3-{id}`).
 - [x] **F5.007** Checkout error user messaging
 - [x] **F5.008** Log redaction review (no PII)
 
-## F6 — Doc drift (F6.001–F6.008)
+## F6. Doc drift (F6.001-F6.008)
 
 - [x] **F6.001** [BOOKING_CRM_REPLICATION_MAP.md](BOOKING_CRM_REPLICATION_MAP.md)
 - [x] **F6.002** [PORTAL_CONVERSION_PLAN.md](PORTAL_CONVERSION_PLAN.md)
@@ -807,18 +807,18 @@ See **Appendix I** (todo ids `e3-{id}`).
 
 ---
 
-# Phase 8 — Deep dives
+# Phase 8. Deep dives
 
 - [x] **DD.001** Portal 42 slugs + Calendly all tier types
 - [x] **DD.002** Pathway 27 certs × regions
 - [x] **DD.003** Checkout Stripe E2E
 - [x] **DD.004** Security webhook + admin guards
 - [x] **DD.005** A11y gate URLs
-Conditional deep dives **DD.006–DD.032** — see **Appendix K** (one per segment if Warn/Fail)
+Conditional deep dives **DD.006-DD.032**: see **Appendix K** (one per segment if Warn/Fail)
 
 ---
 
-# Phase 9 — Remediation
+# Phase 9. Remediation
 
 - [x] **R.001** P0 backlog prioritized
 - [x] **R.002** Fix sprint 1
@@ -831,31 +831,31 @@ Conditional deep dives **DD.006–DD.032** — see **Appendix K** (one per segme
 
 # Scorecard sign-offs
 
-All 32 segments — see **Appendix J** (`SC.A1` … `SC.F6`).
+All 32 segments: see **Appendix J** (`SC.A1` … `SC.F6`).
 
 ---
 
-## Appendix A — Full offeringId list (E1)
+## Appendix A. Full offeringId list (E1)
 
 `capm-preparation-professional`, `pmp-preparation-foundation`, `pmp-preparation-professional`, `pmp-preparation-mastery`, `pgmp-preparation-professional`, `pgmp-preparation-mastery`, `pfmp-preparation-professional`, `pfmp-preparation-mastery`, `pmi-acp-preparation-foundation`, `pmi-acp-preparation-professional`, `pmi-acp-preparation-mastery`, `pmi-rmp-preparation-foundation`, `pmi-rmp-preparation-professional`, `pmi-rmp-preparation-mastery`, `pmi-sp-preparation-professional`, `pmi-sp-preparation-mastery`, `pmi-pba-preparation-professional`, `pmi-pba-preparation-mastery`, `pmi-cp-preparation-foundation`, `pmi-cp-preparation-professional`, `pmi-cp-preparation-mastery`, `pmi-pmocp-preparation-professional`, `pmi-pmocp-preparation-mastery`, `pmi-cpmai-preparation-foundation`, `pmi-cpmai-preparation-professional`, `pmi-cpmai-preparation-mastery`, `prince2-7-foundation-preparation-professional`, `prince2-7-practitioner-preparation-professional`, `prince2-7-practitioner-preparation-mastery`, `prince2-agile-foundation-preparation-professional`, `prince2-agile-practitioner-preparation-professional`, `prince2-agile-practitioner-preparation-mastery`, `msp-foundation-preparation-professional`, `msp-practitioner-preparation-professional`, `msp-practitioner-preparation-mastery`, `mop-foundation-preparation-professional`, `mop-practitioner-preparation-professional`, `mop-practitioner-preparation-mastery`, `m-o-r-foundation-preparation-professional`, `m-o-r-4-practitioner-preparation-professional`, `m-o-r-4-practitioner-preparation-mastery`, `p3o-foundation-preparation-professional`, `p3o-practitioner-preparation-professional`, `p3o-practitioner-preparation-mastery`, `six-sigma-champion-professional`, `six-sigma-champion-mastery_corporate`, `six-sigma-white-belt-foundation`, `six-sigma-yellow-belt-foundation`, `six-sigma-yellow-belt-professional`, `six-sigma-green-belt-foundation`, `six-sigma-green-belt-professional`, `six-sigma-green-belt-mastery`, `six-sigma-black-belt-professional`, `six-sigma-black-belt-mastery`, `six-sigma-master-black-belt-mastery_advisory`
 
-## Appendix B — 42 channel slugs (C1/E2)
+## Appendix B: 42 channel slugs (C1/E2)
 
 `website`, `webinar`, `medium`, `substack`, `beehiiv`, `ghost`, `hashnode`, `notion-public`, `linkedin`, `twitter`, `instagram`, `facebook`, `reddit`, `threads`, `quora`, `bluesky`, `mastodon`, `pinterest`, `vk`, `youtube`, `tiktok`, `snapchat`, `vimeo`, `spotify`, `apple-podcasts`, `amazon-audible`, `google-podcasts`, `podbean`, `soundcloud`, `email`, `whatsapp`, `telegram`, `discord`, `slack`, `google-search`, `youtube-search`, `podcast-directories`, `bing-search`, `ai-visibility`, `rss-feeds`, `content-aggregators`, `api-ai-fed`
 
-## Appendix C — 27 certification ids (C2/E3)
+## Appendix C: 27 certification ids (C2/E3)
 
 `capm`, `pmp`, `pmi-acp`, `pmi-rmp`, `pmi-pba`, `pmi-sp`, `pmi-pmocp`, `pmi-cp`, `pmi-cpmai`, `gpm-b`, `pgmp`, `pfmp`, `prince2`, `prince2-practitioner`, `prince2-agile`, `prince2-agile-practitioner`, `msp`, `mop`, `mor`, `p3o`, `lss-white`, `lss-yellow`, `lss-green`, `lss-black`, `lss-master`, `lss-champion`, `foundation-direct`
 
 ---
 
-**Estimated auditable checkboxes:** **989** (Parts A–F + appendices E–K). **968 Cursor todos** in plan frontmatter.
+**Estimated auditable checkboxes:** **989** (Parts A-F + appendices E-K). **968 Cursor todos** in plan frontmatter.
 
 
 
 <!-- AUTO-EXPANDED ENTITY CHECKLISTS -->
 
-## Appendix E — C1 per-channel portal (live + preview)
+## Appendix E. C1 per-channel portal (live + preview)
 
 - [x] **C1.website.live** `/go/website`
 - [x] **C1.website.preview** `/go/website?preview=1`
@@ -942,7 +942,7 @@ All 32 segments — see **Appendix J** (`SC.A1` … `SC.F6`).
 - [x] **C1.api-ai-fed.live** `/go/api-ai-fed`
 - [x] **C1.api-ai-fed.preview** `/go/api-ai-fed?preview=1`
 
-## Appendix F — C2 per-cert pathway × regions
+## Appendix F. C2 per-cert pathway × regions
 
 - [x] **C2.capm.pathway** Tier cards + PathwayTierCta
 - [x] **C2.capm.global** Region global
@@ -1080,7 +1080,7 @@ All 32 segments — see **Appendix J** (`SC.A1` … `SC.F6`).
 - [x] **C2.foundation-direct.pakistan** Region pakistan
 - [x] **C2.foundation-direct.gcc** Region gcc
 
-## Appendix G — E1 per offeringId (55 rows)
+## Appendix G. E1 per offeringId (55 rows)
 
 - [x] **E1.capm-preparation-professional** Matrix row: 6 regions, price, CTA routing
 - [x] **E1.pmp-preparation-foundation** Matrix row: 6 regions, price, CTA routing
@@ -1138,7 +1138,7 @@ All 32 segments — see **Appendix J** (`SC.A1` … `SC.F6`).
 - [x] **E1.six-sigma-black-belt-mastery** Matrix row: 6 regions, price, CTA routing
 - [x] **E1.six-sigma-master-black-belt-mastery_advisory** Matrix row: 6 regions, price, CTA routing
 
-## Appendix H — E2 per-channel data (42)
+## Appendix H. E2 per-channel data (42)
 
 - [x] **E2.website** JSON, publish, conversion pack, sync
 - [x] **E2.webinar** JSON, publish, conversion pack, sync
@@ -1183,7 +1183,7 @@ All 32 segments — see **Appendix J** (`SC.A1` … `SC.F6`).
 - [x] **E2.content-aggregators** JSON, publish, conversion pack, sync
 - [x] **E2.api-ai-fed** JSON, publish, conversion pack, sync
 
-## Appendix I — E3 per-cert catalogue (27)
+## Appendix I. E3 per-cert catalogue (27)
 
 - [x] **E3.capm** siteData, matrix, compare, pathway, enrollment
 - [x] **E3.pmp** siteData, matrix, compare, pathway, enrollment
@@ -1213,7 +1213,7 @@ All 32 segments — see **Appendix J** (`SC.A1` … `SC.F6`).
 - [x] **E3.lss-champion** siteData, matrix, compare, pathway, enrollment
 - [x] **E3.foundation-direct** siteData, matrix, compare, pathway, enrollment
 
-## Appendix J — Scorecard sign-offs (32)
+## Appendix J. Scorecard sign-offs (32)
 
 - [x] **SC.A1** A1 segment signed off in scorecard
 - [x] **SC.A2** A2 segment signed off in scorecard
@@ -1251,7 +1251,7 @@ All 32 segments — see **Appendix J** (`SC.A1` … `SC.F6`).
 - [x] **SC.F5** F5 segment signed off in scorecard
 - [x] **SC.F6** F6 segment signed off in scorecard
 
-## Appendix K — Conditional deep dives DD.006–032
+## Appendix K. Conditional deep dives DD.006-032
 
 - [x] **DD.A1** Deep dive if A1 scored Warn/Fail
 - [x] **DD.A2** Deep dive if A2 scored Warn/Fail
@@ -1289,7 +1289,7 @@ All 32 segments — see **Appendix J** (`SC.A1` … `SC.F6`).
 - [x] **DD.F5** Deep dive if F5 scored Warn/Fail
 - [x] **DD.F6** Deep dive if F6 scored Warn/Fail
 
-## Appendix D — Cursor todo sync
+## Appendix D. Cursor todo sync
 
 - **968 todos** in [`platform_audit_master_fbbe4d03.plan.md`](file:///c:/Users/Sh3ik/.cursor/plans/platform_audit_master_fbbe4d03.plan.md) frontmatter (1:1 with checkboxes + SC + conditional DD).
 - Re-sync: `node scripts/generate-audit-plan-todos.mjs` (Agent mode).

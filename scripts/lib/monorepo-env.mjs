@@ -13,7 +13,7 @@ export const ROOT_ENV_FILES = [
   path.join(ROOT, '.env.local'),
 ];
 
-/** Old per-app env files — removed by npm run env:link */
+/** Old per-app env files: removed by npm run env:link */
 export const APP_ENV_PATHS = [
   path.join(ROOT, 'frontend', '.env.local'),
   path.join(ROOT, 'backend', '.env.local'),

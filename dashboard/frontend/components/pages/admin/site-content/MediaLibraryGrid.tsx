@@ -75,7 +75,7 @@ export function MediaLibraryGrid({ onSelect, compact }: Props) {
           </span>
           <input type="file" accept="image/*" className="hidden" onChange={onUpload} disabled={uploading} />
         </label>
-        <span className="text-xs text-muted-foreground">JPEG, PNG, WebP, GIF, SVG — max 5MB</span>
+        <span className="text-xs text-muted-foreground">JPEG, PNG, WebP, GIF, SVG: max 5MB</span>
       </GlassCard>
 
       {error ? <p className="text-sm text-red-500">{error}</p> : null}

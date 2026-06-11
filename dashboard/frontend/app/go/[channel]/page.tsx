@@ -6,7 +6,7 @@ type Props = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-/** Channel portals are served by the marketing app — not dashboard. */
+/** Channel portals are served by the marketing app: not dashboard. */
 export default async function GoPortalRedirect({ params, searchParams }: Props) {
   const { channel } = await params;
   const sp = await searchParams;

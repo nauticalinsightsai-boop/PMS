@@ -123,7 +123,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'timeline',
     'How long does it take to prepare for the PMP exam?',
-    'Many candidates plan 2–4 months (often 100+ hours). Align your timeline with PMI eligibility and Pearson VUE scheduling.',
+    'Many candidates plan 2-4 months (often 100+ hours). Align your timeline with PMI eligibility and Pearson VUE scheduling.',
     'timeline-pmp',
   ),
   P(

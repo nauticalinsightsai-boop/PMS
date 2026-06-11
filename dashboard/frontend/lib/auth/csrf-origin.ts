@@ -34,7 +34,7 @@ function collectAllowedHosts(): Set<string> {
   return hosts;
 }
 
-/** Layer 5 — state-changing auth/CMS routes. */
+/** Layer 5: state-changing auth/CMS routes. */
 export function assertSameOrigin(request: NextRequest): boolean {
   const allowed = collectAllowedHosts();
   const requestHost = request.headers.get('host')?.toLowerCase() ?? null;

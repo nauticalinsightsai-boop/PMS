@@ -4,7 +4,7 @@ import { buildPathwayTiersForCert } from '@/lib/pathway-from-catalogue';
 
 const REGIONS = ['global', 'india', 'pakistan', 'gcc', 'europe', 'uk'] as const;
 
-describe('buildPathwayTiersForCert — all site certifications', () => {
+describe('buildPathwayTiersForCert: all site certifications', () => {
   for (const cert of certifications) {
     for (const regionId of REGIONS) {
       it(`${cert.id} @ ${regionId} builds tiers with pathway CTA labels`, () => {

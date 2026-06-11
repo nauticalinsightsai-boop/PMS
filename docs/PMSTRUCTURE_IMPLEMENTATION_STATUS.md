@@ -1,18 +1,18 @@
-# PM Structure SEO/AEO — Implementation Status
+# PM Structure SEO/AEO. Implementation Status
 
 **As of:** 2026-06-10  
-**Plan:** `phase_10_pmp_faq_ec05a6c5` (Phases 10–19 v2)  
-**Program status:** **v2 implementation complete** — operator follow-up for deploy verification + AI baseline
+**Plan:** `phase_10_pmp_faq_ec05a6c5` (Phases 10-19 v2)  
+**Program status:** **v2 implementation complete**: operator follow-up for deploy verification + AI baseline
 
 ## Shipped in codebase (v2)
 
 | Area | Delivered |
 |------|-----------|
-| PMP FAQ hub | `/pmp-faq` — 89 PMP FAQs, 27 categories, FAQPage JSON-LD |
+| PMP FAQ hub | `/pmp-faq`: 89 PMP FAQs, 27 categories, FAQPage JSON-LD |
 | Answer pages | 35 `/answers/*` with spec H2s, compliance cautions, `/pmp-faq` CTAs |
 | Topic hubs | 26 `/topics/*` with grouped index, related FAQs, planned-hub noindex |
 | PMP cluster | 22 routes (hub + cluster + pathways + services) |
-| FAQ surface tags | 5–10 related FAQs per live PMP route |
+| FAQ surface tags | 5-10 related FAQs per live PMP route |
 | Conversion events | `view_*`, `click_enroll_*`, `consultation_book`, `region_select` |
 | Validation | 25+ `seo:*` checks + `render-check` (11 routes) + `faq-surface-tags` |
 | AI testing | 86-query test sheet generator (`seo:generate-ai-test-sheet`) |

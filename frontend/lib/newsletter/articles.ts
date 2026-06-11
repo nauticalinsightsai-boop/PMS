@@ -45,7 +45,7 @@ export async function getNewsletterArticle(slug: string): Promise<NewsletterArti
   return articles.find((a) => a.slug === slug);
 }
 
-/** Client hook data loader — same merge rules as server. */
+/** Client hook data loader: same merge rules as server. */
 export async function loadNewsletterArticlesClient(): Promise<NewsletterArticle[]> {
   return getPublishedNewsletterArticles();
 }

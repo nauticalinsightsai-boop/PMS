@@ -10,7 +10,7 @@ export const publicInteractionBodySchema = z.object({
   subject: z.string().trim().min(1).max(500),
   email: z.string().trim().email().max(320),
   payload: z.record(z.string(), z.unknown()).optional().default({}),
-  /** Honeypot — must be empty (bots often fill hidden fields). */
+  /** Honeypot: must be empty (bots often fill hidden fields). */
   website: z.string().max(200).optional(),
   company: z.string().max(200).optional(),
 });

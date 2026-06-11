@@ -62,7 +62,7 @@ for (let i = 0; i < migrations.length; i++) {
   pass(`A4.00${i + 1}`, migrations[i]);
 }
 
-// C1 flow — platformOfferPack
+// C1 flow: platformOfferPack
 const pack = fs.readFileSync(
   path.join(root, 'packages/booking-crm/src/channel-landing-pages/platformOfferPack.ts'),
   'utf8',

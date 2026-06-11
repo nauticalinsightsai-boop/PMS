@@ -1,4 +1,4 @@
-# Run 4 — Sitemap & Robots Audit
+# Run 4. Sitemap & Robots Audit
 
 **Date:** 2026-06-10 (updated post-deploy)  
 **Scope:** `frontend/app/sitemap.ts`, `frontend/app/robots.ts`, indexing matrix
@@ -30,13 +30,13 @@ Monolithic sitemap is live at `https://pmstructure.com/sitemap.xml` with **~181 
 ## robots.ts
 
 - References `https://pmstructure.com/sitemap.xml` (via `PMS_SITE_URL`)
-- Disallows `/api/`, `/admin/` only — no disallow on noindex-meta routes
+- Disallows `/api/`, `/admin/` only: no disallow on noindex-meta routes
 
 ## Validation
 
-- `npm run seo:sitemap-check` — OK
-- Production build — 252 static pages
-- GSC sitemap submitted — operator confirmed
+- `npm run seo:sitemap-check`. OK
+- Production build: 252 static pages
+- GSC sitemap submitted: operator confirmed
 
 ## Follow-up
 

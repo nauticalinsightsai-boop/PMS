@@ -9,7 +9,7 @@ export type ContextModelEntry = {
   platformFamily: string
 }
 
-/** SSM root — update if your OneDrive folder moves. */
+/** SSM root: update if your OneDrive folder moves. */
 export const SSM_CONTEXT_ROOT = 'OneDrive/Desktop/SSM'
 
 export const CONTEXT_MODEL_REGISTRY: ContextModelEntry[] = [

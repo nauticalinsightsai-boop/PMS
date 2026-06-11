@@ -1,12 +1,8 @@
-import {
-  canCheckoutStatus,
-  getOfferingById,
-  resolveCheckoutUsdCents,
-} from '@/lib/regional-catalogue';
-import { isConsultationApproved } from '@/lib/consultation-approval';
+import { getOfferingById, resolveCheckoutUsdCents } from '@/lib/regional-catalogue';
+import { isPaymentBlockedStatus } from '@/lib/enrollment-eligibility';
 import { membershipPriceUsdCents } from '@/lib/membership-pricing';
-import { verifyRegion } from '@/lib/verify-region';
-import { createCheckoutSession } from '@/lib/checkout-session';
+import { createStripePaymentSession } from '@/lib/checkout-session';
+import { resolveRegionalCheckoutPrice } from '@/lib/regional-checkout-price';
 import { safeRedirectUrl } from '@/lib/safe-redirect-url';
 import { isStripeConfigured } from '@/lib/stripe';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
@@ -46,36 +42,22 @@ export async function POST(request: Request) {
 
   const status = offering.regional[regionId].status;
 
-  if (status === 'consultation_required') {
-    const approved = await isConsultationApproved(email, offeringId);
-    if (!approved) {
-      return jsonError(
-        'Mastery consultation must be approved before checkout. Submit a consultation request or contact support.',
-        403
-      );
-    }
-  } else if (!canCheckoutStatus(status)) {
+  if (isPaymentBlockedStatus(status)) {
     return jsonError('Checkout not available for this offering in your region', 403);
   }
 
-  if (status === 'scholarship_verify') {
-    const verification = verifyRegion({
-      regionId,
-      residenceCountry: residenceCountry ?? '',
-      billingCountry: billingCountry ?? '',
-      gccCountry,
-    });
-    if (!verification.verified || !verification.scholarshipEligible) {
-      return jsonError(verification.message, 403);
+  const regional = resolveRegionalCheckoutPrice(offering, regionId, gccCountry);
+  if (!regional) return jsonError('Price unavailable', 400);
+
+  let unitAmount = regional.unitAmount;
+  let referenceUsdCents = regional.usdCents ?? resolveCheckoutUsdCents(offering, regionId);
+
+  if (hasMembership && referenceUsdCents) {
+    const memberUsdCents = membershipPriceUsdCents(referenceUsdCents);
+    if (memberUsdCents != null) {
+      unitAmount = Math.round(regional.unitAmount * 0.8);
+      referenceUsdCents = memberUsdCents;
     }
-  }
-
-  let usdCents = resolveCheckoutUsdCents(offering, regionId);
-  if (!usdCents) return jsonError('Price unavailable', 400);
-
-  if (hasMembership) {
-    const memberCents = membershipPriceUsdCents(usdCents);
-    if (memberCents != null) usdCents = memberCents;
   }
 
   const origin = request.headers.get('origin') ?? 'http://localhost:3000';
@@ -83,14 +65,16 @@ export async function POST(request: Request) {
   const defaultSuccess = `${origin}/checkout/success?offering=${offeringId}&session_id={CHECKOUT_SESSION_ID}`;
   const defaultCancel = `${origin}/checkout/cancel?offering=${offeringId}`;
 
-  const session = await createCheckoutSession({
+  const session = await createStripePaymentSession({
     offeringId,
-    usdCents,
+    currency: regional.currency,
+    unitAmount,
+    referenceUsdCents,
     email,
     successUrl: safeRedirectUrl(origin, successUrl, defaultSuccess),
     cancelUrl: safeRedirectUrl(origin, cancelUrl, defaultCancel),
-    productName: `${offering.courseName} — ${offering.tierId.replace(/_/g, ' ')}`,
-    productDescription: 'Pathway tuition',
+    productName: `${offering.courseName}: ${offering.tierId.replace(/_/g, ' ')}`,
+    productDescription: `Pathway tuition (${regional.display})`,
     metadata: {
       regionId,
       paymentType: 'full_tuition',
@@ -98,6 +82,8 @@ export async function POST(request: Request) {
       billingCountry: billingCountry ?? '',
       gccCountry: gccCountry ?? '',
       hasMembership: hasMembership ? 'true' : 'false',
+      checkoutCurrency: regional.currency,
+      checkoutDisplay: regional.display,
     },
   });
 
@@ -110,7 +96,7 @@ export async function POST(request: Request) {
       offering_id: offeringId,
       region_id: regionId,
       email,
-      usd_cents: usdCents,
+      usd_cents: referenceUsdCents ?? session.usdCents,
       status: 'pending',
       stripe_session_id: session.sessionId,
       metadata: {
@@ -118,6 +104,9 @@ export async function POST(request: Request) {
         billingCountry,
         gccCountry,
         hasMembership: !!hasMembership,
+        checkoutCurrency: regional.currency,
+        checkoutUnitAmount: unitAmount,
+        checkoutDisplay: regional.display,
       },
     });
     if (error) {
@@ -126,5 +115,12 @@ export async function POST(request: Request) {
     }
   }
 
-  return jsonOk({ session, usdCents, hasMembership: !!hasMembership });
+  return jsonOk({
+    session,
+    currency: regional.currency,
+    unitAmount,
+    displayAmount: regional.display,
+    usdCents: referenceUsdCents,
+    hasMembership: !!hasMembership,
+  });
 }

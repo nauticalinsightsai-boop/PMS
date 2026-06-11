@@ -4,10 +4,16 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { verifyCheckoutSession } from '@/services/enrollment';
-import { MessageCircle } from 'lucide-react';
+import { Calendar, MessageCircle } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
-import { PMS_SUPPORT_EMAIL, getPmsWhatsAppDisplay, getPmsWhatsAppUrl, isWhatsAppConfigured } from '@/config/pms-site';
+import {
+  PMS_SUPPORT_EMAIL,
+  getOnboardingCalendlyUrl,
+  getPmsWhatsAppDisplay,
+  getPmsWhatsAppUrl,
+  isWhatsAppConfigured,
+} from '@/config/pms-site';
 import { getOfferingById } from '@/lib/regional-catalogue';
 import { cn } from '@/lib/utils';
 
@@ -26,24 +32,32 @@ function ProgramEnrollmentSuccessContent({
   const offering = offeringId ? getOfferingById(offeringId) : undefined;
   const whatsappReady = isWhatsAppConfigured();
   const [paymentVerified, setPaymentVerified] = useState<boolean | null>(null);
+  const [paymentType, setPaymentType] = useState<string | null>(null);
 
   useEffect(() => {
     if (!sessionId?.startsWith('cs_')) return;
     let cancelled = false;
     void verifyCheckoutSession(sessionId).then((result) => {
-      if (!cancelled) setPaymentVerified(result.data?.paid ?? false);
+      if (!cancelled) {
+        setPaymentVerified(result.data?.paid ?? false);
+        setPaymentType(result.data?.paymentType ?? null);
+      }
     });
     return () => {
       cancelled = true;
     };
   }, [sessionId]);
 
+  const paidInFull = paymentType === 'full_tuition';
+
   return (
     <section className={sectionSurface('blend', 'py-24')}>
       <SectionAmbience tone="blend" />
       <div className="container relative z-10 mx-auto max-w-lg text-center">
         <p className="text-label text-brand-orange mb-2">{certName}</p>
-        <h1 className="font-heading text-hero font-bold mb-4">Your seat is reserved</h1>
+        <h1 className="font-heading text-hero font-bold mb-4">
+          {paidInFull ? 'Enrollment confirmed' : 'Your seat is reserved'}
+        </h1>
         {sessionId && paymentVerified === false && (
           <p className="text-amber-700 dark:text-amber-300 mb-4 text-sm leading-relaxed">
             We&apos;re still confirming your payment. If this message persists, email {PMS_SUPPORT_EMAIL} with your
@@ -51,8 +65,17 @@ function ProgramEnrollmentSuccessContent({
           </p>
         )}
         <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
-          Thank you for your deposit. Confirmation and next steps will be sent to the email address you provided,
-          including onboarding call scheduling.
+          {paidInFull ? (
+            <>
+              Thank you for your full pathway payment. Confirmation and next steps will be sent to the email address
+              you provided, including onboarding call scheduling.
+            </>
+          ) : (
+            <>
+              Thank you for your deposit. Confirmation and next steps will be sent to the email address you provided,
+              including onboarding call scheduling.
+            </>
+          )}
         </p>
         <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
           A team member may reach out if we need anything else to provision your pathway. If you have questions in the
@@ -60,8 +83,23 @@ function ProgramEnrollmentSuccessContent({
         </p>
         {offering && (
           <p className="text-sm font-semibold text-brand-orange mb-6">
-            {offering.courseName} · {offering.tier}
+            {offering.courseName} · {offering.tierId.replace(/_/g, ' ')}
           </p>
+        )}
+
+        {(paymentVerified === true || !sessionId) && (
+          <a
+            href={getOnboardingCalendlyUrl(offeringId)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              buttonVariants({ size: 'lg', variant: 'brand' }),
+              'mb-8 w-full justify-center gap-2 rounded-2xl',
+            )}
+          >
+            <Calendar className="h-5 w-5" aria-hidden />
+            Schedule your onboarding call
+          </a>
         )}
 
         <div className="rounded-2xl border border-slate-200 bg-white p-6 text-left dark:border-slate-800 dark:bg-slate-950/50 mb-8 space-y-3">

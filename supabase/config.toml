@@ -1,4 +1,4 @@
-# PM Structure — link this repo to Supabase CLI / Cursor MCP
+# PM Structure: link this repo to Supabase CLI / Cursor MCP
 # Project ref must match NEXT_PUBLIC_SUPABASE_URL in .env.local
 project_id = "vmuwflogvpaahgjjdlmr"
 

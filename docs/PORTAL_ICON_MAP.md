@@ -42,7 +42,7 @@ Sources: Cursor workspace assets (`~/.cursor/projects/d-My-Websites-PMS/assets/`
 
 ### Custom PNG (installed)
 
-`ghost-mark.png` is **not** in the asset batch yet — still Lucide.
+`ghost-mark.png` is **not** in the asset batch yet: still Lucide.
 
 | Channel ID | Label | PNG file(s) |
 | --- | --- | --- |

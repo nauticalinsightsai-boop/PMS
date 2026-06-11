@@ -1,4 +1,4 @@
-# PM Structure — Content Cluster Map (stub)
+# PM Structure. Content Cluster Map (stub)
 
 ## Cluster 1: PMP 2026 (primary)
 
@@ -12,9 +12,9 @@
 | Hub | `/topics/pmp-exam-2026` | planned |
 | CTA | `/certifications/pmp` → enroll (noindex) | live |
 
-## Cluster 2–10
+## Cluster 2-10
 
-Document during Runs 9–13: PRINCE2, CAPM, Lean Six Sigma, membership, regional pricing, pm-service, community, compare, legal compliance.
+Document during Runs 9-13: PRINCE2, CAPM, Lean Six Sigma, membership, regional pricing, pm-service, community, compare, legal compliance.
 
 ## Internal linking rules
 

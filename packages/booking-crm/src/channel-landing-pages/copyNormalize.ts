@@ -4,9 +4,9 @@ import { applyMentorCtaLexicon } from './mentorCtaLexicon'
 export function normalizePortalCopyString(text: string): string {
   return applyMentorCtaLexicon(
     text
-      .replace(/\s*—\s*([A-Z"'(])/g, '. $1')
-      .replace(/\s*—\s*/g, ': ')
-      .replace(/\s+–\s+/g, ': ')
+      .replace(/\s*: \s*([A-Z"'(])/g, '. $1')
+      .replace(/\s*: \s*/g, ': ')
+      .replace(/\s+-\s+/g, ': ')
       .replace(/\.\s+\./g, '.')
       .replace(/:\s+:/g, ':')
       .replace(/\?\s+\./g, '?')

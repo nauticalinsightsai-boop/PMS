@@ -1,5 +1,5 @@
 /**
- * Run 16 — legal routes, footer links, PMP compliance phrase scan.
+ * Run 16: legal routes, footer links, PMP compliance phrase scan.
  */
 import fs from 'fs';
 import path from 'path';

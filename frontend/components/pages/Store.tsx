@@ -21,6 +21,8 @@ import { cn } from "@/lib/utils";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import { FIELD_KEYS, defaultStoreCatalog, parseStoreCatalog } from "@pms/site-content";
+import Link from 'next/link';
+import { storeCheckoutHref } from '@/lib/membership-checkout';
 
 const categoryIcons: Record<string, typeof Package> = {
   'All Resources': Package,
@@ -41,6 +43,7 @@ export function StoreContent() {
     .filter((p) => p.visible)
     .sort((a, b) => a.sortOrder - b.sortOrder)
     .map((p) => ({
+      id: p.id,
       title: p.title,
       price: p.displayPrice,
       category: catalog?.categories.find((c) => c.id === p.categoryId)?.name ?? p.categoryId,
@@ -179,15 +182,15 @@ export function StoreContent() {
                     <div className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{product.price}</div>
                   </CardContent>
                   <CardFooter className="px-8 pb-8 pt-0">
-                    <Button
-                      type="button"
-                      disabled
-                      aria-disabled="true"
-                      variant="outline"
-                      className="w-full h-12 rounded-xl font-bold text-sm flex items-center justify-center gap-2 opacity-60 cursor-not-allowed"
-                    >
-                      <ShoppingCart className="h-4 w-4" /> Add to Cart (soon)
-                    </Button>
+                    <Link href={storeCheckoutHref(product.id)} className="block w-full">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full h-12 rounded-xl font-bold text-sm flex items-center justify-center gap-2"
+                      >
+                        <ShoppingCart className="h-4 w-4" /> Buy now
+                      </Button>
+                    </Link>
                   </CardFooter>
                 </Card>
               </motion.div>

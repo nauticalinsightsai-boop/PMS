@@ -83,7 +83,7 @@ function finalizeThemeTokens(theme: PlatformPortalTheme): PlatformPortalTheme {
   }
 }
 
-/** Full resolved palette for light or dark — use everywhere instead of partial applyPortalColorMode. */
+/** Full resolved palette for light or dark: use everywhere instead of partial applyPortalColorMode. */
 export function resolvePortalTheme(
   channelId: string,
   mode: PortalColorMode,

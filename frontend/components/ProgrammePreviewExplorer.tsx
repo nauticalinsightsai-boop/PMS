@@ -1,21 +1,16 @@
 'use client';
 
 import * as React from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
-import { FileText, Maximize2, PlayCircle, Presentation } from 'lucide-react';
+import { FileText, Maximize2, PlayCircle, Presentation, XIcon } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import {
-  Dialog,
-  DialogBody,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type {
   ProgrammeInfographicHero,
@@ -29,14 +24,6 @@ const PANEL_ICON = {
   slides: Presentation,
   video: PlayCircle,
 } as const;
-
-const MATERIAL_FULLSCREEN_DIALOG_CLASS = cn(
-  'z-[120] flex max-h-[100dvh] max-w-[100vw] flex-col gap-0 rounded-none border-0 bg-slate-950 p-0 shadow-none',
-  'h-[100dvh] w-[100vw] sm:max-w-[100vw]',
-  'top-0 left-0 translate-x-0 translate-y-0',
-  'data-open:zoom-in-100 data-closed:zoom-out-100',
-  '[&_[data-slot=dialog-close]]:text-white [&_[data-slot=dialog-close]]:hover:bg-white/10',
-);
 
 function panelSupportsFullscreen(panel: ProgrammePreviewPanel): boolean {
   if (!panel.available) return false;
@@ -59,21 +46,50 @@ function MaterialFullscreenDialog({
   description?: string;
   children: React.ReactNode;
 }) {
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent showCloseButton className={MATERIAL_FULLSCREEN_DIALOG_CLASS}>
-        <DialogTitle className="sr-only">{title}</DialogTitle>
-        {description ? <DialogDescription className="sr-only">{description}</DialogDescription> : null}
-        <div className="shrink-0 border-b border-white/10 px-4 py-3 sm:px-6">
-          <p className="text-sm font-bold text-white pr-10">{title}</p>
-          {description ? <p className="mt-0.5 text-xs font-medium text-slate-400">{description}</p> : null}
+  React.useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onOpenChange(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open, onOpenChange]);
+
+  if (!open || typeof document === 'undefined') return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[140] flex flex-col bg-slate-950" role="dialog" aria-modal="true" aria-label={title}>
+      <div className="shrink-0 flex items-start justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6">
+        <div className="min-w-0 pr-2">
+          <p className="text-sm font-bold text-white">{title}</p>
+          {description ? (
+            <p className="mt-0.5 text-xs font-medium text-slate-400">{description}</p>
+          ) : null}
         </div>
-        <DialogBody className="flex min-h-0 flex-1 flex-col px-4 py-4 sm:px-6">{children}</DialogBody>
-        <p className="pointer-events-none absolute bottom-4 left-0 right-0 text-center text-xs font-medium text-slate-500">
-          Press Esc or close to return
-        </p>
-      </DialogContent>
-    </Dialog>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-sm"
+          className="shrink-0 text-white hover:bg-white/10"
+          onClick={() => onOpenChange(false)}
+          aria-label="Close fullscreen view"
+        >
+          <XIcon className="h-4 w-4" />
+        </Button>
+      </div>
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-4 py-4 sm:px-6">
+        {children}
+      </div>
+      <p className="pointer-events-none shrink-0 pb-4 text-center text-xs font-medium text-slate-500">
+        Press Esc or close to return
+      </p>
+    </div>,
+    document.body,
   );
 }
 
@@ -223,23 +239,32 @@ function InfographicHero({ hero }: { hero: ProgrammeInfographicHero }) {
               alt={hero.title}
               width={1600}
               height={900}
-              className="w-full h-auto object-contain"
+              className="pointer-events-none w-full h-auto object-contain"
               priority
             />
             <span
               aria-hidden
-              className="pointer-events-none absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-slate-900/75 px-2.5 py-1 text-[11px] font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+              className="pointer-events-none absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-slate-900/80 px-2.5 py-1 text-[11px] font-semibold text-white opacity-100 sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100"
             >
               <Maximize2 className="h-3.5 w-3.5" />
               Click to enlarge
             </span>
           </button>
           <figcaption className="border-t border-slate-100 px-4 py-3 dark:border-slate-800">
-            <p className="text-sm font-bold text-slate-900 dark:text-white">{hero.title}</p>
-            <p className="mt-0.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-              {hero.subtitle}
-              <span className="text-slate-400 dark:text-slate-500"> · Tap the map to view fullscreen</span>
-            </p>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-sm font-bold text-slate-900 dark:text-white">{hero.title}</p>
+                <p className="mt-0.5 text-xs font-medium text-slate-500 dark:text-slate-400">{hero.subtitle}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setFullscreenOpen(true)}
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-orange px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
+              >
+                <Maximize2 className="h-3.5 w-3.5" aria-hidden />
+                Open fullscreen
+              </button>
+            </div>
           </figcaption>
         </figure>
 
@@ -307,22 +332,14 @@ export function ProgrammePreviewExplorer({
     [preview.panels, fullscreenPanelId],
   );
 
-  const handlePanelChange = React.useCallback(
-    (value: string | undefined) => {
-      setOpenPanel(value);
-      if (!value) {
-        setFullscreenPanelId(undefined);
-        return;
-      }
-      const panel = preview.panels.find((item) => item.id === value);
-      if (panel && panelSupportsFullscreen(panel)) {
-        setFullscreenPanelId(value);
-      } else {
-        setFullscreenPanelId(undefined);
-      }
-    },
-    [preview.panels],
-  );
+  const handlePanelChange = React.useCallback((value: string | undefined) => {
+    setOpenPanel(value);
+  }, []);
+
+  const openFullscreen = React.useCallback((panelId: string) => {
+    setOpenPanel(panelId);
+    setFullscreenPanelId(panelId);
+  }, []);
 
   return (
     <div className={cn('space-y-5', className)}>
@@ -331,7 +348,7 @@ export function ProgrammePreviewExplorer({
       <div>
         <p className="text-label mb-3">Explore materials</p>
         <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-3 -mt-1">
-          Tap a section to open it fullscreen: guide, slides, and video stay in this window.
+          Open a section to preview here, or use fullscreen for easier reading and playback.
         </p>
         <Accordion
           {...({
@@ -369,24 +386,23 @@ export function ProgrammePreviewExplorer({
                     </span>
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="pb-4">
+                <AccordionContent className="pb-4 space-y-3">
+                  <PanelBody panel={panel} variant="inline" />
                   {panelSupportsFullscreen(panel) ? (
                     <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50/80 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/40">
                       <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                        Opens fullscreen for easier reading and playback.
+                        Need more space? Open fullscreen for easier reading and playback.
                       </p>
                       <button
                         type="button"
-                        onClick={() => setFullscreenPanelId(panel.id)}
+                        onClick={() => openFullscreen(panel.id)}
                         className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-orange px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
                       >
                         <Maximize2 className="h-3.5 w-3.5" aria-hidden />
                         Open fullscreen
                       </button>
                     </div>
-                  ) : (
-                    <PanelBody panel={panel} variant="inline" />
-                  )}
+                  ) : null}
                 </AccordionContent>
               </AccordionItem>
             );

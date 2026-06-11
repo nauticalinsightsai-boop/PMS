@@ -140,7 +140,7 @@ export function PostsList({
                             .map((id) => topicNameById.get(id))
                             .filter(Boolean)
                             .join(', ')
-                        : '—'}
+                        : '. '}
                     </td>
                     <td className="px-4 py-4">
                       <span className={cmsStatusBadge(post.status)}>{cmsStatusLabel(post.status)}</span>

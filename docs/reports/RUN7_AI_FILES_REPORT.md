@@ -1,17 +1,17 @@
-# Run 7 — AI Files Report
+# Run 7. AI Files Report
 
 **Date:** 2026-06-10  
 **Status:** Complete
 
 ## Delivered
 
-- `frontend/lib/ai-files/compliance.ts` — safe language, doNotCite rules
-- `frontend/lib/ai-files/builders.ts` — all JSON builders + `buildLlmsTxt()`
-- `frontend/scripts/generate-ai-files.mjs` — generates JSON + `llms.txt` on prebuild
-- `frontend/public/llms.txt` — generated from `PMS_SITE_URL` (apex canonical)
+- `frontend/lib/ai-files/compliance.ts`: safe language, doNotCite rules
+- `frontend/lib/ai-files/builders.ts`: all JSON builders + `buildLlmsTxt()`
+- `frontend/scripts/generate-ai-files.mjs`: generates JSON + `llms.txt` on prebuild
+- `frontend/public/llms.txt`: generated from `PMS_SITE_URL` (apex canonical)
 - 14 public JSON files with version, updatedAt, compliance fields
 - `frontend/public/humans.txt`, `rss.xml`, `feed.xml` routes
-- `npm run seo:ai-files-check` — field + compliance + canonical URL validation
+- `npm run seo:ai-files-check`: field + compliance + canonical URL validation
 
 ## Files generated
 

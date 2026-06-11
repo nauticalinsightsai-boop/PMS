@@ -123,7 +123,7 @@ if (!regionGate.includes('without blocking') && !regionGate.includes('immediatel
 }
 
 if (checked === 0) {
-  console.warn('render-check: no HTML files found — run npm run build -w @pms/frontend first');
+  console.warn('render-check: no HTML files found: run npm run build -w @pms/frontend first');
   process.exit(0);
 }
 

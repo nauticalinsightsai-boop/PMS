@@ -11,9 +11,9 @@
 
 | Segment | Owner |
 |---------|--------|
-| A1–A7 | Platform / backend |
-| B1–B7 | Frontend / design system |
-| C1–C6 | Growth / conversion |
-| D1–D5 | Content / legal |
-| E1–E4 | Data / regional |
-| F1–F6 | DevOps / security |
+| A1-A7 | Platform / backend |
+| B1-B7 | Frontend / design system |
+| C1-C6 | Growth / conversion |
+| D1-D5 | Content / legal |
+| E1-E4 | Data / regional |
+| F1-F6 | DevOps / security |

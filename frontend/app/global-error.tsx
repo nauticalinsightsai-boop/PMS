@@ -1,6 +1,6 @@
 'use client';
 
-/** Root error boundary — required for Next.js 15 production 500.html generation. */
+/** Root error boundary: required for Next.js 15 production 500.html generation. */
 export default function GlobalError({
   reset,
 }: {

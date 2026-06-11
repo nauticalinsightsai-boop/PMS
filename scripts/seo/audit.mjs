@@ -1,5 +1,5 @@
 /**
- * Lightweight SEO audit summary — counts routes in sitemap source.
+ * Lightweight SEO audit summary: counts routes in sitemap source.
  */
 import fs from 'fs';
 import path from 'path';

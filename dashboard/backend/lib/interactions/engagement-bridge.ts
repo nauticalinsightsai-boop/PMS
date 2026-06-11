@@ -35,7 +35,7 @@ export function logEngagementMeetingInteraction(row: EngagementBookingRow): void
 
     const res = await insertFormSubmission({
       source: 'meeting_booking',
-      subject: `Engagement booking — ${row.service_title}`,
+      subject: `Engagement booking: ${row.service_title}`,
       email: row.client_email.trim().toLowerCase(),
       payload: {
         client_name: row.client_name,

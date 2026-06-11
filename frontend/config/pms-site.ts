@@ -16,6 +16,21 @@ export const PMS_SITE_DESCRIPTION =
 export const PMS_SUPPORT_EMAIL =
   process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || 'support@pmstructure.com';
 
+/** Post-checkout onboarding call (also used in confirmation emails). */
+export const PMS_ONBOARDING_CALENDLY_URL =
+  process.env.NEXT_PUBLIC_ONBOARDING_CALENDLY_URL?.trim() ||
+  'https://calendly.com/pm-structure/go-talk-to-mentor';
+
+export function getOnboardingCalendlyUrl(offeringId?: string | null): string {
+  const base = PMS_ONBOARDING_CALENDLY_URL;
+  if (!offeringId?.trim()) return base;
+  const url = new URL(base);
+  url.searchParams.set('utm_source', 'success_page');
+  url.searchParams.set('utm_medium', 'enrollment');
+  url.searchParams.set('utm_content', offeringId.trim());
+  return url.toString();
+}
+
 /** @deprecated Use PMS_SUPPORT_EMAIL: kept for env compatibility only. */
 export const PMS_LEGAL_EMAIL =
   process.env.NEXT_PUBLIC_LEGAL_EMAIL?.trim() || PMS_SUPPORT_EMAIL;

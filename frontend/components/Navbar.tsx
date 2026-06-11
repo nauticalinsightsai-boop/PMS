@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Moon, Sun } from "lucide-react";
-import { RegisterModal } from "./RegisterModal";
+import { WebsiteCalendlyButton } from "@/components/calendly/WebsiteCalendlyButton";
 import { BrandLogo } from "./BrandLogo";
 import { CTAS } from "@/lib/brand-voice";
 import { RegionChip } from "@/components/RegionChip";
@@ -79,11 +79,14 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
             <Button variant="ghost" size="icon" onClick={toggleTheme} className="min-h-11 min-w-11 rounded-full" aria-label="Toggle theme">
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
-            <RegisterModal recoveryVariant="nav_register_partial" trigger={
-              <Button variant="brand" className="font-semibold px-5 h-10 rounded-full">
-                {CTAS.talkToMentor}
-              </Button>
-            } />
+            <WebsiteCalendlyButton
+              variant="brand"
+              className="font-semibold px-5 h-10 rounded-full"
+              funnelLabel="nav_talk_to_mentor"
+              utm={{ utm_source: 'pmstructure', utm_medium: 'navbar', utm_campaign: 'hero_consultation' }}
+            >
+              {CTAS.talkToMentor}
+            </WebsiteCalendlyButton>
           </div>
         </div>
 
@@ -118,7 +121,14 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
                   );
                 })}
                 <div className="mt-4 pt-4 border-t border-border">
-                  <RegisterModal recoveryVariant="nav_register_partial" trigger={<Button variant="brand" className="w-full min-h-11">{CTAS.talkToMentor}</Button>} />
+                  <WebsiteCalendlyButton
+                    variant="brand"
+                    className="w-full min-h-11"
+                    funnelLabel="nav_talk_to_mentor"
+                    utm={{ utm_source: 'pmstructure', utm_medium: 'navbar_mobile', utm_campaign: 'hero_consultation' }}
+                  >
+                    {CTAS.talkToMentor}
+                  </WebsiteCalendlyButton>
                 </div>
               </nav>
             </SheetContent>

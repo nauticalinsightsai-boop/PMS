@@ -11,16 +11,25 @@ import {
   wasCenterDialogVariantShownOnPage,
 } from './session-state';
 
-const EXCLUDED_PREFIXES = ['/checkout', '/admin', '/login'];
+const ADMIN_PREFIXES = ['/admin', '/login'];
 const COOLDOWN_MS = 90_000;
 const MAX_CENTER_SESSION = 2;
 const MAX_BAR_PAGE_ROTATIONS = 4;
 const MAX_BAR_SESSION = 8;
 
+/** Routes where checkout / Stripe runs: no lead recovery surfaces. */
+export function isPaymentPath(pathname: string): boolean {
+  if (pathname === '/checkout' || pathname.startsWith('/checkout/')) return true;
+  if (pathname === '/membership/checkout' || pathname.startsWith('/membership/checkout/')) {
+    return true;
+  }
+  return /\/certifications\/[^/]+\/[^/]+\/enroll(\/|$)/.test(pathname);
+}
+
 export function isExcludedPath(pathname: string): boolean {
   if (pathname === '/contact') return false;
-  if (pathname.startsWith('/certifications/') && pathname.endsWith('/enroll/success')) return true;
-  return EXCLUDED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+  if (isPaymentPath(pathname)) return true;
+  return ADMIN_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
 export function isContactPage(pathname: string): boolean {
@@ -42,6 +51,8 @@ export function canShowSurface(
     barRotation?: boolean;
     intentRecovery?: boolean;
     variant?: string;
+    bypassPageVariantCap?: boolean;
+    bypassSessionCap?: boolean;
   },
 ): CanShowResult {
   if (isOptedOut()) return { allowed: false, reason: 'opt_out' };
@@ -60,11 +71,13 @@ export function canShowSurface(
 
   if (surface === 'center_dialog') {
     if (opts?.centerDialogOpen) return { allowed: false, reason: 'dialog_open' };
-    if (getCenterDialogSessionCount() >= MAX_CENTER_SESSION) {
+    if (getCenterDialogSessionCount() >= MAX_CENTER_SESSION && !opts?.bypassSessionCap) {
       return { allowed: false, reason: 'center_session_cap' };
     }
     if (opts?.variant && wasCenterDialogVariantShownOnPage(pagePath, opts.variant)) {
-      return { allowed: false, reason: 'center_page_cap' };
+      if (!opts?.bypassPageVariantCap) {
+        return { allowed: false, reason: 'center_page_cap' };
+      }
     }
     return { allowed: true };
   }

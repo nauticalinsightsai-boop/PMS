@@ -2,7 +2,7 @@ type PathwayFamilyTab = 'PMI' | 'PRINCE2' | 'SixSigma';
 
 /**
  * Staggered intake months relative to the rolling baseline (first day of next calendar month).
- * Keeps flagship pathways on earlier cohorts; specialist pathways spread Jun–Sep.
+ * Keeps flagship pathways on earlier cohorts; specialist pathways spread Jun-Sep.
  */
 export type CohortIntakeTier = 'next' | 'priority' | 'standard' | 'extended';
 
@@ -22,7 +22,7 @@ const FAMILY_DEFAULT_TIER: Record<PathwayFamilyTab, CohortIntakeTier> = {
 
 /** Per-pathway intake tier (overrides family default). */
 export const CERT_COHORT_INTAKE_TIER: Record<string, CohortIntakeTier> = {
-  // PMI — flagship row + portfolio
+  // PMI: flagship row + portfolio
   capm: 'next',
   'pmi-rmp': 'next',
   pmp: 'priority',
@@ -36,7 +36,7 @@ export const CERT_COHORT_INTAKE_TIER: Record<string, CohortIntakeTier> = {
   'pmi-cpmai': 'extended',
   'gpm-b': 'extended',
 
-  // PRINCE2 — flagship row
+  // PRINCE2: flagship row
   prince2: 'next',
   'prince2-practitioner': 'priority',
   'prince2-agile': 'standard',
@@ -46,7 +46,7 @@ export const CERT_COHORT_INTAKE_TIER: Record<string, CohortIntakeTier> = {
   mor: 'extended',
   p3o: 'extended',
 
-  // Lean Six Sigma — flagship row
+  // Lean Six Sigma: flagship row
   'lss-green': 'next',
   'lss-yellow': 'priority',
   'lss-black': 'standard',

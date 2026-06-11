@@ -1,8 +1,8 @@
-# PM Structure — GSC & Bing Submission Plan
+# PM Structure. GSC & Bing Submission Plan
 
 **Run:** 19 (Phase 18)  
-**Property:** https://pmstructure.com (apex — `www` has no DNS until added in Vercel Domains)  
-**Status:** Deploy verified — submit sitemap after ownership verified
+**Property:** https://pmstructure.com (apex: `www` has no DNS until added in Vercel Domains)  
+**Status:** Deploy verified: submit sitemap after ownership verified
 
 ## Properties to verify
 
@@ -48,7 +48,7 @@ Add remaining PMP cluster URLs after indexation of anchor pages.
 
 ## Blockers before submit
 
-- [x] Production deploy complete (live 200 on priority routes — 2026-06-10)
+- [x] Production deploy complete (live 200 on priority routes: 2026-06-10)
 - [x] `npm run seo:release-verify` green on release branch (2026-06-10, 274 pages)
 - [x] `npm run seo:smoke-live` green against `https://pmstructure.com`
 - [x] No `noindex` on PMP/answer/topic indexable routes (local `seo:noindex-check` PASS; live HTTP 200 on `/pmp-faq`, answers, topics)

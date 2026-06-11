@@ -20,11 +20,11 @@ const DEFAULT_XLSX =
 const REGION_IDS = ['global', 'europe', 'uk', 'gcc', 'india', 'pakistan'];
 
 const STATUS_MAP = [
-  ['available — direct checkout', 'direct_checkout'],
+  ['available: direct checkout', 'direct_checkout'],
   ['available - direct checkout', 'direct_checkout'],
-  ['regional scholarship available — verify eligibility', 'scholarship_verify'],
+  ['regional scholarship available: verify eligibility', 'scholarship_verify'],
   ['regional scholarship available - verify eligibility', 'scholarship_verify'],
-  ['available — consultation required', 'consultation_required'],
+  ['available: consultation required', 'consultation_required'],
   ['available - consultation required', 'consultation_required'],
   ['regional scholarship unavailable', 'scholarship_unavailable'],
   ['global only', 'global_only'],
@@ -325,7 +325,7 @@ function main() {
       sourceFile: path.basename(xlsxPath),
       offeringCount: offerings.length,
       businessRules: {
-        membershipDiscount: 'TBD — do not stack on scholarship until confirmed',
+        membershipDiscount: 'TBD: do not stack on scholarship until confirmed',
         gccCheckoutUsdCents: 'single global usdCents per offering',
         consultationApproval: 'manual dashboard before mastery checkout',
       },

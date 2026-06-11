@@ -13,7 +13,7 @@ type NavLinkButtonProps = VariantProps<typeof buttonVariants> & {
   'aria-label'?: string;
 };
 
-/** Next.js Link styled as a button — use instead of Button render={Link} (Base UI breaks link nav). */
+/** Next.js Link styled as a button: use instead of Button render={Link} (Base UI breaks link nav). */
 export function NavLinkButton({
   href,
   variant,

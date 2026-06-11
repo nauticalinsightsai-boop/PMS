@@ -83,7 +83,7 @@ function customQuestionsPayload() {
       position: 2,
       enabled: true,
       required: true,
-      answer_choices: ['0–2', '3–5', '6–10', '10+'],
+      answer_choices: ['0-2', '3-5', '6-10', '10+'],
     },
     {
       name: 'Please describe your specific question or concern',
@@ -255,7 +255,7 @@ async function main() {
         const row = manifest.events.find((e) => e.id === event.id);
         if (row) row.urls.fallback = result.schedulingUrl;
       }
-      console.log(`  [${result.status}] ${event.id} ${event.slug} → ${result.schedulingUrl ?? '—'}`);
+      console.log(`  [${result.status}] ${event.id} ${event.slug} → ${result.schedulingUrl ?? '. '}`);
     } catch (err) {
       results.push({
         id: event.id,
@@ -295,7 +295,7 @@ async function main() {
     '|----|------|--------|----------------|----------|',
     ...results.map(
       (r) =>
-        `| ${r.id} | ${r.slug} | ${r.status} | ${r.schedulingUrl ?? '—'} | ${r.apiSlug ?? '—'} |`,
+        `| ${r.id} | ${r.slug} | ${r.status} | ${r.schedulingUrl ?? '. '} | ${r.apiSlug ?? '. '} |`,
     ),
     '',
     '## Post-provision UI checklist (per event template)',

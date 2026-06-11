@@ -3,20 +3,21 @@ import {
   createStripeEmbeddedCheckoutSession,
   createStripePaymentSession,
 } from '@/lib/checkout-session';
+import { assertFullTuitionEligible } from '@/lib/enrollment-eligibility';
+import { type EnrollmentPaymentMode } from '@/lib/enrollment-pricing';
+import {
+  formatRegionalDepositDisplay,
+  resolveRegionalCheckoutPrice,
+  resolveRegionalDepositPrice,
+} from '@/lib/regional-checkout-price';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 import { jsonError, jsonOk } from '@/lib/response-helpers.js';
 import { safeRedirectUrl } from '@/lib/safe-redirect-url';
 import { isStripeConfigured } from '@/lib/stripe';
 import type { RegionId } from '@/lib/regional-catalogue';
 
-const DEPOSIT_BY_TIER_PATTERN: { match: (slug: string) => boolean; amount: number }[] = [
-  { match: (slug) => slug.includes('mastery'), amount: 500 },
-  { match: (slug) => slug.includes('professional') || slug.includes('foundation'), amount: 250 },
-];
-
-function resolveSeatDepositUsd(tierSlug: string): number {
-  const slug = tierSlug.toLowerCase();
-  return DEPOSIT_BY_TIER_PATTERN.find((row) => row.match(slug))?.amount ?? 250;
+function parsePaymentMode(raw: unknown): EnrollmentPaymentMode {
+  return raw === 'full_tuition' ? 'full_tuition' : 'seat_deposit';
 }
 
 export async function POST(request: Request) {
@@ -33,9 +34,12 @@ export async function POST(request: Request) {
     email,
     name,
     uiMode,
+    colorScheme,
     successUrl,
     cancelUrl,
     returnUrl,
+    paymentMode: rawPaymentMode,
+    gccCountry,
   } = body as {
     offeringId?: string;
     siteCertId?: string;
@@ -44,9 +48,12 @@ export async function POST(request: Request) {
     email?: string;
     name?: string;
     uiMode?: 'embedded' | 'redirect';
+    colorScheme?: 'light' | 'dark';
     successUrl?: string;
     cancelUrl?: string;
     returnUrl?: string;
+    paymentMode?: EnrollmentPaymentMode;
+    gccCountry?: string | null;
   };
 
   if (!offeringId || !siteCertId || !tierSlug || !regionId) {
@@ -61,28 +68,50 @@ export async function POST(request: Request) {
   const offering = getOfferingById(offeringId);
   if (!offering) return jsonError('Offering not found', 404);
 
-  const depositUsd = resolveSeatDepositUsd(tierSlug);
-  const usdCents = depositUsd * 100;
+  const fullRegional = resolveRegionalCheckoutPrice(offering, regionId, gccCountry);
+  if (!fullRegional) return jsonError('Price unavailable', 400);
+
+  const paymentMode = parsePaymentMode(rawPaymentMode);
+
+  if (paymentMode === 'full_tuition') {
+    const eligibility = assertFullTuitionEligible(offering, regionId);
+    if (!eligibility.ok) return jsonError(eligibility.message, 403);
+  }
+
+  const checkoutRegional =
+    paymentMode === 'full_tuition' ? fullRegional : resolveRegionalDepositPrice(fullRegional);
+  const depositDisplay = formatRegionalDepositDisplay(fullRegional.display);
+
   const tierLabel = offering.tierId.replace(/_/g, ' ') || tierSlug.replace(/-/g, ' ');
   const embedded = uiMode !== 'redirect';
+  const checkoutScheme = colorScheme === 'dark' ? 'dark' : 'light';
 
   const origin = request.headers.get('origin') ?? 'http://localhost:3000';
   const defaultReturn = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll/success?offering=${encodeURIComponent(offeringId)}&session_id={CHECKOUT_SESSION_ID}`;
   const defaultSuccess = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll/success?offering=${encodeURIComponent(offeringId)}&session_id={CHECKOUT_SESSION_ID}`;
   const defaultCancel = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll?offering=${encodeURIComponent(offeringId)}`;
 
+  const isDeposit = paymentMode === 'seat_deposit';
   const shared = {
     offeringId,
-    usdCents,
+    currency: checkoutRegional.currency,
+    unitAmount: checkoutRegional.unitAmount,
+    referenceUsdCents: fullRegional.usdCents,
     email: trimmedEmail || undefined,
-    productName: `Seat reservation deposit — ${offering.courseName}`,
-    productDescription: `${tierLabel} pathway · remaining tuition due at onboarding`,
+    productName: isDeposit
+      ? `Seat reservation deposit: ${offering.courseName}`
+      : `${offering.courseName}: ${tierLabel}`,
+    productDescription: isDeposit
+      ? `${tierLabel} pathway · 25% deposit (${depositDisplay}) · remaining tuition due at onboarding`
+      : `Full pathway tuition (${fullRegional.display})`,
     metadata: {
       offeringId,
       siteCertId,
       tierSlug,
       regionId,
-      paymentType: 'seat_deposit',
+      paymentType: paymentMode,
+      checkoutCurrency: checkoutRegional.currency,
+      checkoutDisplay: isDeposit ? depositDisplay : fullRegional.display,
       ...(name?.trim() ? { customerName: name.trim() } : {}),
     },
   };
@@ -91,6 +120,7 @@ export async function POST(request: Request) {
     ? await createStripeEmbeddedCheckoutSession({
         ...shared,
         returnUrl: safeRedirectUrl(origin, returnUrl, defaultReturn),
+        colorScheme: checkoutScheme,
       })
     : await createStripePaymentSession({
         ...shared,
@@ -110,15 +140,19 @@ export async function POST(request: Request) {
       offering_id: offeringId,
       region_id: regionId,
       email: trimmedEmail || 'pending@checkout.local',
-      usd_cents: usdCents,
+      usd_cents: fullRegional.usdCents ?? session.usdCents,
       status: 'pending',
       stripe_session_id: session.sessionId,
       metadata: {
-        paymentType: 'seat_deposit',
+        paymentType: paymentMode,
         siteCertId,
         tierSlug,
         customerName: name?.trim() ?? null,
         uiMode: embedded ? 'embedded' : 'redirect',
+        checkoutCurrency: checkoutRegional.currency,
+        checkoutUnitAmount: checkoutRegional.unitAmount,
+        checkoutDisplay: isDeposit ? depositDisplay : fullRegional.display,
+        depositFraction: isDeposit ? 0.25 : null,
       },
     });
     if (error) {
@@ -133,7 +167,12 @@ export async function POST(request: Request) {
       url: session.url,
       clientSecret: session.clientSecret,
     },
-    usdCents,
-    depositUsd,
+    currency: checkoutRegional.currency,
+    unitAmount: checkoutRegional.unitAmount,
+    displayAmount: isDeposit ? depositDisplay : fullRegional.display,
+    fullDisplay: fullRegional.display,
+    depositDisplay,
+    usdCents: fullRegional.usdCents,
+    paymentMode,
   });
 }

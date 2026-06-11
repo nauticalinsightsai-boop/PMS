@@ -1,5 +1,5 @@
 /**
- * Heading outline guard — single H1 on key marketing routes (Run 6).
+ * Heading outline guard: single H1 on key marketing routes (Run 6).
  */
 import fs from 'fs';
 import path from 'path';
@@ -47,4 +47,3 @@ for (const rel of pages) {
 
 if (failed) process.exit(1);
 console.log(`headings-check OK (${pages.length} files)`);
-

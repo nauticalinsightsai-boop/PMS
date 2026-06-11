@@ -13,7 +13,7 @@ const env = path.join(root, '.env');
 if (fs.existsSync(env)) {
   const text = fs.readFileSync(env, 'utf8');
   const hasDb = /^DATABASE_URL=.+$/m.test(text) && !text.includes('DATABASE_URL=postgresql://postgres.[ref]');
-  console.log('.env already exists — edit DATABASE_URL and Supabase keys, then:');
+  console.log('.env already exists: edit DATABASE_URL and Supabase keys, then:');
   console.log('  npm run db:migrate');
   console.log('  npm run sync:regional');
   console.log('  npm run verify:regional-dev');

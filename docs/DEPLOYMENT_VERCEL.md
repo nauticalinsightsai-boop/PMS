@@ -1,4 +1,4 @@
-# Vercel deployment — PM Structure monorepo
+# Vercel deployment. PM Structure monorepo
 
 Admin lives at **`https://pmstructure.com/admin/login`** on the **same domain** as the marketing site.
 

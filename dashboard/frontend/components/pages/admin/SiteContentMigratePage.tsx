@@ -49,7 +49,7 @@ export function SiteContentMigratePage() {
         </h1>
         <p className="text-slate-500 mt-2">
           Seed default CMS documents into Supabase <code className="text-sm">website_data</code>.
-          Safe to re-run — upserts by field key.
+          Safe to re-run: upserts by field key.
         </p>
       </div>
 

@@ -83,32 +83,42 @@ function pathwayCalendlyCopy(tierId: RecoveryTierId, explored: boolean): Recover
 
 function pathwayExitCopy(tierId: RecoveryTierId, ctx: LeadRecoveryContext): RecoveryCopy {
   const cert = certLabel(ctx);
+  const tier = tierLabel(tierId);
+  const schedule = {
+    showScheduleCall: true,
+    scheduleCallLabel: 'Schedule a call at your convenience',
+  };
+
   if (tierId === 'foundation') {
     return {
-      headline: 'Not ready to enroll in Foundation?',
-      body: `Leave your name and WhatsApp: we'll confirm eligibility and send a structured ${cert} study plan.`,
-      submitLabel: 'Get my Foundation roadmap',
+      headline: 'Fill in your details for a callback',
+      body: `Share name and WhatsApp for ${cert} ${tier}: we'll call you back within 24 hours with your study plan. Or pick a time that works for you.`,
+      submitLabel: 'Request a callback',
+      ...schedule,
     };
   }
   if (tierId === 'professional') {
     return {
-      headline: 'Comparing Professional?',
-      body: `Blended live weekends + LMS. Leave your details: we'll recommend whether Professional fits your schedule.`,
-      submitLabel: DEFAULT_SUBMIT,
+      headline: 'Fill in your details for a callback',
+      body: `Comparing ${tier}? Leave your details and we'll call you back to confirm fit and next steps for ${cert}.`,
+      submitLabel: 'Request a callback',
+      ...schedule,
     };
   }
   if (tierId === 'mastery') {
     return {
-      headline: 'Mastery starts with a conversation',
-      body: `Leave name + WhatsApp: a mentor will outline readiness review and next steps for ${cert}.`,
-      submitLabel: 'Request mentor follow-up',
+      headline: 'Fill in your details for a callback',
+      body: `Mastery starts with a conversation. Share your details for a mentor callback on ${cert}, or schedule when you're available.`,
+      submitLabel: 'Request a callback',
+      ...schedule,
     };
   }
   return {
-    headline: 'Which tier fits you?',
-    body: "Foundation, Professional, or Mastery: tell us your preference and we'll recommend the right next step.",
-    submitLabel: DEFAULT_SUBMIT,
+    headline: 'Fill in your details for a callback',
+    body: `Tell us your preferred tier for ${cert}. We'll call you back within 24 hours, or schedule a call at your convenience.`,
+    submitLabel: 'Request a callback',
     showTierPills: true,
+    ...schedule,
   };
 }
 

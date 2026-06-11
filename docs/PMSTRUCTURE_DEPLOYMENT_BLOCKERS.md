@@ -1,4 +1,4 @@
-# PM Structure — Deployment Blockers
+# PM Structure. Deployment Blockers
 
 No critical deployment blockers identified in this pass.
 

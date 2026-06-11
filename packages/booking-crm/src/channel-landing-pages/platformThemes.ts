@@ -121,11 +121,11 @@ function referralSurface(btn: CtaPlatformButton): string {
     return 'YouTube'
   }
   if (btn.channelId === 'tiktok') return 'TikTok'
-  if (btn.channelId === 'medium') return `Medium — ${type.toLowerCase()}`
-  if (btn.channelId === 'website') return `this site — ${type.toLowerCase()}`
+  if (btn.channelId === 'medium') return `Medium: ${type.toLowerCase()}`
+  if (btn.channelId === 'website') return `this site: ${type.toLowerCase()}`
   if (format.includes('newsletter')) return `${platform} newsletter`
   if (format.includes('podcast') || format.includes('episode')) return `${platform} podcast`
-  return `${platform} — ${type}`
+  return `${platform}: ${type}`
 }
 
 /** Platform-native default copy (wording tuned per channel + type). */
@@ -139,7 +139,7 @@ export function getPlatformPortalCopy(btn: CtaPlatformButton): PlatformPortalCop
 
   const byChannel: Partial<Record<string, PlatformPortalCopy>> = {
     bluesky: {
-      contextLabel: `OPEN SKY REFERRAL — YOU ARRIVED FROM ${platform.toUpperCase()}`,
+      contextLabel: `OPEN SKY REFERRAL. YOU ARRIVED FROM ${platform.toUpperCase()}`,
       headline: `Continue the conversation from Bluesky`,
       subheadline: `Book a focused advisory block after following through from ${ref}. Short-form posts, threads, and replies welcome.`,
       targetMessage: `Mention the Bluesky post or thread that brought you here when you book.`,
@@ -195,15 +195,15 @@ export function getPlatformPortalCopy(btn: CtaPlatformButton): PlatformPortalCop
       availabilityLabel: 'Quick discovery open',
     },
     medium: {
-      contextLabel: `MEDIUM PUBLICATION REFERRAL — ${type.toUpperCase()}`,
+      contextLabel: `MEDIUM PUBLICATION REFERRAL: ${type.toUpperCase()}`,
       headline: `Nautical & systems advisory after Medium`,
       subheadline: `Peer-review publication readers: book defense, audit, or strategy on concepts from ${ref}.`,
       targetMessage: `Book an academic defense or peer audit of my latest publications.`,
       availabilityLabel: 'Free discovery & mentorship open',
     },
     website: {
-      contextLabel: `OWNED WEB PROPERTY — ${type.toUpperCase()}`,
-      headline: `Principal advisory — ${type}`,
+      contextLabel: `OWNED WEB PROPERTY: ${type.toUpperCase()}`,
+      headline: `Principal advisory: ${type}`,
       subheadline: `Direct booking from ${ref} on the owned platform.`,
       targetMessage: `Describe the page or asset you came from.`,
       availabilityLabel: 'Accepting advisory roles',
@@ -211,22 +211,22 @@ export function getPlatformPortalCopy(btn: CtaPlatformButton): PlatformPortalCop
     beehiiv: {
       contextLabel: `BEEHIIV REFERRAL`,
       headline: `Book after your Beehiiv read`,
-      subheadline: `Newsletter and post-feed readers — move from inbox to a working session.`,
-      targetMessage: `You clicked through on Beehiiv — book time to stress-test ideas, publication strategy, or mega-project scope with a principal architect.`,
+      subheadline: `Newsletter and post-feed readers: move from inbox to a working session.`,
+      targetMessage: `You clicked through on Beehiiv: book time to stress-test ideas, publication strategy, or mega-project scope with a principal architect.`,
       availabilityLabel: 'Discovery open · paid tiers below',
     },
     substack: {
       contextLabel: `SUBSTACK REFERRAL`,
       headline: `From Substack to a live call`,
-      subheadline: `Posts, notes, or newsletter — continue the thread in a booked block.`,
-      targetMessage: `Turn what you read on Substack into structured advisory — feasibility, systems design, or publication defense.`,
+      subheadline: `Posts, notes, or newsletter: continue the thread in a booked block.`,
+      targetMessage: `Turn what you read on Substack into structured advisory: feasibility, systems design, or publication defense.`,
       availabilityLabel: 'Free discovery available',
     },
     ghost: {
       contextLabel: `GHOST REFERRAL`,
       headline: `Book after Ghost`,
-      subheadline: `Blog or newsletter subscribers — schedule depth beyond the post.`,
-      targetMessage: `You arrived from Ghost — book a block to align publication themes with engineering and delivery reality.`,
+      subheadline: `Blog or newsletter subscribers: schedule depth beyond the post.`,
+      targetMessage: `You arrived from Ghost: book a block to align publication themes with engineering and delivery reality.`,
       availabilityLabel: 'Mentorship & executive slots open',
     },
   }
@@ -245,15 +245,15 @@ export function getPlatformPortalCopy(btn: CtaPlatformButton): PlatformPortalCop
   const ct = getChannelTypeById(btn.channelTypeId)
   const format = ct?.formatFamily?.toLowerCase() ?? ''
 
-  let targetMessage = `You followed through from ${ref} — book a live block to go deeper than the feed allows.`
+  let targetMessage = `You followed through from ${ref}: book a live block to go deeper than the feed allows.`
   if (format.includes('newsletter')) {
-    targetMessage = `You read on ${platform} — turn the newsletter into a working session on strategy, feasibility, or technical scope.`
+    targetMessage = `You read on ${platform}: turn the newsletter into a working session on strategy, feasibility, or technical scope.`
   } else if (format.includes('article') || format.includes('publication')) {
-    targetMessage = `You engaged with ${platform} content — book time to challenge, extend, or operationalize what you read.`
+    targetMessage = `You engaged with ${platform} content: book time to challenge, extend, or operationalize what you read.`
   } else if (format.includes('video') || format.includes('short')) {
-    targetMessage = `You watched on ${platform} — book a call for depth beyond the clip.`
+    targetMessage = `You watched on ${platform}: book a call for depth beyond the clip.`
   } else if (format.includes('podcast')) {
-    targetMessage = `You listened on ${platform} — continue the conversation in a booked advisory block.`
+    targetMessage = `You listened on ${platform}: continue the conversation in a booked advisory block.`
   }
 
   return {
@@ -275,9 +275,9 @@ export function isGenericPlatformHeadline(page: {
   const h = page.headline.trim()
   const label = page.label.trim()
   const defaultBookSession = [
-    `${label} — Book a session`,
+    `${label}. Book a session`,
     `${label} - Book a session`,
-    `${label} — Book a Session`,
+    `${label}. Book a Session`,
     `${label} - Book a Session`,
   ]
   if (defaultBookSession.some((c) => h === c)) return true
@@ -286,7 +286,7 @@ export function isGenericPlatformHeadline(page: {
   if (!t) return false
   const candidates = [
     `${label} · ${t}`,
-    `${label} — ${t}`,
+    `${label}: ${t}`,
     `${label} - ${t}`,
     `${label} · ${t} advisory portal`,
   ]
@@ -408,7 +408,7 @@ const PLATFORM_THEME_OVERRIDES: Record<string, ThemePartial> = {
     radius: '1.25rem',
     radiusLg: '1.5rem',
     presenceTag: 'Bluesky',
-    schedulingTitle: 'Pick a slot — synced like your feed',
+    schedulingTitle: 'Pick a slot: synced like your feed',
     heroCardTitle: 'Sky-open scheduling',
     heroCardBody: 'Real-time booking for readers arriving from Bluesky posts and threads.',
   },
@@ -560,7 +560,7 @@ const PLATFORM_THEME_OVERRIDES: Record<string, ThemePartial> = {
     presenceTag: 'YouTube',
     schedulingTitle: 'Book after the video',
     heroCardTitle: 'Creator & sponsor calls',
-    heroCardBody: 'Long-form and Shorts viewers — schedule here.',
+    heroCardBody: 'Long-form and Shorts viewers: schedule here.',
   },
   tiktok: {
     primary: '#000000',
@@ -589,8 +589,8 @@ const PLATFORM_THEME_OVERRIDES: Record<string, ThemePartial> = {
     radiusLg: '1rem',
     presenceTag: 'TikTok',
     schedulingTitle: 'Pick a live block',
-    heroCardTitle: 'Beyond the clip — real talk',
-    heroCardBody: 'Video viewers — book depth beyond the clip.',
+    heroCardTitle: 'Beyond the clip: real talk',
+    heroCardBody: 'Video viewers: book depth beyond the clip.',
   },
   medium: {
     primary: '#000000',

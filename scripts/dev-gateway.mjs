@@ -94,7 +94,7 @@ function rewriteDashApiUrl(req) {
 function proxyOptions(req) {
   const target = targetFor(req);
   const raw = req.url ?? '/';
-  // Dashboard backend serves /api/* — strip /admin prefix for gateway requests
+  // Dashboard backend serves /api/*: strip /admin prefix for gateway requests
   if (target === DASH_API && raw.startsWith('/admin/api/')) {
     req.url = rewriteDashApiUrl(req);
   }

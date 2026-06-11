@@ -16,7 +16,7 @@ describe('cohort-intake-schedule', () => {
     vi.setSystemTime(new Date(2026, 4, 15)); // May 15, 2026
   });
 
-  it('staggers flagship PMI pathways across Jun–Jul', () => {
+  it('staggers flagship PMI pathways across Jun-Jul', () => {
     expect(formatCohortMonthYear(getScheduledCohortDate('pmp'))).toBe('Jul 2026');
     expect(formatCohortMonthYear(getScheduledCohortDate('pmi-rmp'))).toBe('Jun 2026');
     expect(formatCohortMonthYear(getScheduledCohortDate('capm'))).toBe('Jun 2026');

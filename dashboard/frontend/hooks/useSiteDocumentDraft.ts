@@ -51,7 +51,7 @@ export function useSiteDocumentDraft<T>(
         setConfig(fallback);
         setBaseline(JSON.stringify(fallback));
         setLoadError(
-          'Could not load draft data from Supabase. Showing defaults — saves may fail until connection is fixed.',
+          'Could not load draft data from Supabase. Showing defaults: saves may fail until connection is fixed.',
         );
       } finally {
         if (!cancelled) setIsLoading(false);

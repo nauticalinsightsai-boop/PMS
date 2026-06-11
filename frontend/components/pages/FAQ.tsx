@@ -10,7 +10,7 @@ import { Search, HelpCircle, Mail, MessageCircle } from 'lucide-react';
 import { useWebsiteData } from '@/services/WebsiteDataService';
 import { CTAS } from '@/lib/brand-voice';
 import { PMS_SUPPORT_EMAIL, getPmsWhatsAppDisplay, getPmsWhatsAppUrl, isWhatsAppConfigured } from '@/config/pms-site';
-import { RegisterModal } from '@/components/RegisterModal';
+import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PricingComplianceNote } from '@/components/PricingComplianceNote';
 import {
@@ -182,7 +182,7 @@ export function FAQ() {
             >
               {PMS_SUPPORT_EMAIL}
             </a>{' '}
-            for billing, access, privacy, and policy questions — or message us on WhatsApp. Browse our{' '}
+            for billing, access, privacy, and policy questions: or message us on WhatsApp. Browse our{' '}
             <Link href="/legal" className="text-brand-orange font-bold hover:underline">
               legal hub
             </Link>{' '}
@@ -203,13 +203,16 @@ export function FAQ() {
                 </Button>
               </a>
             ) : null}
-            <RegisterModal
-              trigger={<Button variant="brand">{CTAS.navConsultation}</Button>}
-            />
+            <WebsiteCalendlyButton
+              variant="brand"
+              funnelLabel="faq_talk_to_mentor"
+              utm={{ utm_source: 'pmstructure', utm_medium: 'faq', utm_campaign: 'hero_consultation' }}
+            >
+              {CTAS.navConsultation}
+            </WebsiteCalendlyButton>
           </div>
         </div>
       </section>
     </div>
   );
 }
-

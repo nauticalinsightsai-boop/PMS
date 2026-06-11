@@ -65,7 +65,7 @@ const NEWSLETTER_NAV_ITEM = {
   ],
 };
 
-/** Always visible at top of sidebar — main CMS sections */
+/** Always visible at top of sidebar: main CMS sections */
 const OVERVIEW_NAV: DashboardNavSection = {
   title: 'Overview',
   items: [

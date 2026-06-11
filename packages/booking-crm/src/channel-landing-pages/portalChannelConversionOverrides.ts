@@ -71,7 +71,7 @@ function buildValueCards(channelId: string, label: string): ChannelValueCard[] {
       },
       {
         title: 'Membership before you enroll',
-        body: 'See regional tuition and membership discounts before you commit — no pressure on the call.',
+        body: 'See regional tuition and membership discounts before you commit: no pressure on the call.',
       },
     ],
     medium: [
@@ -81,7 +81,7 @@ function buildValueCards(channelId: string, label: string): ChannelValueCard[] {
       },
       {
         title: 'Editorial-depth mentor time',
-        body: 'Charter-clear guidance on pathways, mocks, and weekly rhythm — not generic coaching scripts.',
+        body: 'Charter-clear guidance on pathways, mocks, and weekly rhythm: not generic coaching scripts.',
       },
       {
         title: 'Tuition for your region',
@@ -99,7 +99,7 @@ function buildValueCards(channelId: string, label: string): ChannelValueCard[] {
       },
       {
         title: 'Membership when it helps',
-        body: 'Active membership can reduce regional tuition — we explain on the call.',
+        body: 'Active membership can reduce regional tuition: we explain on the call.',
       },
     ],
     slack: [
@@ -132,7 +132,7 @@ function buildValueCards(channelId: string, label: string): ChannelValueCard[] {
     },
     {
       title: 'Regional tuition clarity',
-      body: 'Membership and scholarships depend on your residence — we explain on the call.',
+      body: 'Membership and scholarships depend on your residence: we explain on the call.',
     },
   ]
 }

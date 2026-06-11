@@ -130,7 +130,7 @@ export function getCalendlySurfaceMode(): 'dark' | 'light' {
  return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
 }
 
-/** Brand colors for Calendly chrome — portal/CSS tokens before visible CTAs (avoids light `bg-brand-accent` pills). */
+/** Brand colors for Calendly chrome: portal/CSS tokens before visible CTAs (avoids light `bg-brand-accent` pills). */
 function collectBrandAccentCandidates(): string[] {
  const candidates: string[] = [];
  const portalRoot = getActivePortalRoot();
@@ -429,7 +429,7 @@ export function buildCalendlyInlineWidgetUrl(
 }
 
 /**
- * Calendly `initPopupWidget({ url })` — same theme tokens as inline embed, no `embed_type=Inline`
+ * Calendly `initPopupWidget({ url })`: same theme tokens as inline embed, no `embed_type=Inline`
  * (popup uses its own chrome; colors still apply to the scheduler inside).
  */
 export type CalendlyUtmParams = {
@@ -540,7 +540,7 @@ export function getCalendlySchedulingUrlForService(serviceId: string): string {
  return manifestDefault;
 }
 
-/** Home hero primary CTA — Website Hero Book Consultation (20 min). */
+/** Home hero primary CTA. Website Hero Book Consultation (20 min). */
 export function getWebsiteHeroConsultationCalendlyUrl(): string {
  return sanitizeCalendlySchedulingUrl(getWebsiteHeroConsultationUrl()) || '';
 }

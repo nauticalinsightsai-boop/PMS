@@ -42,7 +42,7 @@ const paths = [
 const pmpCluster = slugsFrom('frontend/content/pmp/pages.ts', /path: '(\/pmp[^']*)'/g).slice(0, 3);
 const extra = pmpCluster.filter((p) => !paths.includes(p));
 
-console.log('# PM Structure — post-deploy smoke URLs\n');
+console.log('# PM Structure: post-deploy smoke URLs\n');
 console.log(`Base: ${base}\n`);
 for (const p of [...paths, ...extra]) {
   console.log(`${base.replace(/\/$/, '')}${p}`);

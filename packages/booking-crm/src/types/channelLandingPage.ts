@@ -75,7 +75,7 @@ export type PortalConversionContent = {
 }
 
 export type ChannelLandingPage = {
-  /** Platform channel id (e.g. bluesky, facebook) — one page per channel. */
+  /** Platform channel id (e.g. bluesky, facebook): one page per channel. */
   channelKey: string
   channelId: string
   label: string
@@ -86,14 +86,14 @@ export type ChannelLandingPage = {
   updatedAt: string
   publishedAt?: string
 
-  /** Orange context line — e.g. referrals from Medium */
+  /** Orange context line: e.g. referrals from Medium */
   contextLabel: string
   headline: string
   subheadline: string
   body: string
-  /** Webinar channel — overview shown above tiers (falls back to body). */
+  /** Webinar channel: overview shown above tiers (falls back to body). */
   webinarAbout?: string
-  /** Webinar channel — YouTube or Vimeo URL for the preview embed. */
+  /** Webinar channel. YouTube or Vimeo URL for the preview embed. */
   webinarVideoUrl?: string
   /** Left-accent message box */
   targetMessage: string
@@ -118,7 +118,7 @@ export type ChannelLandingPage = {
   /** Dashboard overrides; defaults from portalConversionPacks */
   conversion?: Partial<PortalConversionContent>
 
-  /** PMS portal template v2 — featured certs, site chips */
+  /** PMS portal template v2: featured certs, site chips */
   portalEngagement?: PortalEngagement
 }
 
@@ -189,7 +189,7 @@ export function defaultChannelLandingPage(args: {
     createdAt: now,
     updatedAt: now,
     contextLabel: '',
-    headline: `${args.label} — Book a session`,
+    headline: `${args.label}. Book a session`,
     subheadline: 'Request advisory or a discovery call.',
     body: '',
     targetMessage: '',

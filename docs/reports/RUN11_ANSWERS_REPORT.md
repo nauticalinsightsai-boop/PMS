@@ -1,4 +1,4 @@
-# Run 11 — Answer Pages Report
+# Run 11. Answer Pages Report
 
 **Date:** 2026-06-10  
 **Phase:** 11 (Run 12 in master plan)
@@ -28,7 +28,7 @@
 
 ## SSR fix (critical)
 
-Answer/topic/PMP pages were wrapping content inside `SectionAmbience` children, but that component only renders background orbs — body HTML was empty in static export. Fixed by using sibling pattern: `<section><SectionAmbience /><div className="relative z-10">…</div></section>` across 8 components.
+Answer/topic/PMP pages were wrapping content inside `SectionAmbience` children, but that component only renders background orbs: body HTML was empty in static export. Fixed by using sibling pattern: `<section><SectionAmbience /><div className="relative z-10">…</div></section>` across 8 components.
 
 ## Validation
 
@@ -41,4 +41,4 @@ npm run seo:render-check   # 8 routes incl. answers + topics + pmp-exam-2026
 ## Post-deploy
 
 - GSC URL inspection for top 5 P0 answer URLs
-- AI answer baseline queries 1–15 per `PMSTRUCTURE_AI_ANSWER_TESTING_SHEET.md`
+- AI answer baseline queries 1-15 per `PMSTRUCTURE_AI_ANSWER_TESTING_SHEET.md`

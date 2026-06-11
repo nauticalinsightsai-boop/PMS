@@ -2,7 +2,7 @@ import { resolveCalendlyEventUrl } from '@/lib/calendly/event-registry';
 import { sanitizeCalendlySchedulingUrl, type CalendlyUtmParams } from '@/lib/calendly/embed-url';
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
 
-/** Website-scoped Calendly events from the 29-event manifest (001–004). */
+/** Website-scoped Calendly events from the 29-event manifest (001-004). */
 export type WebsiteCalendlyTier = 'hero' | 'discovery' | 'executive' | 'services';
 
 export const WEBSITE_CALENDLY_SLUGS: Record<WebsiteCalendlyTier, string> = {

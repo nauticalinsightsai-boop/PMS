@@ -144,7 +144,7 @@ export function CertificationsHubEditor() {
         setRegistry(registryFallback);
         setBaseline(JSON.stringify({ hub: hubFallback, registry: registryFallback }));
         setLoadError(
-          'Could not load draft data from Supabase. Showing defaults — saves may fail until connection is fixed.',
+          'Could not load draft data from Supabase. Showing defaults: saves may fail until connection is fixed.',
         );
         setSyncStatus('error');
       } finally {
@@ -170,7 +170,7 @@ export function CertificationsHubEditor() {
     const regCheck = validateFieldContent(FIELD_KEYS.CERTIFICATIONS_REGISTRY, registry);
     if (!hubCheck.success || !regCheck.success) {
       setSyncStatus('error');
-      alert('Validation failed — check hub and registry fields.');
+      alert('Validation failed: check hub and registry fields.');
       return;
     }
     setSyncStatus('syncing');
@@ -281,7 +281,7 @@ export function CertificationsHubEditor() {
           </section>
           {FAMILIES.map((familyId) => (
             <section key={familyId} className="space-y-3 border-t pt-4">
-              <h2 className="font-bold">{familyId} — flagship row (drag to reorder)</h2>
+              <h2 className="font-bold">{familyId}: flagship row (drag to reorder)</h2>
               <label className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
@@ -411,7 +411,7 @@ export function CertificationsHubEditor() {
 
           {editingEntry && (
             <div className="p-4 rounded-2xl border border-brand-orange/30 space-y-3 mt-4">
-              <h3 className="font-bold">Detail page — {editingEntry.id}</h3>
+              <h3 className="font-bold">Detail page: {editingEntry.id}</h3>
               {(
                 [
                   ['detailHeroTitle', 'Hero title'],

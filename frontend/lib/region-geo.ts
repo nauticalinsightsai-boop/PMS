@@ -27,7 +27,7 @@ export type RegionGeoHint = {
   gccCountry: GccCountryCode | null;
 };
 
-/** Optional IP hint — never throws; returns null on failure. */
+/** Optional IP hint: never throws; returns null on failure. */
 export async function fetchIpRegionHint(): Promise<RegionGeoHint | null> {
   try {
     const res = await fetch('https://ipapi.co/json/', {
@@ -59,7 +59,7 @@ async function reverseGeocodeCountryCode(latitude: number, longitude: number): P
   }
 }
 
-/** Browser geolocation + reverse geocode — requires user permission. */
+/** Browser geolocation + reverse geocode: requires user permission. */
 export async function fetchBrowserGeolocationRegionHint(): Promise<RegionGeoHint | null> {
   if (typeof window === 'undefined' || !navigator.geolocation) return null;
 

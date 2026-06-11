@@ -10,7 +10,7 @@ export type PathwayFamilyTab = (typeof PATHWAY_FAMILY_TABS)[number];
 
 export const LISTABLE_PATHWAY_FAMILIES: PathwayFamilyTab[] = [...PATHWAY_FAMILY_TABS];
 
-/** Flagship pathways — always shown as the 3-up card row per family tab. */
+/** Flagship pathways: always shown as the 3-up card row per family tab. */
 export const FAMILY_FEATURED_CERT_IDS: Record<PathwayFamilyTab, readonly string[]> = {
   PMI: ['pmp', 'pmi-rmp', 'capm'],
   PRINCE2: ['prince2', 'prince2-practitioner', 'prince2-agile'],
@@ -67,7 +67,7 @@ export const ENROLLMENT_STATUS = {
 } as const;
 
 /**
- * Next intake for a pathway — staggered by certification (see cohort-intake-schedule).
+ * Next intake for a pathway: staggered by certification (see cohort-intake-schedule).
  * Baseline is next calendar month; flagship PM certs add +1 month (e.g. PMP in Jul when viewed in May).
  */
 export function getNextCohortDate(certId?: string): Date {

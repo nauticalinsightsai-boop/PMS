@@ -21,7 +21,7 @@ export const PMP_HUB_CARDS: PmpHubCard[] = [
   {
     path: '/pmp-current-vs-new-exam',
     title: 'Current vs new exam',
-    description: 'Compare the pre–9 July and post–9 July 2026 exam experience.',
+    description: 'Compare the pre-9 July and post-9 July 2026 exam experience.',
   },
   {
     path: '/pmp-before-8-july-2026',
@@ -102,7 +102,7 @@ const pages: PmpPageContent[] = [
         id: 'decision-framework',
         heading: 'How should I decide when to sit the exam?',
         body:
-          'Use our before/after July pages and timeline to map your study capacity. If you are exam-ready before mid-2026, sitting the current format may reduce uncertainty. If you need more preparation time, plan for the post–9 July experience and scenario-heavy practice.',
+          'Use our before/after July pages and timeline to map your study capacity. If you are exam-ready before mid-2026, sitting the current format may reduce uncertainty. If you need more preparation time, plan for the post-9 July experience and scenario-heavy practice.',
       },
       {
         id: 'pathway-cta',
@@ -135,7 +135,7 @@ const pages: PmpPageContent[] = [
     path: '/pmp-current-vs-new-exam',
     title: 'PMP current vs new exam (2026 comparison)',
     description:
-      'Compare the current PMP exam experience with the post–9 July 2026 format. Independent preparation guidance from PM Structure.',
+      'Compare the current PMP exam experience with the post-9 July 2026 format. Independent preparation guidance from PM Structure.',
     h1: 'PMP current exam vs new exam: 2026 comparison',
     directAnswer:
       'The main decision is which exam version you will face on your test date. The current experience reflects today’s ECO until PMI’s published transition; the new experience applies from 9 July 2026 onward per PMI communications. Preparation depth and scenario practice matter for both.',
@@ -222,7 +222,7 @@ const pages: PmpPageContent[] = [
         id: 'milestones',
         heading: 'Suggested milestones',
         body:
-          '1) Confirm PMI application eligibility and hours. 2) Choose exam version based on readiness. 3) Complete 6–12 weeks structured study (pace varies). 4) Schedule Pearson VUE slot. 5) Run final mocks under timed conditions.',
+          '1) Confirm PMI application eligibility and hours. 2) Choose exam version based on readiness. 3) Complete 6-12 weeks structured study (pace varies). 4) Schedule Pearson VUE slot. 5) Run final mocks under timed conditions.',
       },
     ],
     relatedLinks: clusterLinks('/pmp-exam-timeline-2026'),
@@ -340,13 +340,13 @@ const pages: PmpPageContent[] = [
     description: 'A structured weekly PMP study plan outline for 2026 candidates.',
     h1: 'PMP study plan for 2026',
     directAnswer:
-      'A typical structured plan runs 6–12 weeks depending on weekly hours and experience. Foundation weeks cover ECO mapping; middle weeks add scenario drills; final weeks simulate full mocks and review weak domains.',
+      'A typical structured plan runs 6-12 weeks depending on weekly hours and experience. Foundation weeks cover ECO mapping; middle weeks add scenario drills; final weeks simulate full mocks and review weak domains.',
     sections: [
       {
         id: 'weekly-outline',
         heading: 'Sample weekly outline',
         body:
-          'Weeks 1–2: ECO map + baseline mock.\nWeeks 3–5: Domain deep dives + timed quizzes.\nWeeks 6–8: Full mocks + error log.\nWeeks 9+: Pearson VUE scheduling + light review.\n\nAdjust pace using the PMP pathway tiers on /certifications/pmp.',
+          'Weeks 1-2: ECO map + baseline mock.\nWeeks 3-5: Domain deep dives + timed quizzes.\nWeeks 6-8: Full mocks + error log.\nWeeks 9+: Pearson VUE scheduling + light review.\n\nAdjust pace using the PMP pathway tiers on /certifications/pmp.',
       },
     ],
     relatedLinks: clusterLinks('/pmp-study-plan-2026'),

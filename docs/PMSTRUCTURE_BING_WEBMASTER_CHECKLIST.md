@@ -4,19 +4,19 @@
 
 ## Setup
 
-- [ ] MANUAL_REQUIRED — Import from Google Search Console (recommended)
+- [ ] MANUAL_REQUIRED. Import from Google Search Console (recommended)
   1. Open [Bing Webmaster Tools](https://www.bing.com/webmasters)
   2. **Add a site** → choose **Import from Google Search Console**
   3. Sign in with the same Google account that owns the GSC property
   4. Confirm `https://pmstructure.com` appears in Bing dashboard
 
-**v1 Run 19 status:** Bing import **not completed** — keep **MANUAL_REQUIRED** until owner confirms import.
+**v1 Run 19 status:** Bing import **not completed**: keep **MANUAL_REQUIRED** until owner confirms import.
 
 ## Sitemap submission (owner manual)
 
 1. In Bing Webmaster → **Sitemaps** → **Submit sitemap**
 2. Enter: `https://pmstructure.com/sitemap.xml`
-3. Confirm **URLs discovered** increases within 48–72 hours
+3. Confirm **URLs discovered** increases within 48-72 hours
 4. Re-submit after v2 deploy if coverage stalls
 
 ## IndexNow

@@ -234,7 +234,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
               <p
                 className={`mt-1 text-xs ${metaTitleCount > 60 ? 'text-destructive' : 'text-muted-foreground'}`}
               >
-                {metaTitleCount}/60 characters (recommended: 50–60 characters)
+                {metaTitleCount}/60 characters (recommended: 50-60 characters)
               </p>
             </div>
             <div>
@@ -247,7 +247,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
               <p
                 className={`mt-1 text-xs ${metaDescriptionCount > 160 ? 'text-destructive' : 'text-muted-foreground'}`}
               >
-                {metaDescriptionCount}/160 characters (recommended: 150–160 characters)
+                {metaDescriptionCount}/160 characters (recommended: 150-160 characters)
               </p>
             </div>
             <div>

@@ -1,11 +1,11 @@
 import type { OfferingStatus } from '@/types/regional-catalogue';
 
 const STATUS_ALIASES: [string, OfferingStatus][] = [
-  ['available — direct checkout', 'direct_checkout'],
+  ['available: direct checkout', 'direct_checkout'],
   ['available - direct checkout', 'direct_checkout'],
-  ['regional scholarship available — verify eligibility', 'scholarship_verify'],
+  ['regional scholarship available: verify eligibility', 'scholarship_verify'],
   ['regional scholarship available - verify eligibility', 'scholarship_verify'],
-  ['available — consultation required', 'consultation_required'],
+  ['available: consultation required', 'consultation_required'],
   ['available - consultation required', 'consultation_required'],
   ['regional scholarship unavailable', 'scholarship_unavailable'],
   ['global only', 'global_only'],

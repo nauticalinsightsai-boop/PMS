@@ -1,8 +1,8 @@
-# Connect Supabase to this repo — full database setup
+# Connect Supabase to this repo: full database setup
 
 Your app expects project **`vmuwflogvpaahgjjdlmr`** (see `frontend/.env.local`).
 
-## Option A — SQL Editor (no password, recommended)
+## Option A. SQL Editor (no password, recommended)
 
 1. Open [Supabase Dashboard](https://supabase.com/dashboard/project/vmuwflogvpaahgjjdlmr) → **SQL Editor**
 2. Paste **entire file**: `supabase/manual-full-setup.sql`
@@ -14,7 +14,7 @@ Your app expects project **`vmuwflogvpaahgjjdlmr`** (see `frontend/.env.local`).
 npm run db:check-supabase
 ```
 
-## Option B — Terminal (needs database password once)
+## Option B. Terminal (needs database password once)
 
 1. Supabase → **Settings → Database → Database password**
 2. Root `.env.local`:
@@ -30,7 +30,7 @@ npm run db:setup
 npm run db:check-supabase
 ```
 
-## Option C — Cursor Supabase MCP (agent runs migrations)
+## Option C. Cursor Supabase MCP (agent runs migrations)
 
 This repo includes `.cursor/mcp.json` linked to **`vmuwflogvpaahgjjdlmr`**:
 
@@ -62,6 +62,6 @@ This repo includes `.cursor/mcp.json` linked to **`vmuwflogvpaahgjjdlmr`**:
 
 ## After database setup
 
-1. Set auth env vars (`AUTH_SESSION_SECRET`, `AUTH_BOOTSTRAP_SECRET`, …) — see `docs/auth/AUTH_SYSTEM.md`
+1. Set auth env vars (`AUTH_SESSION_SECRET`, `AUTH_BOOTSTRAP_SECRET`, …): see `docs/auth/AUTH_SYSTEM.md`
 2. Bootstrap admin password via `POST /api/auth/bootstrap-password`
 3. `npm run dev` → login at `http://localhost:3000/login`

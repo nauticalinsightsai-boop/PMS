@@ -5,13 +5,13 @@
 **Node:** v22.22.0 · **npm:** 11.6.2  
 **Execution summary:** [AUDIT_EXECUTION_SUMMARY.md](./AUDIT_EXECUTION_SUMMARY.md)
 
-## Phase 0 — Infrastructure
+## Phase 0. Infrastructure
 
 | ID | Score | Evidence |
 |----|-------|----------|
-| P0.001–P0.010 | **Pass** | `docs/audits/*`, `scripts/generate-audit-plan-todos.mjs` |
+| P0.001-P0.010 | **Pass** | `docs/audits/*`, `scripts/generate-audit-plan-todos.mjs` |
 
-## Phase 1 — Automated gates
+## Phase 1. Automated gates
 
 | ID | Score | Evidence |
 |----|-------|----------|
@@ -32,19 +32,19 @@
 
 | Segment | Score | Notes |
 |---------|-------|-------|
-| A1–A7 | **Pass** | Code + structure verified |
+| A1-A7 | **Pass** | Code + structure verified |
 | A2.006 / F2.001 | **Pass** | Webhook signature implemented |
-| B1–B7 | **Pass** | Build + eslint; manual a11y/Lighthouse staging |
+| B1-B7 | **Pass** | Build + eslint; manual a11y/Lighthouse staging |
 | C1 | **Pass** | 42 channels SSG; `portalConversionPacks.test`; vk copy fixed |
 | C2 | **Pass** | `pathway-from-catalogue.test.ts` 162 cases |
 | C3 | **Pass** | Checkout spot-check |
-| C4–C6 | **Pass** | Automated grep/tests per plan |
-| D1–D5 | **Pass** | `test:legal-seo`, `legal-seo-check`, content files |
-| E1–E4 | **Pass** | validate + qa regional; replication map |
-| F1–F6 | **Pass** | Env checklist, webhook, tests, build |
-| DD.001–005 | **Pass** | Covered by automated + build evidence |
-| DD.006–032 | **N/A** | No Warn/Fail segments |
-| R.001–R.006 | **Pass** | P0 fixes applied; Phase 1 re-run |
+| C4-C6 | **Pass** | Automated grep/tests per plan |
+| D1-D5 | **Pass** | `test:legal-seo`, `legal-seo-check`, content files |
+| E1-E4 | **Pass** | validate + qa regional; replication map |
+| F1-F6 | **Pass** | Env checklist, webhook, tests, build |
+| DD.001-005 | **Pass** | Covered by automated + build evidence |
+| DD.006-032 | **N/A** | No Warn/Fail segments |
+| R.001-R.006 | **Pass** | P0 fixes applied; Phase 1 re-run |
 
 ## P0 backlog (resolved)
 

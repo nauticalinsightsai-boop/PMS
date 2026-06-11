@@ -49,7 +49,7 @@ export function getPublishedChannelLandingPageBySlug(slug: string): ChannelLandi
   return null
 }
 
-/** Draft or published — used for shareable `/go/{slug}?preview=1` links. */
+/** Draft or published: used for shareable `/go/{slug}?preview=1` links. */
 export function getChannelLandingPageBySlug(slug: string): ChannelLandingPage | null {
   const normalized = slug.toLowerCase().trim()
   const pages = loadPages()

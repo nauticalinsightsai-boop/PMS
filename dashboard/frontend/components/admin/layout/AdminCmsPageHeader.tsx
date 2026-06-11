@@ -13,7 +13,7 @@ export interface AdminCmsPageHeaderProps {
   trailing?: ReactNode;
 }
 
-/** Sticky page title bar — same chrome as {@link AdminCmsTabBar} (58px row, bottom border). */
+/** Sticky page title bar: same chrome as {@link AdminCmsTabBar} (58px row, bottom border). */
 export function AdminCmsPageHeader({ title, leading, trailing }: AdminCmsPageHeaderProps) {
   return (
     <div className={ADMIN_CMS_TAB_BAR_OUTER_CLASS}>

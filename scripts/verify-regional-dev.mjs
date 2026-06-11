@@ -43,11 +43,11 @@ for (const port of sitePorts) {
   const url = `http://localhost:${port}/certifications/pmp`;
   const { ok, status } = await probeUrl(url, 20000);
   if (ok) {
-    console.log(`\nFrontend probe PASS — ${url} → ${status}`);
+    console.log(`\nFrontend probe PASS: ${url} → ${status}`);
     siteOk = true;
     break;
   }
-  console.log(`Frontend probe skip — ${url} not ready (${status || 'timeout'})`);
+  console.log(`Frontend probe skip: ${url} not ready (${status || 'timeout'})`);
 }
 
 if (!siteOk) {
@@ -58,11 +58,11 @@ if (!siteOk) {
 
 const apiProbe = await probeUrl(`${apiBase}/api/regions`);
 if (apiProbe.ok) {
-  console.log(`\nBackend probe PASS — ${apiBase}/api/regions → ${apiProbe.status}`);
+  console.log(`\nBackend probe PASS: ${apiBase}/api/regions → ${apiProbe.status}`);
   process.env.NEXT_PUBLIC_API_URL = apiBase;
   runNodeScript('spot-check-checkout-api.mjs');
 } else {
-  console.log(`\nBackend probe skip — ${apiBase} not reachable; run npm run dev:backend`);
+  console.log(`\nBackend probe skip: ${apiBase} not reachable; run npm run dev:backend`);
 }
 
 console.log('\n=== CLI verification complete ===');

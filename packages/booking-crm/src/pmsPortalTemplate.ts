@@ -43,7 +43,7 @@ export function buildDefaultConsultationTiers(channelKey: string): ConsultationT
     {
       id: 'career-pathway',
       title: 'Career & Pathway Session',
-      description: `Structured mentor block for exam prep, pathway choice, and career direction — aligned to how you found us on ${label}.`,
+      description: `Structured mentor block for exam prep, pathway choice, and career direction: aligned to how you found us on ${label}.`,
       durationLabel: '30 Minutes',
       priceLabel: 'Paid',
       recommended: true,
@@ -54,7 +54,7 @@ export function buildDefaultConsultationTiers(channelKey: string): ConsultationT
       id: 'services-detail',
       title: 'Services Discussion',
       description:
-        'Review services you selected on the Project Management Structure website — scope, fit, and next steps with a mentor.',
+        'Review services you selected on the Project Management Structure website: scope, fit, and next steps with a mentor.',
       durationLabel: '45 Minutes',
       priceLabel: 'Paid',
       recommended: false,

@@ -1,4 +1,4 @@
-# PM Structure — Final Deployment Decision
+# PM Structure. Final Deployment Decision
 
 **Audit date:** 2026-06-10  
 **Auditor:** Automated consolidation pass + codebase review  
@@ -22,7 +22,7 @@ The v2 SEO/AEO/GEO stack is **implemented and passes local automated gates**. Pr
 
 | ID | Blocker | Status |
 |----|---------|--------|
-| — | None from automated code/SEO validation | **Clear** |
+|: | None from automated code/SEO validation | **Clear** |
 
 **Update 2026-06-10:** `npm run seo:production-check` and `seo:smoke-live` now **PASS** on production (including `/pmp-faq` 200). GSC/Bing sitemap re-submission remains **owner manual**.
 
@@ -38,8 +38,8 @@ The v2 SEO/AEO/GEO stack is **implemented and passes local automated gates**. Pr
 | W-04 | AI answer baseline (86 queries) not manually run | Medium |
 | W-05 | `npm run lint` fails (1 ESLint error in `Community.tsx`) | Low |
 | W-06 | `tsc --noEmit` not part of release build; TS errors exist if run broadly | Low |
-| W-07 | `TODO_LEGAL_REVIEW` — policies not lawyer-reviewed | Medium |
-| W-08 | `TODO_BUSINESS_DECISION` — refund windows not finalized | Medium |
+| W-07 | `TODO_LEGAL_REVIEW`: policies not lawyer-reviewed | Medium |
+| W-08 | `TODO_BUSINESS_DECISION`: refund windows not finalized | Medium |
 | W-09 | Manual payment/enroll smoke not recorded | Medium |
 | W-10 | Some map docs still show v1 counts (23 answers, 17 topics) | Low |
 
@@ -48,11 +48,11 @@ The v2 SEO/AEO/GEO stack is **implemented and passes local automated gates**. Pr
 ## Manual owner actions (required after deploy)
 
 1. Deploy v2 branch/build to `https://pmstructure.com`
-2. Run `npm run seo:production-check` — confirm `/pmp-faq` returns 200
+2. Run `npm run seo:production-check`: confirm `/pmp-faq` returns 200
 3. Re-submit `sitemap.xml` in Google Search Console
 4. Import site in Bing Webmaster (from GSC) and submit sitemap
 5. URL-inspect priority list (`PMSTRUCTURE_PRIORITY_URL_INSPECTION_LIST.md`)
-6. Execute AI testing playbook — log results as `NOT TESTED` until run
+6. Execute AI testing playbook: log results as `NOT TESTED` until run
 7. Legal/business review per owner checklist
 8. Live payment + checkout smoke (success/cancel noindex)
 
@@ -73,7 +73,7 @@ The v2 SEO/AEO/GEO stack is **implemented and passes local automated gates**. Pr
 | `npm run seo:render-check` | **PASS** (11 routes) |
 | `npm run seo:compliance-check` | **PASS** |
 | `npm run seo:check-ai-citation-map` | **PASS** |
-| `npm run seo:smoke-live` | **PASS** (10/10 — v1 surfaces) |
-| `npm run seo:production-check` | **FAIL** — `/pmp-faq` 404 (pre-deploy) |
-| `npm run lint -w @pms/frontend` | **FAIL** — 1 unused-var error |
-| `npx tsc --noEmit` (frontend) | **Not release gate** — errors in monorepo paths; build skips typecheck |
+| `npm run seo:smoke-live` | **PASS** (10/10: v1 surfaces) |
+| `npm run seo:production-check` | **FAIL**: `/pmp-faq` 404 (pre-deploy) |
+| `npm run lint -w @pms/frontend` | **FAIL**: 1 unused-var error |
+| `npx tsc --noEmit` (frontend) | **Not release gate**: errors in monorepo paths; build skips typecheck |

@@ -15,7 +15,15 @@ export interface CourseOffering {
   courseName: string;
   tierId: string;
   regional: Record<RegionId, { status: OfferingStatus }>;
-  prices: Record<RegionId, { usdCents?: number | null; display?: string | null }>;
+  prices: Record<
+    RegionId,
+    {
+      usdCents?: number | null;
+      display?: string | null;
+      currencyCode?: string;
+      perCountry?: Record<string, string>;
+    }
+  >;
 }
 
 type CatalogueRoot = {
@@ -43,5 +51,9 @@ export function resolveCheckoutUsdCents(offering: CourseOffering, regionId: Regi
 }
 
 export function canCheckoutStatus(status: OfferingStatus): boolean {
-  return status === 'direct_checkout' || status === 'scholarship_verify';
+  return (
+    status === 'direct_checkout' ||
+    status === 'scholarship_verify' ||
+    status === 'consultation_required'
+  );
 }

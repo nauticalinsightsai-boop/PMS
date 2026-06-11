@@ -6,7 +6,7 @@ Configured in `lib/pathway-programme-preview.ts`.
 
 | File | Offering |
 |------|----------|
-| `pmp-foundation-orientation.mp4` | PMP Foundation — overview video panel |
+| `pmp-foundation-orientation.mp4` | PMP Foundation: overview video panel |
 
 Large `.mp4` files are gitignored.
 
@@ -14,4 +14,4 @@ Large `.mp4` files are gitignored.
 
 | File | Offering |
 |------|----------|
-| `pmp-foundation-roadmap.png` | PMP Foundation — hero pathway map (D0 Info) |
+| `pmp-foundation-roadmap.png` | PMP Foundation: hero pathway map (D0 Info) |

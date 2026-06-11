@@ -32,6 +32,12 @@ export function PathwayTierCta({
   const offering = getOfferingById(offeringId);
   const tierId = offering?.tierId ?? 'foundation';
 
+  const buttonClassName = cn(
+    'w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md transition-all hover:opacity-90 inline-flex items-center justify-center group/btn',
+    gradient && cn('bg-gradient-to-r', gradient),
+    className,
+  );
+
   const buttonStyle: React.CSSProperties | undefined =
     !gradient && color ? { backgroundColor: color } : undefined;
 
@@ -40,11 +46,7 @@ export function PathwayTierCta({
       <Button
         type="button"
         onClick={() => setOpen(true)}
-        className={cn(
-          'w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md transition-all hover:opacity-90 inline-flex items-center justify-center group/btn',
-          gradient && cn('bg-gradient-to-r', gradient),
-          className,
-        )}
+        className={buttonClassName}
         style={buttonStyle}
       >
         {pathwayCta.label}

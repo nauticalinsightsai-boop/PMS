@@ -14,8 +14,8 @@ export function formatDialPrefix(option: PhoneDialOption): string {
 
 export const PMP_JOB_EXPERIENCE_OPTIONS = [
   { value: 'under-3', label: 'Under 3 years' },
-  { value: '3-5', label: '3–5 years' },
-  { value: '5-10', label: '5–10 years' },
+  { value: '3-5', label: '3-5 years' },
+  { value: '5-10', label: '5-10 years' },
   { value: '10-plus', label: '10+ years' },
 ] as const;
 
@@ -30,21 +30,21 @@ export type HomeCertInterestValue = (typeof HOME_CERT_INTEREST_OPTIONS)[number][
 
 export const PMP_DAILY_STUDY_OPTIONS = [
   { value: 'under-1', label: 'Under 1 hour' },
-  { value: '1-2', label: '1–2 hours' },
-  { value: '2-3', label: '2–3 hours' },
+  { value: '1-2', label: '1-2 hours' },
+  { value: '2-3', label: '2-3 hours' },
   { value: '3-plus', label: '3+ hours' },
 ] as const;
 
 export const PMP_HOURS_PER_DAY_OPTIONS = [
-  { value: '0-1', label: '0–1 hour' },
-  { value: '1-2', label: '1–2 hours' },
-  { value: '2-4', label: '2–4 hours' },
+  { value: '0-1', label: '0-1 hour' },
+  { value: '1-2', label: '1-2 hours' },
+  { value: '2-4', label: '2-4 hours' },
   { value: '4-plus', label: '4+ hours' },
 ] as const;
 
 export const PMP_HOURS_PER_WEEK_OPTIONS = [
   { value: 'under-5', label: 'Under 5 hours' },
-  { value: '5-10', label: '5–10 hours' },
-  { value: '10-20', label: '10–20 hours' },
+  { value: '5-10', label: '5-10 hours' },
+  { value: '10-20', label: '10-20 hours' },
   { value: '20-plus', label: '20+ hours' },
 ] as const;

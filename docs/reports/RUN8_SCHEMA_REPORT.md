@@ -1,4 +1,4 @@
-# Run 8 — Schema Report
+# Run 8. Schema Report
 
 **Date:** 2026-06-10  
 **Status:** Complete

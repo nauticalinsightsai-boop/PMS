@@ -17,7 +17,7 @@ try {
   process.exit(lines.length > 10 ? 1 : 0);
 } catch (e) {
   if (e.status === 1) {
-    console.log('PASS — no picsum/pravatar references found');
+    console.log('PASS: no picsum/pravatar references found');
     process.exit(0);
   }
   throw e;

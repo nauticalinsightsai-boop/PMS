@@ -146,7 +146,7 @@ export function SecuritySettings() {
           {logs.map((row) => (
             <li key={row.id} className="border-b border-white/5 pb-2">
               <span className="text-brand-orange">{row.event_type}</span>{' '}
-              {row.email ?? '—'} · {row.ip_address ?? '—'} ·{' '}
+              {row.email ?? '. '} · {row.ip_address ?? '. '} ·{' '}
               {new Date(row.created_at).toLocaleString()}
             </li>
           ))}

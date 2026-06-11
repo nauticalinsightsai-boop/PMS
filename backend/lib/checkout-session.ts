@@ -1,15 +1,22 @@
 import { getStripe, isStripeConfigured } from '@/lib/stripe';
+import { stripeCheckoutBranding } from '@/lib/stripe-checkout-branding';
 
 export interface CheckoutSessionResult {
   sessionId: string;
   url: string | null;
   clientSecret: string | null;
-  usdCents: number;
+  unitAmount: number;
+  currency: string;
   offeringId: string;
+  /** @deprecated Use unitAmount + currency */
+  usdCents: number;
 }
 
 export type StripeLineItemParams = {
-  usdCents: number;
+  currency: string;
+  unitAmount: number;
+  /** USD cents reference for orders / analytics */
+  referenceUsdCents?: number | null;
   email?: string;
   successUrl: string;
   cancelUrl: string;
@@ -21,17 +28,47 @@ export type StripeLineItemParams = {
 
 export type StripeEmbeddedLineItemParams = Omit<StripeLineItemParams, 'successUrl' | 'cancelUrl'> & {
   returnUrl: string;
+  colorScheme?: 'light' | 'dark';
 };
+
+type StripeLineItemCore = Pick<
+  StripeLineItemParams,
+  'currency' | 'unitAmount' | 'referenceUsdCents' | 'productName' | 'productDescription'
+>;
+
+function fallbackUsdCents(params: StripeLineItemCore): number {
+  if (params.referenceUsdCents != null) return params.referenceUsdCents;
+  if (params.currency === 'usd') return params.unitAmount;
+  return params.unitAmount;
+}
+
+function lineItem(params: StripeLineItemCore) {
+  return {
+    price_data: {
+      currency: params.currency,
+      unit_amount: params.unitAmount,
+      product_data: {
+        name: params.productName,
+        ...(params.productDescription ? { description: params.productDescription } : {}),
+      },
+    },
+    quantity: 1,
+  };
+}
 
 export async function createStripePaymentSession(
   params: StripeLineItemParams,
 ): Promise<CheckoutSessionResult> {
+  const usdCents = fallbackUsdCents(params);
+
   if (!isStripeConfigured()) {
     return {
       sessionId: `checkout_${Date.now()}_${params.offeringId}`,
       url: null,
       clientSecret: null,
-      usdCents: params.usdCents,
+      unitAmount: params.unitAmount,
+      currency: params.currency,
+      usdCents,
       offeringId: params.offeringId,
     };
   }
@@ -40,19 +77,7 @@ export async function createStripePaymentSession(
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     ...(params.email?.trim() ? { customer_email: params.email.trim() } : {}),
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          unit_amount: params.usdCents,
-          product_data: {
-            name: params.productName,
-            ...(params.productDescription ? { description: params.productDescription } : {}),
-          },
-        },
-        quantity: 1,
-      },
-    ],
+    line_items: [lineItem(params)],
     metadata: params.metadata,
     success_url: params.successUrl,
     cancel_url: params.cancelUrl,
@@ -62,7 +87,9 @@ export async function createStripePaymentSession(
     sessionId: session.id,
     url: session.url,
     clientSecret: null,
-    usdCents: params.usdCents,
+    unitAmount: params.unitAmount,
+    currency: params.currency,
+    usdCents,
     offeringId: params.offeringId,
   };
 }
@@ -70,44 +97,54 @@ export async function createStripePaymentSession(
 export async function createStripeEmbeddedCheckoutSession(
   params: StripeEmbeddedLineItemParams,
 ): Promise<CheckoutSessionResult> {
+  const usdCents = fallbackUsdCents(params);
+
   if (!isStripeConfigured()) {
     return {
       sessionId: `checkout_${Date.now()}_${params.offeringId}`,
       url: null,
       clientSecret: null,
-      usdCents: params.usdCents,
+      unitAmount: params.unitAmount,
+      currency: params.currency,
+      usdCents,
       offeringId: params.offeringId,
     };
   }
 
   const stripe = getStripe();
-  const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
-    ui_mode: 'embedded',
-    redirect_on_completion: 'if_required',
+  const branding = stripeCheckoutBranding(params.colorScheme ?? 'light');
+  const baseParams = {
+    mode: 'payment' as const,
+    ui_mode: 'embedded' as const,
+    redirect_on_completion: 'if_required' as const,
     return_url: params.returnUrl,
     ...(params.email?.trim() ? { customer_email: params.email.trim() } : {}),
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          unit_amount: params.usdCents,
-          product_data: {
-            name: params.productName,
-            ...(params.productDescription ? { description: params.productDescription } : {}),
-          },
-        },
-        quantity: 1,
-      },
-    ],
-    metadata: params.metadata,
-  });
+    line_items: [lineItem(params)],
+    metadata: {
+      ...params.metadata,
+      colorScheme: params.colorScheme ?? 'light',
+      checkoutCurrency: params.currency,
+      checkoutUnitAmount: String(params.unitAmount),
+    },
+  };
+
+  let session;
+  try {
+    session = await stripe.checkout.sessions.create({
+      ...baseParams,
+      branding_settings: branding,
+    } as Parameters<typeof stripe.checkout.sessions.create>[0]);
+  } catch {
+    session = await stripe.checkout.sessions.create(baseParams);
+  }
 
   return {
     sessionId: session.id,
     url: null,
     clientSecret: session.client_secret,
-    usdCents: params.usdCents,
+    unitAmount: params.unitAmount,
+    currency: params.currency,
+    usdCents,
     offeringId: params.offeringId,
   };
 }
@@ -125,7 +162,9 @@ export async function createCheckoutSession(params: {
 }): Promise<CheckoutSessionResult> {
   return createStripePaymentSession({
     offeringId: params.offeringId,
-    usdCents: params.usdCents,
+    currency: 'usd',
+    unitAmount: params.usdCents,
+    referenceUsdCents: params.usdCents,
     email: params.email,
     successUrl: params.successUrl,
     cancelUrl: params.cancelUrl,

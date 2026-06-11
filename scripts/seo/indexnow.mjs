@@ -23,14 +23,14 @@ const base = (baseArg?.slice(7) ?? process.env.PMS_SITE_URL ?? 'https://pmstruct
 const host = new URL(base).host;
 
 if (!key) {
-  console.error('indexnow: set INDEXNOW_KEY (8–128 hex chars) and deploy public/{key}.txt first');
+  console.error('indexnow: set INDEXNOW_KEY (8-128 hex chars) and deploy public/{key}.txt first');
   process.exit(1);
 }
 
 const keyFile = path.join(root, 'frontend/public', `${key}.txt`);
 if (!fs.existsSync(keyFile)) {
   fs.writeFileSync(keyFile, `${key}\n`);
-  console.log(`Created frontend/public/${key}.txt — commit and deploy before pinging`);
+  console.log(`Created frontend/public/${key}.txt: commit and deploy before pinging`);
 }
 
 const priorityPaths = [

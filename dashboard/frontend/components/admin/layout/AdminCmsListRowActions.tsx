@@ -18,7 +18,7 @@ export type AdminCmsListRowActionsProps = {
  disabledDragTitle?: string;
 };
 
-/** Edit / delete / drag grip — matches Discover (Website Data) list rows. */
+/** Edit / delete / drag grip: matches Discover (Website Data) list rows. */
 export function AdminCmsListRowActions({
  onEdit,
  onDelete,

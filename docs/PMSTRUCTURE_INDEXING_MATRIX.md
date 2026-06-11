@@ -1,4 +1,4 @@
-# PM Structure — Indexing Matrix
+# PM Structure. Indexing Matrix
 
 Canonical host: `https://pmstructure.com` (`PMS_SITE_URL`)
 
@@ -74,15 +74,15 @@ Implementation: `frontend/lib/indexing-metadata.ts`, `frontend/lib/site-metadata
 | `/checkout` | payment | no | no | `/checkout` | noindex,nofollow | |
 | `/checkout/cancel` | payment | no | no | `/checkout/cancel` | noindex,nofollow | |
 | `/checkout/success` | payment | no | no | `/checkout/success` | noindex,nofollow | |
-| `/compare` | redirect | no | no | — | — | → `/certifications/compare` |
-| `/store` | redirect | no | no | — | — | → `/community` |
+| `/compare` | redirect | no | no |: |: | → `/certifications/compare` |
+| `/store` | redirect | no | no |: |: | → `/community` |
 
 ## Private
 
 | Route | Type | Index | Sitemap | Robots | Notes |
 |-------|------|-------|---------|--------|-------|
 | `/admin/**` | private | no | no | noindex,nofollow | robots.txt disallow |
-| `/api/**` | system | no | no | — | robots.txt disallow |
+| `/api/**` | system | no | no |: | robots.txt disallow |
 
 ## Planned (Run 9+)
 

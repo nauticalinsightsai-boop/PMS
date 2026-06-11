@@ -7,7 +7,7 @@ export type ClientInteractionBody = {
   subject: string;
   email: string;
   payload?: Record<string, unknown>;
-  /** Honeypot — leave empty */
+  /** Honeypot: leave empty */
   website?: string;
   company?: string;
 };

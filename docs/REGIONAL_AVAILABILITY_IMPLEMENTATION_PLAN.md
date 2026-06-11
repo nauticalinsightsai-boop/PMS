@@ -1,13 +1,13 @@
-# Regional Availability & Pricing — Full Implementation Plan
+# Regional Availability & Pricing. Full Implementation Plan
 
-**Status:** Ready for execution (plan only — not yet implemented)  
+**Status:** Ready for execution (plan only: not yet implemented)  
 **Source of truth:** `PM_Structure_Regional_Availability_Matrix.xlsx`  
 **Confirmed scope:** Full catalogue (29 courses, **55 offering rows**), region on **public site + dashboard** synced via Supabase  
 
 **Phase 1 priority (website-first):**
 - **Embed the full price × availability cross-matrix** in the public site (`regional-catalogue.json` generated from Excel). You adopt changes by re-running the import script and committing JSON until a dashboard editor exists later.
-- **First-visit region modal** (see §L) — required on website open when no region is saved.
-- **Dashboard** — region profile sync + ops queues in Phase 1; **matrix editing in dashboard is Phase 2** (read-only viewer optional).
+- **First-visit region modal** (see §L): required on website open when no region is saved.
+- **Dashboard**: region profile sync + ops queues in Phase 1; **matrix editing in dashboard is Phase 2** (read-only viewer optional).
 
 This document is the **single canonical plan**. Every column and rule from the workbook is mapped below to code, APIs, database tables, and UI surfaces.
 
@@ -81,9 +81,9 @@ Also implement per row:
 
 | Status text | `OfferingStatus` | Checkout | Button action |
 |-------------|------------------|----------|-----------------|
-| Available — direct checkout | `direct_checkout` | Stripe USD | `checkout` |
-| Regional scholarship available — verify eligibility | `scholarship_verify` | After verify | `checkout` or `verify_first` |
-| Available — consultation required | `consultation_required` | Blocked | `consultation` |
+| Available: direct checkout | `direct_checkout` | Stripe USD | `checkout` |
+| Regional scholarship available: verify eligibility | `scholarship_verify` | After verify | `checkout` or `verify_first` |
+| Available: consultation required | `consultation_required` | Blocked | `consultation` |
 | Regional scholarship unavailable | `scholarship_unavailable` | Global only / review / waitlist | `scholarship_review` / `global_checkout` / `waitlist` |
 | Global only | `global_only` | Global USD | `global_checkout` |
 | Waitlist | `waitlist` | None | `waitlist` |
@@ -101,7 +101,7 @@ Also implement per row:
 
 Per-offering India/Pakistan messages come from matrix columns, not generic copy alone.
 
-### Terminology (mandatory — brand + legal)
+### Terminology (mandatory: brand + legal)
 
 | Use | Do not use |
 |-----|------------|
@@ -125,7 +125,7 @@ Applies to **India, Pakistan, and GCC** and any UI where global/list price is sh
 ### L.2 Modal layout (match provided mockup)
 
 - **Title:** “Select your region for a personalized website experience.”
-- **Close (X):** allowed — defaults to `global` if dismissed without selection (per Region Rules “Global / Unknown”), with one-line notice that prices default to Global USD until selected.
+- **Close (X):** allowed: defaults to `global` if dismissed without selection (per Region Rules “Global / Unknown”), with one-line notice that prices default to Global USD until selected.
 - **Grouped sections** with dividers:
 
 | UI section | Cards | Maps to `regionId` |
@@ -135,7 +135,7 @@ Applies to **India, Pakistan, and GCC** and any UI where global/list price is sh
 | **Asia** | Pakistan, India | `pakistan`, `india` |
 
 - Each card: flag icon, country/region name, selected state = purple tint + border + checkmark (brand purple/orange tokens).
-- **Single selection** — one card active at a time.
+- **Single selection**: one card active at a time.
 - On confirm: persist `regionId` (+ `gccCountry` if applicable), close modal, refresh all `RegionalPrice` consumers.
 
 ### L.3 Navbar after selection
@@ -198,7 +198,7 @@ Regional Scholarship    ₹44,999       ← active price, labeled "Regional Scho
 
 **When region is `global`, `europe`, or `uk` and status is `direct_checkout`:**
 
-- Show single price (no fake “original” unless Europe/UK is lower than global — then only show one authoritative column price for that region, no misleading compare).
+- Show single price (no fake “original” unless Europe/UK is lower than global: then only show one authoritative column price for that region, no misleading compare).
 
 **When `scholarship_unavailable` (e.g. India Mastery):**
 
@@ -285,7 +285,7 @@ flowchart TB
 
 **npm script:** `"import:regional": "tsx scripts/import-regional-matrix.ts"`
 
-### C2. `frontend/` (public site — port 3050)
+### C2. `frontend/` (public site: port 3050)
 
 | Area | Files / changes |
 |------|-----------------|
@@ -294,18 +294,18 @@ flowchart TB
 | **Core** | `lib/regional-catalogue.ts`, `lib/cta-router.ts`, `lib/region-storage.ts` (cookie) |
 | **Context** | `contexts/RegionContext.tsx`, `hooks/useRegionalOffering.ts` |
 | **Components** | `components/RegionSelectorModal.tsx` (first-visit + change region), `components/RegionChip.tsx`, `components/RegionalPrice.tsx` (Original + Regional Scholarship), `components/RegionalStatusBanner.tsx`, `components/OfferingCtaButtons.tsx` |
-| **Shell** | `PublicShell.tsx` — `RegionGate` opens modal if no region; `Navbar.tsx` — region chip + change |
+| **Shell** | `PublicShell.tsx`: `RegionGate` opens modal if no region; `Navbar.tsx`: region chip + change |
 | **Pages** | `CertificationDetail.tsx`, `Certifications.tsx`, `Home.tsx`, `Compare.tsx`, `Membership.tsx` (if tiers priced), `Contact.tsx` |
-| **Pathway** | `CertificationPathway.tsx` — dynamic tiers, regional price, CTA router |
-| **Forms** | `RegisterModal.tsx` — region enum, offering picker from catalogue, tier list filtered by course |
+| **Pathway** | `CertificationPathway.tsx`: dynamic tiers, regional price, CTA router |
+| **Forms** | `RegisterModal.tsx`: region enum, offering picker from catalogue, tier list filtered by course |
 | **Checkout (new)** | `app/(site)/checkout/page.tsx`, `components/checkout/CheckoutForm.tsx` |
 | **Remove** | Deprecate `certification-enrollment.ts` → matrix `status` + optional `cohortOpen` flag in JSON |
 | **siteData** | Keep narrative fields; **stop rendering** `pricing.Foundation/Professional/Elite` |
 | **Brand** | Extend `lib/brand-voice.ts` with `REGION_COPY` from Website Copy sheet |
-| **API client** | `services/regional.ts` — fetch verify, checkout, waitlist |
+| **API client** | `services/regional.ts`: fetch verify, checkout, waitlist |
 | **Proxy** | Ensure `next.config` rewrites `/api/*` to `backend` where needed |
 
-### C3. `backend/` (public API — port 3001)
+### C3. `backend/` (public API: port 3001)
 
 | Route | Method | Purpose |
 |-------|--------|---------|
@@ -326,11 +326,11 @@ flowchart TB
 
 | Area | Changes |
 |------|---------|
-| **Account** | New route `app/dashboard/account/region/page.tsx` — region, residence, billing countries |
+| **Account** | New route `app/dashboard/account/region/page.tsx`: region, residence, billing countries |
 | **Auth sync** | On save → Supabase `user_profiles`; cookie sync hint on public site |
 | **Scholarship queue** | `app/dashboard/members-revenue/scholarship-reviews/page.tsx` (replace placeholder pattern) |
 | **Orders / bookings** | Wire `members-revenue/bookings` to `orders` table (currently placeholder) |
-| **Catalogue admin** | **Phase 2 only** — matrix spreadsheet editor. Phase 1: optional read-only JSON viewer + link to re-import docs. **All matrix edits happen via xlsx → import → commit on website.** |
+| **Catalogue admin** | **Phase 2 only**: matrix spreadsheet editor. Phase 1: optional read-only JSON viewer + link to re-import docs. **All matrix edits happen via xlsx → import → commit on website.** |
 | **Verification log** | Table of verify attempts (support) |
 
 Uses same `RegionSelector` component (shared or duplicated in `dashboard/frontend/components`).
@@ -363,7 +363,7 @@ RLS: public read regions; users read/write own profile; orders read own; admin r
 
 ### C7. Shared package (recommended)
 
-`packages/regional-catalogue/` — types + resolver + import output consumed by frontend + both backends to avoid drift.
+`packages/regional-catalogue/`: types + resolver + import output consumed by frontend + both backends to avoid drift.
 
 ---
 
@@ -460,10 +460,10 @@ Region switch updates price on detail page; checkout happy path Global PMP Profe
 | **1** | Types, resolvers, CTA router, `RegionalPrice` component, unit tests | Phase 0 |
 | **2** | **RegionSelectorModal** + RegionGate on PublicShell + navbar chip | Phase 1 |
 | **3** | Supabase migrations + seed regions (profile sync) | Phase 0 |
-| **4** | UI: Detail, Listings, Home, Compare, Pathway — all prices from matrix | Phase 2 |
-| **5** | Backend: verify, checkout, webhook, forms | Phase 1–2 |
+| **4** | UI: Detail, Listings, Home, Compare, Pathway: all prices from matrix | Phase 2 |
+| **5** | Backend: verify, checkout, webhook, forms | Phase 1-2 |
 | **6** | Checkout page + success/cancel | Phase 5 |
-| **7** | RegisterModal + Contact flows with offering context | Phase 4–5 |
+| **7** | RegisterModal + Contact flows with offering context | Phase 4-5 |
 | **8** | Dashboard: region tab, orders, scholarship queue | Phase 2, 5 |
 | **9** | Remove legacy pricing + enrollment hack | Phase 4 |
 | **10** | Full QA matrix + docs | All |
@@ -498,13 +498,13 @@ SUPABASE_SERVICE_ROLE_KEY=
 
 | # | Decision | Resolution (2026-05-23) |
 |---|----------|-------------------------|
-| 1 | Membership 20% off | **Decided** — display 20% off active regional price string; checkout uses 80% of regional `usdCents` when membership is selected. |
+| 1 | Membership 20% off | **Decided**: display 20% off active regional price string; checkout uses 80% of regional `usdCents` when membership is selected. |
 | 2 | GCC checkout | **Single `usdCents` per offering from Global USD column** for all GCC countries; UI uses `gcc.perCountry` display strings only (AE, SA, QA, BH, KW, OM). |
 | 3 | Consultation approval | **Manual dashboard approval** before Mastery checkout link; Phase 1 blocks Stripe for `consultation_required` and records consultation form submission. |
 
 ---
 
-## Appendix A — 29 courses (slug map required)
+## Appendix A: 29 courses (slug map required)
 
 **PMI (12):** CAPM, PMP, PgMP, PfMP, PMI-ACP, PMI-RMP, PMI-SP, PMI-PBA, PMI-CP, PMI-PMOCP, PMI-CPMAI (+ map PMI-CP vs CPMAI naming in siteData)
 
@@ -512,22 +512,22 @@ SUPABASE_SERVICE_ROLE_KEY=
 
 **Six Sigma (6):** Champion, White Belt, Yellow Belt, Green Belt, Black Belt, Master Black Belt
 
-**Appendix B — Offering count:** 55 rows in Availability Matrix (not 199; sheet has empty trailing rows).
+**Appendix B. Offering count:** 55 rows in Availability Matrix (not 199; sheet has empty trailing rows).
 
-### Appendix B2 — Actual status distribution in attached xlsx (verify on each import)
+### Appendix B2. Actual status distribution in attached xlsx (verify on each import)
 
 | Region column | Status values in file (55 rows each) |
 |---------------|-------------------------------------|
-| Global, Europe, UK, GCC | `Available — direct checkout` (all 55) |
-| India, Pakistan | `Regional scholarship available — verify eligibility` (35 rows) |
-| India, Pakistan | `Regional scholarship unavailable` (20 rows — all Mastery / Mastery variants) |
+| Global, Europe, UK, GCC | `Available: direct checkout` (all 55) |
+| India, Pakistan | `Regional scholarship available: verify eligibility` (35 rows) |
+| India, Pakistan | `Regional scholarship unavailable` (20 rows: all Mastery / Mastery variants) |
 
 **Primary CTA (55 rows):** `Enroll Now` (35) · `Book Mastery Consultation` (20)  
 **Secondary CTA (55 rows):** `Book Pathway Consultation` (35) · `Request Scholarship Review / Enroll at Global Price` (20)
 
 Import must still support Status Legend values not present in current file: `global_only`, `waitlist`, `hidden`.
 
-### Appendix B3 — All 55 offerings (must exist in `regional-catalogue.json`)
+### Appendix B3. All 55 offerings (must exist in `regional-catalogue.json`)
 
 | # | Family | Course | Tier |
 |---|--------|--------|------|
@@ -589,7 +589,7 @@ Import must still support Status Legend values not present in current file: `glo
 
 ---
 
-## Appendix C — File checklist (copy for PR review)
+## Appendix C. File checklist (copy for PR review)
 
 - [ ] `scripts/import-regional-matrix.ts`
 - [ ] `frontend/data/regional-catalogue.json`
@@ -612,7 +612,7 @@ Import must still support Status Legend values not present in current file: `glo
 
 ---
 
-## Appendix D — Excel file → implementation map (6 sheets)
+## Appendix D. Excel file → implementation map (6 sheets)
 
 | Sheet | Rows | Embedded in | Consumed by |
 |-------|------|-------------|-------------|
@@ -627,14 +627,14 @@ Import must still support Status Legend values not present in current file: `glo
 
 ---
 
-## Appendix E — Master TODO list (execution order)
+## Appendix E. Master TODO list (execution order)
 
 Use this checklist when implementing. Cursor plan todos mirror these IDs.
 
-### Phase 0 — Data import (Excel → website)
+### Phase 0. Data import (Excel → website)
 
 - [x] **T0.1** Create `scripts/import-regional-matrix.mjs` (read all 6 sheets)
-- [x] **T0.2** Merge Availability + Pricing on `(Family, Course, Tier)` — assert 55 rows
+- [x] **T0.2** Merge Availability + Pricing on `(Family, Course, Tier)`: assert 55 rows
 - [x] **T0.3** Normalize statuses (7 legend values; unicode dashes)
 - [x] **T0.4** Normalize tiers (`Mastery / Corporate`, `Mastery / Advisory`)
 - [x] **T0.5** Parse all price columns → `display` + `usdCents` (Global authoritative)
@@ -647,10 +647,10 @@ Use this checklist when implementing. Cursor plan todos mirror these IDs.
 - [x] **T0.12** Create `frontend/lib/course-slug-map.ts` (29 courses → `siteData` ids)
 - [x] **T0.13** Extend `siteData` / stub routes for matrix-only courses missing today (`course-slug-map.ts` maps all 29 matrix courses to existing cert ids)
 
-### Phase 1 — Core library (shared)
+### Phase 1. Core library (shared)
 
 - [x] **T1.1** `frontend/types/regional-catalogue.ts` (all types)
-- [x] **T1.2** `frontend/lib/regional-catalogue.ts` — resolvers
+- [x] **T1.2** `frontend/lib/regional-catalogue.ts`: resolvers
 - [x] **T1.3** `frontend/lib/status-normalize.ts`
 - [x] **T1.4** `frontend/lib/price-parser.ts`
 - [x] **T1.5** `frontend/lib/cta-router.ts` (4 primary + 4 secondary patterns from xlsx)
@@ -658,39 +658,39 @@ Use this checklist when implementing. Cursor plan todos mirror these IDs.
 - [x] **T1.7** Unit tests: 55-row count, PMP×3, CAPM pro-only, IN Mastery unavailable
 - [x] **T1.8** Optional `packages/regional-catalogue` shared by backend
 
-### Phase 2 — Region UX (modal + context)
+### Phase 2. Region UX (modal + context)
 
 - [x] **T2.1** `contexts/RegionContext.tsx` (`regionId`, `gccCountry`, setters)
 - [x] **T2.2** `components/RegionSelectorModal.tsx` (mockup: US/UK/Europe, 6 GCC, IN/PK)
-- [x] **T2.3** `components/RegionGate.tsx` — block site until region chosen (first visit)
-- [x] **T2.4** `components/RegionChip.tsx` in Navbar — Change reopens modal
+- [x] **T2.3** `components/RegionGate.tsx`: block site until region chosen (first visit)
+- [x] **T2.4** `components/RegionChip.tsx` in Navbar. Change reopens modal
 - [x] **T2.5** Wire `PublicShell.tsx` with RegionGate
 - [x] **T2.6** Show Overview recommended paragraph + Website Copy in modal footer
 - [x] **T2.7** Per-region `websiteMessage` from Region Rules under chip
 
-### Phase 3 — Pricing UI (embedded matrix)
+### Phase 3. Pricing UI (embedded matrix)
 
-- [x] **T3.1** `components/RegionalPrice.tsx` — Original + Regional Scholarship labels
-- [x] **T3.2** `components/RegionalStatusBanner.tsx` — India/Pakistan matrix messages
-- [x] **T3.3** `components/OfferingCtaButtons.tsx` — primary + secondary from matrix
+- [x] **T3.1** `components/RegionalPrice.tsx`. Original + Regional Scholarship labels
+- [x] **T3.2** `components/RegionalStatusBanner.tsx`. India/Pakistan matrix messages
+- [x] **T3.3** `components/OfferingCtaButtons.tsx`: primary + secondary from matrix
 - [x] **T3.4** `hooks/useRegionalOffering.ts`
-- [x] **T3.5** Wire `CertificationDetail.tsx` — dynamic tiers only (no fake Foundation/Elite)
-- [x] **T3.6** Wire `Certifications.tsx` — family tabs, regional prices, hide hidden
+- [x] **T3.5** Wire `CertificationDetail.tsx`: dynamic tiers only (no fake Foundation/Elite)
+- [x] **T3.6** Wire `Certifications.tsx`: family tabs, regional prices, hide hidden
 - [x] **T3.7** Wire `Home.tsx` featured pathways
-- [x] **T3.8** Wire `Compare.tsx` — dynamic tier columns
+- [x] **T3.8** Wire `Compare.tsx`: dynamic tier columns
 - [x] **T3.9** Wire `CertificationPathway.tsx`
 - [x] **T3.10** Show `tierDelivery` + `length` on pathway cards
 - [x] **T3.11** Deprecate `certification-enrollment.ts` → matrix status
 - [x] **T3.12** Stop rendering `siteData.pricing.*`
 
-### Phase 4 — Brand copy
+### Phase 4. Brand copy
 
 - [x] **T4.1** Add `REGION_COPY` to `brand-voice.ts` (6 Website Copy placements)
-- [x] **T4.2** Ban “discount” in UI copy — lint or comment policy
+- [x] **T4.2** Ban “discount” in UI copy: lint or comment policy
 - [x] **T4.3** GCC: Regional Scholarship wording when showing original vs GCC price
 - [x] **T4.4** Footer / checkout compliance note
 
-### Phase 5 — Supabase
+### Phase 5. Supabase
 
 - [x] **T5.1** Migration: `regions`, `course_offerings`, `regional_offering_rules`, `regional_prices`
 - [x] **T5.2** Migration: `user_profiles`, `orders`, `verification_logs`, `catalogue_meta`
@@ -698,7 +698,7 @@ Use this checklist when implementing. Cursor plan todos mirror these IDs.
 - [x] **T5.4** RLS policies
 - [x] **T5.5** Optional sync script JSON → Supabase
 
-### Phase 6 — Backend APIs (`backend/`)
+### Phase 6. Backend APIs (`backend/`)
 
 - [x] **T6.1** `GET /api/regions`
 - [x] **T6.2** `GET /api/catalogue` / `offerings/[id]`
@@ -711,7 +711,7 @@ Use this checklist when implementing. Cursor plan todos mirror these IDs.
 - [x] **T6.9** `POST /api/consultation` (+ pathway consultation)
 - [x] **T6.10** `lib/verify-region.ts`, `lib/stripe.ts`, share catalogue resolver
 
-### Phase 7 — Checkout pages
+### Phase 7. Checkout pages
 
 - [x] **T7.1** `app/(site)/checkout/page.tsx`
 - [x] **T7.2** `components/checkout/CheckoutForm.tsx` (residence, billing, region confirm)
@@ -719,15 +719,15 @@ Use this checklist when implementing. Cursor plan todos mirror these IDs.
 - [x] **T7.4** `services/regional.ts` client
 - [x] **T7.5** Re-verify on submit; block scholarship mismatch
 
-### Phase 8 — Forms
+### Phase 8. Forms
 
-- [x] **T8.1** `RegisterModal.tsx` — catalogue certs/tiers, region enum
-- [x] **T8.2** `Contact.tsx` — offering context
+- [x] **T8.1** `RegisterModal.tsx`: catalogue certs/tiers, region enum
+- [x] **T8.2** `Contact.tsx`: offering context
 - [x] **T8.3** Scholarship review form component
 - [x] **T8.4** Waitlist form component
 - [x] **T8.5** Mastery consultation form
 
-### Phase 9 — Dashboard (Phase 1 scope)
+### Phase 9. Dashboard (Phase 1 scope)
 
 - [x] **T9.1** `dashboard/account/region` page (same modal groups)
 - [x] **T9.2** Profile sync with public cookie
@@ -737,7 +737,7 @@ Use this checklist when implementing. Cursor plan todos mirror these IDs.
 - [x] **T9.6** `dashboard-backend` admin APIs
 - [ ] **T9.7** Phase 2 placeholder: matrix editor (NOT in Phase 1)
 
-### Phase 10 — QA & release
+### Phase 10. QA & release
 
 - [x] **T10.1** Manual QA: 6 regions × PMP (F/P/M)
 - [x] **T10.2** Manual QA: all 55 offerings import spot-check
@@ -747,7 +747,7 @@ Use this checklist when implementing. Cursor plan todos mirror these IDs.
 
 ---
 
-## Appendix F — Sign-off before execution
+## Appendix F. Sign-off before execution
 
 | Item | Ready |
 |------|-------|
@@ -756,5 +756,5 @@ Use this checklist when implementing. Cursor plan todos mirror these IDs.
 | First-visit region modal spec | Yes |
 | Original vs Regional Scholarship display | Yes |
 | Master TODO (Appendix E) | Yes |
-| Business rules §K (membership %, GCC Stripe, consultation) | **Decided** — see §K table; follow-up: [REGIONAL_REMAINING_IMPLEMENTATION_PLAN.md](./REGIONAL_REMAINING_IMPLEMENTATION_PLAN.md) |
-| Phase 0 import pipeline | **Done** (2026-05-23) — `npm run import:regional` / `validate:regional` |
+| Business rules §K (membership %, GCC Stripe, consultation) | **Decided**: see §K table; follow-up: [REGIONAL_REMAINING_IMPLEMENTATION_PLAN.md](./REGIONAL_REMAINING_IMPLEMENTATION_PLAN.md) |
+| Phase 0 import pipeline | **Done** (2026-05-23): `npm run import:regional` / `validate:regional` |

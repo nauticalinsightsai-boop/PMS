@@ -1,4 +1,4 @@
-# PM Structure — Final Manual Actions
+# PM Structure. Final Manual Actions
 
 **Audit date:** 2026-06-10  
 **Owner:** Site operator (not automated)  
@@ -74,7 +74,7 @@
 
 | # | Action | Reference doc | Status |
 |---|--------|---------------|--------|
-| 6.1 | Generate test sheet: `npm run seo:generate-ai-test-sheet` | `reports/seo/ai-answer-test-queries.csv` | **Generated — 86 queries** |
+| 6.1 | Generate test sheet: `npm run seo:generate-ai-test-sheet` | `reports/seo/ai-answer-test-queries.csv` | **Generated: 86 queries** |
 | 6.2 | Run branded/entity queries (ChatGPT, Perplexity, Gemini, Copilot) | `PMSTRUCTURE_AI_ANSWER_TESTING_PLAYBOOK.md` | **NOT TESTED** |
 | 6.3 | Run PMP 2026 transition queries | `PMSTRUCTURE_AI_VISIBILITY_TEST_QUERIES.md` | **NOT TESTED** |
 | 6.4 | Run compliance-risk queries (ATP, guarantee, affiliation) | False claim risk log | **NOT TESTED** |
@@ -104,10 +104,10 @@
 ## Immediate sequence (recommended)
 
 1. **Deploy v2** to `https://pmstructure.com`
-2. Run `npm run seo:production-check` — expect `/pmp-faq` → 200
+2. Run `npm run seo:production-check`: expect `/pmp-faq` → 200
 3. GSC sitemap re-submission
 4. Bing import + sitemap
 5. Priority URL inspection (top 10 routes)
 6. Payment + form smoke tests
-7. AI baseline (86 queries) — log as NOT TESTED until complete
+7. AI baseline (86 queries): log as NOT TESTED until complete
 8. Legal/business sign-off per owner checklist

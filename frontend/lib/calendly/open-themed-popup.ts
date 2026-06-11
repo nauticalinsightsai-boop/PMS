@@ -66,7 +66,7 @@ export function loadCalendlyWidget(): Promise<void> {
 
  calendlyScriptPromise = new Promise<void>((resolve, reject) => {
   let done = false;
-  /** DOM returns `number`; Node typings use `NodeJS.Timeout` — union satisfies both. */
+  /** DOM returns `number`; Node typings use `NodeJS.Timeout`: union satisfies both. */
   const timers: {
     pollId?: number | NodeJS.Timeout;
     timeoutId?: number | NodeJS.Timeout;

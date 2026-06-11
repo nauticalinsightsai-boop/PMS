@@ -35,7 +35,7 @@ function decodeJwtEmail(token: string): string | null {
   }
 }
 
-/** Layer 4 — CMS / mutation POST guard. */
+/** Layer 4. CMS / mutation POST guard. */
 export async function requireDashboardMutationAuth(
   request: NextRequest,
 ): Promise<NextResponse | null> {

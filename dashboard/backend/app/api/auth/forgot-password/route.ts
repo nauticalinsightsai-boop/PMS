@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
 
   if (!isEmailConfigured()) {
     if (process.env.NODE_ENV === 'development' || process.env.AUTH_DEV_LOG_RESET_LINK === 'true') {
-      console.log('\n[forgot-password] Email not configured — reset link for dev:\n', link, '\n');
+      console.log('\n[forgot-password] Email not configured: reset link for dev:\n', link, '\n');
     }
     await writeAuthAuditLog({ email, eventType: 'password_reset_requested' }).catch((err) => {
       console.error('[forgot-password] audit log failed', err);
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     console.error('[forgot-password]', err);
     if (process.env.NODE_ENV === 'development') {
-      console.log('\n[forgot-password] Email send failed — reset link for dev:\n', link, '\n');
+      console.log('\n[forgot-password] Email send failed: reset link for dev:\n', link, '\n');
     }
   }
 

@@ -15,7 +15,7 @@ if (!page) {
 
 function stripEm(s) {
   if (typeof s !== 'string') return s
-  return s.replace(/\s*—\s*/g, '. ').replace(/\s+-\s+/g, '. ').replace(/\.\s+\./g, '.').trim()
+  return s.replace(/\s*: \s*/g, '. ').replace(/\s+-\s+/g, '. ').replace(/\.\s+\./g, '.').trim()
 }
 
 function walk(obj) {

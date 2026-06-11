@@ -1,6 +1,6 @@
 /**
 
- * Validate public AI/entity JSON files — fields, compliance, canonical URLs (Run 7).
+ * Validate public AI/entity JSON files: fields, compliance, canonical URLs (Run 7).
 
  */
 
@@ -112,7 +112,7 @@ const entity = readJson('entity.json');
 
 const siteCanon = entity.url;
 if (siteCanon && llms.includes('www.pmstructure.com') && !siteCanon.includes('www.')) {
-  fail('llms.txt uses www but entity.json canonical is apex — re-run seo:generate-ai-files');
+  fail('llms.txt uses www but entity.json canonical is apex: re-run seo:generate-ai-files');
 }
 if (siteCanon && !llms.includes(siteCanon)) fail(`llms.txt missing canonical site ${siteCanon}`);
 
@@ -223,5 +223,3 @@ for (const file of ['entity.json', 'ai-profile.json']) {
 if (failed) process.exit(1);
 
 console.log(`ai-files-check OK (${required.length} files)`);
-
-

@@ -62,7 +62,7 @@ export function ConsultationQueue() {
             <div>
               <div className="font-semibold">{row.email ?? 'No email'}</div>
               <div className="text-muted-foreground text-xs mt-1">
-                Offering: {row.payload?.offeringId ?? '—'} · {row.created_at}
+                Offering: {row.payload?.offeringId ?? '. '} · {row.created_at}
               </div>
             </div>
             <Button

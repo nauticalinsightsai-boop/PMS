@@ -1,4 +1,4 @@
-# PM Structure — AI Files Plan
+# PM Structure. AI Files Plan
 
 **Canonical host:** `https://www.pmstructure.com`  
 **Generator:** [`frontend/scripts/generate-ai-files.mjs`](../frontend/scripts/generate-ai-files.mjs) (runs on `prebuild`)
@@ -16,7 +16,7 @@
 | `pricing-policy.json` | Regional pricing summary | prebuild |
 | `faq.json` | Full FAQ export | prebuild |
 | `pmp-faq.json` | PMP-filtered FAQs | prebuild |
-| `pmp-2026.json` | Planned page metadata | prebuild — status `planned` |
+| `pmp-2026.json` | Planned page metadata | prebuild: status `planned` |
 | `pmp-keywords.json` | Keyword clusters | prebuild |
 | `pmp-routes.json` | Route map live vs planned | prebuild |
 
@@ -44,8 +44,8 @@ npm run seo:generate-ai-files
 
 ## Planned (not yet live)
 
-- `feeds/pmp-articles.json` — after blog/PMP content
-- `openapi` / MCP — out of scope
+- `feeds/pmp-articles.json`: after blog/PMP content
+- `openapi` / MCP: out of scope
 
 ## TODO
 

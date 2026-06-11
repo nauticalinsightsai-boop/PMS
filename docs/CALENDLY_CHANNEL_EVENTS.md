@@ -7,7 +7,7 @@ Single source of truth for all `/go/*` portal Calendly tiers and the Home hero c
 - **Path:** `data/calendly-events.manifest.json` (mirrored to `packages/booking-crm/data/`)
 - **Count:** 29 events (001 hero + platform family pairs + channel-specific overrides)
 - **Primary handle:** `booking-sh3ikhmabz` (`urls.primary`)
-- **API fallback handle:** `pm-structure` (`urls.fallback` — populated after provision)
+- **API fallback handle:** `pm-structure` (`urls.fallback`: populated after provision)
 
 Each row includes: `id`, `name`, `slug`, `family`, `tierKind`, duration, CTA, payment/guests/limits/buffers, `description`, `standardQuestions`, `channelIds[]`, `portalTierIds[]`, and `urls`.
 
@@ -94,7 +94,7 @@ NEXT_PUBLIC_CALENDLY_EVENT_URL_WEBSITE_HERO=https://calendly.com/pm-structure/we
 NEXT_PUBLIC_CALENDLY_EVENT_SYNDICATED_DISCOVERY=https://calendly.com/booking-sh3ikhmabz/go-syndicated-discovery
 ```
 
-API token for provisioning scripts only — **never** commit `CALENDLY_API_TOKEN`.
+API token for provisioning scripts only: **never** commit `CALENDLY_API_TOKEN`.
 
 ## Dual-account migration
 

@@ -6,14 +6,7 @@ import { useRegion } from '@/contexts/RegionContext';
 import { cn } from '@/lib/utils';
 
 export function RegionChip({ className }: { className?: string }) {
-  const {
-    regionId,
-    regionLabel,
-    canChangeRegion,
-    isDetectingRegion,
-    openRegionModal,
-    shareLocationForRegion,
-  } = useRegion();
+  const { regionId, regionLabel, isDetectingRegion, refreshRegionDetection } = useRegion();
   const [locationError, setLocationError] = React.useState(false);
 
   const suffix =
@@ -21,27 +14,19 @@ export function RegionChip({ className }: { className?: string }) {
 
   const handleClick = async () => {
     setLocationError(false);
-    if (canChangeRegion) {
-      openRegionModal();
-      return;
-    }
-    const ok = await shareLocationForRegion();
+    const ok = await refreshRegionDetection();
     if (!ok) setLocationError(true);
   };
 
-  const ariaLabel = canChangeRegion
-    ? `Region: ${regionLabel}. Click to change region.`
-    : isDetectingRegion
-      ? 'Detecting your location…'
-      : locationError
-        ? `Region: ${regionLabel}. Location access denied: enable location in your browser to change region.`
-        : `Region: ${regionLabel}. Share your location to change region.`;
-
-  const title = canChangeRegion
-    ? 'Change pricing region'
+  const ariaLabel = isDetectingRegion
+    ? 'Detecting your location…'
     : locationError
-      ? 'Location access was denied. Enable it in browser settings to update your region.'
-      : 'Share your location to update pricing for your area';
+      ? `Region: ${regionLabel}. Location access denied: enable location in your browser to update pricing.`
+      : `Region: ${regionLabel}. Share your location to update pricing for your area.`;
+
+  const title = locationError
+    ? 'Location access was denied. Enable it in browser settings to update your region.'
+    : 'Share your location to update pricing for your area';
 
   return (
     <button
@@ -51,10 +36,7 @@ export function RegionChip({ className }: { className?: string }) {
       aria-label={ariaLabel}
       title={title}
       className={cn(
-        'flex min-h-11 items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1.5 text-xs font-semibold text-muted-foreground',
-        canChangeRegion
-          ? 'hover:border-brand-orange hover:text-brand-orange'
-          : 'cursor-pointer hover:border-border hover:text-muted-foreground',
+        'flex min-h-11 items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1.5 text-xs font-semibold text-muted-foreground cursor-pointer hover:border-border hover:text-muted-foreground',
         isDetectingRegion && 'opacity-70',
         className,
       )}
