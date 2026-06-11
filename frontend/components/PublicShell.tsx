@@ -44,7 +44,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
         <LeadRecoveryProvider>
           <div className="min-h-screen flex flex-col bg-gradient-to-b from-[var(--shell-gradient-from)] via-[var(--shell-gradient-via)] to-[var(--shell-gradient-to)] dark:from-[var(--shell-gradient-dark-from)] dark:via-[var(--shell-gradient-dark-via)] dark:to-[var(--shell-gradient-dark-to)] text-foreground">
             <Navbar toggleTheme={() => setIsDarkMode((v) => !v)} isDarkMode={isDarkMode} />
-            <main className={cn('flex-1 overflow-x-hidden', PUBLIC_NAVBAR_HEIGHT_CLASS)}>{children}</main>
+            <main className={cn('flex-1 overflow-x-clip', PUBLIC_NAVBAR_HEIGHT_CLASS)}>{children}</main>
             <Footer />
             <ScrollToTop />
             <CookieConsent />

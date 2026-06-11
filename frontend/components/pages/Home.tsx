@@ -171,7 +171,7 @@ export function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden selection:bg-brand-orange selection:text-white">
+    <div className="flex flex-col min-h-screen overflow-x-clip selection:bg-brand-orange selection:text-white">
       {/* Hero Section */}
       <section className="relative min-h-0 md:min-h-[85vh] lg:min-h-[90vh] flex items-center pt-8 pb-12 sm:pt-12 sm:pb-16 md:pt-16 md:pb-20 lg:pt-20 lg:pb-24 overflow-x-hidden max-lg:overflow-y-visible lg:overflow-hidden bg-gradient-to-br from-violet-50/70 via-background to-orange-50/30 dark:from-[#0f0e38] dark:via-[#07071c] dark:to-[#12081a]">
         {/* PMS gradient ambient: orange + blue-purple from logo system */}
