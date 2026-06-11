@@ -1,11 +1,10 @@
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
-import { CTAS } from '@/lib/brand-voice';
 import { PMP_INDEPENDENT_DISCLAIMER } from '@/content/pmp/disclaimer';
-import { PMP_ENROLL_LINKS } from '@/content/pmp/services';
 import type { PmpServiceContent } from '@/content/pmp/types';
 import { PmpServiceJsonLd } from '@/components/seo/PmpServiceJsonLd';
+import { PmpEnrollmentTierLinks } from '@/components/pmp/PmpEnrollmentTierLinks';
 import { PmpFaqPreview } from '@/components/pmp/PmpFaqPreview';
 import { PmpPathwayComparisonTable } from '@/components/pmp/PmpPathwayComparisonTable';
 import { PmpRelatedFaqs } from '@/components/pmp/PmpRelatedFaqs';
@@ -47,26 +46,7 @@ export function PmpServicePage({ service }: { service: PmpServiceContent }) {
             {isEnrollment ? (
               <section className="mb-10">
                 <h2 className="text-xl font-bold mb-4">Enroll by tier</h2>
-                <ul className="space-y-4">
-                  {PMP_ENROLL_LINKS.map((link) => (
-                    <li
-                      key={link.tier}
-                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-lg border border-slate-200 dark:border-slate-800 p-4"
-                    >
-                      <div>
-                        <p className="font-semibold">{link.tier}</p>
-                        <Link href={link.path} className="text-sm text-brand-orange hover:underline">
-                          View {link.tier} pathway page
-                        </Link>
-                      </div>
-                      <Link href={link.enrollPath} className={buttonVariants({ size: 'sm' })}>
-                        {link.tier === 'Foundation'
-                          ? 'Continue to enrollment'
-                          : CTAS.pathwayReserveSeat}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                <PmpEnrollmentTierLinks />
               </section>
             ) : null}
 

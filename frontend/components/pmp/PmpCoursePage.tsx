@@ -12,6 +12,8 @@ import { PmpRelatedFaqs } from '@/components/pmp/PmpRelatedFaqs';
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
 import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
+import { EnrollReturnRecovery } from '@/components/conversion-recovery/EnrollReturnRecovery';
+import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnrollTrackedLink';
 import { cn } from '@/lib/utils';
 
 const PATHWAY_VIEW_EVENTS = {
@@ -31,6 +33,7 @@ export function PmpCoursePage({ course }: { course: PmpCourseContent }) {
 
   return (
     <>
+      <EnrollReturnRecovery siteCertId="pmp" certName="PMP" />
       <ConversionViewTracker event={viewEvent} />
       <PmpCourseJsonLd course={course} />
       <section className={cn(sectionSurface('warm', 'py-16 sm:py-20'))}>
@@ -113,13 +116,14 @@ export function PmpCoursePage({ course }: { course: PmpCourseContent }) {
             <PmpRelatedFaqs relatedPage={course.path} relatedCourse={course.path} />
 
             <div className="flex flex-col sm:flex-row gap-3 mb-10">
-              <TrackedConversionLink
+              <PmpEnrollTrackedLink
                 href={course.enrollPath}
+                tierSlug={course.tier}
                 event={PATHWAY_ENROLL_EVENTS[course.tier]}
                 className={buttonVariants({ size: 'lg' })}
               >
                 {pathwayEnrollLabelForTier(course.tier, 'pmp')}
-              </TrackedConversionLink>
+              </PmpEnrollTrackedLink>
               <TrackedConversionLink
                 href="/pmp-readiness-diagnostic"
                 event={CONVERSION_EVENTS.CLICK_PMP_DIAGNOSTIC}

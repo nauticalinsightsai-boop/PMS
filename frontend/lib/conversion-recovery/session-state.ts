@@ -189,8 +189,10 @@ export function setCookieReadyAt(delayMs: number): void {
 }
 
 export function isCookieGateOpen(): boolean {
-  const at = Number(safeSessionGet(COOKIE_READY_AT_KEY) ?? '0');
-  if (!at) return true;
+  const raw = safeSessionGet(COOKIE_READY_AT_KEY);
+  if (raw === null) return false;
+  const at = Number(raw);
+  if (!Number.isFinite(at) || at <= 0) return false;
   return Date.now() >= at;
 }
 

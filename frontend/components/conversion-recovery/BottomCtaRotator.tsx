@@ -26,9 +26,9 @@ import {
 import type { BottomBarAction, BottomBarRotation } from '@/lib/conversion-recovery/types';
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
 import { getWebsiteHeroConsultationCalendlyUrl } from '@/lib/calendly/embed-url';
-import { trackFunnelEvent, FUNNEL_EVENTS } from '@/lib/analytics/funnel';
+import { trackFunnelEvent, FUNNEL_EVENTS, trackGenerateLead } from '@/lib/analytics/funnel';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
-import { markIntent } from '@/lib/conversion-recovery/engagement-score';
+import { markIntent, canAccelerateBottomBarMicroForm } from '@/lib/conversion-recovery/engagement-score';
 import { Input } from '@/components/ui/input';
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { useRegion } from '@/contexts/RegionContext';
@@ -73,8 +73,11 @@ export function BottomCtaRotator() {
         if (!check.allowed) return;
         const idx = getBarPageRotation(pathname);
         if (idx >= rotations.length) return;
-        const nextRotation = rotations[idx];
-        setRotationIndex(idx);
+        const useAcceleratedMicroForm =
+          idx === 0 && canAccelerateBottomBarMicroForm() && rotations.length >= 4;
+        const displayIdx = useAcceleratedMicroForm ? rotations.length - 1 : idx;
+        const nextRotation = rotations[displayIdx];
+        setRotationIndex(displayIdx);
         setShowInlineForm(nextRotation?.primary.type === 'micro_form');
         setOpen(true);
         incrementBarSessionCount();
@@ -83,6 +86,14 @@ export function BottomCtaRotator() {
           rotation: idx + 1,
           page_path: pathname,
           variant: nextRotation?.variant,
+          accelerated: useAcceleratedMicroForm,
+        });
+        trackGenerateLead({
+          source: 'lead_recovery',
+          surface: 'bottom_bar',
+          rotation: idx + 1,
+          variant: nextRotation?.variant,
+          page_path: pathname,
         });
       }, delayMs);
     },
@@ -115,6 +126,11 @@ export function BottomCtaRotator() {
         opt_out: optOut,
       });
       if (next < rotations.length) {
+        trackFunnelEvent(FUNNEL_EVENTS.BOTTOM_BAR_ROTATION, {
+          from_rotation: next,
+          to_rotation: next + 1,
+          page_path: pathname,
+        });
         scheduleShow(BOTTOM_BAR_ROTATION_DELAY_MS, { barRotation: true });
       }
     },
@@ -169,6 +185,12 @@ export function BottomCtaRotator() {
     });
     if (res.ok) {
       notifyConverted();
+      trackGenerateLead({
+        source: 'lead_recovery',
+        surface: 'bottom_bar',
+        variant: rotation?.variant ?? 'bottom_bar_r4',
+        page_path: pathname,
+      });
       dismiss(false);
       setBarPaused(60_000);
     }

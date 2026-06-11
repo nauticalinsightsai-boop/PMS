@@ -24,6 +24,7 @@ export const FUNNEL_EVENTS = {
   RECOVERY_SUBMITTED: 'recovery_submitted',
   BOTTOM_BAR_SHOWN: 'bottom_bar_shown',
   BOTTOM_BAR_DISMISSED: 'bottom_bar_dismissed',
+  BOTTOM_BAR_ROTATION: 'bottom_bar_rotation',
   CHAT_OPEN: 'chat_open',
 } as const;
 

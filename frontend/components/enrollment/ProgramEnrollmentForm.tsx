@@ -52,6 +52,7 @@ export function ProgramEnrollmentForm({ offeringId, siteCertId, tierSlug }: Prog
 
   useFormPartialRecovery({
     variant: 'enroll_partial',
+    idleMs: 30_000,
     isSubmitted: checkoutStarted,
     hasPartialData: Boolean(email.trim()),
     extraContext: {

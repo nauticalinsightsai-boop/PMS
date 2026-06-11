@@ -30,7 +30,7 @@ import {
 } from '@/lib/conversion-recovery/session-state';
 import { readStoredConsent } from '@/lib/legal/consent';
 import type { LeadRecoveryContext } from '@/lib/conversion-recovery/types';
-import { trackFunnelEvent, FUNNEL_EVENTS } from '@/lib/analytics/funnel';
+import { trackFunnelEvent, FUNNEL_EVENTS, trackGenerateLead } from '@/lib/analytics/funnel';
 
 type LeadRecoveryContextValue = {
   dialogOpen: boolean;
@@ -69,6 +69,7 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [dialogContext, setDialogContext] = React.useState<LeadRecoveryContext | null>(null);
   const [cookieGateReady, setCookieGateReady] = React.useState(false);
+  const [cookieBannerVisible, setCookieBannerVisible] = React.useState(false);
   const [barPausedUntil, setBarPausedUntil] = React.useState(0);
   const servicesTimerRef = React.useRef<number | null>(null);
   const servicesNudgeFiredRef = React.useRef(false);
@@ -76,7 +77,7 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
 
   const requestRecovery = React.useCallback(
     (ctx: LeadRecoveryContext, opts?: { requireIntent?: boolean }) => {
-      if (!enabled) return;
+      if (!enabled || !cookieGateReady || cookieBannerVisible) return;
       if (opts?.requireIntent !== false && !hasShownIntent() && !canShowPassiveCenterDialog()) {
         return;
       }
@@ -100,8 +101,15 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
         tier_id: ctx.tierId,
         cert_id: ctx.siteCertId,
       });
+      trackGenerateLead({
+        source: 'lead_recovery',
+        variant: ctx.variant,
+        page_path: pathname,
+        tier_id: ctx.tierId,
+        cert_id: ctx.siteCertId,
+      });
     },
-    [dialogOpen, enabled, pathname],
+    [cookieBannerVisible, cookieGateReady, dialogOpen, enabled, pathname],
   );
 
   const dismissDialog = React.useCallback(
@@ -109,6 +117,12 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
       setDialogOpen(false);
       setDialogContext(null);
       trackFunnelEvent(FUNNEL_EVENTS.RECOVERY_DISMISSED, {
+        reason,
+        page_path: pathname,
+      });
+      trackGenerateLead({
+        source: 'lead_recovery',
+        action: 'dismiss',
         reason,
         page_path: pathname,
       });
@@ -133,7 +147,7 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
       const doc = document.documentElement;
       const scrollable = doc.scrollHeight - window.innerHeight;
       const ratio = scrollable > 0 ? window.scrollY / scrollable : 0;
-      if (ratio >= 0.7) {
+      if (ratio >= 0.7 && !hasShownIntent()) {
         servicesNudgeFiredRef.current = true;
         setServicesNudgeEligible(true);
       }
@@ -160,9 +174,19 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
         setCookieGateReady(false);
       }
     };
+    const onConsentVisible = (e: Event) => {
+      const detail = (e as CustomEvent<{ visible?: boolean }>).detail;
+      setCookieBannerVisible(Boolean(detail?.visible));
+      if (detail?.visible) setCookieGateReady(false);
+      else syncCookieGate();
+    };
     syncCookieGate();
     window.addEventListener('legal-consent-updated', syncCookieGate);
-    return () => window.removeEventListener('legal-consent-updated', syncCookieGate);
+    window.addEventListener('cookie-consent-visible', onConsentVisible);
+    return () => {
+      window.removeEventListener('legal-consent-updated', syncCookieGate);
+      window.removeEventListener('cookie-consent-visible', onConsentVisible);
+    };
   }, [enabled]);
 
   React.useEffect(() => {

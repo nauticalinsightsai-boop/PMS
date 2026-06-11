@@ -3,16 +3,18 @@
 import * as React from 'react';
 import type { LeadRecoveryContext } from '@/lib/conversion-recovery/types';
 
-const IDLE_MS = 20_000;
+const DEFAULT_IDLE_MS = 20_000;
 
 export function useFormPartialRecovery(opts: {
   variant: LeadRecoveryContext['variant'];
   isSubmitted: boolean;
   hasPartialData: boolean;
+  idleMs?: number;
   extraContext?: Omit<LeadRecoveryContext, 'variant'>;
   onRequestRecovery?: (ctx: LeadRecoveryContext) => void;
 }) {
   const { variant, isSubmitted, hasPartialData, extraContext, onRequestRecovery } = opts;
+  const idleMs = opts.idleMs ?? DEFAULT_IDLE_MS;
   const touchedRef = React.useRef(false);
   const firedRef = React.useRef(false);
   const idleRef = React.useRef<number | null>(null);
@@ -24,9 +26,13 @@ export function useFormPartialRecovery(opts: {
     idleRef.current = window.setTimeout(() => {
       if (firedRef.current || isSubmitted || !hasPartialData) return;
       firedRef.current = true;
-      onRequestRecovery?.({ variant, ...extraContext, parentSurface: 'roadmap_form' });
-    }, IDLE_MS);
-  }, [extraContext, hasPartialData, isSubmitted, onRequestRecovery, variant]);
+      onRequestRecovery?.({
+        variant,
+        ...extraContext,
+        parentSurface: extraContext?.parentSurface ?? 'roadmap_form',
+      });
+    }, idleMs);
+  }, [extraContext, hasPartialData, idleMs, isSubmitted, onRequestRecovery, variant]);
 
   React.useEffect(() => {
     return () => {

@@ -13,6 +13,10 @@ export function CookieConsent() {
     if (!readStoredConsent()) setVisible(true);
   }, []);
 
+  React.useEffect(() => {
+    window.dispatchEvent(new CustomEvent('cookie-consent-visible', { detail: { visible } }));
+  }, [visible]);
+
   const acceptAll = () => {
     acceptAllConsent();
     setVisible(false);
