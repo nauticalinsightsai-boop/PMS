@@ -46,6 +46,16 @@ Redeploy the marketing project after env changes.
 
 Same Supabase keys as above. Set `AUTH_ALLOWED_ORIGINS=https://pmstructure.com` if auth routes are used from the public API.
 
+```env
+STRIPE_SECRET_KEY=sk_live_...          # or sk_test_... while testing
+STRIPE_WEBHOOK_SECRET=whsec_...        # Stripe Dashboard → Webhooks → signing secret
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
+```
+
+Webhook URL for production: `https://pmstructure.com/api/stripe/webhook` (event: `checkout.session.completed`).
+
+Redeploy the **backend** project after adding Stripe env vars.
+
 ## Optional: 4 Vercel projects (split admin)
 
 Use this only if you want admin on separate deployments. Set on the **marketing** project:

@@ -5,6 +5,7 @@ import BrandIconMark from '@/components/BrandIconMark'
 import PortalHeaderUtilities from '@/components/channel-landing/portal/PortalHeaderUtilities'
 import PortalButton from '@/components/channel-landing/portal/primitives/PortalButton'
 import { BRAND } from '@/lib/brand-voice'
+import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing'
 import { resolveScheduleTierCta } from '@/lib/channel-landing-pages/channelPortalCopy'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 import { pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils'
@@ -127,9 +128,7 @@ export default function ChannelPortalHeroHeader({
 
   return (
     <header
-      className={`flex flex-col gap-4 w-full${
-        topBar ? '' : isLeadHero ? ' mb-6 sm:mb-8' : ' mb-8 sm:mb-10'
-      }`}
+      className={`flex flex-col gap-4 w-full${topBar ? '' : ` ${portalSpacing.section}`}`}
       style={{ order: topBar ? undefined : sectionOrder }}
     >
       <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">

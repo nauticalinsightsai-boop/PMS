@@ -1,6 +1,7 @@
 'use client'
 
 import GlassCard from '@/components/ui/cards/GlassCard'
+import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 
 function ContextIntro({
@@ -68,7 +69,7 @@ export default function ChannelPortalContextSection({
   }
 
   return (
-    <section className="mb-8 sm:mb-10" style={{ order: sectionOrder }}>
+    <section className={portalSpacing.section} style={{ order: sectionOrder }}>
       <ContextIntro page={page} theme={theme} />
       {page.targetMessage ? (
         useSiteGlass ? (

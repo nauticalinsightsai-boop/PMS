@@ -39,6 +39,7 @@
     "qa:regional": "node scripts/qa-regional-matrix.mjs",
     "setup:env": "node scripts/setup-regional-env.mjs",
     "env:link": "node scripts/link-env.mjs",
+    "check:stripe": "node scripts/check-stripe-config.cjs",
     "verify:regional-dev": "node scripts/verify-regional-dev.mjs",
     "test:legal-seo": "npm run test -w @pms/frontend -- lib/legal-seo.test.ts content/legal/index.test.ts",
     "audit:images": "node scripts/audit-images.mjs",

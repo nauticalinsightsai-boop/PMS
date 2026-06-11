@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react'
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
+import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing'
 
 type Props = {
   theme: PlatformPortalTheme
@@ -23,10 +24,9 @@ export default function PortalSection({
   children,
   className = '',
 }: Props) {
-  const isCompact = className.includes('portal-section-compact')
   return (
     <section
-      className={`${isCompact ? 'mb-6 sm:mb-8' : 'mb-8 sm:mb-10'} ${className}`.trim()}
+      className={`${portalSpacing.section} ${className}`.trim()}
       style={{ order: sectionOrder }}
     >
       {title ? (

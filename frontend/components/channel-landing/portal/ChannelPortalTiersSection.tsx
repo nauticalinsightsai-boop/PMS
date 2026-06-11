@@ -166,7 +166,7 @@ export default function ChannelPortalTiersSection({
                   ) : (
                     <>
                       <span
-                        className="text-body-sm font-medium tabular-nums px-3 py-1.5"
+                        className="inline-flex items-center justify-center text-center text-body-sm font-medium tabular-nums px-3 py-1.5"
                         style={{
                           borderRadius: theme.radius,
                           backgroundColor: theme.priceBadgeBg,

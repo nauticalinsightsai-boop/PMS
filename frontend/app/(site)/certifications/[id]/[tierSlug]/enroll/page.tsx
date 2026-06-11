@@ -11,11 +11,11 @@ export async function generateMetadata({ params }: Props) {
   const offering = resolveOfferingForEnrollment(id, tierSlug);
   const certRecord = siteData.certifications.find((c) => c.id === id);
   const title = offering
-    ? `Enroll · ${certRecord?.name ?? id} · ${offering.tier}`
-    : 'Program enrollment';
+    ? `Reserve your seat · ${certRecord?.name ?? id} · ${offering.tier}`
+    : 'Reserve your seat';
   return buildPageMetadata({
     title,
-    description: 'Complete program enrollment for your certification pathway.',
+    description: 'Reserve a seat on your certification pathway with a deposit. Onboarding within 24 hours.',
     path: `/certifications/${id}/${tierSlug}/enroll`,
     robots: { index: false, follow: false },
   });

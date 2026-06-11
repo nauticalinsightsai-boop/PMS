@@ -55,7 +55,7 @@ function applyRegionHint(
 
 type RegionProviderProps = {
   children: React.ReactNode;
-  /** Channel portals: default USD/global, no blocking modal; optional IP region hint. */
+  /** Channel portals: always global pricing; region chip is display-only. */
   portalDefaults?: boolean;
 };
 
@@ -77,25 +77,30 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
       setGccCountry(null);
       setModalOpen(false);
 
+      if (portalDefaults) {
+        if (!cancelled) {
+          setRegionSource(null);
+          setCanChangeRegion(false);
+          setIsDetectingRegion(false);
+        }
+        return;
+      }
+
       const stored = readStoredRegion();
 
       // Legacy manual picks (no source) — discard and re-detect from IP.
       if (stored && !stored.source) {
         clearStoredRegion();
-      } else if (stored?.source) {
+      } else       if (stored?.source) {
         if (!cancelled) {
           setRegionId(stored.regionId);
           setGccCountry(stored.gccCountry);
           setRegionSource(stored.source);
-          setCanChangeRegion(stored.source === 'geolocation' || stored.source === 'manual');
-        }
-        return;
-      }
-
-      if (portalDefaults) {
-        const hint = await fetchIpRegionHint();
-        if (!cancelled && hint && !readStoredRegion()) {
-          applyRegionHint(hint, 'ip', setRegionId, setGccCountry, setRegionSource);
+          setCanChangeRegion(
+            stored.source === 'geolocation' ||
+              stored.source === 'manual' ||
+              stored.source === 'ip',
+          );
         }
         return;
       }
@@ -103,6 +108,7 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
       const hint = await fetchIpRegionHint();
       if (!cancelled && hint) {
         applyRegionHint(hint, 'ip', setRegionId, setGccCountry, setRegionSource);
+        setCanChangeRegion(true);
       }
     }
 
@@ -116,6 +122,7 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
     setRegionId(id);
     setGccCountry(gcc ?? null);
     setRegionSource('manual');
+    setCanChangeRegion(true);
     writeStoredRegion(id, gcc, 'manual');
     setModalOpen(false);
 

@@ -84,6 +84,10 @@ export const CTAS = {
   readinessChecklist: 'Download checklist',
 
   exploreCertifications: 'Explore pathways',
+  /** Mobile sticky bar on /go/* channel portals */
+  portalVisitWebsite: 'Explore on website',
+  /** Final CTA row on /go/* channel portals */
+  portalEmailSupport: 'Email support',
 
   browseResources: 'Browse resources',
 

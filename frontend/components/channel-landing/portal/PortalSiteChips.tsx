@@ -17,9 +17,9 @@ type Props = {
   theme: PlatformPortalTheme;
   /** Website portal always surfaces compare alongside store/membership. */
   includeCompare?: boolean;
-  /** Pro final CTA row: mentor + certificates, compare, membership (no store). */
+  /** Pro final CTA row: email + certificates only. */
   proFinalRow?: boolean;
-  mentorCta?: { label: string; onClick: () => void };
+  mentorCta?: { label: string; href: string };
 };
 
 type ChipId = 'store' | 'certificates' | 'compare' | 'membership';
@@ -97,7 +97,7 @@ export default function PortalSiteChips({
       cta: 'Open store →',
     });
   }
-  if (showCompare) {
+  if (showCompare && !proFinalRow) {
     chips.push({
       id: 'compare',
       label: 'Compare',
@@ -107,7 +107,7 @@ export default function PortalSiteChips({
       cta: 'Compare pathways →',
     });
   }
-  if (showMembership) {
+  if (showMembership && !proFinalRow) {
     chips.push({
       id: 'membership',
       label: 'Membership',
@@ -137,15 +137,19 @@ export default function PortalSiteChips({
       onPointerLeave={scheduleClose}
     >
       <div
-        className="flex w-full items-stretch gap-2"
+        className={cn(
+          'flex w-full gap-2',
+          proFinalRow && mentorCta ? 'flex-row items-stretch' : 'items-stretch',
+        )}
         role={mentorCta ? 'group' : 'tablist'}
-        aria-label={mentorCta ? 'Mentor calls and site shortcuts' : 'Site shortcuts'}
+        aria-label={mentorCta ? 'Contact and site shortcuts' : 'Site shortcuts'}
       >
         {mentorCta ? (
-          <button
-            type="button"
-            onClick={mentorCta.onClick}
-            className="flex flex-1 min-w-0 items-center justify-center gap-1.5 text-meta font-semibold px-3 py-1.5 transition-opacity hover:opacity-90"
+          <a
+            href={mentorCta.href}
+            className={cn(
+              'flex min-w-0 flex-1 items-center justify-center gap-1.5 text-meta font-semibold px-3 py-1.5 transition-opacity hover:opacity-90',
+            )}
             style={{
               borderRadius: theme.radius,
               border: 'none',
@@ -154,7 +158,7 @@ export default function PortalSiteChips({
             }}
           >
             {mentorCta.label}
-          </button>
+          </a>
         ) : null}
         {chips.map((chip) => {
           const isOpen = active === chip.id;
@@ -168,7 +172,9 @@ export default function PortalSiteChips({
               aria-controls={`portal-site-chip-panel-${chip.id}`}
               onClick={() => toggle(chip.id)}
               onPointerEnter={() => openChip(chip.id)}
-              className="flex flex-1 min-w-0 items-center justify-center gap-1.5 text-meta font-medium px-3 py-1.5 transition-opacity hover:opacity-90"
+              className={cn(
+                'flex min-w-0 flex-1 items-center justify-center gap-1.5 text-meta font-medium px-3 py-1.5 transition-opacity hover:opacity-90',
+              )}
               style={{
                 borderRadius: theme.radius,
                 border: isOpen ? `2px solid ${theme.primary}` : `1px solid ${theme.cardBorder}`,

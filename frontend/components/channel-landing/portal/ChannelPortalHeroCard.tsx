@@ -5,6 +5,7 @@ import GlassCard from '@/components/ui/cards/GlassCard'
 import { BRAND } from '@/lib/brand-voice'
 import { getChannelPortalCopy } from '@/lib/channel-landing-pages/channelPortalCopy'
 import { meetsContrast, pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils'
+import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 
 export default function ChannelPortalHeroCard({ page, theme, sectionOrder, portalLayoutChrome }: PortalSectionProps) {
@@ -72,7 +73,7 @@ export default function ChannelPortalHeroCard({ page, theme, sectionOrder, porta
         elevation="raised"
         liquid
         liquidIntensity={0.9}
-        className="mb-2 sm:mb-2.5 p-6 sm:p-8 portal-website-hero-card portal-hero-card"
+        className={`${portalSpacing.heroCard} portal-website-hero-card portal-hero-card`}
         style={{
           order: sectionOrder,
           borderRadius: theme.radiusLg,
@@ -88,7 +89,7 @@ export default function ChannelPortalHeroCard({ page, theme, sectionOrder, porta
 
   return (
     <div
-      className="portal-hero-card p-6 sm:p-8 mb-2 sm:mb-2.5 shadow-xl"
+      className={`portal-hero-card ${portalSpacing.heroCard} shadow-xl`}
       style={{
         order: sectionOrder,
         borderRadius: theme.radiusLg,

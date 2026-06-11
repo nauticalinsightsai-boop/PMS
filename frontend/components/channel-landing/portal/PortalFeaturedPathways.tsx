@@ -1,10 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import type { ChannelLandingPage } from '@/types/channelLandingPage';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
 import { certifications } from '@/data/siteData';
 import { BRAND } from '@/lib/brand-voice';
 import { usesPortalWebsiteLayoutChrome } from '@/lib/channel-landing-pages/platformOfferPack';
+import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing';
 import PortalPathwayCard from '@/components/channel-landing/portal/PortalPathwayCard';
 
 type Props = {
@@ -24,22 +26,23 @@ function portalPathwayTitle(certId: string, fallback: string) {
 }
 
 export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }: Props) {
+  const [expanded, setExpanded] = useState(false);
   const engagement = page.portalEngagement;
   const ids = engagement?.featuredCertIds?.length
     ? engagement.featuredCertIds
     : ['pmp', 'pmi-rmp'];
 
   const featured = ids.slice(0, 2);
-  if (featured.length === 0) return null;
-
   const layoutChrome = usesPortalWebsiteLayoutChrome(page.channelId);
   const subtitle = layoutChrome
     ? `${BRAND.name}: view pathways, cohort timing, and regional tuition on the website.`
     : `${BRAND.name}: view pathways, cohort timing, and regional tuition for your certification track.`;
 
+  if (featured.length === 0) return null;
+
   return (
     <section
-      className="portal-featured-pathways mb-6 sm:mb-8"
+      className={`portal-featured-pathways ${portalSpacing.section}`}
       style={{ order: sectionOrder }}
       aria-label="Featured certification pathways"
     >
@@ -71,6 +74,9 @@ export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }
               description={cert.desc}
               layout="compact"
               collapsible
+              className="flex h-full flex-col"
+              expanded={expanded}
+              onExpandedChange={setExpanded}
             />
           );
         })}

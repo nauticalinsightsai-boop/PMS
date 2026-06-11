@@ -1,18 +1,20 @@
 'use client'
 
-import PortalButton from '@/components/channel-landing/portal/primitives/PortalButton'
+import Link from 'next/link'
+import { CTAS } from '@/lib/brand-voice'
+import { pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils'
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
-import { isConversionEnabledForChannel } from '@/lib/channel-landing-pages/portalConversionPacks'
 
 type Props = {
-  channelId: string
   theme: PlatformPortalTheme
-  label: string
-  onClick: () => void
 }
 
-export default function ChannelPortalStickyCta({ channelId, theme, label, onClick }: Props) {
-  if (!isConversionEnabledForChannel(channelId)) return null
+export default function ChannelPortalStickyCta({ theme }: Props) {
+  const bg =
+    typeof theme.recommendedBg === 'string' && !theme.recommendedBg.includes('gradient')
+      ? theme.recommendedBg
+      : theme.primary
+  const fg = theme.recommendedText ?? pickReadableForeground(bg)
 
   return (
     <div
@@ -23,9 +25,17 @@ export default function ChannelPortalStickyCta({ channelId, theme, label, onClic
         paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))',
       }}
     >
-      <PortalButton theme={theme} variant="recommended" className="w-full" onClick={onClick}>
-        {label}
-      </PortalButton>
+      <Link
+        href="/"
+        className="flex w-full items-center justify-center px-4 py-2.5 text-body-sm font-semibold hover:opacity-90 transition-opacity"
+        style={{
+          borderRadius: theme.radius,
+          background: bg,
+          color: fg,
+        }}
+      >
+        {CTAS.portalVisitWebsite}
+      </Link>
     </div>
   )
 }

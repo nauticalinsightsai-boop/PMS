@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Crown } from 'lucide-react';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
+import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing';
 import { REGION_COPY } from '@/lib/brand-voice';
 
 const HIDE_MS = 500;
@@ -12,12 +13,20 @@ type Props = {
   theme: PlatformPortalTheme;
   membershipPrice?: string | null;
   className?: string;
+  /** `chip` matches prep/tuition MetaChip sizing in pathway detail rows. */
+  variant?: 'button' | 'chip';
 };
 
-export default function PortalMembershipPopout({ theme, membershipPrice, className = '' }: Props) {
+export default function PortalMembershipPopout({
+  theme,
+  membershipPrice,
+  className = '',
+  variant = 'button',
+}: Props) {
   const [open, setOpen] = useState(false);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const price = membershipPrice?.trim() || 'N/A';
+  const isChip = variant === 'chip';
 
   const show = useCallback(() => {
     if (hideTimer.current) clearTimeout(hideTimer.current);
@@ -29,32 +38,61 @@ export default function PortalMembershipPopout({ theme, membershipPrice, classNa
     hideTimer.current = setTimeout(() => setOpen(false), HIDE_MS);
   }, []);
 
-  useEffect(() => () => {
-    if (hideTimer.current) clearTimeout(hideTimer.current);
-  }, []);
+  useEffect(
+    () => () => {
+      if (hideTimer.current) clearTimeout(hideTimer.current);
+    },
+    [],
+  );
+
+  const shellStyle = {
+    borderRadius: theme.radius,
+    border: `1px solid ${theme.cardBorder}`,
+    backgroundColor: theme.surfaceMuted,
+    color: theme.text,
+  };
 
   return (
     <div
-      className={`relative inline-flex ${className}`.trim()}
+      className={`relative ${isChip ? 'flex w-full min-w-0 sm:flex-1 sm:basis-0 self-stretch' : 'inline-flex'} ${className}`.trim()}
       onMouseEnter={show}
       onMouseLeave={hideSoon}
     >
       <button
         type="button"
-        className="inline-flex items-center gap-1.5 text-meta font-medium px-3 py-1.5 transition-opacity hover:opacity-90"
-        style={{
-          borderRadius: theme.radius,
-          border: `1px solid ${theme.cardBorder}`,
-          backgroundColor: theme.surfaceMuted,
-          color: theme.text,
-        }}
+        className={
+          isChip
+            ? `${portalSpacing.metaChip} w-full h-full transition-opacity hover:opacity-90`
+            : 'inline-flex items-center gap-1.5 text-meta font-medium px-3 py-1.5 transition-opacity hover:opacity-90'
+        }
+        style={shellStyle}
         aria-expanded={open}
         aria-haspopup="dialog"
         onFocus={show}
         onBlur={hideSoon}
       >
-        <Crown size={14} style={{ color: theme.primary }} aria-hidden />
-        Membership
+        {isChip ? (
+          <>
+            <span
+              className="text-[9px] font-mono uppercase tracking-[0.14em]"
+              style={{ color: theme.textMuted }}
+            >
+              Membership
+            </span>
+            <span
+              className={`${portalSpacing.detailValue} inline-flex items-center gap-1`}
+              style={{ color: theme.text }}
+            >
+              <Crown size={12} style={{ color: theme.primary }} aria-hidden />
+              {price}
+            </span>
+          </>
+        ) : (
+          <>
+            <Crown size={14} style={{ color: theme.primary }} aria-hidden />
+            Membership
+          </>
+        )}
       </button>
 
       <div

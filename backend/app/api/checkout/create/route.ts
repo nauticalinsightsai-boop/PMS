@@ -7,6 +7,8 @@ import { isConsultationApproved } from '@/lib/consultation-approval';
 import { membershipPriceUsdCents } from '@/lib/membership-pricing';
 import { verifyRegion } from '@/lib/verify-region';
 import { createCheckoutSession } from '@/lib/checkout-session';
+import { safeRedirectUrl } from '@/lib/safe-redirect-url';
+import { isStripeConfigured } from '@/lib/stripe';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 import { jsonError, jsonOk } from '@/lib/response-helpers.js';
 import type { RegionId } from '@/lib/regional-catalogue';
@@ -78,28 +80,30 @@ export async function POST(request: Request) {
 
   const origin = request.headers.get('origin') ?? 'http://localhost:3000';
 
-  function safeRedirectUrl(candidate: string | undefined, fallback: string): string {
-    if (!candidate?.trim()) return fallback;
-    try {
-      const parsed = new URL(candidate);
-      const base = new URL(origin);
-      if (parsed.origin !== base.origin) return fallback;
-      return parsed.toString();
-    } catch {
-      return fallback;
-    }
-  }
-
-  const defaultSuccess = `${origin}/checkout/success?offering=${offeringId}`;
+  const defaultSuccess = `${origin}/checkout/success?offering=${offeringId}&session_id={CHECKOUT_SESSION_ID}`;
   const defaultCancel = `${origin}/checkout/cancel?offering=${offeringId}`;
 
   const session = await createCheckoutSession({
     offeringId,
     usdCents,
     email,
-    successUrl: safeRedirectUrl(successUrl, defaultSuccess),
-    cancelUrl: safeRedirectUrl(cancelUrl, defaultCancel),
+    successUrl: safeRedirectUrl(origin, successUrl, defaultSuccess),
+    cancelUrl: safeRedirectUrl(origin, cancelUrl, defaultCancel),
+    productName: `${offering.courseName} — ${offering.tierId.replace(/_/g, ' ')}`,
+    productDescription: 'Pathway tuition',
+    metadata: {
+      regionId,
+      paymentType: 'full_tuition',
+      residenceCountry: residenceCountry ?? '',
+      billingCountry: billingCountry ?? '',
+      gccCountry: gccCountry ?? '',
+      hasMembership: hasMembership ? 'true' : 'false',
+    },
   });
+
+  if (!session.url && isStripeConfigured()) {
+    return jsonError('Could not start checkout. Try again or contact support.', 503);
+  }
 
   if (isSupabaseConfigured) {
     const { error } = await supabaseAdmin.from('orders').insert({

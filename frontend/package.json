@@ -19,6 +19,7 @@
     "@pms/booking-crm": "file:../packages/booking-crm",
     "@pms/site-content": "file:../packages/site-content",
     "@pms/ui": "file:../packages/ui",
+    "@stripe/stripe-js": "^5.10.0",
     "@supabase/supabase-js": "^2.105.4",
     "@tailwindcss/postcss": "^4.1.14",
     "class-variance-authority": "^0.7.1",

@@ -10,6 +10,7 @@ import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 
 type CalendlyGlobal = {
  initPopupWidget: (opts: { url: string }) => void;
+ initInlineWidget?: (opts: { url: string; parentElement: HTMLElement }) => void;
  closePopupWidget?: () => void;
 };
 
@@ -49,12 +50,16 @@ function ensureCalendlyWidgetCss(): void {
  document.head.appendChild(link);
 }
 
+function isCalendlyWidgetReady(): boolean {
+ return Boolean(window.Calendly?.initPopupWidget || window.Calendly?.initInlineWidget);
+}
+
 /**
- * Load Calendly popup widget API (singleton). Handles cached scripts where `load` may not fire.
+ * Load Calendly widget.js (popup + inline). Handles cached scripts where `load` may not fire.
  */
-export function loadCalendlyPopupWidget(): Promise<void> {
+export function loadCalendlyWidget(): Promise<void> {
  if (typeof window === 'undefined') return Promise.resolve();
- if (window.Calendly?.initPopupWidget) return Promise.resolve();
+ if (isCalendlyWidgetReady()) return Promise.resolve();
  if (calendlyScriptPromise) return calendlyScriptPromise;
 
  ensureCalendlyWidgetCss();
@@ -69,7 +74,7 @@ export function loadCalendlyPopupWidget(): Promise<void> {
 
   const finish = (ok: boolean, err?: Error) => {
    if (done) return;
-   if (window.Calendly?.initPopupWidget) ok = true;
+   if (isCalendlyWidgetReady()) ok = true;
    if (!ok && !err) err = new Error('Calendly widget unavailable');
    done = true;
    if (timers.pollId !== undefined) window.clearInterval(timers.pollId);
@@ -79,7 +84,7 @@ export function loadCalendlyPopupWidget(): Promise<void> {
   };
 
   const check = () => {
-   if (window.Calendly?.initPopupWidget) finish(true);
+   if (isCalendlyWidgetReady()) finish(true);
   };
 
   check();
@@ -117,9 +122,12 @@ export function loadCalendlyPopupWidget(): Promise<void> {
  return calendlyScriptPromise;
 }
 
+/** @deprecated Use {@link loadCalendlyWidget} */
+export const loadCalendlyPopupWidget = loadCalendlyWidget;
+
 /** Preload widget script (optional) so first click opens faster. */
 export function preloadCalendlyPopupWidget(): void {
- void loadCalendlyPopupWidget();
+ void loadCalendlyWidget();
 }
 
 /**
@@ -162,7 +170,7 @@ export async function openCalendlyThemedPopup(
  beginCalendlySession({ funnelLabel, siteCertId, tierId });
 
  try {
-  await loadCalendlyPopupWidget();
+  await loadCalendlyWidget();
   if (window.Calendly?.initPopupWidget) {
    window.Calendly.initPopupWidget({ url: themedPopupUrl });
    attachCalendlyPopupEnhancements();

@@ -280,6 +280,37 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-20px); }
   }
+  @keyframes portal-social-marquee {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  .portal-social-marquee-shell {
+    overflow: hidden;
+    width: 100%;
+  }
+  .portal-social-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: portal-social-marquee 36s linear infinite;
+    will-change: transform;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .portal-social-marquee-shell {
+      overflow-x: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .portal-social-marquee-shell::-webkit-scrollbar {
+      display: none;
+    }
+    .portal-social-marquee-track {
+      animation: none;
+    }
+  }
   .animate-pulse-slow {
     animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
@@ -524,5 +555,14 @@
   .portal-website > div[class*='max-w-4xl'] {
     position: relative;
     z-index: 1;
+  }
+
+  /* /go/* — portal palette drives shadcn text utilities inside portal-root */
+  .portal-root .text-body-sm {
+    color: var(--portal-text-muted);
+  }
+
+  .portal-root .text-body {
+    color: var(--portal-text);
   }
 }

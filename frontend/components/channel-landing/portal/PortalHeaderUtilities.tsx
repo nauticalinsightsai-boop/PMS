@@ -20,37 +20,14 @@ type Props = {
 function PortalRegionChip({
   theme,
   regionLabel,
-  canChangeRegion,
-  isDetectingRegion,
-  onInteract,
 }: {
   theme: PlatformPortalTheme;
   regionLabel: string;
-  canChangeRegion: boolean;
-  isDetectingRegion: boolean;
-  onInteract: () => void;
 }) {
-  const suffix = canChangeRegion ? '· Change' : '· Share location';
-  const title = canChangeRegion
-    ? 'Change pricing region'
-    : 'Share your location to update pricing for your area';
-
   return (
-    <button
-      type="button"
-      onClick={onInteract}
-      disabled={isDetectingRegion}
-      aria-label={
-        canChangeRegion
-          ? `Region: ${regionLabel}. Click to change region.`
-          : `Region: ${regionLabel}. Share your location to change region.`
-      }
-      title={title}
-      className={cn(
-        'inline-flex w-full items-center justify-center gap-1.5 text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 transition-opacity sm:w-auto sm:shrink-0 sm:justify-start',
-        !isDetectingRegion && 'hover:opacity-90',
-        isDetectingRegion && 'opacity-70',
-      )}
+    <span
+      aria-label={`Region: ${regionLabel}`}
+      className="inline-flex w-full items-center justify-center text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 sm:w-auto sm:shrink-0 sm:justify-start"
       style={{
         borderRadius: theme.radius,
         border: `1px solid ${theme.cardBorder}`,
@@ -58,11 +35,8 @@ function PortalRegionChip({
         backgroundColor: theme.surfaceMuted,
       }}
     >
-      <span>{regionLabel}</span>
-      <span aria-hidden style={{ color: theme.primary }}>
-        {isDetectingRegion ? '· Detecting…' : ` ${suffix}`}
-      </span>
-    </button>
+      {regionLabel}
+    </span>
   );
 }
 
@@ -73,15 +47,7 @@ export default function PortalHeaderUtilities({
   className,
 }: Props) {
   const e = page.portalEngagement;
-  const {
-    regionId,
-    gccCountry,
-    regionLabel,
-    canChangeRegion,
-    isDetectingRegion,
-    openRegionModal,
-    shareLocationForRegion,
-  } = useRegion();
+  const { regionId, gccCountry, regionLabel } = useRegion();
   const showStore = e?.showStoreLink !== false;
   const showMembership = e?.showMembershipLink !== false;
   const proTier = membershipTiers.find((t) => t.name === 'Professional');
@@ -89,23 +55,7 @@ export default function PortalHeaderUtilities({
     ? getRegionalMembershipAmounts(proTier.monthlyPriceUsd, proTier.yearlyPriceUsd, regionId, gccCountry)
     : null;
 
-  const handleRegionInteract = () => {
-    if (canChangeRegion) {
-      openRegionModal();
-      return;
-    }
-    void shareLocationForRegion();
-  };
-
-  const regionChip = (
-    <PortalRegionChip
-      theme={theme}
-      regionLabel={regionLabel}
-      canChangeRegion={canChangeRegion}
-      isDetectingRegion={isDetectingRegion}
-      onInteract={handleRegionInteract}
-    />
-  );
+  const regionChip = <PortalRegionChip theme={theme} regionLabel={regionLabel} />;
 
   if (!engagementLinks || (!showStore && !showMembership)) {
     return <div className={cn('w-full sm:w-auto sm:flex sm:justify-end', className)}>{regionChip}</div>;

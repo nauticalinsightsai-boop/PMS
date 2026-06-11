@@ -354,43 +354,78 @@ export function sanitizeCalendlySchedulingUrl(raw: string): string {
  return assertCalendlySchedulingUrl(raw) ?? '';
 }
 
-/** Build Calendly `<iframe src>` embed URL: `embed_domain`, `embed_type=Inline`, theme + optional prefill. */
-export function buildCalendlyIframeEmbedUrl(
- base: string,
- opts: {
-  host: string;
-  name?: string;
-  email?: string;
-  theme?: 'dark' | 'light';
- }
-): string {
+type CalendlyThemedEmbedOpts = {
+ host: string;
+ name?: string;
+ email?: string;
+ theme?: 'dark' | 'light';
+ /** Hide Calendly event banner / GDPR chrome for a tighter inline flow. */
+ minimalChrome?: boolean;
+ /** Match marketing enrollment card surfaces. */
+ surface?: 'default' | 'enrollment';
+ iframe?: boolean;
+};
+
+function buildCalendlyThemedSchedulingUrl(base: string, opts: CalendlyThemedEmbedOpts): string {
  const cleaned = sanitizeCalendlySchedulingUrl(base);
  if (!cleaned) return '';
  try {
   const u = new URL(cleaned);
-  u.searchParams.set('embed_domain', opts.host);
-  u.searchParams.set('embed_type', 'Inline');
+  if (opts.iframe) {
+   u.searchParams.set('embed_domain', opts.host);
+   u.searchParams.set('embed_type', 'Inline');
+  }
   if (opts.name?.trim()) u.searchParams.set('name', opts.name.trim());
   if (opts.email?.trim()) u.searchParams.set('email', opts.email.trim());
+  if (opts.minimalChrome) {
+   u.searchParams.set('hide_event_type_details', '1');
+   u.searchParams.set('hide_landing_page_details', '1');
+   u.searchParams.set('hide_gdpr_banner', '1');
+  }
   const theme = opts.theme ?? getCalendlySurfaceMode();
   const pal = CALENDLY_EMBED_BRAND[theme];
   const portal = getPortalCalendlyPalette();
+  const accent = normalizeHexColor(getActiveBrandAccentColor());
+  const enrollmentSurface =
+   opts.surface === 'enrollment'
+     ? theme === 'dark'
+       ? { background: '0f172a', text: 'f1f5f9', primary: accent?.slice(1) ?? 'ff4a38' }
+       : { background: 'ffffff', text: '0f172a', primary: accent?.slice(1) ?? 'ff4a38' }
+     : null;
   u.searchParams.set(
    'background_color',
-   portal ? hexForCalendlyParam(portal.background, pal.background) : pal.background
+   enrollmentSurface?.background ??
+    (portal ? hexForCalendlyParam(portal.background, pal.background) : pal.background)
   );
   u.searchParams.set(
    'text_color',
-   portal ? hexForCalendlyParam(portal.text, pal.text) : pal.text
+   enrollmentSurface?.text ?? (portal ? hexForCalendlyParam(portal.text, pal.text) : pal.text)
   );
   u.searchParams.set(
    'primary_color',
-   portal ? hexForCalendlyParam(portal.primary, pal.primary) : pal.primary
+   enrollmentSurface?.primary ??
+    (portal ? hexForCalendlyParam(portal.primary, pal.primary) : accent?.slice(1) ?? pal.primary)
   );
   return u.toString();
  } catch {
   return cleaned;
  }
+}
+
+/** Build Calendly `<iframe src>` embed URL: `embed_domain`, `embed_type=Inline`, theme + optional prefill. */
+export function buildCalendlyIframeEmbedUrl(
+ base: string,
+ opts: Omit<CalendlyThemedEmbedOpts, 'iframe'>
+): string {
+ return buildCalendlyThemedSchedulingUrl(base, { ...opts, iframe: true });
+}
+
+/** Build URL for Calendly `initInlineWidget` (official inline embed). */
+export function buildCalendlyInlineWidgetUrl(
+ base: string,
+ opts: Omit<CalendlyThemedEmbedOpts, 'iframe' | 'name' | 'email'>
+): string {
+ return buildCalendlyThemedSchedulingUrl(base, { ...opts, iframe: false });
 }
 
 /**

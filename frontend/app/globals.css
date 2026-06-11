@@ -1,1 +1,19 @@
 @import "../../packages/ui/src/globals.css";
+
+/* Enrollment seat reservation — Calendly inline widget flush with card */
+.seat-reservation-calendly .calendly-inline-widget {
+  min-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.seat-reservation-calendly .calendly-inline-widget iframe {
+  width: 100% !important;
+  min-width: 100% !important;
+}
+
+/* Enrollment seat deposit — Stripe Embedded Checkout */
+.seat-deposit-stripe-embedded iframe {
+  width: 100% !important;
+  min-width: 100% !important;
+}

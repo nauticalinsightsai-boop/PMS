@@ -12,6 +12,7 @@ import {
   type PortalSectionId,
 } from '@/lib/channel-landing-pages/platformOfferPack'
 import { portalShellMaxWidthClass } from '@/lib/channel-landing-pages/portalLayoutClasses'
+import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing'
 import { resolveScheduleTierCta } from '@/lib/channel-landing-pages/channelPortalCopy'
 import {
   resolvePortalTheme,
@@ -90,11 +91,6 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
     else scrollToTiers()
   }, [page, discoveryTier, scrollToTiers])
 
-  const bookFinalCtaTier = useCallback(() => {
-    if (discoveryTier) scheduleTierClick(page, discoveryTier)
-    else scrollToTiers()
-  }, [page, discoveryTier, scrollToTiers])
-
   const isLeadHero = sectionOrder('hero') < sectionOrder('context')
   const showHeroCard = sectionOrder('hero_card') < 99
 
@@ -154,14 +150,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
       case 'form':
         return <ChannelPortalBookingForm key={id} {...props} />
       case 'final_cta':
-        return (
-          <ChannelPortalFinalCta
-            key={id}
-            {...props}
-            onPrimaryClick={bookFinalCtaTier}
-            scheduleCta={scheduleCta}
-          />
-        )
+        return <ChannelPortalFinalCta key={id} {...props} />
       case 'social_footer':
         return (
           <div key={id} style={{ order }}>
@@ -175,7 +164,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
 
   return (
     <div
-      className={`portal-root relative z-10 min-h-screen flex flex-col overflow-x-hidden pb-20 sm:pb-0${marketingAmbience ? ' portal-website selection:bg-brand-orange selection:text-white' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}`}
+      className={`portal-root relative z-10 ${portalSpacing.root}${marketingAmbience ? ' portal-website selection:bg-brand-orange selection:text-white' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}`}
       style={{
         fontFamily: marketingAmbience ? undefined : theme.fontFamily,
         backgroundColor: marketingAmbience ? undefined : theme.background,
@@ -207,16 +196,11 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
 
       <ChannelPortalPresenceStrip {...sectionProps} sectionOrder={sectionOrder('presence')} />
 
-      <div className={`${contentWidth} flex flex-col px-4 sm:px-5 py-6 sm:py-10`}>
+      <div className={`${contentWidth} ${portalSpacing.content}`}>
         {flow.map((id) => renderFlowSection(id))}
       </div>
 
-      <ChannelPortalStickyCta
-        channelId={page.channelId}
-        theme={theme}
-        label={scheduleCta}
-        onClick={bookDiscovery}
-      />
+      <ChannelPortalStickyCta theme={theme} />
     </div>
   )
 }

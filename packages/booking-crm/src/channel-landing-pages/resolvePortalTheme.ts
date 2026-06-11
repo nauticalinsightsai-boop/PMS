@@ -117,5 +117,9 @@ export function portalThemeToCssVars(theme: PlatformPortalTheme): Record<string,
     '--portal-radius': theme.radius,
     '--portal-radius-lg': theme.radiusLg,
     '--portal-font': theme.fontFamily,
+    /* Keep shadcn typography utilities aligned with portal light/dark palette */
+    '--foreground': theme.text,
+    '--muted-foreground': theme.textMuted,
+    '--card-foreground': theme.text,
   }
 }
