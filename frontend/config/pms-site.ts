@@ -21,13 +21,17 @@ export const PMS_ONBOARDING_CALENDLY_URL =
   process.env.NEXT_PUBLIC_ONBOARDING_CALENDLY_URL?.trim() ||
   'https://calendly.com/pm-structure/go-talk-to-mentor';
 
-export function getOnboardingCalendlyUrl(offeringId?: string | null): string {
+export function getOnboardingCalendlyUrl(
+  offeringId?: string | null,
+  opts?: { utmSource?: string; utmMedium?: string },
+): string {
   const base = PMS_ONBOARDING_CALENDLY_URL;
-  if (!offeringId?.trim()) return base;
   const url = new URL(base);
-  url.searchParams.set('utm_source', 'success_page');
-  url.searchParams.set('utm_medium', 'enrollment');
-  url.searchParams.set('utm_content', offeringId.trim());
+  url.searchParams.set('utm_source', opts?.utmSource ?? 'success_page');
+  url.searchParams.set('utm_medium', opts?.utmMedium ?? 'enrollment');
+  if (offeringId?.trim()) {
+    url.searchParams.set('utm_content', offeringId.trim());
+  }
   return url.toString();
 }
 

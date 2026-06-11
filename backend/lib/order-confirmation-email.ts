@@ -113,6 +113,11 @@ PM Structure`;
   return { subject, text, html, calendlyUrl };
 }
 
+/** Preview subject/body/calendly URL (used in tests and local debugging). */
+export function previewOrderConfirmationEmail(params: OrderConfirmationParams) {
+  return buildOrderConfirmationContent(params);
+}
+
 export async function sendOrderConfirmationEmail(params: OrderConfirmationParams): Promise<boolean> {
   const to = params.to.trim();
   if (!to || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to) || to === 'pending@checkout.local') {

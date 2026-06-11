@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
+import { OnboardingCalendlyCta } from '@/components/checkout/OnboardingCalendlyCta';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { verifyCheckoutSession } from '@/services/checkout';
@@ -44,6 +45,13 @@ function MembershipCheckoutSuccessContent() {
           Thank you for joining {tierLabel} ({billingLabel} billing). Confirmation and onboarding details will be sent
           to the email address you provided at checkout.
         </p>
+        {(paymentVerified === true || !sessionId) && (
+          <OnboardingCalendlyCta
+            offeringId={tier ? `membership_${tier}` : null}
+            utmMedium="membership"
+            className="mb-8 w-full max-w-sm mx-auto"
+          />
+        )}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
           <Link href="/membership" className={cn(buttonVariants({ size: 'lg', variant: 'brand' }))}>
             Membership overview

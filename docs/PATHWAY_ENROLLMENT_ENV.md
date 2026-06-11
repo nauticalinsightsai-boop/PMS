@@ -10,6 +10,19 @@ Store secrets only in Railway or `.env.local` (never commit real URLs with track
 |----------|----------|--------|
 | `NEXT_PUBLIC_WHATSAPP_URL` | Recommended | Full `https://wa.me/…` or `https://api.whatsapp.com/send?phone=…` link. Shown on `/certifications/…/enroll/success`. |
 | `NEXT_PUBLIC_SUPPORT_EMAIL` | Optional | Defaults to `support@pmstructure.com`. Success page mailto. |
+| `NEXT_PUBLIC_ONBOARDING_CALENDLY_URL` | Optional | Post-checkout onboarding call. Default: `https://calendly.com/pm-structure/go-talk-to-mentor`. Shown on enroll success + membership success. |
+
+## Order confirmation email (API service)
+
+Set on **`backend/`** (port 3001), not the Next.js frontend build. Full setup: [ORDER_CONFIRMATION_EMAIL.md](./ORDER_CONFIRMATION_EMAIL.md).
+
+| Variable | Required | Notes |
+|----------|----------|--------|
+| `RESEND_API_KEY` | **Yes (prod)** | Sends confirmation after Stripe payment. |
+| `ORDER_EMAIL_FROM` | Recommended | Verified sender, e.g. `orders@pmstructure.com`. |
+| `ORDER_EMAIL_FROM_NAME` | Optional | Defaults to `PM Structure`. |
+| `ORDER_ONBOARDING_CALENDLY_URL` | Optional | Same default Calendly link as above; used in email CTA. |
+| `STRIPE_WEBHOOK_SECRET` | **Yes (prod)** | `checkout.session.completed` → mark paid + send email. |
 
 ## Pathway consultation Calendly (per certification × tier)
 

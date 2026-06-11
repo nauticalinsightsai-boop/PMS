@@ -76,6 +76,7 @@ export async function POST(request: Request) {
     productName: `${offering.courseName}: ${offering.tierId.replace(/_/g, ' ')}`,
     productDescription: `Pathway tuition (${regional.display})`,
     metadata: {
+      offeringId,
       regionId,
       paymentType: 'full_tuition',
       residenceCountry: residenceCountry ?? '',

@@ -50,9 +50,20 @@ Same Supabase keys as above. Set `AUTH_ALLOWED_ORIGINS=https://pmstructure.com` 
 STRIPE_SECRET_KEY=sk_live_...          # or sk_test_... while testing
 STRIPE_WEBHOOK_SECRET=whsec_...        # Stripe Dashboard → Webhooks → signing secret
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
+
+# Order confirmation emails (Resend)
+RESEND_API_KEY=re_...
+ORDER_EMAIL_FROM=orders@pmstructure.com
+ORDER_EMAIL_FROM_NAME=PM Structure
+ORDER_ONBOARDING_CALENDLY_URL=https://calendly.com/pm-structure/go-talk-to-mentor
+
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
+NEXT_PUBLIC_SUPABASE_URL=https://YOUR_REF.supabase.co
 ```
 
 Webhook URL for production: `https://pmstructure.com/api/stripe/webhook` (event: `checkout.session.completed`).
+
+See [ORDER_CONFIRMATION_EMAIL.md](./ORDER_CONFIRMATION_EMAIL.md) for the full post-payment email checklist.
 
 Redeploy the **backend** project after adding Stripe env vars.
 

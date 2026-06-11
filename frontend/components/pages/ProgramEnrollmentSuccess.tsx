@@ -4,16 +4,11 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { verifyCheckoutSession } from '@/services/enrollment';
-import { Calendar, MessageCircle } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
+import { OnboardingCalendlyCta } from '@/components/checkout/OnboardingCalendlyCta';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
-import {
-  PMS_SUPPORT_EMAIL,
-  getOnboardingCalendlyUrl,
-  getPmsWhatsAppDisplay,
-  getPmsWhatsAppUrl,
-  isWhatsAppConfigured,
-} from '@/config/pms-site';
+import { PMS_SUPPORT_EMAIL, getPmsWhatsAppDisplay, getPmsWhatsAppUrl, isWhatsAppConfigured } from '@/config/pms-site';
 import { getOfferingById } from '@/lib/regional-catalogue';
 import { cn } from '@/lib/utils';
 
@@ -88,18 +83,7 @@ function ProgramEnrollmentSuccessContent({
         )}
 
         {(paymentVerified === true || !sessionId) && (
-          <a
-            href={getOnboardingCalendlyUrl(offeringId)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants({ size: 'lg', variant: 'brand' }),
-              'mb-8 w-full justify-center gap-2 rounded-2xl',
-            )}
-          >
-            <Calendar className="h-5 w-5" aria-hidden />
-            Schedule your onboarding call
-          </a>
+          <OnboardingCalendlyCta offeringId={offeringId} className="mb-8 w-full" />
         )}
 
         <div className="rounded-2xl border border-slate-200 bg-white p-6 text-left dark:border-slate-800 dark:bg-slate-950/50 mb-8 space-y-3">
