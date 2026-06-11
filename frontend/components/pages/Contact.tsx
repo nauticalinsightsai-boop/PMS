@@ -7,11 +7,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
+import { Mail, MapPin, MessageSquare, MessageCircle } from "lucide-react";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { useSimpleFormRecovery } from '@/components/conversion-recovery/useSimpleFormRecovery';
+import {
+  formatOfficeLocation,
+  getPmsWhatsAppDisplay,
+  getPmsWhatsAppUrl,
+  isWhatsAppConfigured,
+  PMS_OFFICE_LOCATIONS,
+  PMS_SUPPORT_EMAIL,
+} from '@/config/pms-site';
 
 export function Contact() {
   const { get } = useWebsiteData();
@@ -102,28 +110,45 @@ export function Contact() {
                 </div>
                 <div>
                   <h3 className="font-bold">Email Us</h3>
-                  <p className="text-sm text-muted-foreground mt-1">support@pmstructure.com</p>
+                  <a
+                    href={`mailto:${PMS_SUPPORT_EMAIL}`}
+                    className="text-sm text-muted-foreground mt-1 hover:text-brand-orange transition-colors"
+                  >
+                    {PMS_SUPPORT_EMAIL}
+                  </a>
                   <p className="text-xs text-muted-foreground mt-1">We typically respond within 24 hours.</p>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <div className="p-3 rounded-xl bg-brand-orange/10 text-brand-orange h-fit">
-                  <Phone className="h-6 w-6" />
+              {isWhatsAppConfigured() ? (
+                <div className="flex gap-4">
+                  <div className="p-3 rounded-xl bg-green-600/10 text-green-600 h-fit">
+                    <MessageCircle className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold">WhatsApp</h3>
+                    <a
+                      href={getPmsWhatsAppUrl()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-muted-foreground mt-1 hover:text-brand-orange transition-colors"
+                    >
+                      {getPmsWhatsAppDisplay()}
+                    </a>
+                    <p className="text-xs text-muted-foreground mt-1">Message us for pathway or enrollment questions.</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-bold">Call Us</h3>
-                  <p className="text-sm text-muted-foreground mt-1">+1 (555) 123-4567</p>
-                  <p className="text-xs text-muted-foreground mt-1">Mon-Fri, 9am-6pm EST</p>
-                </div>
-              </div>
+              ) : null}
               <div className="flex gap-4">
                 <div className="p-3 rounded-xl bg-indigo-600/10 text-indigo-600 h-fit">
                   <MapPin className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-bold">Our Office</h3>
-                  <p className="text-sm text-muted-foreground mt-1">123 Project Way, Suite 400</p>
-                  <p className="text-sm text-muted-foreground">London, UK EC1A 1BB</p>
+                  <h3 className="font-bold">Locations</h3>
+                  {PMS_OFFICE_LOCATIONS.map((loc) => (
+                    <p key={loc.city} className="text-sm text-muted-foreground mt-1">
+                      {formatOfficeLocation(loc)}
+                    </p>
+                  ))}
                 </div>
               </div>
               <Card className="bg-slate-900 text-white border-none overflow-hidden">

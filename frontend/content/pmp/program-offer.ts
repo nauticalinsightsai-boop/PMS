@@ -155,6 +155,8 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
   },
 ] as const;
 
-/** Default PMP programme WhatsApp (UK). Override via NEXT_PUBLIC_WHATSAPP_URL. */
-export const PMP_PROGRAM_WHATSAPP_DISPLAY = '+44 7947 540939';
-export const PMP_PROGRAM_WHATSAPP_URL = 'https://wa.me/447947540939';
+/** @deprecated Import from @/config/pms-site instead. */
+export {
+  PMS_WHATSAPP_DISPLAY as PMP_PROGRAM_WHATSAPP_DISPLAY,
+  PMS_WHATSAPP_URL as PMP_PROGRAM_WHATSAPP_URL,
+} from '@/config/pms-site';

@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Search, HelpCircle, Mail } from 'lucide-react';
+import { Search, HelpCircle, Mail, MessageCircle } from 'lucide-react';
 import { useWebsiteData } from '@/services/WebsiteDataService';
 import { CTAS } from '@/lib/brand-voice';
-import { PMS_SUPPORT_EMAIL } from '@/config/pms-site';
+import { PMS_SUPPORT_EMAIL, getPmsWhatsAppDisplay, getPmsWhatsAppUrl, isWhatsAppConfigured } from '@/config/pms-site';
 import { RegisterModal } from '@/components/RegisterModal';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PricingComplianceNote } from '@/components/PricingComplianceNote';
@@ -182,7 +182,7 @@ export function FAQ() {
             >
               {PMS_SUPPORT_EMAIL}
             </a>{' '}
-            for billing, access, privacy, and policy questions. Browse our{' '}
+            for billing, access, privacy, and policy questions — or message us on WhatsApp. Browse our{' '}
             <Link href="/legal" className="text-brand-orange font-bold hover:underline">
               legal hub
             </Link>{' '}
@@ -195,6 +195,14 @@ export function FAQ() {
                 Email support
               </Button>
             </a>
+            {isWhatsAppConfigured() ? (
+              <a href={getPmsWhatsAppUrl()} target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" className="gap-2">
+                  <MessageCircle className="h-4 w-4" />
+                  WhatsApp {getPmsWhatsAppDisplay()}
+                </Button>
+              </a>
+            ) : null}
             <RegisterModal
               trigger={<Button variant="brand">{CTAS.navConsultation}</Button>}
             />

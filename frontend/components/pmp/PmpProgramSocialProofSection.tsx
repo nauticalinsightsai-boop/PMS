@@ -6,13 +6,11 @@ import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
-import { PMS_SUPPORT_EMAIL, PMS_WHATSAPP_URL, isWhatsAppConfigured } from '@/config/pms-site';
+import { PMS_SUPPORT_EMAIL, getPmsWhatsAppDisplay, getPmsWhatsAppUrl, isWhatsAppConfigured } from '@/config/pms-site';
 import { SITE_SOCIAL_PROFILE_URLS } from '@/config/site';
 import {
   PMP_PARTICIPANT_QUOTES,
   PMP_PROGRAM_CTA_LABEL,
-  PMP_PROGRAM_WHATSAPP_DISPLAY,
-  PMP_PROGRAM_WHATSAPP_URL,
   PMP_ROADMAP_FORM_ANCHOR,
   PMP_SUCCESS_JOURNEYS,
 } from '@/content/pmp/program-offer';
@@ -43,7 +41,7 @@ export function PmpProgramSocialProofSection({
   showContactBar = false,
   className,
 }: PmpProgramSocialProofSectionProps) {
-  const whatsappHref = isWhatsAppConfigured() ? PMS_WHATSAPP_URL : PMP_PROGRAM_WHATSAPP_URL;
+  const whatsappHref = getPmsWhatsAppUrl();
   const successStoriesHref = SITE_SOCIAL_PROFILE_URLS.youtube;
 
   return (
@@ -139,15 +137,17 @@ export function PmpProgramSocialProofSection({
                   Ready to start your PMP journey?
                 </h2>
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center lg:justify-start">
-                  <a
-                    href={whatsappHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-bold transition-colors hover:bg-white/10"
-                  >
-                    <MessageCircle className="h-5 w-5 text-green-400" aria-hidden />
-                    WhatsApp: {PMP_PROGRAM_WHATSAPP_DISPLAY}
-                  </a>
+                  {isWhatsAppConfigured() ? (
+                    <a
+                      href={whatsappHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-bold transition-colors hover:bg-white/10"
+                    >
+                      <MessageCircle className="h-5 w-5 text-green-400" aria-hidden />
+                      WhatsApp: {getPmsWhatsAppDisplay()}
+                    </a>
+                  ) : null}
                   <a
                     href={`mailto:${PMS_SUPPORT_EMAIL}`}
                     className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-bold transition-colors hover:bg-white/10"

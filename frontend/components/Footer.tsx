@@ -10,6 +10,7 @@ import {
   Mail,
   Phone,
   MapPin,
+  MessageCircle,
   type LucideIcon,
 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -17,8 +18,11 @@ import { BrandLogo } from '@/components/BrandLogo';
 import { BRAND, BRAND_LINES } from '@/lib/brand-voice';
 import {
   formatOfficeLocation,
+  getPmsWhatsAppDisplay,
+  getPmsWhatsAppUrl,
   isContactPhoneConfigured,
   isLegalEntityConfigured,
+  isWhatsAppConfigured,
   PMS_CONTACT_PHONE,
   PMS_LEGAL_ENTITY_ADDRESS,
   PMS_OFFICE_LOCATIONS,
@@ -47,9 +51,9 @@ const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: bo
 
 const RESOURCES_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
   { label: 'PMP exam 2026', href: '/pmp-exam-2026', highlight: true },
-  { label: 'Direct answers', href: '/answers' },
-  { label: 'Topic hubs', href: '/topics' },
-  { label: 'Help & FAQ', href: '/faq' },
+  { label: 'Newsletter', href: '/newsletter' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'About', href: '/about' },
 ];
 
 export function Footer() {
@@ -140,6 +144,19 @@ export function Footer() {
                   {PMS_SUPPORT_EMAIL}
                 </a>
               </li>
+              {isWhatsAppConfigured() ? (
+                <li className="flex items-start gap-2.5">
+                  <MessageCircle className="h-4 w-4 text-brand-orange shrink-0 mt-0.5" />
+                  <a
+                    href={getPmsWhatsAppUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-brand-orange transition-colors"
+                  >
+                    WhatsApp: {getPmsWhatsAppDisplay()}
+                  </a>
+                </li>
+              ) : null}
               {isContactPhoneConfigured() ? (
                 <li className="flex items-start gap-2.5">
                   <Phone className="h-4 w-4 text-brand-orange shrink-0 mt-0.5" />
@@ -149,7 +166,6 @@ export function Footer() {
               <li className="flex items-start gap-2.5">
                 <MapPin className="h-4 w-4 text-brand-orange shrink-0 mt-0.5" />
                 <div className="flex flex-col gap-1">
-                  <span className="font-semibold text-obsidian dark:text-white">Locations</span>
                   {PMS_OFFICE_LOCATIONS.map((loc) => (
                     <span key={loc.city}>{formatOfficeLocation(loc)}</span>
                   ))}

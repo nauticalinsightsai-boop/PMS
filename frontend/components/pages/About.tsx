@@ -7,6 +7,7 @@ import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import { FIELD_KEYS, defaultAboutPageConfig, parseAboutPageConfig } from "@pms/site-content";
 import { BRAND, BRAND_LINES } from "@/lib/brand-voice";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { MARKETING_STOCK_IMAGES } from "@/lib/marketing-stock-images";
 
 export function About() {
   const { get } = useWebsiteData();
@@ -84,13 +85,23 @@ export function About() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800">
-                <img 
-                  src="https://picsum.photos/seed/team/800/800" 
-                  alt="Our Team" 
-                  className="object-cover w-full h-full"
-                  referrerPolicy="no-referrer"
-                />
+              <div className="grid grid-cols-2 gap-4 sm:gap-5">
+                <div className="rounded-[2rem] overflow-hidden shadow-xl border border-slate-100 dark:border-slate-800 aspect-[4/5]">
+                  <img
+                    src={MARKETING_STOCK_IMAGES.aboutStory[0].src}
+                    alt={MARKETING_STOCK_IMAGES.aboutStory[0].alt}
+                    className="object-cover w-full h-full"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div className="rounded-[2rem] overflow-hidden shadow-xl border border-slate-100 dark:border-slate-800 aspect-square mt-10 sm:mt-14">
+                  <img
+                    src={MARKETING_STOCK_IMAGES.aboutStory[1].src}
+                    alt={MARKETING_STOCK_IMAGES.aboutStory[1].alt}
+                    className="object-cover w-full h-full"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
               </div>
               <div className="absolute -bottom-6 -left-6 bg-brand-purple text-white p-8 rounded-2xl shadow-xl hidden md:block">
                 <div className="text-4xl font-bold mb-1">5+</div>

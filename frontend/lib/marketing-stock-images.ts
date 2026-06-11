@@ -6,6 +6,10 @@
 const picsum = (seed: string, width: number, height: number) =>
   `https://picsum.photos/seed/${seed}/${width}/${height}`;
 
+/** Stable Unsplash crop URLs for thematic marketing imagery. */
+const unsplash = (photoId: string, width: number, height: number) =>
+  `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${width}&h=${height}&q=80`;
+
 export const MARKETING_STOCK_IMAGES = {
   hero: picsum('pms-hero-professional', 1200, 1500),
   insights: picsum('pms-insights-leadership', 900, 1125),
@@ -19,6 +23,16 @@ export const MARKETING_STOCK_IMAGES = {
     src: picsum('pms-mentorship-circle', 900, 900),
     alt: 'Community study circle and mentorship',
   },
+  aboutStory: [
+    {
+      src: unsplash('photo-1523240795612-9a054b0db644', 800, 1000),
+      alt: 'Mentor-led certification workshop',
+    },
+    {
+      src: unsplash('photo-1522202176988-66273c2fd55f', 800, 800),
+      alt: 'Project professionals in a structured study session',
+    },
+  ],
   membershipResources: [
     { src: picsum('pms-resource-templates', 500, 500), alt: 'Exam prep templates' },
     { src: picsum('pms-resource-guides', 500, 500), alt: 'Study guides and playbooks' },

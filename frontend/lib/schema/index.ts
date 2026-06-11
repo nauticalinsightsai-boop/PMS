@@ -5,6 +5,9 @@ import {
   PMS_SITE_NAME,
   PMS_SITE_URL,
   PMS_SUPPORT_EMAIL,
+  PMS_WHATSAPP_DISPLAY,
+  PMS_WHATSAPP_URL,
+  isWhatsAppConfigured,
 } from '@/config/pms-site';
 
 export function organizationId(): string {
@@ -39,7 +42,7 @@ export function buildOrganizationSchema() {
       '@type': 'ContactPoint',
       contactType: 'customer support',
       email: PMS_SUPPORT_EMAIL,
-      url: `${PMS_SITE_URL}/contact`,
+      ...(isWhatsAppConfigured() ? { telephone: PMS_WHATSAPP_DISPLAY, url: PMS_WHATSAPP_URL } : { url: `${PMS_SITE_URL}/contact` }),
     },
     sameAs: [...PMS_ORGANIZATION_SAME_AS],
   };

@@ -14,6 +14,10 @@ import { getPublishedTopicHubs } from '@/content/topics';
 import {
   PMS_ORGANIZATION_SAME_AS,
   PMS_SITE_URL,
+  PMS_SUPPORT_EMAIL,
+  PMS_WHATSAPP_DISPLAY,
+  PMS_WHATSAPP_URL,
+  isWhatsAppConfigured,
 } from '@/config/pms-site';
 import {
   AI_FILE_VERSION,
@@ -69,7 +73,12 @@ export function buildEntityJson() {
     ],
     doNotCite: DO_NOT_CITE_EXACT.map((p) => `${siteUrl}${p}`),
     sameAs: [...PMS_ORGANIZATION_SAME_AS],
-    contact: { email: 'support@pmstructure.com' },
+    contact: {
+      email: PMS_SUPPORT_EMAIL,
+      ...(isWhatsAppConfigured()
+        ? { whatsapp: PMS_WHATSAPP_DISPLAY, whatsappUrl: PMS_WHATSAPP_URL }
+        : {}),
+    },
     updatedAt: today(),
   };
 }
@@ -176,7 +185,7 @@ Regional pricing is based on current country of residence and billing country, n
 
 ## Contact
 
-- Support (billing, privacy, legal, refunds): support@pmstructure.com
+- Support (billing, privacy, legal, refunds): ${PMS_SUPPORT_EMAIL}${isWhatsAppConfigured() ? `\n- WhatsApp: ${PMS_WHATSAPP_DISPLAY} (${PMS_WHATSAPP_URL})` : ''}
 `;
 }
 

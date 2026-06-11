@@ -29,9 +29,24 @@ export const PMS_LEGAL_ENTITY_ADDRESS =
 export const PMS_CONTACT_PHONE =
   process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || '';
 
-/** WhatsApp chat link (wa.me or api.whatsapp.com). Shown on enrollment success when configured. */
+const DEFAULT_WHATSAPP_DISPLAY = '+44 7947 540939';
+const DEFAULT_WHATSAPP_URL = 'https://wa.me/447947540939';
+
+/** Human-readable WhatsApp number for support surfaces. */
+export const PMS_WHATSAPP_DISPLAY =
+  process.env.NEXT_PUBLIC_WHATSAPP_DISPLAY?.trim() || DEFAULT_WHATSAPP_DISPLAY;
+
+/** WhatsApp chat link (wa.me or api.whatsapp.com). */
 export const PMS_WHATSAPP_URL =
-  process.env.NEXT_PUBLIC_WHATSAPP_URL?.trim() || '';
+  process.env.NEXT_PUBLIC_WHATSAPP_URL?.trim() || DEFAULT_WHATSAPP_URL;
+
+export function getPmsWhatsAppUrl(): string {
+  return PMS_WHATSAPP_URL;
+}
+
+export function getPmsWhatsAppDisplay(): string {
+  return PMS_WHATSAPP_DISPLAY;
+}
 
 export function isWhatsAppConfigured(): boolean {
   const url = PMS_WHATSAPP_URL;

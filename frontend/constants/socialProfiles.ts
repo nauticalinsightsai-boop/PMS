@@ -14,6 +14,7 @@ import {
   SITE_SOCIAL_PROFILE_URLS,
   SITE_USERNAME,
 } from '@/config/site';
+import { getPmsWhatsAppUrl } from '@/config/pms-site';
 
 /** Syndication + social: single grid on Media (Digital Presence & Syndication). */
 export type MediaSocialGridItem =
@@ -190,7 +191,7 @@ export const CHANNEL_PROFILE_URLS: Record<string, string> = {
   soundcloud: `https://soundcloud.com/${h}`,
 
   email: CONTACT_MAILTO,
-  whatsapp: SITE_CANONICAL_ORIGIN,
+  whatsapp: getPmsWhatsAppUrl(),
   telegram: SITE_CANONICAL_ORIGIN,
   discord: SITE_CANONICAL_ORIGIN,
   slack: SITE_CANONICAL_ORIGIN,

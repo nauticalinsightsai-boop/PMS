@@ -6,7 +6,7 @@ import { Suspense } from 'react';
 import { MessageCircle } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
-import { PMS_SUPPORT_EMAIL, PMS_WHATSAPP_URL, isWhatsAppConfigured } from '@/config/pms-site';
+import { PMS_SUPPORT_EMAIL, getPmsWhatsAppDisplay, getPmsWhatsAppUrl, isWhatsAppConfigured } from '@/config/pms-site';
 import { getOfferingById } from '@/lib/regional-catalogue';
 import { cn } from '@/lib/utils';
 
@@ -55,7 +55,7 @@ function ProgramEnrollmentSuccessContent({
           </p>
           {whatsappReady && (
             <a
-              href={PMS_WHATSAPP_URL}
+              href={getPmsWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
@@ -64,7 +64,7 @@ function ProgramEnrollmentSuccessContent({
               )}
             >
               <MessageCircle className="h-5 w-5" aria-hidden />
-              Message us on WhatsApp
+              WhatsApp: {getPmsWhatsAppDisplay()}
             </a>
           )}
         </div>
