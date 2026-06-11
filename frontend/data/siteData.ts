@@ -698,10 +698,11 @@ export const membershipTiers: MembershipTier[] = [
       "Full platform access plus direct mentor reach-out for your membership month: built for exam-ready momentum.",
     features: [
       "All Free features",
-      "Full learning platform access",
+      "20% off learning platform & store resources",
       "Direct mentor access for your membership month",
       "Premium exam simulator & weekly sessions",
-      "Private Slack community & AI CV maker",
+      "Skool community access",
+      "AI CV maker access",
       "20% off regional certification tuition",
     ],
     cta: "Join Professional",
