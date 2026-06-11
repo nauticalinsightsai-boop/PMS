@@ -1,6 +1,7 @@
 'use client'
 
-import PlatformChannelIcon from '@/components/admin/PlatformChannelIcon'
+import { hasChannelMark } from '@pms/booking-crm/channel-landing-pages/channelMarkAssets'
+import AdminChannelMark from '@/components/admin/AdminChannelMark'
 import ChannelPortalThemeToggle from '@/components/channel-landing/portal/ChannelPortalThemeToggle'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 import { getChannelProfileUrl } from '@/constants/socialProfiles'
@@ -18,6 +19,7 @@ export default function ChannelPortalPresenceStrip({
   const useStoryRing = isInstagram || layoutVariant === 'bold'
   const profileUrl = getChannelProfileUrl(channelId)
   const presenceLabel = theme.presenceTag === 'Site' ? 'official website' : theme.presenceTag
+  const customMark = hasChannelMark(channelId)
 
   return (
     <div
@@ -47,26 +49,35 @@ export default function ChannelPortalPresenceStrip({
                   width: 44,
                   height: 44,
                   borderRadius: '50%',
-                  backgroundColor: theme.surface,
-                  color: theme.primary,
+                  ...(customMark
+                    ? {}
+                    : {
+                        backgroundColor: theme.surface,
+                        color: theme.primary,
+                      }),
                 }}
               >
-                <PlatformChannelIcon name={theme.iconName} size={24} />
+                <AdminChannelMark
+                  channelId={channelId}
+                  fallbackIcon={theme.iconName}
+                  size={customMark ? 44 : 24}
+                  colorScheme={colorMode}
+                />
               </div>
             </div>
           ) : (
-            <div
-              className="flex items-center justify-center shrink-0"
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: theme.radius,
+            <AdminChannelMark
+              channelId={channelId}
+              fallbackIcon={theme.iconName}
+              size={40}
+              colorScheme={colorMode}
+              pill={{
                 backgroundColor: theme.primary,
                 color: theme.primaryForeground,
+                borderRadius: theme.radius,
+                iconSize: 22,
               }}
-            >
-              <PlatformChannelIcon name={theme.iconName} size={22} />
-            </div>
+            />
           )}
           <div className="min-w-0">
             <p

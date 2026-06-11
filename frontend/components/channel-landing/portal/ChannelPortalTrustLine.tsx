@@ -23,7 +23,7 @@ export default function ChannelPortalTrustLine({
     <div
       className={`portal-trust-line w-full ${spacing}`}
       style={{ order: sectionOrder }}
-      aria-label="Booking assurances"
+      aria-label="Scheduling assurances"
     >
       <p
         className="text-[10px] sm:text-[11px] w-full text-center leading-snug font-normal normal-case tracking-normal flex flex-wrap justify-center gap-x-2 gap-y-1"

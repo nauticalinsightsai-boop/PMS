@@ -1,7 +1,7 @@
 'use client'
 
 import { BadgeCheck, MapPin } from 'lucide-react'
-import PlatformChannelIcon from '@/components/admin/PlatformChannelIcon'
+import BrandIconMark from '@/components/BrandIconMark'
 import PortalHeaderUtilities from '@/components/channel-landing/portal/PortalHeaderUtilities'
 import PortalButton from '@/components/channel-landing/portal/primitives/PortalButton'
 import { BRAND } from '@/lib/brand-voice'
@@ -66,6 +66,7 @@ export default function ChannelPortalHeroHeader({
   onBookMentor,
   scheduleCta: scheduleCtaProp,
   topBar = false,
+  colorMode,
 }: PortalSectionProps) {
   const showEngagementLinks = !portalLayoutChrome
   const scheduleCta =
@@ -85,19 +86,8 @@ export default function ChannelPortalHeroHeader({
       >
         <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex min-w-0 w-full gap-3 sm:flex-1">
-            <div className="portal-story-ring shrink-0">
-              <div
-                className="portal-story-ring-inner flex items-center justify-center"
-                style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: '50%',
-                  backgroundColor: theme.primary,
-                  color: theme.primaryForeground,
-                }}
-              >
-                <PlatformChannelIcon name={theme.iconName} size={24} />
-              </div>
+            <div className="shrink-0">
+              <BrandIconMark size={48} colorMode={colorMode} />
             </div>
             <div className="flex min-w-0 w-full max-w-full flex-1 flex-col items-start">
               <div className="flex w-full flex-wrap items-center justify-start gap-1.5">
@@ -145,19 +135,7 @@ export default function ChannelPortalHeroHeader({
       <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 w-full gap-3 sm:gap-4 sm:flex-1">
           <div className="shrink-0">
-            <div
-              className="flex items-center justify-center"
-              style={{
-                width: 48,
-                height: 48,
-                borderRadius: theme.radiusLg,
-                backgroundColor: theme.primary,
-                color: theme.primaryForeground,
-              }}
-              aria-hidden
-            >
-              <PlatformChannelIcon name={theme.iconName} size={24} />
-            </div>
+            <BrandIconMark size={48} colorMode={colorMode} />
           </div>
           <div className="min-w-0 w-full max-w-full flex-1">
             <div className="flex w-full flex-wrap items-center gap-1.5">

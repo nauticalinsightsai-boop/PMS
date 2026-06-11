@@ -253,7 +253,7 @@ export default function ChannelPortalTiersSection({
         <p
           className="portal-booking-assurances text-[10px] sm:text-[11px] mt-4 sm:mt-5 mb-8 sm:mb-10 pt-3 border-t w-full text-center leading-snug font-normal normal-case tracking-normal opacity-90"
           style={{ borderColor: theme.cardBorder, color: theme.textMuted }}
-          aria-label="Booking assurances"
+          aria-label="Scheduling assurances"
         >
           {page.conversion.paymentMicrocopy.slice(0, 5).map((item, i) => (
             <span key={item}>

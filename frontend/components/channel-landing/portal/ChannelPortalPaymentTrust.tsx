@@ -12,7 +12,7 @@ export default function ChannelPortalPaymentTrust({ page, theme, sectionOrder }:
     <p
       className="portal-booking-assurances text-[10px] sm:text-[11px] mb-6 max-w-3xl leading-snug font-normal normal-case tracking-normal opacity-90"
       style={{ order: sectionOrder, color: theme.textMuted }}
-      aria-label="Booking assurances"
+      aria-label="Scheduling assurances"
     >
       {items.map((item, i) => (
         <span key={item}>

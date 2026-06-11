@@ -139,7 +139,7 @@ export default function PortalSiteChips({
       <div
         className="flex w-full items-stretch gap-2"
         role={mentorCta ? 'group' : 'tablist'}
-        aria-label={mentorCta ? 'Booking and site shortcuts' : 'Site shortcuts'}
+        aria-label={mentorCta ? 'Mentor calls and site shortcuts' : 'Site shortcuts'}
       >
         {mentorCta ? (
           <button

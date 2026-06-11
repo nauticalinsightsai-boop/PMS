@@ -15,7 +15,7 @@ export default function ChannelPortalSocialProof({ page, theme, sectionOrder }: 
   const quotes = page.conversion?.socialProof?.slice(0, MAX_QUOTES) ?? []
   if (!metrics.length && !quotes.length) return null
 
-  const title = page.conversion?.credibilityHeading?.trim() || 'Why learners book here'
+  const title = page.conversion?.credibilityHeading?.trim() || 'Why learners schedule mentor time here'
   const subtitle = page.conversion?.credibilityBody?.trim()
 
   return (

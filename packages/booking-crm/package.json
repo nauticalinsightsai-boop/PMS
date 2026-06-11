@@ -19,7 +19,8 @@
     "./repository": "./src/channel-landing-pages/repository.ts",
     "./channel-landing-pages/portalGoLinks": "./src/channel-landing-pages/portalGoLinks.ts",
     "./calendly/event-registry": "./src/calendly/event-registry.ts",
-    "./calendly/scheduling-urls": "./src/calendly/scheduling-urls.ts"
+    "./calendly/scheduling-urls": "./src/calendly/scheduling-urls.ts",
+    "./channel-landing-pages/channelMarkAssets": "./src/channel-landing-pages/channelMarkAssets.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

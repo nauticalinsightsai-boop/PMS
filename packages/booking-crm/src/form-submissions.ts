@@ -4,7 +4,7 @@ import { attributionOriginLabel } from './channel-landing-pages/lead-attribution
 /** Human-readable labels for `form_submissions.source` values. */
 export const FORM_SOURCE_LABELS: Record<string, string> = {
   contact: 'Contact',
-  meeting_booking: 'Meeting / booking',
+  meeting_booking: 'Meeting / mentor call',
   subscription: 'Newsletter',
   documentation_request: 'Documentation',
   pmp_roadmap_lead: 'PMP roadmap lead',

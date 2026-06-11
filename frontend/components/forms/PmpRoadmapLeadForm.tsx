@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,7 +26,7 @@ import {
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { CONVERSION_EVENTS, trackConversionEvent } from '@/lib/analytics/conversion-events';
 import { CertFamilyMark } from '@/components/CertFamilyMark';
-import { BRAND_ICON } from '@/lib/brand-visual';
+import BrandIconMark from '@/components/BrandIconMark';
 import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { useFormPartialRecovery } from '@/components/conversion-recovery/useFormPartialRecovery';
 import type { LeadRecoveryVariant } from '@/lib/conversion-recovery/types';
@@ -67,28 +66,7 @@ function placementLabel(placement: PmpRoadmapFormPlacement, certName?: string): 
 }
 
 function PmsFormHeaderMark({ compact }: { compact: boolean }) {
-  const size = compact ? 48 : 56;
-  const sizeClass = compact ? 'h-12 w-12' : 'h-14 w-14';
-  return (
-    <div className={cn('relative shrink-0', sizeClass)} aria-hidden>
-      <Image
-        src={BRAND_ICON.light}
-        alt=""
-        width={size}
-        height={size}
-        className={cn(sizeClass, 'object-contain dark:hidden')}
-        priority
-      />
-      <Image
-        src={BRAND_ICON.dark}
-        alt=""
-        width={size}
-        height={size}
-        className={cn(sizeClass, 'hidden object-contain dark:block')}
-        priority
-      />
-    </div>
-  );
+  return <BrandIconMark size={compact ? 48 : 56} priority />;
 }
 
 export function PmpRoadmapLeadForm({

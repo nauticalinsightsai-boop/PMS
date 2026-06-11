@@ -50,7 +50,7 @@ function pathwayCalendlyCopy(tierId: RecoveryTierId, explored: boolean): Recover
     if (tierId === 'professional') {
       return {
         headline: 'Stop overthinking',
-        body: "Book a mentor call later: for now, leave WhatsApp and we'll reach out in 24 hours.",
+        body: "Schedule a mentor call later: for now, leave WhatsApp and we'll reach out in 24 hours.",
         submitLabel: 'Request callback',
       };
     }
@@ -190,11 +190,11 @@ const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContex
   }),
   channel_portal_partial: () => ({
     headline: 'Leave your details',
-    body: "We'll follow up on your portal booking request within 24 hours.",
+    body: "We'll follow up on your portal mentor call request within 24 hours.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   channel_calendly_bounce: () => ({
-    headline: "Didn't book a time?",
+    headline: "Didn't schedule a time?",
     body: "Leave name + WhatsApp: we'll reach out to schedule for you.",
     submitLabel: DEFAULT_SUBMIT,
   }),

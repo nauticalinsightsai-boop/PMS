@@ -274,12 +274,12 @@ export function buildLearnerCredibilityCopy(
 ): { heading: string; body: string } {
   const label = channelLabel || BRAND_FULL_NAME
   return {
-    heading: 'Why learners book from here',
+    heading: 'Why learners schedule mentor time here',
     body:
       tone === 'executive'
         ? `${label} referrals meet ${BRAND_FULL_NAME} mentor-led certification prep: pathway choice, regional pricing, and program quality without project-scope consulting.`
         : tone === 'creator'
           ? `People who discover ${BRAND_FULL_NAME} on ${label} get certification guidance and mentorship with structured prep, honest pricing, and calls that cite the content you watched or read.`
-          : `Readers and subscribers from ${label} use these sessions to pick a credential, understand tuition, and book mentor time before enrolling.`,
+          : `Readers and subscribers from ${label} use these sessions to pick a credential, understand tuition, and schedule mentor time before enrolling.`,
   }
 }

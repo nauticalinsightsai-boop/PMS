@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Search, Plus, X, Eye, EyeOff } from 'lucide-react'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { CTAButton } from '@/components/ui/CTAButton'
-import PlatformChannelIcon from '@/components/admin/PlatformChannelIcon'
+import AdminChannelMark from '@/components/admin/AdminChannelMark'
 import {
   AdminCmsEditorShell,
   AdminCmsTabBar,
@@ -640,7 +640,7 @@ export default function CTACollection() {
                         onClick={() => onChannelChange(ch.channelId)}
                         className={`${adminCmsTabButtonClass(active)} inline-flex items-center gap-2 px-3 py-2 rounded border border-slate-200/80 dark:border-slate-700/80 bg-white/50 dark:bg-slate-900/40`}
                       >
-                        <PlatformChannelIcon name={ch.icon} size={16} className="shrink-0" />
+                        <AdminChannelMark channelId={ch.channelId} fallbackIcon={ch.icon} size={16} className="shrink-0" />
                         <span>{ch.label}</span>
                       </button>
                       <button

@@ -76,7 +76,7 @@ export default function ChannelLandingPublicView({ page }: Props) {
         lastName,
         whatsappNumber: whatsapp,
         company: page.collectCompany ? company : undefined,
-        message: message || `Booking request via ${page.label} landing page`,
+        message: message || `Mentor call request via ${page.label} landing page`,
         channelKey: page.channelKey,
         landingSlug: page.slug,
         attribution,

@@ -3,6 +3,7 @@
  * Persona: qualification-first, evidence-led, no hype (see docs/voice/PORTAL_COPY_RULES.md).
  */
 import { ALL_CHANNELS } from '../constants/channelGroups'
+import { normalizePortalCopyDeep, normalizePortalCopyString } from './copyNormalize'
 
 export type ChannelPortalCopy = {
   scheduleTierCta: string
@@ -249,6 +250,9 @@ const GENERIC_STORED_SCHEDULE_CTAS = new Set([
   'schedule inline',
   'schedule consultation',
   'schedule online',
+  'schedule a call with a mentor',
+  'schedule a mentor call',
+  'talk to a mentor',
   'book a call',
   'book a session',
 ])
@@ -636,19 +640,22 @@ for (const ch of ALL_CHANNELS) {
 }
 
 export function getChannelPortalCopy(channelId: string): ChannelPortalCopy | null {
-  return CHANNEL_PORTAL_COPY[channelId] ?? null
+  const raw = CHANNEL_PORTAL_COPY[channelId]
+  if (!raw) return null
+  return normalizePortalCopyDeep(raw)
 }
 
 /** Reject legacy breadcrumb CTAs (e.g. "Wiki → working session") in favor of pack defaults. */
 export function resolveScheduleTierCta(channelId: string, stored?: string | null): string {
-  const pack = CHANNEL_PORTAL_COPY[channelId]?.scheduleTierCta ?? 'Reserve a time block'
+  const pack =
+    normalizePortalCopyString(CHANNEL_PORTAL_COPY[channelId]?.scheduleTierCta ?? 'Reserve a time block')
   const trimmed = stored?.trim()
   if (
     trimmed &&
     !trimmed.includes('→') &&
     !GENERIC_STORED_SCHEDULE_CTAS.has(trimmed.toLowerCase())
   ) {
-    return trimmed
+    return normalizePortalCopyString(trimmed)
   }
   return pack
 }
@@ -656,12 +663,12 @@ export function resolveScheduleTierCta(channelId: string, stored?: string | null
 /** Strategic one-liner under tier section heading (not the tier button label). */
 export function getTierSchedulingLine(channelId: string): string {
   const copy = CHANNEL_PORTAL_COPY[channelId]
-  return (
+  return normalizePortalCopyString(
     copy?.tierSchedulingLine ??
-    TIER_SCHEDULING_LINES[channelId] ??
-    copy?.targetMessage ??
-    copy?.scheduleTierCta ??
-    'Reserve a focused advisory block. Cite what brought you here when you book.'
+      TIER_SCHEDULING_LINES[channelId] ??
+      copy?.targetMessage ??
+      copy?.scheduleTierCta ??
+      'Reserve a focused advisory block. Cite what brought you here when you schedule.',
   )
 }
 

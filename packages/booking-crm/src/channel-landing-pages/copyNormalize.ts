@@ -1,13 +1,17 @@
 /** Replace em/en dashes in portal marketing strings with plainer punctuation. */
+import { applyMentorCtaLexicon } from './mentorCtaLexicon'
+
 export function normalizePortalCopyString(text: string): string {
-  return text
-    .replace(/\s*—\s*([A-Z"'(])/g, '. $1')
-    .replace(/\s*—\s*/g, ': ')
-    .replace(/\s+–\s+/g, ': ')
-    .replace(/\.\s+\./g, '.')
-    .replace(/:\s+:/g, ':')
-    .replace(/\?\s+\./g, '?')
-    .trim()
+  return applyMentorCtaLexicon(
+    text
+      .replace(/\s*—\s*([A-Z"'(])/g, '. $1')
+      .replace(/\s*—\s*/g, ': ')
+      .replace(/\s+–\s+/g, ': ')
+      .replace(/\.\s+\./g, '.')
+      .replace(/:\s+:/g, ':')
+      .replace(/\?\s+\./g, '?')
+      .trim(),
+  )
 }
 
 export function normalizePortalCopyDeep<T>(value: T): T {

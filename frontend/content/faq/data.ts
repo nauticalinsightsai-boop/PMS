@@ -111,7 +111,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   P(
     'pathways',
     'Can I skip Foundation and start at Professional?',
-    'Where Professional checkout is available and you meet prerequisites, you may enroll directly. Book a [consultation](/contact) if unsure.',
+    'Where Professional checkout is available and you meet prerequisites, you may enroll directly. [Talk to an advisor](/contact) if unsure.',
     'pathways-skip',
   ),
   P(

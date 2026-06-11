@@ -10,7 +10,7 @@ import React, {
   useState,
 } from 'react'
 import { Copy, Check, ExternalLink, Globe } from 'lucide-react'
-import PlatformChannelIcon from '@/components/admin/PlatformChannelIcon'
+import AdminChannelMark from '@/components/admin/AdminChannelMark'
 import { getChannelById } from '@pms/booking-crm/client'
 import type { CtaPlatformButton } from '@pms/booking-crm/client'
 import type {
@@ -279,12 +279,16 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
     <div className={embedded ? 'w-full' : 'max-w-3xl animate-in fade-in duration-300'}>
       {!embedded && (
         <header className="flex flex-wrap items-start gap-4 mb-8">
-          <div
-            className="p-3 rounded-lg shrink-0"
-            style={{ backgroundColor: `${channel?.color ?? '#6B7280'}22`, color: channel?.color }}
-          >
-            <PlatformChannelIcon name={channel?.icon} size={24} />
-          </div>
+          <AdminChannelMark
+            channelId={channel?.id ?? ''}
+            fallbackIcon={channel?.icon}
+            size={40}
+            pill={{
+              backgroundColor: channel?.color ?? '#6B7280',
+              borderRadius: '0.75rem',
+              iconSize: 24,
+            }}
+          />
           <div className="flex-1 min-w-0">
             <h1 className="text-h1 text-foreground">{platform.label}</h1>
           </div>
@@ -306,18 +310,16 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
 
       {embedded && (
         <div className="flex items-center gap-3 mb-6 pb-4 border-b border-muted-foreground/10">
-          <div
-            className="flex items-center justify-center shrink-0"
-            style={{
-              width: '40px',
-              height: '40px',
+          <AdminChannelMark
+            channelId={channel?.id ?? ''}
+            fallbackIcon={channel?.icon}
+            size={40}
+            pill={{
+              backgroundColor: channel?.color ?? '#6B7280',
               borderRadius: '0.75rem',
-              backgroundColor: '#004B8E',
-              color: '#F4F4F5',
+              iconSize: 22,
             }}
-          >
-            <PlatformChannelIcon name={channel?.icon} size={22} />
-          </div>
+          />
           <div>
             <h2 className="text-h3 text-foreground">{platform.label}</h2>
             <p className="text-meta text-muted-foreground mt-0.5">

@@ -23,7 +23,7 @@ export default function PortalExpandableSection({
   theme,
   sectionOrder,
   label,
-  hint = 'Review before booking',
+  hint = 'Review before you schedule',
   children,
   className = '',
   defaultExpanded = false,

@@ -74,7 +74,7 @@ function foundationCta(
       label: enrollLabel,
       modalMode: 'consultation',
       proceedHref: consultationHref,
-      proceedLabel: 'Book a consultation',
+      proceedLabel: 'Talk to an advisor',
       enrollHref: null,
       enrollLabel,
       showConsultationInModal: true,

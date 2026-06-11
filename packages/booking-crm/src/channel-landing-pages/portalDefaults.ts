@@ -17,11 +17,11 @@ import { usesPortalWebsiteLayoutChrome } from './platformOfferPack'
 
 const GENERIC_INTRO_CTAS = new Set([
   'talk to a mentor',
-  'book a mentor intro',
+  'schedule a call with a mentor',
   'schedule inline',
   'schedule consultation',
-  'book a call',
-  'book a session',
+  'schedule a mentor call',
+  'schedule a mentor intro',
 ])
 
 function isGenericIntroCta(label: string | undefined, channelId: string): boolean {
@@ -126,18 +126,18 @@ function mergeTierCtaLabels(tiers: ChannelLandingPage['consultationTiers'], chan
       if (t.id === 'discovery' || t.id === 'mentor-intro')
         return { ...t, ctaLabel: introCta }
       if (t.id === 'executive' || t.id === 'career-pathway')
-        return { ...t, ctaLabel: 'Book pathway session', badge: t.badge ?? 'Most Popular' }
+        return { ...t, ctaLabel: 'Schedule a pathway session', badge: t.badge ?? 'Most Popular' }
     }
     if (t.id === 'discovery' || t.id === 'mentor-intro') {
       return { ...t, ctaLabel: introCta }
     }
     if (t.id === 'executive' || t.id === 'career-pathway') {
-      return { ...t, ctaLabel: 'Book pathway session', badge: t.badge ?? 'Most Popular' }
+      return { ...t, ctaLabel: 'Schedule a pathway session', badge: t.badge ?? 'Most Popular' }
     }
     if (t.id === 'design-review' || t.id === 'services-detail') {
       const servicesCta = usesPortalWebsiteLayoutChrome(channelId)
         ? 'Talk to an expert'
-        : 'Book a consultation'
+        : 'Talk to an advisor'
       return { ...t, ctaLabel: t.ctaLabel ?? servicesCta }
     }
     return t
@@ -159,7 +159,7 @@ export function mergeChannelLandingPage(
       status: 'draft',
       createdAt: now,
       updatedAt: now,
-      headline: base.headline ?? `${btn.label} — Book a session`,
+      headline: base.headline ?? `${btn.label} — Schedule a mentor call`,
       subheadline: base.subheadline ?? '',
       body: '',
       contextLabel: base.contextLabel ?? '',

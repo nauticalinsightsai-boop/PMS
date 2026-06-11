@@ -6,6 +6,7 @@ const BANNED_CTA_PHRASES = [
   'book a call',
   'book a session',
   'book from',
+  'booking portal',
   'click here',
   'limited time',
   'act now',

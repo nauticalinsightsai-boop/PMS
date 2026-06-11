@@ -54,7 +54,7 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
     const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined
     const res = await submitPublicInteraction({
       source: 'meeting_booking',
-      subject: `Portal booking: ${page.label}${page.subtitle ? ` (${page.subtitle})` : ''}`,
+      subject: `Portal mentor call: ${page.label}${page.subtitle ? ` (${page.subtitle})` : ''}`,
       email,
       website: hp,
       formContext: {
@@ -71,7 +71,7 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
         whatsappNumber: whatsapp,
         visitorWebsite: visitorWebsite.trim() || undefined,
         company: page.collectCompany ? company : undefined,
-        message: message || `Booking request via ${page.label} portal`,
+        message: message || `Mentor call request via ${page.label} portal`,
         channelKey: page.channelKey,
         channelId: page.channelId,
         landingSlug: page.slug,

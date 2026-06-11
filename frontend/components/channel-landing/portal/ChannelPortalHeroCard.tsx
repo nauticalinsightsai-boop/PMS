@@ -46,7 +46,7 @@ export default function ChannelPortalHeroCard({ page, theme, sectionOrder, porta
         }
       >
         <Star size={12} aria-hidden />
-        {BRAND.name} · mentor booking
+        {BRAND.name} · mentor sessions
       </span>
       <h3
         className="text-h3 mb-2"

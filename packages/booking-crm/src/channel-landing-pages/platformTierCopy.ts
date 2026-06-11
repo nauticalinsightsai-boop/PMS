@@ -14,11 +14,11 @@ import { usesPortalWebsiteLayoutChrome } from './platformOfferPack'
 
 const GENERIC_INTRO_CTAS = new Set([
   'talk to a mentor',
-  'book a mentor intro',
+  'schedule a call with a mentor',
   'schedule inline',
   'schedule consultation',
-  'book a call',
-  'book a session',
+  'schedule a mentor call',
+  'schedule a mentor intro',
 ])
 
 function isGenericIntroCta(label: string | undefined, channelId: string): boolean {
@@ -449,7 +449,7 @@ function discoveryCopyForChannel(channelId: string): DiscoveryCopy {
   if (direct) return direct
   const cat = getChannelById(channelId)?.platformCategory
   if (cat && DISCOVERY_CATEGORY_DEFAULT[cat]) return DISCOVERY_CATEGORY_DEFAULT[cat]!
-  const label = getChannelPortalCopy(channelId)?.scheduleTierCta ?? 'Book'
+  const label = getChannelPortalCopy(channelId)?.scheduleTierCta ?? 'Talk to a mentor'
   return {
     title: DISCOVERY_TITLE,
     description: `Structured session for referrals from this channel. Use "${label}" when you schedule.`,
@@ -477,7 +477,7 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
   const packCta = getChannelPortalCopy(channelId)?.scheduleTierCta
   const introCta = usesPortalWebsiteLayoutChrome(channelId)
     ? 'Talk to a mentor'
-    : packCta ?? 'Book a mentor intro'
+    : packCta ?? 'Talk to a mentor'
   const executiveBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'executive')!
   const designBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'design-review')!
   const servicesTitle = paid.designReview.title || 'Expert consultation'
@@ -522,7 +522,7 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
         ...EXECUTIVE_TIER_META,
         recommended: true,
         badge: 'Most Popular',
-        ctaLabel: 'Book pathway session',
+        ctaLabel: 'Schedule a pathway session',
         scheduleUrl: scheduleUrlFor(channelId, 'career-pathway', LEGACY_SCHEDULE_URLS.executive),
       },
       servicesTier,
@@ -549,7 +549,7 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
       title: 'Career & Pathway Session',
       description: paid.executive.description,
       ...EXECUTIVE_TIER_META,
-      ctaLabel: ctaFor(channelId, 'career-pathway', 'Book pathway session'),
+      ctaLabel: ctaFor(channelId, 'career-pathway', 'Schedule a pathway session'),
     },
     servicesTier,
   ]

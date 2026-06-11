@@ -14,7 +14,7 @@ export default function ChannelPortalFaq({ page, theme, sectionOrder }: PortalSe
     <PortalSection
       theme={theme}
       sectionOrder={sectionOrder}
-      title="Prep, pricing & booking"
+      title="Prep, pricing & mentor calls"
       titleVariant="eyebrow"
       subtitle="Certification pathways, mentor calls, and membership, answered before you reserve."
       className="portal-section-compact"
