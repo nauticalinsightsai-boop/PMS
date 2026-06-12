@@ -1,6 +1,7 @@
 import {
  buildCalendlyPopupWidgetUrl,
  getCalendlyEmbedTheme,
+ isGoPortalCalendlyPath,
  platformPortalThemeToCalendlyPalette,
  rethemeCalendlyWidgetUrl,
  resolveCalendlyPaletteForPage,
@@ -184,11 +185,13 @@ export async function openCalendlyThemedPopup(
 
  const colorMode = opts?.theme ?? getCalendlyEmbedTheme();
  const pathname = window.location.pathname;
- const portalPalette =
+ const portalPalette: CalendlyPortalPalette | null | undefined =
   opts?.portalPalette ??
   (opts?.portalTheme
    ? platformPortalThemeToCalendlyPalette(opts.portalTheme)
-   : resolveCalendlyPaletteForPage(pathname, colorMode));
+   : isGoPortalCalendlyPath(pathname)
+     ? resolveCalendlyPaletteForPage(pathname, colorMode)
+     : undefined);
 
  const themedPopupUrl = buildCalendlyPopupWidgetUrl(trimmed, {
   host: window.location.host,

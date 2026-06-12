@@ -9,6 +9,21 @@ export type ResolvedCertMarketing = CertificationSummary & {
   targetAudienceDisplay: string;
 };
 
+function pickRegistryString(
+  registryValue: string | undefined,
+  siteValue: string | undefined,
+  fallback = '',
+): string {
+  const trimmed = registryValue?.trim();
+  if (trimmed) return trimmed;
+  return siteValue?.trim() || fallback;
+}
+
+function pickRegistryArray(registryValue: string[] | undefined, siteValue: string[] | undefined): string[] {
+  if (registryValue?.length) return registryValue;
+  return siteValue ?? [];
+}
+
 export function resolveCertMarketing(
   siteCert: CertificationSummary,
   registryEntry?: CertificationRegistryEntry | null,
@@ -16,13 +31,27 @@ export function resolveCertMarketing(
   return {
     ...siteCert,
     name: registryEntry?.name ?? siteCert.name,
-    desc: registryEntry?.detailHeroSubtitle ?? registryEntry?.desc ?? siteCert.desc,
+    desc: registryEntry?.desc ?? siteCert.desc,
     color: registryEntry?.color ?? siteCert.color,
     gradient: registryEntry?.gradient ?? siteCert.gradient,
+    pricing: registryEntry?.pricing ?? siteCert.pricing,
+    targetAudience: pickRegistryString(registryEntry?.targetAudience, siteCert.targetAudience),
+    prerequisites: pickRegistryString(registryEntry?.prerequisites, siteCert.prerequisites),
+    examFormat: pickRegistryString(registryEntry?.examFormat, siteCert.examFormat),
+    registrationSteps: pickRegistryString(registryEntry?.registrationSteps, siteCert.registrationSteps),
+    officialFee: pickRegistryString(registryEntry?.officialFee, siteCert.officialFee),
+    trainingPriceRange: pickRegistryString(registryEntry?.trainingPriceRange, siteCert.trainingPriceRange),
+    learningOutcomes: pickRegistryArray(registryEntry?.learningOutcomes, siteCert.learningOutcomes),
+    pathwayOutcomes: registryEntry?.pathwayOutcomes ?? siteCert.pathwayOutcomes,
+    suggestedResources: pickRegistryArray(registryEntry?.suggestedResources, siteCert.suggestedResources),
+    recommendedCTA: pickRegistryString(registryEntry?.recommendedCta, siteCert.recommendedCTA),
+    regionalDemand: pickRegistryString(registryEntry?.regionalDemand, siteCert.regionalDemand),
+    outputValue: pickRegistryString(registryEntry?.outputValue, siteCert.outputValue),
     detailHeroTitle: registryEntry?.detailHeroTitle ?? `${siteCert.name} Pathway`,
-    detailHeroSubtitle: registryEntry?.detailHeroSubtitle ?? registryEntry?.desc ?? siteCert.desc,
-    outputValueDisplay: registryEntry?.outputValue ?? siteCert.outputValue ?? '',
-    recommendedCtaDisplay: registryEntry?.recommendedCta ?? siteCert.recommendedCTA ?? '',
-    targetAudienceDisplay: registryEntry?.targetAudience ?? siteCert.targetAudience ?? '',
+    detailHeroSubtitle:
+      registryEntry?.detailHeroSubtitle ?? registryEntry?.desc ?? siteCert.desc,
+    outputValueDisplay: pickRegistryString(registryEntry?.outputValue, siteCert.outputValue),
+    recommendedCtaDisplay: pickRegistryString(registryEntry?.recommendedCta, siteCert.recommendedCTA),
+    targetAudienceDisplay: pickRegistryString(registryEntry?.targetAudience, siteCert.targetAudience),
   };
 }

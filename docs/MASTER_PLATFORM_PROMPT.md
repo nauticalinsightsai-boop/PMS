@@ -101,21 +101,21 @@ npm run dev  →  dev gateway :3000
 
 | # | Label (desktop) | Mobile | Default route |
 |---|-----------------|--------|---------------|
-| 1 | Social Media Management | Social | `/dashboard/social-media-management/schedule-calendar` |
+| 1 | Editor | Editor | `/dashboard/site-system/media-library` |
 | 2 | Booking CRM | Booking | `/dashboard/booking-crm/cta` |
-| 3 | Admin Controls | Admin | `/dashboard` or `/dashboard/site-system/home` |
+| 3 | Admin control | Admin | `/dashboard/site-system/home` |
 
 - Right: Theme · **View Site** · Avatar · Logout
 
 ### Left sidebar per tab
 
-**Tab 1 — Social Media Management**
+**Tab 1 — Editor**
 
 | Item | Route |
 |------|-------|
-| Topic Planner | `/dashboard/social-media-management/topic-planner` |
-| Schedule Calendar *(default)* | `/dashboard/social-media-management/schedule-calendar` |
-| Link Ups | `/dashboard/social-media-management/link-ups` |
+| Media library | `/dashboard/site-system/media-library` |
+| Newsletter | `/dashboard/site-system/newsletter` |
+| Subscribers | `/dashboard/site-system/newsletter/subscribers` |
 
 **Tab 2 — Booking CRM**
 
@@ -133,14 +133,12 @@ npm run dev  →  dev gateway :3000
 
 **Legacy redirects:** `/dashboard/members-revenue/*` → `/dashboard/booking-crm/*`; `/dashboard/booking-crm/interactions` → sheets page.
 
-**Tab 3 — Admin Controls**
+**Tab 3 — Admin control**
 
 | Section | Items |
 |---------|-------|
-| Overview | Dashboard · Media library · Posts · Topics · Newsletter |
-| Website pages | One editor per public page (`/dashboard/site-system/pages/[slug]`) |
-| Dedicated | Home (`/dashboard/site-system/home`), SEO, Security, Analytics, Settings |
-| System | Data Migration (`/dashboard/migrate`) |
+| Website pages | Home + one editor per public page (`/dashboard/site-system/pages/[slug]`) |
+| System | Settings, SEO, Security, Analytics, Website data, Service scopes, Data Migration (`/dashboard/migrate`) |
 
 **CMS button bar (editable pages):** Save Draft · Publish · Preview · Drag reorder  
 **Pattern:** `POST /api/cms/website-data` with `intent: saveDraft | publish` and `fieldKey`.

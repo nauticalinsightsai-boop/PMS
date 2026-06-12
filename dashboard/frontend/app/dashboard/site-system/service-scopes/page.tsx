@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation';
-import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
+import { PlaceholderPage } from '@/components/PlaceholderPage';
 
-export default function LegacyServiceScopesPage() {
-  redirect(WEBSITE_CMS_PATHS.mediaLibrary);
+export default function ServiceScopesPage() {
+  return <PlaceholderPage title="Service scopes" />;
 }

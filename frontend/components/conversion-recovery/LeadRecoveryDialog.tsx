@@ -166,8 +166,8 @@ export function LeadRecoveryDialog() {
   return (
     <Dialog open={dialogOpen} onOpenChange={(open) => !open && dismissDialog('backdrop')}>
       <DialogContent
-        className="rounded-[2rem] sm:max-w-md z-[131]"
-        overlayClassName="z-[130] bg-black/50"
+        className="sm:max-w-md z-[131]"
+        overlayClassName="z-[130]"
       >
         <DialogHeader>
           <DialogTitle className="text-xl font-bold pr-8">{copy.headline}</DialogTitle>

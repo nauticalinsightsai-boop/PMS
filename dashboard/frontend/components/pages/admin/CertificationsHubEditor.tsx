@@ -8,6 +8,7 @@ import {
   GripVertical,
   Plus,
   Save,
+  Search,
   Send,
 } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
@@ -28,6 +29,10 @@ import {
 import { WebsiteDataService } from '@/services/WebsiteDataService';
 import { siteUrl } from '@/lib/site-config';
 import { previewStorageKey } from '@/lib/usePublishedSiteDocument';
+import {
+  CertificationRegistryEntryEditor,
+  emptyCertificationEntry,
+} from '@/components/pages/admin/CertificationRegistryEntryEditor';
 
 const FAMILIES: PathwayFamilyTab[] = ['PMI', 'PRINCE2', 'SixSigma'];
 
@@ -114,6 +119,8 @@ export function CertificationsHubEditor() {
     desc: '',
   });
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [registryQuery, setRegistryQuery] = useState('');
+  const [showArchived, setShowArchived] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -159,9 +166,25 @@ export function CertificationsHubEditor() {
   }, []);
 
   const certIdOptions = useMemo(
-    () => registry.entries.filter((e) => !e.archived).map((e) => e.id),
+    () => registry.entries.filter((e) => !e.archived && !e.hidden).map((e) => e.id),
     [registry.entries],
   );
+
+  const filteredEntries = useMemo(() => {
+    const q = registryQuery.trim().toLowerCase();
+    return registry.entries
+      .filter((e) => (showArchived ? true : !e.archived))
+      .filter((e) => {
+        if (!q) return true;
+        return (
+          e.id.toLowerCase().includes(q) ||
+          e.name.toLowerCase().includes(q) ||
+          e.familyId.toLowerCase().includes(q) ||
+          e.desc.toLowerCase().includes(q)
+        );
+      })
+      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+  }, [registry.entries, registryQuery, showArchived]);
 
   const hasChanges = baseline !== JSON.stringify({ hub, registry });
 
@@ -202,25 +225,47 @@ export function CertificationsHubEditor() {
       alert('Cert ID already exists.');
       return;
     }
+    const entry = emptyCertificationEntry(
+      {
+        id,
+        name: wizard.name.trim(),
+        familyId: wizard.familyId,
+        desc: wizard.desc.trim(),
+      },
+      registry.entries.length,
+    );
     setRegistry((r) => ({
       ...r,
-      entries: [
-        ...r.entries,
-        {
-          id,
-          name: wizard.name.trim(),
-          familyId: wizard.familyId,
-          desc: wizard.desc.trim(),
-          hidden: false,
-          archived: false,
-          sortOrder: r.entries.length,
-          detailHeroTitle: `${wizard.name.trim()} Pathway`,
-          detailHeroSubtitle: wizard.desc.trim(),
-        },
-      ],
+      entries: [...r.entries, entry],
     }));
     setWizardOpen(false);
     setWizard({ id: '', name: '', familyId: 'PMI', desc: '' });
+    setEditingId(id);
+  };
+
+  const updateEntry = (next: CertificationRegistryEntry) => {
+    setRegistry((r) => ({
+      ...r,
+      entries: r.entries.map((e) => (e.id === next.id ? next : e)),
+    }));
+  };
+
+  const removeEntry = (id: string) => {
+    const entry = registry.entries.find((e) => e.id === id);
+    if (!entry) return;
+    if (!window.confirm(`Permanently remove "${entry.name}" (${id}) from the registry?`)) return;
+    setRegistry((r) => ({
+      ...r,
+      entries: r.entries.filter((e) => e.id !== id).map((e, i) => ({ ...e, sortOrder: i })),
+    }));
+    if (editingId === id) setEditingId(null);
+  };
+
+  const toggleArchive = (id: string) => {
+    setRegistry((r) => ({
+      ...r,
+      entries: r.entries.map((e) => (e.id === id ? { ...e, archived: !e.archived, hidden: e.archived ? e.hidden : true } : e)),
+    }));
   };
 
   if (isLoading) return <div className="p-8 text-slate-500">Loading certifications CMS…</div>;
@@ -228,7 +273,7 @@ export function CertificationsHubEditor() {
   const editingEntry = editingId ? registry.entries.find((e) => e.id === editingId) : null;
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto p-4">
+    <div className="space-y-6 max-w-5xl mx-auto p-4">
       {loadError && (
         <p className="rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
           {loadError}
@@ -279,6 +324,20 @@ export function CertificationsHubEditor() {
               />
             ))}
           </section>
+          <section className="space-y-3 border-t pt-4">
+            <h2 className="font-bold">Listing section</h2>
+            {(['title', 'subtitle'] as const).map((key) => (
+              <input
+                key={key}
+                value={hub.listing[key]}
+                onChange={(e) =>
+                  setHub((c) => ({ ...c, listing: { ...c.listing, [key]: e.target.value } }))
+                }
+                placeholder={`listing ${key}`}
+                className="w-full border rounded-xl px-3 py-2 text-sm"
+              />
+            ))}
+          </section>
           {FAMILIES.map((familyId) => (
             <section key={familyId} className="space-y-3 border-t pt-4">
               <h2 className="font-bold">{familyId}: flagship row (drag to reorder)</h2>
@@ -321,19 +380,41 @@ export function CertificationsHubEditor() {
 
       {tab === 'registry' && (
         <GlassCard className="p-6 space-y-4">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-wrap justify-between items-center gap-3">
             <p className="text-sm text-muted-foreground">
-              {registry.entries.length} pathways. Hide/archive or edit detail-page marketing copy.
+              {registry.entries.length} pathways · edit pricing, dossier, and marketing copy. Save draft then
+              publish to update the live site.
             </p>
             <CTAButton size="sm" onClick={() => setWizardOpen(true)} className="gap-1">
               <Plus className="h-4 w-4" /> Add pathway
             </CTAButton>
           </div>
 
+          <div className="flex flex-wrap gap-3 items-center">
+            <div className="relative flex-1 min-w-[12rem]">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <input
+                value={registryQuery}
+                onChange={(e) => setRegistryQuery(e.target.value)}
+                placeholder="Search by id, name, family…"
+                className="w-full border rounded-xl pl-9 pr-3 py-2 text-sm"
+              />
+            </div>
+            <label className="flex items-center gap-2 text-sm whitespace-nowrap">
+              <input
+                type="checkbox"
+                checked={showArchived}
+                onChange={(e) => setShowArchived(e.target.checked)}
+              />
+              Show archived
+            </label>
+          </div>
+
           {wizardOpen && (
             <div className="p-4 rounded-2xl border border-amber-500/40 bg-amber-500/5 space-y-3">
               <p className="text-xs text-amber-600 font-medium">
-                New marketing records only. Checkout/pricing still requires regional-catalogue.json entries.
+                Creates a full registry record with default pricing tiers. Regional checkout still uses
+                regional-catalogue.json for live enroll buttons.
               </p>
               <input
                 value={wizard.id}
@@ -376,71 +457,63 @@ export function CertificationsHubEditor() {
             </div>
           )}
 
-          <div className="max-h-96 overflow-y-auto space-y-2">
-            {registry.entries.map((entry, idx) => (
-              <div
-                key={entry.id}
-                className="flex flex-wrap items-center gap-2 p-3 rounded-xl border border-white/10 text-sm"
-              >
-                <span className="font-mono font-bold min-w-[8rem]">{entry.id}</span>
-                <span className="flex-1 truncate">{entry.name}</span>
-                <label className="flex items-center gap-1">
-                  <input
-                    type="checkbox"
-                    checked={!entry.hidden}
-                    onChange={(e) =>
-                      setRegistry((r) => {
-                        const entries = [...r.entries];
-                        entries[idx] = { ...entries[idx], hidden: !e.target.checked };
-                        return { ...r, entries };
-                      })
-                    }
-                  />
-                  Listed
-                </label>
-                <button
-                  type="button"
-                  className="text-brand-orange font-bold text-xs"
-                  onClick={() => setEditingId(entry.id)}
+          <div className="max-h-[28rem] overflow-y-auto space-y-2">
+            {filteredEntries.map((entry) => {
+              const idx = registry.entries.findIndex((e) => e.id === entry.id);
+              return (
+                <div
+                  key={entry.id}
+                  className={`flex flex-wrap items-center gap-2 p-3 rounded-xl border text-sm ${
+                    entry.archived ? 'border-white/5 opacity-60' : 'border-white/10'
+                  } ${editingId === entry.id ? 'ring-2 ring-brand-orange/40' : ''}`}
                 >
-                  Edit marketing
-                </button>
-              </div>
-            ))}
+                  <span className="font-mono font-bold min-w-[7rem] text-xs">{entry.id}</span>
+                  <span className="flex-1 min-w-[8rem] truncate font-medium">{entry.name}</span>
+                  <span className="text-xs text-muted-foreground">{entry.familyId}</span>
+                  {entry.pricing && (
+                    <span className="text-xs text-muted-foreground hidden md:inline">
+                      F ${entry.pricing.Foundation.price} · P ${entry.pricing.Professional.price} · E $
+                      {entry.pricing.Elite.price}
+                    </span>
+                  )}
+                  <label className="flex items-center gap-1 text-xs">
+                    <input
+                      type="checkbox"
+                      checked={!entry.hidden}
+                      disabled={entry.archived}
+                      onChange={(e) =>
+                        setRegistry((r) => {
+                          const entries = [...r.entries];
+                          entries[idx] = { ...entries[idx], hidden: !e.target.checked };
+                          return { ...r, entries };
+                        })
+                      }
+                    />
+                    Listed
+                  </label>
+                  <button
+                    type="button"
+                    className="text-brand-orange font-bold text-xs px-2 py-1 rounded-lg hover:bg-brand-orange/10"
+                    onClick={() => setEditingId(entry.id)}
+                  >
+                    Edit
+                  </button>
+                </div>
+              );
+            })}
+            {!filteredEntries.length && (
+              <p className="text-sm text-muted-foreground py-6 text-center">No pathways match your filters.</p>
+            )}
           </div>
 
           {editingEntry && (
-            <div className="p-4 rounded-2xl border border-brand-orange/30 space-y-3 mt-4">
-              <h3 className="font-bold">Detail page: {editingEntry.id}</h3>
-              {(
-                [
-                  ['detailHeroTitle', 'Hero title'],
-                  ['detailHeroSubtitle', 'Hero subtitle'],
-                  ['outputValue', 'Primary value line'],
-                  ['recommendedCta', 'Recommended CTA'],
-                  ['targetAudience', 'Target audience'],
-                ] as const
-              ).map(([key, label]) => (
-                <label key={key} className="block space-y-1">
-                  <span className="text-xs font-bold uppercase">{label}</span>
-                  <textarea
-                    value={editingEntry[key] ?? ''}
-                    onChange={(e) =>
-                      setRegistry((r) => ({
-                        ...r,
-                        entries: r.entries.map((en) =>
-                          en.id === editingEntry.id ? { ...en, [key]: e.target.value } : en,
-                        ),
-                      }))
-                    }
-                    className="w-full border rounded-xl px-3 py-2 text-sm h-16"
-                  />
-                </label>
-              ))}
-              <CTAButton size="sm" variant="outline" onClick={() => setEditingId(null)}>
-                Done
-              </CTAButton>
-            </div>
+            <CertificationRegistryEntryEditor
+              entry={editingEntry}
+              onChange={updateEntry}
+              onClose={() => setEditingId(null)}
+              onRemove={() => removeEntry(editingEntry.id)}
+              onArchive={() => toggleArchive(editingEntry.id)}
+            />
           )}
         </GlassCard>
       )}

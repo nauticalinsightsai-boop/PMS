@@ -9,7 +9,10 @@ const root = path.resolve(__dirname, '..');
 loadEnvConfig(root);
 
 const secret = process.env.STRIPE_SECRET_KEY?.trim() ?? '';
-const publishable = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ?? '';
+const publishable =
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ??
+  process.env.STRIPE_PUBLISHABLE_KEY?.trim() ??
+  '';
 const webhook = process.env.STRIPE_WEBHOOK_SECRET?.trim() ?? '';
 
 const ok = Boolean(secret && secret.startsWith('sk_') && publishable && publishable.startsWith('pk_'));
@@ -28,6 +31,7 @@ console.log(
 
 if (!ok) {
   console.log('\nAdd keys to repo root .env.local, then restart: npm run dev');
+  console.log('Production: set STRIPE_SECRET_KEY + NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY on the marketing frontend Vercel project, then redeploy.');
   console.log('See .env.example → Stripe section');
   process.exit(1);
 }

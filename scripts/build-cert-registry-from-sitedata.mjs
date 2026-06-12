@@ -19,11 +19,21 @@ const entries = siteData.certifications.map((cert, index) => ({
   hidden: false,
   archived: false,
   sortOrder: index,
+  pricing: cert.pricing,
   detailHeroTitle: `${cert.name} Pathway`,
   detailHeroSubtitle: cert.desc,
   outputValue: cert.outputValue ?? '',
   recommendedCta: cert.recommendedCTA ?? '',
   targetAudience: cert.targetAudience ?? '',
+  prerequisites: cert.prerequisites ?? '',
+  examFormat: cert.examFormat ?? '',
+  registrationSteps: cert.registrationSteps ?? '',
+  officialFee: cert.officialFee ?? '',
+  trainingPriceRange: cert.trainingPriceRange ?? '',
+  learningOutcomes: cert.learningOutcomes ?? [],
+  pathwayOutcomes: cert.pathwayOutcomes ?? undefined,
+  suggestedResources: cert.suggestedResources ?? [],
+  regionalDemand: cert.regionalDemand ?? '',
 }));
 
 const payload = { version: 1, entries };

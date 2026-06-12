@@ -274,8 +274,7 @@ The homepage and all `(site)` marketing pages may render only **"Loading your re
 * [ ] Document all `/dashboard/booking-crm/**` routes
 * [ ] Document all `/dashboard/site-system/**` routes
 * [ ] Document all `/dashboard/cms/**` routes
-* [ ] Document all `/dashboard/social-media-management/**` routes
-* [ ] Document `/dashboard/control-tower`
+* [ ] Document Admin control routes under `/dashboard/site-system/**` and `/dashboard/migrate`
 * [ ] Document `/dashboard/account/region`
 * [ ] Document `/dashboard/migrate`
 * [ ] Document legacy `/dashboard/members-revenue/**` redirects

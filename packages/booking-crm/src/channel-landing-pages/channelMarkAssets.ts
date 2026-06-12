@@ -3,7 +3,7 @@
  * Files live in frontend/public/images/logo/ (served as /images/logo/*).
  */
 
-export const CHANNEL_MARK_ASSET_VERSION = '2';
+export const CHANNEL_MARK_ASSET_VERSION = '4';
 
 export type ChannelMarkFileSpec =
   | { kind: 'brand' }
@@ -16,6 +16,7 @@ export const CHANNEL_MARK_FILES: Record<string, ChannelMarkFileSpec> = {
   medium: { kind: 'light-dark', fileBase: 'medium' },
   substack: { kind: 'single', fileBase: 'substack' },
   beehiiv: { kind: 'light-dark', fileBase: 'beehiiv' },
+  ghost: { kind: 'single', fileBase: 'ghost' },
   hashnode: { kind: 'single', fileBase: 'hashnode' },
   'notion-public': { kind: 'light-dark', fileBase: 'notion' },
   linkedin: { kind: 'single', fileBase: 'linkedin' },

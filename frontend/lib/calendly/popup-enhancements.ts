@@ -1,5 +1,6 @@
 import {
  getCalendlyPopupThemeTokens,
+ resolveCalendlyCloseButtonColors,
 } from '@/lib/calendly/embed-url';
 import { notifyCalendlyClosed } from '@/lib/conversion-recovery/calendly-bridge';
 
@@ -40,7 +41,7 @@ function closeCalendlyPopup(): void {
 
 function ensureHiddenScrollbarStyles(): void {
  if (typeof document === 'undefined') return;
- if (document.getElementById(HIDDEN_SCROLLBAR_STYLE_ID)) return;
+ document.getElementById(HIDDEN_SCROLLBAR_STYLE_ID)?.remove();
 
  const style = document.createElement('style');
  style.id = HIDDEN_SCROLLBAR_STYLE_ID;
@@ -56,8 +57,20 @@ function ensureHiddenScrollbarStyles(): void {
   }
   /* Calendly host shell: hide scrollbars on the panel wrapping the iframe (not inside cross-origin iframe). */
   .calendly-overlay .calendly-popup-content {
+   padding: 0 !important;
+   margin: 0 !important;
+   height: 100% !important;
+   flex: 1 1 auto !important;
+   min-height: 0 !important;
+   box-sizing: border-box !important;
    scrollbar-width: none !important;
    -ms-overflow-style: none !important;
+  }
+  .calendly-overlay .calendly-popup-content > * {
+   padding-top: 0 !important;
+   padding-bottom: 0 !important;
+   margin-top: 0 !important;
+   margin-bottom: 0 !important;
   }
   .calendly-overlay .calendly-popup-content::-webkit-scrollbar {
    width: 0 !important;
@@ -84,7 +97,7 @@ function ensureHiddenScrollbarStyles(): void {
    display: flex !important;
    align-items: center !important;
    justify-content: center !important;
-   padding: 1rem !important;
+   padding: 0 !important;
    box-sizing: border-box !important;
   }
   .calendly-overlay.${CALENDLY_OVERLAY_THEME_CLASS}::before {
@@ -93,6 +106,8 @@ function ensureHiddenScrollbarStyles(): void {
    inset: 0;
    z-index: 0;
    background: var(${CALENDLY_SCRIM_VAR}, rgba(0, 0, 0, 0.65));
+   -webkit-backdrop-filter: blur(4px);
+   backdrop-filter: blur(4px);
    pointer-events: none;
   }
   .calendly-overlay.${CALENDLY_OVERLAY_THEME_CLASS} .calendly-close-overlay,
@@ -108,13 +123,16 @@ function ensureHiddenScrollbarStyles(): void {
   .calendly-overlay.${CALENDLY_OVERLAY_THEME_CLASS} .calendly-popup,
   .calendly-overlay .calendly-popup {
    z-index: 2 !important;
-   position: relative !important;
-   top: auto !important;
-   left: auto !important;
+   position: fixed !important;
+   top: 0 !important;
+   left: 50% !important;
    right: auto !important;
-   bottom: auto !important;
-   transform: none !important;
+   bottom: 0 !important;
+   transform: translateX(-50%) !important;
    margin: 0 !important;
+   padding: 0 !important;
+   height: 100dvh !important;
+   max-height: 100dvh !important;
    flex-shrink: 0 !important;
   }
   /* Hide Calendly native close icon; custom close button is injected by this module. */
@@ -159,7 +177,7 @@ function enforceOuterScrollLock(overlay: HTMLElement): void {
  overlay.style.setProperty('display', 'flex', 'important');
  overlay.style.setProperty('align-items', 'center', 'important');
  overlay.style.setProperty('justify-content', 'center', 'important');
- overlay.style.setProperty('padding', '1rem', 'important');
+ overlay.style.setProperty('padding', '0', 'important');
  overlay.style.setProperty('box-sizing', 'border-box', 'important');
 }
 
@@ -253,9 +271,17 @@ function applyCloseButtonTheme(
  popupTheme: ReturnType<typeof getCalendlyPopupThemeTokens>,
  backgroundColor = popupTheme.closeBg,
 ): void {
- btn.style.border = `1px solid ${popupTheme.closeBorder}`;
- btn.style.backgroundColor = backgroundColor;
- btn.style.color = popupTheme.closeFg;
+ const close =
+  typeof window !== 'undefined'
+   ? resolveCalendlyCloseButtonColors(window.location.pathname)
+   : {
+      closeBg: popupTheme.closeBg,
+      closeFg: popupTheme.closeFg,
+      closeBorder: popupTheme.closeBorder,
+     };
+ btn.style.border = `1px solid ${close.closeBorder}`;
+ btn.style.backgroundColor = backgroundColor === popupTheme.closeBg ? close.closeBg : backgroundColor;
+ btn.style.color = close.closeFg;
  btn.style.boxShadow = popupTheme.closeShadow;
 }
 
@@ -268,20 +294,17 @@ function enforcePopupContainment(overlay: HTMLElement): void {
 
  popup.style.setProperty('box-sizing', 'border-box', 'important');
  popup.style.setProperty('margin', '0', 'important');
- popup.style.setProperty('position', 'relative', 'important');
- popup.style.setProperty('top', 'auto', 'important');
- popup.style.setProperty('left', 'auto', 'important');
+ popup.style.setProperty('padding', '0', 'important');
+ popup.style.setProperty('position', 'fixed', 'important');
+ popup.style.setProperty('top', '0', 'important');
+ popup.style.setProperty('left', '50%', 'important');
  popup.style.setProperty('right', 'auto', 'important');
- popup.style.setProperty('bottom', 'auto', 'important');
- popup.style.setProperty('transform', 'none', 'important');
- popup.style.setProperty('max-width', 'calc(100vw - 2rem)', 'important');
- /**
-  * Keep Calendly shell close to the actual booking content width
-  * (reduces side gutters seen around the panel in desktop light/dark).
-  */
- popup.style.setProperty('width', 'min(680px, calc(100vw - 2rem))', 'important');
- popup.style.setProperty('max-height', 'min(720px, calc(100dvh - 2rem))', 'important');
- popup.style.setProperty('height', 'min(720px, calc(100dvh - 2rem))', 'important');
+ popup.style.setProperty('bottom', '0', 'important');
+ popup.style.setProperty('transform', 'translateX(-50%)', 'important');
+ popup.style.setProperty('max-width', 'min(680px, 100vw)', 'important');
+ popup.style.setProperty('width', 'min(680px, 100vw)', 'important');
+ popup.style.setProperty('max-height', '100dvh', 'important');
+ popup.style.setProperty('height', '100dvh', 'important');
  popup.style.setProperty('display', 'flex', 'important');
  popup.style.setProperty('flex-direction', 'column', 'important');
  popup.style.setProperty('min-height', '0', 'important');
@@ -298,10 +321,23 @@ function enforcePopupContainment(overlay: HTMLElement): void {
 
  if (popupContent) {
   popupContent.style.setProperty('padding', '0', 'important');
+  popupContent.style.setProperty('padding-top', '0', 'important');
+  popupContent.style.setProperty('padding-bottom', '0', 'important');
   popupContent.style.setProperty('margin', '0', 'important');
+  popupContent.style.setProperty('height', '100%', 'important');
+  popupContent.style.setProperty('flex', '1 1 auto', 'important');
+  popupContent.style.setProperty('min-height', '0', 'important');
   popupContent.style.setProperty('background', 'transparent', 'important');
   popupContent.style.setProperty('border', '0', 'important');
   popupContent.style.setProperty('box-shadow', 'none', 'important');
+  popupContent.querySelectorAll<HTMLElement>(':scope > *').forEach((child) => {
+   child.style.setProperty('padding-top', '0', 'important');
+   child.style.setProperty('padding-bottom', '0', 'important');
+   child.style.setProperty('margin-top', '0', 'important');
+   child.style.setProperty('margin-bottom', '0', 'important');
+   child.style.setProperty('height', '100%', 'important');
+   child.style.setProperty('min-height', '0', 'important');
+  });
  }
 
  const scrollContainer = findPopupScrollContainer(popup);

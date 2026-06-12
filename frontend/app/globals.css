@@ -41,3 +41,57 @@
   background: none !important;
   background-color: transparent !important;
 }
+
+/* Site dialogs — match PmpRoadmapLeadForm + certification hero cards (slate-900 dark) */
+:root {
+  --site-dialog-scrim: rgba(11, 11, 42, 0.46);
+  --site-dialog-surface: #ffffff;
+  --site-dialog-border: #e2e8f0;
+}
+
+.dark {
+  --site-dialog-scrim: rgba(15, 23, 42, 0.88);
+  --site-dialog-surface: #0f172a;
+  --site-dialog-border: #1e293b;
+}
+
+@layer components {
+  [data-slot='dialog-overlay'] {
+    background: var(--site-dialog-scrim) !important;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+
+  [data-slot='dialog-content'] {
+    background-color: var(--site-dialog-surface) !important;
+    border-color: var(--site-dialog-border) !important;
+    color: #0f172a;
+  }
+
+  .dark [data-slot='dialog-content'] {
+    color: #ffffff;
+  }
+
+  [data-slot='dialog-header'] {
+    border-bottom: 1px solid var(--site-dialog-border);
+    background: linear-gradient(
+      to bottom right,
+      color-mix(in srgb, #2851b9 5%, transparent),
+      #ffffff,
+      color-mix(in srgb, #ff4a38 5%, transparent)
+    );
+  }
+
+  .dark [data-slot='dialog-header'] {
+    background: linear-gradient(to bottom right, #0f172a, #0f172a, #1e293b);
+  }
+
+  [data-slot='dialog-body'] {
+    background-color: var(--site-dialog-surface) !important;
+  }
+
+  [data-slot='dialog-footer'] {
+    border-top: 1px solid var(--site-dialog-border);
+    background-color: var(--site-dialog-surface) !important;
+  }
+}

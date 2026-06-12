@@ -5,6 +5,7 @@ import {
   hasChannelMark,
 } from '@pms/booking-crm/channel-landing-pages/channelMarkAssets';
 import PlatformChannelIcon from '@/components/admin/PlatformChannelIcon';
+import { useSiteColorScheme } from '@/hooks/useSiteColorScheme';
 
 export type ChannelMarkPill = {
   backgroundColor: string;
@@ -19,6 +20,7 @@ type AdminChannelMarkProps = {
   /** Display size: PNG fills this; Lucide pill uses this as the box. */
   size?: number;
   className?: string;
+  /** Override site theme (e.g. portal strip). Defaults to active UI scheme. */
   colorScheme?: 'light' | 'dark';
   /** Lucide-only brand pill. Ignored when a custom PNG mark exists. */
   pill?: ChannelMarkPill;
@@ -29,11 +31,13 @@ export default function AdminChannelMark({
   fallbackIcon,
   size = 18,
   className = '',
-  colorScheme = 'light',
+  colorScheme,
   pill,
 }: AdminChannelMarkProps) {
+  const uiScheme = useSiteColorScheme();
+  const resolvedScheme = colorScheme ?? uiScheme;
   const customMark = hasChannelMark(channelId);
-  const markSrc = customMark ? getChannelMarkPath(channelId, colorScheme) : null;
+  const markSrc = customMark ? getChannelMarkPath(channelId, resolvedScheme) : null;
 
   if (markSrc) {
     return (

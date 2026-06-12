@@ -31,7 +31,7 @@ function DialogOverlay({
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 isolate z-[110] bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+        "site-dialog-overlay fixed inset-0 isolate z-[110] duration-100 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
         className
       )}
       {...props}
@@ -55,7 +55,7 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "fixed top-1/2 left-1/2 z-[110] flex w-full max-w-[calc(100%-2rem)] max-h-[min(90vh,820px)] -translate-x-1/2 -translate-y-1/2 flex-col gap-0 overflow-hidden rounded-xl bg-popover p-0 text-sm text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          "site-dialog-content fixed top-1/2 left-1/2 z-[110] flex w-full max-w-[calc(100%-2rem)] max-h-[min(90vh,820px)] -translate-x-1/2 -translate-y-1/2 flex-col gap-0 overflow-hidden rounded-[2rem] border p-0 text-sm shadow-2xl duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
           className
         )}
         {...props}
@@ -86,7 +86,10 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex shrink-0 flex-col gap-2 px-6 pt-6", className)}
+      className={cn(
+        "site-dialog-header flex shrink-0 flex-col gap-2 px-5 pt-5 pb-5 sm:px-6 sm:pt-6 sm:pb-6",
+        className
+      )}
       {...props}
     />
   )
@@ -97,7 +100,7 @@ function DialogBody({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="dialog-body"
       className={cn(
-        "min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-4 scrollbar-thin",
+        "site-dialog-body min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4 scrollbar-thin sm:px-6",
         className
       )}
       {...props}
@@ -117,7 +120,7 @@ function DialogFooter({
     <div
       data-slot="dialog-footer"
       className={cn(
-        "flex shrink-0 flex-col-reverse gap-2 border-t border-border bg-card px-6 py-4 sm:flex-row sm:justify-end",
+        "site-dialog-footer flex shrink-0 flex-col-reverse gap-2 px-5 py-4 sm:flex-row sm:justify-end sm:px-6",
         className
       )}
       {...props}
@@ -137,7 +140,7 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
     <DialogPrimitive.Title
       data-slot="dialog-title"
       className={cn(
-        "font-heading text-base leading-none font-medium",
+        "font-heading text-base leading-tight font-bold text-slate-900 dark:text-white",
         className
       )}
       {...props}
@@ -153,7 +156,7 @@ function DialogDescription({
     <DialogPrimitive.Description
       data-slot="dialog-description"
       className={cn(
-        "text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
+        "text-sm leading-relaxed text-slate-600 dark:text-slate-400 *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-slate-900 dark:*:[a]:hover:text-white",
         className
       )}
       {...props}

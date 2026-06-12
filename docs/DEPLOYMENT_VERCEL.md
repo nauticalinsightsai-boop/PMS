@@ -38,13 +38,21 @@ SMTP_USER=...
 SMTP_PASS=...
 AUTH_EMAIL_FROM=...
 AUTH_EMAIL_FROM_NAME=PM Structure
+
+# Stripe embedded checkout (bundled on this deployment — do not rely on BACKEND_URL proxy)
+STRIPE_SECRET_KEY=sk_live_...          # or sk_test_... while testing
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...        # Stripe Dashboard → Webhooks → signing secret
+# STRIPE_PUBLISHABLE_KEY=pk_live_...   # optional server-only fallback if publishable key added after last build
 ```
 
-Redeploy the marketing project after env changes.
+Redeploy the marketing project after env changes. Checkout API routes (`/api/checkout/*`, `/api/stripe/webhook`, `/api/config/public`) run on this deployment even when `BACKEND_URL` is set.
 
 ### Public API env (`backend/` project)
 
 Same Supabase keys as above. Set `AUTH_ALLOWED_ORIGINS=https://pmstructure.com` if auth routes are used from the public API.
+
+Optional if checkout stays on the marketing project only:
 
 ```env
 STRIPE_SECRET_KEY=sk_live_...          # or sk_test_... while testing

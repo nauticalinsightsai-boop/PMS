@@ -2,6 +2,17 @@ import { z } from 'zod';
 
 export const certFamilyIdSchema = z.enum(['PMI', 'PRINCE2', 'SixSigma', 'FoundationDirect']);
 
+export const certificationTierPricingSchema = z.object({
+  duration: z.string(),
+  price: z.number(),
+});
+
+export const certificationPathwayOutcomesSchema = z.object({
+  foundation: z.array(z.string()).optional(),
+  professional: z.array(z.string()).optional(),
+  mastery: z.array(z.string()).optional(),
+});
+
 export const certificationRegistryEntrySchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -12,12 +23,29 @@ export const certificationRegistryEntrySchema = z.object({
   hidden: z.boolean().default(false),
   archived: z.boolean().default(false),
   sortOrder: z.number().optional(),
+  /** Display / list pricing (Foundation · Professional · Elite tiers on cards). */
+  pricing: z
+    .object({
+      Foundation: certificationTierPricingSchema,
+      Professional: certificationTierPricingSchema,
+      Elite: certificationTierPricingSchema,
+    })
+    .optional(),
   /** Detail page hero: overrides siteData when published */
   detailHeroTitle: z.string().optional(),
   detailHeroSubtitle: z.string().optional(),
   outputValue: z.string().optional(),
   recommendedCta: z.string().optional(),
   targetAudience: z.string().optional(),
+  prerequisites: z.string().optional(),
+  examFormat: z.string().optional(),
+  registrationSteps: z.string().optional(),
+  officialFee: z.string().optional(),
+  trainingPriceRange: z.string().optional(),
+  learningOutcomes: z.array(z.string()).optional(),
+  pathwayOutcomes: certificationPathwayOutcomesSchema.optional(),
+  suggestedResources: z.array(z.string()).optional(),
+  regionalDemand: z.string().optional(),
 });
 
 export const certificationsRegistrySchema = z.object({

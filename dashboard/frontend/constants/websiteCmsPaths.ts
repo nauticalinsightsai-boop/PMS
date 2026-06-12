@@ -1,4 +1,4 @@
-/** Canonical Website tab (CMS) routes — single source for sidebar + editors */
+/** Canonical Editor tab (CMS) routes — single source for sidebar + editors */
 export const WEBSITE_CMS_PATHS = {
   mediaLibrary: '/dashboard/site-system/media-library',
   newsletter: '/dashboard/site-system/newsletter',

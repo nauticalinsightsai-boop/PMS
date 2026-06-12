@@ -15,11 +15,15 @@ const productionAdminProxy = Boolean(dashboardFrontendUrl);
 
 const dashFeRoot = path.join(__dirname, '../dashboard/frontend');
 const dashBeRoot = path.join(__dirname, '../dashboard/backend');
+const publicApiRoot = path.join(__dirname, '../backend');
 
 const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_AUTH_USE_API_LOGIN: process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN ?? 'true',
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '',
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ??
+      process.env.STRIPE_PUBLISHABLE_KEY ??
+      '',
   },
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
@@ -31,6 +35,9 @@ const nextConfig: NextConfig = {
       './data/channel-landing-pages.json',
     ],
     '/admin/:path*': ['./dashboard/frontend/**/*', './dashboard/backend/**/*'],
+    '/api/checkout/:path*': ['./backend/**/*', './frontend/data/regional-catalogue.json'],
+    '/api/config/:path*': ['./backend/**/*'],
+    '/api/stripe/:path*': ['./backend/**/*'],
   },
   async redirects() {
     return [
@@ -139,6 +146,8 @@ const nextConfig: NextConfig = {
           resource.request = path.join(dashBeRoot, resource.request.replace(/^@\//, ''));
         } else if (ctx.includes(`${path.sep}dashboard${path.sep}frontend${path.sep}`)) {
           resource.request = path.join(dashFeRoot, resource.request.replace(/^@\//, ''));
+        } else if (ctx.includes(`${path.sep}backend${path.sep}`)) {
+          resource.request = path.join(publicApiRoot, resource.request.replace(/^@\//, ''));
         }
       }),
     );

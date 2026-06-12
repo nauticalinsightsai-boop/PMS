@@ -151,7 +151,7 @@ export function PathwayOfferingModal({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="rounded-[2rem] sm:max-w-6xl lg:max-w-7xl max-h-[min(92vh,900px)] flex flex-col">
+      <DialogContent className="sm:max-w-6xl lg:max-w-7xl max-h-[min(92vh,900px)] flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold tracking-tight pr-8">{programmeTitle}</DialogTitle>
           <DialogDescription className="text-base font-medium leading-relaxed">{intro}</DialogDescription>
@@ -168,7 +168,7 @@ export function PathwayOfferingModal({
           <ProgrammePreviewExplorer preview={preview} />
 
           {outcomes.length > 0 && (
-            <div className="rounded-2xl border border-slate-100 bg-white p-4 dark:border-slate-800 dark:bg-slate-950/50">
+            <div className="rounded-2xl border border-slate-100 bg-white p-4 dark:border-slate-800 dark:bg-slate-800/90">
               <p className="mb-3 text-label">Programme focus</p>
               <ul className="space-y-2">
                 {outcomes.slice(0, 4).map((item) => (

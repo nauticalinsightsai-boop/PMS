@@ -105,19 +105,61 @@ function finalizeThemeTokens(theme: PlatformPortalTheme): PlatformPortalTheme {
   }
 }
 
+/** Visual palette aliases — webinar uses the website marketing shell. */
+const PORTAL_THEME_CHANNEL_ALIASES: Record<string, string> = {
+  webinar: 'website',
+}
+
+/** Labels and copy stay on the requested channel; only colors/layout tokens come from the alias. */
+const PORTAL_THEME_IDENTITY_KEYS = [
+  'channelId',
+  'platformName',
+  'iconName',
+  'presenceTag',
+  'schedulingTitle',
+  'schedulingBody',
+  'heroCardTitle',
+  'heroCardBody',
+  'scheduleTierCta',
+] as const satisfies ReadonlyArray<keyof PlatformPortalTheme>
+
+function resolveThemeChannelId(channelId: string): string {
+  return PORTAL_THEME_CHANNEL_ALIASES[channelId] ?? channelId
+}
+
+function applyPortalChannelIdentity(
+  palette: PlatformPortalTheme,
+  channelId: string,
+  typeLabel?: string
+): PlatformPortalTheme {
+  const paletteChannelId = resolveThemeChannelId(channelId)
+  if (paletteChannelId === channelId) return palette
+  const identity = getPlatformPortalTheme(channelId, typeLabel)
+  const merged = { ...palette }
+  for (const key of PORTAL_THEME_IDENTITY_KEYS) {
+    merged[key] = identity[key]
+  }
+  return merged
+}
+
 /** Full resolved palette for light or dark: use everywhere instead of partial applyPortalColorMode. */
 export function resolvePortalTheme(
   channelId: string,
   mode: PortalColorMode,
   typeLabel?: string
 ): PlatformPortalTheme {
-  const light = getPlatformPortalTheme(channelId, typeLabel)
+  const themeChannelId = resolveThemeChannelId(channelId)
+  const light = getPlatformPortalTheme(themeChannelId, typeLabel)
   const harmonized = harmonizePortalThemeContrast(light, mode)
   if (mode === 'light') {
-    return finalizeThemeTokens(harmonized)
+    return applyPortalChannelIdentity(finalizeThemeTokens(harmonized), channelId, typeLabel)
   }
   const dark = applyPortalColorMode(light, 'dark')
-  return finalizeThemeTokens(harmonizePortalThemeContrast(dark, 'dark'))
+  return applyPortalChannelIdentity(
+    finalizeThemeTokens(harmonizePortalThemeContrast(dark, 'dark')),
+    channelId,
+    typeLabel
+  )
 }
 
 /** CSS custom properties for .portal-root */

@@ -4,7 +4,6 @@ import { Star } from 'lucide-react'
 import GlassCard from '@/components/ui/cards/GlassCard'
 import { BRAND } from '@/lib/brand-voice'
 import { getChannelPortalCopy } from '@/lib/channel-landing-pages/channelPortalCopy'
-import { meetsContrast, pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils'
 import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 
@@ -13,38 +12,25 @@ export default function ChannelPortalHeroCard({ page, theme, sectionOrder, porta
   const channelCopy = getChannelPortalCopy(page.channelId)
   const heroTitle = channelCopy?.heroCardTitle ?? theme.heroCardTitle
   const heroBody = channelCopy?.heroCardBody ?? theme.heroCardBody
-  const badgeBg = theme.cardBg.startsWith('#') && theme.cardBg.length === 7 ? theme.cardBg : '#0F172A'
-  const badgeText =
-    theme.primary.startsWith('#') &&
-    theme.primary.length === 7 &&
-    meetsContrast(theme.primary, badgeBg, 4.5)
-      ? theme.primary
-      : pickReadableForeground(badgeBg)
-  const badgeBorder =
-    theme.cardBorder.startsWith('#') && theme.cardBorder.length === 7
-      ? theme.cardBorder
-      : `${badgeText}66`
+  const heroBadgeStyle = useSiteGlass
+    ? {
+        borderRadius: theme.radius,
+        border: `1px solid ${theme.cardBorder}`,
+        color: theme.freeBadgeText,
+        backgroundColor: theme.freeBadgeBg,
+      }
+    : {
+        borderRadius: theme.radius,
+        border: `1px solid ${theme.heroText}33`,
+        color: theme.heroText,
+        opacity: 0.9,
+      }
 
   const inner = (
     <>
       <span
         className="inline-flex items-center gap-1.5 text-meta px-3 py-1 mb-4"
-        style={
-          useSiteGlass
-            ? {
-                borderRadius: theme.radius,
-                border: `1px solid ${theme.cardBorder}`,
-                color: badgeText,
-                backgroundColor: `${badgeBg}80`,
-                borderColor: badgeBorder,
-              }
-            : {
-                borderRadius: theme.radius,
-                border: `1px solid ${theme.heroText}33`,
-                color: theme.heroText,
-                opacity: 0.9,
-              }
-        }
+        style={heroBadgeStyle}
       >
         <Star size={12} aria-hidden />
         {BRAND.name} · mentor sessions

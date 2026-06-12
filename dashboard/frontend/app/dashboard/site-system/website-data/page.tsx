@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation';
-import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
+import { WebsiteDataEditor } from '@/components/pages/admin/WebsiteData';
 
-export default function LegacyWebsiteDataPage() {
-  redirect(WEBSITE_CMS_PATHS.mediaLibrary);
+export default function WebsiteDataPage() {
+  return <WebsiteDataEditor />;
 }

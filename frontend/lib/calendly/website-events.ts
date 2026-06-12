@@ -1,5 +1,5 @@
 import { LIVE_SITE_CALENDLY } from '@pms/booking-crm/calendly/live-scheduling-urls';
-import { sanitizeCalendlySchedulingUrl, getCalendlyEmbedTheme, resolveWebsitePortalCalendlyPalette, type CalendlyUtmParams } from '@/lib/calendly/embed-url';
+import { sanitizeCalendlySchedulingUrl, getCalendlyEmbedTheme, isGoPortalCalendlyPath, type CalendlyUtmParams } from '@/lib/calendly/embed-url';
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
 import { resolvePortalTheme } from '@/lib/channel-landing-pages/resolvePortalTheme';
 
@@ -59,10 +59,12 @@ export function openWebsiteCalendly(
   opts?: { utm?: CalendlyUtmParams; funnelLabel?: string },
 ): void {
   const mode = getCalendlyEmbedTheme();
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '/';
+  const onWebsitePortal = isGoPortalCalendlyPath(pathname) && /^\/go\/website\/?$/i.test(pathname);
   void openCalendlyThemedPopup(getWebsiteCalendlyUrl(tier), {
     ...opts,
     theme: mode,
-    portalTheme: resolvePortalTheme('website', mode),
+    ...(onWebsitePortal ? { portalTheme: resolvePortalTheme('website', mode) } : {}),
   });
 }
 

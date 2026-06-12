@@ -16,4 +16,9 @@ describe('getChannelMarkPath light/dark pairs', () => {
     expect(getChannelMarkPath('website', 'dark')).toContain('pms-icon-dark.png');
     expect(getChannelMarkPath('website', 'light')).toContain('pms-icon.png');
   });
+
+  it('uses single mark for ghost', () => {
+    expect(getChannelMarkPath('ghost', 'dark')).toContain('ghost-mark.png');
+    expect(getChannelMarkPath('ghost', 'light')).toContain('ghost-mark.png');
+  });
 });

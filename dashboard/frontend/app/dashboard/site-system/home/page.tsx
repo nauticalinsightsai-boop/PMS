@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation';
-import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
+import { HomeCmsEditor } from '@/components/pages/admin/HomeCmsEditor';
 
-export default function LegacyHomeCmsPage() {
-  redirect(WEBSITE_CMS_PATHS.mediaLibrary);
+export default function HomeCmsPage() {
+  return <HomeCmsEditor />;
 }

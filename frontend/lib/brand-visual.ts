@@ -19,10 +19,13 @@ export const BRAND_LOGO = {
   dark: '/brand/pms-logo-dark.png',
 } as const;
 
-/** Square app icon for compact UI marks (forms, cards). */
+/** Bump when replacing `public/brand/pms-icon*.png` so Next/Image cache busts. */
+export const BRAND_ICON_ASSET_VERSION = '5';
+
+/** Square app icon for compact UI marks (forms, cards, portal hero). */
 export const BRAND_ICON = {
-  light: '/brand/pms-icon.png',
-  dark: '/brand/pms-icon-dark.png',
+  light: `/brand/pms-icon.png?v=${BRAND_ICON_ASSET_VERSION}`,
+  dark: `/brand/pms-icon-dark.png?v=${BRAND_ICON_ASSET_VERSION}`,
 } as const;
 
 /** Issuing-body marks on certification / family cards */

@@ -1,10 +1,12 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import {
   getChannelMarkPath,
   hasChannelMark,
 } from '@pms/booking-crm/channel-landing-pages/channelMarkAssets';
 import PlatformChannelIcon from '@/components/admin/PlatformChannelIcon';
+import { useTheme } from '@/components/shared/ThemeProvider';
 
 export type ChannelMarkPill = {
   backgroundColor: string;
@@ -18,20 +20,38 @@ type AdminChannelMarkProps = {
   fallbackIcon?: string;
   size?: number;
   className?: string;
+  /** Override dashboard theme (e.g. portal preview). Defaults to active UI scheme. */
   colorScheme?: 'light' | 'dark';
   pill?: ChannelMarkPill;
 };
+
+function useDashboardMarkColorScheme(override?: 'light' | 'dark'): 'light' | 'dark' {
+  const { theme } = useTheme();
+  const [scheme, setScheme] = useState<'light' | 'dark'>('light');
+
+  useEffect(() => {
+    const read = () =>
+      document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    setScheme(read());
+    const observer = new MutationObserver(() => setScheme(read()));
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, [theme]);
+
+  return override ?? scheme;
+}
 
 export default function AdminChannelMark({
   channelId,
   fallbackIcon,
   size = 18,
   className = '',
-  colorScheme = 'light',
+  colorScheme,
   pill,
 }: AdminChannelMarkProps) {
+  const resolvedScheme = useDashboardMarkColorScheme(colorScheme);
   const customMark = hasChannelMark(channelId);
-  const markSrc = customMark ? getChannelMarkPath(channelId, colorScheme) : null;
+  const markSrc = customMark ? getChannelMarkPath(channelId, resolvedScheme) : null;
 
   if (markSrc) {
     return (

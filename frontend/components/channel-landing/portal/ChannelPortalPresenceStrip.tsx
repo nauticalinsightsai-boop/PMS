@@ -5,7 +5,7 @@ import { resolvePortalStoryRingInnerStyle } from '@/lib/channel-landing-pages/po
 import AdminChannelMark from '@/components/admin/AdminChannelMark'
 import ChannelPortalThemeToggle from '@/components/channel-landing/portal/ChannelPortalThemeToggle'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
-import { getChannelProfileUrl } from '@/constants/socialProfiles'
+import { PMS_SITE_NAME, PMS_SITE_URL } from '@/config/pms-site'
 import { portalPresenceStripWidthClass } from '@/lib/channel-landing-pages/portalLayoutClasses'
 
 export default function ChannelPortalPresenceStrip({
@@ -18,7 +18,6 @@ export default function ChannelPortalPresenceStrip({
 }: PortalSectionProps) {
   const isInstagram = channelId === 'instagram'
   const useStoryRing = isInstagram || layoutVariant === 'bold'
-  const profileUrl = getChannelProfileUrl(channelId)
   const presenceLabel = theme.presenceTag === 'Site' ? 'official website' : theme.presenceTag
   const customMark = hasChannelMark(channelId)
   const storyRingInnerStyle = resolvePortalStoryRingInnerStyle(theme)
@@ -36,12 +35,12 @@ export default function ChannelPortalPresenceStrip({
         className={`flex items-center justify-between gap-3 px-4 sm:px-5 ${portalPresenceStripWidthClass(layoutVariant)}`}
       >
         <a
-          href={profileUrl}
+          href={PMS_SITE_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-3 min-w-0 rounded-md transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
           style={{ outlineColor: theme.primary }}
-          aria-label={`Open ${presenceLabel} profile`}
+          aria-label={`Open ${PMS_SITE_NAME} website`}
         >
           {useStoryRing ? (
             <div className="portal-story-ring shrink-0">

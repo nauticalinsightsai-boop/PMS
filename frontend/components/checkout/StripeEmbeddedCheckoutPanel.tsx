@@ -5,6 +5,7 @@ import { loadStripe, type StripeEmbeddedCheckout } from '@stripe/stripe-js';
 import { useSiteColorScheme } from '@/hooks/useSiteColorScheme';
 import { cn } from '@/lib/utils';
 import { fetchStripePublishableKey } from '@/services/checkout';
+import { stripePublishableKeyUnavailableMessage } from '@/lib/stripe-publishable-key';
 
 function getStripePublishableKeyFromEnv(): string {
   const key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ?? '';
@@ -43,9 +44,7 @@ export function StripeEmbeddedCheckoutPanel({
         getStripePublishableKeyFromEnv() || (await fetchStripePublishableKey());
       if (!publishableKey) {
         setStatus('error');
-        setErrorMessage(
-          'Stripe checkout is unavailable. Confirm NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY in .env.local, then restart with: npm run dev:fresh',
-        );
+        setErrorMessage(stripePublishableKeyUnavailableMessage());
         return;
       }
 

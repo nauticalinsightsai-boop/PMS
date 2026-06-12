@@ -3,13 +3,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  SOCIAL_ROUTE_PREFIXES,
+  ADMIN_ROUTE_PREFIXES,
   BOOKINGS_ROUTE_PREFIXES,
-  WEBSITE_ROUTE_PREFIXES,
+  EDITOR_ROUTE_PREFIXES,
 } from '@/constants/dashboardRoutes';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export type DashboardMode = 'social' | 'bookings' | 'website';
+export type DashboardMode = 'editor' | 'bookings' | 'admin';
 
 interface DashboardModeContextType {
   mode: DashboardMode;
@@ -19,27 +19,27 @@ interface DashboardModeContextType {
 const DashboardModeContext = createContext<DashboardModeContextType | undefined>(undefined);
 
 export const DashboardModeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [mode, setMode] = useState<DashboardMode>('website');
+  const [mode, setMode] = useState<DashboardMode>('editor');
   const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
-    if (SOCIAL_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
-      setMode('social');
-    } else if (WEBSITE_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
-      setMode('website');
-    } else if (pathname === '/dashboard') {
-      setMode('website');
+    if (EDITOR_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
+      setMode('editor');
     } else if (BOOKINGS_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
       setMode('bookings');
+    } else if (ADMIN_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
+      setMode('admin');
+    } else if (pathname === '/dashboard') {
+      setMode('editor');
     }
   }, [pathname]);
 
   const handleSetMode = (newMode: DashboardMode) => {
     setMode(newMode);
-    if (newMode === 'website') router.push(WEBSITE_CMS_PATHS.mediaLibrary);
+    if (newMode === 'editor') router.push(WEBSITE_CMS_PATHS.mediaLibrary);
     if (newMode === 'bookings') router.push('/dashboard/booking-crm/cta');
-    if (newMode === 'social') router.push('/dashboard/social-media-management/schedule-calendar');
+    if (newMode === 'admin') router.push('/dashboard/site-system/home');
   };
 
   return (

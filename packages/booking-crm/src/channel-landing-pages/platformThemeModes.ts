@@ -11,9 +11,9 @@ export function portalThemeStorageKey(channelId: string): string {
 
 export const DEFAULT_PORTAL_COLOR_MODE: PortalColorMode = 'dark'
 
-/** Website /go/website portal defaults to light to match `.portal-website` marketing shell. */
+/** Website + webinar portals default to light to match `.portal-website` marketing shell. */
 export function defaultPortalColorMode(channelId: string): PortalColorMode {
-  return channelId === 'website' ? 'light' : DEFAULT_PORTAL_COLOR_MODE
+  return channelId === 'website' || channelId === 'webinar' ? 'light' : DEFAULT_PORTAL_COLOR_MODE
 }
 
 /** Marketing site theme key (`app/layout.tsx`); synced for website portal when unset. */

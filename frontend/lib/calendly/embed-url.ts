@@ -87,6 +87,139 @@ type SiteCalendlyPalette = {
  border: string;
 };
 
+/** Matches `PmpRoadmapLeadForm` / `--site-dialog-*` in `app/globals.css` (marketing site only). */
+export const WEBSITE_MARKETING_CALENDLY_SURFACE = {
+ light: {
+  surface: '#ffffff',
+  border: '#e2e8f0',
+  scrim: 'rgba(11, 11, 42, 0.46)',
+ },
+ dark: {
+  surface: '#0f172a',
+  border: '#1e293b',
+  scrim: 'rgba(15, 23, 42, 0.88)',
+ },
+} as const;
+
+export function isWebsiteMarketingOnlyCalendlyPath(pathname?: string): boolean {
+ return isWebsiteMarketingCalendlyPath(pathname) && !isGoPortalCalendlyPath(pathname);
+}
+
+const PRO_CONSULTATION_PORTAL_PATH = /^\/go\/(website|webinar)\/?$/i;
+
+/** `/go/website` and `/go/webinar` — same Calendly scrim as marketing site dialogs. */
+export function isProConsultationPortalCalendlyPath(pathname?: string): boolean {
+ const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+ return PRO_CONSULTATION_PORTAL_PATH.test(route);
+}
+
+/** @deprecated Use isProConsultationPortalCalendlyPath */
+export function isGoWebsitePortalCalendlyPath(pathname?: string): boolean {
+ return isProConsultationPortalCalendlyPath(pathname);
+}
+
+function readWebsiteMarketingCalendlySurface(mode: 'light' | 'dark'): {
+ surface: string;
+ border: string;
+ scrim: string;
+} {
+ const fallback = WEBSITE_MARKETING_CALENDLY_SURFACE[mode];
+ if (typeof document === 'undefined') return fallback;
+ const surface = getComputedColorVar('--site-dialog-surface') || fallback.surface;
+ const border = getComputedColorVar('--site-dialog-border') || fallback.border;
+ /** Scrim follows active Calendly surface mode — not `--site-dialog-scrim` on `<html>` when portal toggles independently. */
+ return { surface, border, scrim: fallback.scrim };
+}
+
+/** Snapchat `/go/snapchat` light-mode Calendly overlay — brand yellow (#FFFC00), not marketing navy scrim. */
+export const SNAPCHAT_PORTAL_CALENDLY_OVERLAY_SCRIM_LIGHT = 'rgba(255, 252, 0, 0.58)';
+
+/** Snapchat `/go/snapchat` dark-mode overlay scrim. */
+export const SNAPCHAT_PORTAL_CALENDLY_OVERLAY_SCRIM_DARK = 'rgba(0, 0, 0, 0.82)';
+
+type SnapchatPortalCalendlyTheme = {
+ overlayScrim: string;
+ closeBg: string;
+ closeFg: string;
+ embedBackground: string;
+ embedText: string;
+ embedPrimary: string;
+ popupSurface: string;
+ popupBorder: string;
+};
+
+const SNAPCHAT_PORTAL_CALENDLY: Record<'light' | 'dark', SnapchatPortalCalendlyTheme> = {
+ light: {
+  overlayScrim: SNAPCHAT_PORTAL_CALENDLY_OVERLAY_SCRIM_LIGHT,
+  closeBg: '#000000',
+  closeFg: '#FFFC00',
+  embedBackground: 'fffc00',
+  embedText: '000000',
+  embedPrimary: '000000',
+  popupSurface: 'rgba(255, 252, 0, 0.98)',
+  popupBorder: 'rgba(0, 0, 0, 0.2)',
+ },
+ dark: {
+  overlayScrim: SNAPCHAT_PORTAL_CALENDLY_OVERLAY_SCRIM_DARK,
+  closeBg: '#FFFC00',
+  closeFg: '#000000',
+  embedBackground: '111111',
+  embedText: 'ffffff',
+  embedPrimary: 'fffc00',
+  popupSurface: 'rgba(17, 17, 17, 0.98)',
+  popupBorder: 'rgba(255, 252, 0, 0.25)',
+ },
+};
+
+function isSnapchatPortalCalendlyContext(pathname?: string): boolean {
+ const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+ if (route && resolveGoPortalChannelId(route) === 'snapchat') return true;
+ if (typeof document !== 'undefined') {
+  return getActivePortalRoot()?.getAttribute('data-platform') === 'snapchat';
+ }
+ return false;
+}
+
+function getSnapchatPortalCalendlyTheme(
+ pathname?: string,
+ mode?: 'light' | 'dark'
+): SnapchatPortalCalendlyTheme | null {
+ if (!isSnapchatPortalCalendlyContext(pathname)) return null;
+ const resolvedMode = mode ?? getCalendlySurfaceMode();
+ return SNAPCHAT_PORTAL_CALENDLY[resolvedMode];
+}
+
+/** Site-dialog scrim for every Calendly popup (marketing pages and all `/go/*` slugs). */
+export function resolveMarketingCalendlyOverlayScrim(mode: 'light' | 'dark'): string {
+ return readWebsiteMarketingCalendlySurface(mode).scrim;
+}
+
+export function resolveCalendlyOverlayScrimForRoute(
+ pathname: string,
+ mode: 'light' | 'dark'
+): string {
+ const snapchat = getSnapchatPortalCalendlyTheme(pathname, mode);
+ if (snapchat) return snapchat.overlayScrim;
+ return resolveMarketingCalendlyOverlayScrim(mode);
+}
+
+function buildMarketingCalendlyPaletteFallback(mode: 'light' | 'dark'): PortalCalendlyPalette {
+ const { surface, border } = readWebsiteMarketingCalendlySurface(mode);
+ const primary = '#ff4a38';
+ return {
+  background: mode === 'dark' ? '#07071c' : '#ffffff',
+  text: mode === 'dark' ? '#f7f7fa' : '#0b0b2a',
+  primary,
+  accent: primary,
+  link: primary,
+  context: primary,
+  verified: primary,
+  primaryForeground: pickButtonForeground(primary),
+  surface,
+  border,
+ };
+}
+
 /** PM Structure marketing shell tokens (`packages/ui` CSS variables). */
 export function getCalendlySitePalette(): SiteCalendlyPalette | null {
  if (typeof document === 'undefined') return null;
@@ -190,7 +323,13 @@ export function resolveCalendlyPaletteForPage(
  const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
  if (!route) return null;
  const colorMode = mode ?? getCalendlySurfaceMode();
- if (isWebsiteMarketingCalendlyPath(route)) {
+ if (isWebsiteMarketingOnlyCalendlyPath(route)) {
+  return (
+   sitePaletteToCalendlyPortalPalette(getCalendlySitePalette(), colorMode) ??
+   buildMarketingCalendlyPaletteFallback(colorMode)
+  );
+ }
+ if (PRO_CONSULTATION_PORTAL_PATH.test(route)) {
   return resolveWebsitePortalCalendlyPalette(colorMode);
  }
  const channelId = resolveGoPortalChannelId(route);
@@ -199,7 +338,45 @@ export function resolveCalendlyPaletteForPage(
 }
 
 function getEffectivePortalCalendlyPalette(pathname?: string, mode?: 'light' | 'dark'): PortalCalendlyPalette | null {
- return getPortalCalendlyPalette() ?? resolveCalendlyPaletteForPage(pathname, mode);
+ const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+ const colorMode = mode ?? getCalendlySurfaceMode();
+
+ // Marketing pages (/pmp, /certifications, …): match live `html.dark` CSS vars, not portal theme tokens.
+ if (isWebsiteMarketingCalendlyPath(route) && !isGoPortalCalendlyPath(route)) {
+  return sitePaletteToCalendlyPortalPalette(getCalendlySitePalette(), colorMode);
+ }
+
+ // /go/* portals: resolved palette for the active portal light/dark toggle.
+ const resolved = resolveCalendlyPaletteForPage(route, colorMode);
+ if (resolved) return resolved;
+
+ return getPortalCalendlyPalette();
+}
+
+/** True when pathname is `/go/{slug}` (any channel portal). */
+export function isGoPortalCalendlyPath(pathname?: string): boolean {
+ const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+ return Boolean(parseGoPortalSlugFromPathname(route));
+}
+
+function sitePaletteToCalendlyPortalPalette(
+ site: SiteCalendlyPalette | null,
+ mode: 'light' | 'dark'
+): PortalCalendlyPalette | null {
+ const { surface, border } = readWebsiteMarketingCalendlySurface(mode);
+ const primary = site?.primary || '#ff4a38';
+ return {
+  background: site?.background || (mode === 'dark' ? '#07071c' : '#ffffff'),
+  text: site?.text || (mode === 'dark' ? '#f7f7fa' : '#0b0b2a'),
+  primary,
+  accent: primary,
+  link: primary,
+  context: primary,
+  verified: primary,
+  primaryForeground: pickButtonForeground(primary),
+  surface,
+  border,
+ };
 }
 
 /** Build Calendly palette from resolved portal theme (avoids fragile DOM/CSS var reads). */
@@ -290,22 +467,95 @@ function getActivePortalThemeToggleColors(): { bg: string; fg: string } | null {
  return { bg, fg };
 }
 
-function getPortalCloseButtonColors(): { bg: string; fg: string; border: string } | null {
- const activeToggle = getActivePortalThemeToggleColors();
- if (activeToggle) {
-  return {
-   bg: activeToggle.bg,
-   fg: activeToggle.fg,
-   border: withAlpha(activeToggle.bg, 0.35, 'transparent'),
-  };
- }
- const portal = getPortalCalendlyPalette();
- if (!portal?.primary) return null;
+function buildCloseButtonThemeFromColors(
+ bg: string,
+ fg: string,
+ mode: 'light' | 'dark',
+ borderFallback = 'transparent',
+ focusFallback = 'rgba(37, 99, 235, 0.45)'
+): Pick<
+ CalendlyPopupThemeTokens,
+ 'closeBg' | 'closeFg' | 'closeBorder' | 'closeHoverBg' | 'closeActiveBg' | 'closeFocusRing'
+> {
  return {
-  bg: portal.primary,
-  fg: portal.primaryForeground,
-  border: portal.border || withAlpha(portal.primary, 0.32, 'transparent'),
+  closeBg: bg,
+  closeFg: fg,
+  closeBorder: withAlpha(bg, mode === 'dark' ? 0.42 : 0.32, borderFallback),
+  closeHoverBg: adjustHex(bg, mode === 'dark' ? 16 : -8),
+  closeActiveBg: adjustHex(bg, mode === 'dark' ? -14 : -22),
+  closeFocusRing: withAlpha(bg, mode === 'dark' ? 0.48 : 0.42, focusFallback),
  };
+}
+
+/**
+ * Close pill colors: match `.portal-theme-toggle-btn[aria-pressed="true"]` on portals,
+ * or marketing `--primary` / `--primary-foreground` (same tokens the toggle uses).
+ */
+export function resolveCalendlyCloseButtonColors(pathname?: string): Pick<
+ CalendlyPopupThemeTokens,
+ 'closeBg' | 'closeFg' | 'closeBorder' | 'closeHoverBg' | 'closeActiveBg' | 'closeFocusRing'
+> {
+ const mode = getCalendlySurfaceMode();
+ const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+ const base = CALENDLY_POPUP_THEME_BASE[mode];
+
+ if (isSnapchatPortalCalendlyContext(route)) {
+  const snapchat = getSnapchatPortalCalendlyTheme(route, mode);
+  if (snapchat) {
+   return buildCloseButtonThemeFromColors(
+    snapchat.closeBg,
+    snapchat.closeFg,
+    mode,
+    base.closeBorder,
+    base.closeFocusRing
+   );
+  }
+ }
+
+ const toggle = getActivePortalThemeToggleColors();
+ if (toggle) {
+  return buildCloseButtonThemeFromColors(toggle.bg, toggle.fg, mode, base.closeBorder, base.closeFocusRing);
+ }
+
+ if (isWebsiteMarketingCalendlyPath(route) && !isGoPortalCalendlyPath(route)) {
+  const site = getCalendlySitePalette();
+  if (site?.primary) {
+   const fg = getComputedColorVar('--primary-foreground') || pickButtonForeground(site.primary);
+   return buildCloseButtonThemeFromColors(site.primary, fg, mode, base.closeBorder, base.closeFocusRing);
+  }
+  const marketing = resolveCalendlyPaletteForPage(route, mode);
+  if (marketing?.primary) {
+   return buildCloseButtonThemeFromColors(
+    marketing.primary,
+    marketing.primaryForeground,
+    mode,
+    base.closeBorder,
+    base.closeFocusRing
+   );
+  }
+ }
+
+ if (isGoPortalCalendlyPath(route)) {
+  const portal = resolveCalendlyPaletteForPage(route, mode);
+  if (portal?.primary) {
+   return buildCloseButtonThemeFromColors(
+    portal.primary,
+    portal.primaryForeground,
+    mode,
+    base.closeBorder,
+    base.closeFocusRing
+   );
+  }
+ }
+
+ const accent = getActiveAccentOrFallback(mode, route);
+ return buildCloseButtonThemeFromColors(
+  accent,
+  pickButtonForeground(accent),
+  mode,
+  base.closeBorder,
+  base.closeFocusRing
+ );
 }
 
 function hexForCalendlyParam(hex: string, fallback: string): string {
@@ -486,17 +736,13 @@ export function getCalendlyOverlayCloseButtonColors(): { background: string; col
  };
 }
 
-export function getCalendlyOverlayScrimColor(): string {
- if (typeof document === 'undefined') return 'rgba(0, 0, 0, 0.65)';
+export function getCalendlyOverlayScrimColor(pathname?: string): string {
  const mode = getCalendlySurfaceMode();
- const pathname = window.location.pathname;
- const portal = getEffectivePortalCalendlyPalette(pathname, mode);
- const site = getCalendlySitePalette();
- const scrimBase = portal?.background ?? site?.background;
- if (scrimBase) {
-  return withAlpha(scrimBase, mode === 'dark' ? 0.88 : 0.52, 'rgba(0, 0, 0, 0.65)');
- }
- return mode === 'dark' ? 'rgba(7, 7, 28, 0.88)' : 'rgba(11, 11, 42, 0.46)';
+ const snapchat = getSnapchatPortalCalendlyTheme(pathname, mode);
+ if (snapchat) return snapchat.overlayScrim;
+ const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+ if (route) return resolveCalendlyOverlayScrimForRoute(route, mode);
+ return resolveMarketingCalendlyOverlayScrim(mode);
 }
 
 export type CalendlyPopupThemeTokens = {
@@ -524,7 +770,7 @@ const CALENDLY_POPUP_THEME_BASE: Record<'light' | 'dark', CalendlyPopupThemeToke
   closeActiveBg: '#002244',
   closeShadow: '0 20px 40px -20px rgba(2, 6, 23, 0.45)',
   closeFocusRing: 'rgba(37, 99, 235, 0.45)',
-  overlayScrim: 'rgba(15, 23, 42, 0.46)',
+  overlayScrim: WEBSITE_MARKETING_CALENDLY_SURFACE.light.scrim,
   popupSurface: 'rgba(255, 255, 255, 0.98)',
   popupBorder: 'rgba(148, 163, 184, 0.35)',
   popupShadow: '0 30px 80px -38px rgba(15, 23, 42, 0.45)',
@@ -537,9 +783,9 @@ const CALENDLY_POPUP_THEME_BASE: Record<'light' | 'dark', CalendlyPopupThemeToke
   closeActiveBg: '#1e40af',
   closeShadow: '0 20px 44px -20px rgba(2, 6, 23, 0.8)',
   closeFocusRing: 'rgba(96, 165, 250, 0.5)',
-  overlayScrim: 'rgba(2, 6, 23, 0.84)',
-  popupSurface: 'rgba(2, 6, 23, 0.96)',
-  popupBorder: 'rgba(51, 65, 85, 0.8)',
+  overlayScrim: WEBSITE_MARKETING_CALENDLY_SURFACE.dark.scrim,
+  popupSurface: 'rgba(15, 23, 42, 0.96)',
+  popupBorder: 'rgba(30, 41, 59, 0.8)',
   popupShadow: '0 34px 90px -42px rgba(2, 6, 23, 0.92)',
  },
 };
@@ -562,55 +808,29 @@ const CALENDLY_POPUP_THEME_OVERRIDES: Array<{
  light?: CalendlyPopupThemeOverride;
  dark?: CalendlyPopupThemeOverride;
 }> = [
- // Keep WhatsApp portal close control slightly brighter for better harmony with green-led artwork.
  {
-  routePattern: /^\/go\/whatsapp\/?$/i,
+  routePattern: /^\/go\/snapchat\/?$/i,
   light: {
-   closeBg: '#0f8f58',
-   closeHoverBg: '#0b7a4b',
-   closeActiveBg: '#09653f',
-   closeFocusRing: 'rgba(16, 185, 129, 0.45)',
+   overlayScrim: SNAPCHAT_PORTAL_CALENDLY.light.overlayScrim,
+   closeBg: SNAPCHAT_PORTAL_CALENDLY.light.closeBg,
+   closeFg: SNAPCHAT_PORTAL_CALENDLY.light.closeFg,
+   closeBorder: 'rgba(0, 0, 0, 0.24)',
+   closeHoverBg: '#1a1a1a',
+   closeActiveBg: '#333333',
+   closeFocusRing: 'rgba(0, 0, 0, 0.35)',
+   popupSurface: SNAPCHAT_PORTAL_CALENDLY.light.popupSurface,
+   popupBorder: SNAPCHAT_PORTAL_CALENDLY.light.popupBorder,
   },
   dark: {
-   closeBg: '#16a34a',
-   closeHoverBg: '#22c55e',
-   closeActiveBg: '#15803d',
-   closeFocusRing: 'rgba(52, 211, 153, 0.5)',
-  },
- },
- // /go/website + marketing home: PM Structure orange close + navy scrim
- {
-  routePattern: /^\/go\/website\/?$/i,
-  light: {
-   closeBg: '#ff4a38',
-   closeHoverBg: '#e63e2e',
-   closeActiveBg: '#cc3628',
-   closeFocusRing: 'rgba(255, 74, 56, 0.45)',
-   overlayScrim: 'rgba(11, 11, 42, 0.46)',
-  },
-  dark: {
-   closeBg: '#ff4a38',
-   closeHoverBg: '#ff6649',
-   closeActiveBg: '#e63e2e',
-   closeFocusRing: 'rgba(255, 136, 74, 0.5)',
-   overlayScrim: 'rgba(7, 7, 28, 0.88)',
-  },
- },
- {
-  routePattern: /^\/$/i,
-  light: {
-   closeBg: '#ff4a38',
-   closeHoverBg: '#e63e2e',
-   closeActiveBg: '#cc3628',
-   closeFocusRing: 'rgba(255, 74, 56, 0.45)',
-   overlayScrim: 'rgba(11, 11, 42, 0.46)',
-  },
-  dark: {
-   closeBg: '#ff4a38',
-   closeHoverBg: '#ff6649',
-   closeActiveBg: '#e63e2e',
-   closeFocusRing: 'rgba(255, 136, 74, 0.5)',
-   overlayScrim: 'rgba(7, 7, 28, 0.88)',
+   overlayScrim: SNAPCHAT_PORTAL_CALENDLY.dark.overlayScrim,
+   closeBg: SNAPCHAT_PORTAL_CALENDLY.dark.closeBg,
+   closeFg: SNAPCHAT_PORTAL_CALENDLY.dark.closeFg,
+   closeBorder: 'rgba(255, 252, 0, 0.35)',
+   closeHoverBg: '#e6e600',
+   closeActiveBg: '#cccc00',
+   closeFocusRing: 'rgba(255, 252, 0, 0.45)',
+   popupSurface: SNAPCHAT_PORTAL_CALENDLY.dark.popupSurface,
+   popupBorder: SNAPCHAT_PORTAL_CALENDLY.dark.popupBorder,
   },
  },
 ];
@@ -627,19 +847,7 @@ function derivePopupThemeFromPortalPalette(
  palette: PortalCalendlyPalette,
  mode: 'light' | 'dark'
 ): CalendlyPopupThemeOverride {
- const accent = palette.link || palette.accent || palette.primary;
  return {
-  closeBg: accent,
-  closeFg: palette.primaryForeground || pickButtonForeground(accent),
-  closeHoverBg: adjustHex(accent, mode === 'dark' ? 16 : -8),
-  closeActiveBg: adjustHex(accent, mode === 'dark' ? -14 : -22),
-  closeBorder: withAlpha(accent, mode === 'dark' ? 0.42 : 0.32, 'transparent'),
-  closeFocusRing: withAlpha(accent, mode === 'dark' ? 0.48 : 0.42, 'rgba(37, 99, 235, 0.45)'),
-  overlayScrim: withAlpha(
-   palette.background,
-   mode === 'dark' ? 0.88 : 0.52,
-   mode === 'dark' ? 'rgba(7, 7, 28, 0.88)' : 'rgba(11, 11, 42, 0.46)'
-  ),
   popupSurface: withAlpha(
    palette.surface,
    mode === 'dark' ? 0.96 : 0.98,
@@ -661,6 +869,11 @@ function getRoutePopupThemeOverride(pathname: string, mode: 'light' | 'dark'): C
  if (channelId) {
   const palette = platformPortalThemeToCalendlyPalette(resolvePortalTheme(channelId, mode));
   return derivePopupThemeFromPortalPalette(palette, mode);
+ }
+
+ if (isWebsiteMarketingCalendlyPath(pathname) && !isGoPortalCalendlyPath(pathname)) {
+  const sitePortal = sitePaletteToCalendlyPortalPalette(getCalendlySitePalette(), mode);
+  if (sitePortal) return derivePopupThemeFromPortalPalette(sitePortal, mode);
  }
 
  if (isWebsiteMarketingCalendlyPath(pathname)) {
@@ -726,19 +939,12 @@ export function getCalendlyPopupThemeTokens(pathname?: string): CalendlyPopupThe
  const mode = getCalendlySurfaceMode();
  const base = CALENDLY_POPUP_THEME_BASE[mode];
  const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
- const portalClose = getPortalCloseButtonColors();
- const accent = portalClose?.bg ?? getActiveAccentOrFallback(mode, route);
  const portal = getEffectivePortalCalendlyPalette(route, mode);
  const site = getCalendlySitePalette();
  const derived: CalendlyPopupThemeTokens = {
   ...base,
-  closeBg: accent,
-  closeFg: portalClose?.fg ?? pickButtonForeground(accent),
-  closeHoverBg: adjustHex(accent, mode === 'dark' ? 16 : -8),
-  closeActiveBg: adjustHex(accent, mode === 'dark' ? -14 : -22),
-  closeBorder: portalClose?.border ?? withAlpha(accent, mode === 'dark' ? 0.42 : 0.32, base.closeBorder),
-  closeFocusRing: withAlpha(accent, mode === 'dark' ? 0.48 : 0.42, base.closeFocusRing),
-  overlayScrim: getCalendlyOverlayScrimColor(),
+  ...resolveCalendlyCloseButtonColors(route),
+  overlayScrim: getCalendlyOverlayScrimColor(route),
   ...(portal
    ? {
       popupSurface: withAlpha(portal.surface, mode === 'dark' ? 0.96 : 0.98, base.popupSurface),
@@ -752,7 +958,12 @@ export function getCalendlyPopupThemeTokens(pathname?: string): CalendlyPopupThe
      : {}),
  };
  const override = getRoutePopupThemeOverride(route, mode);
- return mergePopupThemeTokens(derived, override);
+ const merged = mergePopupThemeTokens(derived, override);
+ return {
+  ...merged,
+  ...resolveCalendlyCloseButtonColors(route),
+  overlayScrim: getCalendlyOverlayScrimColor(route),
+ };
 }
 
 /**
@@ -782,6 +993,45 @@ type CalendlyEmbedColorOpts = {
  /** When set (portal schedule CTAs), skip DOM palette reads. */
  portalPalette?: PortalCalendlyPalette | null;
 };
+
+/**
+ * Calendly iframe `text_color` / `primary_color` follow the popup close pill
+ * (`resolveCalendlyCloseButtonColors`) so scheduler chrome matches the × button on every route.
+ */
+export function syncCalendlyEmbedColorsWithCloseButton(
+ colors: { background: string; text: string; primary: string },
+ pathname: string,
+ theme: 'light' | 'dark',
+ pal: { background: string; text: string; primary: string }
+): { background: string; text: string; primary: string } {
+ if (getSnapchatPortalCalendlyTheme(pathname, theme)) {
+  return colors;
+ }
+
+ const bgHex =
+  normalizeHexColor(`#${colors.background.replace(/^#/, '')}`) || `#${pal.background}`;
+ const close = resolveCalendlyCloseButtonColors(pathname);
+ const closeFg = normalizeHexColor(close.closeFg);
+ const closeBg = normalizeHexColor(close.closeBg);
+
+ let textHex =
+  closeFg && closeFg !== bgHex && meetsContrast(closeFg, bgHex, 4.5)
+   ? closeFg
+   : pickCalendlyEmbedText(bgHex, closeFg || `#${colors.text}`, `#${pal.text}`);
+
+ let primaryHex = normalizeHexColor(`#${colors.primary.replace(/^#/, '')}`) || `#${pal.primary}`;
+ if (closeBg && closeBg !== bgHex && meetsContrast(closeBg, bgHex, 3)) {
+  primaryHex = closeBg;
+ } else if (!meetsContrast(primaryHex, bgHex, 3)) {
+  primaryHex = pickCalendlyEmbedPrimary(bgHex, [closeBg || '', primaryHex], `#${pal.primary}`);
+ }
+
+ return {
+  background: colors.background,
+  text: hexForCalendlyParam(textHex, pal.text),
+  primary: hexForCalendlyParam(primaryHex, pal.primary),
+ };
+}
 
 export function finalizeCalendlyEmbedColorParams(
  colors: { background: string; text: string; primary: string },
@@ -814,6 +1064,20 @@ export function finalizeCalendlyEmbedColorParams(
  };
 }
 
+function finalizeAndSyncCalendlyEmbedColors(
+ colors: { background: string; text: string; primary: string },
+ pathname: string,
+ theme: 'light' | 'dark',
+ pal: { background: string; text: string; primary: string }
+): { background: string; text: string; primary: string } {
+ return syncCalendlyEmbedColorsWithCloseButton(
+  finalizeCalendlyEmbedColorParams(colors, theme, pal),
+  pathname,
+  theme,
+  pal
+ );
+}
+
 function resolveCalendlyEmbedColors(opts: CalendlyEmbedColorOpts): {
  background: string;
  text: string;
@@ -822,6 +1086,16 @@ function resolveCalendlyEmbedColors(opts: CalendlyEmbedColorOpts): {
  const theme = opts.theme;
  const pal = CALENDLY_EMBED_BRAND[theme];
  const pathname = opts.pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+
+ const snapchat = getSnapchatPortalCalendlyTheme(pathname, theme);
+ if (snapchat) {
+  return {
+   background: snapchat.embedBackground,
+   text: snapchat.embedText,
+   primary: snapchat.embedPrimary,
+  };
+ }
+
  const surface =
   opts.surface ?? (isCalendlyEnrollmentSurfacePath(pathname) ? 'enrollment' : 'default');
  const portal =
@@ -833,21 +1107,27 @@ function resolveCalendlyEmbedColors(opts: CalendlyEmbedColorOpts): {
  const accentParam = accent?.slice(1) ?? pal.primary;
 
  if (surface === 'enrollment') {
-  const enrollmentBg = site?.card ?? (theme === 'dark' ? '0f0e38' : 'ffffff');
-  return finalizeCalendlyEmbedColorParams(
+  const marketing = isWebsiteMarketingOnlyCalendlyPath(pathname)
+    ? readWebsiteMarketingCalendlySurface(theme)
+    : null;
+  const enrollmentBg =
+    marketing?.surface ?? site?.card ?? (theme === 'dark' ? '0f172a' : 'ffffff');
+  return finalizeAndSyncCalendlyEmbedColors(
    {
     background: hexForCalendlyParam(enrollmentBg, pal.background),
     text: hexForCalendlyParam(site?.text ?? '', pal.text),
     primary: accentParam,
    },
+   pathname,
    theme,
    pal
   );
  }
 
  if (portal) {
-  return finalizeCalendlyEmbedColorParams(
+  return finalizeAndSyncCalendlyEmbedColors(
    resolvePortalCalendlyEmbedColors(portal, pathname, pal, theme),
+   pathname,
    theme,
    pal
   );
@@ -865,26 +1145,37 @@ function resolveCalendlyEmbedColors(opts: CalendlyEmbedColorOpts): {
    [routeAccent, getActiveBrandAccentColor(), ...collectBrandAccentCandidates()],
    `#${accentParam}`
   );
-  return finalizeCalendlyEmbedColorParams(
+  return finalizeAndSyncCalendlyEmbedColors(
    {
     background: hexForCalendlyParam(embedBg, pal.background),
     text: hexForCalendlyParam(embedText, pal.text),
     primary: hexForCalendlyParam(embedPrimary, accentParam),
    },
+   pathname,
    theme,
    pal
   );
  }
 
- return finalizeCalendlyEmbedColorParams(
+ return finalizeAndSyncCalendlyEmbedColors(
   {
    background: pal.background,
    text: pal.text,
    primary: accentParam,
   },
+  pathname,
   theme,
   pal
  );
+}
+
+/** Resolved Calendly iframe query colors for a route (marketing site and `/go/*` slugs). */
+export function resolveCalendlyEmbedColorsForPath(
+ pathname: string,
+ theme: 'light' | 'dark',
+ opts: Omit<CalendlyEmbedColorOpts, 'theme' | 'pathname'> = {}
+): { background: string; text: string; primary: string } {
+ return resolveCalendlyEmbedColors({ theme, pathname, ...opts });
 }
 
 /** Strip quotes and allow only calendly.com scheduling URLs. */

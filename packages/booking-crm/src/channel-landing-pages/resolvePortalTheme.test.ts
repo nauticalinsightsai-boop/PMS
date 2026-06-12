@@ -20,4 +20,21 @@ describe('resolvePortalTheme spotify contrast', () => {
     expect(theme.quoteBg).toBe('#181818')
     expect(contrastRatio(theme.text, theme.cardBg)).toBeGreaterThanOrEqual(4.5)
   })
+
+  it('webinar portal uses website marketing palette in light and dark', () => {
+    const websiteLight = resolvePortalTheme('website', 'light')
+    const webinarLight = resolvePortalTheme('webinar', 'light')
+    expect(webinarLight.primary).toBe(websiteLight.primary)
+    expect(webinarLight.background).toBe(websiteLight.background)
+    expect(webinarLight.cardBg).toBe(websiteLight.cardBg)
+    expect(webinarLight.presenceTag).toBe('Webinar')
+    expect(webinarLight.channelId).toBe('webinar')
+
+    const websiteDark = resolvePortalTheme('website', 'dark')
+    const webinarDark = resolvePortalTheme('webinar', 'dark')
+    expect(webinarDark.primary).toBe(websiteDark.primary)
+    expect(webinarDark.background).toBe(websiteDark.background)
+    expect(webinarDark.cardBg).toBe(websiteDark.cardBg)
+    expect(webinarDark.presenceTag).toBe('Webinar')
+  })
 })
