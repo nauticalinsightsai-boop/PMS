@@ -12,7 +12,6 @@ export type ChannelMarkFileSpec =
 
 /** Channels with a custom PNG (or owned brand mark). Others use Lucide via PlatformChannelIcon. */
 export const CHANNEL_MARK_FILES: Record<string, ChannelMarkFileSpec> = {
-  website: { kind: 'brand' },
   medium: { kind: 'light-dark', fileBase: 'medium' },
   substack: { kind: 'single', fileBase: 'substack' },
   beehiiv: { kind: 'light-dark', fileBase: 'beehiiv' },

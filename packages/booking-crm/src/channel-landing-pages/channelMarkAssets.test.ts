@@ -12,9 +12,9 @@ describe('getChannelMarkPath light/dark pairs', () => {
     expect(getChannelMarkPath('medium', 'light')).toContain('medium-mark-light.png');
   });
 
-  it('keeps brand marks keyed to UI mode', () => {
-    expect(getChannelMarkPath('website', 'dark')).toContain('pms-icon-dark.png');
-    expect(getChannelMarkPath('website', 'light')).toContain('pms-icon.png');
+  it('website has no custom mark (uses Lucide Globe fallback)', () => {
+    expect(getChannelMarkPath('website', 'dark')).toBeNull();
+    expect(getChannelMarkPath('website', 'light')).toBeNull();
   });
 
   it('uses single mark for ghost', () => {
