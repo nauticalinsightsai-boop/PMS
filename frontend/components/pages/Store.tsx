@@ -21,8 +21,6 @@ import { cn } from "@/lib/utils";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import { FIELD_KEYS, defaultStoreCatalog, parseStoreCatalog } from "@pms/site-content";
-import Link from 'next/link';
-import { storeCheckoutHref } from '@/lib/membership-checkout';
 
 const categoryIcons: Record<string, typeof Package> = {
   'All Resources': Package,
@@ -182,15 +180,15 @@ export function StoreContent() {
                     <div className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{product.price}</div>
                   </CardContent>
                   <CardFooter className="px-8 pb-8 pt-0">
-                    <Link href={storeCheckoutHref(product.id)} className="block w-full">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className="w-full h-12 rounded-xl font-bold text-sm flex items-center justify-center gap-2"
-                      >
-                        <ShoppingCart className="h-4 w-4" /> Buy now
-                      </Button>
-                    </Link>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      disabled
+                      aria-disabled="true"
+                      className="w-full h-12 rounded-xl font-bold text-sm flex items-center justify-center gap-2"
+                    >
+                      <ShoppingCart className="h-4 w-4" /> Buy now (Coming soon)
+                    </Button>
                   </CardFooter>
                 </Card>
               </motion.div>

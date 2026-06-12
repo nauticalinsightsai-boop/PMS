@@ -619,17 +619,69 @@ function harmonizeEmbedBackgroundForMode(
  return mode === 'light' ? '#ffffff' : '#121212';
 }
 
+/**
+ * Full-bleed portal pages (e.g. Snapchat yellow) use page background in the Calendly iframe,
+ * not the inner card surface — so calendar chrome matches the portal shell.
+ */
+function pickPortalCalendlyEmbedBackground(
+ portal: PortalCalendlyPalette,
+ mode: 'light' | 'dark',
+ palBg: string
+): string {
+ const pageBg = normalizeHexColor(portal.background);
+ const surface = normalizeHexColor(portal.surface);
+ const bodyText = normalizeHexColor(portal.text);
+
+ if (
+  pageBg &&
+  surface &&
+  pageBg !== surface &&
+  embedBgMatchesCalendlyMode(pageBg, mode) &&
+  bodyText &&
+  meetsContrast(bodyText, pageBg, 4.5)
+ ) {
+  return pickCalendlyEmbedBackground(pageBg, `#${palBg}`);
+ }
+
+ return harmonizeEmbedBackgroundForMode(
+  [portal.background, portal.surface, `#${palBg}`],
+  mode,
+  palBg
+ );
+}
+
+function pickPortalCalendlyEmbedPrimary(
+ embedBg: string,
+ portal: PortalCalendlyPalette,
+ pathname: string,
+ fallbackHex: string
+): string {
+ const candidates = uniqueHexColors([
+  portal.link,
+  portal.accent,
+  portal.context,
+  portal.verified,
+  portal.primary,
+  getCalendlyRouteAccentColor(pathname),
+ ]);
+ for (const raw of candidates) {
+  const hex = normalizeHexColor(raw);
+  if (!hex) continue;
+  for (const delta of [0, -12, -24, -36, -48]) {
+   const candidate = delta === 0 ? hex : adjustHex(hex, delta);
+   if (candidate !== embedBg && meetsContrast(candidate, embedBg, 3)) return candidate;
+  }
+ }
+ return pickCalendlyEmbedPrimary(embedBg, candidates, fallbackHex);
+}
+
 function resolvePortalCalendlyEmbedColors(
  portal: PortalCalendlyPalette,
  pathname: string,
  pal: { background: string; text: string; primary: string },
  mode: 'light' | 'dark'
 ): { background: string; text: string; primary: string } {
- const embedBg = harmonizeEmbedBackgroundForMode(
-  [portal.surface, portal.background, `#${pal.background}`],
-  mode,
-  pal.background
- );
+ const embedBg = pickPortalCalendlyEmbedBackground(portal, mode, pal.background);
  const preferredText = normalizeHexColor(portal.text);
  let embedText =
   preferredText && preferredText !== embedBg && meetsContrast(preferredText, embedBg, 4.5)
@@ -640,16 +692,10 @@ function resolvePortalCalendlyEmbedColors(
  } else if (mode === 'light' && isLightHexColor(embedText) && isLightHexColor(embedBg)) {
   embedText = pickReadableForeground(embedBg);
  }
- const embedPrimary = pickCalendlyEmbedPrimary(
+ const embedPrimary = pickPortalCalendlyEmbedPrimary(
   embedBg,
-  [
-   portal.link,
-   portal.accent,
-   portal.context,
-   portal.verified,
-   portal.primary,
-   getCalendlyRouteAccentColor(pathname),
-  ],
+  portal,
+  pathname,
   `#${pal.primary}`
  );
  return {
@@ -995,8 +1041,10 @@ type CalendlyEmbedColorOpts = {
 };
 
 /**
- * Calendly iframe `text_color` / `primary_color` follow the popup close pill
- * (`resolveCalendlyCloseButtonColors`) so scheduler chrome matches the × button on every route.
+ * Calendly calendar labels and disabled dates use `text_color`; available dates use `primary_color`.
+ * Portal routes keep resolved palette tokens (body text + link/accent) — not close-pill foreground,
+ * which is often white on brand fills and washes out calendar copy on light iframe surfaces.
+ * Marketing pages still align with the close pill when contrast allows.
  */
 export function syncCalendlyEmbedColorsWithCloseButton(
  colors: { background: string; text: string; primary: string },
@@ -1008,26 +1056,38 @@ export function syncCalendlyEmbedColorsWithCloseButton(
   return colors;
  }
 
+ const finalized = finalizeCalendlyEmbedColorParams(colors, theme, pal);
  const bgHex =
-  normalizeHexColor(`#${colors.background.replace(/^#/, '')}`) || `#${pal.background}`;
- const close = resolveCalendlyCloseButtonColors(pathname);
- const closeFg = normalizeHexColor(close.closeFg);
- const closeBg = normalizeHexColor(close.closeBg);
+  normalizeHexColor(`#${finalized.background.replace(/^#/, '')}`) || `#${pal.background}`;
 
- let textHex =
-  closeFg && closeFg !== bgHex && meetsContrast(closeFg, bgHex, 4.5)
-   ? closeFg
-   : pickCalendlyEmbedText(bgHex, closeFg || `#${colors.text}`, `#${pal.text}`);
+ const resolvedText =
+  normalizeHexColor(`#${finalized.text.replace(/^#/, '')}`) || `#${pal.text}`;
+ let textHex = meetsContrast(resolvedText, bgHex, 4.5)
+  ? resolvedText
+  : pickCalendlyEmbedText(bgHex, resolvedText, `#${pal.text}`);
 
- let primaryHex = normalizeHexColor(`#${colors.primary.replace(/^#/, '')}`) || `#${pal.primary}`;
- if (closeBg && closeBg !== bgHex && meetsContrast(closeBg, bgHex, 3)) {
-  primaryHex = closeBg;
- } else if (!meetsContrast(primaryHex, bgHex, 3)) {
-  primaryHex = pickCalendlyEmbedPrimary(bgHex, [closeBg || '', primaryHex], `#${pal.primary}`);
+ const resolvedPrimary =
+  normalizeHexColor(`#${finalized.primary.replace(/^#/, '')}`) || `#${pal.primary}`;
+ let primaryHex = meetsContrast(resolvedPrimary, bgHex, 3)
+  ? resolvedPrimary
+  : pickCalendlyEmbedPrimary(bgHex, [resolvedPrimary], `#${pal.primary}`);
+
+ if (isWebsiteMarketingCalendlyPath(pathname) && !isGoPortalCalendlyPath(pathname)) {
+  const close = resolveCalendlyCloseButtonColors(pathname);
+  const closeFg = normalizeHexColor(close.closeFg);
+  const closeBg = normalizeHexColor(close.closeBg);
+  if (closeFg && closeFg !== bgHex && meetsContrast(closeFg, bgHex, 4.5)) {
+   textHex = closeFg;
+  }
+  if (closeBg && closeBg !== bgHex && meetsContrast(closeBg, bgHex, 3)) {
+   primaryHex = closeBg;
+  } else if (!meetsContrast(primaryHex, bgHex, 3)) {
+   primaryHex = pickCalendlyEmbedPrimary(bgHex, [closeBg || '', primaryHex], `#${pal.primary}`);
+  }
  }
 
  return {
-  background: colors.background,
+  background: finalized.background,
   text: hexForCalendlyParam(textHex, pal.text),
   primary: hexForCalendlyParam(primaryHex, pal.primary),
  };
@@ -1047,7 +1107,7 @@ export function finalizeCalendlyEmbedColorParams(
 
  if (theme === 'dark' && !isLightHexColor(bgHex) && !isLightHexColor(textHex)) {
   textHex = pickReadableForeground(bgHex);
- } else if (theme === 'light' && isLightHexColor(bgHex) && !isLightHexColor(textHex)) {
+ } else if (theme === 'light' && isLightHexColor(bgHex) && isLightHexColor(textHex)) {
   textHex = pickReadableForeground(bgHex);
  } else if (!meetsContrast(textHex, bgHex, 4.5)) {
   textHex = pickReadableForeground(bgHex);

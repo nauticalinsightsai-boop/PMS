@@ -171,12 +171,28 @@ describe('Calendly embed color contrast', () => {
     expect(lightClose.closeFg.toLowerCase()).toBe('#fffc00');
   });
 
-  it('aligns Calendly iframe text_color with close button foreground on portal slugs (dark)', () => {
-    for (const pathname of ['/go/beehiiv', '/go/tiktok', '/go/threads', '/go/website', '/go/webinar']) {
-      const colors = resolveCalendlyEmbedColorsForPath(pathname, 'dark');
-      const close = resolveCalendlyCloseButtonColors(pathname);
-      expect(colors.text.toLowerCase()).toBe(close.closeFg.replace('#', '').toLowerCase());
+  it('uses portal body text for Calendly iframe text_color on portal slugs (light and dark)', () => {
+    for (const pathname of ['/go/beehiiv', '/go/tiktok', '/go/threads', '/go/api-ai-fed']) {
+      for (const mode of ['light', 'dark'] as const) {
+        const colors = resolveCalendlyEmbedColorsForPath(pathname, mode);
+        const palette = resolveCalendlyPaletteForPage(pathname, mode)!;
+        expect(meetsContrast(`#${colors.text}`, `#${colors.background}`, 4.5)).toBe(true);
+        if (meetsContrast(palette.text, `#${colors.background}`, 4.5)) {
+          expect(colors.text.toLowerCase()).toBe(palette.text.replace('#', '').toLowerCase());
+        }
+      }
     }
+  });
+
+  it('uses readable portal accent for Calendly primary on portal slugs', () => {
+    const lightApi = resolveCalendlyEmbedColorsForPath('/go/api-ai-fed', 'light');
+    expect(lightApi.text.toLowerCase()).toBe('064e3b');
+    expect(meetsContrast(`#${lightApi.primary}`, `#${lightApi.background}`, 3)).toBe(true);
+    expect(lightApi.primary.toLowerCase()).not.toBe('ff4a38');
+
+    const darkApi = resolveCalendlyEmbedColorsForPath('/go/api-ai-fed', 'dark');
+    expect(darkApi.text.toLowerCase()).toBe('ecfdf5');
+    expect(meetsContrast(`#${darkApi.primary}`, `#${darkApi.background}`, 3)).toBe(true);
   });
 
   it('keeps Ghost dark Calendly primary readable on the embed surface', () => {
@@ -198,7 +214,7 @@ describe('Calendly embed color contrast', () => {
     }
   });
 
-  it('syncCalendlyEmbedColorsWithCloseButton prefers close pill colors when contrast allows', () => {
+  it('syncCalendlyEmbedColorsWithCloseButton keeps portal palette on /go/* routes', () => {
     const pathname = '/go/beehiiv';
     const theme = 'dark' as const;
     const pal = { background: '07071c', text: 'f7f7fa', primary: 'ff4a38' };
@@ -208,6 +224,25 @@ describe('Calendly embed color contrast', () => {
         background: portal.surface.replace('#', ''),
         text: portal.text.replace('#', ''),
         primary: portal.link.replace('#', ''),
+      },
+      theme,
+      pal
+    );
+    const synced = syncCalendlyEmbedColorsWithCloseButton(base, pathname, theme, pal);
+    expect(synced.text.toLowerCase()).toBe(portal.text.replace('#', '').toLowerCase());
+    expect(synced.primary.toLowerCase()).toBe(portal.link.replace('#', '').toLowerCase());
+  });
+
+  it('syncCalendlyEmbedColorsWithCloseButton prefers close pill colors on marketing pages (dark)', () => {
+    const pathname = '/certifications/pmp';
+    const theme = 'dark' as const;
+    const pal = { background: '07071c', text: 'f7f7fa', primary: 'ff4a38' };
+    const portal = resolveCalendlyPaletteForPage(pathname, theme)!;
+    const base = finalizeCalendlyEmbedColorParams(
+      {
+        background: portal!.surface.replace('#', ''),
+        text: portal!.text.replace('#', ''),
+        primary: portal!.link.replace('#', ''),
       },
       theme,
       pal
