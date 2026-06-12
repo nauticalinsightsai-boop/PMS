@@ -11,6 +11,7 @@ const frontend = path.join(__dirname, '../../frontend');
 let failed = false;
 
 const pages = [
+  // Home H1 lives in components/pages/Home.tsx (HomeServerHeading is sr-only supplementary copy)
   'components/pages/Home.tsx',
   // FAQ H1 lives in FaqServerHeading.tsx (composed in app/(site)/faq/page.tsx)
   'components/pages/Certifications.tsx',
@@ -20,7 +21,6 @@ const pages = [
   'components/pages/Blog.tsx',
   'components/pages/Membership.tsx',
   'components/pages/PMService.tsx',
-  'components/home/HomeServerHeading.tsx',
   'components/faq/FaqServerHeading.tsx',
 ];
 

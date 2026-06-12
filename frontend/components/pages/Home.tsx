@@ -194,9 +194,9 @@ export function Home() {
                 {get('hero_badge', HOME_COPY.heroBadge)}
               </Badge>
               
-              <h2 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-[1.1] text-balance">
+              <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-[1.1] text-balance">
                 {homeCms.heroTitle || get('hero_title', HOME_COPY.heroTitle)}
-              </h2>
+              </h1>
 
               <HomeHeroAccentRotator />
               
