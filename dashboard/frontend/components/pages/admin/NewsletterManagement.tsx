@@ -76,7 +76,7 @@ export const NewsletterManagement: React.FC = () => {
               <FileText size={24} />
             </div>
             <Link 
-              href="/dashboard/booking-crm/newsletter"
+              href="/dashboard/site-system/newsletter"
               className="text-[10px] font-black uppercase tracking-widest text-brand-orange hover:underline flex items-center gap-2"
             >
               GO TO POSTS <ArrowRight size={12} />
@@ -100,7 +100,7 @@ export const NewsletterManagement: React.FC = () => {
             </div>
           </div>
 
-          <Link href="/dashboard/booking-crm/newsletter/posts" className="block mt-8">
+          <Link href="/dashboard/site-system/newsletter" className="block mt-8">
             <CTAButton className="w-full">
               Open Posts Editor <ArrowRight size={18} className="ml-2" />
             </CTAButton>

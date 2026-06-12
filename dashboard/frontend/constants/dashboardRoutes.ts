@@ -1,13 +1,7 @@
 import {
-  LayoutDashboard,
   Inbox,
   MousePointer2,
-  ShieldAlert,
-  Search,
   Map,
-  LineChart,
-  Settings,
-  History,
   ImageIcon,
   Newspaper,
   ClipboardList,
@@ -18,10 +12,9 @@ import {
   GraduationCap,
   Users,
   FileText,
-  Tag,
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
-import { PUBLIC_SITE_PAGES, dashboardPageEditorPath } from './publicSitePages';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
 export interface DashboardNavSubItem {
   name: string;
@@ -42,12 +35,8 @@ export interface DashboardNavSection {
 export const BOOKINGS_ROUTE_PREFIXES = ['/dashboard/booking-crm', '/dashboard/account'];
 
 export const WEBSITE_ROUTE_PREFIXES = [
-  '/dashboard/site-system',
-  '/dashboard',
-  '/dashboard/migrate',
-  '/dashboard/cms',
-  '/dashboard/booking-crm/newsletter',
-  '/dashboard/booking-crm/blogs',
+  '/dashboard/site-system/media-library',
+  '/dashboard/site-system/newsletter',
 ];
 
 export const SOCIAL_ROUTE_PREFIXES = ['/dashboard/social-media-management', '/dashboard/control-tower'];
@@ -55,34 +44,21 @@ export const SOCIAL_ROUTE_PREFIXES = ['/dashboard/social-media-management', '/da
 /** @deprecated Use SOCIAL_ROUTE_PREFIXES */
 export const PUBLISHER_ROUTE_PREFIXES = SOCIAL_ROUTE_PREFIXES;
 
-const NEWSLETTER_NAV_ITEM = {
-  name: 'Newsletter',
-  path: '/dashboard/booking-crm/newsletter',
-  icon: Newspaper,
-  subItems: [
-    { name: 'Subscribers', path: '/dashboard/booking-crm/newsletter/subscribers', icon: Users },
-    { name: 'Blogs Editor', path: '/dashboard/booking-crm/blogs', icon: Newspaper },
-  ],
-};
-
-/** Always visible at top of sidebar: main CMS sections */
-const OVERVIEW_NAV: DashboardNavSection = {
-  title: 'Overview',
+/** Website tab — media + newsletter control only */
+const WEBSITE_CMS_NAV: DashboardNavSection = {
+  title: 'Website',
   items: [
-    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-    { name: 'Media library', path: '/dashboard/site-system/media-library', icon: ImageIcon },
-    { name: 'Posts', path: '/dashboard/cms/posts', icon: FileText },
-    { name: 'Topics', path: '/dashboard/cms/topics', icon: Tag },
-    NEWSLETTER_NAV_ITEM,
+    { name: 'Media library', path: WEBSITE_CMS_PATHS.mediaLibrary, icon: ImageIcon },
+    {
+      name: 'Newsletter',
+      path: WEBSITE_CMS_PATHS.newsletter,
+      icon: Newspaper,
+      subItems: [
+        { name: 'Subscribers', path: WEBSITE_CMS_PATHS.newsletterSubscribers, icon: Users },
+      ],
+    },
   ],
 };
-
-/** Admin sidebar: one item per live public website page */
-const websitePageNavItems = PUBLIC_SITE_PAGES.map((page) => ({
-  name: page.label,
-  path: dashboardPageEditorPath(page.slug),
-  icon: page.icon,
-}));
 
 export const DASHBOARD_ROUTES: Record<'social' | 'bookings' | 'website', DashboardNavSection[]> = {
   social: [
@@ -108,12 +84,12 @@ export const DASHBOARD_ROUTES: Record<'social' | 'bookings' | 'website', Dashboa
     },
   ],
   bookings: [
-    OVERVIEW_NAV,
     {
       title: 'Booking CRM',
       items: [
         { name: 'CTA Management', path: '/dashboard/booking-crm/cta', icon: MousePointer2 },
-        { name: 'Sheets records', path: '/dashboard/booking-crm/interactions/sheets', icon: Inbox },
+        { name: 'Interaction Inbox', path: '/dashboard/booking-crm/interactions/inbox', icon: Inbox },
+        { name: 'Sheets records', path: '/dashboard/booking-crm/interactions/sheets', icon: FileText },
         { name: 'Consultations', path: '/dashboard/booking-crm/consultations', icon: ClipboardList },
         { name: 'Bookings', path: '/dashboard/booking-crm/bookings', icon: ShoppingCart },
         { name: 'Verification logs', path: '/dashboard/booking-crm/verification-logs', icon: FileCheck },
@@ -122,21 +98,5 @@ export const DASHBOARD_ROUTES: Record<'social' | 'bookings' | 'website', Dashboa
       ],
     },
   ],
-  website: [
-    OVERVIEW_NAV,
-    {
-      title: 'Website pages',
-      items: websitePageNavItems,
-    },
-    {
-      title: 'System',
-      items: [
-        { name: 'Security', path: '/dashboard/site-system/security', icon: ShieldAlert },
-        { name: 'SEO Health', path: '/dashboard/site-system/seo', icon: Search },
-        { name: 'Analytics', path: '/dashboard/site-system/analytics', icon: LineChart },
-        { name: 'Settings', path: '/dashboard/site-system/settings', icon: Settings },
-        { name: 'Data Migration', path: '/dashboard/migrate', icon: History },
-      ],
-    },
-  ],
+  website: [WEBSITE_CMS_NAV],
 };

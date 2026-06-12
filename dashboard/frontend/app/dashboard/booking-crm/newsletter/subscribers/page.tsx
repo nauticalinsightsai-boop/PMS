@@ -1,5 +1,6 @@
-import { NewsletterSubscribers } from '@/components/pages/admin/NewsletterSubscribers';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default function NewsletterSubscribersPage() {
-  return <NewsletterSubscribers />;
+export default function LegacyNewsletterSubscribersPage() {
+  redirect(WEBSITE_CMS_PATHS.newsletterSubscribers);
 }

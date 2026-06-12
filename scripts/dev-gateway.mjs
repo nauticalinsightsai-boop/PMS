@@ -56,9 +56,9 @@ function targetFor(req) {
   if (url.startsWith('/api/channel-landing-pages')) return DASH;
   if (url.startsWith('/api/auth')) return DASH_API;
   if (url.startsWith('/api/cms')) return DASH_API;
-  // Public form POSTs (newsletter signup, contact) → marketing API; admin GET → dashboard API
+  // Interactions: public POST + admin GET/list → dashboard API (Supabase + Sheets + admin email)
   if (url.startsWith('/api/interactions')) {
-    return req.method === 'POST' ? API : DASH_API;
+    return DASH_API;
   }
   if (url.startsWith('/api') && isDashboardReferer(referer)) return DASH_API;
   if (url.startsWith('/api')) return API;

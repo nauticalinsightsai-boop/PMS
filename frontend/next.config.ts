@@ -7,7 +7,9 @@ loadMonorepoEnv(__dirname);
 
 const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
 const dashboardFrontendUrl = process.env.DASHBOARD_FRONTEND_URL?.replace(/\/$/, '');
-const dashboardBackendUrl = process.env.DASHBOARD_BACKEND_URL?.replace(/\/$/, '');
+const dashboardBackendUrl = (
+  process.env.DASHBOARD_BACKEND_URL || 'http://localhost:3002'
+).replace(/\/$/, '');
 /** External Vercel admin projects (optional). Without these, admin is bundled under frontend/app/admin. */
 const productionAdminProxy = Boolean(dashboardFrontendUrl);
 
@@ -108,6 +110,17 @@ const nextConfig: NextConfig = {
       rules.push({
         source: '/admin/api/:path*',
         destination: `${dashboardBackendUrl}/api/:path*`,
+      });
+    }
+
+    if (dashboardBackendUrl) {
+      rules.push({
+        source: '/api/interactions',
+        destination: `${dashboardBackendUrl}/api/interactions`,
+      });
+      rules.push({
+        source: '/api/interactions/:path*',
+        destination: `${dashboardBackendUrl}/api/interactions/:path*`,
       });
     }
 

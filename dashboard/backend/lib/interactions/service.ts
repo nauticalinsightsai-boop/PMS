@@ -1,5 +1,6 @@
 import { pingInteractionSubscribers } from '@/lib/interactions/broadcast';
 import { isGoogleSheetsConfigured } from '@/lib/interactions/google-sheets';
+import { scheduleInteractionAdminEmail } from '@/lib/interactions/notify-admin-email';
 import { syncRowToGoogleSheetsWithRetries, type SheetsSyncRow } from '@/lib/interactions/sheets-sync';
 import type { InteractionSource } from '@/lib/interactions/types';
 import { getSupabaseAdmin, isSupabaseConfigured } from '@/lib/supabase/client';
@@ -82,6 +83,12 @@ export async function insertFormSubmission(params: {
   const row = data as SheetsSyncRow;
 
   pingInteractionSubscribers();
+  scheduleInteractionAdminEmail({
+    source: params.source,
+    subject: params.subject,
+    email: params.email,
+    metadata: params.metadata,
+  });
 
   const sheetsConfigured = isGoogleSheetsConfigured();
   if (sheetsConfigured) {

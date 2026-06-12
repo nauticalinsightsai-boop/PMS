@@ -7,6 +7,7 @@ import {
   BOOKINGS_ROUTE_PREFIXES,
   WEBSITE_ROUTE_PREFIXES,
 } from '@/constants/dashboardRoutes';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
 export type DashboardMode = 'social' | 'bookings' | 'website';
 
@@ -25,11 +26,9 @@ export const DashboardModeProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (SOCIAL_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
       setMode('social');
-    } else if (
-      WEBSITE_ROUTE_PREFIXES.some((prefix) =>
-        prefix === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(prefix),
-      )
-    ) {
+    } else if (WEBSITE_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
+      setMode('website');
+    } else if (pathname === '/dashboard') {
       setMode('website');
     } else if (BOOKINGS_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
       setMode('bookings');
@@ -38,9 +37,9 @@ export const DashboardModeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleSetMode = (newMode: DashboardMode) => {
     setMode(newMode);
-    if (newMode === 'social') router.push('/dashboard/social-media-management/schedule-calendar');
+    if (newMode === 'website') router.push(WEBSITE_CMS_PATHS.mediaLibrary);
     if (newMode === 'bookings') router.push('/dashboard/booking-crm/cta');
-    if (newMode === 'website') router.push('/dashboard');
+    if (newMode === 'social') router.push('/dashboard/social-media-management/schedule-calendar');
   };
 
   return (

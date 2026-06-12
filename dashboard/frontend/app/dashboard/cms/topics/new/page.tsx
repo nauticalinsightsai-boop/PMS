@@ -1,5 +1,6 @@
-import { TopicEditor } from '@/components/pages/admin/cms/TopicEditor';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default function NewTopicPage() {
-  return <TopicEditor />;
+export default function LegacyCmsTopicsNewPage() {
+  redirect(WEBSITE_CMS_PATHS.newsletterNew);
 }

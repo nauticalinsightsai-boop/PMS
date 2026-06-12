@@ -1,15 +1,6 @@
-import { PostEditor } from '@/components/pages/admin/cms/PostEditor';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default function NewBlogArticlePage() {
-  return (
-    <PostEditor
-      basePath="/dashboard/booking-crm/blogs"
-      breadcrumbLabel="Blogs"
-      newTitle="New Article"
-      editTitle="Edit Article"
-      saveCreateLabel="Create Article"
-      saveUpdateLabel="Update Article"
-      backLabel="Back to blogs"
-    />
-  );
+export default function LegacyBookingCrmBlogsNewPage() {
+  redirect(WEBSITE_CMS_PATHS.newsletterNew);
 }

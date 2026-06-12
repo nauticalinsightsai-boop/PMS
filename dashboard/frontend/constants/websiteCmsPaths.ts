@@ -1,0 +1,13 @@
+/** Canonical Website tab (CMS) routes — single source for sidebar + editors */
+export const WEBSITE_CMS_PATHS = {
+  mediaLibrary: '/dashboard/site-system/media-library',
+  newsletter: '/dashboard/site-system/newsletter',
+  newsletterNew: '/dashboard/site-system/newsletter/new',
+  newsletterSubscribers: '/dashboard/site-system/newsletter/subscribers',
+  newsletterEdit: (id: string) => `/dashboard/site-system/newsletter/${id}/edit`,
+} as const;
+
+export const WEBSITE_CMS_ROUTE_PREFIXES = [
+  '/dashboard/site-system/media-library',
+  '/dashboard/site-system/newsletter',
+] as const;

@@ -8,6 +8,7 @@ import { Mail, RefreshCw, Trash2, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { useNewsletterSubscribers } from '@/hooks/useNewsletterSubscribers';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 import { cn } from '@/lib/utils';
 
 function statusBadge(status: 'active' | 'inactive') {
@@ -39,7 +40,7 @@ export function NewsletterSubscribers() {
               <li aria-hidden>/</li>
               <li>
                 <Link
-                  href="/dashboard/booking-crm/newsletter"
+                  href={WEBSITE_CMS_PATHS.newsletter}
                   className="hover:text-foreground transition-colors"
                 >
                   Newsletter

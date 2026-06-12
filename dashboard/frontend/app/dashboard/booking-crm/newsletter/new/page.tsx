@@ -1,5 +1,6 @@
-import { NewsletterPostEditor } from '@/components/pages/admin/NewsletterPostEditor';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default function NewNewsletterPage() {
-  return <NewsletterPostEditor />;
+export default function LegacyNewNewsletterPage() {
+  redirect(WEBSITE_CMS_PATHS.newsletterNew);
 }

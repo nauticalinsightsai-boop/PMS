@@ -1,5 +1,6 @@
-import { NewsletterManagement } from '@/components/pages/admin/NewsletterManagement';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default function Page() {
-  return <NewsletterManagement />;
+export default function LegacyMembersRevenueNewsletterPage() {
+  redirect(WEBSITE_CMS_PATHS.newsletter);
 }

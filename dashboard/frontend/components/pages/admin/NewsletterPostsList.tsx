@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
 import type { NewsletterPostStatus } from '@/lib/newsletter-posts';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 import { cn } from '@/lib/utils';
 
 function statusBadge(status: NewsletterPostStatus) {
@@ -83,7 +84,7 @@ export function NewsletterPostsList() {
             <RefreshCw size={16} className={cn(isLoading && 'animate-spin')} />
             Refresh
           </Button>
-          <NavLinkButton href="/dashboard/booking-crm/newsletter/new" variant="brand" className="gap-2">
+          <NavLinkButton href={WEBSITE_CMS_PATHS.newsletterNew} variant="brand" className="gap-2">
             <Plus size={16} />
             New Newsletter
           </NavLinkButton>
@@ -115,7 +116,7 @@ export function NewsletterPostsList() {
             <Newspaper size={28} className="text-muted-foreground" />
             <p className="text-sm font-medium">No newsletters found</p>
             <p className="text-xs text-muted-foreground">
-              Try adjusting your search or create a new newsletter post.
+              Try adjusting your search or create a new newsletter.
             </p>
           </div>
         ) : (
@@ -146,7 +147,7 @@ export function NewsletterPostsList() {
                     <td className="px-4 py-4">
                       <div className="flex items-center justify-end gap-1">
                         <NavLinkButton
-                          href={`/dashboard/booking-crm/newsletter/${post.id}/edit`}
+                          href={WEBSITE_CMS_PATHS.newsletterEdit(post.id)}
                           variant="ghost"
                           size="icon-sm"
                           aria-label={`Edit ${post.title}`}
@@ -189,7 +190,7 @@ export function NewsletterPostsList() {
         open={Boolean(deleteId)}
         onOpenChange={(open) => !open && setDeleteId(null)}
         title="Delete newsletter?"
-        description="This removes the post from the newsletter registry. This action cannot be undone."
+        description="This removes the newsletter from the registry. This action cannot be undone."
         confirmLabel="Delete"
         onConfirm={async () => {
           if (!deleteId) return;

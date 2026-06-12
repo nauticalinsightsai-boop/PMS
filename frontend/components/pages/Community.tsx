@@ -1,11 +1,10 @@
 'use client';
 import * as React from "react";
 import { motion } from "motion/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { 
   Users, 
   Star, 
@@ -254,7 +253,9 @@ function CommunityNetworkContent() {
   );
 }
 
-export function Community() {
+type CommunityTab = "community" | "store";
+
+export function Community({ initialTab = "community" }: { initialTab?: CommunityTab }) {
   const { get } = useWebsiteData();
   const fallback = defaultCommunityPageConfig();
   const { data: pageConfig } = usePublishedSiteDocument(FIELD_KEYS.COMMUNITY_PAGE_CONFIG, {
@@ -263,22 +264,25 @@ export function Community() {
   const hero = pageConfig?.hero ?? fallback.hero;
   const network = pageConfig?.network ?? fallback.network;
   const router = useRouter();
-  const searchParams = useSearchParams();
   const contentRef = React.useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = React.useState<"community" | "store">("community");
+  const [activeTab, setActiveTab] = React.useState<CommunityTab>(initialTab);
 
   React.useEffect(() => {
-    setActiveTab(searchParams.get("view") === "store" ? "store" : "community");
-  }, [searchParams]);
+    setActiveTab(initialTab);
+  }, [initialTab]);
 
-  const handleTabChange = (value: string) => {
-    const tab = value as "community" | "store";
+  const handleTabChange = (tab: CommunityTab) => {
     setActiveTab(tab);
     router.replace(tab === "store" ? "/community?view=store" : "/community", { scroll: false });
     requestAnimationFrame(() => {
       contentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   };
+
+  const memberCount =
+    typeof network.memberCount === "number"
+      ? network.memberCount
+      : Number(network.memberCount);
 
   const heroTabButtonClass = (tab: "community" | "store") =>
     cn(
@@ -309,9 +313,9 @@ export function Community() {
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
               {hero.subtitle || get('community_subtitle', COMMUNITY_COPY.heroSubtitle)}
             </p>
-            {network.memberCount ? (
+            {Number.isFinite(memberCount) && memberCount > 0 ? (
               <p className="mt-4 text-sm font-bold text-brand-orange">
-                {network.memberCount.toLocaleString()}+ professionals in the network
+                {memberCount.toLocaleString()}+ professionals in the network
               </p>
             ) : null}
           </motion.div>
@@ -352,15 +356,7 @@ export function Community() {
       </section>
 
       <div ref={contentRef} className="scroll-mt-24">
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="flex flex-col">
-          <TabsContent value="community" className="mt-0 outline-none">
-            <CommunityNetworkContent />
-          </TabsContent>
-
-          <TabsContent value="store" className="mt-0 outline-none">
-            <StoreContent />
-          </TabsContent>
-        </Tabs>
+        {activeTab === "community" ? <CommunityNetworkContent /> : <StoreContent />}
       </div>
     </div>
   );

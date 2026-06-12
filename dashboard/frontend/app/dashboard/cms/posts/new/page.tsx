@@ -1,5 +1,6 @@
-import { PostEditor } from '@/components/pages/admin/cms/PostEditor';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default function NewPostPage() {
-  return <PostEditor />;
+export default function LegacyCmsPostsNewPage() {
+  redirect(WEBSITE_CMS_PATHS.newsletterNew);
 }

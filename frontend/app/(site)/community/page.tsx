@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { Community } from '@/components/pages/Community';
 import { MarketingPageJsonLd } from '@/components/seo/MarketingPageJsonLd';
 import { buildPageMetadata } from '@/lib/site-metadata';
@@ -9,9 +8,22 @@ export const metadata = buildPageMetadata({
   path: '/community',
 });
 
-export default function Page() {
+type CommunityTab = 'community' | 'store';
+
+function resolveCommunityTab(view: string | string[] | undefined): CommunityTab {
+  const value = Array.isArray(view) ? view[0] : view;
+  return value === 'store' ? 'store' : 'community';
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ view?: string | string[] }>;
+}) {
+  const { view } = await searchParams;
+
   return (
-    <Suspense fallback={<div className="min-h-screen bg-white dark:bg-slate-950" />}>
+    <>
       <MarketingPageJsonLd
         path="/community"
         name="Community & resources"
@@ -21,7 +33,7 @@ export default function Page() {
           { name: 'Community', path: '/community' },
         ]}
       />
-      <Community />
-    </Suspense>
+      <Community initialTab={resolveCommunityTab(view)} />
+    </>
   );
 }

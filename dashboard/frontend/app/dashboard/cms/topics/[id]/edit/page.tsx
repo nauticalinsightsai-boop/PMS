@@ -1,10 +1,11 @@
-import { TopicEditor } from '@/components/pages/admin/cms/TopicEditor';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default async function EditTopicPage({
+export default async function LegacyCmsTopicsEditPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  return <TopicEditor topicId={id} />;
+  redirect(WEBSITE_CMS_PATHS.newsletterEdit(id));
 }

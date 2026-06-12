@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { motion } from "motion/react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Users, Sparkles, FileText, Gift } from "lucide-react";
@@ -390,10 +390,14 @@ export function Membership() {
                     </div>
                   ))}
                 </div>
-                <Link href="/community?view=store">
-                  <Button size="lg" variant="brand" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
-                    Explore Resource Library
-                  </Button>
+                <Link
+                  href="/community?view=store"
+                  className={cn(
+                    buttonVariants({ size: 'lg', variant: 'brand' }),
+                    'inline-flex h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all',
+                  )}
+                >
+                  Explore Resource Library
                 </Link>
               </div>
               <div className="grid grid-cols-2 gap-6">

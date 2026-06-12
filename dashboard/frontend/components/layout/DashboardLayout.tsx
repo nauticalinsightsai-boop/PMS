@@ -20,6 +20,7 @@ import { withBasePath } from '@/lib/base-path';
 import { useDashboardMode, DashboardMode } from '@/contexts/DashboardModeContext';
 import { useTheme } from '@/components/shared/ThemeProvider';
 import { DASHBOARD_ROUTES } from '@/constants/dashboardRoutes';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 import { cn } from '@/lib/utils';
 import { DashboardNavLink } from '@/components/DashboardNavLink';
 import { BrandLogo } from '@/components/shared/BrandLogo';
@@ -136,11 +137,11 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           )}
         >
           {isSidebarExpanded ? (
-            <Link href="/dashboard" className="flex items-center gap-2 min-w-0">
+            <Link href={WEBSITE_CMS_PATHS.mediaLibrary} className="flex items-center gap-2 min-w-0">
               <BrandLogo />
             </Link>
           ) : (
-            <Link href="/dashboard" className="hidden lg:flex items-center justify-center" title="Dashboard">
+            <Link href={WEBSITE_CMS_PATHS.mediaLibrary} className="hidden lg:flex items-center justify-center" title="Website">
               <BrandLogo size="sm" />
             </Link>
           )}
@@ -260,16 +261,16 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
             >
               <Menu size={24} />
             </button>
-            <Link href="/dashboard" className="lg:hidden flex items-center gap-2 mr-4">
+            <Link href={WEBSITE_CMS_PATHS.mediaLibrary} className="lg:hidden flex items-center gap-2 mr-4">
               <BrandLogo />
             </Link>
           </div>
 
           <div className="flex items-center bg-muted/50 p-1 rounded-2xl border border-border max-w-full overflow-x-auto">
             {[
-              { id: 'social', label: 'Social Media Management', mobileLabel: 'Social', icon: Share2 },
+              { id: 'website', label: 'Website', mobileLabel: 'Website', icon: Monitor },
               { id: 'bookings', label: 'Booking CRM', mobileLabel: 'Booking', icon: CalendarRange },
-              { id: 'website', label: 'Admin Controls', mobileLabel: 'Admin', icon: Monitor },
+              { id: 'social', label: 'Social Media Management', mobileLabel: 'Social', icon: Share2 },
             ].map((t) => (
               <button
                 key={t.id}
@@ -364,25 +365,12 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           <footer className="mt-20 py-8 border-t border-border bg-transparent">
             <div className="w-full">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <Link href="/dashboard">
+                <Link href={WEBSITE_CMS_PATHS.mediaLibrary}>
                   <BrandLogo size="sm" />
                 </Link>
-                <div className="flex items-center gap-2 md:gap-8 text-label text-muted-foreground">
-                  <span className="opacity-60 normal-case tracking-normal font-medium">
-                    © {new Date().getFullYear()} PMS.OS
-                  </span>
-                  <div className="flex items-center gap-6">
-                    <Link href="/dashboard/site-system/security" className="hover:text-brand-orange transition-colors">
-                      Security Audit
-                    </Link>
-                    <Link href="/dashboard/site-system/settings" className="hover:text-brand-orange transition-colors">
-                      Platform Config
-                    </Link>
-                    <Link href="/dashboard/site-system/analytics" className="hover:text-brand-orange transition-colors">
-                      System Logs
-                    </Link>
-                  </div>
-                </div>
+                <span className="text-label text-muted-foreground opacity-60 normal-case tracking-normal font-medium">
+                  © {new Date().getFullYear()} PMS.OS
+                </span>
               </div>
             </div>
           </footer>

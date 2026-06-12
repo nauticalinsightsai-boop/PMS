@@ -1,5 +1,6 @@
-import { NewsletterPostsList } from '@/components/pages/admin/NewsletterPostsList';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default function NewsletterPostsPage() {
-  return <NewsletterPostsList />;
+export default function LegacyNewsletterPostsPage() {
+  redirect(WEBSITE_CMS_PATHS.newsletter);
 }

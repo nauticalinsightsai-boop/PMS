@@ -1,10 +1,11 @@
-import { PostEditor } from '@/components/pages/admin/cms/PostEditor';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default async function EditPostPage({
+export default async function LegacyCmsPostsEditPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  return <PostEditor postId={id} />;
+  redirect(WEBSITE_CMS_PATHS.newsletterEdit(id));
 }

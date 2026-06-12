@@ -1,13 +1,6 @@
-import { PostsList } from '@/components/pages/admin/cms/PostsList';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default function BlogsPage() {
-  return (
-    <PostsList
-      basePath="/dashboard/booking-crm/blogs"
-      title="Blogs & Insights"
-      breadcrumbLabel="Blogs"
-      subtitle="Content Management System: manage blog articles and insights."
-      newLabel="New Article"
-    />
-  );
+export default function LegacyBookingCrmBlogsPage() {
+  redirect(WEBSITE_CMS_PATHS.newsletter);
 }

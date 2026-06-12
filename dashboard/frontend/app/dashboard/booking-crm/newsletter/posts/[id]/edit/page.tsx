@@ -1,10 +1,11 @@
-import { NewsletterPostEditor } from '@/components/pages/admin/NewsletterPostEditor';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default async function EditNewsletterPostPage({
+export default async function LegacyNewsletterPostsEditPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  return <NewsletterPostEditor postId={id} />;
+  redirect(WEBSITE_CMS_PATHS.newsletterEdit(id));
 }

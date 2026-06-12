@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { NavLinkButton } from '@/components/ui/nav-link-button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
 import {
   createEmptyPost,
@@ -112,7 +113,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
       publish,
     );
     if (!postId) {
-      router.replace(`/dashboard/booking-crm/newsletter/${saved.id}/edit`);
+      router.replace(WEBSITE_CMS_PATHS.newsletterEdit(saved.id));
     }
   };
 
@@ -128,7 +129,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
     return (
       <div className="rounded-2xl border border-border bg-card p-8 text-center shadow-sm">
         <p className="text-sm font-medium">Newsletter post not found.</p>
-        <NavLinkButton href="/dashboard/booking-crm/newsletter" className="mt-4">
+        <NavLinkButton href={WEBSITE_CMS_PATHS.newsletter} className="mt-4">
           Back to newsletter
         </NavLinkButton>
       </div>
@@ -157,7 +158,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
             <li aria-hidden>/</li>
             <li>
               <Link
-                href="/dashboard/booking-crm/newsletter"
+                href={WEBSITE_CMS_PATHS.newsletter}
                 className="hover:text-foreground transition-colors"
               >
                 Newsletter
@@ -280,7 +281,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
 
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:pl-[calc(var(--sidebar-width,16rem)+1rem)]">
         <div className="mx-auto flex max-w-4xl justify-end gap-3">
-          <NavLinkButton href="/dashboard/booking-crm/newsletter" variant="brand" className="gap-2">
+          <NavLinkButton href={WEBSITE_CMS_PATHS.newsletter} variant="brand" className="gap-2">
             <ArrowLeft size={16} />
             Cancel
           </NavLinkButton>

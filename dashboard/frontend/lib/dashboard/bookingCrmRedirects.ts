@@ -3,7 +3,10 @@ import { redirect } from 'next/navigation';
 /** Canonical Booking CRM. CTA Management */
 export const BOOKING_CRM_CTA_PATH = '/dashboard/booking-crm/cta';
 
-/** Canonical Booking CRM. Google Sheets interaction records */
+/** Canonical Booking CRM — Supabase interaction inbox */
+export const BOOKING_CRM_INBOX_PATH = '/dashboard/booking-crm/interactions/inbox';
+
+/** Canonical Booking CRM — Google Sheets interaction records */
 export const BOOKING_CRM_SHEETS_PATH = '/dashboard/booking-crm/interactions/sheets';
 
 export function redirectToCtaManagement(): never {

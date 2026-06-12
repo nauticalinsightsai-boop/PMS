@@ -1,5 +1,5 @@
-import { DashboardHome } from '@/components/pages/admin/DashboardHome';
+import { redirect } from 'next/navigation';
 
 export default function DashboardPage() {
-  return <DashboardHome />;
+  redirect('/dashboard/site-system/media-library');
 }

@@ -1,5 +1,5 @@
-import { InteractionsInbox } from '@/components/pages/admin/InteractionsInbox';
+import { redirect } from 'next/navigation';
 
-export default function Page() {
-  return <InteractionsInbox />;
+export default function LegacyInteractionsInboxPage() {
+  redirect('/dashboard/booking-crm/interactions/inbox');
 }

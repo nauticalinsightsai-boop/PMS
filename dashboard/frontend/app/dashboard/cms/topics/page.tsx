@@ -1,5 +1,6 @@
-import { TopicsList } from '@/components/pages/admin/cms/TopicsList';
+import { redirect } from 'next/navigation';
+import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 
-export default function TopicsPage() {
-  return <TopicsList />;
+export default function LegacyCmsTopicsPage() {
+  redirect(WEBSITE_CMS_PATHS.newsletter);
 }

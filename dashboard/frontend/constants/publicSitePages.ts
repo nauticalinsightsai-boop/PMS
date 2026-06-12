@@ -38,9 +38,6 @@ export function getPublicSitePage(slug: string): PublicSitePage | undefined {
   return PUBLIC_SITE_PAGES.find((p) => p.slug === slug);
 }
 
-export function dashboardPageEditorPath(slug: string) {
-  if (slug === 'home') {
-    return '/dashboard/site-system/home';
-  }
-  return `/dashboard/site-system/pages/${slug}`;
+export function dashboardPageEditorPath(_slug: string) {
+  return '/dashboard/site-system/media-library';
 }
