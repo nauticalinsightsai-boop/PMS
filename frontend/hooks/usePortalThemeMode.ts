@@ -2,24 +2,37 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import {
-  DEFAULT_PORTAL_COLOR_MODE,
+  defaultPortalColorMode,
+  MARKETING_SITE_THEME_STORAGE_KEY,
   portalThemeStorageKey,
   type PortalColorMode,
 } from '@/lib/channel-landing-pages/platformThemeModes'
 
+function readStoredPortalColorMode(channelId: string): PortalColorMode {
+  const fallback = defaultPortalColorMode(channelId)
+  try {
+    const stored = localStorage.getItem(portalThemeStorageKey(channelId))
+    if (stored === 'light' || stored === 'dark') return stored
+
+    if (channelId === 'website') {
+      const siteTheme = localStorage.getItem(MARKETING_SITE_THEME_STORAGE_KEY)
+      if (siteTheme === 'dark') return 'dark'
+      if (siteTheme === 'light') return 'light'
+    }
+  } catch {
+    /* ignore */
+  }
+  return fallback
+}
+
 export function usePortalThemeMode(channelId: string) {
-  const [colorMode, setColorModeState] = useState<PortalColorMode>(DEFAULT_PORTAL_COLOR_MODE)
+  const [colorMode, setColorModeState] = useState<PortalColorMode>(() =>
+    defaultPortalColorMode(channelId)
+  )
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(portalThemeStorageKey(channelId))
-      if (stored === 'light' || stored === 'dark') {
-        setColorModeState(stored)
-      }
-    } catch {
-      /* ignore */
-    }
+    setColorModeState(readStoredPortalColorMode(channelId))
     setHydrated(true)
   }, [channelId])
 
@@ -40,7 +53,7 @@ export function usePortalThemeMode(channelId: string) {
   }, [colorMode, setColorMode])
 
   return {
-    colorMode: hydrated ? colorMode : DEFAULT_PORTAL_COLOR_MODE,
+    colorMode: hydrated ? colorMode : defaultPortalColorMode(channelId),
     setColorMode,
     toggleColorMode,
     hydrated,

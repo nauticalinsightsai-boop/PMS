@@ -1,14 +1,22 @@
-/** Navbar / favicon brand marks (public/brand). */
+import { PMS_FAVICON_DARK_PATH, PMS_FAVICON_PATH } from '@/config/pms-site';
+
+/** Personal-brand wordmarks on /go channel landings (legacy paths). */
 export const BRAND_NAV_LOGO = {
  light: '/brand/logo-sa-light.png',
  dark: '/brand/logo-sa-dark.png',
-} as const
+} as const;
 
-/** Keep the browser tab icon aligned with navbar light/dark logos. */
+/** PM Structure square tab icon (matches navbar brand). */
+export const BRAND_FAVICON = {
+ light: PMS_FAVICON_PATH,
+ dark: PMS_FAVICON_DARK_PATH,
+} as const;
+
+/** Keep the browser tab icon aligned with site light/dark theme. */
 export function syncBrandFavicon(isLight: boolean) {
  if (typeof document === 'undefined') return
 
- const href = isLight ? BRAND_NAV_LOGO.light : BRAND_NAV_LOGO.dark
+ const href = isLight ? BRAND_FAVICON.light : BRAND_FAVICON.dark
  for (const rel of ['icon', 'apple-touch-icon'] as const) {
   let link =
    document.querySelector<HTMLLinkElement>(`link[rel="${rel}"][data-brand-favicon]`) ??

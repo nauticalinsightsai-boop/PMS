@@ -4,7 +4,11 @@ import { Clock } from 'lucide-react'
 import type { ConsultationTier } from '@/types/channelLandingPage'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 import { scheduleTierClick } from '@/components/channel-landing/portal/scheduleTierClick'
-import { meetsContrast, pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils'
+import {
+  effectiveTintedSurfaceHex,
+  meetsContrast,
+  pickReadableForeground,
+} from '@/lib/channel-landing-pages/contrastUtils'
 import { getTierSchedulingLine } from '@/lib/channel-landing-pages/channelPortalCopy'
 import { isConversionEnabledForChannel } from '@/lib/channel-landing-pages/portalConversionPacks'
 import { getLegalDocumentPath } from '@/constants/legal'
@@ -33,13 +37,17 @@ function cssColorToHex(color: string): string | null {
   return `#${r}${g}${b}`
 }
 
-/** Tinted (rgba) badges use the theme token; solid fills get contrast-safe text. */
-function portalTintBadgeText(bg: string, token: string, underlay: string): string {
-  const bgHex = cssColorToHex(bg) ?? cssColorToHex(underlay)
-  if (!bgHex) return token
+/** Tinted (rgba) badges: composite over card/page, then pick readable text. */
+function portalTintBadgeText(
+  bg: string,
+  token: string,
+  pageBackground: string,
+  surfaceBackground?: string
+): string {
+  const effectiveBg = effectiveTintedSurfaceHex(bg, pageBackground, surfaceBackground)
   const tokenHex = cssColorToHex(token)
-  if (tokenHex && meetsContrast(tokenHex, bgHex, 4.5)) return tokenHex
-  return pickReadableForeground(bgHex)
+  if (tokenHex && meetsContrast(tokenHex, effectiveBg, 4.5)) return tokenHex
+  return pickReadableForeground(effectiveBg)
 }
 
 function portalMutedChipText(theme: PlatformPortalTheme): string {
@@ -56,10 +64,11 @@ export default function ChannelPortalTiersSection({
   layoutVariant,
   isImpulseFlow,
   marketingAmbience,
+  colorMode,
 }: Props) {
   const tierHeading =
     page.channelId === 'webinar'
-      ? 'Free or paid session'
+      ? 'Open or paid session'
       : isImpulseFlow
         ? 'Pick a session'
         : 'Select consultation tier'
@@ -155,13 +164,14 @@ export default function ChannelPortalTiersSection({
                         color: portalTintBadgeText(
                           theme.freeBadgeBg,
                           theme.freeBadgeText,
-                          theme.background
+                          theme.background,
+                          theme.cardBg
                         ),
                         border: `1px solid ${theme.cardBorder}`,
                       }}
                     >
                       <Clock size={14} aria-hidden />
-                      {tier.durationLabel} · Free
+                      {tier.durationLabel} · {tier.priceLabel === 'Open' ? 'Open' : 'Free'}
                     </span>
                   ) : (
                     <>
@@ -173,7 +183,8 @@ export default function ChannelPortalTiersSection({
                           color: portalTintBadgeText(
                             theme.priceBadgeBg,
                             theme.priceBadgeText,
-                            theme.background
+                            theme.background,
+                            theme.cardBg
                           ),
                         }}
                       >
@@ -211,7 +222,7 @@ export default function ChannelPortalTiersSection({
                   return (
                     <button
                       type="button"
-                      onClick={() => scheduleTierClick(page, tier)}
+                      onClick={() => scheduleTierClick(page, tier, { theme, colorMode })}
                       className={
                         useBold
                           ? `portal-schedule-btn-bold w-full px-4 py-3 text-body-sm font-semibold hover:opacity-90 transition-opacity${useWebsitePrimary ? ' home-btn-primary cta-consultation text-white' : ''}`

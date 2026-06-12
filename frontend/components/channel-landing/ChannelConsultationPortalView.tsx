@@ -37,6 +37,8 @@ import PortalPathwayActions from '@/components/channel-landing/portal/PortalPath
 import ChannelPortalHeroCard from '@/components/channel-landing/portal/ChannelPortalHeroCard'
 import { scheduleTierClick } from '@/components/channel-landing/portal/scheduleTierClick'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
+import { preloadCalendlyPopupHostStyles } from '@/lib/calendly/popup-enhancements'
+import { preloadCalendlyPopupWidget } from '@/lib/calendly/open-themed-popup'
 
 type Props = {
   page: ChannelLandingPage
@@ -65,6 +67,11 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
     setPortalRegionTheme(theme)
     return () => setPortalRegionTheme(null)
   }, [theme, setPortalRegionTheme])
+
+  useEffect(() => {
+    preloadCalendlyPopupHostStyles()
+    preloadCalendlyPopupWidget()
+  }, [])
   const cssVars = useMemo(() => portalThemeToCssVars(theme), [theme])
   const pack = useMemo(() => getPlatformOfferPack(page.channelId), [page.channelId])
   const flow = pack?.flowOrder ?? PROFESSIONAL_FLOW
@@ -87,7 +94,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   }, [])
 
   const bookDiscovery = useCallback(() => {
-    if (discoveryTier) scheduleTierClick(page, discoveryTier)
+    if (discoveryTier) scheduleTierClick(page, discoveryTier, { theme, colorMode })
     else scrollToTiers()
   }, [page, discoveryTier, scrollToTiers])
 

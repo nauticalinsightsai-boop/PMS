@@ -80,6 +80,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
             <WebsiteCalendlyButton
+              tier="discovery"
               variant="brand"
               className="font-semibold px-5 h-10 rounded-full"
               funnelLabel="nav_talk_to_mentor"
@@ -122,6 +123,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
                 })}
                 <div className="mt-4 pt-4 border-t border-border">
                   <WebsiteCalendlyButton
+                    tier="discovery"
                     variant="brand"
                     className="w-full min-h-11"
                     funnelLabel="nav_talk_to_mentor"

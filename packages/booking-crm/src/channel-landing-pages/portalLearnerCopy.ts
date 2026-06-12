@@ -2,6 +2,13 @@ import type { PortalConversionContent, PortalSocialProofItem } from '../types/ch
 import { BRAND_FULL_NAME } from './portalBrandConstants'
 import { getChannelConversionOverride } from './portalChannelConversionOverrides'
 import { getPortalLearnerStories } from './portalLearnerStories'
+import { isCommunityDirectPortalChannel } from './messagingPortalTiers'
+import { isWritingPublishingPortalChannel } from './publishingPortalTiers'
+import { isCoreOwnedPortalChannel } from './ownedPortalTiers'
+import { isVideoPlatformPortalChannel } from './videoPortalTiers'
+import { isSyndicatedPortalPackChannel } from './syndicatedPortalTiers'
+import { isAudioPodcastPortalChannel } from './podcastPortalTiers'
+import { isSocialDistributionPortalChannel } from './socialPortalTiers'
 
 export type LearnerAudienceTone = 'executive' | 'creator' | 'reader' | 'community' | 'search'
 
@@ -260,9 +267,20 @@ export function getLearnerPortalSurfaceCopy(
       `Include ${evidence} and your certification goal. Mentor time covers pathways and prep, not compliance or design reviews.`,
   }
 
+  const subheadline =
+    isSocialDistributionPortalChannel(channelId) ||
+    isAudioPodcastPortalChannel(channelId) ||
+    isCommunityDirectPortalChannel(channelId) ||
+    isSyndicatedPortalPackChannel(channelId) ||
+    isWritingPublishingPortalChannel(channelId) ||
+    isVideoPlatformPortalChannel(channelId) ||
+    isCoreOwnedPortalChannel(channelId)
+      ? `You found us on ${label}. Book an open mentor intro or a paid pathway session to choose your certification track.`
+      : subheadlineByTone[tone]
+
   return {
     headline,
-    subheadline: subheadlineByTone[tone],
+    subheadline,
     targetMessage: targetByTone[tone],
     availabilityLabel,
   }

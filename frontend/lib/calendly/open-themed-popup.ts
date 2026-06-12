@@ -1,8 +1,13 @@
 import {
  buildCalendlyPopupWidgetUrl,
  getCalendlyEmbedTheme,
+ platformPortalThemeToCalendlyPalette,
+ rethemeCalendlyWidgetUrl,
+ resolveCalendlyPaletteForPage,
+ type CalendlyPortalPalette,
  type CalendlyUtmParams,
 } from '@/lib/calendly/embed-url';
+import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
 import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 import { attachCalendlyPopupEnhancements } from '@/lib/calendly/popup-enhancements';
 import { FUNNEL_EVENTS, trackFunnelEvent } from '@/lib/analytics/funnel';
@@ -13,6 +18,7 @@ type CalendlyGlobal = {
  initPopupWidget: (opts: { url: string }) => void;
  initInlineWidget?: (opts: { url: string; parentElement: HTMLElement }) => void;
  closePopupWidget?: () => void;
+ __sh3ikhPatched?: boolean;
 };
 
 declare global {
@@ -55,12 +61,33 @@ function isCalendlyWidgetReady(): boolean {
  return Boolean(window.Calendly?.initPopupWidget || window.Calendly?.initInlineWidget);
 }
 
+function patchCalendlyInitPopupWidget(): void {
+ if (!window.Calendly?.initPopupWidget || window.Calendly.__sh3ikhPatched) return;
+ const original = window.Calendly.initPopupWidget.bind(window.Calendly);
+ window.Calendly.initPopupWidget = (opts) => {
+  const url = rethemeCalendlyWidgetUrl(opts.url);
+  attachCalendlyPopupEnhancements();
+  original({ ...opts, url });
+  attachCalendlyPopupEnhancements();
+ };
+ window.Calendly.__sh3ikhPatched = true;
+}
+
+function ensureCalendlyWidgetReadyAndPatched(): void {
+ if (isCalendlyWidgetReady()) {
+  patchCalendlyInitPopupWidget();
+ }
+}
+
 /**
  * Load Calendly widget.js (popup + inline). Handles cached scripts where `load` may not fire.
  */
 export function loadCalendlyWidget(): Promise<void> {
  if (typeof window === 'undefined') return Promise.resolve();
- if (isCalendlyWidgetReady()) return Promise.resolve();
+ if (isCalendlyWidgetReady()) {
+  ensureCalendlyWidgetReadyAndPatched();
+  return Promise.resolve();
+ }
  if (calendlyScriptPromise) return calendlyScriptPromise;
 
  ensureCalendlyWidgetCss();
@@ -85,7 +112,10 @@ export function loadCalendlyWidget(): Promise<void> {
   };
 
   const check = () => {
-   if (isCalendlyWidgetReady()) finish(true);
+   if (isCalendlyWidgetReady()) {
+    ensureCalendlyWidgetReadyAndPatched();
+    finish(true);
+   }
   };
 
   check();
@@ -136,20 +166,36 @@ export function preloadCalendlyPopupWidget(): void {
  */
 export async function openCalendlyThemedPopup(
  rawSchedulingUrl: string,
- opts?: { utm?: CalendlyUtmParams; funnelLabel?: string }
+ opts?: {
+  utm?: CalendlyUtmParams;
+  funnelLabel?: string;
+  theme?: 'dark' | 'light';
+  portalTheme?: PlatformPortalTheme;
+  portalPalette?: CalendlyPortalPalette;
+ }
 ): Promise<void> {
- const trimmed = rawSchedulingUrl?.trim() || getWebsiteCalendlyUrl('hero');
+ const trimmed = rawSchedulingUrl?.trim() || getWebsiteCalendlyUrl('discovery');
  if (!trimmed || typeof window === 'undefined') return;
  if (!isCalendlySchedulingUrl(trimmed)) {
   console.warn('[calendly] Ignoring non-Calendly scheduling URL:', trimmed);
-  openCalendlyFallbackUrl(getWebsiteCalendlyUrl('hero'));
+  openCalendlyFallbackUrl(getWebsiteCalendlyUrl('discovery'));
   return;
  }
 
+ const colorMode = opts?.theme ?? getCalendlyEmbedTheme();
+ const pathname = window.location.pathname;
+ const portalPalette =
+  opts?.portalPalette ??
+  (opts?.portalTheme
+   ? platformPortalThemeToCalendlyPalette(opts.portalTheme)
+   : resolveCalendlyPaletteForPage(pathname, colorMode));
+
  const themedPopupUrl = buildCalendlyPopupWidgetUrl(trimmed, {
   host: window.location.host,
-  theme: getCalendlyEmbedTheme(),
+  theme: colorMode,
   utm: opts?.utm,
+  pathname,
+  portalPalette,
  });
 
  trackFunnelEvent(FUNNEL_EVENTS.CTA_CLICK, {
@@ -173,7 +219,9 @@ export async function openCalendlyThemedPopup(
 
  try {
   await loadCalendlyWidget();
+  ensureCalendlyWidgetReadyAndPatched();
   if (window.Calendly?.initPopupWidget) {
+   attachCalendlyPopupEnhancements();
    window.Calendly.initPopupWidget({ url: themedPopupUrl });
    attachCalendlyPopupEnhancements();
    return;

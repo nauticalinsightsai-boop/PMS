@@ -95,6 +95,9 @@ export const CTAS = {
 
   talkToMentor: 'Talk to Mentor',
 
+  /** PM advisory / corporate services hero (distinct from exam-prep mentor CTAs). */
+  talkToAdvisor: 'Talk to Advisor',
+
   /** Professional & Mastery pathway modal: mentor scheduling (≤5 words). */
   pathwayMentorCta: 'Talk to your mentor',
 

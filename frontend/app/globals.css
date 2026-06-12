@@ -27,3 +27,17 @@
 .dark .seat-deposit-stripe-embedded {
   background: var(--card);
 }
+
+/* Calendly popup backdrop: scrim is painted via ::before in popup-enhancements.ts */
+.calendly-overlay {
+  transition: background-color 160ms ease;
+}
+
+.calendly-overlay .calendly-close-overlay {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  background: none !important;
+  background-color: transparent !important;
+}

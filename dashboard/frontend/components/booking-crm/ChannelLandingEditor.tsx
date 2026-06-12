@@ -147,7 +147,10 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
     async (intent: 'saveDraft' | 'publish' | 'unpublish') => {
       if (intent !== 'unpublish') {
         try {
-          assertTierDurationsValid(draftRef.current.consultationTiers ?? [])
+          assertTierDurationsValid(
+            draftRef.current.consultationTiers ?? [],
+            draftRef.current.channelId,
+          )
         } catch (e) {
           addNotification(
             'error',
@@ -458,7 +461,7 @@ const ChannelLandingEditor = forwardRef<ChannelLandingEditorHandle, Props>(funct
           <h3 className="text-h4 text-foreground">Consultation tiers</h3>
           <p className="text-body-sm text-muted-foreground">
             {platform.channelId === 'webinar'
-              ? 'Webinar portals use three tiers: Free Mentor Intro, Career & Pathway Session, and Services Discussion. Pack prices apply on publish.'
+              ? 'Webinar portals use two tiers: Certification Fit Session (free) and Career & Pathway Session (paid → go-webinar-paid).'
               : 'Pack prices and durations apply on publish. Override titles, descriptions, and optional tier CTA labels below.'}
           </p>
           {(draft.consultationTiers ?? [])

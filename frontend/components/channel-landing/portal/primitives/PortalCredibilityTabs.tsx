@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { PortalProofMetric, PortalSocialProofItem } from '@/types/channelLandingPage'
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
+import { resolvePortalQuoteSurface } from '@/lib/channel-landing-pages/portalQuoteSurface'
 import { getCredibilityTabLabels } from '@/lib/channel-landing-pages/portalLearnerCopy'
 
 type TabId = 'metrics' | 'quotes'
@@ -75,6 +76,7 @@ export default function PortalCredibilityTabs({
   const hasQuotes = quotes.length > 0
   const labels = getCredibilityTabLabels(channelId, channelLabel)
   const [activeTab, setActiveTab] = useState<TabId>(hasQuotes ? 'quotes' : 'metrics')
+  const quoteSurface = useMemo(() => resolvePortalQuoteSurface(theme), [theme])
 
   if (!hasMetrics && !hasQuotes) return null
 
@@ -152,22 +154,23 @@ export default function PortalCredibilityTabs({
                   className="m-0 h-full p-4 sm:p-5 flex gap-3 sm:gap-4"
                   style={{
                     borderRadius: theme.radiusLg,
-                    backgroundColor: theme.quoteBg,
-                    border: `1px solid ${theme.quoteBorder}`,
+                    backgroundColor: quoteSurface.backgroundColor,
+                    border: `1px solid ${quoteSurface.borderColor}`,
+                    color: quoteSurface.textColor,
                   }}
                 >
                   <LearnerAvatar item={q} theme={theme} channelId={channelId} />
                   <div className="min-w-0 flex-1">
                     <blockquote className="m-0">
-                      <p className="text-body-sm leading-relaxed" style={{ color: theme.text }}>
+                      <p className="text-body-sm leading-relaxed" style={{ color: quoteSurface.textColor }}>
                         {q.quote}
                       </p>
                     </blockquote>
                     <figcaption className="mt-3 space-y-1">
-                      <p className="text-meta font-medium" style={{ color: theme.text }}>
+                      <p className="text-meta font-medium" style={{ color: quoteSurface.textColor }}>
                         {q.name}
                       </p>
-                      <p className="text-meta" style={{ color: theme.textMuted }}>
+                      <p className="text-meta" style={{ color: quoteSurface.mutedTextColor }}>
                         {q.title}
                       </p>
                       {q.credential ? (

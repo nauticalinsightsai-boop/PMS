@@ -2,6 +2,12 @@ import { ALL_CHANNELS } from '../constants/channelGroups'
 import { VERIFIED_PROOF_METRICS } from '../constants/data/verifiedProofMetrics'
 import { getChannelPortalCopy } from './channelPortalCopy'
 import { isFreeDiscoveryChannel } from './freeDiscovery'
+import { isCommunityDirectPortalChannel } from './messagingPortalTiers'
+import { isWritingPublishingPortalChannel } from './publishingPortalTiers'
+import { isSyndicatedPortalPackChannel } from './syndicatedPortalTiers'
+import { isAudioPodcastPortalChannel } from './podcastPortalTiers'
+import { isSocialDistributionPortalChannel } from './socialPortalTiers'
+import { isVideoPlatformPortalChannel } from './videoPortalTiers'
 import type { PortalConversionContent } from '../types/channelLandingPage'
 import {
   buildLearnerCredibilityCopy,
@@ -126,17 +132,17 @@ function buildPack(channelId: string): PortalConversionContent {
         },
         {
           title: 'Watch before you book',
-          body: 'Use the briefing video so your free or paid mentor seat starts with shared context.',
+          body: 'Use the briefing video so your open or paid mentor seat starts with shared context.',
         },
         {
-          title: 'Free intro or paid depth',
+          title: 'Open intro or paid depth',
           body: 'Orientation call or a longer mentor block. Both focus on credentials and prep, not project consulting.',
         },
       ],
       qualificationFor: [
         'You watched or registered for the webinar and want certification or career guidance next.',
         'You can name the webinar title or replay when you book.',
-        'You want a mentor conversation: free orientation or paid depth.',
+        'You want a mentor conversation: open orientation or paid depth.',
         'You will share your target credential (if known) and region.',
       ],
       qualificationNotFor: [
@@ -144,21 +150,241 @@ function buildPack(channelId: string): PortalConversionContent {
         'You will not cite which webinar you attended.',
       ],
       credibilityBody: `Learners book after the briefing for pathway choice, prep quality, and membership pricing. Mentor-led by ${BRAND_FULL_NAME}.`,
-      finalCtaBody: `After the video, book a free mentor intro. Cite ${evidence}. Choose paid depth when you want a full study plan review.`,
+      faq: pack.faq!.map((item, index) =>
+        index === 0
+          ? {
+              question: 'Is the first mentor session open?',
+              answer:
+                'Yes. Book an open mentor intro on this page. Choose a paid pathway session when you want a full study plan or services discussion.',
+            }
+          : item,
+      ),
+      finalCtaBody: `After the video, book an open mentor intro. Cite ${evidence}. Choose paid depth when you want a full study plan review.`,
     }
   }
 
   if (channelId === 'website') {
     return {
       ...pack,
+      valueCards: [
+        {
+          title: 'From site to pathway',
+          body: `Turn what you read on ${label} into a certification goal. Cite ${evidence} when you book.`,
+        },
+        {
+          title: 'Mentor intro or depth',
+          body: 'Open mentor conversation for orientation, or a longer paid session to lock your exam track and prep cadence.',
+        },
+        {
+          title: 'Program quality check',
+          body: 'Ask about cohort rhythm, materials, and how learners in your region price tuition and membership.',
+        },
+      ],
       qualificationFor: [
         'You are exploring PM Structure pathways from the main site and want mentor guidance.',
         'You can name the page, newsletter, or asset that brought you here.',
         'You want certification fit, prep options, or services overview. Not delivery consulting.',
         'You will share region and timeline so pricing is accurate.',
       ],
+      faq: pack.faq!.map((item, index) =>
+        index === 0
+          ? {
+              question: 'Is the first mentor session open?',
+              answer:
+                'Yes. Book an open mentor intro on this page. Choose a paid pathway session when you want a full study plan or services discussion.',
+            }
+          : item,
+      ),
       credibilityBody:
         'Site visitors book mentor time for certification readiness, career direction, and program quality. Aligned to the page you cite.',
+      finalCtaHeading: 'Not sure which pathway fits?',
+      finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
+    }
+  }
+
+  if (isSocialDistributionPortalChannel(channelId)) {
+    return {
+      ...pack,
+      valueCards: [
+        {
+          title: 'From content to pathway',
+          body: `Turn what you saw on ${label} into a certification goal. Cite ${evidence} when you book.`,
+        },
+        {
+          title: 'Mentor intro or depth',
+          body: 'Open mentor conversation for orientation, or a longer paid session to lock your exam track and prep cadence.',
+        },
+        {
+          title: 'Program quality check',
+          body: 'Ask about cohort rhythm, materials, and how learners in your region price tuition and membership.',
+        },
+      ],
+      faq: pack.faq!.map((item, index) =>
+        index === 0
+          ? {
+              question: 'Is the first mentor session open?',
+              answer:
+                'Yes. Book an open mentor intro on this page. Choose a paid pathway session when you want a full study plan or services discussion.',
+            }
+          : item,
+      ),
+      finalCtaHeading: 'Not sure which pathway fits?',
+      finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
+    }
+  }
+
+  if (isVideoPlatformPortalChannel(channelId)) {
+    return {
+      ...pack,
+      valueCards: [
+        {
+          title: 'From video to pathway',
+          body: `Turn what you watched on ${label} into a certification goal. Cite ${evidence} when you book.`,
+        },
+        {
+          title: 'Mentor intro or depth',
+          body: 'Open mentor conversation for orientation, or a longer paid session to lock your exam track and prep cadence.',
+        },
+        {
+          title: 'Program quality check',
+          body: 'Ask about cohort rhythm, materials, and how learners in your region price tuition and membership.',
+        },
+      ],
+      faq: pack.faq!.map((item, index) =>
+        index === 0
+          ? {
+              question: 'Is the first mentor session open?',
+              answer:
+                'Yes. Book an open mentor intro on this page. Choose a paid pathway session when you want a full study plan or services discussion.',
+            }
+          : item,
+      ),
+      finalCtaHeading: 'Not sure which pathway fits?',
+      finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
+    }
+  }
+
+  if (isAudioPodcastPortalChannel(channelId)) {
+    return {
+      ...pack,
+      valueCards: [
+        {
+          title: 'Episode to exam plan',
+          body: `Connect what you heard on ${label} to a credential. Cite ${evidence} when you book.`,
+        },
+        {
+          title: 'Mentor intro or depth',
+          body: 'Open mentor conversation for orientation, or a longer paid session to lock your exam track and prep cadence.',
+        },
+        {
+          title: 'Program quality check',
+          body: 'Ask about cohort rhythm, materials, and how learners in your region price tuition and membership.',
+        },
+      ],
+      faq: pack.faq!.map((item, index) =>
+        index === 0
+          ? {
+              question: 'Is the first mentor session open?',
+              answer:
+                'Yes. Book an open mentor intro on this page. Choose a paid pathway session when you want a full study plan or services discussion.',
+            }
+          : item,
+      ),
+      finalCtaHeading: 'Not sure which pathway fits?',
+      finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
+    }
+  }
+
+  if (isCommunityDirectPortalChannel(channelId)) {
+    return {
+      ...pack,
+      valueCards: [
+        {
+          title: 'Message to mentor time',
+          body: `Turn your ${label} thread or broadcast into a certification plan. Cite ${evidence} when you book.`,
+        },
+        {
+          title: 'Mentor intro or depth',
+          body: 'Open mentor conversation for orientation, or a longer paid session to lock your exam track and prep cadence.',
+        },
+        {
+          title: 'Program quality check',
+          body: 'Ask about cohort rhythm, materials, and how learners in your region price tuition and membership.',
+        },
+      ],
+      faq: pack.faq!.map((item, index) =>
+        index === 0
+          ? {
+              question: 'Is the first mentor session open?',
+              answer:
+                'Yes. Book an open mentor intro on this page. Choose a paid pathway session when you want a full study plan or services discussion.',
+            }
+          : item,
+      ),
+      finalCtaHeading: 'Not sure which pathway fits?',
+      finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
+    }
+  }
+
+  if (isWritingPublishingPortalChannel(channelId)) {
+    return {
+      ...pack,
+      valueCards: [
+        {
+          title: 'Read to exam plan',
+          body: `Connect what you read on ${label} to a credential. Cite ${evidence} when you book.`,
+        },
+        {
+          title: 'Mentor intro or depth',
+          body: 'Open mentor conversation for orientation, or a longer paid session to lock your exam track and prep cadence.',
+        },
+        {
+          title: 'Program quality check',
+          body: 'Ask about cohort rhythm, materials, and how learners in your region price tuition and membership.',
+        },
+      ],
+      faq: pack.faq!.map((item, index) =>
+        index === 0
+          ? {
+              question: 'Is the first mentor session open?',
+              answer:
+                'Yes. Book an open mentor intro on this page. Choose a paid pathway session when you want a full study plan or services discussion.',
+            }
+          : item,
+      ),
+      finalCtaHeading: 'Not sure which pathway fits?',
+      finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
+    }
+  }
+
+  if (isSyndicatedPortalPackChannel(channelId)) {
+    return {
+      ...pack,
+      valueCards: [
+        {
+          title: 'Search or feed to pathway',
+          body: `Turn how you found us on ${label} into a certification goal. Cite ${evidence} when you book.`,
+        },
+        {
+          title: 'Mentor intro or depth',
+          body: 'Open mentor conversation for orientation, or a longer paid session to lock your exam track and prep cadence.',
+        },
+        {
+          title: 'Program quality check',
+          body: 'Ask about cohort rhythm, materials, and how learners in your region price tuition and membership.',
+        },
+      ],
+      faq: pack.faq!.map((item, index) =>
+        index === 0
+          ? {
+              question: 'Is the first mentor session open?',
+              answer:
+                'Yes. Book an open mentor intro on this page. Choose a paid pathway session when you want a full study plan or services discussion.',
+            }
+          : item,
+      ),
+      finalCtaHeading: 'Not sure which pathway fits?',
+      finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
     }
   }
 

@@ -154,6 +154,7 @@ export function Home() {
       return (
         <WebsiteCalendlyButton
           size="lg"
+          tier="hero"
           className={cn(btnClass, 'block')}
           funnelLabel="home_hero_consultation"
           utm={{ utm_source: 'pmstructure', utm_medium: 'website', utm_campaign: 'home_hero' }}
@@ -973,6 +974,7 @@ export function Home() {
                 ) : (
                   <WebsiteCalendlyButton
                     size="lg"
+                    tier="discovery"
                     className="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl shadow-xl transition-all group/btn"
                     funnelLabel="home_final_cta_consultation"
                     utm={{ utm_source: 'pmstructure', utm_medium: 'website', utm_campaign: 'home_final' }}

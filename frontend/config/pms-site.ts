@@ -1,7 +1,9 @@
 /**
  * PM Structure public site: canonical SEO, JSON-LD, and legal entity (not personal brand site.ts).
  */
+import { buildOnboardingCalendlyUrl } from '@/lib/calendly/onboarding-calendly-url';
 import { BRAND } from '@/lib/brand-voice';
+import { getOfferingById } from '@/lib/regional-catalogue';
 
 export const PMS_SITE_URL =
   (process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') as string | undefined) ||
@@ -19,25 +21,37 @@ export const PMS_SUPPORT_EMAIL =
 /** Post-checkout onboarding call (also used in confirmation emails). */
 export const PMS_ONBOARDING_CALENDLY_URL =
   process.env.NEXT_PUBLIC_ONBOARDING_CALENDLY_URL?.trim() ||
-  'https://calendly.com/pm-structure/go-talk-to-mentor';
+  'https://calendly.com/pm-structure/talk-to-mentor';
 
-/** Default mentor consultation when pathway-specific env is unset. */
-export const PMS_MENTOR_CALENDLY_URL =
-  process.env.NEXT_PUBLIC_CALENDLY_EVENT_URL_WEBSITE_HERO?.trim() ||
-  'https://calendly.com/pm-structure/website-hero-book-consultation';
+/** Primary “Talk to Mentor” scheduling link (live Calendly event). */
+export const PMS_TALK_TO_MENTOR_CALENDLY_URL =
+  process.env.NEXT_PUBLIC_TALK_TO_MENTOR_CALENDLY_URL?.trim() ||
+  'https://calendly.com/pm-structure/talk-to-mentor';
+
+/** PM advisory / corporate services (live Calendly event). */
+export const PMS_TALK_TO_ADVISOR_CALENDLY_URL =
+  process.env.NEXT_PUBLIC_TALK_TO_ADVISOR_CALENDLY_URL?.trim() ||
+  'https://calendly.com/pm-structure/talk-to-advisor';
+
+/** @deprecated Use {@link PMS_TALK_TO_MENTOR_CALENDLY_URL}. */
+export const PMS_MENTOR_CALENDLY_URL = PMS_TALK_TO_MENTOR_CALENDLY_URL;
 
 export function getOnboardingCalendlyUrl(
   offeringId?: string | null,
   opts?: { utmSource?: string; utmMedium?: string },
 ): string {
-  const base = PMS_ONBOARDING_CALENDLY_URL;
-  const url = new URL(base);
-  url.searchParams.set('utm_source', opts?.utmSource ?? 'success_page');
-  url.searchParams.set('utm_medium', opts?.utmMedium ?? 'enrollment');
-  if (offeringId?.trim()) {
-    url.searchParams.set('utm_content', offeringId.trim());
-  }
-  return url.toString();
+  return buildOnboardingCalendlyUrl(
+    offeringId,
+    (id) => {
+      const offering = getOfferingById(id);
+      return offering ? { familyId: offering.familyId, tierId: offering.tierId } : undefined;
+    },
+    {
+      utmSource: opts?.utmSource ?? 'success_page',
+      utmMedium: opts?.utmMedium ?? 'enrollment',
+    },
+    PMS_ONBOARDING_CALENDLY_URL,
+  );
 }
 
 /** @deprecated Use PMS_SUPPORT_EMAIL: kept for env compatibility only. */
@@ -128,6 +142,10 @@ export function formatLegalControllerLine(): string {
 export const PMS_OG_IMAGE_PATH = process.env.NEXT_PUBLIC_OG_IMAGE_PATH || '/og/default.png';
 
 export const PMS_LOGO_PATH = '/brand/pms-logo-light.png';
+
+/** Square mark for browser tab / PWA (public/brand). */
+export const PMS_FAVICON_PATH = '/brand/pms-icon.png';
+export const PMS_FAVICON_DARK_PATH = '/brand/pms-icon-dark.png';
 
 export const PMS_ORGANIZATION_SAME_AS: readonly string[] = [
   PMS_SITE_URL,

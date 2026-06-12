@@ -1,6 +1,7 @@
 'use client'
 
 import { hasChannelMark } from '@pms/booking-crm/channel-landing-pages/channelMarkAssets'
+import { resolvePortalStoryRingInnerStyle } from '@/lib/channel-landing-pages/portalStoryRing'
 import AdminChannelMark from '@/components/admin/AdminChannelMark'
 import ChannelPortalThemeToggle from '@/components/channel-landing/portal/ChannelPortalThemeToggle'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
@@ -20,6 +21,7 @@ export default function ChannelPortalPresenceStrip({
   const profileUrl = getChannelProfileUrl(channelId)
   const presenceLabel = theme.presenceTag === 'Site' ? 'official website' : theme.presenceTag
   const customMark = hasChannelMark(channelId)
+  const storyRingInnerStyle = resolvePortalStoryRingInnerStyle(theme)
 
   return (
     <div
@@ -49,12 +51,7 @@ export default function ChannelPortalPresenceStrip({
                   width: 44,
                   height: 44,
                   borderRadius: '50%',
-                  ...(customMark
-                    ? {}
-                    : {
-                        backgroundColor: theme.surface,
-                        color: theme.primary,
-                      }),
+                  ...(customMark ? {} : storyRingInnerStyle),
                 }}
               >
                 <AdminChannelMark

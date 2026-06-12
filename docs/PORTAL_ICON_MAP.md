@@ -31,7 +31,7 @@ Sources: Cursor workspace assets (`~/.cursor/projects/d-My-Websites-PMS/assets/`
 | Pattern | Example |
 | --- | --- |
 | Single mark | `linkedin-mark.png` |
-| Light/dark pair | `medium-mark-light.png`, `medium-mark-dark.png` |
+| Light/dark pair | `medium-mark-light.png` (light UI), `medium-mark-dark.png` (dark UI) |
 | X (channel `twitter`) | `x-mark-light.png`, `x-mark-dark.png` |
 | Notion (`notion-public`) | `notion-mark-light.png`, `notion-mark-dark.png` |
 | Website (`website`) | `/brand/pms-icon.png`, `/brand/pms-icon-dark.png` (not under `/images/logo/`) |

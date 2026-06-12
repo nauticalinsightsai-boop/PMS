@@ -65,8 +65,8 @@
       "channelIds": [],
       "portalTierIds": [],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-website-hero-consultation",
-        "fallback": "https://calendly.com/pm-structure/website-hero-book-consultation"
+        "primary": "https://calendly.com/pm-structure/talk-to-mentor",
+        "fallback": "https://calendly.com/pm-structure/talk-to-mentor"
       }
     },
     {
@@ -131,8 +131,8 @@
         "discovery"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-website-discovery",
-        "fallback": "https://calendly.com/pm-structure/website-discovery-mentorship"
+        "primary": "https://calendly.com/pm-structure/talk-to-mentor",
+        "fallback": "https://calendly.com/pm-structure/talk-to-mentor"
       }
     },
     {
@@ -197,8 +197,8 @@
         "executive"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-website-executive",
-        "fallback": "https://calendly.com/pm-structure/website-executive-discussion"
+        "primary": "https://calendly.com/pm-structure/talk-to-advisor",
+        "fallback": "https://calendly.com/pm-structure/talk-to-advisor"
       }
     },
     {
@@ -263,8 +263,8 @@
         "design-review"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-website-services",
-        "fallback": "https://calendly.com/pm-structure/website-expert-services-discussion"
+        "primary": "https://calendly.com/pm-structure/talk-to-advisor",
+        "fallback": "https://calendly.com/pm-structure/talk-to-advisor"
       }
     },
     {
@@ -330,7 +330,7 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-webinar-discovery",
-        "fallback": "https://calendly.com/pm-structure/webinar-discovery-mentorship"
+        "fallback": "https://calendly.com/pm-structure/go-webinar-open"
       }
     },
     {
@@ -396,7 +396,7 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-webinar-executive",
-        "fallback": "https://calendly.com/pm-structure/webinar-executive-discussion"
+        "fallback": "https://calendly.com/pm-structure/go-webinar-paid"
       }
     },
     {
@@ -467,7 +467,7 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-writing-discovery",
-        "fallback": "https://calendly.com/pm-structure/writing-publishing-discovery-mentorship"
+        "fallback": "https://calendly.com/pm-structure/go-newsletters-discovery"
       }
     },
     {
@@ -476,14 +476,14 @@
       "slug": "go-writing-executive",
       "family": "writing",
       "tierKind": "executive",
-      "durationMinutes": 35,
+      "durationMinutes": 40,
       "ctaLabel": "Reserve Advisory Call",
       "payment": "paid",
       "guestsAllowed": true,
       "dailyLimit": 2,
       "bufferBefore": 15,
       "bufferAfter": 15,
-      "description": "A 35-minute advisory session for referrals from writing / publishing sources. Ideal for deeper project guidance, technical review, or structured consultation.",
+      "description": "A 40-minute advisory session for referrals from writing / publishing sources. Ideal for deeper project guidance, technical review, or structured consultation.",
       "standardQuestions": [
         {
           "name": "Phone Number",
@@ -538,7 +538,78 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-writing-executive",
-        "fallback": "https://calendly.com/pm-structure/writing-publishing-executive-discussion"
+        "fallback": "https://calendly.com/pm-structure/go-newsletters-executive"
+      }
+    },
+    {
+      "id": "008b",
+      "name": "Writing / Publishing. Design Review & Services",
+      "slug": "go-newsletters-design-review",
+      "family": "writing",
+      "tierKind": "services",
+      "durationMinutes": 75,
+      "ctaLabel": "Discuss services",
+      "payment": "paid",
+      "guestsAllowed": true,
+      "dailyLimit": 2,
+      "bufferBefore": 15,
+      "bufferAfter": 15,
+      "description": "A 75-minute advisory session for writing / publishing referrals. Deep review of PMO services, design, or compliance topics.",
+      "standardQuestions": [
+        {
+          "name": "Phone Number",
+          "type": "phone_number",
+          "required": true
+        },
+        {
+          "name": "Certification of Interest",
+          "type": "multi_select",
+          "required": true,
+          "answerChoices": [
+            "PMP",
+            "PRINCE2",
+            "Six Sigma"
+          ],
+          "includeOther": true
+        },
+        {
+          "name": "Years of Experience",
+          "type": "single_select",
+          "required": true,
+          "answerChoices": [
+            "0-2",
+            "3-5",
+            "6-10",
+            "10+"
+          ]
+        },
+        {
+          "name": "Please describe your specific question or concern",
+          "type": "text",
+          "required": false,
+          "multiline": true
+        },
+        {
+          "name": "LinkedIn Profile URL",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "channelIds": [
+        "medium",
+        "substack",
+        "beehiiv",
+        "ghost",
+        "hashnode",
+        "notion-public"
+      ],
+      "portalTierIds": [
+        "services-detail",
+        "design-review"
+      ],
+      "urls": {
+        "primary": "https://calendly.com/booking-sh3ikhmabz/go-newsletters-design-review",
+        "fallback": "https://calendly.com/pm-structure/go-newsletters-design-review"
       }
     },
     {
@@ -614,7 +685,7 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-social-discovery",
-        "fallback": "https://calendly.com/pm-structure/social-distribution-discovery-mentorship"
+        "fallback": "https://calendly.com/pm-structure/so-discovery-mentorship"
       }
     },
     {
@@ -690,7 +761,83 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-social-executive",
-        "fallback": "https://calendly.com/pm-structure/social-distribution-executive-discussion"
+        "fallback": "https://calendly.com/pm-structure/go-social-media-executive"
+      }
+    },
+    {
+      "id": "010b",
+      "name": "Social Distribution. Design Review & Services",
+      "slug": "go-social-media-design-review",
+      "family": "social",
+      "tierKind": "services",
+      "durationMinutes": 75,
+      "ctaLabel": "Discuss services",
+      "payment": "paid",
+      "guestsAllowed": true,
+      "dailyLimit": 2,
+      "bufferBefore": 15,
+      "bufferAfter": 15,
+      "description": "A 75-minute advisory session for social distribution referrals. Deep review of services, design, or compliance topics selected on the site.",
+      "standardQuestions": [
+        {
+          "name": "Phone Number",
+          "type": "phone_number",
+          "required": true
+        },
+        {
+          "name": "Certification of Interest",
+          "type": "multi_select",
+          "required": true,
+          "answerChoices": [
+            "PMP",
+            "PRINCE2",
+            "Six Sigma"
+          ],
+          "includeOther": true
+        },
+        {
+          "name": "Years of Experience",
+          "type": "single_select",
+          "required": true,
+          "answerChoices": [
+            "0-2",
+            "3-5",
+            "6-10",
+            "10+"
+          ]
+        },
+        {
+          "name": "Please describe your specific question or concern",
+          "type": "text",
+          "required": false,
+          "multiline": true
+        },
+        {
+          "name": "LinkedIn Profile URL",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "channelIds": [
+        "linkedin",
+        "twitter",
+        "instagram",
+        "facebook",
+        "reddit",
+        "quora",
+        "threads",
+        "bluesky",
+        "mastodon",
+        "pinterest",
+        "vk"
+      ],
+      "portalTierIds": [
+        "services-detail",
+        "design-review"
+      ],
+      "urls": {
+        "primary": "https://calendly.com/booking-sh3ikhmabz/go-social-media-design-review",
+        "fallback": "https://calendly.com/pm-structure/go-social-media-design-review"
       }
     },
     {
@@ -758,8 +905,8 @@
         "discovery"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-video-discovery",
-        "fallback": "https://calendly.com/pm-structure/video-platform-discovery-mentorship"
+        "primary": "https://calendly.com/pm-structure/so-discovery-mentorship",
+        "fallback": "https://calendly.com/pm-structure/so-discovery-mentorship"
       }
     },
     {
@@ -827,8 +974,77 @@
         "executive"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-video-executive",
-        "fallback": "https://calendly.com/pm-structure/video-platform-executive-discussion"
+        "primary": "https://calendly.com/pm-structure/go-social-media-executive",
+        "fallback": "https://calendly.com/pm-structure/go-social-media-executive"
+      }
+    },
+    {
+      "id": "012b",
+      "name": "Video Platform. Design Review & Services",
+      "slug": "go-video-design-review",
+      "family": "video",
+      "tierKind": "services",
+      "durationMinutes": 75,
+      "ctaLabel": "Discuss services",
+      "payment": "paid",
+      "guestsAllowed": true,
+      "dailyLimit": 2,
+      "bufferBefore": 15,
+      "bufferAfter": 15,
+      "description": "A 75-minute advisory session for video platform referrals. Deep review of PMO services, design, or compliance topics.",
+      "standardQuestions": [
+        {
+          "name": "Phone Number",
+          "type": "phone_number",
+          "required": true
+        },
+        {
+          "name": "Certification of Interest",
+          "type": "multi_select",
+          "required": true,
+          "answerChoices": [
+            "PMP",
+            "PRINCE2",
+            "Six Sigma"
+          ],
+          "includeOther": true
+        },
+        {
+          "name": "Years of Experience",
+          "type": "single_select",
+          "required": true,
+          "answerChoices": [
+            "0-2",
+            "3-5",
+            "6-10",
+            "10+"
+          ]
+        },
+        {
+          "name": "Please describe your specific question or concern",
+          "type": "text",
+          "required": false,
+          "multiline": true
+        },
+        {
+          "name": "LinkedIn Profile URL",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "channelIds": [
+        "youtube",
+        "tiktok",
+        "snapchat",
+        "vimeo"
+      ],
+      "portalTierIds": [
+        "services-detail",
+        "design-review"
+      ],
+      "urls": {
+        "primary": "https://calendly.com/pm-structure/go-social-media-design-review",
+        "fallback": "https://calendly.com/pm-structure/go-social-media-design-review"
       }
     },
     {
@@ -899,7 +1115,7 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-audio-discovery",
-        "fallback": "https://calendly.com/pm-structure/audio-podcast-discovery-mentorship"
+        "fallback": "https://calendly.com/pm-structure/go-podcasts-discovery"
       }
     },
     {
@@ -908,14 +1124,14 @@
       "slug": "go-audio-executive",
       "family": "audio",
       "tierKind": "executive",
-      "durationMinutes": 35,
+      "durationMinutes": 30,
       "ctaLabel": "Reserve Advisory Call",
       "payment": "paid",
       "guestsAllowed": true,
       "dailyLimit": 2,
       "bufferBefore": 15,
       "bufferAfter": 15,
-      "description": "A 35-minute advisory session for referrals from audio / podcast sources. Ideal for deeper project guidance, technical review, or structured consultation.",
+      "description": "A 30-minute advisory session for referrals from audio / podcast sources. Ideal for deeper project guidance, technical review, or structured consultation.",
       "standardQuestions": [
         {
           "name": "Phone Number",
@@ -970,7 +1186,78 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-audio-executive",
-        "fallback": "https://calendly.com/pm-structure/audio-podcast-executive-discussion"
+        "fallback": "https://calendly.com/pm-structure/go-podcasts-executive"
+      }
+    },
+    {
+      "id": "014b",
+      "name": "Audio / Podcast. Design Review & Services",
+      "slug": "go-podcasts-design-review",
+      "family": "audio",
+      "tierKind": "services",
+      "durationMinutes": 60,
+      "ctaLabel": "Discuss services",
+      "payment": "paid",
+      "guestsAllowed": true,
+      "dailyLimit": 2,
+      "bufferBefore": 15,
+      "bufferAfter": 15,
+      "description": "A 60-minute advisory session for audio / podcast referrals. Deep review of services, design, or compliance topics selected on the site.",
+      "standardQuestions": [
+        {
+          "name": "Phone Number",
+          "type": "phone_number",
+          "required": true
+        },
+        {
+          "name": "Certification of Interest",
+          "type": "multi_select",
+          "required": true,
+          "answerChoices": [
+            "PMP",
+            "PRINCE2",
+            "Six Sigma"
+          ],
+          "includeOther": true
+        },
+        {
+          "name": "Years of Experience",
+          "type": "single_select",
+          "required": true,
+          "answerChoices": [
+            "0-2",
+            "3-5",
+            "6-10",
+            "10+"
+          ]
+        },
+        {
+          "name": "Please describe your specific question or concern",
+          "type": "text",
+          "required": false,
+          "multiline": true
+        },
+        {
+          "name": "LinkedIn Profile URL",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "channelIds": [
+        "spotify",
+        "apple-podcasts",
+        "google-podcasts",
+        "amazon-audible",
+        "podbean",
+        "soundcloud"
+      ],
+      "portalTierIds": [
+        "services-detail",
+        "design-review"
+      ],
+      "urls": {
+        "primary": "https://calendly.com/booking-sh3ikhmabz/go-podcasts-design-review",
+        "fallback": "https://calendly.com/pm-structure/go-podcasts-design-review"
       }
     },
     {
@@ -1040,7 +1327,7 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-community-discovery",
-        "fallback": "https://calendly.com/pm-structure/community-direct-discovery-mentorship"
+        "fallback": "https://calendly.com/pm-structure/go-messaging-discovery"
       }
     },
     {
@@ -1049,14 +1336,14 @@
       "slug": "go-community-executive",
       "family": "community",
       "tierKind": "executive",
-      "durationMinutes": 35,
+      "durationMinutes": 30,
       "ctaLabel": "Reserve Advisory Call",
       "payment": "paid",
       "guestsAllowed": true,
       "dailyLimit": 2,
       "bufferBefore": 15,
       "bufferAfter": 15,
-      "description": "A 35-minute advisory session for referrals from community / direct sources. Ideal for deeper project guidance, technical review, or structured consultation.",
+      "description": "A 30-minute advisory session for referrals from community / direct sources. Ideal for deeper project guidance, technical review, or structured consultation.",
       "standardQuestions": [
         {
           "name": "Phone Number",
@@ -1110,7 +1397,77 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-community-executive",
-        "fallback": "https://calendly.com/pm-structure/community-direct-executive-discussion"
+        "fallback": "https://calendly.com/pm-structure/go-messaging-executive"
+      }
+    },
+    {
+      "id": "016b",
+      "name": "Community / Direct. Design Review & Services",
+      "slug": "go-messaging-design-review",
+      "family": "community",
+      "tierKind": "services",
+      "durationMinutes": 60,
+      "ctaLabel": "Discuss services",
+      "payment": "paid",
+      "guestsAllowed": true,
+      "dailyLimit": 2,
+      "bufferBefore": 15,
+      "bufferAfter": 15,
+      "description": "A 60-minute advisory session for community / direct referrals. Deep review of services, design, or compliance topics selected on the site.",
+      "standardQuestions": [
+        {
+          "name": "Phone Number",
+          "type": "phone_number",
+          "required": true
+        },
+        {
+          "name": "Certification of Interest",
+          "type": "multi_select",
+          "required": true,
+          "answerChoices": [
+            "PMP",
+            "PRINCE2",
+            "Six Sigma"
+          ],
+          "includeOther": true
+        },
+        {
+          "name": "Years of Experience",
+          "type": "single_select",
+          "required": true,
+          "answerChoices": [
+            "0-2",
+            "3-5",
+            "6-10",
+            "10+"
+          ]
+        },
+        {
+          "name": "Please describe your specific question or concern",
+          "type": "text",
+          "required": false,
+          "multiline": true
+        },
+        {
+          "name": "LinkedIn Profile URL",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "channelIds": [
+        "email",
+        "whatsapp",
+        "telegram",
+        "discord",
+        "slack"
+      ],
+      "portalTierIds": [
+        "services-detail",
+        "design-review"
+      ],
+      "urls": {
+        "primary": "https://calendly.com/booking-sh3ikhmabz/go-messaging-design-review",
+        "fallback": "https://calendly.com/pm-structure/go-messaging-design-review"
       }
     },
     {
@@ -1180,7 +1537,7 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-search-discovery",
-        "fallback": "https://calendly.com/pm-structure/discovery-search-discovery-mentorship"
+        "fallback": "https://calendly.com/pm-structure/go-syndicated-discovery"
       }
     },
     {
@@ -1250,7 +1607,77 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-search-executive",
-        "fallback": "https://calendly.com/pm-structure/discovery-search-executive-discussion"
+        "fallback": "https://calendly.com/pm-structure/go-syndicated-executive"
+      }
+    },
+    {
+      "id": "018b",
+      "name": "Discovery / Search. Design Review & Services",
+      "slug": "go-search-design-review",
+      "family": "search",
+      "tierKind": "services",
+      "durationMinutes": 75,
+      "ctaLabel": "Discuss services",
+      "payment": "paid",
+      "guestsAllowed": true,
+      "dailyLimit": 2,
+      "bufferBefore": 15,
+      "bufferAfter": 15,
+      "description": "A 75-minute advisory session for discovery / search referrals. Deep review of PMO services, design, or compliance topics.",
+      "standardQuestions": [
+        {
+          "name": "Phone Number",
+          "type": "phone_number",
+          "required": true
+        },
+        {
+          "name": "Certification of Interest",
+          "type": "multi_select",
+          "required": true,
+          "answerChoices": [
+            "PMP",
+            "PRINCE2",
+            "Six Sigma"
+          ],
+          "includeOther": true
+        },
+        {
+          "name": "Years of Experience",
+          "type": "single_select",
+          "required": true,
+          "answerChoices": [
+            "0-2",
+            "3-5",
+            "6-10",
+            "10+"
+          ]
+        },
+        {
+          "name": "Please describe your specific question or concern",
+          "type": "text",
+          "required": false,
+          "multiline": true
+        },
+        {
+          "name": "LinkedIn Profile URL",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "channelIds": [
+        "google-search",
+        "youtube-search",
+        "podcast-directories",
+        "bing-search",
+        "ai-visibility"
+      ],
+      "portalTierIds": [
+        "services-detail",
+        "design-review"
+      ],
+      "urls": {
+        "primary": "https://calendly.com/booking-sh3ikhmabz/go-syndicated-design-review",
+        "fallback": "https://calendly.com/pm-structure/go-syndicated-design-review"
       }
     },
     {
@@ -1315,8 +1742,8 @@
         "discovery"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-linkedin-discovery",
-        "fallback": "https://calendly.com/pm-structure/linkedin-discovery-mentorship"
+        "primary": "https://calendly.com/pm-structure/so-discovery-mentorship",
+        "fallback": "https://calendly.com/pm-structure/so-discovery-mentorship"
       }
     },
     {
@@ -1381,8 +1808,8 @@
         "executive"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-linkedin-executive",
-        "fallback": "https://calendly.com/pm-structure/linkedin-executive-discussion"
+        "primary": "https://calendly.com/pm-structure/go-social-media-executive",
+        "fallback": "https://calendly.com/pm-structure/go-social-media-executive"
       }
     },
     {
@@ -1447,8 +1874,8 @@
         "discovery"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-youtube-discovery",
-        "fallback": "https://calendly.com/pm-structure/youtube-discovery-mentorship"
+        "primary": "https://calendly.com/pm-structure/so-discovery-mentorship",
+        "fallback": "https://calendly.com/pm-structure/so-discovery-mentorship"
       }
     },
     {
@@ -1513,8 +1940,8 @@
         "executive"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-youtube-executive",
-        "fallback": "https://calendly.com/pm-structure/youtube-executive-discussion"
+        "primary": "https://calendly.com/pm-structure/go-social-media-executive",
+        "fallback": "https://calendly.com/pm-structure/go-social-media-executive"
       }
     },
     {
@@ -1579,8 +2006,8 @@
         "discovery"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-email-discovery",
-        "fallback": "https://calendly.com/pm-structure/email-discovery-mentorship"
+        "primary": "https://calendly.com/pm-structure/go-messaging-discovery",
+        "fallback": "https://calendly.com/pm-structure/go-messaging-discovery"
       }
     },
     {
@@ -1645,8 +2072,8 @@
         "executive"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-email-executive",
-        "fallback": "https://calendly.com/pm-structure/email-executive-discussion"
+        "primary": "https://calendly.com/pm-structure/go-messaging-executive",
+        "fallback": "https://calendly.com/pm-structure/go-messaging-executive"
       }
     },
     {
@@ -1711,8 +2138,8 @@
         "discovery"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-rss-feeds-discovery",
-        "fallback": "https://calendly.com/pm-structure/rss-feeds-discovery-mentorship"
+        "primary": "https://calendly.com/pm-structure/go-syndicated-discovery",
+        "fallback": "https://calendly.com/pm-structure/go-syndicated-discovery"
       }
     },
     {
@@ -1777,8 +2204,8 @@
         "executive"
       ],
       "urls": {
-        "primary": "https://calendly.com/booking-sh3ikhmabz/go-rss-feeds-executive",
-        "fallback": "https://calendly.com/pm-structure/rss-feeds-executive-discussion"
+        "primary": "https://calendly.com/pm-structure/go-syndicated-executive",
+        "fallback": "https://calendly.com/pm-structure/go-syndicated-executive"
       }
     },
     {
@@ -1845,7 +2272,7 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-syndicated-services",
-        "fallback": "https://calendly.com/pm-structure/syndicated-expert-services-discussion"
+        "fallback": "https://calendly.com/pm-structure/go-syndicated-design-review"
       }
     },
     {
@@ -1903,6 +2330,11 @@
         }
       ],
       "channelIds": [
+        "google-search",
+        "youtube-search",
+        "podcast-directories",
+        "bing-search",
+        "ai-visibility",
         "rss-feeds",
         "content-aggregators",
         "api-ai-fed"
@@ -1913,7 +2345,7 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-syndicated-discovery",
-        "fallback": "https://calendly.com/pm-structure/syndicated-rss-feeds-discovery-mentorship"
+        "fallback": "https://calendly.com/pm-structure/go-syndicated-discovery"
       }
     },
     {
@@ -1971,6 +2403,11 @@
         }
       ],
       "channelIds": [
+        "google-search",
+        "youtube-search",
+        "podcast-directories",
+        "bing-search",
+        "ai-visibility",
         "rss-feeds",
         "content-aggregators",
         "api-ai-fed"
@@ -1981,7 +2418,80 @@
       ],
       "urls": {
         "primary": "https://calendly.com/booking-sh3ikhmabz/go-syndicated-executive",
-        "fallback": "https://calendly.com/pm-structure/syndicated-rss-feeds-executive-discussion"
+        "fallback": "https://calendly.com/pm-structure/go-syndicated-executive"
+      }
+    },
+    {
+      "id": "029b",
+      "name": "Syndicated / RSS / Feeds. Design Review & Services",
+      "slug": "go-syndicated-design-review",
+      "family": "syndicated",
+      "tierKind": "services",
+      "durationMinutes": 75,
+      "ctaLabel": "Discuss services",
+      "payment": "paid",
+      "guestsAllowed": true,
+      "dailyLimit": 2,
+      "bufferBefore": 15,
+      "bufferAfter": 15,
+      "description": "A 75-minute advisory session for syndicated feed and discovery referrals. Deep review of PMO services, design, or compliance topics.",
+      "standardQuestions": [
+        {
+          "name": "Phone Number",
+          "type": "phone_number",
+          "required": true
+        },
+        {
+          "name": "Certification of Interest",
+          "type": "multi_select",
+          "required": true,
+          "answerChoices": [
+            "PMP",
+            "PRINCE2",
+            "Six Sigma"
+          ],
+          "includeOther": true
+        },
+        {
+          "name": "Years of Experience",
+          "type": "single_select",
+          "required": true,
+          "answerChoices": [
+            "0-2",
+            "3-5",
+            "6-10",
+            "10+"
+          ]
+        },
+        {
+          "name": "Please describe your specific question or concern",
+          "type": "text",
+          "required": false,
+          "multiline": true
+        },
+        {
+          "name": "LinkedIn Profile URL",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "channelIds": [
+        "google-search",
+        "youtube-search",
+        "podcast-directories",
+        "bing-search",
+        "ai-visibility",
+        "rss-feeds",
+        "content-aggregators",
+        "api-ai-fed"
+      ],
+      "portalTierIds": [
+        "services-detail",
+        "design-review"
+      ],
+      "urls": {
+        "primary": "https://calendly.com/booking-sh3ikhmabz/go-syndicated-design-review",
+        "fallback": "https://calendly.com/pm-structure/go-syndicated-design-review"
       }
     }
   ]

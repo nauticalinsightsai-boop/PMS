@@ -9,23 +9,39 @@ export const TIER_DURATION_LIMITS = {
   'services-detail': { min: 30, max: 60 },
 } as const
 
+/** `/go/webinar` uses 1h + 2h mentor blocks. */
+export const WEBINAR_TIER_DURATION_LIMITS = {
+  'mentor-intro': { min: 60, max: 60 },
+  'career-pathway': { min: 120, max: 120 },
+} as const
+
 export type TierDurationId = keyof typeof TIER_DURATION_LIMITS
 
-/** Parse "15 Minutes", "45 min", "1 hour" → minutes (null if unknown). */
+function durationLimitsForTier(tierId: string, channelId?: string) {
+  if (channelId === 'webinar' && tierId in WEBINAR_TIER_DURATION_LIMITS) {
+    return WEBINAR_TIER_DURATION_LIMITS[tierId as keyof typeof WEBINAR_TIER_DURATION_LIMITS]
+  }
+  return TIER_DURATION_LIMITS[tierId as TierDurationId]
+}
+
+/** Parse "15 Minutes", "45 min", "1 hr", "2 hrs" → minutes (null if unknown). */
 export function parseMinutesFromDurationLabel(label: string): number | null {
   const s = label.trim().toLowerCase()
   const minMatch = s.match(/(\d+)\s*(?:min|minute)/)
   if (minMatch) return Number(minMatch[1])
-  const hrMatch = s.match(/(\d+)\s*(?:hr|hour)/)
-  if (hrMatch) return Number(hrMatch[1]) * 60
+  const hrMatch = s.match(/(\d+(?:\.\d+)?)\s*(?:hrs?|hours?)/)
+  if (hrMatch) return Math.round(Number(hrMatch[1]) * 60)
   const bare = s.match(/^(\d+)\s*$/)
   if (bare) return Number(bare[1])
   return null
 }
 
-export function assertTierDurationsValid(tiers: ConsultationTier[]): void {
+export function assertTierDurationsValid(
+  tiers: ConsultationTier[],
+  channelId?: string,
+): void {
   for (const tier of tiers) {
-    const limits = TIER_DURATION_LIMITS[tier.id as TierDurationId]
+    const limits = durationLimitsForTier(tier.id, channelId)
     if (!limits) continue
     const minutes = parseMinutesFromDurationLabel(tier.durationLabel)
     if (minutes == null) continue

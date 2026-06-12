@@ -1,4 +1,6 @@
 import type { ChannelLandingPage, ConsultationTier } from '@/types/channelLandingPage'
+import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
+import type { PortalColorMode } from '@/lib/channel-landing-pages/platformThemeModes'
 import {
   attributionOriginLabel,
   buildLeadAttribution,
@@ -7,7 +9,11 @@ import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup'
 import { getCalendlyUrlForChannelTier } from '@/lib/calendly/event-registry'
 import { FUNNEL_EVENTS, trackFunnelEvent } from '@/lib/analytics/funnel'
 
-export function scheduleTierClick(page: ChannelLandingPage, tier: ConsultationTier) {
+export function scheduleTierClick(
+  page: ChannelLandingPage,
+  tier: ConsultationTier,
+  ctx: { theme: PlatformPortalTheme; colorMode: PortalColorMode }
+) {
   const url =
     tier.scheduleUrl?.trim() ||
     getCalendlyUrlForChannelTier(page.channelId, tier.id)
@@ -35,5 +41,7 @@ export function scheduleTierClick(page: ChannelLandingPage, tier: ConsultationTi
       utm_content: page.slug,
     },
     funnelLabel: `${page.channelId}:${tier.id}`,
+    theme: ctx.colorMode,
+    portalTheme: ctx.theme,
   })
 }

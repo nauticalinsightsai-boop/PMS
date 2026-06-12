@@ -4,7 +4,10 @@
  * users often pick light UI while the OS is still in dark mode, and we would wrongly
  * style Calendly with dark colors.
  */
-import { isLightHexColor, pickButtonForeground } from '@/lib/channel-landing-pages/contrastUtils';
+import { isLightHexColor, meetsContrast, pickButtonForeground, pickReadableForeground, effectiveTintedSurfaceHex } from '@/lib/channel-landing-pages/contrastUtils';
+import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
+import { resolvePortalTheme } from '@/lib/channel-landing-pages/resolvePortalTheme';
+import { resolveChannelIdFromLegacyKey } from '@pms/booking-crm/migrateChannelPages';
 import { assertCalendlySchedulingUrl } from '@/lib/calendly/host-allowlist';
 import {
   ENGAGEMENT_SERVICE_TO_WEBSITE_TIER,
@@ -76,38 +79,334 @@ function getActivePortalRoot(): HTMLElement | null {
  return visible ?? roots[0] ?? null;
 }
 
+type SiteCalendlyPalette = {
+ background: string;
+ text: string;
+ primary: string;
+ card: string;
+ border: string;
+};
+
+/** PM Structure marketing shell tokens (`packages/ui` CSS variables). */
+export function getCalendlySitePalette(): SiteCalendlyPalette | null {
+ if (typeof document === 'undefined') return null;
+ const background = getComputedColorVar('--background');
+ const text = getComputedColorVar('--foreground');
+ const primary =
+  getComputedColorVar('--primary') ||
+  getComputedColorVar('--color-brand-accent') ||
+  getComputedColorVar('--gw-accent-primary');
+ const card = getComputedColorVar('--card') || background;
+ const border = getComputedColorVar('--border') || card;
+ if (!background && !text && !primary) return null;
+ return {
+  background: background || card || '#ffffff',
+  text: text || (getCalendlySurfaceMode() === 'dark' ? '#f7f7fa' : '#0b0b2a'),
+  primary: primary || '#ff4a38',
+  card: card || background || '#ffffff',
+  border,
+ };
+}
+
 type PortalCalendlyPalette = {
  background: string;
  text: string;
  primary: string;
+ accent: string;
+ link: string;
+ context: string;
+ verified: string;
+ primaryForeground: string;
  surface: string;
  border: string;
 };
 
+export type CalendlyPortalPalette = PortalCalendlyPalette;
+
+function isSolidThemeHex(color: unknown): color is string {
+ return typeof color === 'string' && /^#[0-9A-Fa-f]{6}$/.test(color);
+}
+
+function solidThemeHex(color: unknown, fallback: string): string {
+ if (isSolidThemeHex(color)) return color.toLowerCase();
+ if (typeof color === 'string') {
+  const normalized = normalizeHexColor(color);
+  if (normalized) return normalized;
+  const rgb = rgbToHex(color);
+  if (rgb) return rgb;
+ }
+ return normalizeHexColor(fallback) || fallback;
+}
+
+function resolveThemeOpaqueSurface(theme: PlatformPortalTheme): string {
+ const pageBg = solidThemeHex(theme.background, '#ffffff');
+ const surfaceBase = isSolidThemeHex(theme.surface) ? theme.surface : pageBg;
+ if (isSolidThemeHex(theme.cardBg)) {
+  return pickCalendlyEmbedBackground(theme.cardBg, pageBg);
+ }
+ if (typeof theme.cardBg === 'string') {
+  return pickCalendlyEmbedBackground(
+   effectiveTintedSurfaceHex(theme.cardBg, pageBg, surfaceBase),
+   pageBg
+  );
+ }
+ return pickCalendlyEmbedBackground(solidThemeHex(theme.surface, pageBg), pageBg);
+}
+
+/** Canonical /go/website + marketing-site Calendly palette (matches portal-website shell). */
+export function resolveWebsitePortalCalendlyPalette(mode: 'light' | 'dark'): CalendlyPortalPalette {
+ return platformPortalThemeToCalendlyPalette(resolvePortalTheme('website', mode));
+}
+
+export function isWebsiteMarketingCalendlyPath(pathname?: string): boolean {
+ const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+ if (/^\/go\/website\/?$/i.test(route)) return true;
+ if (/^\/go\/[^/]+\/?$/i.test(route)) return false;
+ return true;
+}
+
+/** Slug segment from `/go/{slug}` (legacy type slugs included). */
+export function parseGoPortalSlugFromPathname(pathname: string): string | null {
+ const match = pathname.match(/^\/go\/([^/?#]+)/i);
+ return match?.[1]?.toLowerCase().trim() ?? null;
+}
+
+/** Platform channel id for a `/go/{slug}` route (e.g. `threads`, `twitter`). */
+export function resolveGoPortalChannelId(pathname: string): string | null {
+ const slug = parseGoPortalSlugFromPathname(pathname);
+ if (!slug) return null;
+ return resolveChannelIdFromLegacyKey(slug) ?? slug;
+}
+
+/**
+ * Resolved Calendly iframe palette for the active page — marketing site or any `/go/*` slug.
+ * Prefer live DOM reads (`getPortalCalendlyPalette`) when on a mounted portal; use this as fallback
+ * and for URL theming when the popup opens.
+ */
+export function resolveCalendlyPaletteForPage(
+ pathname?: string,
+ mode?: 'light' | 'dark'
+): CalendlyPortalPalette | null {
+ const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+ if (!route) return null;
+ const colorMode = mode ?? getCalendlySurfaceMode();
+ if (isWebsiteMarketingCalendlyPath(route)) {
+  return resolveWebsitePortalCalendlyPalette(colorMode);
+ }
+ const channelId = resolveGoPortalChannelId(route);
+ if (!channelId) return null;
+ return platformPortalThemeToCalendlyPalette(resolvePortalTheme(channelId, colorMode));
+}
+
+function getEffectivePortalCalendlyPalette(pathname?: string, mode?: 'light' | 'dark'): PortalCalendlyPalette | null {
+ return getPortalCalendlyPalette() ?? resolveCalendlyPaletteForPage(pathname, mode);
+}
+
+/** Build Calendly palette from resolved portal theme (avoids fragile DOM/CSS var reads). */
+export function platformPortalThemeToCalendlyPalette(theme: PlatformPortalTheme): CalendlyPortalPalette {
+ const background = solidThemeHex(theme.background, '#ffffff');
+ const surface = resolveThemeOpaqueSurface(theme);
+ const primary = solidThemeHex(theme.primary, '#0a66c2');
+ const link = solidThemeHex(theme.linkColor, primary);
+ const context = solidThemeHex(theme.contextColor, link);
+ const verified = solidThemeHex(theme.verifiedColor, link);
+ const accent = solidThemeHex(theme.accent, link);
+ return {
+  background,
+  text: solidThemeHex(theme.text, '#0f172a'),
+  primary,
+  accent,
+  link,
+  context,
+  verified,
+  primaryForeground: solidThemeHex(theme.primaryForeground, pickButtonForeground(primary)),
+  surface,
+  border: solidThemeHex(theme.cardBorder, surface),
+ };
+}
+
+function readPortalCssColor(portalRoot: Element, varName: string): string {
+ return getComputedColorVarFromElement(portalRoot, varName);
+}
+
 function getPortalCalendlyPalette(): PortalCalendlyPalette | null {
  const portalRoot = getActivePortalRoot();
  if (!portalRoot) return null;
- const background = getComputedColorVarFromElement(portalRoot, '--portal-bg');
- const text = getComputedColorVarFromElement(portalRoot, '--portal-text');
- const primary = getComputedColorVarFromElement(portalRoot, '--portal-primary');
+ const background = readPortalCssColor(portalRoot, '--portal-bg');
+ const text = readPortalCssColor(portalRoot, '--portal-text');
+ const primary = readPortalCssColor(portalRoot, '--portal-primary');
  if (!background && !text && !primary) return null;
  const surface =
-  getComputedColorVarFromElement(portalRoot, '--portal-card-bg') ||
-  getComputedColorVarFromElement(portalRoot, '--portal-surface') ||
+  readPortalCssColor(portalRoot, '--portal-card-bg') ||
+  readPortalCssColor(portalRoot, '--portal-surface') ||
   background;
- const border = getComputedColorVarFromElement(portalRoot, '--portal-card-border') || surface;
+ const border = readPortalCssColor(portalRoot, '--portal-card-border') || surface;
+ const link = readPortalCssColor(portalRoot, '--portal-link');
+ const context = readPortalCssColor(portalRoot, '--portal-context');
+ const verified = readPortalCssColor(portalRoot, '--portal-verified');
+ const accent =
+  readPortalCssColor(portalRoot, '--portal-accent') ||
+  link ||
+  context ||
+  verified ||
+  readPortalCssColor(portalRoot, '--portal-recommended-bg') ||
+  primary;
+ const primaryForeground =
+  readPortalCssColor(portalRoot, '--portal-primary-fg') ||
+  (primary ? pickButtonForeground(primary) : '');
  return {
   background: background || surface,
-  text: text || (getCalendlySurfaceMode() === 'dark' ? 'f4f4f5' : '0f172a'),
-  primary: primary || '0a66c2',
+  text: text || (getCalendlySurfaceMode() === 'dark' ? '#f4f4f5' : '#0f172a'),
+  primary: primary || '#0a66c2',
+  accent: accent || primary || '#0a66c2',
+  link: link || accent || primary,
+  context: context || link || accent || primary,
+  verified: verified || link || accent || primary,
+  primaryForeground: primaryForeground || (primary ? pickButtonForeground(primary) : '#ffffff'),
   surface: surface || background,
   border,
+ };
+}
+
+/** Portal × close control: match active theme-toggle pill (primary fill + primary foreground). */
+function readResolvedCssColor(value: string): string {
+ const hex = normalizeHexColor(value);
+ if (hex) return hex;
+ return rgbToHex(value) || value;
+}
+
+function getActivePortalThemeToggleColors(): { bg: string; fg: string } | null {
+ if (typeof document === 'undefined') return null;
+ const portalRoot = getActivePortalRoot();
+ if (!portalRoot) return null;
+ const toggle = portalRoot.querySelector<HTMLElement>(
+  '.portal-theme-toggle-btn[aria-pressed="true"]'
+ );
+ if (!toggle) return null;
+ const style = getComputedStyle(toggle);
+ const bg = readResolvedCssColor(style.backgroundColor);
+ const fg = readResolvedCssColor(style.color);
+ if (!bg || !fg || bg === 'transparent') return null;
+ return { bg, fg };
+}
+
+function getPortalCloseButtonColors(): { bg: string; fg: string; border: string } | null {
+ const activeToggle = getActivePortalThemeToggleColors();
+ if (activeToggle) {
+  return {
+   bg: activeToggle.bg,
+   fg: activeToggle.fg,
+   border: withAlpha(activeToggle.bg, 0.35, 'transparent'),
+  };
+ }
+ const portal = getPortalCalendlyPalette();
+ if (!portal?.primary) return null;
+ return {
+  bg: portal.primary,
+  fg: portal.primaryForeground,
+  border: portal.border || withAlpha(portal.primary, 0.32, 'transparent'),
  };
 }
 
 function hexForCalendlyParam(hex: string, fallback: string): string {
  const normalized = normalizeHexColor(hex);
  return (normalized || fallback).replace('#', '');
+}
+
+function uniqueHexColors(values: string[]): string[] {
+ const seen = new Set<string>();
+ const out: string[] = [];
+ for (const raw of values) {
+  const hex = normalizeHexColor(raw);
+  if (!hex || seen.has(hex)) continue;
+  seen.add(hex);
+  out.push(hex);
+ }
+ return out;
+}
+
+export function pickCalendlyEmbedPrimary(backgroundHex: string, candidates: string[], fallbackHex: string): string {
+ const bg = normalizeHexColor(backgroundHex) || fallbackHex;
+ for (const hex of uniqueHexColors(candidates)) {
+  if (hex !== bg && meetsContrast(hex, bg, 3)) return hex;
+ }
+ const fallback = normalizeHexColor(fallbackHex);
+ if (fallback && meetsContrast(fallback, bg, 3)) return fallback;
+ return pickReadableForeground(bg) === '#FFFFFF' ? '#2563EB' : '#FF4A38';
+}
+
+export function pickCalendlyEmbedText(backgroundHex: string, textHex: string, fallbackHex: string): string {
+ const bg = normalizeHexColor(backgroundHex) || fallbackHex;
+ const preferred = normalizeHexColor(textHex);
+ if (preferred && preferred !== bg && meetsContrast(preferred, bg, 4.5)) return preferred;
+ return pickReadableForeground(bg);
+}
+
+/** Avoid pure-black Calendly panels; links inherit `primary_color` and vanish on #000000. */
+function pickCalendlyEmbedBackground(surfaceHex: string, fallbackHex: string): string {
+ const surface = normalizeHexColor(surfaceHex) || normalizeHexColor(fallbackHex) || '#121212';
+ if (surface === '#000000') return '#121212';
+ return surface;
+}
+
+export function embedBgMatchesCalendlyMode(bgHex: string, mode: 'light' | 'dark'): boolean {
+ const hex = normalizeHexColor(bgHex);
+ if (!hex) return false;
+ const light = isLightHexColor(hex);
+ return mode === 'light' ? light : !light;
+}
+
+function harmonizeEmbedBackgroundForMode(
+ candidates: string[],
+ mode: 'light' | 'dark',
+ brandFallbackHex: string
+): string {
+ const brandFallback = `#${brandFallbackHex.replace(/^#/, '')}`;
+ for (const raw of candidates) {
+  const bg = pickCalendlyEmbedBackground(raw, brandFallback);
+  if (embedBgMatchesCalendlyMode(bg, mode)) return bg;
+ }
+ return mode === 'light' ? '#ffffff' : '#121212';
+}
+
+function resolvePortalCalendlyEmbedColors(
+ portal: PortalCalendlyPalette,
+ pathname: string,
+ pal: { background: string; text: string; primary: string },
+ mode: 'light' | 'dark'
+): { background: string; text: string; primary: string } {
+ const embedBg = harmonizeEmbedBackgroundForMode(
+  [portal.surface, portal.background, `#${pal.background}`],
+  mode,
+  pal.background
+ );
+ const preferredText = normalizeHexColor(portal.text);
+ let embedText =
+  preferredText && preferredText !== embedBg && meetsContrast(preferredText, embedBg, 4.5)
+   ? preferredText
+   : pickCalendlyEmbedText(embedBg, portal.text, `#${pal.text}`);
+ if (mode === 'dark' && !isLightHexColor(embedText)) {
+  embedText = pickReadableForeground(embedBg);
+ } else if (mode === 'light' && isLightHexColor(embedText) && isLightHexColor(embedBg)) {
+  embedText = pickReadableForeground(embedBg);
+ }
+ const embedPrimary = pickCalendlyEmbedPrimary(
+  embedBg,
+  [
+   portal.link,
+   portal.accent,
+   portal.context,
+   portal.verified,
+   portal.primary,
+   getCalendlyRouteAccentColor(pathname),
+  ],
+  `#${pal.primary}`
+ );
+ return {
+  background: hexForCalendlyParam(embedBg, pal.background),
+  text: hexForCalendlyParam(embedText, pal.text),
+  primary: hexForCalendlyParam(embedPrimary, pal.primary),
+ };
 }
 
 function getVisibleAccentElement(): HTMLElement | null {
@@ -134,8 +433,16 @@ function collectBrandAccentCandidates(): string[] {
  const candidates: string[] = [];
  const portalRoot = getActivePortalRoot();
  if (portalRoot) {
-  const portalPrimary = getComputedColorVarFromElement(portalRoot, '--portal-primary');
-  if (portalPrimary) candidates.push(portalPrimary);
+  for (const key of [
+   '--portal-link',
+   '--portal-context',
+   '--portal-verified',
+   '--portal-accent',
+   '--portal-primary',
+  ]) {
+   const resolved = getComputedColorVarFromElement(portalRoot, key);
+   if (resolved) candidates.push(resolved);
+  }
  }
  for (const key of [
   '--color-accent',
@@ -181,12 +488,15 @@ export function getCalendlyOverlayCloseButtonColors(): { background: string; col
 
 export function getCalendlyOverlayScrimColor(): string {
  if (typeof document === 'undefined') return 'rgba(0, 0, 0, 0.65)';
- const portal = getPortalCalendlyPalette();
- if (portal?.background) {
-  return withAlpha(portal.background, getCalendlySurfaceMode() === 'dark' ? 0.88 : 0.45, 'rgba(0, 0, 0, 0.65)');
+ const mode = getCalendlySurfaceMode();
+ const pathname = window.location.pathname;
+ const portal = getEffectivePortalCalendlyPalette(pathname, mode);
+ const site = getCalendlySitePalette();
+ const scrimBase = portal?.background ?? site?.background;
+ if (scrimBase) {
+  return withAlpha(scrimBase, mode === 'dark' ? 0.88 : 0.52, 'rgba(0, 0, 0, 0.65)');
  }
- const isDark = getCalendlySurfaceMode() === 'dark';
- return isDark ? 'rgba(2, 6, 23, 0.84)' : 'rgba(15, 23, 42, 0.42)';
+ return mode === 'dark' ? 'rgba(7, 7, 28, 0.88)' : 'rgba(11, 11, 42, 0.46)';
 }
 
 export type CalendlyPopupThemeTokens = {
@@ -234,6 +544,19 @@ const CALENDLY_POPUP_THEME_BASE: Record<'light' | 'dark', CalendlyPopupThemeToke
  },
 };
 
+/** Per-route accent CSS variable (close control + Calendly `primary_color`). */
+const CALENDLY_ROUTE_ACCENT_VARS: Array<{ routePattern: RegExp; cssVar: string }> = [
+ { routePattern: /^\/pm-service\/?$/i, cssVar: '--secondary' },
+ { routePattern: /^\/pmp(-|$)/i, cssVar: '--primary' },
+ { routePattern: /^\/certifications(\/|$)/i, cssVar: '--primary' },
+ { routePattern: /^\/membership(\/|$)/i, cssVar: '--primary' },
+ { routePattern: /\/(enroll\/success|checkout\/success)\/?$/i, cssVar: '--primary' },
+ { routePattern: /^\/community\/?$/i, cssVar: '--secondary' },
+ { routePattern: /^\/faq\/?$/i, cssVar: '--primary' },
+ { routePattern: /^\/about\/?$/i, cssVar: '--primary' },
+ { routePattern: /^\/$/i, cssVar: '--primary' },
+];
+
 const CALENDLY_POPUP_THEME_OVERRIDES: Array<{
  routePattern: RegExp;
  light?: CalendlyPopupThemeOverride;
@@ -255,6 +578,41 @@ const CALENDLY_POPUP_THEME_OVERRIDES: Array<{
    closeFocusRing: 'rgba(52, 211, 153, 0.5)',
   },
  },
+ // /go/website + marketing home: PM Structure orange close + navy scrim
+ {
+  routePattern: /^\/go\/website\/?$/i,
+  light: {
+   closeBg: '#ff4a38',
+   closeHoverBg: '#e63e2e',
+   closeActiveBg: '#cc3628',
+   closeFocusRing: 'rgba(255, 74, 56, 0.45)',
+   overlayScrim: 'rgba(11, 11, 42, 0.46)',
+  },
+  dark: {
+   closeBg: '#ff4a38',
+   closeHoverBg: '#ff6649',
+   closeActiveBg: '#e63e2e',
+   closeFocusRing: 'rgba(255, 136, 74, 0.5)',
+   overlayScrim: 'rgba(7, 7, 28, 0.88)',
+  },
+ },
+ {
+  routePattern: /^\/$/i,
+  light: {
+   closeBg: '#ff4a38',
+   closeHoverBg: '#e63e2e',
+   closeActiveBg: '#cc3628',
+   closeFocusRing: 'rgba(255, 74, 56, 0.45)',
+   overlayScrim: 'rgba(11, 11, 42, 0.46)',
+  },
+  dark: {
+   closeBg: '#ff4a38',
+   closeHoverBg: '#ff6649',
+   closeActiveBg: '#e63e2e',
+   closeFocusRing: 'rgba(255, 136, 74, 0.5)',
+   overlayScrim: 'rgba(7, 7, 28, 0.88)',
+  },
+ },
 ];
 
 function mergePopupThemeTokens(
@@ -265,14 +623,77 @@ function mergePopupThemeTokens(
  return { ...base, ...override };
 }
 
-function getRoutePopupThemeOverride(pathname: string, mode: 'light' | 'dark'): CalendlyPopupThemeOverride | undefined {
- const match = CALENDLY_POPUP_THEME_OVERRIDES.find((entry) => entry.routePattern.test(pathname));
- if (!match) return undefined;
- return mode === 'dark' ? match.dark : match.light;
+function derivePopupThemeFromPortalPalette(
+ palette: PortalCalendlyPalette,
+ mode: 'light' | 'dark'
+): CalendlyPopupThemeOverride {
+ const accent = palette.link || palette.accent || palette.primary;
+ return {
+  closeBg: accent,
+  closeFg: palette.primaryForeground || pickButtonForeground(accent),
+  closeHoverBg: adjustHex(accent, mode === 'dark' ? 16 : -8),
+  closeActiveBg: adjustHex(accent, mode === 'dark' ? -14 : -22),
+  closeBorder: withAlpha(accent, mode === 'dark' ? 0.42 : 0.32, 'transparent'),
+  closeFocusRing: withAlpha(accent, mode === 'dark' ? 0.48 : 0.42, 'rgba(37, 99, 235, 0.45)'),
+  overlayScrim: withAlpha(
+   palette.background,
+   mode === 'dark' ? 0.88 : 0.52,
+   mode === 'dark' ? 'rgba(7, 7, 28, 0.88)' : 'rgba(11, 11, 42, 0.46)'
+  ),
+  popupSurface: withAlpha(
+   palette.surface,
+   mode === 'dark' ? 0.96 : 0.98,
+   CALENDLY_POPUP_THEME_BASE[mode].popupSurface
+  ),
+  popupBorder: withAlpha(
+   palette.border,
+   mode === 'dark' ? 0.55 : 0.35,
+   CALENDLY_POPUP_THEME_BASE[mode].popupBorder
+  ),
+ };
 }
 
-function getActiveAccentOrFallback(mode: 'light' | 'dark'): string {
+function getRoutePopupThemeOverride(pathname: string, mode: 'light' | 'dark'): CalendlyPopupThemeOverride | undefined {
+ const match = CALENDLY_POPUP_THEME_OVERRIDES.find((entry) => entry.routePattern.test(pathname));
+ if (match) return mode === 'dark' ? match.dark : match.light;
+
+ const channelId = resolveGoPortalChannelId(pathname);
+ if (channelId) {
+  const palette = platformPortalThemeToCalendlyPalette(resolvePortalTheme(channelId, mode));
+  return derivePopupThemeFromPortalPalette(palette, mode);
+ }
+
+ if (isWebsiteMarketingCalendlyPath(pathname)) {
+  return derivePopupThemeFromPortalPalette(resolveWebsitePortalCalendlyPalette(mode), mode);
+ }
+
+ return undefined;
+}
+
+export function getCalendlyRouteAccentColor(pathname?: string): string {
+ if (typeof document === 'undefined') return '';
+ const route = pathname ?? window.location.pathname;
+ const routeAccent = CALENDLY_ROUTE_ACCENT_VARS.find((entry) => entry.routePattern.test(route));
+ if (routeAccent) {
+  const fromVar = getComputedColorVar(routeAccent.cssVar);
+  if (fromVar) return fromVar;
+ }
+ for (const raw of collectBrandAccentCandidates()) {
+  const accent = normalizeHexColor(raw);
+  if (accent && !isLightHexColor(accent)) return accent;
+ }
+ return '';
+}
+
+function getActiveAccentOrFallback(mode: 'light' | 'dark', pathname?: string): string {
+ const routeAccent = getCalendlyRouteAccentColor(pathname);
+ if (routeAccent) return routeAccent;
  return pickCloseButtonAccent(mode);
+}
+
+export function isCalendlyEnrollmentSurfacePath(pathname?: string): boolean {
+ const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+ return /\/(enroll\/success|checkout\/success)\/?$/i.test(route);
 }
 
 function hexToRgbComponents(hex: string): [number, number, number] | null {
@@ -304,16 +725,18 @@ function adjustHex(hex: string, delta: number): string {
 export function getCalendlyPopupThemeTokens(pathname?: string): CalendlyPopupThemeTokens {
  const mode = getCalendlySurfaceMode();
  const base = CALENDLY_POPUP_THEME_BASE[mode];
- const accent = getActiveAccentOrFallback(mode);
- const portal = getPortalCalendlyPalette();
+ const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+ const portalClose = getPortalCloseButtonColors();
+ const accent = portalClose?.bg ?? getActiveAccentOrFallback(mode, route);
+ const portal = getEffectivePortalCalendlyPalette(route, mode);
+ const site = getCalendlySitePalette();
  const derived: CalendlyPopupThemeTokens = {
   ...base,
   closeBg: accent,
-  /** Always contrast-safe on `closeBg` (avoid black × from unrelated CTA computed color). */
-  closeFg: pickButtonForeground(accent),
+  closeFg: portalClose?.fg ?? pickButtonForeground(accent),
   closeHoverBg: adjustHex(accent, mode === 'dark' ? 16 : -8),
   closeActiveBg: adjustHex(accent, mode === 'dark' ? -14 : -22),
-  closeBorder: withAlpha(accent, mode === 'dark' ? 0.42 : 0.32, base.closeBorder),
+  closeBorder: portalClose?.border ?? withAlpha(accent, mode === 'dark' ? 0.42 : 0.32, base.closeBorder),
   closeFocusRing: withAlpha(accent, mode === 'dark' ? 0.48 : 0.42, base.closeFocusRing),
   overlayScrim: getCalendlyOverlayScrimColor(),
   ...(portal
@@ -321,9 +744,13 @@ export function getCalendlyPopupThemeTokens(pathname?: string): CalendlyPopupThe
       popupSurface: withAlpha(portal.surface, mode === 'dark' ? 0.96 : 0.98, base.popupSurface),
       popupBorder: withAlpha(portal.border, mode === 'dark' ? 0.55 : 0.35, base.popupBorder),
      }
-   : {}),
+   : site
+     ? {
+        popupSurface: withAlpha(site.card, mode === 'dark' ? 0.96 : 0.98, base.popupSurface),
+        popupBorder: withAlpha(site.border, mode === 'dark' ? 0.55 : 0.35, base.popupBorder),
+       }
+     : {}),
  };
- const route = pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
  const override = getRoutePopupThemeOverride(route, mode);
  return mergePopupThemeTokens(derived, override);
 }
@@ -338,15 +765,127 @@ const CALENDLY_EMBED_BRAND: Record<
 > = {
  light: {
   background: 'ffffff',
-  text: '0f172a',
-  primary: '003366',
+  text: '0b0b2a',
+  primary: 'ff4a38',
  },
  dark: {
-  background: '020617',
-  text: 'f1f5f9',
-  primary: '1d4ed8',
+  background: '07071c',
+  text: 'f7f7fa',
+  primary: 'ff4a38',
  },
 };
+
+type CalendlyEmbedColorOpts = {
+ theme: 'dark' | 'light';
+ pathname?: string;
+ surface?: 'default' | 'enrollment';
+ /** When set (portal schedule CTAs), skip DOM palette reads. */
+ portalPalette?: PortalCalendlyPalette | null;
+};
+
+export function finalizeCalendlyEmbedColorParams(
+ colors: { background: string; text: string; primary: string },
+ theme: 'light' | 'dark',
+ pal: { background: string; text: string; primary: string }
+): { background: string; text: string; primary: string } {
+ const bgHex =
+  normalizeHexColor(`#${colors.background.replace(/^#/, '')}`) || `#${pal.background}`;
+ let textHex =
+  normalizeHexColor(`#${colors.text.replace(/^#/, '')}`) || `#${pal.text}`;
+ let primaryHex =
+  normalizeHexColor(`#${colors.primary.replace(/^#/, '')}`) || `#${pal.primary}`;
+
+ if (theme === 'dark' && !isLightHexColor(bgHex) && !isLightHexColor(textHex)) {
+  textHex = pickReadableForeground(bgHex);
+ } else if (theme === 'light' && isLightHexColor(bgHex) && !isLightHexColor(textHex)) {
+  textHex = pickReadableForeground(bgHex);
+ } else if (!meetsContrast(textHex, bgHex, 4.5)) {
+  textHex = pickReadableForeground(bgHex);
+ }
+
+ if (!meetsContrast(primaryHex, bgHex, 3)) {
+  primaryHex = pickCalendlyEmbedPrimary(bgHex, [primaryHex], `#${pal.primary}`);
+ }
+
+ return {
+  background: hexForCalendlyParam(bgHex, pal.background),
+  text: hexForCalendlyParam(textHex, pal.text),
+  primary: hexForCalendlyParam(primaryHex, pal.primary),
+ };
+}
+
+function resolveCalendlyEmbedColors(opts: CalendlyEmbedColorOpts): {
+ background: string;
+ text: string;
+ primary: string;
+} {
+ const theme = opts.theme;
+ const pal = CALENDLY_EMBED_BRAND[theme];
+ const pathname = opts.pathname ?? (typeof window !== 'undefined' ? window.location.pathname : '');
+ const surface =
+  opts.surface ?? (isCalendlyEnrollmentSurfacePath(pathname) ? 'enrollment' : 'default');
+ const portal =
+  opts.portalPalette ??
+  getEffectivePortalCalendlyPalette(pathname, theme);
+ const site = getCalendlySitePalette();
+ const routeAccent = getCalendlyRouteAccentColor(pathname);
+ const accent = normalizeHexColor(routeAccent || getActiveBrandAccentColor());
+ const accentParam = accent?.slice(1) ?? pal.primary;
+
+ if (surface === 'enrollment') {
+  const enrollmentBg = site?.card ?? (theme === 'dark' ? '0f0e38' : 'ffffff');
+  return finalizeCalendlyEmbedColorParams(
+   {
+    background: hexForCalendlyParam(enrollmentBg, pal.background),
+    text: hexForCalendlyParam(site?.text ?? '', pal.text),
+    primary: accentParam,
+   },
+   theme,
+   pal
+  );
+ }
+
+ if (portal) {
+  return finalizeCalendlyEmbedColorParams(
+   resolvePortalCalendlyEmbedColors(portal, pathname, pal, theme),
+   theme,
+   pal
+  );
+ }
+
+ if (site) {
+  const embedBg = harmonizeEmbedBackgroundForMode(
+   [site.card, site.background, `#${pal.background}`],
+   theme,
+   pal.background
+  );
+  const embedText = pickCalendlyEmbedText(embedBg, site.text, `#${pal.text}`);
+  const embedPrimary = pickCalendlyEmbedPrimary(
+   embedBg,
+   [routeAccent, getActiveBrandAccentColor(), ...collectBrandAccentCandidates()],
+   `#${accentParam}`
+  );
+  return finalizeCalendlyEmbedColorParams(
+   {
+    background: hexForCalendlyParam(embedBg, pal.background),
+    text: hexForCalendlyParam(embedText, pal.text),
+    primary: hexForCalendlyParam(embedPrimary, accentParam),
+   },
+   theme,
+   pal
+  );
+ }
+
+ return finalizeCalendlyEmbedColorParams(
+  {
+   background: pal.background,
+   text: pal.text,
+   primary: accentParam,
+  },
+  theme,
+  pal
+ );
+}
 
 /** Strip quotes and allow only calendly.com scheduling URLs. */
 export function sanitizeCalendlySchedulingUrl(raw: string): string {
@@ -382,29 +921,15 @@ function buildCalendlyThemedSchedulingUrl(base: string, opts: CalendlyThemedEmbe
    u.searchParams.set('hide_gdpr_banner', '1');
   }
   const theme = opts.theme ?? getCalendlySurfaceMode();
-  const pal = CALENDLY_EMBED_BRAND[theme];
-  const portal = getPortalCalendlyPalette();
-  const accent = normalizeHexColor(getActiveBrandAccentColor());
-  const enrollmentSurface =
-   opts.surface === 'enrollment'
-     ? theme === 'dark'
-       ? { background: '0f172a', text: 'f1f5f9', primary: accent?.slice(1) ?? 'ff4a38' }
-       : { background: 'ffffff', text: '0f172a', primary: accent?.slice(1) ?? 'ff4a38' }
-     : null;
-  u.searchParams.set(
-   'background_color',
-   enrollmentSurface?.background ??
-    (portal ? hexForCalendlyParam(portal.background, pal.background) : pal.background)
-  );
-  u.searchParams.set(
-   'text_color',
-   enrollmentSurface?.text ?? (portal ? hexForCalendlyParam(portal.text, pal.text) : pal.text)
-  );
-  u.searchParams.set(
-   'primary_color',
-   enrollmentSurface?.primary ??
-    (portal ? hexForCalendlyParam(portal.primary, pal.primary) : accent?.slice(1) ?? pal.primary)
-  );
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : undefined;
+  const colors = resolveCalendlyEmbedColors({
+   theme,
+   surface: opts.surface,
+   pathname,
+  });
+  u.searchParams.set('background_color', colors.background);
+  u.searchParams.set('text_color', colors.text);
+  u.searchParams.set('primary_color', colors.primary);
   return u.toString();
  } catch {
   return cleaned;
@@ -452,6 +977,9 @@ export function buildCalendlyPopupWidgetUrl(
   host: string;
   theme?: 'dark' | 'light';
   utm?: CalendlyUtmParams;
+  pathname?: string;
+  surface?: 'default' | 'enrollment';
+  portalPalette?: PortalCalendlyPalette | null;
  }
 ): string {
  const cleaned = sanitizeCalendlySchedulingUrl(base);
@@ -460,27 +988,52 @@ export function buildCalendlyPopupWidgetUrl(
   const u = new URL(cleaned);
   u.searchParams.set('embed_domain', opts.host);
   const theme = opts.theme ?? getCalendlySurfaceMode();
-  const pal = CALENDLY_EMBED_BRAND[theme];
-  const portal = getPortalCalendlyPalette();
-  const accent = normalizeHexColor(getActiveBrandAccentColor());
-  const popupPrimary = portal
-   ? hexForCalendlyParam(portal.primary, pal.primary)
-   : accent
-     ? accent.slice(1)
-     : pal.primary;
-  u.searchParams.set(
-   'background_color',
-   portal ? hexForCalendlyParam(portal.background, pal.background) : pal.background
-  );
-  u.searchParams.set(
-   'text_color',
-   portal ? hexForCalendlyParam(portal.text, pal.text) : pal.text
-  );
-  u.searchParams.set('primary_color', popupPrimary);
+  const colors = resolveCalendlyEmbedColors({
+   theme,
+   pathname: opts.pathname,
+   surface: opts.surface,
+   portalPalette: opts.portalPalette,
+  });
+  u.searchParams.set('background_color', colors.background);
+  u.searchParams.set('text_color', colors.text);
+  u.searchParams.set('primary_color', colors.primary);
   applyCalendlyUtm(u, opts.utm);
   return u.toString();
  } catch {
   return cleaned;
+ }
+}
+
+/** Re-apply iframe + overlay colors from the current page theme (guards unthemed widget URLs). */
+export function rethemeCalendlyWidgetUrl(
+ rawUrl: string,
+ opts?: {
+  theme?: 'dark' | 'light';
+  pathname?: string;
+  portalPalette?: PortalCalendlyPalette | null;
+  surface?: 'default' | 'enrollment';
+ }
+): string {
+ const cleaned = sanitizeCalendlySchedulingUrl(rawUrl);
+ if (!cleaned || typeof window === 'undefined') return rawUrl;
+ try {
+  const u = new URL(cleaned);
+  const theme = opts?.theme ?? getCalendlySurfaceMode();
+  const pathname = opts?.pathname ?? window.location.pathname;
+  const portalPalette =
+   opts?.portalPalette ?? getEffectivePortalCalendlyPalette(pathname, theme);
+  const colors = resolveCalendlyEmbedColors({
+   theme,
+   pathname,
+   surface: opts?.surface,
+   portalPalette,
+  });
+  u.searchParams.set('background_color', colors.background);
+  u.searchParams.set('text_color', colors.text);
+  u.searchParams.set('primary_color', colors.primary);
+  return u.toString();
+ } catch {
+  return rawUrl;
  }
 }
 
@@ -539,7 +1092,7 @@ export function getCalendlySchedulingUrlForService(serviceId: string): string {
  return manifestDefault;
 }
 
-/** Home hero primary CTA. Website Hero Book Consultation (20 min). */
+/** Home hero + bottom-bar consultation popup (live talk-to-mentor). */
 export function getWebsiteHeroConsultationCalendlyUrl(): string {
   return getWebsiteCalendlyUrl('hero');
 }

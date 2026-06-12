@@ -12,6 +12,7 @@ import { LeadRecoveryProvider } from '@/components/conversion-recovery/LeadRecov
 import { LeadRecoveryDialog } from '@/components/conversion-recovery/LeadRecoveryDialog';
 import { BottomCtaRotator } from '@/components/conversion-recovery/BottomCtaRotator';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
+import { syncBrandFavicon } from '@/lib/brand/site-logo';
 
 /** Matches Navbar inner `h-16`: keep main padding and fixed subnav offset in sync */
 export const PUBLIC_NAVBAR_HEIGHT_CLASS = 'pt-16';
@@ -30,11 +31,13 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
       (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
     setIsDarkMode(prefersDark);
     document.documentElement.classList.toggle('dark', prefersDark);
+    syncBrandFavicon(!prefersDark);
   }, []);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    syncBrandFavicon(!isDarkMode);
   }, [isDarkMode]);
 
   return (

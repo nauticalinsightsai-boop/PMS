@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import { Award, ChevronDown, Crown, GitCompare, ShoppingBag } from 'lucide-react';
-import { pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils';
+import { effectiveTintedSurfaceHex, pickReadableForeground } from '@/lib/channel-landing-pages/contrastUtils';
 import type { ChannelLandingPage } from '@/types/channelLandingPage';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
 import { useRegion } from '@/contexts/RegionContext';
@@ -23,6 +23,11 @@ type Props = {
 };
 
 type ChipId = 'store' | 'certificates' | 'compare' | 'membership';
+
+function chipForeground(theme: PlatformPortalTheme, backgroundColor: string): string {
+  const effective = effectiveTintedSurfaceHex(backgroundColor, theme.background, theme.cardBg);
+  return pickReadableForeground(effective);
+}
 
 type ChipConfig = {
   id: ChipId;
@@ -162,6 +167,8 @@ export default function PortalSiteChips({
         ) : null}
         {chips.map((chip) => {
           const isOpen = active === chip.id;
+          const chipBg = isOpen ? theme.cardBg : theme.surfaceMuted;
+          const chipText = chipForeground(theme, chipBg);
           return (
             <button
               key={chip.id}
@@ -178,8 +185,8 @@ export default function PortalSiteChips({
               style={{
                 borderRadius: theme.radius,
                 border: isOpen ? `2px solid ${theme.primary}` : `1px solid ${theme.cardBorder}`,
-                color: theme.text,
-                backgroundColor: isOpen ? theme.cardBg : theme.surfaceMuted,
+                color: chipText,
+                backgroundColor: chipBg,
               }}
             >
               <span style={{ color: theme.primary }}>{chip.icon}</span>

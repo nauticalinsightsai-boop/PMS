@@ -36,8 +36,8 @@ import { useLeadRecovery } from '@/components/conversion-recovery/LeadRecoveryPr
 import { trackFunnelEvent, FUNNEL_EVENTS, trackGenerateLead } from '@/lib/analytics/funnel';
 import { isLeadRecoveryEnabled } from '@/lib/conversion-recovery/enabled';
 import { isExcludedPath } from '@/lib/conversion-recovery/anti-annoyance';
-import { openPathwayConsultationCalendly } from '@/lib/pathway-consultation-scheduling';
-import { tierIdFromPathwayTier } from '@/lib/conversion-recovery/copy';
+import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
+import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 
 const TIER_PILLS: { id: RecoveryTierId; label: string }[] = [
   { id: 'foundation', label: 'Foundation' },
@@ -82,13 +82,16 @@ export function LeadRecoveryDialog() {
   });
 
   const handleScheduleCall = () => {
-    if (!dialogContext.siteCertId || !dialogContext.tierId) return;
     dismissDialog('schedule_call');
-    openPathwayConsultationCalendly(
-      dialogContext.siteCertId,
-      tierIdFromPathwayTier(dialogContext.tierId),
-      dialogContext.offeringId ?? '',
-    );
+    void openCalendlyThemedPopup(getWebsiteCalendlyUrl('discovery'), {
+      funnelLabel: 'lead_recovery_schedule_call',
+      utm: {
+        utm_source: 'pmstructure',
+        utm_medium: 'lead_recovery',
+        utm_campaign: dialogContext.variant ?? 'pathway_exit',
+        ...(dialogContext.siteCertId ? { utm_content: dialogContext.siteCertId } : {}),
+      },
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -272,7 +275,7 @@ export function LeadRecoveryDialog() {
               </p>
             </DialogBody>
             <DialogFooter className="flex-col gap-2 sm:flex-col">
-              {copy.showScheduleCall && dialogContext.siteCertId && dialogContext.tierId ? (
+              {copy.showScheduleCall ? (
                 <Button
                   type="button"
                   variant="outline"

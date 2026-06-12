@@ -204,6 +204,7 @@ export function FAQ() {
               </a>
             ) : null}
             <WebsiteCalendlyButton
+              tier="discovery"
               variant="brand"
               funnelLabel="faq_talk_to_mentor"
               utm={{ utm_source: 'pmstructure', utm_medium: 'faq', utm_campaign: 'hero_consultation' }}

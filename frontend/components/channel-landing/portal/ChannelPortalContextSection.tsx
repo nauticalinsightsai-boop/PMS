@@ -2,6 +2,7 @@
 
 import GlassCard from '@/components/ui/cards/GlassCard'
 import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing'
+import { resolvePortalQuoteSurface } from '@/lib/channel-landing-pages/portalQuoteSurface'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 
 function ContextIntro({
@@ -34,6 +35,8 @@ export default function ChannelPortalContextSection({
 }: PortalSectionProps) {
   const isInstagram = channelId === 'instagram'
   const useSiteGlass = Boolean(portalLayoutChrome)
+
+  const quoteSurface = resolvePortalQuoteSurface(theme)
 
   if (isImpulseFlow) {
     return (
@@ -80,12 +83,13 @@ export default function ChannelPortalContextSection({
             className="p-5 sm:p-6 mb-4 w-full portal-website-target-message"
             style={{
               borderRadius: theme.radiusLg,
-              backgroundColor: theme.quoteBg,
-              border: `1px solid ${theme.quoteBorder}`,
+              backgroundColor: quoteSurface.backgroundColor,
+              border: `1px solid ${quoteSurface.borderColor}`,
+              color: quoteSurface.textColor,
             }}
             data-portal-glass="true"
           >
-            <p className={targetMessageClass} style={{ color: theme.text, fontFamily: theme.fontFamily }}>
+            <p className={targetMessageClass} style={{ color: quoteSurface.textColor, fontFamily: theme.fontFamily }}>
               {page.targetMessage}
             </p>
           </GlassCard>
@@ -94,11 +98,12 @@ export default function ChannelPortalContextSection({
             className="p-5 sm:p-6 mb-4 w-full border-l-4"
             style={{
               borderRadius: theme.radiusLg,
-              borderLeftColor: theme.quoteBorder,
-              backgroundColor: theme.quoteBg,
+              borderLeftColor: quoteSurface.borderColor,
+              backgroundColor: quoteSurface.backgroundColor,
+              color: quoteSurface.textColor,
             }}
           >
-            <p className={targetMessageClass} style={{ color: theme.text, fontFamily: theme.fontFamily }}>
+            <p className={targetMessageClass} style={{ color: quoteSurface.textColor, fontFamily: theme.fontFamily }}>
               {page.targetMessage}
             </p>
           </div>

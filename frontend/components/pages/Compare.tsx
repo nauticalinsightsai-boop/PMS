@@ -143,6 +143,7 @@ export function Compare() {
                   development plan based on your experience and career aspirations.
                 </p>
                 <WebsiteCalendlyButton
+                  tier="advisor"
                   className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-md shadow-brand-orange/20"
                   funnelLabel="compare_talk_to_advisor"
                   utm={{ utm_source: 'pmstructure', utm_medium: 'compare', utm_campaign: 'advisor' }}

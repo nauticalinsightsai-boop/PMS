@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import {
+  PMS_FAVICON_DARK_PATH,
+  PMS_FAVICON_PATH,
   PMS_OG_IMAGE_PATH,
   PMS_SITE_DESCRIPTION,
   PMS_SITE_NAME,
@@ -82,4 +84,12 @@ export const defaultSiteMetadata: Metadata = {
     template: `%s | ${PMS_SITE_NAME}`,
   },
   description: PMS_SITE_DESCRIPTION,
+  icons: {
+    icon: [
+      { url: PMS_FAVICON_PATH, type: 'image/png' },
+      { url: PMS_FAVICON_DARK_PATH, type: 'image/png', media: '(prefers-color-scheme: dark)' },
+    ],
+    apple: PMS_FAVICON_PATH,
+    shortcut: PMS_FAVICON_PATH,
+  },
 };

@@ -19,7 +19,7 @@ export type WebsiteCalendlyButtonProps = Omit<ButtonProps, 'onClick' | 'type'> &
 
 /** Opens a website Calendly popup (hero / discovery / executive / services). */
 export function WebsiteCalendlyButton({
-  tier = 'hero',
+  tier = 'mentor',
   funnelLabel = 'website_calendly',
   utm,
   onBeforeOpen,

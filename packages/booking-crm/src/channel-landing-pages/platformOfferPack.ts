@@ -8,6 +8,37 @@ import {
 import { formatDurationLabel } from './tierDuration'
 import { isFreeDiscoveryChannel } from './freeDiscovery'
 import {
+  isCommunityDirectPortalChannel,
+  COMMUNITY_MESSAGING_TIER_DISPLAY,
+} from './messagingPortalTiers'
+import {
+  isWritingPublishingPortalChannel,
+  PUBLISHING_NEWSLETTERS_TIER_DISPLAY,
+} from './publishingPortalTiers'
+import {
+  isSyndicatedPortalPackChannel,
+  SYNDICATED_PORTAL_TIER_DISPLAY,
+} from './syndicatedPortalTiers'
+import {
+  isAudioPodcastPortalChannel,
+  AUDIO_PODCAST_TIER_DISPLAY,
+} from './podcastPortalTiers'
+import {
+  isSocialDistributionPortalChannel,
+  SOCIAL_DISTRIBUTION_TIER_DISPLAY,
+} from './socialPortalTiers'
+import {
+  isOwnedWebsitePortalChannel,
+  isOwnedWebinarPortalChannel,
+  isCoreOwnedPortalChannel,
+  OWNED_WEBSITE_TIER_DISPLAY,
+  OWNED_WEBINAR_TIER_DISPLAY,
+} from './ownedPortalTiers'
+import {
+  isVideoPlatformPortalChannel,
+  VIDEO_PLATFORM_TIER_DISPLAY,
+} from './videoPortalTiers'
+import {
   applyPlatformConsultationTiers,
   getConsultationTiersForChannel,
 } from './platformTierCopy'
@@ -61,13 +92,13 @@ export const PORTAL_PRICES: Record<
   { executive: number; designReview: number; discoveryMin: number; executiveMin: number; designMin: number }
 > = {
   genz: { executive: 129, designReview: 249, discoveryMin: 15, executiveMin: 30, designMin: 60 },
-  casual_social: { executive: 175, designReview: 319, discoveryMin: 20, executiveMin: 35, designMin: 75 },
+  casual_social: { executive: 250, designReview: 500, discoveryMin: 20, executiveMin: 35, designMin: 75 },
   professional: { executive: 275, designReview: 475, discoveryMin: 20, executiveMin: 40, designMin: 90 },
-  reader_premium: { executive: 250, designReview: 500, discoveryMin: 20, executiveMin: 40, designMin: 75 },
+  reader_premium: { executive: 249, designReview: 499, discoveryMin: 20, executiveMin: 40, designMin: 75 },
   premium_anchor: { executive: 299, designReview: 525, discoveryMin: 15, executiveMin: 45, designMin: 90 },
   video_mid: { executive: 199, designReview: 399, discoveryMin: 15, executiveMin: 35, designMin: 75 },
-  audio_mid: { executive: 149, designReview: 299, discoveryMin: 20, executiveMin: 35, designMin: 75 },
-  community_mid: { executive: 159, designReview: 309, discoveryMin: 20, executiveMin: 35, designMin: 75 },
+  audio_mid: { executive: 149, designReview: 299, discoveryMin: 20, executiveMin: 30, designMin: 60 },
+  community_mid: { executive: 159, designReview: 299, discoveryMin: 20, executiveMin: 30, designMin: 60 },
   discovery_mid: { executive: 199, designReview: 399, discoveryMin: 20, executiveMin: 40, designMin: 80 },
   syndication_mid: { executive: 175, designReview: 319, discoveryMin: 20, executiveMin: 35, designMin: 75 },
 }
@@ -218,15 +249,42 @@ function applyPackPricing(
 ): ConsultationTier[] {
   const p = PORTAL_PRICES[pricingTier]
   const freeDiscovery = isFreeDiscoveryChannel(channelId)
+  const packDisplay = isSocialDistributionPortalChannel(channelId)
+    ? SOCIAL_DISTRIBUTION_TIER_DISPLAY
+    : isAudioPodcastPortalChannel(channelId)
+      ? AUDIO_PODCAST_TIER_DISPLAY
+      : isCommunityDirectPortalChannel(channelId)
+        ? COMMUNITY_MESSAGING_TIER_DISPLAY
+        : isSyndicatedPortalPackChannel(channelId)
+          ? SYNDICATED_PORTAL_TIER_DISPLAY
+          : isWritingPublishingPortalChannel(channelId)
+            ? PUBLISHING_NEWSLETTERS_TIER_DISPLAY
+            : isVideoPlatformPortalChannel(channelId)
+              ? VIDEO_PLATFORM_TIER_DISPLAY
+              : isOwnedWebsitePortalChannel(channelId)
+                ? OWNED_WEBSITE_TIER_DISPLAY
+                : null
   return tiers.map((t) => {
     if (t.id === 'mentor-intro' || t.id === 'discovery') {
       const isFree = freeDiscovery
       return {
         ...t,
         id: 'mentor-intro',
-        durationLabel: formatDurationLabel(p.discoveryMin),
-        priceLabel: isFree ? 'Free' : `$${CLARITY_PRICE[pricingTier]}`,
-        isFree,
+        durationLabel:
+          channelId === 'webinar'
+            ? OWNED_WEBINAR_TIER_DISPLAY.discoveryDurationLabel
+            : packDisplay
+              ? formatDurationLabel(packDisplay.discoveryMinutes)
+              : formatDurationLabel(p.discoveryMin),
+        priceLabel:
+          channelId === 'webinar'
+            ? OWNED_WEBINAR_TIER_DISPLAY.discoveryPriceLabel
+            : packDisplay
+              ? packDisplay.discoveryPriceLabel
+              : isFree
+                ? 'Free'
+                : `$${CLARITY_PRICE[pricingTier]}`,
+        isFree: channelId === 'webinar' || packDisplay ? true : isFree,
         recommended: false,
       }
     }
@@ -234,8 +292,18 @@ function applyPackPricing(
       return {
         ...t,
         id: 'career-pathway',
-        durationLabel: formatDurationLabel(p.executiveMin),
-        priceLabel: `$${p.executive}`,
+        durationLabel:
+          channelId === 'webinar'
+            ? OWNED_WEBINAR_TIER_DISPLAY.paidDurationLabel
+            : packDisplay
+              ? formatDurationLabel(packDisplay.executiveMinutes)
+              : formatDurationLabel(p.executiveMin),
+        priceLabel:
+          channelId === 'webinar'
+            ? `$${OWNED_WEBINAR_TIER_DISPLAY.paidPrice}`
+            : packDisplay
+              ? `$${packDisplay.executivePrice}`
+              : `$${p.executive}`,
         recommended: true,
         badge: t.badge ?? 'Most Popular',
       }
@@ -244,8 +312,10 @@ function applyPackPricing(
       return {
         ...t,
         id: 'services-detail',
-        durationLabel: formatDurationLabel(p.designMin),
-        priceLabel: `$${p.designReview}`,
+        durationLabel: packDisplay
+          ? formatDurationLabel(packDisplay.servicesMinutes)
+          : formatDurationLabel(p.designMin),
+        priceLabel: packDisplay ? `$${packDisplay.servicesPrice}` : `$${p.designReview}`,
         recommended: false,
       }
     }
@@ -286,11 +356,19 @@ export function getPackConsultationTiers(
   return merged.map((t) => {
     const priced = pack.consultationTiers.find((p) => p.id === t.id)
     if (!priced) return t
+    const forcedPack =
+      isSocialDistributionPortalChannel(channelId) ||
+      isAudioPodcastPortalChannel(channelId) ||
+      isCommunityDirectPortalChannel(channelId) ||
+      isSyndicatedPortalPackChannel(channelId) ||
+      isWritingPublishingPortalChannel(channelId) ||
+      isVideoPlatformPortalChannel(channelId) ||
+      isCoreOwnedPortalChannel(channelId)
     return {
       ...t,
       durationLabel: priced.durationLabel,
       priceLabel: priced.priceLabel,
-      scheduleUrl: t.scheduleUrl?.trim() || priced.scheduleUrl,
+      scheduleUrl: forcedPack ? priced.scheduleUrl : t.scheduleUrl?.trim() || priced.scheduleUrl,
     }
   })
 }

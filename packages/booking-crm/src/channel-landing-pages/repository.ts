@@ -178,7 +178,7 @@ export function upsertChannelLandingPage(
   }
 
   if (page.consultationTiers?.length) {
-    assertTierDurationsValid(page.consultationTiers)
+    assertTierDurationsValid(page.consultationTiers, page.channelId)
   }
 
   if (intent === 'publish') {

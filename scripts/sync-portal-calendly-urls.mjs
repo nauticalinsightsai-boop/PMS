@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Sync consultation tier scheduleUrl + ctaLabel in channel-landing-pages.json
- * from data/calendly-events.manifest.json (same resolution as event-registry.ts).
+ * from forced portal packs (runtime source of truth), then manifest CTAs.
  *
  * Usage:
  *   npm run sync:portal-calendly-urls
@@ -9,7 +9,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const MANIFEST_PATH = path.join(ROOT, 'data', 'calendly-events.manifest.json');
@@ -54,13 +54,34 @@ function getEventForChannelTier(events, channelId, tierId) {
   return candidates.sort((a, b) => a.channelIds.length - b.channelIds.length)[0];
 }
 
-function syncPortalFile(portalPath, events) {
+async function loadPackModules() {
+  const { register } = await import('tsx/esm/api');
+  register();
+  const packPath = path.join(ROOT, 'packages/booking-crm/src/channel-landing-pages/platformOfferPack.ts');
+  const scopePath = path.join(ROOT, 'packages/booking-crm/src/channel-landing-pages/platformBrandSources.ts');
+  const { getPackConsultationTiers } = await import(pathToFileURL(packPath).href);
+  const { IMPLEMENTATION_SCOPE_41 } = await import(pathToFileURL(scopePath).href);
+  return { getPackConsultationTiers, IMPLEMENTATION_SCOPE_41 };
+}
+
+function syncPortalFile(portalPath, events, getPackConsultationTiers, scope41) {
   const portal = JSON.parse(fs.readFileSync(portalPath, 'utf8'));
   let updatedTiers = 0;
 
   for (const page of Object.values(portal.pages ?? {})) {
     if (!page.consultationTiers?.length) continue;
+
+    const useForcedPack = scope41.includes(page.channelId);
+    const packTiers = useForcedPack ? getPackConsultationTiers(page.channelId) : [];
+
     for (const tier of page.consultationTiers) {
+      const packTier = packTiers.find((t) => t.id === tier.id);
+      if (packTier?.scheduleUrl?.trim()) {
+        tier.scheduleUrl = packTier.scheduleUrl.trim();
+        updatedTiers += 1;
+        continue;
+      }
+
       const event = getEventForChannelTier(events, page.channelId, tier.id);
       if (!event) continue;
       const url = resolveUrl(event);
@@ -78,15 +99,29 @@ function syncPortalFile(portalPath, events) {
   return updatedTiers;
 }
 
-function main() {
+async function main() {
   const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
   const events = manifest.events ?? [];
+  const { getPackConsultationTiers, IMPLEMENTATION_SCOPE_41 } = await loadPackModules();
 
-  const rootUpdates = syncPortalFile(PORTAL_PATH, events);
-  const pkgUpdates = syncPortalFile(PACKAGE_PORTAL_PATH, events);
+  const rootUpdates = syncPortalFile(
+    PORTAL_PATH,
+    events,
+    getPackConsultationTiers,
+    IMPLEMENTATION_SCOPE_41,
+  );
+  const pkgUpdates = syncPortalFile(
+    PACKAGE_PORTAL_PATH,
+    events,
+    getPackConsultationTiers,
+    IMPLEMENTATION_SCOPE_41,
+  );
 
   console.log(`Synced Calendly URLs in ${PORTAL_PATH} (${rootUpdates} tier rows)`);
   console.log(`Synced Calendly URLs in ${PACKAGE_PORTAL_PATH} (${pkgUpdates} tier rows)`);
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

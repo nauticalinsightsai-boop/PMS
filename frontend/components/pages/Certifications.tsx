@@ -351,6 +351,7 @@ export function Certifications() {
               </div>
               <WebsiteCalendlyButton
                 size="lg"
+                tier="discovery"
                 className="h-14 px-8 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base transition-all"
                 funnelLabel="certifications_pathway_advisory"
                 utm={{ utm_source: 'pmstructure', utm_medium: 'certifications', utm_campaign: 'pathway_advisory' }}
@@ -422,6 +423,7 @@ export function Certifications() {
                 </Link>
                 <WebsiteCalendlyButton
                   size="lg"
+                  tier="advisor"
                   variant="outline"
                   className="h-16 px-10 rounded-2xl border-white/30 bg-white text-black hover:bg-slate-100 hover:text-black dark:border-slate-300 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800 dark:hover:text-white font-bold text-lg transition-all"
                   funnelLabel="certifications_talk_to_advisor"

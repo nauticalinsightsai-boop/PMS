@@ -11,6 +11,14 @@ export function portalThemeStorageKey(channelId: string): string {
 
 export const DEFAULT_PORTAL_COLOR_MODE: PortalColorMode = 'dark'
 
+/** Website /go/website portal defaults to light to match `.portal-website` marketing shell. */
+export function defaultPortalColorMode(channelId: string): PortalColorMode {
+  return channelId === 'website' ? 'light' : DEFAULT_PORTAL_COLOR_MODE
+}
+
+/** Marketing site theme key (`app/layout.tsx`); synced for website portal when unset. */
+export const MARKETING_SITE_THEME_STORAGE_KEY = 'theme'
+
 /** Per-platform dark palettes (brand-accurate, not generic gray). */
 export const PLATFORM_DARK_OVERRIDES: Record<string, Partial<PlatformPortalTheme>> = {
   bluesky: {
@@ -230,6 +238,8 @@ export const PLATFORM_DARK_OVERRIDES: Record<string, Partial<PlatformPortalTheme
     textMuted: '#B3B3B3',
     cardBg: '#181818',
     cardBorder: '#282828',
+    quoteBg: '#181818',
+    quoteBorder: '#1DB954',
   },
   discord: {
     background: '#313338',
@@ -239,6 +249,8 @@ export const PLATFORM_DARK_OVERRIDES: Record<string, Partial<PlatformPortalTheme
     textMuted: '#B5BAC1',
     cardBg: '#2B2D31',
     cardBorder: '#3F4147',
+    quoteBg: '#2B2D31',
+    quoteBorder: '#5865F2',
   },
   telegram: {
     background: '#0E1621',
@@ -248,6 +260,8 @@ export const PLATFORM_DARK_OVERRIDES: Record<string, Partial<PlatformPortalTheme
     textMuted: '#8BA3BE',
     cardBg: '#17212B',
     cardBorder: '#2B5278',
+    quoteBg: '#17212B',
+    quoteBorder: '#0088CC',
   },
   whatsapp: {
     background: '#0B141A',

@@ -3,7 +3,7 @@
  * Files live in frontend/public/images/logo/ (served as /images/logo/*).
  */
 
-export const CHANNEL_MARK_ASSET_VERSION = '1';
+export const CHANNEL_MARK_ASSET_VERSION = '2';
 
 export type ChannelMarkFileSpec =
   | { kind: 'brand' }

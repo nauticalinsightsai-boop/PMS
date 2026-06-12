@@ -11,6 +11,47 @@ import {
 } from '../calendly/event-registry'
 import { getChannelPortalCopy } from './channelPortalCopy'
 import { usesPortalWebsiteLayoutChrome } from './platformOfferPack'
+import {
+  isCommunityDirectPortalChannel,
+  COMMUNITY_MESSAGING_CALENDLY,
+  COMMUNITY_MESSAGING_TIER_DISPLAY,
+} from './messagingPortalTiers'
+import { SERVICES_TIER_TITLE } from './portalTierTitles'
+import {
+  isWritingPublishingPortalChannel,
+  PUBLISHING_NEWSLETTERS_CALENDLY,
+  PUBLISHING_NEWSLETTERS_TIER_DISPLAY,
+} from './publishingPortalTiers'
+import {
+  isSyndicatedPortalPackChannel,
+  SYNDICATED_PORTAL_CALENDLY,
+  SYNDICATED_PORTAL_TIER_DISPLAY,
+} from './syndicatedPortalTiers'
+import {
+  isAudioPodcastPortalChannel,
+  AUDIO_PODCAST_CALENDLY,
+  AUDIO_PODCAST_TIER_DISPLAY,
+} from './podcastPortalTiers'
+import {
+  isSocialDistributionPortalChannel,
+  SOCIAL_DISTRIBUTION_CALENDLY,
+  SOCIAL_DISTRIBUTION_TIER_DISPLAY,
+} from './socialPortalTiers'
+import {
+  isOwnedWebsitePortalChannel,
+  isOwnedWebinarPortalChannel,
+  isCoreOwnedPortalChannel,
+  OWNED_WEBSITE_CALENDLY,
+  OWNED_WEBSITE_TIER_DISPLAY,
+  OWNED_WEBINAR_CALENDLY,
+  OWNED_WEBINAR_TIER_DISPLAY,
+} from './ownedPortalTiers'
+import {
+  isVideoPlatformPortalChannel,
+  VIDEO_PLATFORM_CALENDLY,
+  VIDEO_PLATFORM_TIER_DISPLAY,
+} from './videoPortalTiers'
+import { LIVE_SITE_CALENDLY } from '../calendly/live-scheduling-urls'
 
 const GENERIC_INTRO_CTAS = new Set([
   'talk to a mentor',
@@ -44,23 +85,176 @@ function ctaFor(channelId: string, tierId: string, fallback: string): string {
   return getCalendlyCtaForChannelTier(channelId, tierId) || fallback
 }
 
+function withSocialPortalScheduleUrls(
+  channelId: string,
+  tiers: ConsultationTier[],
+): ConsultationTier[] {
+  if (!isSocialDistributionPortalChannel(channelId)) return tiers
+  return tiers.map((t) => {
+    if (t.id === 'mentor-intro') {
+      return { ...t, scheduleUrl: SOCIAL_DISTRIBUTION_CALENDLY.discovery }
+    }
+    if (t.id === 'career-pathway') {
+      return { ...t, scheduleUrl: SOCIAL_DISTRIBUTION_CALENDLY.executive }
+    }
+    if (t.id === 'services-detail') {
+      return { ...t, scheduleUrl: SOCIAL_DISTRIBUTION_CALENDLY.services }
+    }
+    return t
+  })
+}
+
+function withPodcastPortalScheduleUrls(
+  channelId: string,
+  tiers: ConsultationTier[],
+): ConsultationTier[] {
+  if (!isAudioPodcastPortalChannel(channelId)) return tiers
+  return tiers.map((t) => {
+    if (t.id === 'mentor-intro') {
+      return { ...t, scheduleUrl: AUDIO_PODCAST_CALENDLY.discovery }
+    }
+    if (t.id === 'career-pathway') {
+      return { ...t, scheduleUrl: AUDIO_PODCAST_CALENDLY.executive }
+    }
+    if (t.id === 'services-detail') {
+      return { ...t, scheduleUrl: AUDIO_PODCAST_CALENDLY.services }
+    }
+    return t
+  })
+}
+
+function withMessagingPortalScheduleUrls(
+  channelId: string,
+  tiers: ConsultationTier[],
+): ConsultationTier[] {
+  if (!isCommunityDirectPortalChannel(channelId)) return tiers
+  return tiers.map((t) => {
+    if (t.id === 'mentor-intro') {
+      return { ...t, scheduleUrl: COMMUNITY_MESSAGING_CALENDLY.discovery }
+    }
+    if (t.id === 'career-pathway') {
+      return { ...t, scheduleUrl: COMMUNITY_MESSAGING_CALENDLY.executive }
+    }
+    if (t.id === 'services-detail') {
+      return { ...t, scheduleUrl: COMMUNITY_MESSAGING_CALENDLY.services }
+    }
+    return t
+  })
+}
+
+function withSyndicatedPortalScheduleUrls(
+  channelId: string,
+  tiers: ConsultationTier[],
+): ConsultationTier[] {
+  if (!isSyndicatedPortalPackChannel(channelId)) return tiers
+  return tiers.map((t) => {
+    if (t.id === 'mentor-intro') {
+      return { ...t, scheduleUrl: SYNDICATED_PORTAL_CALENDLY.discovery }
+    }
+    if (t.id === 'career-pathway') {
+      return { ...t, scheduleUrl: SYNDICATED_PORTAL_CALENDLY.executive }
+    }
+    if (t.id === 'services-detail') {
+      return { ...t, scheduleUrl: SYNDICATED_PORTAL_CALENDLY.services }
+    }
+    return t
+  })
+}
+
+function withPublishingPortalScheduleUrls(
+  channelId: string,
+  tiers: ConsultationTier[],
+): ConsultationTier[] {
+  if (!isWritingPublishingPortalChannel(channelId)) return tiers
+  return tiers.map((t) => {
+    if (t.id === 'mentor-intro') {
+      return { ...t, scheduleUrl: PUBLISHING_NEWSLETTERS_CALENDLY.discovery }
+    }
+    if (t.id === 'career-pathway') {
+      return { ...t, scheduleUrl: PUBLISHING_NEWSLETTERS_CALENDLY.executive }
+    }
+    if (t.id === 'services-detail') {
+      return { ...t, scheduleUrl: PUBLISHING_NEWSLETTERS_CALENDLY.services }
+    }
+    return t
+  })
+}
+
+function withVideoPortalScheduleUrls(
+  channelId: string,
+  tiers: ConsultationTier[],
+): ConsultationTier[] {
+  if (!isVideoPlatformPortalChannel(channelId)) return tiers
+  return tiers.map((t) => {
+    if (t.id === 'mentor-intro') {
+      return { ...t, scheduleUrl: VIDEO_PLATFORM_CALENDLY.discovery }
+    }
+    if (t.id === 'career-pathway') {
+      return { ...t, scheduleUrl: VIDEO_PLATFORM_CALENDLY.executive }
+    }
+    if (t.id === 'services-detail') {
+      return { ...t, scheduleUrl: VIDEO_PLATFORM_CALENDLY.services }
+    }
+    return t
+  })
+}
+
+function withOwnedWebsitePortalScheduleUrls(
+  channelId: string,
+  tiers: ConsultationTier[],
+): ConsultationTier[] {
+  if (!isOwnedWebsitePortalChannel(channelId)) return tiers
+  return tiers.map((t) => {
+    if (t.id === 'mentor-intro') {
+      return { ...t, scheduleUrl: OWNED_WEBSITE_CALENDLY.discovery }
+    }
+    if (t.id === 'career-pathway') {
+      return { ...t, scheduleUrl: OWNED_WEBSITE_CALENDLY.executive }
+    }
+    if (t.id === 'services-detail') {
+      return { ...t, scheduleUrl: OWNED_WEBSITE_CALENDLY.services }
+    }
+    return t
+  })
+}
+
+function withChannelPackScheduleUrls(channelId: string, tiers: ConsultationTier[]): ConsultationTier[] {
+  return withOwnedWebsitePortalScheduleUrls(
+    channelId,
+    withVideoPortalScheduleUrls(
+    channelId,
+    withPublishingPortalScheduleUrls(
+      channelId,
+      withSyndicatedPortalScheduleUrls(
+        channelId,
+        withMessagingPortalScheduleUrls(
+          channelId,
+          withPodcastPortalScheduleUrls(channelId, withSocialPortalScheduleUrls(channelId, tiers)),
+        ),
+      ),
+    ),
+    ),
+  )
+}
+
 const LEGACY_SCHEDULE_URLS = {
-  discovery: resolveCalendlyEventUrl('go-website-discovery'),
-  executive: resolveCalendlyEventUrl('go-website-executive'),
-  designReview: resolveCalendlyEventUrl('go-website-services'),
+  discovery: LIVE_SITE_CALENDLY.talkToMentor,
+  executive: LIVE_SITE_CALENDLY.talkToAdvisor,
+  designReview: LIVE_SITE_CALENDLY.talkToAdvisor,
 } as const
 
 /** Paid-tier wording per platform channel (discovery stays generic). */
 const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
   webinar: {
     executive: {
-      title: 'Paid mentor session',
+      title: 'Career & Pathway Session',
       description:
         'Extended mentor block after the webinar. pathway depth, prep planning, and certification questions with PM Structure.',
     },
     designReview: {
-      title: 'Paid mentor session',
-      description: 'Reserved for two-tier webinar flow.',
+      title: 'Career & Pathway Session',
+      description:
+        'Extended mentor block after the webinar. pathway depth, prep planning, and certification questions with PM Structure.',
     },
   },
   website: {
@@ -70,9 +264,9 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Structured mentor block for exam prep, pathway choice, and career direction from the site.',
     },
     designReview: {
-      title: 'Expert consultation',
+      title: SERVICES_TIER_TITLE,
       description:
-        'Principal advisory for pathways, governance, training, and exam readiness.',
+        'Principal advisory for PMO services, delivery consulting, pathways, governance, and exam readiness.',
     },
   },
   medium: {
@@ -82,7 +276,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Pressure-test ideas from Medium posts. publication strategy, peer-review defense, or translating articles into delivery plans.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Audit technical claims, frameworks, or mega-project narratives from your Medium reading. Pre-send outlines or drafts.',
     },
@@ -94,7 +288,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Go beyond the newsletter. career direction, venture thesis, or how to operationalize what you subscribed to on Substack.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Structured review of systems, compliance, or program design inspired by Substack long reads.',
     },
@@ -106,7 +300,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'For Beehiiv readers ready to act. align career moves, publication strategy, or project sponsorship with a principal architect.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Technical and compliance depth on topics raised in Beehiiv posts. Share briefs or drafts before booking.',
     },
@@ -118,7 +312,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Bridge Ghost content to real decisions. feasibility, institutional strategy, or career pivots after reading the blog.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Review engineering or program design questions surfaced in Ghost publications.',
     },
@@ -130,7 +324,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'For LinkedIn connections. executive career guidance, sponsor conversations, or stakeholder alignment on complex programs.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Professional audit of proposals, RFP responses, or institutional designs discussed on LinkedIn.',
     },
@@ -142,7 +336,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Expand an X thread or post into a structured call. project direction, public positioning, or quick executive alignment.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Rigor-check technical arguments or mega-project claims you saw on X before you commit resources.',
     },
@@ -154,7 +348,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Continue the Bluesky conversation with a booked block. fit, project scope, or career guidance after posts or threads.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Compliance and design review for engineering or policy ideas debated on Bluesky.',
     },
@@ -166,7 +360,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'For followers from pages or groups. discuss projects, collaborations, or advisory needs beyond the feed.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Formal review of designs or programs referenced in Facebook posts or community threads.',
     },
@@ -178,7 +372,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Move from reels, stories, or feed to a live session. brand partnerships, creator strategy, or project sponsorship.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Review technical or program content promoted on Instagram with pre-shared materials.',
     },
@@ -190,7 +384,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Fast-track a Snap or story referral into a focused call. idea validation or next-step planning.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Deeper technical review when a Snap pointed you to a serious build or compliance question.',
     },
@@ -202,7 +396,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'After watching on YouTube. sponsor calls, channel strategy, or translating video topics into delivery plans.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Audit systems or compliance themes from long-form or Shorts content. Send notes or links beforehand.',
     },
@@ -214,7 +408,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Book depth beyond the clip. stress-test an idea, career move, or venture theme from TikTok.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'When a TikTok surfaced a real engineering or compliance problem worth a formal review.',
     },
@@ -226,7 +420,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'From subreddit threads to a private advisory block. scope projects raised in discussion posts.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Structured review of technical posts or community-sourced design questions.',
     },
@@ -238,7 +432,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Podcast listeners. discuss episodes, career paths, or projects inspired by the show.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Technical deep-dive on topics covered in podcast episodes. Share episode notes when booking.',
     },
@@ -250,7 +444,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'For server members. channel strategy, community programs, or project direction after Discord engagement.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Review builds, bots, or infrastructure plans discussed in your Discord community.',
     },
@@ -262,7 +456,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Telegram channel followers. project scope, broadcast strategy, or advisory on initiatives you follow.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Compliance and architecture review for programs promoted on Telegram.',
     },
@@ -274,7 +468,7 @@ const PAID_TIER_BY_CHANNEL: Partial<Record<string, PaidTierCopy>> = {
         'Continue a WhatsApp channel or broadcast thread with a booked advisory session.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Formal review of technical material shared via WhatsApp channels.',
     },
@@ -290,7 +484,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
         'For publication readers. turn what you read into career guidance, project sponsorship, or delivery strategy.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Audit technical narratives, frameworks, or compliance questions from published work.',
     },
@@ -302,7 +496,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
         'Social referrals. career moves, project fit, or executive alignment after engaging on the platform.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Review designs or programs discussed in social posts. Send context before the session.',
     },
@@ -314,7 +508,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
         'Video audience. sponsor strategy, production themes, or project direction after watching.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Technical review of subjects covered in video content.',
     },
@@ -326,7 +520,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
         'Listeners booking after an episode. careers, ventures, or programs inspired by the show.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Deep review of technical topics from podcast or audio feeds.',
     },
@@ -338,7 +532,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
         'Direct-channel subscribers. scope projects, lists, or community initiatives one-to-one.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Compliance and design review for programs shared on direct channels.',
     },
@@ -350,7 +544,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
         'You found this via search. discuss the problem you are trying to solve before committing further.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Formal review after discovering technical content through search.',
     },
@@ -362,7 +556,7 @@ const PAID_TIER_BY_CATEGORY: Record<PlatformCategory, PaidTierCopy> = {
         'Arrived via syndicated feed or API. align automation outputs with real advisory needs.',
     },
     designReview: {
-      title: 'Certification depth session',
+      title: SERVICES_TIER_TITLE,
       description:
         'Review systems or data surfaced through syndicated channels.',
     },
@@ -480,10 +674,10 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
     : packCta ?? 'Talk to a mentor'
   const executiveBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'executive')!
   const designBase = DEFAULT_CONSULTATION_TIERS.find((t) => t.id === 'design-review')!
-  const servicesTitle = paid.designReview.title || 'Expert consultation'
+  const servicesTitle = paid.designReview.title || SERVICES_TIER_TITLE
   const servicesDescription =
     paid.designReview.description ||
-    'Principal advisory for pathways, governance, training, and exam readiness. Hover to view services.'
+    'Principal advisory for PMO services, delivery consulting, and programs you selected on the site. Hover to view services.'
   const servicesCta = 'Talk to an expert'
 
   const servicesTier: ConsultationTier = {
@@ -500,6 +694,8 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
   }
 
   if (channelId === 'webinar') {
+    const webinarOpenUrl = OWNED_WEBINAR_CALENDLY.discovery
+    const webinarPaidUrl = OWNED_WEBINAR_CALENDLY.paid
     return [
       {
         ...DISCOVERY_TIER,
@@ -508,28 +704,23 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
         title: DISCOVERY_TITLE,
         isFree: true,
         ctaLabel: ctaFor(channelId, 'mentor-intro', introCta),
-        scheduleUrl: scheduleUrlFor(channelId, 'mentor-intro', LEGACY_SCHEDULE_URLS.discovery),
+        scheduleUrl: webinarOpenUrl,
       },
       {
-        ...buildTier(
-          executiveBase,
-          paid.executive,
-          scheduleUrlFor(channelId, 'career-pathway', LEGACY_SCHEDULE_URLS.executive),
-        ),
+        ...buildTier(executiveBase, paid.executive, webinarPaidUrl),
         id: 'career-pathway',
         title: 'Career & Pathway Session',
         description: paid.executive.description,
         ...EXECUTIVE_TIER_META,
         recommended: true,
         badge: 'Most Popular',
-        ctaLabel: 'Schedule a pathway session',
-        scheduleUrl: scheduleUrlFor(channelId, 'career-pathway', LEGACY_SCHEDULE_URLS.executive),
+        ctaLabel: ctaFor(channelId, 'career-pathway', 'Reserve Advisory Call'),
+        scheduleUrl: webinarPaidUrl,
       },
-      servicesTier,
     ]
   }
 
-  return [
+  return withChannelPackScheduleUrls(channelId, [
     {
       ...DISCOVERY_TIER,
       id: 'mentor-intro',
@@ -552,7 +743,7 @@ export function getConsultationTiersForChannel(channelId: string): ConsultationT
       ctaLabel: ctaFor(channelId, 'career-pathway', 'Schedule a pathway session'),
     },
     servicesTier,
-  ]
+  ])
 }
 
 const LEGACY_PAID_TITLES = new Set([
@@ -562,6 +753,8 @@ const LEGACY_PAID_TITLES = new Set([
   'Design & Compliance Review',
   'Services Discussion',
   'Certification depth session',
+  'Expert consultation',
+  'Services, PMO & consultation',
 ])
 
 const LEGACY_PAID_TITLE =
@@ -588,9 +781,37 @@ export function applyPlatformConsultationTiers(
   const platform = getConsultationTiersForChannel(channelId)
   if (!saved?.length) return platform
 
+  const forcedPack =
+    isSocialDistributionPortalChannel(channelId) ||
+    isAudioPodcastPortalChannel(channelId) ||
+    isCommunityDirectPortalChannel(channelId) ||
+    isSyndicatedPortalPackChannel(channelId) ||
+    isWritingPublishingPortalChannel(channelId) ||
+    isVideoPlatformPortalChannel(channelId) ||
+    isCoreOwnedPortalChannel(channelId)
+  const openDiscoveryLabel = isSocialDistributionPortalChannel(channelId)
+    ? SOCIAL_DISTRIBUTION_TIER_DISPLAY.discoveryPriceLabel
+    : isAudioPodcastPortalChannel(channelId)
+      ? AUDIO_PODCAST_TIER_DISPLAY.discoveryPriceLabel
+      : isCommunityDirectPortalChannel(channelId)
+        ? COMMUNITY_MESSAGING_TIER_DISPLAY.discoveryPriceLabel
+        : isSyndicatedPortalPackChannel(channelId)
+          ? SYNDICATED_PORTAL_TIER_DISPLAY.discoveryPriceLabel
+          : isWritingPublishingPortalChannel(channelId)
+            ? PUBLISHING_NEWSLETTERS_TIER_DISPLAY.discoveryPriceLabel
+            : isVideoPlatformPortalChannel(channelId)
+              ? VIDEO_PLATFORM_TIER_DISPLAY.discoveryPriceLabel
+              : isOwnedWebsitePortalChannel(channelId)
+                ? OWNED_WEBSITE_TIER_DISPLAY.discoveryPriceLabel
+                : isOwnedWebinarPortalChannel(channelId)
+                  ? OWNED_WEBINAR_TIER_DISPLAY.discoveryPriceLabel
+                  : 'Free'
+
   return platform.map((pt) => {
     const s = saved.find((x) => x.id === pt.id)
     if (!s) return pt
+
+    const scheduleUrl = forcedPack ? pt.scheduleUrl : s.scheduleUrl?.trim() || pt.scheduleUrl
 
     if (pt.id === 'mentor-intro' || pt.id === 'discovery') {
       return {
@@ -602,9 +823,9 @@ export function applyPlatformConsultationTiers(
           s.ctaLabel?.trim() && !isGenericIntroCta(s.ctaLabel, channelId)
             ? s.ctaLabel.trim()
             : pt.ctaLabel || 'Talk to a mentor',
-        scheduleUrl: s.scheduleUrl?.trim() || pt.scheduleUrl,
+        scheduleUrl,
         isFree: true,
-        priceLabel: 'Free',
+        priceLabel: forcedPack ? openDiscoveryLabel : 'Free',
         recommended: false,
       }
     }
@@ -613,14 +834,14 @@ export function applyPlatformConsultationTiers(
       if (shouldUsePlatformPaidCopy(s, 'design-review')) {
         return {
           ...pt,
-          scheduleUrl: s.scheduleUrl?.trim() || pt.scheduleUrl,
+          scheduleUrl,
           ctaLabel: s.ctaLabel?.trim() || pt.ctaLabel,
         }
       }
       return {
         ...s,
         id: 'services-detail',
-        scheduleUrl: s.scheduleUrl?.trim() || pt.scheduleUrl,
+        scheduleUrl,
         recommended: false,
         ctaLabel: s.ctaLabel?.trim() || pt.ctaLabel || 'Talk to an expert',
       }
@@ -629,18 +850,18 @@ export function applyPlatformConsultationTiers(
     if (shouldUsePlatformPaidCopy(s, pt.id)) {
       return {
         ...pt,
-        scheduleUrl: s.scheduleUrl?.trim() || pt.scheduleUrl,
+        scheduleUrl,
         ctaLabel: s.ctaLabel?.trim() || pt.ctaLabel,
       }
     }
 
     return {
       ...s,
-      scheduleUrl: s.scheduleUrl?.trim() || pt.scheduleUrl,
+      scheduleUrl,
       recommended: s.recommended ?? pt.recommended,
       isFree: s.isFree ?? pt.isFree,
-      durationLabel: s.durationLabel || pt.durationLabel,
-      priceLabel: s.priceLabel || pt.priceLabel,
+      durationLabel: forcedPack ? pt.durationLabel : s.durationLabel || pt.durationLabel,
+      priceLabel: forcedPack ? pt.priceLabel : s.priceLabel || pt.priceLabel,
     }
   })
 }

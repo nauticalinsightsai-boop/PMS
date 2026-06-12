@@ -30,7 +30,7 @@ function isGenericIntroCta(label: string | undefined, channelId: string): boolea
   if (usesPortalWebsiteLayoutChrome(channelId)) return false
   return GENERIC_INTRO_CTAS.has(trimmed.toLowerCase())
 }
-import { migratePageToPmsPortalTemplate } from '../pmsPortalTemplate'
+import { migratePageToPmsPortalTemplate, publicTierIdsForChannel } from '../pmsPortalTemplate'
 import { getLearnerPortalSurfaceCopy } from './portalLearnerCopy'
 import { normalizePortalCopyDeep } from './copyNormalize'
 
@@ -74,30 +74,28 @@ export function enrichChannelLandingPage(page: ChannelLandingPage): ChannelLandi
   )
   const channelCopy = getChannelPortalCopy(migrated.channelId)
 
-  return normalizePortalCopyDeep(
-    migratePageToPmsPortalTemplate({
-      ...migrated,
-      contextLabel: migrated.contextLabel || channelCopy?.contextLabel || copy?.contextLabel || '',
-      headline: channelCopy?.headline ?? surface.headline,
-      subheadline: channelCopy?.subheadline ?? surface.subheadline,
-      targetMessage: channelCopy?.targetMessage ?? surface.targetMessage,
-      showSyncBanner: migrated.showSyncBanner ?? false,
-      syncBannerLabel: migrated.syncBannerLabel || '',
-      availabilityLabel:
-        migrated.availabilityLabel || channelCopy?.availabilityLabel || surface.availabilityLabel,
-      consultationTiers: mergeTierCtaLabels(
-        consultationTiersForChannel(
-          getPackConsultationTiers(migrated.channelId, migrated.consultationTiers),
-          migrated.channelId,
-        ),
+  return normalizePortalCopyDeep({
+    ...migrated,
+    contextLabel: migrated.contextLabel || channelCopy?.contextLabel || copy?.contextLabel || '',
+    headline: channelCopy?.headline ?? surface.headline,
+    subheadline: channelCopy?.subheadline ?? surface.subheadline,
+    targetMessage: channelCopy?.targetMessage ?? surface.targetMessage,
+    showSyncBanner: migrated.showSyncBanner ?? false,
+    syncBannerLabel: migrated.syncBannerLabel || '',
+    availabilityLabel:
+      migrated.availabilityLabel || channelCopy?.availabilityLabel || surface.availabilityLabel,
+    consultationTiers: mergeTierCtaLabels(
+      consultationTiersForChannel(
+        getPackConsultationTiers(migrated.channelId, migrated.consultationTiers),
         migrated.channelId,
       ),
-      webinarAbout: migrated.webinarAbout,
-      webinarVideoUrl: migrated.webinarVideoUrl,
-      conversion: mergePortalConversion(migrated.channelId, migrated.conversion),
-      showBookingForm: migrated.showBookingForm ?? false,
-    }),
-  )
+      migrated.channelId,
+    ),
+    webinarAbout: migrated.webinarAbout,
+    webinarVideoUrl: migrated.webinarVideoUrl,
+    conversion: mergePortalConversion(migrated.channelId, migrated.conversion),
+    showBookingForm: migrated.showBookingForm ?? false,
+  })
 }
 
 function mapStoredTierId(id: string): string {
@@ -109,9 +107,9 @@ function mapStoredTierId(id: string): string {
 
 function consultationTiersForChannel(
   tiers: ChannelLandingPage['consultationTiers'],
-  _channelId: string
+  channelId: string
 ): ChannelLandingPage['consultationTiers'] {
-  const allowed = new Set(['mentor-intro', 'career-pathway', 'services-detail'])
+  const allowed = new Set(publicTierIdsForChannel(channelId))
   return tiers.filter((t) => allowed.has(mapStoredTierId(t.id)))
 }
 

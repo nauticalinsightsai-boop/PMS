@@ -19,8 +19,10 @@
     "./repository": "./src/channel-landing-pages/repository.ts",
     "./channel-landing-pages/portalGoLinks": "./src/channel-landing-pages/portalGoLinks.ts",
     "./calendly/event-registry": "./src/calendly/event-registry.ts",
+    "./calendly/live-scheduling-urls": "./src/calendly/live-scheduling-urls.ts",
     "./calendly/scheduling-urls": "./src/calendly/scheduling-urls.ts",
-    "./channel-landing-pages/channelMarkAssets": "./src/channel-landing-pages/channelMarkAssets.ts"
+    "./channel-landing-pages/channelMarkAssets": "./src/channel-landing-pages/channelMarkAssets.ts",
+    "./channel-landing-pages/portalStoryRing": "./src/channel-landing-pages/portalStoryRing.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

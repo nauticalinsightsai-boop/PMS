@@ -10,8 +10,12 @@ export default defineConfig({
     ],
   },
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, '.'),
-    },
+    alias: [
+      {
+        find: '@/lib/channel-landing-pages',
+        replacement: path.resolve(__dirname, '../packages/booking-crm/src/channel-landing-pages'),
+      },
+      { find: '@', replacement: path.resolve(__dirname, '.') },
+    ],
   },
 });

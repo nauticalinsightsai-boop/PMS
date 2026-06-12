@@ -12,6 +12,7 @@ export type OfferingStatus =
 
 export interface CourseOffering {
   offeringId: string;
+  familyId: string;
   courseName: string;
   tierId: string;
   regional: Record<RegionId, { status: OfferingStatus }>;

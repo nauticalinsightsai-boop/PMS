@@ -5,12 +5,27 @@ import type {
 } from './types/channelLandingPage';
 import { slugifyChannelKey, CHANNEL_PUBLIC_SLUG } from './types/channelLandingPage';
 import { getChannelById } from './constants/channelGroups';
+import { SERVICES_TIER_TITLE } from './channel-landing-pages/portalTierTitles';
 
 export const PMS_TEMPLATE_VERSION = 4;
 
 const LEGACY_TIER_IDS = new Set(['discovery', 'executive', 'design-review']);
 
 const PUBLIC_TIER_IDS = ['mentor-intro', 'career-pathway', 'services-detail'] as const;
+
+/** Webinar `/go/webinar` exposes free intro + paid pathway only (no services tier). */
+export const WEBINAR_TWO_TIER_CHANNEL = 'webinar';
+
+export function publicTierIdsForChannel(channelKey: string): readonly string[] {
+  if (channelKey === WEBINAR_TWO_TIER_CHANNEL) {
+    return ['mentor-intro', 'career-pathway'];
+  }
+  return PUBLIC_TIER_IDS;
+}
+
+export function expectedConsultationTierCount(channelKey: string): number {
+  return publicTierIdsForChannel(channelKey).length;
+}
 
 export function buildDefaultPortalEngagement(): PortalEngagement {
   return {
@@ -28,7 +43,7 @@ export function buildDefaultConsultationTiers(channelKey: string): ConsultationT
   const channel = getChannelById(channelKey);
   const label = channel?.label ?? channelKey;
 
-  return [
+  const tiers = [
     {
       id: 'mentor-intro',
       title: 'Free Mentor Intro',
@@ -47,20 +62,23 @@ export function buildDefaultConsultationTiers(channelKey: string): ConsultationT
       durationLabel: '30 Minutes',
       priceLabel: 'Paid',
       recommended: true,
-      badge: 'Most Popular',
+      badge: 'Most Popular' as const,
       ctaLabel: 'Book pathway session',
     },
     {
       id: 'services-detail',
-      title: 'Services Discussion',
+      title: SERVICES_TIER_TITLE,
       description:
-        'Review services you selected on the Project Management Structure website: scope, fit, and next steps with a mentor.',
+        'Review PMO services, delivery consulting, or programs you selected on the Project Management Structure website: scope, fit, and next steps with a mentor.',
       durationLabel: '45 Minutes',
       priceLabel: 'Paid',
       recommended: false,
       ctaLabel: 'Discuss services',
     },
-  ];
+  ] satisfies ConsultationTier[];
+
+  const allowed = new Set(publicTierIdsForChannel(channelKey));
+  return tiers.filter((t) => allowed.has(t.id));
 }
 
 function mapLegacyTierId(id: string): string {
@@ -71,11 +89,12 @@ function mapLegacyTierId(id: string): string {
 }
 
 function filterPublicTiers(tiers: ConsultationTier[], channelKey: string): ConsultationTier[] {
+  const tierIds = publicTierIdsForChannel(channelKey);
   const byId = new Map<string, ConsultationTier>();
 
   for (const t of tiers) {
     const id = mapLegacyTierId(t.id);
-    if (!PUBLIC_TIER_IDS.includes(id as (typeof PUBLIC_TIER_IDS)[number])) continue;
+    if (!tierIds.includes(id)) continue;
     const existing = byId.get(id);
     if (!existing) {
       byId.set(id, { ...t, id });
@@ -85,7 +104,7 @@ function filterPublicTiers(tiers: ConsultationTier[], channelKey: string): Consu
   }
 
   const defaults = buildDefaultConsultationTiers(channelKey);
-  const out = PUBLIC_TIER_IDS.map((id) => {
+  const out = tierIds.map((id) => {
     const saved = byId.get(id);
     const def = defaults.find((d) => d.id === id)!;
     if (!saved) return def;
@@ -102,16 +121,17 @@ function filterPublicTiers(tiers: ConsultationTier[], channelKey: string): Consu
     };
   });
 
-  return out.length === 3 ? out : defaults;
+  return out.length === tierIds.length ? out : defaults;
 }
 
 export function migratePageToPmsPortalTemplate(page: ChannelLandingPage): ChannelLandingPage {
   const engagement = page.portalEngagement ?? buildDefaultPortalEngagement();
 
+  const expectedTierCount = expectedConsultationTierCount(page.channelKey);
   const needsTemplate =
     engagement.templateVersion < PMS_TEMPLATE_VERSION ||
     page.consultationTiers.some((t) => LEGACY_TIER_IDS.has(t.id)) ||
-    page.consultationTiers.length !== 3;
+    page.consultationTiers.length !== expectedTierCount;
 
   const defaults = buildDefaultConsultationTiers(page.channelKey);
 
@@ -178,11 +198,14 @@ export function assertPmsPortalTemplate(page: ChannelLandingPage): void {
   if (!eng || eng.templateVersion < PMS_TEMPLATE_VERSION) {
     throw new Error('portalEngagement.templateVersion must be >= 4');
   }
-  if (page.consultationTiers.length !== 3) {
-    throw new Error('Exactly three consultation tiers are required');
+  const requiredIds = publicTierIdsForChannel(page.channelKey);
+  if (page.consultationTiers.length !== requiredIds.length) {
+    throw new Error(
+      `Exactly ${requiredIds.length} consultation tiers are required for ${page.channelKey}`,
+    );
   }
   const ids = page.consultationTiers.map((t) => t.id);
-  for (const id of PUBLIC_TIER_IDS) {
+  for (const id of requiredIds) {
     if (!ids.includes(id)) throw new Error(`Missing required tier: ${id}`);
   }
 }

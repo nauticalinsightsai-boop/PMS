@@ -59,11 +59,11 @@ export function PMService() {
                 size="lg"
                 variant="brand"
                 className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20"
-                tier="services"
+                tier="advisor"
                 funnelLabel="pm_service_hero_consultation"
                 utm={{ utm_source: 'pmstructure', utm_medium: 'pm_service', utm_campaign: 'hero' }}
               >
-                {CTAS.pathwayConsultation}
+                {CTAS.talkToAdvisor}
               </WebsiteCalendlyButton>
               <Link href="#services">
                 <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white h-14 px-10 rounded-2xl font-bold text-lg">
@@ -120,11 +120,19 @@ export function PMService() {
                     </ul>
                   </CardContent>
                   
-                  <Link href={service.ctaHref ?? '/contact'} className="w-full">
-                    <Button variant="brand" className="w-full h-14 rounded-2xl font-bold group">
-                      Learn More <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                    </Button>
-                  </Link>
+                  <WebsiteCalendlyButton
+                    variant="brand"
+                    tier="advisor"
+                    className="w-full h-14 rounded-2xl font-bold group"
+                    funnelLabel={`pm_service_card_${service.id}`}
+                    utm={{
+                      utm_source: 'pmstructure',
+                      utm_medium: 'pm_service',
+                      utm_campaign: service.id,
+                    }}
+                  >
+                    Learn More <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </WebsiteCalendlyButton>
                 </Card>
               </motion.div>
             );})}
@@ -164,7 +172,7 @@ export function PMService() {
                 size="lg"
                 variant="brand"
                 className="h-16 px-12 rounded-2xl font-bold text-xl shadow-xl"
-                tier="services"
+                tier="advisor"
                 funnelLabel="pm_service_final_cta"
                 utm={{ utm_source: 'pmstructure', utm_medium: 'pm_service', utm_campaign: 'final' }}
               >

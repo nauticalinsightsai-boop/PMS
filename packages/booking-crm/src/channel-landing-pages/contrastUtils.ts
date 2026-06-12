@@ -41,6 +41,68 @@ export function meetsContrast(fgHex: string, bgHex: string, minRatio = 4.5): boo
 const LIGHT_ON_DARK = '#F4F4F5'
 const DARK_ON_LIGHT = '#0F172A'
 
+function rgbToHex(r: number, g: number, b: number): string {
+  return `#${[r, g, b].map((n) => Math.max(0, Math.min(255, n)).toString(16).padStart(2, '0')).join('')}`
+}
+
+function coerceCssColorString(color: unknown): string | null {
+  if (typeof color === 'string') {
+    const trimmed = color.trim()
+    return trimmed.length > 0 ? trimmed : null
+  }
+  if (color == null) return null
+  return String(color).trim() || null
+}
+
+/** Parse #RRGGBB or rgb/rgba for alpha compositing. */
+export function parseCssRgb(color: string): { r: number; g: number; b: number; a: number } | null {
+  const normalized = coerceCssColorString(color)
+  if (!normalized) return null
+  const c = normalized
+  const hex = parseHexColor(c)
+  if (hex) return { ...hex, a: 1 }
+  const m = c.match(
+    /^rgba?\(\s*([01]?\d?\d|2[0-4]\d|25[0-5])\s*,\s*([01]?\d?\d|2[0-4]\d|25[0-5])\s*,\s*([01]?\d?\d|2[0-4]\d|25[0-5])(?:\s*,\s*([01]?(?:\.\d+)?))?\s*\)$/i
+  )
+  if (!m) return null
+  return { r: Number(m[1]), g: Number(m[2]), b: Number(m[3]), a: m[4] === undefined ? 1 : Number(m[4]) }
+}
+
+/** Alpha-composite `foreground` over `underlay` (both CSS colors); returns #RRGGBB. */
+export function compositeCssColorOver(foreground: string, underlay: string): string {
+  const top = parseCssRgb(foreground)
+  const bottom = parseCssRgb(underlay)
+  if (!top) {
+    const underHex = parseHexColor(underlay)
+    return underHex ?? DARK_ON_LIGHT
+  }
+  if (!bottom) return rgbToHex(top.r, top.g, top.b)
+  if (top.a >= 0.999) return rgbToHex(top.r, top.g, top.b)
+  const r = Math.round(top.r * top.a + bottom.r * (1 - top.a))
+  const g = Math.round(top.g * top.a + bottom.g * (1 - top.a))
+  const b = Math.round(top.b * top.a + bottom.b * (1 - top.a))
+  return rgbToHex(r, g, b)
+}
+
+function resolveOpaquePageHex(pageBackground: string): string {
+  const hex = parseHexColor(pageBackground)
+  if (hex) return rgbToHex(hex.r, hex.g, hex.b)
+  const bg = coerceCssColorString(pageBackground)
+  if (!bg) return DARK_ON_LIGHT
+  return compositeCssColorOver(bg, DARK_ON_LIGHT)
+}
+
+/** Tinted badge/pill background over page + optional card surface. */
+export function effectiveTintedSurfaceHex(
+  tint: string,
+  pageBackground: string,
+  surfaceBackground?: string
+): string {
+  const page = resolveOpaquePageHex(pageBackground)
+  const surface = surfaceBackground ? compositeCssColorOver(surfaceBackground, page) : page
+  return compositeCssColorOver(tint, surface)
+}
+
 function relativeLumaFromHex(hex: string): number | null {
   const rgb = parseHexColor(hex)
   if (!rgb) return null
@@ -51,6 +113,12 @@ function relativeLumaFromHex(hex: string): number | null {
 export function isLightHexColor(color: string): boolean {
   const luma = relativeLumaFromHex(color.trim())
   return luma != null && luma > 0.55
+}
+
+export function isLightPortalSurface(color: string, pageBackground: string, cardBackground?: string): boolean {
+  if (isLightHexColor(color)) return true
+  const effective = effectiveTintedSurfaceHex(color, pageBackground, cardBackground)
+  return isLightHexColor(effective)
 }
 
 /** Buttons and badges: light text on saturated/dark brand colors (luma &lt; 0.58). */

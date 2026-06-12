@@ -1,3 +1,7 @@
+import {
+  buildOnboardingCalendlyUrl,
+  ONBOARDING_CALENDLY_DEFAULT_URL,
+} from '../../frontend/lib/calendly/onboarding-calendly-url';
 import { getOfferingById } from '@/lib/regional-catalogue';
 import {
   isTransactionalEmailConfigured,
@@ -5,25 +9,31 @@ import {
   sendTransactionalEmail,
 } from '@/lib/send-email';
 
-export const DEFAULT_ONBOARDING_CALENDLY_URL =
-  'https://calendly.com/pm-structure/go-talk-to-mentor';
+export const DEFAULT_ONBOARDING_CALENDLY_URL = ONBOARDING_CALENDLY_DEFAULT_URL;
 
 const SUPPORT_EMAIL =
   process.env.ORDER_SUPPORT_EMAIL?.trim() ||
   process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() ||
   'support@pmstructure.com';
 
-export function resolveOnboardingCalendlyUrl(offeringId?: string | null): string {
-  const base =
+function onboardingCalendlyFallbackUrl(): string {
+  return (
     process.env.ORDER_ONBOARDING_CALENDLY_URL?.trim() ||
     process.env.NEXT_PUBLIC_ONBOARDING_CALENDLY_URL?.trim() ||
-    DEFAULT_ONBOARDING_CALENDLY_URL;
-  if (!offeringId?.trim()) return base;
-  const url = new URL(base);
-  url.searchParams.set('utm_source', 'email');
-  url.searchParams.set('utm_medium', 'order_confirmation');
-  url.searchParams.set('utm_content', offeringId.trim());
-  return url.toString();
+    DEFAULT_ONBOARDING_CALENDLY_URL
+  );
+}
+
+export function resolveOnboardingCalendlyUrl(offeringId?: string | null): string {
+  return buildOnboardingCalendlyUrl(
+    offeringId,
+    (id) => {
+      const offering = getOfferingById(id);
+      return offering ? { familyId: offering.familyId, tierId: offering.tierId } : undefined;
+    },
+    { utmSource: 'email', utmMedium: 'order_confirmation' },
+    onboardingCalendlyFallbackUrl(),
+  );
 }
 
 export type OrderConfirmationParams = {

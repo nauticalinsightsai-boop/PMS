@@ -5,26 +5,46 @@ import {
   applyPortalColorMode,
 } from './platformThemeModes'
 import {
+  effectiveTintedSurfaceHex,
   isLightHexColor,
   meetsContrast,
   pickButtonForeground,
   pickReadableForeground,
 } from './contrastUtils'
+import { resolvePortalQuoteSurface } from './portalQuoteSurface'
 
-/** Replace light-mode tints that survive partial dark overrides (e.g. Medium price pills). */
-function harmonizeDarkPortalTheme(theme: PlatformPortalTheme): PlatformPortalTheme {
-  const pageBg = solidHex(theme.background, '#0A0A0B')
+/** Replace light-mode tints and mismatched surfaces (dark pages with light cards). */
+function harmonizePortalThemeContrast(
+  theme: PlatformPortalTheme,
+  mode: PortalColorMode
+): PlatformPortalTheme {
+  const pageBg = solidHex(theme.background, mode === 'dark' ? '#0A0A0B' : '#FFFFFF')
   const next = { ...theme }
 
-  if (isLightHexColor(solidHex(next.priceBadgeBg, pageBg))) {
-    next.priceBadgeBg = next.surfaceMuted
-  }
-  if (isLightHexColor(solidHex(next.quoteBg, pageBg))) {
-    next.quoteBg = solidHex(next.cardBg, next.surface)
+  if (!isLightHexColor(pageBg)) {
+    const card = solidHex(next.cardBg, next.surface)
+    if (isLightHexColor(card)) {
+      next.cardBg = solidHex(next.surface, '#181818')
+    }
+    if (isLightHexColor(solidHex(next.surface, next.cardBg))) {
+      next.surface = next.cardBg
+    }
+    const muted = solidHex(next.surfaceMuted, next.surface)
+    if (isLightHexColor(muted)) {
+      next.surfaceMuted = next.cardBg
+    }
   }
 
+  if (mode === 'dark' && isLightHexColor(solidHex(next.priceBadgeBg, pageBg))) {
+    next.priceBadgeBg = next.surfaceMuted
+  }
+
+  const quoteSurface = resolvePortalQuoteSurface(next)
+  next.quoteBg = quoteSurface.backgroundColor
+  next.quoteBorder = quoteSurface.borderColor
+
   const linkHex = solidHex(next.linkColor, next.primary)
-  if (!meetsContrast(linkHex, pageBg, 3)) {
+  if (!isLightHexColor(pageBg) && !meetsContrast(linkHex, pageBg, 3)) {
     next.linkColor = next.text
   }
 
@@ -37,12 +57,12 @@ function harmonizeDarkPortalTheme(theme: PlatformPortalTheme): PlatformPortalThe
   return next
 }
 
-function solidHex(color: string, fallback: string): string {
-  return color.startsWith('#') && color.length === 7 ? color : fallback
+function solidHex(color: unknown, fallback: string): string {
+  return typeof color === 'string' && color.startsWith('#') && color.length === 7 ? color : fallback
 }
 
-function isSolidHex(color: string): boolean {
-  return color.startsWith('#') && color.length === 7
+function isSolidHex(color: unknown): color is string {
+  return typeof color === 'string' && color.startsWith('#') && color.length === 7
 }
 
 function resolveBadgeText(
@@ -54,11 +74,13 @@ function resolveBadgeText(
   if (isSolidHex(bg)) {
     return pickReadableForeground(bg)
   }
-  if (theme[textKey]) {
-    return theme[textKey]
+  const tint = typeof bg === 'string' ? bg : solidHex(theme.surfaceMuted, '#1F2937')
+  const effectiveBg = effectiveTintedSurfaceHex(tint, theme.background, theme.cardBg)
+  const token = theme[textKey]
+  if (token && meetsContrast(token, effectiveBg, 4.5)) {
+    return token
   }
-  const underlay = solidHex(theme.cardBg, solidHex(theme.background, theme.surface))
-  return pickReadableForeground(solidHex(underlay, '#0F172A'))
+  return pickReadableForeground(effectiveBg)
 }
 
 function finalizeThemeTokens(theme: PlatformPortalTheme): PlatformPortalTheme {
@@ -90,11 +112,12 @@ export function resolvePortalTheme(
   typeLabel?: string
 ): PlatformPortalTheme {
   const light = getPlatformPortalTheme(channelId, typeLabel)
+  const harmonized = harmonizePortalThemeContrast(light, mode)
   if (mode === 'light') {
-    return finalizeThemeTokens(light)
+    return finalizeThemeTokens(harmonized)
   }
   const dark = applyPortalColorMode(light, 'dark')
-  return finalizeThemeTokens(harmonizeDarkPortalTheme(dark))
+  return finalizeThemeTokens(harmonizePortalThemeContrast(dark, 'dark'))
 }
 
 /** CSS custom properties for .portal-root */
@@ -109,6 +132,10 @@ export function portalThemeToCssVars(theme: PlatformPortalTheme): Record<string,
     '--portal-card-border': theme.cardBorder,
     '--portal-primary': theme.primary,
     '--portal-primary-fg': theme.primaryForeground,
+    '--portal-accent': theme.accent,
+    '--portal-link': theme.linkColor,
+    '--portal-context': theme.contextColor,
+    '--portal-verified': theme.verifiedColor,
     '--portal-recommended-bg':
       typeof theme.recommendedBg === 'string' ? theme.recommendedBg : theme.primary,
     '--portal-recommended-fg': theme.recommendedText ?? theme.primaryForeground,

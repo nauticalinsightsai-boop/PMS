@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     const intent = body.intent === 'publish' ? 'publish' : 'saveDraft';
     if (body.page?.consultationTiers?.length) {
       try {
-        assertTierDurationsValid(body.page.consultationTiers);
+        assertTierDurationsValid(body.page.consultationTiers, body.channelId ?? body.channelKey);
       } catch (e) {
         const msg = e instanceof Error ? e.message : 'Invalid tier durations';
         return NextResponse.json({ success: false, error: msg }, { status: 400 });
