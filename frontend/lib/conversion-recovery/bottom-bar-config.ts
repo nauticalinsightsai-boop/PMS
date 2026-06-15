@@ -1,4 +1,5 @@
 import { CTAS } from '@/lib/brand-voice';
+import { PMS_SKOOL_COMMUNITY_JOIN_URL } from '@/config/pms-site';
 import type { BottomBarPageGroup, BottomBarRotation } from './types';
 import { getPathwayModalTierOpened } from './session-state';
 
@@ -47,7 +48,7 @@ function defaultRotations(): BottomBarRotation[] {
       id: 'r3',
       headline: 'Join 1,284+ professionals in the network',
       body: "Don't study in isolation: connect with structured prep circles.",
-      primary: { type: 'link', href: '/community', label: 'Join community' },
+      primary: { type: 'link', href: PMS_SKOOL_COMMUNITY_JOIN_URL, label: 'Join community' },
       secondary: { type: 'calendly_hero' },
       dismissLabel: 'Skip',
       variant: 'bottom_bar_r3',
@@ -106,7 +107,7 @@ const GROUP_ROTATIONS: Partial<Record<BottomBarPageGroup, BottomBarRotation[]>> 
       id: 'comm-r1',
       headline: 'Join the Global PM Network',
       body: 'Connect with professionals in structured study circles.',
-      primary: { type: 'link', href: '/community', label: 'Explore community' },
+      primary: { type: 'link', href: PMS_SKOOL_COMMUNITY_JOIN_URL, label: 'Explore community' },
       secondary: { type: 'calendly_hero' },
       dismissLabel: 'Not now',
       variant: 'bottom_bar_r3',

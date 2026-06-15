@@ -159,6 +159,10 @@ export function BottomCtaRotator() {
       return;
     }
     if (action.type === 'link') {
+      if (/^https?:\/\//i.test(action.href)) {
+        window.open(action.href, '_blank', 'noopener,noreferrer');
+        return;
+      }
       router.push(action.href);
       return;
     }

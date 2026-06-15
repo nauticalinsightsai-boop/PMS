@@ -78,6 +78,21 @@ export const PMS_WHATSAPP_DISPLAY =
 export const PMS_WHATSAPP_URL =
   process.env.NEXT_PUBLIC_WHATSAPP_URL?.trim() || DEFAULT_WHATSAPP_URL;
 
+const DEFAULT_SKOOL_COMMUNITY_JOIN_URL =
+  'https://www.pmstructure.com/join?invitation_token=fc889aa3995f03e8d4923034079eb19a07d3599a-0caba3de-aabe-4309-9177-73c221df358a';
+
+/** Skool community invite (custom /join on pmstructure.com). */
+export const PMS_SKOOL_COMMUNITY_JOIN_URL =
+  process.env.NEXT_PUBLIC_SKOOL_COMMUNITY_JOIN_URL?.trim() || DEFAULT_SKOOL_COMMUNITY_JOIN_URL;
+
+export function isExternalHref(href: string): boolean {
+  return /^https?:\/\//i.test(href);
+}
+
+export function externalHrefLinkProps(href: string): { target?: '_blank'; rel?: string } {
+  return isExternalHref(href) ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+}
+
 export function getPmsWhatsAppUrl(): string {
   return PMS_WHATSAPP_URL;
 }

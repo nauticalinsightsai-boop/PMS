@@ -54,8 +54,6 @@ const RESOURCES_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: 
   { label: 'Answers', href: '/answers' },
   { label: 'Topics', href: '/topics' },
   { label: 'Newsletter', href: '/newsletter' },
-  { label: 'Contact', href: '/contact' },
-  { label: 'About', href: '/about' },
 ];
 
 export function Footer() {

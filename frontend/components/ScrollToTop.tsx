@@ -3,8 +3,7 @@
 import * as React from 'react';
 import { ArrowUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-const SHOW_AFTER_PX = 320;
+import { FLOATING_CORNER_SHOW_AFTER_PX } from '@/lib/floating-corner';
 
 export function ScrollToTop() {
   const [visible, setVisible] = React.useState(false);
@@ -16,7 +15,7 @@ export function ScrollToTop() {
     syncMotion();
     mq.addEventListener('change', syncMotion);
 
-    const onScroll = () => setVisible(window.scrollY > SHOW_AFTER_PX);
+    const onScroll = () => setVisible(window.scrollY > FLOATING_CORNER_SHOW_AFTER_PX);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
 

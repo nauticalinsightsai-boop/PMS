@@ -7,6 +7,7 @@ import { Footer } from '@/components/Footer';
 import { RegionProvider } from '@/contexts/RegionContext';
 import { RegionGate } from '@/components/RegionGate';
 import { ScrollToTop } from '@/components/ScrollToTop';
+import { FloatingQuickActions } from '@/components/FloatingQuickActions';
 import { CookieConsent } from '@/components/CookieConsent';
 import { LeadRecoveryProvider } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { LeadRecoveryDialog } from '@/components/conversion-recovery/LeadRecoveryDialog';
@@ -49,6 +50,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
             <Navbar toggleTheme={() => setIsDarkMode((v) => !v)} isDarkMode={isDarkMode} />
             <main className={cn('flex-1 overflow-x-clip', PUBLIC_NAVBAR_HEIGHT_CLASS)}>{children}</main>
             <Footer />
+            <FloatingQuickActions />
             <ScrollToTop />
             <CookieConsent />
             <BottomCtaRotator />

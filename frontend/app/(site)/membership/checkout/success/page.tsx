@@ -8,6 +8,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { verifyCheckoutSession } from '@/services/checkout';
 import { cn } from '@/lib/utils';
+import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
 
 function MembershipCheckoutSuccessContent() {
   const searchParams = useSearchParams();
@@ -56,7 +57,11 @@ function MembershipCheckoutSuccessContent() {
           <Link href="/membership" className={cn(buttonVariants({ size: 'lg', variant: 'brand' }))}>
             Membership overview
           </Link>
-          <Link href="/community" className={cn(buttonVariants({ size: 'lg', variant: 'outline' }))}>
+          <Link
+            href={PMS_SKOOL_COMMUNITY_JOIN_URL}
+            {...externalHrefLinkProps(PMS_SKOOL_COMMUNITY_JOIN_URL)}
+            className={cn(buttonVariants({ size: 'lg', variant: 'outline' }))}
+          >
             Explore community
           </Link>
         </div>

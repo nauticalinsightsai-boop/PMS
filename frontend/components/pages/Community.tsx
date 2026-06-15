@@ -23,6 +23,7 @@ import { StoreContent } from "@/components/pages/Store";
 import { BRAND, COMMUNITY_COPY } from "@/lib/brand-voice";
 import { MARKETING_STOCK_IMAGES } from "@/lib/marketing-stock-images";
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
 
 const communityChannels = [
   {
@@ -32,6 +33,7 @@ const communityChannels = [
     color: "text-amber-500",
     bg: "bg-amber-500/5 dark:bg-amber-500/10",
     members: "2.1k",
+    joinHref: PMS_SKOOL_COMMUNITY_JOIN_URL,
   },
   {
     title: "Study Circles",
@@ -40,6 +42,7 @@ const communityChannels = [
     color: "text-brand-purple",
     bg: "bg-brand-purple/5 dark:bg-brand-purple/10",
     members: "1.2k",
+    joinHref: PMS_SKOOL_COMMUNITY_JOIN_URL,
   },
 ];
 
@@ -93,7 +96,10 @@ function CommunityNetworkContent() {
                         <Users2 className="h-4 w-4" />
                         <span>{channel.members} members</span>
                       </div>
-                      <Link href="/contact">
+                      <Link
+                        href={channel.joinHref}
+                        {...externalHrefLinkProps(channel.joinHref)}
+                      >
                         <Button variant="ghost" size="sm" className="text-brand-orange font-bold text-base group-hover:translate-x-1 transition-transform">
                           Join <ArrowRight className="ml-1.5 h-4 w-4" />
                         </Button>
@@ -230,7 +236,10 @@ function CommunityNetworkContent() {
                 Your professional network supports readiness and delivery judgment. Start building it with {BRAND.name}.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Link href="/contact">
+                <Link
+                  href={PMS_SKOOL_COMMUNITY_JOIN_URL}
+                  {...externalHrefLinkProps(PMS_SKOOL_COMMUNITY_JOIN_URL)}
+                >
                   <Button size="lg" variant="brand" className="h-14 px-8 rounded-2xl font-bold text-lg shadow-xl transition-all">
                     Join the Community
                   </Button>

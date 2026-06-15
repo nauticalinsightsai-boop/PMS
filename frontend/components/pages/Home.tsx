@@ -43,6 +43,7 @@ import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 import { HomeHeroAccentRotator } from '@/components/home/HomeHeroAccentRotator';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
+import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
 
 import * as siteData from "@/data/siteData";
 
@@ -601,7 +602,11 @@ export function Home() {
                     </div>
                   ))}
                 </div>
-                <Link href="/community" className="inline-block w-full sm:w-auto">
+                <Link
+                  href={PMS_SKOOL_COMMUNITY_JOIN_URL}
+                  {...externalHrefLinkProps(PMS_SKOOL_COMMUNITY_JOIN_URL)}
+                  className="inline-block w-full sm:w-auto"
+                >
                   <Button variant="brand" className="w-full sm:w-auto h-12 sm:h-14 px-8 sm:px-10 rounded-2xl font-bold text-base sm:text-lg transition-all group/btn">
                     Join Community
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
@@ -742,9 +747,9 @@ export function Home() {
                 desc: "Custom schedules based on your exam date.",
                 icon: Calendar,
                 color: "text-brand-orange",
-                action: "link" as const,
-                href: "/certifications",
-                ctaLabel: CTAS.findPathway,
+                action: "external" as const,
+                href: PMS_SKOOL_COMMUNITY_JOIN_URL,
+                ctaLabel: "Join Community",
               },
               {
                 title: "Cert Comparison",
