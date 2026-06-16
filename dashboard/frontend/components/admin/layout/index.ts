@@ -11,7 +11,10 @@ export {
   ADMIN_CMS_TAB_BAR_OUTER_CLASS,
   ADMIN_CMS_TAB_BUTTON_BASE_CLASS,
   ADMIN_CMS_TAB_LIST_CLASS,
+  ADMIN_CMS_SEGMENTED_CONTROL_CLASS,
   adminCmsTabButtonClass,
+  adminCmsSegmentTabClass,
+  adminCmsCategoryTabShellClass,
 } from '@/components/admin/layout/adminCmsLayoutClasses';
 export { AdminCmsEditorShell } from '@/components/admin/layout/AdminCmsEditorShell';
 export type { AdminCmsEditorShellProps } from '@/components/admin/layout/AdminCmsEditorShell';

@@ -298,13 +298,6 @@ export function HomeCmsEditor() {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6 space-y-4 pb-8">
-        <header className="pt-2">
-          <h1 className="text-3xl font-black tracking-tight">Homepage CMS</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Edit public homepage sections. Draft saves to Supabase; Publish makes them live.
-          </p>
-        </header>
-
         <CmsSaveNotice />
 
         <div className="sticky top-0 z-20 bg-background py-3 border-b border-white/10">
@@ -360,24 +353,6 @@ export function HomeCmsEditor() {
               </CTAButton>
             </div>
           </div>
-        </div>
-
-        <div className="border-b border-white/10 pb-3 flex flex-wrap gap-2 items-center">
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search in current tab..."
-            className="w-56 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
-          />
-          {search ? (
-            <button
-              type="button"
-              onClick={() => setSearch('')}
-              className="text-xs font-bold text-muted-foreground hover:text-foreground"
-            >
-              Clear
-            </button>
-          ) : null}
         </div>
 
         <GlassCard variant="raised" className="p-4 md:p-6 space-y-4">

@@ -252,7 +252,7 @@ export function BottomCtaRotator() {
           {showInlineForm || primary.type === 'micro_form' ? (
             <div className="flex w-full flex-col gap-2 sm:max-w-md">
               <Input placeholder="Full name" value={inlineName} onChange={(e) => setInlineName(e.target.value)} className="h-11" />
-              <Input placeholder="WhatsApp" value={inlinePhone} onChange={(e) => setInlinePhone(e.target.value)} className="h-11" />
+              <Input placeholder="Mobile Number" value={inlinePhone} onChange={(e) => setInlinePhone(e.target.value)} className="h-11" />
               <Input placeholder="Email (optional)" value={inlineEmail} onChange={(e) => setInlineEmail(e.target.value)} className="h-11" />
               <Button type="button" variant="brand" className="w-full font-bold" onClick={() => void submitInlineForm()}>
                 Send my details

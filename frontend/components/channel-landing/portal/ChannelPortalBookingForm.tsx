@@ -145,7 +145,7 @@ export default function ChannelPortalBookingForm({ page, theme, sectionOrder }: 
               setWhatsapp(e.target.value)
               touch()
             }}
-            placeholder="WhatsApp / phone"
+            placeholder="Mobile Number"
             className="w-full p-3 text-body-sm"
             style={inputStyle}
           />

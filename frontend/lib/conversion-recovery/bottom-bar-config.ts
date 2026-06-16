@@ -56,7 +56,7 @@ function defaultRotations(): BottomBarRotation[] {
     {
       id: 'r4',
       headline: 'Map your roadmap in 24 hours',
-      body: "Leave WhatsApp: we'll follow up with a structured certification plan.",
+      body: "Leave your mobile number: we'll follow up with a structured certification plan.",
       primary: { type: 'micro_form' },
       dismissLabel: "Don't ask again",
       variant: 'bottom_bar_r4',
@@ -140,7 +140,7 @@ export function getRotationsForPath(pathname: string): BottomBarRotation[] {
     copy[1] = {
       ...copy[1],
       headline: 'Still thinking about Foundation?',
-      body: "Leave WhatsApp: we'll follow up before you enroll.",
+      body: "Leave your mobile number: we'll follow up before you enroll.",
     };
     return copy;
   }

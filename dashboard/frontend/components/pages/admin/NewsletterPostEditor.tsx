@@ -7,9 +7,13 @@ import {
   ArrowLeft,
   ImageIcon,
   Loader2,
+  ListChecks,
   Save,
   Search,
+  Sparkles,
   Tag,
+  Users,
+  Wand2,
 } from 'lucide-react';
 import { MediaPicker } from '@/components/pages/admin/site-content/MediaPicker';
 import { Button } from '@/components/ui/button';
@@ -54,11 +58,33 @@ function SectionCard({
   );
 }
 
+const NEWSLETTER_TONES = ['informative', 'casual', 'witty', 'formal', 'friendly'] as const;
+const NEWSLETTER_SEGMENTS = [
+  { id: 'all', label: 'All subscribers' },
+  { id: 'new', label: 'New welcome' },
+  { id: 'premium', label: 'Premium exclusive' },
+  { id: 'inactive', label: 'Inactive re-engagement' },
+] as const;
+const NEWSLETTER_TEMPLATES = [
+  { id: 'news_roundup', label: 'News Roundup' },
+  { id: 'deep_dive', label: 'Deep Dive' },
+  { id: 'tips_tricks', label: 'Tips & Tricks' },
+  { id: 'spotlight', label: 'Spotlight' },
+  { id: 'upcoming_events', label: 'Upcoming Events' },
+  { id: 'reader_qa', label: 'Reader Q&A' },
+] as const;
+
 export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const router = useRouter();
   const { getPostById, upsertPost, isLoading, isSaving } = useNewsletterPosts();
   const [post, setPost] = useState<NewsletterPost | null>(null);
   const [topicsInput, setTopicsInput] = useState('');
+  const [rawNotes, setRawNotes] = useState('');
+  const [tone, setTone] = useState<(typeof NEWSLETTER_TONES)[number]>('informative');
+  const [segment, setSegment] = useState<(typeof NEWSLETTER_SEGMENTS)[number]['id']>('all');
+  const [template, setTemplate] =
+    useState<(typeof NEWSLETTER_TEMPLATES)[number]['id']>('news_roundup');
+  const [sectionCount, setSectionCount] = useState(4);
 
   useEffect(() => {
     if (isLoading) return;
@@ -78,6 +104,14 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   }, [getPostById, isLoading, postId]);
 
   const canSave = useMemo(() => Boolean(post?.title.trim() && post?.slug.trim()), [post]);
+  const contentWordCount = useMemo(
+    () => post?.content.trim().split(/\s+/).filter(Boolean).length ?? 0,
+    [post?.content],
+  );
+  const notesWordCount = useMemo(
+    () => rawNotes.trim().split(/\s+/).filter(Boolean).length,
+    [rawNotes],
+  );
 
   const updatePost = (patch: Partial<NewsletterPost>) => {
     setPost((current) => (current ? { ...current, ...patch } : current));
@@ -115,6 +149,39 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
     if (!postId) {
       router.replace(WEBSITE_CMS_PATHS.newsletterEdit(saved.id));
     }
+  };
+
+  const applyEditorScaffold = () => {
+    if (!post) return;
+    const templateLabel =
+      NEWSLETTER_TEMPLATES.find((item) => item.id === template)?.label ?? 'Custom';
+    const segmentLabel =
+      NEWSLETTER_SEGMENTS.find((item) => item.id === segment)?.label ?? 'All subscribers';
+    const sectionHeadings = Array.from({ length: Math.max(2, Math.min(8, sectionCount)) }).map(
+      (_, index) => `## Section ${index + 1}`,
+    );
+    const notesBlock = rawNotes.trim()
+      ? `\n## Source Notes\n${rawNotes
+          .trim()
+          .split('\n')
+          .map((line) => (line.trim() ? `- ${line.trim().replace(/^-+\s*/, '')}` : ''))
+          .filter(Boolean)
+          .join('\n')}\n`
+      : '';
+    const scaffold = [
+      `# ${post.title || 'Newsletter Draft'}`,
+      '',
+      `Audience Segment: ${segmentLabel}`,
+      `Tone: ${tone}`,
+      `Template: ${templateLabel}`,
+      '',
+      ...sectionHeadings,
+      '',
+      notesBlock.trimEnd(),
+    ]
+      .filter(Boolean)
+      .join('\n');
+    updatePost({ content: scaffold });
   };
 
   if (isLoading) {
@@ -258,6 +325,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
                 onChange={(event) =>
                   updatePost({ status: event.target.value as NewsletterPostStatus })
                 }
+                aria-label="Newsletter status"
                 className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm"
               >
                 <option value="published">Active</option>
@@ -269,6 +337,110 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
         </SectionCard>
 
         <SectionCard title="Content" icon={Tag}>
+          <div className="mb-4 rounded-xl border border-border bg-muted/30 p-4">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold">
+              <Sparkles size={16} className="text-brand-orange" />
+              Newsletter Editor Workspace
+            </h3>
+            <div className="grid gap-3 md:grid-cols-2">
+              <div>
+                <FieldLabel>Tone</FieldLabel>
+                <select
+                  value={tone}
+                  onChange={(event) => setTone(event.target.value as (typeof NEWSLETTER_TONES)[number])}
+                  aria-label="Newsletter tone"
+                  className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm"
+                >
+                  {NEWSLETTER_TONES.map((item) => (
+                    <option key={item} value={item}>
+                      {item.charAt(0).toUpperCase() + item.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <FieldLabel>Template</FieldLabel>
+                <select
+                  value={template}
+                  onChange={(event) =>
+                    setTemplate(event.target.value as (typeof NEWSLETTER_TEMPLATES)[number]['id'])
+                  }
+                  aria-label="Newsletter template"
+                  className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm"
+                >
+                  {NEWSLETTER_TEMPLATES.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <FieldLabel>Subscriber Segment</FieldLabel>
+                <select
+                  value={segment}
+                  onChange={(event) =>
+                    setSegment(event.target.value as (typeof NEWSLETTER_SEGMENTS)[number]['id'])
+                  }
+                  aria-label="Newsletter subscriber segment"
+                  className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm"
+                >
+                  {NEWSLETTER_SEGMENTS.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <FieldLabel>Planned Sections</FieldLabel>
+                <div className="flex items-center gap-2 rounded-lg border border-input bg-background px-3">
+                  <ListChecks size={14} className="text-muted-foreground" />
+                  <input
+                    type="number"
+                    min={2}
+                    max={8}
+                    value={sectionCount}
+                    aria-label="Planned section count"
+                    onChange={(event) =>
+                      setSectionCount(Number.isFinite(Number(event.target.value)) ? Number(event.target.value) : 4)
+                    }
+                    className="h-10 w-full bg-transparent text-sm outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="mt-3">
+              <FieldLabel>Raw Notes</FieldLabel>
+              <Textarea
+                value={rawNotes}
+                onChange={(event) => setRawNotes(event.target.value)}
+                rows={4}
+                placeholder="Paste quick notes, bullet points, links, or source snippets..."
+              />
+            </div>
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-1">
+                <Users size={12} /> Segment: {NEWSLETTER_SEGMENTS.find((item) => item.id === segment)?.label}
+              </span>
+              <span>Notes words: {notesWordCount}</span>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Button type="button" variant="outline" className="gap-2" onClick={applyEditorScaffold}>
+                <Wand2 size={14} />
+                Build Draft Scaffold
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                className="gap-2"
+                onClick={() => setRawNotes('')}
+                disabled={!rawNotes.trim()}
+              >
+                Clear Notes
+              </Button>
+            </div>
+          </div>
           <FieldLabel required>Post Content</FieldLabel>
           <Textarea
             value={post.content}
@@ -276,6 +448,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
             rows={16}
             className="min-h-80 font-mono text-sm"
           />
+          <p className="mt-2 text-xs text-muted-foreground">Content words: {contentWordCount}</p>
         </SectionCard>
       </div>
 

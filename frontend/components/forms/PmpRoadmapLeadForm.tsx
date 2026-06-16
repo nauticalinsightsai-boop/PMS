@@ -415,7 +415,7 @@ export function PmpRoadmapLeadForm({
 
           <div className={cn(fieldGroupClass, certMobileSectionPad)}>
             <Label htmlFor={`${idPrefix}-phone`} className={labelClass}>
-              Phone / WhatsApp
+              Mobile Number
             </Label>
             <div
               className={cn(

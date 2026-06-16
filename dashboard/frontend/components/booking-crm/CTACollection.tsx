@@ -8,12 +8,12 @@ import { CTAButton } from '@/components/ui/CTAButton'
 import AdminChannelMark from '@/components/admin/AdminChannelMark'
 import {
   AdminCmsEditorShell,
-  AdminCmsTabBar,
-  AdminCmsFilterToolbar,
   ADMIN_CMS_FILTER_INPUT_CLASS,
   ADMIN_CMS_PREVIEW_BUTTON_CLASS,
+  ADMIN_CMS_TAB_BAR_INNER_CLASS,
   ADMIN_CMS_TAB_BAR_OUTER_CLASS,
-  adminCmsTabButtonClass,
+  ADMIN_CMS_SEGMENTED_CONTROL_CLASS,
+  adminCmsSegmentTabClass,
 } from '@/components/admin/layout'
 import {
   CTA_PLATFORM_CATEGORY_TABS,
@@ -64,6 +64,7 @@ export default function CTACollection() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const editorRef = useRef<ChannelLandingEditorHandle>(null)
+  const categoryHoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const channelFromUrl = searchParams?.get('channel') ?? null
   const categoryFromUrl = searchParams?.get('category') as PlatformCategory | null
 
@@ -125,6 +126,7 @@ export default function CTACollection() {
     status: 'draft',
     hasUnsavedChanges: false,
   })
+  const [categoryHoverArmed, setCategoryHoverArmed] = useState(false)
 
   const categoryTabItems = useMemo(() => {
     const counts = getChannelCountByCategory()
@@ -515,186 +517,328 @@ export default function CTACollection() {
     afterSave()
   }
 
-       return (
+  const clearCategoryHoverTimeout = () => {
+    if (categoryHoverTimeoutRef.current) {
+      clearTimeout(categoryHoverTimeoutRef.current)
+      categoryHoverTimeoutRef.current = null
+    }
+  }
+
+  const queueCategoryHoverSelection = (categoryId: string) => {
+    if (!categoryHoverArmed) return
+    clearCategoryHoverTimeout()
+    categoryHoverTimeoutRef.current = setTimeout(() => {
+      onCategoryChange(categoryId)
+    }, 300)
+  }
+
+  useEffect(() => {
+    return () => {
+      clearCategoryHoverTimeout()
+    }
+  }, [])
+
+  return (
     <AdminCmsEditorShell className="admin-cta-editor">
-      <div className={ADMIN_CMS_TAB_BAR_OUTER_CLASS}>
-        <AdminCmsTabBar
-          tabs={
-            <>
+      <style jsx global>{`
+        /* Compatibility styling for stale/legacy tab wrappers still seen during HMR. */
+        .admin-cta-editor [aria-label='Platform categories'] > div,
+        .admin-cta-editor [aria-label='Channels in category'] > div,
+        .admin-cta-editor .group\\/cta-header .text-label.group.inline-flex {
+          min-width: 0 !important;
+          width: auto !important;
+          max-width: max-content !important;
+          height: auto !important;
+          border: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          flex: 0 0 auto !important;
+          align-self: center !important;
+        }
+
+        /* Legacy channel strip container -> match segmented track shell. */
+        .admin-cta-editor
+          .group\\/cta-header
+          .grid
+          .flex.min-w-0.flex-1.items-center.gap-2.overflow-x-auto.whitespace-nowrap.scrollbar-hide {
+          display: flex !important;
+          align-items: center !important;
+          gap: 0.125rem !important;
+          background: hsl(var(--muted) / 0.5) !important;
+          border: 1px solid hsl(var(--border)) !important;
+          border-radius: 1rem !important;
+          padding: 0.25rem !important;
+          max-width: 100% !important;
+        }
+
+        .admin-cta-editor [aria-label='Platform categories'] > div > button,
+        .admin-cta-editor [aria-label='Channels in category'] > div > button,
+        .admin-cta-editor .group\\/cta-header .text-label.group.inline-flex > button {
+          display: inline-flex !important;
+          align-items: center !important;
+          gap: 0.5rem !important;
+          border-radius: 0.75rem !important;
+          padding: 0.375rem 1rem !important;
+          line-height: 1rem !important;
+          min-height: 1.75rem !important;
+          height: 1.75rem !important;
+          font-size: 0.75rem !important;
+          font-weight: 600 !important;
+          min-width: 0 !important;
+          width: auto !important;
+          max-width: max-content !important;
+          transition: all 300ms !important;
+          white-space: nowrap !important;
+        }
+
+        /* Legacy tab nodes rendered as div[role='tab'] should not resize when selected. */
+        .admin-cta-editor [aria-label='Platform categories'] [role='tab'] {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          min-width: 7.5rem !important;
+          width: auto !important;
+          flex: 0 0 auto !important;
+          padding: 0.375rem 1rem !important;
+          border-radius: 0.75rem !important;
+          font-size: 0.75rem !important;
+          font-weight: 600 !important;
+          line-height: 1rem !important;
+          white-space: nowrap !important;
+        }
+
+        .admin-cta-editor [aria-label='Platform categories'] > div > button[aria-selected='true'],
+        .admin-cta-editor [aria-label='Platform categories'] > div > button[aria-current='true'],
+        .admin-cta-editor [aria-label='Channels in category'] > div > button[aria-current='page'],
+        .admin-cta-editor [aria-label='Channels in category'] > div > button[aria-current='true'] {
+          color: hsl(var(--brand-orange)) !important;
+          background: hsl(var(--brand-orange) / 0.1) !important;
+          border: 1px solid hsl(var(--brand-orange) / 0.4) !important;
+          box-shadow: none !important;
+        }
+
+        .admin-cta-editor [aria-label='Platform categories'] > div > button[aria-selected='false'],
+        .admin-cta-editor [aria-label='Channels in category'] > div > button:not([aria-current]) {
+          color: hsl(var(--muted-foreground)) !important;
+          background: transparent !important;
+        }
+
+        .admin-cta-editor [aria-label='Platform categories'] [role='tab'][aria-selected='true'] {
+          color: hsl(var(--brand-orange)) !important;
+          background: hsl(var(--brand-orange) / 0.1) !important;
+          border: 1px solid hsl(var(--brand-orange) / 0.4) !important;
+          box-shadow: none !important;
+          font-weight: 600 !important;
+        }
+
+        .admin-cta-editor [aria-label='Platform categories'] [role='tab'][aria-selected='false'] {
+          color: hsl(var(--muted-foreground)) !important;
+          background: transparent !important;
+          font-weight: 600 !important;
+        }
+      `}</style>
+      <div
+        className={`${ADMIN_CMS_TAB_BAR_OUTER_CLASS} group/cta-header relative z-30 border-b border-border mb-4`}
+      >
+        <div className={`${ADMIN_CMS_TAB_BAR_INNER_CLASS} relative z-20`}>
+          <div className="flex min-w-0 w-full flex-nowrap items-center gap-2">
+            <div
+              className={`${ADMIN_CMS_SEGMENTED_CONTROL_CLASS} min-w-0 flex-1`}
+              aria-label="Platform categories"
+            >
               {categoryTabItems.map((tab) => {
                 const active = activeCategory === tab.id
                 return (
-                  <div key={tab.id} className="inline-flex items-center group">
-                    <button
-                      type="button"
-                      onClick={() => onCategoryChange(tab.id)}
-                      className={adminCmsTabButtonClass(active)}
-                    >
-                      {tab.label}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => removeCategoryTab(tab.id as PlatformCategory)}
-                      className="ml-0 w-0 overflow-hidden p-0 rounded hover:bg-card text-muted-foreground opacity-0 pointer-events-none group-hover:w-5 group-hover:ml-1 group-hover:p-1 group-hover:opacity-100 group-hover:pointer-events-auto focus-visible:w-5 focus-visible:ml-1 focus-visible:p-1 focus-visible:opacity-100 focus-visible:pointer-events-auto transition-all duration-200"
-                      title={`Remove ${tab.label}`}
-                      aria-label={`Remove ${tab.label}`}
-                      disabled={categoryTabItems.length <= 1}
-                    >
-                      <X size={12} />
-                    </button>
-                  </div>
+                  <button
+                    key={tab.id}
+                    type="button"
+                    aria-current={active ? 'true' : undefined}
+                    onClick={() => onCategoryChange(tab.id)}
+                    onMouseEnter={() => queueCategoryHoverSelection(tab.id)}
+                    onMouseLeave={clearCategoryHoverTimeout}
+                    onMouseMove={() => {
+                      if (!categoryHoverArmed) setCategoryHoverArmed(true)
+                    }}
+                    className={`${adminCmsSegmentTabClass(active)} group/tab relative${
+                      categoryTabItems.length > 1 ? ' pr-5' : ''
+                    }`}
+                  >
+                    <span>{tab.label}</span>
+                    {categoryTabItems.length > 1 ? (
+                      <span
+                        className="pointer-events-none absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 opacity-0 transition-opacity group-hover/tab:pointer-events-auto group-hover/tab:opacity-80 hover:!opacity-100"
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          e.preventDefault()
+                          removeCategoryTab(tab.id as PlatformCategory)
+                        }}
+                        title={`Remove ${tab.label}`}
+                        aria-hidden
+                      >
+                        <X size={10} className={active ? 'text-brand-orange' : 'text-muted-foreground'} />
+                      </span>
+                    ) : null}
+                  </button>
                 )
               })}
-              {customCategoryLabels.map((label) => (
-                <div key={`custom-category-${label}`} className="inline-flex items-center group">
-                  <span className="px-3 py-2 text-label whitespace-nowrap text-muted-foreground border border-dashed border-muted-foreground/35 rounded">
-                    {label}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => removeCustomCategoryLabel(label)}
-                    className="ml-1 p-1 rounded hover:bg-card text-muted-foreground opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity"
-                    title={`Remove ${label}`}
-                    aria-label={`Remove ${label}`}
+            </div>
+            {customCategoryLabels.length > 0 ? (
+              <div className="flex shrink-0 items-center gap-1 overflow-x-auto scrollbar-hide">
+                {customCategoryLabels.map((label) => (
+                  <span
+                    key={`custom-category-${label}`}
+                    className="inline-flex shrink-0 items-center gap-1 rounded-xl border border-dashed border-muted-foreground/35 px-3 py-1.5 text-xs text-muted-foreground"
                   >
-                    <X size={12} />
-                  </button>
-                </div>
-              ))}
-            </>
-          }
-          trailing={
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setShowCategoryAddControls((v) => !v)}
-                className="inline-flex items-center justify-center w-8 h-8 rounded border border-muted-foreground/25 text-brand-orange hover:bg-card"
-                aria-label="Show add category controls"
-                title="Add category"
-                aria-haspopup="dialog"
-              >
-                <Plus size={14} />
-              </button>
-            </div>
-          }
-        />
-     </div>
-
-      <AdminCmsFilterToolbar
-        footerInline
-        className="overflow-visible overflow-x-visible"
-        filters={
-          <>
-            <div className="flex items-center min-w-[20rem] max-w-xl border border-slate-200/80 dark:border-slate-700 rounded bg-white/70 dark:bg-slate-900/60 backdrop-blur-md overflow-hidden">
-              <div className="relative flex-1 min-w-[10rem]">
-                <Search
-                  size={14}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
-                />
-                <input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search channel…"
-                  className="w-full pl-9 pr-3 py-2 text-body-sm bg-transparent border-0 focus:outline-none"
-                  aria-label="Search channels"
-                />
-              </div>
-              <div className="w-px self-stretch bg-slate-200/80 dark:bg-slate-700" />
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
-                className="px-3 py-2 text-body-sm text-brand-orange bg-transparent border-0 focus:outline-none"
-                aria-label="Filter by publish status"
-              >
-                <option value="all">All statuses</option>
-                <option value="published">Published</option>
-                <option value="draft">Draft only</option>
-              </select>
-            </div>
-            {query || statusFilter !== 'all' ? (
-          <button
-                type="button"
-                onClick={() => {
-                  setQuery('')
-                  setStatusFilter('all')
-                }}
-                className="px-3 py-2 text-body-sm text-brand-orange hover:text-foreground transition-colors whitespace-nowrap"
-              >
-                Clear filters
-          </button>
-            ) : null}
-          </>
-        }
-        footer={
-          <div className="flex flex-wrap items-center gap-2 w-full min-w-0">
-            {filteredChannels.length > 0 ? (
-              <div className="flex items-center gap-2 flex-1 min-w-0 overflow-x-auto whitespace-nowrap scrollbar-hide">
-                {filteredChannels.map((ch) => {
-                  const active = effectiveChannelId === ch.channelId
-                  const published = statusByChannel[ch.channelId] === 'published'
-                  return (
-                    <div key={ch.channelId} className="inline-flex items-center group shrink-0">
-                      <button
-                        type="button"
-                        aria-label={`${ch.label}${published ? ', published' : ''}`}
-                        onClick={() => onChannelChange(ch.channelId)}
-                        className={`${adminCmsTabButtonClass(active)} inline-flex items-center gap-2 px-3 py-2 rounded border border-slate-200/80 dark:border-slate-700/80 bg-white/50 dark:bg-slate-900/40`}
-                      >
-                        <AdminChannelMark channelId={ch.channelId} fallbackIcon={ch.icon} size={16} className="shrink-0" />
-                        <span>{ch.label}</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => removeChannelChip(ch.channelId)}
-                        className="ml-0 w-0 overflow-hidden p-0 rounded hover:bg-card text-muted-foreground opacity-0 pointer-events-none group-hover:w-5 group-hover:ml-1 group-hover:p-1 group-hover:opacity-100 group-hover:pointer-events-auto focus-visible:w-5 focus-visible:ml-1 focus-visible:p-1 focus-visible:opacity-100 focus-visible:pointer-events-auto transition-all duration-200"
-                        title={`Remove ${ch.label}`}
-                        aria-label={`Remove ${ch.label}`}
-                        disabled={channelsInCategory.length <= 1}
-                      >
-                        <X size={12} />
-                      </button>
-                    </div>
-                  )
-                })}
+                    {label}
+                    <button
+                      type="button"
+                      onClick={() => removeCustomCategoryLabel(label)}
+                      className="rounded p-0.5 hover:bg-muted/80"
+                      title={`Remove ${label}`}
+                      aria-label={`Remove ${label}`}
+                    >
+                      <X size={10} />
+                    </button>
+                  </span>
+                ))}
               </div>
             ) : null}
-            <div className="inline-flex items-center gap-2 ml-auto relative">
-              <button
-                type="button"
-                onClick={() => setShowChannelAddControls(true)}
-                className="inline-flex items-center justify-center w-8 h-8 rounded border border-muted-foreground/25 text-brand-orange hover:bg-card"
-                aria-label="Show add channel controls"
-                title="Add channel"
-                aria-haspopup="dialog"
-              >
-                <Plus size={14} />
-              </button>
-            </div>
-          </div>
-        }
-        actions={
-          <>
             <button
               type="button"
-              onClick={() => editorRef.current?.openPreview()}
-              className={ADMIN_CMS_PREVIEW_BUTTON_CLASS}
+              onClick={() => setShowCategoryAddControls((v) => !v)}
+              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-border bg-muted/50 text-brand-orange hover:bg-muted"
+              aria-label="Show add category controls"
+              title="Add category"
+              aria-haspopup="dialog"
             >
-              Preview
+              <Plus size={14} />
             </button>
-            <CTAButton
-              variant="primary"
-              onClick={handlePublish}
-              size="sm"
-              disabled={meta.saving}
-              className={`shrink-0 whitespace-nowrap transition-opacity ${
-                meta.saving ? 'opacity-60 cursor-not-allowed' : 'opacity-100'
-              }`}
-            >
-              {meta.status === 'published' ? 'Update' : 'Publish'}
-            </CTAButton>
-          </>
-        }
-      />
+          </div>
+        </div>
+
+        <div
+          className="relative z-10 grid grid-rows-[0fr] opacity-0 pointer-events-none transition-[grid-template-rows,opacity] duration-200 ease-out group-hover/cta-header:grid-rows-[1fr] group-hover/cta-header:opacity-100 group-focus-within/cta-header:grid-rows-[1fr] group-focus-within/cta-header:opacity-100"
+          {...(filteredChannels.length === 0 ? { 'aria-hidden': true } : {})}
+        >
+          <div className="pointer-events-none min-h-0 overflow-hidden group-hover/cta-header:pointer-events-auto group-focus-within/cta-header:pointer-events-auto">
+            {filteredChannels.length > 0 ? (
+              <div className="flex flex-nowrap items-center gap-2 overflow-x-auto scrollbar-hide px-0 md:px-2 pb-3 pt-1">
+                <div
+                  className={`${ADMIN_CMS_SEGMENTED_CONTROL_CLASS} min-w-0 max-w-full flex-1`}
+                  aria-label="Channels in category"
+                >
+                  {filteredChannels.map((ch) => {
+                    const active = effectiveChannelId === ch.channelId
+                    const published = statusByChannel[ch.channelId] === 'published'
+                    return (
+                      <button
+                        key={ch.channelId}
+                        type="button"
+                        aria-label={`${ch.label}${published ? ', published' : ''}`}
+                        aria-current={active ? 'true' : undefined}
+                        onClick={() => onChannelChange(ch.channelId)}
+                        onMouseEnter={() => onChannelChange(ch.channelId)}
+                        className={`${adminCmsSegmentTabClass(active)} group/ch relative inline-flex items-center gap-1.5${
+                          channelsInCategory.length > 1 ? ' pr-5' : ''
+                        }`}
+                      >
+                        <AdminChannelMark channelId={ch.channelId} fallbackIcon={ch.icon} size={14} className="shrink-0" />
+                        <span>{ch.label}</span>
+                        {channelsInCategory.length > 1 ? (
+                          <span
+                            className="pointer-events-none absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 opacity-0 transition-opacity group-hover/ch:pointer-events-auto group-hover/ch:opacity-80 hover:!opacity-100"
+                            onMouseDown={(e) => e.stopPropagation()}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              e.preventDefault()
+                              removeChannelChip(ch.channelId)
+                            }}
+                            title={`Remove ${ch.label}`}
+                            aria-hidden
+                          >
+                            <X size={10} className={active ? 'text-brand-orange' : 'text-muted-foreground'} />
+                          </span>
+                        ) : null}
+                      </button>
+                    )
+                  })}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowChannelAddControls(true)}
+                  className="inline-flex items-center justify-center w-8 h-8 rounded border border-muted-foreground/25 text-brand-orange hover:bg-card shrink-0"
+                  aria-label="Show add channel controls"
+                  title="Add channel"
+                  aria-haspopup="dialog"
+                >
+                  <Plus size={14} />
+                </button>
+                <div className="ml-auto flex shrink-0 flex-nowrap items-center gap-2">
+                  <div className="flex items-center min-w-[20rem] max-w-xl border border-slate-200/80 dark:border-slate-700 rounded bg-white/70 dark:bg-slate-900/60 backdrop-blur-md overflow-hidden">
+                    <div className="relative flex-1 min-w-[10rem]">
+                      <Search
+                        size={14}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                      />
+                      <input
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder="Search channel…"
+                        className="w-full pl-9 pr-3 py-2 text-body-sm bg-transparent border-0 focus:outline-none"
+                        aria-label="Search channels"
+                      />
+                    </div>
+                    <div className="w-px self-stretch bg-slate-200/80 dark:bg-slate-700" />
+                    <select
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
+                      className="px-3 py-2 text-body-sm text-brand-orange bg-transparent border-0 focus:outline-none"
+                      aria-label="Filter by publish status"
+                    >
+                      <option value="all">All statuses</option>
+                      <option value="published">Published</option>
+                      <option value="draft">Draft only</option>
+                    </select>
+                  </div>
+                  {query || statusFilter !== 'all' ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setQuery('')
+                        setStatusFilter('all')
+                      }}
+                      className="px-3 py-2 text-body-sm text-brand-orange hover:text-foreground transition-colors whitespace-nowrap"
+                    >
+                      Clear filters
+                    </button>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={() => editorRef.current?.openPreview()}
+                    className={ADMIN_CMS_PREVIEW_BUTTON_CLASS}
+                  >
+                    Preview
+                  </button>
+                  <CTAButton
+                    variant="primary"
+                    onClick={handlePublish}
+                    size="sm"
+                    disabled={meta.saving}
+                    className={`shrink-0 whitespace-nowrap transition-opacity ${
+                      meta.saving ? 'opacity-60 cursor-not-allowed' : 'opacity-100'
+                    }`}
+                  >
+                    {meta.status === 'published' ? 'Update' : 'Publish'}
+                  </CTAButton>
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
 
       {filteredChannels.length === 0 ? (
         <div className="px-2 py-12 text-center">

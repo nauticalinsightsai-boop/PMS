@@ -10,12 +10,16 @@ export function DashboardNavLink({
   className,
   exact,
   title,
+  onMouseEnter,
+  onMouseLeave,
 }: {
   href: string;
   children: React.ReactNode;
   className?: string | ((active: boolean) => string);
   exact?: boolean;
   title?: string;
+  onMouseEnter?: React.MouseEventHandler<HTMLAnchorElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLAnchorElement>;
 }) {
   const pathname = usePathname();
   const isActive = exact
@@ -30,6 +34,8 @@ export function DashboardNavLink({
       className={cn(resolvedClass)}
       title={title}
       aria-current={isActive ? 'page' : undefined}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {children}
     </Link>

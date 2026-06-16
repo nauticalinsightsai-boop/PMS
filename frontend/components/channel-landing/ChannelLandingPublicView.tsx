@@ -169,7 +169,7 @@ export default function ChannelLandingPublicView({ page }: Props) {
                   setWhatsapp(e.target.value)
                   touch()
                 }}
-                placeholder="WhatsApp / phone"
+                placeholder="Mobile Number"
                 className="w-full p-3 r-input bg-white/70 dark:bg-slate-900/60 text-brand-text text-body-sm"
               />
               {page.collectCompany && (

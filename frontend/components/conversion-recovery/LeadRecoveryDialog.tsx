@@ -97,7 +97,7 @@ export function LeadRecoveryDialog() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName.trim() || !phone.trim()) {
-      setError('Please enter your name and WhatsApp number.');
+      setError('Please enter your name and mobile number.');
       return;
     }
     setError(null);
@@ -216,16 +216,22 @@ export function LeadRecoveryDialog() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lr-phone">WhatsApp / phone</Label>
+                <Label htmlFor="lr-phone">Mobile Number</Label>
                 <div className="flex gap-2">
                   <Select value={dialValue} onValueChange={(v) => v && setDialValue(v)}>
                     <SelectTrigger className="w-[7.5rem] h-11">
                       <SelectValue>{formatDialPrefix(dialOption)}</SelectValue>
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent
+                      alignItemWithTrigger={false}
+                      side="bottom"
+                      align="start"
+                      className="!w-auto min-w-[18rem] max-h-[min(16rem,50vh)] max-w-[min(22rem,calc(100vw-2rem))] overflow-y-auto"
+                    >
                       {PMP_ROADMAP_DIAL_CODES.map((d) => (
-                        <SelectItem key={d.value} value={d.value}>
+                        <SelectItem key={d.value} value={d.value} className="py-2">
                           <span className="shrink-0 font-semibold tabular-nums">{formatDialPrefix(d)}</span>
+                          <span className="truncate text-slate-500">{d.label}</span>
                         </SelectItem>
                       ))}
                     </SelectContent>

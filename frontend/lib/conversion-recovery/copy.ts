@@ -50,7 +50,7 @@ function pathwayCalendlyCopy(tierId: RecoveryTierId, explored: boolean): Recover
     if (tierId === 'professional') {
       return {
         headline: 'Stop overthinking',
-        body: "Schedule a mentor call later: for now, leave WhatsApp and we'll reach out in 24 hours.",
+        body: "Schedule a mentor call later: for now, leave your mobile number and we'll reach out in 24 hours.",
         submitLabel: 'Request callback',
       };
     }
@@ -92,7 +92,7 @@ function pathwayExitCopy(tierId: RecoveryTierId, ctx: LeadRecoveryContext): Reco
   if (tierId === 'foundation') {
     return {
       headline: 'Fill in your details for a callback',
-      body: `Share name and WhatsApp for ${cert} ${tier}: we'll call you back within 24 hours with your study plan. Or pick a time that works for you.`,
+      body: `Share name and mobile number for ${cert} ${tier}: we'll call you back within 24 hours with your study plan. Or pick a time that works for you.`,
       submitLabel: 'Request a callback',
       ...schedule,
     };
@@ -125,12 +125,12 @@ function pathwayExitCopy(tierId: RecoveryTierId, ctx: LeadRecoveryContext): Reco
 const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContext) => RecoveryCopy>> = {
   home_roadmap_partial: () => ({
     headline: 'Almost there',
-    body: "Name + WhatsApp is enough: we'll map your PM certification roadmap for you.",
+    body: "Your name and mobile number are enough: we'll map your PM certification roadmap for you.",
     submitLabel: 'Submit quick details',
   }),
   home_insights_partial: () => ({
     headline: 'Almost there',
-    body: "Share name and WhatsApp: we'll map your certification roadmap within 24 hours.",
+    body: "Share your name and mobile number: we'll map your certification roadmap within 24 hours.",
     submitLabel: 'Submit quick details',
   }),
   home_calendly_fast: () => ({
@@ -145,7 +145,7 @@ const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContex
   }),
   home_register_exit: () => ({
     headline: 'Talk to a mentor instead?',
-    body: "Leave name + WhatsApp: we'll match you to the right certification pathway.",
+    body: "Leave your name and mobile number: we'll match you to the right certification pathway.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   home_tool_calendly_bounce: () => ({
@@ -155,17 +155,17 @@ const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContex
   }),
   cert_roadmap_partial: (ctx) => ({
     headline: 'Almost done',
-    body: `Name + WhatsApp is enough: we'll map your ${certLabel(ctx)} roadmap.`,
+    body: `Your name and mobile number are enough: we'll map your ${certLabel(ctx)} roadmap.`,
     submitLabel: 'Submit quick details',
   }),
   nav_register_partial: () => ({
     headline: 'Quick question before you go?',
-    body: 'Leave name + WhatsApp: a mentor will follow up within 24 hours.',
+    body: 'Leave your name and mobile number: a mentor will follow up within 24 hours.',
     submitLabel: DEFAULT_SUBMIT,
   }),
   register_modal_partial: () => ({
     headline: 'Can we reach out instead?',
-    body: "Just name + WhatsApp: we'll map your pathway and reply within 24 hours.",
+    body: "Just your name and mobile number: we'll map your pathway and reply within 24 hours.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   enroll_partial: (ctx) => ({
@@ -180,7 +180,7 @@ const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContex
   }),
   scholarship_partial: () => ({
     headline: 'Continue your scholarship request',
-    body: "Leave email or WhatsApp: we'll follow up on regional pricing eligibility.",
+    body: "Leave your email or mobile number: we'll follow up on regional pricing eligibility.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   waitlist_partial: () => ({
@@ -190,7 +190,7 @@ const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContex
   }),
   mastery_form_partial: () => ({
     headline: 'Continue your Mastery request',
-    body: "Just name + WhatsApp: we'll complete the consultation request for you.",
+    body: "Just your name and mobile number: we'll complete the consultation request for you.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   channel_landing_partial: () => ({
@@ -205,7 +205,7 @@ const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContex
   }),
   channel_calendly_bounce: () => ({
     headline: "Didn't schedule a time?",
-    body: "Leave name + WhatsApp: we'll reach out to schedule for you.",
+    body: "Leave your name and mobile number: we'll reach out to schedule for you.",
     submitLabel: DEFAULT_SUBMIT,
   }),
   services_contact_nudge: () => ({
@@ -230,7 +230,7 @@ const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContex
   }),
   bottom_bar_r4: () => ({
     headline: 'Map your roadmap in 24 hours',
-    body: "Leave WhatsApp: we'll follow up with a structured certification plan.",
+    body: "Leave your mobile number: we'll follow up with a structured certification plan.",
     submitLabel: DEFAULT_SUBMIT,
   }),
 };

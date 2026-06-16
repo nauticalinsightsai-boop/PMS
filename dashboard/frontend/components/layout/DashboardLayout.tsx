@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import {
   Menu,
@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const router = useRouter();
   const { user, logout } = useAuth();
   const { mode, setMode } = useDashboardMode();
   const { theme, setTheme } = useTheme();
@@ -40,6 +41,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
   const [isSidebarHovered, setSidebarHovered] = useState(false);
   const [hoveredMenuPath, setHoveredMenuPath] = useState<string | null>(null);
   const closeSidebarTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hoverNavigateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reduceMotion = useReducedMotion();
   const pathname = usePathname();
 
@@ -52,6 +54,9 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
       if (closeSidebarTimeoutRef.current) {
         clearTimeout(closeSidebarTimeoutRef.current);
       }
+      if (hoverNavigateTimeoutRef.current) {
+        clearTimeout(hoverNavigateTimeoutRef.current);
+      }
     },
     [],
   );
@@ -60,6 +65,13 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     if (closeSidebarTimeoutRef.current) {
       clearTimeout(closeSidebarTimeoutRef.current);
       closeSidebarTimeoutRef.current = null;
+    }
+  };
+
+  const clearHoverNavigateTimeout = () => {
+    if (hoverNavigateTimeoutRef.current) {
+      clearTimeout(hoverNavigateTimeoutRef.current);
+      hoverNavigateTimeoutRef.current = null;
     }
   };
 
@@ -73,6 +85,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
 
   const closeDesktopSidebarWithDelay = () => {
     clearCloseSidebarTimeout();
+    clearHoverNavigateTimeout();
     closeSidebarTimeoutRef.current = setTimeout(() => {
       setSidebarHovered(false);
       setHoveredMenuPath(null);
@@ -86,6 +99,16 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     } catch (error) {
       console.error('Logout failed:', error);
     }
+  };
+
+  const hoverNavigateDelayMs = 300;
+  const queueHoverNavigation = (path: string) => {
+    clearHoverNavigateTimeout();
+    hoverNavigateTimeoutRef.current = setTimeout(() => {
+      if (pathname !== path) {
+        router.push(path);
+      }
+    }, hoverNavigateDelayMs);
   };
 
   const navItemClasses = (isActive: boolean) =>
@@ -166,8 +189,14 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                 <div
                   key={item.path}
                   className="relative group/menu-item"
-                  onMouseEnter={() => item.subItems && setHoveredMenuPath(item.path)}
-                  onMouseLeave={() => item.subItems && setHoveredMenuPath(null)}
+                  onMouseEnter={() => {
+                    if (item.subItems) setHoveredMenuPath(item.path);
+                    queueHoverNavigation(item.path);
+                  }}
+                  onMouseLeave={() => {
+                    clearHoverNavigateTimeout();
+                    if (item.subItems) setHoveredMenuPath(null);
+                  }}
                 >
                   <DashboardNavLink
                     href={item.path}
@@ -199,6 +228,8 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                           <DashboardNavLink
                             key={sub.path}
                             href={sub.path}
+                            onMouseEnter={() => queueHoverNavigation(sub.path)}
+                            onMouseLeave={clearHoverNavigateTimeout}
                             className={(isActive) =>
                               cn(
                                 'flex items-center text-xs py-1.5 px-3 rounded-lg transition-colors motion-reduce:transition-none',
@@ -221,6 +252,8 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                           <DashboardNavLink
                             key={sub.path}
                             href={sub.path}
+                            onMouseEnter={() => queueHoverNavigation(sub.path)}
+                            onMouseLeave={clearHoverNavigateTimeout}
                             className={(isActive) =>
                               cn(
                                 'flex items-center rounded-lg px-2.5 py-2 text-xs transition-colors motion-reduce:transition-none',

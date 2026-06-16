@@ -23,9 +23,18 @@ export interface AdminCmsTabBarProps {
   activeTabId?: string;
   onTabChange?: (id: string) => void;
   trailing?: ReactNode;
+  /** Skip sticky outer chrome when the parent already provides it. */
+  bare?: boolean;
 }
 
-export function AdminCmsTabBar({ tabs, tabItems, activeTabId, onTabChange, trailing }: AdminCmsTabBarProps) {
+export function AdminCmsTabBar({
+  tabs,
+  tabItems,
+  activeTabId,
+  onTabChange,
+  trailing,
+  bare,
+}: AdminCmsTabBarProps) {
   const tabContent =
     tabs ??
     (tabItems && onTabChange && activeTabId ? (
@@ -51,12 +60,14 @@ export function AdminCmsTabBar({ tabs, tabItems, activeTabId, onTabChange, trail
       </Tabs>
     ) : null);
 
-  return (
-    <div className={ADMIN_CMS_TAB_BAR_OUTER_CLASS}>
-      <div className={ADMIN_CMS_TAB_BAR_INNER_CLASS}>
-        {tabs ? <div className={ADMIN_CMS_TAB_LIST_CLASS}>{tabContent}</div> : tabContent}
-        {trailing ? <div className="shrink-0">{trailing}</div> : null}
-      </div>
+  const inner = (
+    <div className={ADMIN_CMS_TAB_BAR_INNER_CLASS}>
+      {tabs ? <div className={`${ADMIN_CMS_TAB_LIST_CLASS} relative z-10`}>{tabContent}</div> : tabContent}
+      {trailing ? <div className="relative z-10 shrink-0">{trailing}</div> : null}
     </div>
   );
+
+  if (bare) return inner;
+
+  return <div className={ADMIN_CMS_TAB_BAR_OUTER_CLASS}>{inner}</div>;
 }

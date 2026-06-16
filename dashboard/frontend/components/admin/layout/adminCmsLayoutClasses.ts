@@ -16,13 +16,32 @@ export const ADMIN_CMS_TAB_BAR_INNER_CLASS =
 export const ADMIN_CMS_TAB_LIST_CLASS =
   'flex gap-2 items-center overflow-x-auto scrollbar-hide min-w-0';
 
+/** Segmented toggle track (matches dashboard Editor / Booking CRM / Admin control). */
+export const ADMIN_CMS_SEGMENTED_CONTROL_CLASS =
+  'flex items-center gap-0.5 bg-muted/50 p-1 rounded-2xl border border-border max-w-full overflow-x-auto scrollbar-hide';
+
+export function adminCmsSegmentTabClass(active: boolean): string {
+  return `px-3 py-1.5 text-xs font-semibold rounded-xl transition-all duration-300 whitespace-nowrap shrink-0 inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/40 ${
+    active
+      ? 'bg-brand-orange/10 text-brand-orange border border-brand-orange/40'
+      : 'text-muted-foreground hover:text-foreground'
+  }`;
+}
+
 export const ADMIN_CMS_TAB_BUTTON_BASE_CLASS =
-  'px-3 py-2 text-label transition-colors flex items-center gap-2 whitespace-nowrap';
+  'text-label flex items-center justify-center gap-2 whitespace-nowrap rounded-lg cursor-pointer border transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/40';
 
 export function adminCmsTabButtonClass(active: boolean): string {
   return `${ADMIN_CMS_TAB_BUTTON_BASE_CLASS} ${
-    active ? 'text-brand-orange font-semibold' : 'text-muted-foreground hover:text-foreground'
+    active
+      ? 'px-4 py-2 text-brand-orange font-bold bg-brand-orange/15 border-brand-orange/50 shadow-sm shadow-brand-orange/15'
+      : 'px-3 py-2 text-muted-foreground border-transparent hover:border-border hover:bg-muted/60 hover:text-foreground'
   }`;
+}
+
+/** @deprecated Use adminCmsSegmentTabClass for category strip toggles. */
+export function adminCmsCategoryTabShellClass(_active: boolean): string {
+  return 'inline-flex shrink-0 items-center';
 }
 
 export const ADMIN_CMS_FILTER_TOOLBAR_OUTER_CLASS =
