@@ -5,7 +5,7 @@ import { Loader2, MessageCircle, Send, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const GREETING =
-  "Hi — I'm the PM Structure assistant. Ask about certification pathways, FAQs, regional pricing, booking a mentor call, or how to enroll.";
+  "Hi, I'm the PM Structure assistant. Ask about certification pathways, FAQs, regional pricing, booking a mentor call, or how to enroll.";
 
 type ChatMessage = { role: 'user' | 'assistant'; content: string };
 

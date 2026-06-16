@@ -94,7 +94,7 @@ export function externalHrefLinkProps(href: string): { target?: '_blank'; rel?: 
 }
 
 const DEFAULT_WHATSAPP_GREETING =
-  "Hi PM Structure — I'd like help planning my certification pathway. Can you guide me on the right next step?";
+  "Hi PM Structure, I'd like help planning my certification pathway. Can you guide me on the right next step?";
 
 /** wa.me link with optional pre-filled chat message (WhatsApp "chatbot" entry). */
 export function getPmsWhatsAppChatUrl(

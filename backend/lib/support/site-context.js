@@ -42,4 +42,4 @@ export function buildSupportSiteContext() {
 }
 
 export const SUPPORT_CHAT_GREETING =
-  "Hi — I'm the PM Structure assistant. Ask about certification pathways, FAQs, regional pricing, booking a mentor call, or how to enroll.";
+  "Hi, I'm the PM Structure assistant. Ask about certification pathways, FAQs, regional pricing, booking a mentor call, or how to enroll.";
