@@ -93,8 +93,25 @@ export function externalHrefLinkProps(href: string): { target?: '_blank'; rel?: 
   return isExternalHref(href) ? { target: '_blank', rel: 'noopener noreferrer' } : {};
 }
 
+const DEFAULT_WHATSAPP_GREETING =
+  "Hi PM Structure — I'd like help planning my certification pathway. Can you guide me on the right next step?";
+
+/** wa.me link with optional pre-filled chat message (WhatsApp "chatbot" entry). */
+export function getPmsWhatsAppChatUrl(
+  message: string = process.env.NEXT_PUBLIC_WHATSAPP_GREETING?.trim() || DEFAULT_WHATSAPP_GREETING,
+): string {
+  const base = PMS_WHATSAPP_URL.replace(/\?.*$/, '');
+  try {
+    const url = new URL(base);
+    if (message.trim()) url.searchParams.set('text', message.trim());
+    return url.toString();
+  } catch {
+    return base;
+  }
+}
+
 export function getPmsWhatsAppUrl(): string {
-  return PMS_WHATSAPP_URL;
+  return getPmsWhatsAppChatUrl('');
 }
 
 export function getPmsWhatsAppDisplay(): string {

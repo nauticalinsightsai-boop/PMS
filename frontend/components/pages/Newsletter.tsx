@@ -17,6 +17,7 @@ import { useNewsletterArticles } from "@/hooks/useNewsletterArticles";
 import { useNewsletterHubConfig } from "@/hooks/useNewsletterHubConfig";
 import { useNewsletterCategories } from "@/hooks/useNewsletterCategories";
 import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
+import { NewsletterSubscribeForm } from "@/components/forms/NewsletterSubscribeForm";
 
 const SUBSCRIBER_COUNT = "5,000+";
 
@@ -217,13 +218,25 @@ export function Newsletter() {
         </div>
 
         {/* 7. Join Newsletter CTA (Large) */}
-        <CTABanner 
-          title="Stay Ahead of the Curve" 
-          description={`Join ${SUBSCRIBER_COUNT} project professionals receiving weekly deep-dives on methodology, leadership, and career growth.`}
-          buttonText="Join the Newsletter"
-          buttonHref="/newsletter"
-          variant="orange"
-        />
+        <section className="py-12">
+          <div className="rounded-[3rem] p-8 md:p-16 text-center relative overflow-hidden bg-pms-gradient-orange">
+            <div className="absolute inset-0 bg-white/5 pointer-events-none" />
+            <div className="relative z-10 max-w-3xl mx-auto">
+              <h3 className="font-heading text-3xl md:text-5xl font-bold text-white mb-6">Stay Ahead of the Curve</h3>
+              <p className="text-white/90 text-lg md:text-xl mb-10 leading-relaxed">
+                Join {SUBSCRIBER_COUNT} project professionals receiving weekly deep-dives on methodology, leadership, and career growth.
+              </p>
+              <NewsletterSubscribeForm
+                formId="newsletter-hub-signup"
+                pagePath="/newsletter"
+                layout="stacked"
+                className="mx-auto max-w-md text-left"
+                inputClassName="h-14 rounded-2xl bg-white text-slate-900"
+                buttonClassName="h-14 w-full rounded-2xl bg-white text-slate-900 hover:bg-slate-100 font-bold text-lg"
+              />
+            </div>
+          </div>
+        </section>
 
         {/* 8. Membership CTA */}
         <CTABanner 

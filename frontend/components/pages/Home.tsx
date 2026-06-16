@@ -44,6 +44,7 @@ import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 import { HomeHeroAccentRotator } from '@/components/home/HomeHeroAccentRotator';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
+import { NewsletterSubscribeForm } from '@/components/forms/NewsletterSubscribeForm';
 
 import * as siteData from "@/data/siteData";
 
@@ -85,11 +86,6 @@ export function Home() {
     onSelect();
     emblaApi.on('select', onSelect);
   }, [emblaApi, onSelect]);
-
-  const handleNewsletterSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    window.location.href = "/newsletter";
-  };
 
   const featuredFromCms = homeCms.featuredCertIds
     .map((id) => {
@@ -674,18 +670,13 @@ export function Home() {
                 <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed font-medium max-w-lg">
                   Join 1,284+ project professionals receiving weekly deep-dives on methodology, leadership, and career growth.
                 </p>
-                <form
-                  className="flex flex-col sm:flex-row gap-4 max-w-md"
-                  onSubmit={handleNewsletterSubscribe}
-                >
-                  <Input 
-                    placeholder="Enter your email" 
-                    className="h-14 rounded-2xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-brand-orange/30"
-                  />
-                  <Button type="submit" variant="brand" className="h-14 px-8 rounded-2xl font-bold text-lg shadow-xl transition-all">
-                    Subscribe
-                  </Button>
-                </form>
+                <NewsletterSubscribeForm
+                  formId="home-newsletter"
+                  pagePath="/"
+                  className="max-w-md"
+                  inputClassName="h-14 rounded-2xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-brand-orange/30"
+                  buttonClassName="h-14 px-8 rounded-2xl font-bold text-lg shadow-xl transition-all"
+                />
                 <p className="mt-4 text-xs text-slate-400 font-medium">
                   We respect your privacy.{' '}
                   <Link href="/legal/privacy" className="text-brand-orange font-semibold hover:underline">

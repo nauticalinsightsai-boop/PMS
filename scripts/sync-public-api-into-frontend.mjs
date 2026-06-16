@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Mount public checkout + Stripe API routes inside the marketing app so /api/*
- * works when BACKEND_URL proxy is misconfigured on Vercel.
+ * Mount public API routes inside the marketing app so /api/* works on Vercel
+ * without a separate backend deployment (BACKEND_URL proxy).
  * Generates thin re-export stubs (same pattern as sync-admin-into-frontend.mjs).
  */
 import fs from 'fs';
@@ -12,9 +12,10 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const FE = path.join(ROOT, 'frontend');
 const BE = path.join(ROOT, 'backend');
 const API_ROOT = path.join(FE, 'app', 'api');
+const BE_API_ROOT = path.join(BE, 'app', 'api');
 
-/** Bundled on the marketing deployment for embedded checkout + webhooks. */
-const API_BACKEND_DIRS = ['config', 'checkout', 'stripe'];
+/** Handled by next.config rewrite → /admin/api/interactions (dashboard pipeline). */
+const SKIP_DIRS = new Set(['interactions']);
 
 const ROUTE_FILES = new Set([
   'page.tsx',
@@ -74,18 +75,21 @@ function syncRouteTree(srcRoot, destRoot) {
 function main() {
   fs.mkdirSync(API_ROOT, { recursive: true });
 
-  for (const dir of API_BACKEND_DIRS) {
-    const dest = path.join(API_ROOT, dir);
-    rmIfExists(dest);
-    const src = path.join(BE, 'app', 'api', dir);
-    if (!fs.existsSync(src)) {
-      console.warn(`Skipping missing backend API path: ${src}`);
-      continue;
-    }
-    syncRouteTree(src, dest);
+  if (!fs.existsSync(BE_API_ROOT)) {
+    console.warn(`Missing backend API root: ${BE_API_ROOT}`);
+    return;
   }
 
-  console.log('Synced public API routes → frontend/app/api/ (re-export stubs)');
+  const synced = [];
+  for (const ent of fs.readdirSync(BE_API_ROOT, { withFileTypes: true })) {
+    if (!ent.isDirectory() || SKIP_DIRS.has(ent.name)) continue;
+    const dest = path.join(API_ROOT, ent.name);
+    rmIfExists(dest);
+    syncRouteTree(path.join(BE_API_ROOT, ent.name), dest);
+    synced.push(ent.name);
+  }
+
+  console.log(`Synced public API routes → frontend/app/api/ (${synced.sort().join(', ')})`);
 }
 
 main();

@@ -169,7 +169,7 @@ export async function POST(request: NextRequest) {
       {
         error: 'OTP delivery is not configured',
         details: errors,
-        hint: 'Enable Resend/SMTP and/or Twilio, set phone_e164 for SMS, or disable OTP in Security settings.',
+        hint: 'Set SMTP_HOST/SMTP_USER/SMTP_PASS, enable email OTP in Security settings, or configure Twilio for SMS.',
       },
       { status: 503 },
     );

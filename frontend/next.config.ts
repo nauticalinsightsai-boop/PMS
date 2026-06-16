@@ -5,7 +5,9 @@ import { getGoSlugRedirects } from './lib/go-slug-redirects';
 const { loadMonorepoEnv } = require('../scripts/load-monorepo-env.cjs');
 loadMonorepoEnv(__dirname);
 
-const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
+const backendUrl = process.env.BACKEND_URL?.replace(/\/$/, '');
+/** Opt-in external API proxy (split deploy). Default: bundled routes from sync-public-api-into-frontend.mjs */
+const useBackendProxy = process.env.USE_BACKEND_PROXY === 'true' && Boolean(backendUrl);
 const dashboardFrontendUrl = process.env.DASHBOARD_FRONTEND_URL?.replace(/\/$/, '');
 const dashboardBackendUrl = (
   process.env.DASHBOARD_BACKEND_URL || 'http://localhost:3002'
@@ -35,9 +37,7 @@ const nextConfig: NextConfig = {
       './data/channel-landing-pages.json',
     ],
     '/admin/:path*': ['./dashboard/frontend/**/*', './dashboard/backend/**/*'],
-    '/api/checkout/:path*': ['./backend/**/*', './frontend/data/regional-catalogue.json'],
-    '/api/config/:path*': ['./backend/**/*'],
-    '/api/stripe/:path*': ['./backend/**/*'],
+    '/api/:path*': ['./backend/**/*', './frontend/data/regional-catalogue.json'],
   },
   async redirects() {
     return [
@@ -120,7 +120,7 @@ const nextConfig: NextConfig = {
       });
     }
 
-    if (dashboardBackendUrl) {
+    if (productionAdminProxy && dashboardBackendUrl) {
       rules.push({
         source: '/api/interactions',
         destination: `${dashboardBackendUrl}/api/interactions`,
@@ -129,12 +129,24 @@ const nextConfig: NextConfig = {
         source: '/api/interactions/:path*',
         destination: `${dashboardBackendUrl}/api/interactions/:path*`,
       });
+    } else {
+      // Bundled admin on same Vercel project → dashboard API lives under /admin/api
+      rules.push({
+        source: '/api/interactions',
+        destination: '/admin/api/interactions',
+      });
+      rules.push({
+        source: '/api/interactions/:path*',
+        destination: '/admin/api/interactions/:path*',
+      });
     }
 
-    rules.push({
-      source: '/api/:path*',
-      destination: `${backendUrl}/api/:path*`,
-    });
+    if (useBackendProxy && backendUrl) {
+      rules.push({
+        source: '/api/:path*',
+        destination: `${backendUrl}/api/:path*`,
+      });
+    }
 
     return rules;
   },

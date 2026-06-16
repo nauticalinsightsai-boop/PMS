@@ -183,8 +183,12 @@ async function main() {
   console.log(`Testing auth email flows at ${BASE} for ${EMAIL}`);
   await waitForServer();
 
-  const smtpOk = Boolean(process.env.SMTP_HOST?.trim() || process.env.RESEND_API_KEY?.trim());
-  console.log('  SMTP/Resend configured:', smtpOk);
+  const smtpOk = Boolean(
+    process.env.SMTP_HOST?.trim() &&
+      process.env.SMTP_USER?.trim() &&
+      process.env.SMTP_PASS?.trim(),
+  );
+  console.log('  SMTP configured:', smtpOk);
   if (!smtpOk) {
     console.warn('  Warning: no SMTP: emails will not reach inbox');
   }

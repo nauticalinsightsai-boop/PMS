@@ -86,6 +86,8 @@ INTERACTIONS_ADMIN_EMAIL=admin@example.com
 
 ### Google Sheets (optional)
 
+Create a spreadsheet in Google Drive titled **PMS structure Website** (name is for your team; the API uses `GOOGLE_SHEETS_SPREADSHEET_ID`). Add a tab named `Submissions` with row 1 headers from the table below, then share the file with the service account email as **Editor**.
+
 ```env
 # Local dev — path to service account JSON
 GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH=/path/to/sa.json

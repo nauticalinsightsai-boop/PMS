@@ -18,7 +18,10 @@ NEXT_PUBLIC_SITE_URL=https://pmstructure.com
 NEXT_PUBLIC_API_URL=https://pmstructure.com
 NEXT_PUBLIC_DASHBOARD_URL=https://pmstructure.com
 NEXT_PUBLIC_BASE_PATH=/admin
-BACKEND_URL=https://pmstructure-api.vercel.app
+
+# Do NOT set BACKEND_URL on the marketing project unless you deploy a separate backend
+# Vercel project and opt in with USE_BACKEND_PROXY=true. All /api/* routes (checkout,
+# regions, catalogue, Stripe webhook, …) are bundled into this deployment at build time.
 
 NEXT_PUBLIC_SUPABASE_URL=https://YOUR_REF.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
@@ -39,20 +42,41 @@ SMTP_PASS=...
 AUTH_EMAIL_FROM=...
 AUTH_EMAIL_FROM_NAME=PM Structure
 
-# Stripe embedded checkout (bundled on this deployment — do not rely on BACKEND_URL proxy)
+# Stripe embedded checkout (required for enrollment / membership checkout)
 STRIPE_SECRET_KEY=sk_live_...          # or sk_test_... while testing
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
 STRIPE_WEBHOOK_SECRET=whsec_...        # Stripe Dashboard → Webhooks → signing secret
 # STRIPE_PUBLISHABLE_KEY=pk_live_...   # optional server-only fallback if publishable key added after last build
 ```
 
-Redeploy the marketing project after env changes. Checkout API routes (`/api/checkout/*`, `/api/stripe/webhook`, `/api/config/public`) run on this deployment even when `BACKEND_URL` is set.
+**After adding Stripe env vars:** Redeploy the marketing project. `NEXT_PUBLIC_*` keys are baked into the client bundle at build time — changing them without redeploying leaves checkout broken.
 
-### Public API env (`backend/` project)
+**Verify Stripe (production):**
+
+```bash
+curl -s https://pmstructure.com/config/stripe
+# → {"publishableKey":"pk_live_..."}
+
+curl -sI https://pmstructure.com/api/checkout/seat-deposit
+# → 405 Method Not Allowed (GET) is OK — route exists; POST creates session
+```
+
+Stripe Dashboard → Webhooks → endpoint `https://pmstructure.com/api/stripe/webhook` → event **`checkout.session.completed`**.
+
+Enrollment or membership checkout on the site should load the Stripe embedded form once keys are set and redeployed.
+
+See [ORDER_CONFIRMATION_EMAIL.md](./ORDER_CONFIRMATION_EMAIL.md) for post-payment email setup.
+
+### Public API env (`backend/` project) — optional split deploy
+
+Only needed if you run checkout/regions on a **separate** Vercel project. On the marketing project, set:
+
+```env
+BACKEND_URL=https://your-backend.vercel.app
+USE_BACKEND_PROXY=true
+```
 
 Same Supabase keys as above. Set `AUTH_ALLOWED_ORIGINS=https://pmstructure.com` if auth routes are used from the public API.
-
-Optional if checkout stays on the marketing project only:
 
 ```env
 STRIPE_SECRET_KEY=sk_live_...          # or sk_test_... while testing

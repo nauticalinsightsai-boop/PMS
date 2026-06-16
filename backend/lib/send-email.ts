@@ -10,7 +10,8 @@ function fromHeader(): { email: string; name: string } {
     email:
       process.env.ORDER_EMAIL_FROM?.trim() ||
       process.env.AUTH_EMAIL_FROM?.trim() ||
-      'onboarding@resend.dev',
+      process.env.SMTP_USER?.trim() ||
+      '',
     name:
       process.env.ORDER_EMAIL_FROM_NAME?.trim() ||
       process.env.AUTH_EMAIL_FROM_NAME?.trim() ||
@@ -18,36 +19,47 @@ function fromHeader(): { email: string; name: string } {
   };
 }
 
-async function sendViaResend(params: SendParams): Promise<void> {
-  const key = process.env.RESEND_API_KEY?.trim();
-  if (!key) throw new Error('RESEND_API_KEY is not configured');
+async function sendViaSmtp(params: SendParams): Promise<void> {
+  const host = process.env.SMTP_HOST?.trim();
+  if (!host) throw new Error('SMTP_HOST is not configured');
   const from = fromHeader();
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${key}`,
-      'Content-Type': 'application/json',
+  if (!from.email) throw new Error('AUTH_EMAIL_FROM or SMTP_USER is not configured');
+
+  const nodemailer = await import('nodemailer');
+  const port = Number(process.env.SMTP_PORT || 587);
+  const secure = process.env.SMTP_SECURE === 'true';
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure,
+    auth: {
+      user: process.env.SMTP_USER?.trim(),
+      pass: process.env.SMTP_PASS?.trim(),
     },
-    body: JSON.stringify({
-      from: `${from.name} <${from.email}>`,
-      to: [params.to],
-      subject: params.subject,
-      text: params.text,
-      html: params.html ?? `<p>${params.text}</p>`,
-    }),
   });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Resend failed (${res.status}): ${body}`);
-  }
+
+  await transporter.sendMail({
+    from: `"${from.name}" <${from.email}>`,
+    to: params.to,
+    subject: params.subject,
+    text: params.text,
+    html: params.html ?? params.text,
+  });
 }
 
 export async function sendTransactionalEmail(params: SendParams): Promise<void> {
-  await sendViaResend(params);
+  await sendViaSmtp(params);
 }
 
 export function isTransactionalEmailConfigured(): boolean {
-  return Boolean(process.env.RESEND_API_KEY?.trim());
+  const host = process.env.SMTP_HOST?.trim();
+  const user = process.env.SMTP_USER?.trim();
+  const pass = process.env.SMTP_PASS?.trim();
+  const from =
+    process.env.ORDER_EMAIL_FROM?.trim() ||
+    process.env.AUTH_EMAIL_FROM?.trim() ||
+    user;
+  return Boolean(host && user && pass && from);
 }
 
 export function logTransactionalEmailForDev(to: string, subject: string, text: string): void {

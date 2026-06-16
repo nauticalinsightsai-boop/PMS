@@ -58,7 +58,7 @@ npm run setup:env           # copy .env.example → .env if missing
 2. Set `NEXT_PUBLIC_API_URL=http://localhost:3000` in `frontend/.env.local` (see `.env.example`; gateway proxies to API on :3001).
 3. Place `PM_Structure_Regional_Availability_Matrix.xlsx` (or set `REGIONAL_MATRIX_XLSX_PATH`).
 4. After Excel edits: `npm run import:regional` → `npm run validate:regional` → commit `frontend/data/regional-catalogue.json`.
-5. Checkout records enrollment requests in Supabase: no card payment integration.
+5. Checkout uses Stripe embedded checkout when `STRIPE_SECRET_KEY` + `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` are set (see `docs/DEPLOYMENT_VERCEL.md`).
 6. Full spec: `docs/REGIONAL_AVAILABILITY_IMPLEMENTATION_PLAN.md`.
 
 ## URLs (local dev)
@@ -76,7 +76,7 @@ Do not browse internal ports (3050, 5174, 3001, 3002) directly: they are proxied
 
 ## Production (Vercel)
 
-Admin lives at **`/admin`** on the main domain (e.g. `https://pmstructure.com/admin/login`). The marketing app rewrites that path to separately deployed dashboard services.
+Admin lives at **`/admin`** on the main domain (e.g. `https://pmstructure.com/admin/login`). Checkout and `/api/*` run on the same marketing deployment — no separate backend URL required.
 
 Full setup: **`docs/DEPLOYMENT_VERCEL.md`**.
 

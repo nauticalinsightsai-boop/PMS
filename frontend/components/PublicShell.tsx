@@ -12,6 +12,7 @@ import { CookieConsent } from '@/components/CookieConsent';
 import { LeadRecoveryProvider } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { LeadRecoveryDialog } from '@/components/conversion-recovery/LeadRecoveryDialog';
 import { BottomCtaRotator } from '@/components/conversion-recovery/BottomCtaRotator';
+import { WhatsAppChatButton } from '@/components/WhatsAppChatButton';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 import { syncBrandFavicon } from '@/lib/brand/site-logo';
 
@@ -54,6 +55,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
             <ScrollToTop />
             <CookieConsent />
             <BottomCtaRotator />
+            <WhatsAppChatButton />
             <LeadRecoveryDialog />
           </div>
         </LeadRecoveryProvider>
