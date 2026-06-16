@@ -274,7 +274,7 @@ export const CHANNEL_PORTAL_COPY: Record<string, ChannelPortalCopy> = {
       'Principal advisory for projects, deliverables, and execution. Booked from pages and assets on this site.',
   },
   webinar: {
-    scheduleTierCta: 'Talk to a mentor',
+    scheduleTierCta: 'Book after the webinar',
     contextLabel: 'WEBINAR REGISTRATION',
     headline: 'PM Structure. Webinar to mentor call',
     subheadline:
