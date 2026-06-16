@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -13,6 +13,7 @@ import { LeadRecoveryProvider } from '@/components/conversion-recovery/LeadRecov
 import { LeadRecoveryDialog } from '@/components/conversion-recovery/LeadRecoveryDialog';
 import { BottomCtaRotator } from '@/components/conversion-recovery/BottomCtaRotator';
 import { SupportChatWidget } from '@/components/SupportChatWidget';
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { WhatsAppChatButton } from '@/components/WhatsAppChatButton';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 import { syncBrandFavicon } from '@/lib/brand/site-logo';
@@ -45,6 +46,9 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
 
   return (
     <RegionProvider>
+      <Suspense fallback={null}>
+        <GoogleAnalytics />
+      </Suspense>
       <OrganizationJsonLd />
       <RegionGate>
         <LeadRecoveryProvider>

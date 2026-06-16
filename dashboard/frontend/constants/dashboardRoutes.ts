@@ -1,6 +1,7 @@
-import { Newspaper, Users } from 'lucide-react';
+import { BarChart3, Newspaper, Users } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
+import { WEBSITE_ANALYTICS_PATH } from '@/constants/analytics';
 
 export interface DashboardNavSubItem {
   name: string;
@@ -21,7 +22,10 @@ export interface DashboardNavSection {
 /** Newsletter-only dashboard — booking CRM and social tools hidden from nav. */
 export const BOOKINGS_ROUTE_PREFIXES: string[] = [];
 
-export const WEBSITE_ROUTE_PREFIXES = ['/dashboard/site-system/newsletter'];
+export const WEBSITE_ROUTE_PREFIXES = [
+  '/dashboard/site-system/newsletter',
+  WEBSITE_ANALYTICS_PATH,
+];
 
 export const SOCIAL_ROUTE_PREFIXES: string[] = [];
 
@@ -40,6 +44,11 @@ const WEBSITE_CMS_NAV: DashboardNavSection = {
       subItems: [
         { name: 'Subscribers', path: WEBSITE_CMS_PATHS.newsletterSubscribers, icon: Users },
       ],
+    },
+    {
+      name: 'Analytics',
+      path: WEBSITE_ANALYTICS_PATH,
+      icon: BarChart3,
     },
   ],
 };

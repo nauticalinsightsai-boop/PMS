@@ -44,7 +44,6 @@ const nextConfig: NextConfig = {
       { source: '/dashboard/site-system/home', destination: newsletter, permanent: false },
       { source: '/dashboard/site-system/settings', destination: newsletter, permanent: false },
       { source: '/dashboard/site-system/seo', destination: newsletter, permanent: false },
-      { source: '/dashboard/site-system/analytics', destination: newsletter, permanent: false },
       { source: '/dashboard/site-system/security', destination: newsletter, permanent: false },
       { source: '/dashboard/site-system/blogs/:path*', destination: newsletter, permanent: false },
       { source: '/dashboard/site-system/blogs', destination: newsletter, permanent: false },

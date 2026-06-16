@@ -1,5 +1,5 @@
-import { PlaceholderPage } from '@/components/PlaceholderPage';
+import { AnalyticsHub } from '@/components/pages/admin/AnalyticsHub';
 
 export default function Page() {
-  return <PlaceholderPage title="Analytics" />;
+  return <AnalyticsHub />;
 }
