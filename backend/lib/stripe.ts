@@ -9,6 +9,11 @@ export function isStripeConfigured(): boolean {
   return Boolean(key && key.startsWith('sk_'));
 }
 
+export function isStripeTestMode(): boolean {
+  ensureMonorepoEnv();
+  return process.env.STRIPE_SECRET_KEY?.trim().startsWith('sk_test_') ?? false;
+}
+
 export function getStripe(): Stripe {
   if (!isStripeConfigured()) {
     throw new Error('STRIPE_SECRET_KEY is not configured');

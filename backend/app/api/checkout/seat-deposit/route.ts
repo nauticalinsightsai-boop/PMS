@@ -13,7 +13,7 @@ import {
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 import { jsonError, jsonOk } from '@/lib/response-helpers.js';
 import { safeRedirectUrl } from '@/lib/safe-redirect-url';
-import { isStripeConfigured } from '@/lib/stripe';
+import { isStripeConfigured, isStripeTestMode } from '@/lib/stripe';
 import type { RegionId } from '@/lib/regional-catalogue';
 
 function parsePaymentMode(raw: unknown): EnrollmentPaymentMode {
@@ -23,6 +23,18 @@ function parsePaymentMode(raw: unknown): EnrollmentPaymentMode {
 export async function POST(request: Request) {
   if (!isStripeConfigured()) {
     return jsonError('Card payments are not configured. Contact support@pmstructure.com.', 503);
+  }
+
+  const origin = request.headers.get('origin') ?? 'http://localhost:3000';
+  const liveSite =
+    origin.includes('pmstructure.com') ||
+    (process.env.NEXT_PUBLIC_SITE_URL?.includes('pmstructure.com') ?? false);
+  if (liveSite && isStripeTestMode()) {
+    console.error('[checkout/seat-deposit] Stripe test secret key on live site');
+    return jsonError(
+      'Live checkout is misconfigured (Stripe test keys). Contact support@pmstructure.com.',
+      503,
+    );
   }
 
   const body = await request.json().catch(() => ({}));
@@ -86,7 +98,6 @@ export async function POST(request: Request) {
   const embedded = uiMode !== 'redirect';
   const checkoutScheme = colorScheme === 'dark' ? 'dark' : 'light';
 
-  const origin = request.headers.get('origin') ?? 'http://localhost:3000';
   const defaultReturn = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll/success?offering=${encodeURIComponent(offeringId)}&session_id={CHECKOUT_SESSION_ID}`;
   const defaultSuccess = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll/success?offering=${encodeURIComponent(offeringId)}&session_id={CHECKOUT_SESSION_ID}`;
   const defaultCancel = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll?offering=${encodeURIComponent(offeringId)}`;

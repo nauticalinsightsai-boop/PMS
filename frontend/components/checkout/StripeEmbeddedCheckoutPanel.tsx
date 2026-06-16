@@ -5,12 +5,8 @@ import { loadStripe, type StripeEmbeddedCheckout } from '@stripe/stripe-js';
 import { useSiteColorScheme } from '@/hooks/useSiteColorScheme';
 import { cn } from '@/lib/utils';
 import { fetchStripePublishableKey } from '@/services/checkout';
+import { assertPublishableKeyAllowedOnHost } from '@/lib/stripe-key-mode';
 import { stripePublishableKeyUnavailableMessage } from '@/lib/stripe-publishable-key';
-
-function getStripePublishableKeyFromEnv(): string {
-  const key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ?? '';
-  return key.startsWith('pk_') ? key : '';
-}
 
 type Props = {
   loadClientSecret: () => Promise<string | null>;
@@ -40,11 +36,11 @@ export function StripeEmbeddedCheckoutPanel({
     let cancelled = false;
 
     async function initEmbeddedCheckout() {
-      const publishableKey =
-        getStripePublishableKeyFromEnv() || (await fetchStripePublishableKey());
-      if (!publishableKey) {
+      const publishableKey = await fetchStripePublishableKey();
+      const keyError = assertPublishableKeyAllowedOnHost(publishableKey);
+      if (!publishableKey || keyError) {
         setStatus('error');
-        setErrorMessage(stripePublishableKeyUnavailableMessage());
+        setErrorMessage(keyError ?? stripePublishableKeyUnavailableMessage());
         return;
       }
 

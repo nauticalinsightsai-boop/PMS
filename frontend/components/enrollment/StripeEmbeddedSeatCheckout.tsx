@@ -7,13 +7,9 @@ import { useSiteColorScheme } from '@/hooks/useSiteColorScheme';
 import { CONVERSION_EVENTS, trackConversionEvent } from '@/lib/analytics/conversion-events';
 import type { EnrollmentPaymentMode } from '@/lib/enrollment/seat-reservation';
 import { createEnrollmentEmbeddedCheckout, fetchStripePublishableKey } from '@/services/enrollment';
+import { assertPublishableKeyAllowedOnHost } from '@/lib/stripe-key-mode';
 import { stripePublishableKeyUnavailableMessage } from '@/lib/stripe-publishable-key';
 import { cn } from '@/lib/utils';
-
-function getStripePublishableKeyFromEnv(): string {
-  const key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ?? '';
-  return key.startsWith('pk_') ? key : '';
-}
 
 type Props = {
   offeringId: string;
@@ -44,11 +40,11 @@ export function StripeEmbeddedSeatCheckout({
     let cancelled = false;
 
     async function initEmbeddedCheckout() {
-      const publishableKey =
-        getStripePublishableKeyFromEnv() || (await fetchStripePublishableKey());
-      if (!publishableKey) {
+      const publishableKey = await fetchStripePublishableKey();
+      const keyError = assertPublishableKeyAllowedOnHost(publishableKey);
+      if (!publishableKey || keyError) {
         setStatus('error');
-        setErrorMessage(stripePublishableKeyUnavailableMessage());
+        setErrorMessage(keyError ?? stripePublishableKeyUnavailableMessage());
         return;
       }
 

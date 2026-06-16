@@ -1,6 +1,32 @@
 import type { EnrollmentPaymentMode } from '@/lib/enrollment/seat-reservation';
+import {
+  isProductionMarketingHost,
+  isStripeTestPublishableKey,
+} from '@/lib/stripe-key-mode';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+
+async function fetchPublishableKeyFromApi(): Promise<string> {
+  const apiBase = (process.env.NEXT_PUBLIC_API_URL ?? '').replace(/\/$/, '');
+  const urls =
+    typeof window !== 'undefined'
+      ? ['/config/stripe', '/api/config/public']
+      : [`${apiBase || 'http://localhost:3000'}/config/stripe`, `${apiBase || 'http://localhost:3000'}/api/config/public`];
+
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) continue;
+      const body = (await res.json()) as { publishableKey?: string; stripePublishableKey?: string };
+      const key = (body.publishableKey ?? body.stripePublishableKey)?.trim() ?? '';
+      if (key.startsWith('pk_')) return key;
+    } catch {
+      /* try next source */
+    }
+  }
+
+  return '';
+}
 
 async function parseApi<T>(res: Response): Promise<{ data?: T; error?: string }> {
   const body = await res.json().catch(() => ({}));
@@ -34,27 +60,20 @@ type EnrollmentCheckoutResponse = {
 
 export async function fetchStripePublishableKey(): Promise<string> {
   const fromEnv = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ?? '';
-  if (fromEnv.startsWith('pk_')) return fromEnv;
+  const onLiveSite = isProductionMarketingHost();
 
-  const apiBase = (process.env.NEXT_PUBLIC_API_URL ?? '').replace(/\/$/, '');
-  const urls =
-    typeof window !== 'undefined'
-      ? ['/config/stripe', '/api/config/public']
-      : [`${apiBase || 'http://localhost:3000'}/config/stripe`, `${apiBase || 'http://localhost:3000'}/api/config/public`];
-
-  for (const url of urls) {
-    try {
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) continue;
-      const body = (await res.json()) as { publishableKey?: string; stripePublishableKey?: string };
-      const key = (body.publishableKey ?? body.stripePublishableKey)?.trim() ?? '';
-      if (key.startsWith('pk_')) return key;
-    } catch {
-      /* try next source */
-    }
+  // On pmstructure.com, prefer server env so a stale pk_test build cannot override live keys.
+  if (onLiveSite) {
+    const fromApi = await fetchPublishableKeyFromApi();
+    if (fromApi && !isStripeTestPublishableKey(fromApi)) return fromApi;
+    if (fromEnv.startsWith('pk_live_')) return fromEnv;
+    if (fromApi.startsWith('pk_')) return fromApi;
+    if (fromEnv.startsWith('pk_')) return fromEnv;
+    return '';
   }
 
-  return '';
+  if (fromEnv.startsWith('pk_')) return fromEnv;
+  return fetchPublishableKeyFromApi();
 }
 
 export async function createEnrollmentEmbeddedCheckout(payload: EnrollmentCheckoutPayload) {
