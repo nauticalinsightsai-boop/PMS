@@ -1,11 +1,24 @@
 'use client';
 
 import * as React from 'react';
-import { Loader2, MessageCircle, Send, X } from 'lucide-react';
+import Link from 'next/link';
+import { Bot, Calendar, Loader2, Send, Users, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+  getPmsWhatsAppChatUrl,
+  getPmsWhatsAppDisplay,
+  isWhatsAppConfigured,
+  PMS_SKOOL_COMMUNITY_JOIN_URL,
+  externalHrefLinkProps,
+} from '@/config/pms-site';
+import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
+import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 
 const GREETING =
   "Hi, I'm the PM Structure assistant. Ask about certification pathways, FAQs, regional pricing, booking a mentor call, or how to enroll.";
+
+const CHAT_FAB_CLASS =
+  'flex h-14 w-14 items-center justify-center rounded-full bg-brand-orange text-white shadow-lg shadow-brand-orange/30 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange';
 
 type ChatMessage = { role: 'user' | 'assistant'; content: string };
 
@@ -21,6 +34,7 @@ export function SupportChatWidget() {
   const [error, setError] = React.useState<string | null>(null);
   const listRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
+  const whatsappConfigured = isWhatsAppConfigured();
 
   React.useEffect(() => {
     if (open && messages.length === 0) {
@@ -33,6 +47,13 @@ export function SupportChatWidget() {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
     inputRef.current?.focus();
   }, [open, messages, loading]);
+
+  const scheduleCall = () => {
+    void openCalendlyThemedPopup(getWebsiteCalendlyUrl('mentor'), {
+      funnelLabel: 'support_chat_schedule_call',
+      utm: { utm_source: 'pmstructure', utm_medium: 'support_chat', utm_campaign: 'talk_to_mentor' },
+    });
+  };
 
   const send = async () => {
     const text = input.trim();
@@ -78,15 +99,15 @@ export function SupportChatWidget() {
   return (
     <div
       className={cn(
-        'fixed z-[90] flex flex-col items-start gap-3',
+        'fixed z-[100] flex flex-col items-end gap-3',
         'bottom-[max(1.5rem,env(safe-area-inset-bottom))]',
-        'left-[max(1.5rem,env(safe-area-inset-left))]',
+        'right-[max(1.5rem,env(safe-area-inset-right))]',
       )}
     >
       <div
         className={cn(
           'flex w-[min(100vw-2rem,22rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900',
-          'origin-bottom-left transition-all duration-200',
+          'origin-bottom-right transition-all duration-200',
           open
             ? 'pointer-events-auto scale-100 opacity-100'
             : 'pointer-events-none scale-95 opacity-0 h-0 overflow-hidden border-0 shadow-none',
@@ -96,9 +117,14 @@ export function SupportChatWidget() {
         aria-hidden={!open}
       >
         <div className="flex items-center justify-between border-b border-slate-200 bg-brand-orange px-4 py-3 text-white dark:border-slate-700">
-          <div>
-            <p className="text-sm font-bold">PM Structure Support</p>
-            <p className="text-xs text-white/85">Certification pathways & FAQs</p>
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+              <Bot className="h-5 w-5" aria-hidden />
+            </span>
+            <div>
+              <p className="text-sm font-bold">PM Structure Assistant</p>
+              <p className="text-xs text-white/85">Certification pathways & FAQs</p>
+            </div>
           </div>
           <button
             type="button"
@@ -108,6 +134,36 @@ export function SupportChatWidget() {
           >
             <X className="h-4 w-4" aria-hidden />
           </button>
+        </div>
+
+        <div className="flex flex-wrap gap-2 border-b border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-950/60">
+          <button
+            type="button"
+            onClick={scheduleCall}
+            className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-slate-900 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-white dark:ring-slate-700"
+          >
+            <Calendar className="h-3.5 w-3.5 text-brand-orange" aria-hidden />
+            Schedule a call
+          </button>
+          {whatsappConfigured ? (
+            <a
+              href={getPmsWhatsAppChatUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-3 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-[#20bd5a]"
+            >
+              WhatsApp
+              <span className="sr-only">({getPmsWhatsAppDisplay()})</span>
+            </a>
+          ) : null}
+          <Link
+            href={PMS_SKOOL_COMMUNITY_JOIN_URL}
+            {...externalHrefLinkProps(PMS_SKOOL_COMMUNITY_JOIN_URL)}
+            className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-slate-900 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-white dark:ring-slate-700"
+          >
+            <Users className="h-3.5 w-3.5 text-brand-orange" aria-hidden />
+            Join Community
+          </Link>
         </div>
 
         <div ref={listRef} className="flex max-h-72 flex-col gap-3 overflow-y-auto px-3 py-3">
@@ -164,11 +220,11 @@ export function SupportChatWidget() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? 'Close support chat' : 'Open support chat'}
+        aria-label={open ? 'Close assistant chat' : 'Open assistant chat'}
         aria-expanded={open}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-orange text-white shadow-lg shadow-brand-orange/30 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+        className={CHAT_FAB_CLASS}
       >
-        {open ? <X className="h-6 w-6" aria-hidden /> : <MessageCircle className="h-6 w-6" aria-hidden />}
+        {open ? <X className="h-7 w-7" aria-hidden /> : <Bot className="h-7 w-7" aria-hidden />}
       </button>
     </div>
   );

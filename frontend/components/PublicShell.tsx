@@ -7,14 +7,12 @@ import { Footer } from '@/components/Footer';
 import { RegionProvider } from '@/contexts/RegionContext';
 import { RegionGate } from '@/components/RegionGate';
 import { ScrollToTop } from '@/components/ScrollToTop';
-import { FloatingQuickActions } from '@/components/FloatingQuickActions';
 import { CookieConsent } from '@/components/CookieConsent';
 import { LeadRecoveryProvider } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { LeadRecoveryDialog } from '@/components/conversion-recovery/LeadRecoveryDialog';
 import { BottomCtaRotator } from '@/components/conversion-recovery/BottomCtaRotator';
 import { SupportChatWidget } from '@/components/SupportChatWidget';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
-import { WhatsAppChatButton } from '@/components/WhatsAppChatButton';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 import { syncBrandFavicon } from '@/lib/brand/site-logo';
 
@@ -56,12 +54,10 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
             <Navbar toggleTheme={() => setIsDarkMode((v) => !v)} isDarkMode={isDarkMode} />
             <main className={cn('flex-1 overflow-x-clip', PUBLIC_NAVBAR_HEIGHT_CLASS)}>{children}</main>
             <Footer />
-            <FloatingQuickActions />
             <ScrollToTop />
             <CookieConsent />
             <BottomCtaRotator />
             <SupportChatWidget />
-            <WhatsAppChatButton />
             <LeadRecoveryDialog />
           </div>
         </LeadRecoveryProvider>
