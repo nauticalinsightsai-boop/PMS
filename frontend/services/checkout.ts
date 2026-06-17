@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+import { apiUrl } from '@/lib/api-url';
 
 async function parseApi<T>(res: Response): Promise<{ data?: T; error?: string }> {
   const body = await res.json().catch(() => ({}));
@@ -22,7 +22,7 @@ export async function createMembershipEmbeddedCheckout(payload: {
   gccCountry?: string | null;
   colorScheme?: 'light' | 'dark';
 }) {
-  const res = await fetch(`${API_BASE}/api/checkout/membership`, {
+  const res = await fetch(apiUrl('/api/checkout/membership'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -36,7 +36,7 @@ export async function createStoreEmbeddedCheckout(payload: {
   gccCountry?: string | null;
   colorScheme?: 'light' | 'dark';
 }) {
-  const res = await fetch(`${API_BASE}/api/checkout/store`, {
+  const res = await fetch(apiUrl('/api/checkout/store'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),

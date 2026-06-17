@@ -1,13 +1,13 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+import { apiUrl } from '@/lib/api-url';
 
 export async function fetchRegions() {
-  const res = await fetch(`${API_BASE}/api/regions`);
+  const res = await fetch(apiUrl('/api/regions'));
   if (!res.ok) throw new Error('Failed to load regions');
   return res.json();
 }
 
 export async function fetchCatalogue() {
-  const res = await fetch(`${API_BASE}/api/catalogue`);
+  const res = await fetch(apiUrl('/api/catalogue'));
   if (!res.ok) throw new Error('Failed to load catalogue');
   return res.json();
 }
@@ -24,7 +24,7 @@ export async function verifyRegion(payload: {
   billingCountry: string;
   gccCountry?: string | null;
 }) {
-  const res = await fetch(`${API_BASE}/api/region/verify`, {
+  const res = await fetch(apiUrl('/api/region/verify'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -43,7 +43,7 @@ export async function createCheckoutSession(payload: {
   successUrl?: string;
   cancelUrl?: string;
 }) {
-  const res = await fetch(`${API_BASE}/api/checkout/create`, {
+  const res = await fetch(apiUrl('/api/checkout/create'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -58,7 +58,7 @@ export async function syncProfileRegion(payload: {
   regionId: string;
   gccCountry?: string | null;
 }) {
-  const res = await fetch(`${API_BASE}/api/profile/region`, {
+  const res = await fetch(apiUrl('/api/profile/region'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -67,7 +67,7 @@ export async function syncProfileRegion(payload: {
 }
 
 export async function submitWaitlist(payload: Record<string, unknown>) {
-  const res = await fetch(`${API_BASE}/api/waitlist`, {
+  const res = await fetch(apiUrl('/api/waitlist'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -76,7 +76,7 @@ export async function submitWaitlist(payload: Record<string, unknown>) {
 }
 
 export async function submitScholarshipReview(payload: Record<string, unknown>) {
-  const res = await fetch(`${API_BASE}/api/scholarship-review`, {
+  const res = await fetch(apiUrl('/api/scholarship-review'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -85,7 +85,7 @@ export async function submitScholarshipReview(payload: Record<string, unknown>) 
 }
 
 export async function submitConsultation(payload: Record<string, unknown>) {
-  const res = await fetch(`${API_BASE}/api/consultation`, {
+  const res = await fetch(apiUrl('/api/consultation'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),

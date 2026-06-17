@@ -41,16 +41,50 @@ export function ensureMonorepoEnv(): void {
     for (const file of ['.env', '.env.local']) {
       const parsed = parseEnvFile(path.join(root, file));
       for (const [key, value] of Object.entries(parsed)) {
-        if (value && (!process.env[key] || process.env[key] === '')) {
+        const publishableKey = key === 'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY' || key === 'STRIPE_PUBLISHABLE_KEY';
+        const currentPublishable =
+          process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ||
+          process.env.STRIPE_PUBLISHABLE_KEY?.trim() ||
+          '';
+        const shouldSet =
+          value &&
+          (publishableKey
+            ? !currentPublishable.startsWith('pk_')
+            : !process.env[key] || process.env[key] === '');
+        if (shouldSet) {
           process.env[key] = value;
         }
       }
     }
-    if (process.env.STRIPE_SECRET_KEY?.trim()?.startsWith('sk_')) {
+    const stripeSecret = process.env.STRIPE_SECRET_KEY?.trim() ?? '';
+    if (/^(sk_|rk_)/.test(stripeSecret)) {
       loaded = true;
       return;
     }
   }
 
   loaded = true;
+}
+
+const PUBLISHABLE_ENV_KEYS = ['NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY', 'STRIPE_PUBLISHABLE_KEY'];
+
+/** Read Stripe publishable key directly from repo root env files (bypasses Next env inlining). */
+export function readMonorepoPublishableKey(): string {
+  ensureMonorepoEnv();
+  for (const key of PUBLISHABLE_ENV_KEYS) {
+    const val = process.env[key]?.trim() ?? '';
+    if (val.startsWith('pk_')) return val;
+  }
+
+  for (const root of repoRootCandidates()) {
+    for (const file of ['.env.local', '.env']) {
+      const parsed = parseEnvFile(path.join(root, file));
+      for (const key of PUBLISHABLE_ENV_KEYS) {
+        const val = parsed[key]?.trim() ?? '';
+        if (val.startsWith('pk_')) return val;
+      }
+    }
+  }
+
+  return '';
 }

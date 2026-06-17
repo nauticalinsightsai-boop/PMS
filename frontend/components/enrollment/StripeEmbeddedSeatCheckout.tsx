@@ -105,9 +105,16 @@ export function StripeEmbeddedSeatCheckout({
       } catch (err) {
         if (cancelled) return;
         setStatus('error');
-        setErrorMessage(
-          err instanceof Error ? err.message : 'Could not load checkout. Try again or contact support.',
-        );
+        const message =
+          err instanceof TypeError && err.message === 'Failed to fetch'
+            ? typeof window !== 'undefined' &&
+                (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+              ? 'Could not reach checkout. Start the dev server (npm run dev) and refresh this page.'
+              : 'Could not reach checkout. Check your connection and refresh, or contact support@pmstructure.com.'
+            : err instanceof Error
+              ? err.message
+              : 'Could not load checkout. Try again or contact support.';
+        setErrorMessage(message);
       }
     }
 

@@ -1,21 +1,16 @@
 import type { EnrollmentPaymentMode } from '@/lib/enrollment/seat-reservation';
+import { apiUrl } from '@/lib/api-url';
 import {
   isProductionMarketingHost,
   isStripeTestPublishableKey,
 } from '@/lib/stripe-key-mode';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
-
 async function fetchPublishableKeyFromApi(): Promise<string> {
-  const apiBase = (process.env.NEXT_PUBLIC_API_URL ?? '').replace(/\/$/, '');
-  const urls =
-    typeof window !== 'undefined'
-      ? ['/config/stripe', '/api/config/public']
-      : [`${apiBase || 'http://localhost:3000'}/config/stripe`, `${apiBase || 'http://localhost:3000'}/api/config/public`];
+  const urls = ['/config/stripe', '/api/config/public'];
 
-  for (const url of urls) {
+  for (const path of urls) {
     try {
-      const res = await fetch(url, { cache: 'no-store' });
+      const res = await fetch(apiUrl(path), { cache: 'no-store' });
       if (!res.ok) continue;
       const body = (await res.json()) as { publishableKey?: string; stripePublishableKey?: string };
       const key = (body.publishableKey ?? body.stripePublishableKey)?.trim() ?? '';
@@ -77,7 +72,7 @@ export async function fetchStripePublishableKey(): Promise<string> {
 }
 
 export async function createEnrollmentEmbeddedCheckout(payload: EnrollmentCheckoutPayload) {
-  const res = await fetch(`${API_BASE}/api/checkout/seat-deposit`, {
+  const res = await fetch(apiUrl('/api/checkout/seat-deposit'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ...payload, uiMode: 'embedded' }),
@@ -93,7 +88,7 @@ export async function createSeatDepositEmbeddedCheckout(payload: EnrollmentCheck
 export async function createSeatDepositCheckout(
   payload: EnrollmentCheckoutPayload & { email: string; name?: string },
 ) {
-  const res = await fetch(`${API_BASE}/api/checkout/seat-deposit`, {
+  const res = await fetch(apiUrl('/api/checkout/seat-deposit'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ...payload, uiMode: 'redirect', paymentMode: 'seat_deposit' }),
@@ -102,7 +97,7 @@ export async function createSeatDepositCheckout(
 }
 
 export async function verifyCheckoutSession(sessionId: string) {
-  const res = await fetch(`${API_BASE}/api/checkout/session/${encodeURIComponent(sessionId)}`);
+  const res = await fetch(apiUrl(`/api/checkout/session/${encodeURIComponent(sessionId)}`));
   return parseApi<{
     sessionId: string;
     status: string;
