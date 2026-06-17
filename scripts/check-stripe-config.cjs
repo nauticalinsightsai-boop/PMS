@@ -15,9 +15,15 @@ const publishable =
   '';
 const webhook = process.env.STRIPE_WEBHOOK_SECRET?.trim() ?? '';
 
-const ok = Boolean(secret && secret.startsWith('sk_') && publishable && publishable.startsWith('pk_'));
+const secretLooksValid =
+  Boolean(secret && secret.startsWith('sk_')) && !/^sk_(live|test)_mk_/i.test(secret);
+const ok = secretLooksValid && Boolean(publishable && publishable.startsWith('pk_'));
 
-console.log(ok ? '✓ STRIPE_SECRET_KEY is set' : '✗ STRIPE_SECRET_KEY missing or invalid (must start with sk_)');
+console.log(
+  secretLooksValid
+    ? '✓ STRIPE_SECRET_KEY is set'
+    : '✗ STRIPE_SECRET_KEY missing or invalid (use sk_live_51... from Stripe Dashboard, not sk_live_mk_)',
+);
 console.log(
   publishable
     ? '✓ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is set'

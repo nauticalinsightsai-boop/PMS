@@ -40,57 +40,75 @@ export function StripeEmbeddedSeatCheckout({
     let cancelled = false;
 
     async function initEmbeddedCheckout() {
-      const publishableKey = await fetchStripePublishableKey();
-      const keyError = assertPublishableKeyAllowedOnHost(publishableKey);
-      if (!publishableKey || keyError) {
-        setStatus('error');
-        setErrorMessage(keyError ?? stripePublishableKeyUnavailableMessage());
-        return;
-      }
-
       setStatus('loading');
       setErrorMessage(null);
 
-      const result = await createEnrollmentEmbeddedCheckout({
-        offeringId,
-        siteCertId,
-        tierSlug,
-        regionId,
-        gccCountry,
-        paymentMode,
-        colorScheme,
-      });
+      try {
+        const publishableKey = await fetchStripePublishableKey();
+        if (cancelled) return;
 
-      if (cancelled) return;
+        const keyError = assertPublishableKeyAllowedOnHost(publishableKey);
+        if (!publishableKey || keyError) {
+          setStatus('error');
+          setErrorMessage(keyError ?? stripePublishableKeyUnavailableMessage());
+          return;
+        }
 
-      if (result.error || !result.data?.session?.clientSecret) {
+        const result = await createEnrollmentEmbeddedCheckout({
+          offeringId,
+          siteCertId,
+          tierSlug,
+          regionId,
+          gccCountry,
+          paymentMode,
+          colorScheme,
+        });
+
+        if (cancelled) return;
+
+        if (result.error || !result.data?.session?.clientSecret) {
+          setStatus('error');
+          setErrorMessage(result.error ?? 'Could not load checkout. Try again or contact support.');
+          return;
+        }
+
+        const stripe = await loadStripe(publishableKey);
+        if (cancelled) return;
+
+        if (!stripe || !mountRef.current) {
+          setStatus('error');
+          setErrorMessage(
+            'Could not load Stripe checkout. Disable ad blockers and refresh, or contact support@pmstructure.com.',
+          );
+          return;
+        }
+
+        checkoutRef.current?.destroy();
+        mountRef.current.innerHTML = '';
+
+        const checkout = await stripe.initEmbeddedCheckout({
+          clientSecret: result.data.session.clientSecret,
+        });
+
+        if (cancelled) {
+          checkout.destroy();
+          return;
+        }
+
+        checkoutRef.current = checkout;
+        checkout.mount(mountRef.current);
+        trackConversionEvent(CONVERSION_EVENTS.START_CHECKOUT, {
+          offering_id: offeringId,
+          payment_type: paymentMode === 'full_tuition' ? 'full_tuition_embedded' : 'seat_deposit_embedded',
+        });
+        setStatus('ready');
+      } catch (err) {
+        if (cancelled) return;
         setStatus('error');
-        setErrorMessage(result.error ?? 'Could not load checkout. Try again or contact support.');
-        return;
+        setErrorMessage(
+          err instanceof Error ? err.message : 'Could not load checkout. Try again or contact support.',
+        );
       }
-
-      const stripe = await loadStripe(publishableKey);
-      if (cancelled || !stripe || !mountRef.current) return;
-
-      checkoutRef.current?.destroy();
-      mountRef.current.innerHTML = '';
-
-      const checkout = await stripe.initEmbeddedCheckout({
-        clientSecret: result.data.session.clientSecret,
-      });
-
-      if (cancelled) {
-        checkout.destroy();
-        return;
-      }
-
-      checkoutRef.current = checkout;
-      checkout.mount(mountRef.current);
-      trackConversionEvent(CONVERSION_EVENTS.START_CHECKOUT, {
-        offering_id: offeringId,
-        payment_type: paymentMode === 'full_tuition' ? 'full_tuition_embedded' : 'seat_deposit_embedded',
-      });
-      setStatus('ready');
     }
 
     void initEmbeddedCheckout();

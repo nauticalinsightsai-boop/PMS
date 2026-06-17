@@ -13,7 +13,7 @@ import {
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 import { jsonError, jsonOk } from '@/lib/response-helpers.js';
 import { safeRedirectUrl } from '@/lib/safe-redirect-url';
-import { isStripeConfigured, isStripeTestMode } from '@/lib/stripe';
+import { isStripeConfigured, isStripeTestMode, getStripeSecretKeyIssue } from '@/lib/stripe';
 import type { RegionId } from '@/lib/regional-catalogue';
 
 function parsePaymentMode(raw: unknown): EnrollmentPaymentMode {
@@ -25,6 +25,16 @@ export async function POST(request: Request) {
     return jsonError('Card payments are not configured. Contact support@pmstructure.com.', 503);
   }
 
+  const keyIssue = getStripeSecretKeyIssue();
+  if (keyIssue) {
+    console.error('[checkout/seat-deposit]', keyIssue);
+    return jsonError(
+      'Card payments are misconfigured. Contact support@pmstructure.com.',
+      503,
+    );
+  }
+
+  try {
   const origin = request.headers.get('origin') ?? 'http://localhost:3000';
   const liveSite =
     origin.includes('pmstructure.com') ||
@@ -186,4 +196,18 @@ export async function POST(request: Request) {
     usdCents: fullRegional.usdCents,
     paymentMode,
   });
+  } catch (err) {
+    console.error('[checkout/seat-deposit] session create failed:', err);
+    const stripeMessage =
+      err && typeof err === 'object' && 'message' in err
+        ? String((err as { message: string }).message)
+        : '';
+    if (stripeMessage.toLowerCase().includes('invalid api key')) {
+      return jsonError(
+        'Card payments are misconfigured (invalid Stripe secret key). Contact support@pmstructure.com.',
+        503,
+      );
+    }
+    return jsonError('Could not start checkout. Try again or contact support@pmstructure.com.', 503);
+  }
 }
