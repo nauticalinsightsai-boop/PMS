@@ -1,0 +1,39 @@
+{
+  "business": "PM Structure",
+  "status": "internal_only",
+  "lastUpdated": "2026-06-18",
+  "primaryOffer": "PMP 2026 Readiness Pathway",
+  "reviewFrequency": "monthly",
+  "currency": "PKR",
+  "thresholds": {
+    "green": {
+      "min": 0,
+      "max": 499999,
+      "meaning": "Controlled burn"
+    },
+    "yellow": {
+      "min": 500000,
+      "max": 999999,
+      "meaning": "Burn creep risk"
+    },
+    "red": {
+      "min": 1000000,
+      "max": null,
+      "meaning": "High-risk burn"
+    }
+  },
+  "proofTargets90Days": {
+    "paidLearners": 20,
+    "testimonialsWithPermission": 5,
+    "corporateLeads": 1,
+    "repeatableSalesScript": 1
+  },
+  "freezeRules": [
+    "Pause new paid ads unless already profitable.",
+    "Pause new software unless revenue-critical.",
+    "Pause non-PMP course expansion.",
+    "Pause resource-store expansion.",
+    "Pause public membership feature expansion.",
+    "Focus on PMP 2026 funnel, delivery, compliance, analytics, and paid learner conversion."
+  ]
+}
