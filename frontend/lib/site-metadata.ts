@@ -43,7 +43,7 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
   const robots = input.robots ?? robotsForPath(input.path);
 
   return {
-    title: fullTitle,
+    title: input.noSuffix ? { absolute: fullTitle } : fullTitle,
     description,
     alternates: { canonical },
     robots,

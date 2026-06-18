@@ -26,13 +26,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ...(page.status && !isAnswerPublished(page) ? { robots: { index: false, follow: false } } : {}),
     });
   }
-  const title = page.title.includes('| PM Structure')
-    ? page.title
-    : `${page.title} | PM Structure`;
   return buildPageMetadata({
-    title,
+    title: page.title,
     description: page.description,
     path: page.path,
+    noSuffix: page.title.includes('| PM Structure'),
     ...(page.status && !isAnswerPublished(page) ? { robots: { index: false, follow: false } } : {}),
   });
 }
