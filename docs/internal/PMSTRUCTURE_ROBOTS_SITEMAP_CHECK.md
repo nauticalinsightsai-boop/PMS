@@ -54,6 +54,7 @@ Sitemap: http://www.pmstructure.com/sitemap.xml
 | Site URL (sitemap line host) | `frontend/config/pms-site.ts` → `PMS_SITE_URL` |
 | Sitemap generator (T-015) | `frontend/app/sitemap.ts` |
 | Repo validation | `npm run seo:robots-check` |
+| Plan file | `.cursor/plans/t-017_robots_sitemap.plan.md` |
 
 Dynamic robots output (production, verified 18 June 2026):
 
@@ -113,6 +114,14 @@ Automated repo check:
 ```bash
 npm run seo:robots-check
 ```
+
+### AC-10 verification (18 June 2026)
+
+| Check | Result |
+| ----- | ------ |
+| `npm run build -w @pms/frontend` | Pass (297 pages; `/robots.txt`, `/sitemap.xml` routes present) |
+| `npm run lint` | Pre-existing frontend ESLint errors (unrelated to robots/sitemap); not introduced by T-017 |
+| `npm run seo:smoke-live` | Pass (10/10) |
 
 ---
 
