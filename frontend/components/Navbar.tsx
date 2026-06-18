@@ -88,6 +88,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
             <PmpRoadmapCtaLink
               size="default"
               className="font-semibold px-5 h-10 rounded-full"
+              ctaLocation="nav"
             />
           </div>
         </div>
@@ -123,7 +124,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
                   );
                 })}
                 <div className="mt-4 pt-4 border-t border-border">
-                  <PmpRoadmapCtaLink className="w-full min-h-11 rounded-full" />
+                  <PmpRoadmapCtaLink className="w-full min-h-11 rounded-full" ctaLocation="nav" />
                 </div>
               </nav>
             </SheetContent>
