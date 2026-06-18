@@ -184,3 +184,4 @@ Last updated: 18 June 2026
 | --- | ------- |
 | `PMSTRUCTURE_SITEMAP_NOTES.md` | Sitemap policy (T-015) |
 | `PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md` | GSC/Bing submission (T-016) |
+| `PMSTRUCTURE_OWNER_SEO_UI_CHECKLIST.md` | Owner 5-min GSC + Bing UI steps |

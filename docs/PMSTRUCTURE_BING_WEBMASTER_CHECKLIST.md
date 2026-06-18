@@ -5,8 +5,8 @@
 ## Setup
 
 - [x] COMPLETE. Bing XML verification file deployed: `frontend/public/BingSiteAuth.xml` → `https://pmstructure.com/BingSiteAuth.xml`
-- [ ] MANUAL_REQUIRED. Click **Verify** in Bing Webmaster Tools after production deploy
-- [ ] MANUAL_REQUIRED. Import from Google Search Console (optional, after GSC verified)
+- [ ] MANUAL_REQUIRED. Sign in at [Bing Webmaster Tools](https://www.bing.com/webmasters) → **Verify** (XML file method) → see `docs/internal/PMSTRUCTURE_OWNER_SEO_UI_CHECKLIST.md`
+- [ ] MANUAL_REQUIRED. Submit sitemap: `https://pmstructure.com/sitemap.xml`
 
 ## Sitemap submission (owner manual)
 

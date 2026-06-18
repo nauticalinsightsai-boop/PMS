@@ -29,3 +29,5 @@ XML sitemap (T-015): see `PMSTRUCTURE_SITEMAP_NOTES.md`.
 Search Console sitemap submission (T-016): see `PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md`.
 
 Robots.txt sitemap reference (T-017): see `PMSTRUCTURE_ROBOTS_SITEMAP_CHECK.md` and `.cursor/plans/t-017_robots_sitemap.plan.md`.
+
+Owner GSC/Bing UI steps (5 min): see `PMSTRUCTURE_OWNER_SEO_UI_CHECKLIST.md`.

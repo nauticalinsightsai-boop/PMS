@@ -267,8 +267,8 @@ https://pmstructure.com/sitemap.xml
 
 | Date       | Platform              | Property        | Sitemap URL                         | Submitted By              | Status                       | Notes                                                                                  |
 | ---------- | --------------------- | --------------- | ----------------------------------- | ------------------------- | ---------------------------- | -------------------------------------------------------------------------------------- |
-| 2026-06-18 | Google Search Console | pmstructure.com | https://pmstructure.com/sitemap.xml | Owner (reported manually) | Pending Success confirmation | Owner reported submit in GSC UI; confirm **Success** + Discovered URLs before Complete |
-| 2026-06-18 | Bing Webmaster Tools  | pmstructure.com | https://pmstructure.com/sitemap.xml | Owner required            | Pending                      | Submit manually unless API access exists.                                              |
+| 2026-06-18 | Google Search Console | pmstructure.com | https://pmstructure.com/sitemap.xml | Owner (reported manually) | Pending Success confirmation | Owner reported submit; confirm **Success** + Discovered URLs in GSC. Use `PMSTRUCTURE_OWNER_SEO_UI_CHECKLIST.md`. |
+| 2026-06-18 | Bing Webmaster Tools  | pmstructure.com | https://pmstructure.com/sitemap.xml | Owner required            | Pending verification + submit | `BingSiteAuth.xml` live at site root; owner Sign In → Verify → submit sitemap. |
 
 ---
 
@@ -323,6 +323,7 @@ Last updated: 18 June 2026
 | `docs/PMSTRUCTURE_GOOGLE_SEARCH_CONSOLE_CHECKLIST.md` | Public GSC checklist |
 | `docs/PMSTRUCTURE_GSC_BING_SUBMISSION_PLAN.md` | Public submission plan |
 | `docs/PMSTRUCTURE_BING_WEBMASTER_CHECKLIST.md` | Bing checklist |
+| `PMSTRUCTURE_OWNER_SEO_UI_CHECKLIST.md` | Owner 5-min GSC + Bing UI steps |
 
 Verification file deployed: `frontend/public/google5780310dc725cd18.html`  
 Bing verification file deployed: `frontend/public/BingSiteAuth.xml`
