@@ -1,3 +1,7 @@
+import {
+  MARKETING_PMP_AVATARS,
+} from '@/lib/marketing-stock-images';
+
 /** Anchor for roadmap lead-form CTAs (hero / cert page). */
 export const PMP_ROADMAP_FORM_ANCHOR = 'pmp-roadmap-form';
 
@@ -61,7 +65,7 @@ export const PMP_PARTICIPANT_QUOTES: readonly PmpParticipantQuote[] = [
     role: 'Programme Manager, FinTech',
     quote:
       'The daily check-ins kept me accountable when work got hectic. Live sessions plus recordings meant I never missed a beat.',
-    avatar: 'https://i.pravatar.cc/100?u=amara-pmp',
+    avatar: MARKETING_PMP_AVATARS.amara,
   },
   {
     id: 'pq-2',
@@ -69,7 +73,7 @@ export const PMP_PARTICIPANT_QUOTES: readonly PmpParticipantQuote[] = [
     role: 'Senior Project Lead, Construction',
     quote:
       'The customized roadmap matched my 60-hour work week. I knew exactly what to study each day before exam day.',
-    avatar: 'https://i.pravatar.cc/100?u=david-pmp',
+    avatar: MARKETING_PMP_AVATARS.david,
   },
   {
     id: 'pq-3',
@@ -77,7 +81,7 @@ export const PMP_PARTICIPANT_QUOTES: readonly PmpParticipantQuote[] = [
     role: 'IT Delivery Manager',
     quote:
       'The mastermind group made the difference: peer questions surfaced gaps my solo study missed.',
-    avatar: 'https://i.pravatar.cc/100?u=priya-pmp',
+    avatar: MARKETING_PMP_AVATARS.priya,
   },
   {
     id: 'pq-4',
@@ -85,7 +89,7 @@ export const PMP_PARTICIPANT_QUOTES: readonly PmpParticipantQuote[] = [
     role: 'PMO Analyst',
     quote:
       'Last-day material tightened weak domains. I walked into Pearson VUE calm because the plan was already proven.',
-    avatar: 'https://i.pravatar.cc/100?u=james-pmp',
+    avatar: MARKETING_PMP_AVATARS.james,
   },
 ] as const;
 
@@ -106,7 +110,7 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
     programme: 'PMP® Professional pathway',
     comment:
       'Structured study rhythm, weak-area tracking, and mentor review helped me understand where I stood before exam day.',
-    avatar: 'https://i.pravatar.cc/100?u=sarah',
+    avatar: MARKETING_PMP_AVATARS.sarah,
   },
   {
     id: 'sj-2',
@@ -115,7 +119,7 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
     programme: 'PMP® Mastery pathway',
     comment:
       'Live training across six days gave me scenario fluency. Coaching calls kept momentum through Ramadan and travel.',
-    avatar: 'https://i.pravatar.cc/100?u=hassan-pmp',
+    avatar: MARKETING_PMP_AVATARS.hassan,
   },
   {
     id: 'sj-3',
@@ -124,7 +128,7 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
     programme: 'PMP® Foundation → Professional',
     comment:
       'Foundation built vocabulary; Professional tier mocks mirrored real exam pacing. Structured support through my preparation window kept retake planning calm.',
-    avatar: 'https://i.pravatar.cc/100?u=elena',
+    avatar: MARKETING_PMP_AVATARS.elena,
   },
   {
     id: 'sj-4',
@@ -133,7 +137,7 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
     programme: 'PMP® Professional pathway',
     comment:
       'Training-hour guidance helped me organize my preparation record for PMI. The roadmap accounted for my agile background and domain gaps.',
-    avatar: 'https://i.pravatar.cc/100?u=michael',
+    avatar: MARKETING_PMP_AVATARS.michael,
   },
   {
     id: 'sj-5',
@@ -142,7 +146,7 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
     programme: 'PMP® Mastery pathway',
     comment:
       '90-day mastermind accountability plus last-day cram pack: a structured retake plan kept my preparation focused.',
-    avatar: 'https://i.pravatar.cc/100?u=fatima-pmp',
+    avatar: MARKETING_PMP_AVATARS.fatima,
   },
   {
     id: 'sj-6',
@@ -151,7 +155,7 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
     programme: 'PMP® Professional pathway',
     comment:
       'WhatsApp coaching between live days answered situational questions fast. Recordings let me replay tough ECO scenarios.',
-    avatar: 'https://i.pravatar.cc/100?u=robert-pmp',
+    avatar: MARKETING_PMP_AVATARS.robert,
   },
 ] as const;
 

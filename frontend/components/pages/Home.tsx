@@ -1,8 +1,8 @@
 'use client';
+import dynamic from 'next/dynamic';
 import { motion } from "motion/react";
 import * as React from "react";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -19,17 +19,14 @@ import {
   FileText, 
   LayoutDashboard, 
   Map, 
-  Star,
-  Quote,
   MessageSquare,
   Sparkles,
 } from "lucide-react";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { BRAND, CTAS, HOME_COPY } from "@/lib/brand-voice";
-import { MARKETING_STOCK_IMAGES } from "@/lib/marketing-stock-images";
+import { MARKETING_STOCK_IMAGES, MARKETING_HERO_SOCIAL_AVATARS, marketingTestimonialAvatar } from "@/lib/marketing-stock-images";
+import type { HomePageConfigV2 } from '@pms/site-content';
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
 import { FamilyExploreCard } from "@/components/FamilyExploreCard";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
@@ -38,7 +35,6 @@ import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { useHomePageConfig } from '@/lib/home-config';
 import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
-import { Pmp2026FlagshipSections } from '@/components/home/Pmp2026FlagshipSections';
 import { PmpRoadmapCtaLink, ComparePathwaysCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { T169_SUPPORT_COPY } from '@/content/pmp/flagship-t169';
@@ -53,6 +49,22 @@ import {
 } from '@/content/t176-claims';
 import { NewsletterSubscribeForm } from '@/components/forms/NewsletterSubscribeForm';
 
+const Pmp2026FlagshipSections = dynamic(
+  () =>
+    import('@/components/home/Pmp2026FlagshipSections').then((m) => ({
+      default: m.Pmp2026FlagshipSections,
+    })),
+  { loading: () => null },
+);
+
+const HomeTestimonialsSection = dynamic(
+  () =>
+    import('@/components/home/HomeTestimonialsSection').then((m) => ({
+      default: m.HomeTestimonialsSection,
+    })),
+  { loading: () => null },
+);
+
 import * as siteData from "@/data/siteData";
 
 /** Featured Pathways: exactly 6 cards in 2 rows × 3 columns on lg+ */
@@ -65,9 +77,12 @@ const HERO_BTN =
 const HERO_BTN_OUTLINE =
   'w-full sm:w-auto border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-900 h-12 sm:h-14 px-6 sm:px-8 rounded-full font-bold text-base sm:text-lg transition-all';
 
-export function Home() {
+export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfigV2 }) {
   const { get } = useWebsiteData();
   const homeCms = useHomePageConfig();
+  const serverSlide =
+    initialHomeConfig?.heroSlides.find((slide) => slide.visible) ??
+    initialHomeConfig?.heroSlides[0];
   const [reduceMotion, setReduceMotion] = React.useState(false);
   React.useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -76,23 +91,6 @@ export function Home() {
     mq.addEventListener('change', onChange);
     return () => mq.removeEventListener('change', onChange);
   }, []);
-  const emblaPlugins = React.useMemo(
-    () => (reduceMotion ? [] : [Autoplay({ delay: 5000 })]),
-    [reduceMotion],
-  );
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' }, emblaPlugins);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-
-  const onSelect = React.useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  React.useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on('select', onSelect);
-  }, [emblaApi, onSelect]);
 
   const featuredFromCms = homeCms.featuredCertIds
     .map((id) => {
@@ -113,8 +111,12 @@ export function Home() {
     featuredFromCms.length > 0 ? featuredFromCms.slice(0, 6) : featuredPathways;
   const finalCta = homeCms.activeCta;
   const sections = homeCms.sections;
-  const statsCount = homeCms.stats?.professionalsCount ?? 1284;
-  const statsLabel = homeCms.stats?.professionalsLabel ?? 'professionals in the network';
+  const statsCount = homeCms.stats?.professionalsCount ?? initialHomeConfig?.stats?.professionalsCount ?? 1284;
+  const statsLabel = homeCms.stats?.professionalsLabel ?? initialHomeConfig?.stats?.professionalsLabel ?? 'professionals in the network';
+  const heroTitle =
+    homeCms.heroTitle || serverSlide?.heading || get('hero_title', HOME_COPY.heroTitle);
+  const heroSubtitle =
+    homeCms.heroSubtitle || serverSlide?.description || get('hero_subtitle', HOME_COPY.heroSubtitle);
   const testimonials =
     homeCms.visibleTestimonials.length > 0
       ? homeCms.visibleTestimonials.map((t) => ({
@@ -122,7 +124,7 @@ export function Home() {
           name: t.name,
           role: t.role,
           content: t.quote,
-          avatar: t.avatarUrl ?? `https://i.pravatar.cc/100?u=${t.id}`,
+          avatar: t.avatarUrl ?? marketingTestimonialAvatar(Number(t.id) || 0),
           company: '',
         }))
       : siteData.testimonials;
@@ -198,9 +200,9 @@ export function Home() {
         <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.6 }}
               className="relative z-10 min-w-0"
             >
               <Badge className="mb-4 sm:mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
@@ -208,11 +210,11 @@ export function Home() {
               </Badge>
               
               <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-[1.1] text-balance">
-                {homeCms.heroTitle || get('hero_title', HOME_COPY.heroTitle)}
+                {heroTitle}
               </h1>
               
               <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 sm:mb-10 max-w-lg leading-relaxed font-medium">
-                {homeCms.heroSubtitle || get('hero_subtitle', HOME_COPY.heroSubtitle)}
+                {heroSubtitle}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
@@ -226,9 +228,17 @@ export function Home() {
               
               <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                 <div className="flex -space-x-3">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="h-10 w-10 rounded-full border-2 border-white dark:border-slate-950 overflow-hidden shadow-sm">
-                      <img src={`https://i.pravatar.cc/100?u=${i + 20}`} alt="" aria-hidden className="h-full w-full object-cover" />
+                  {MARKETING_HERO_SOCIAL_AVATARS.map((avatar) => (
+                    <div key={avatar.src} className="h-10 w-10 rounded-full border-2 border-white dark:border-slate-950 overflow-hidden shadow-sm">
+                      <img
+                        src={avatar.src}
+                        alt={avatar.alt}
+                        width={avatar.width}
+                        height={avatar.height}
+                        aria-hidden
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                      />
                     </div>
                   ))}
                 </div>
@@ -241,18 +251,18 @@ export function Home() {
             <div id={PMP_ROADMAP_FORM_ANCHOR} className="scroll-mt-24 contents">
               {/* Hero lead form: tablet/mobile */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.98 }}
+                initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7 }}
+                transition={reduceMotion ? { duration: 0 } : { duration: 0.7 }}
                 className="relative z-20 lg:hidden"
               >
                 <PmpRoadmapLeadForm placement="home_hero_mobile" variant="hero" />
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={reduceMotion ? false : { opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
+                transition={reduceMotion ? { duration: 0 } : { duration: 0.8 }}
                 className="relative z-30 isolate hidden lg:block"
               >
                 <PmpRoadmapLeadForm placement="home_hero_desktop" variant="hero" />
@@ -609,16 +619,20 @@ export function Home() {
                     <img
                       src={MARKETING_STOCK_IMAGES.communityGrid[0].src}
                       alt={MARKETING_STOCK_IMAGES.communityGrid[0].alt}
+                      width={MARKETING_STOCK_IMAGES.communityGrid[0].width}
+                      height={MARKETING_STOCK_IMAGES.communityGrid[0].height}
                       className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
+                      loading="lazy"
                     />
                   </div>
                   <div className="rounded-3xl overflow-hidden shadow-lg aspect-[4/3]">
                     <img
                       src={MARKETING_STOCK_IMAGES.communityGrid[1].src}
                       alt={MARKETING_STOCK_IMAGES.communityGrid[1].alt}
+                      width={MARKETING_STOCK_IMAGES.communityGrid[1].width}
+                      height={MARKETING_STOCK_IMAGES.communityGrid[1].height}
                       className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -627,16 +641,20 @@ export function Home() {
                     <img
                       src={MARKETING_STOCK_IMAGES.communityGrid[2].src}
                       alt={MARKETING_STOCK_IMAGES.communityGrid[2].alt}
+                      width={MARKETING_STOCK_IMAGES.communityGrid[2].width}
+                      height={MARKETING_STOCK_IMAGES.communityGrid[2].height}
                       className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
+                      loading="lazy"
                     />
                   </div>
                   <div className="rounded-3xl overflow-hidden shadow-lg aspect-square">
                     <img
                       src={MARKETING_STOCK_IMAGES.communityGrid[3].src}
                       alt={MARKETING_STOCK_IMAGES.communityGrid[3].alt}
+                      width={MARKETING_STOCK_IMAGES.communityGrid[3].width}
+                      height={MARKETING_STOCK_IMAGES.communityGrid[3].height}
                       className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -800,91 +818,7 @@ export function Home() {
       </section>
 
       {(sections?.testimonials !== false) && (
-      <section className={sectionSurface('cool', cn(SECTION_PY, 'overflow-hidden'))}>
-        <SectionAmbience tone="cool" />
-        <div className="container relative z-10 mx-auto">
-          <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-stretch lg:items-center">
-            <div className="lg:w-1/3 min-w-0">
-              <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">Our Impact</Badge>
-              <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-6 tracking-tight">Student Success</h2>
-              <p className="text-lg text-slate-500 dark:text-slate-400 mb-8 leading-relaxed font-medium">
-                Join professionals building structured project management capability with {BRAND.name}.
-              </p>
-              
-              <div className="flex items-center gap-4 mb-10">
-                <div className="flex -space-x-3">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="h-12 w-12 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 overflow-hidden shadow-sm">
-                      <img src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="" aria-hidden className="object-cover w-full h-full" />
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <div className="flex items-center text-yellow-500 mb-0.5">
-                    {[1, 2, 3, 4, 5].map((i) => <Star key={i} className="h-4 w-4 fill-current" />)}
-                  </div>
-                  <div className="text-sm font-bold tracking-tight text-slate-900 dark:text-white">
-                    4.9/5 <span className="text-xs font-medium text-slate-400 ml-1">Average Rating</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {testimonials.map((_, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => emblaApi?.scrollTo(idx)}
-                    className={cn(
-                      "min-h-11 min-w-11 inline-flex items-center justify-center rounded-full transition-all",
-                      selectedIndex === idx ? "bg-brand-orange/15" : "hover:bg-muted"
-                    )}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  >
-                    <span
-                      className={cn(
-                        "block h-2 rounded-full transition-all",
-                        selectedIndex === idx ? "w-8 bg-brand-orange" : "w-2 bg-slate-200 dark:bg-slate-800",
-                      )}
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="lg:w-2/3 w-full min-w-0">
-              <div className="overflow-hidden cursor-grab active:cursor-grabbing touch-pan-y" ref={emblaRef}>
-                <div className="flex">
-                  {testimonials.map((testimonial) => (
-                    <div key={testimonial.id} className="flex-[0_0_100%] md:flex-[0_0_50%] min-w-0 pr-4 md:pr-6">
-                      <Card className="h-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] relative overflow-hidden group hover:shadow-xl transition-all duration-500">
-                        <Quote className="absolute top-8 right-8 h-12 w-12 text-slate-50 dark:text-slate-800/50 -rotate-12 transition-transform group-hover:rotate-0" />
-                        <div className="relative z-10">
-                          <div className="flex items-center text-yellow-500 mb-6">
-                            {[1, 2, 3, 4, 5].map((i) => <Star key={i} className="h-3 w-3 fill-current" />)}
-                          </div>
-                          <p className="text-lg italic text-slate-600 dark:text-slate-300 mb-8 leading-relaxed font-medium">
-                            "{testimonial.content}"
-                          </p>
-                          <div className="flex items-center gap-4">
-                            <div className="h-14 w-14 rounded-2xl bg-slate-100 overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800">
-                              <img src={testimonial.avatar} alt={testimonial.name} className="object-cover w-full h-full" />
-                            </div>
-                            <div>
-                              <div className="font-bold text-lg tracking-tight text-slate-900 dark:text-white leading-tight">{testimonial.name}</div>
-                              <div className="text-sm font-medium text-slate-500">{testimonial.role}</div>
-                            </div>
-                          </div>
-                        </div>
-                      </Card>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        <HomeTestimonialsSection testimonials={testimonials} />
       )}
 
       {(sections?.globalFootprint !== false) && homeCms.activeFootprint.length > 0 && (

@@ -65,7 +65,7 @@ export function BrandLogo({
         width={width}
         height={height}
         className={cn(sizeClass, 'w-auto object-contain object-left hidden dark:block', imageClassName)}
-        priority
+        loading="lazy"
       />
     </>
   );

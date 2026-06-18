@@ -1,20 +1,40 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { Suspense, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { RegionProvider } from '@/contexts/RegionContext';
 import { RegionGate } from '@/components/RegionGate';
-import { ScrollToTop } from '@/components/ScrollToTop';
 import { CookieConsent } from '@/components/CookieConsent';
 import { LeadRecoveryProvider } from '@/components/conversion-recovery/LeadRecoveryProvider';
-import { LeadRecoveryDialog } from '@/components/conversion-recovery/LeadRecoveryDialog';
-import { BottomCtaRotator } from '@/components/conversion-recovery/BottomCtaRotator';
-import { SupportChatWidget } from '@/components/SupportChatWidget';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 import { syncBrandFavicon } from '@/lib/brand/site-logo';
+
+const ScrollToTop = dynamic(
+  () => import('@/components/ScrollToTop').then((m) => ({ default: m.ScrollToTop })),
+  { ssr: false },
+);
+const BottomCtaRotator = dynamic(
+  () =>
+    import('@/components/conversion-recovery/BottomCtaRotator').then((m) => ({
+      default: m.BottomCtaRotator,
+    })),
+  { ssr: false },
+);
+const SupportChatWidget = dynamic(
+  () => import('@/components/SupportChatWidget').then((m) => ({ default: m.SupportChatWidget })),
+  { ssr: false },
+);
+const LeadRecoveryDialog = dynamic(
+  () =>
+    import('@/components/conversion-recovery/LeadRecoveryDialog').then((m) => ({
+      default: m.LeadRecoveryDialog,
+    })),
+  { ssr: false },
+);
 
 /** Matches Navbar inner `h-16`: keep main padding and fixed subnav offset in sync */
 export const PUBLIC_NAVBAR_HEIGHT_CLASS = 'pt-16';

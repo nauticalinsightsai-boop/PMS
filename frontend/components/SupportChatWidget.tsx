@@ -2,8 +2,13 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { Bot, Calendar, Loader2, Send, Users, X } from 'lucide-react';
+import { Bot, Calendar, Loader2, MessageCircle, Send, Users, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+  FLOATING_CORNER_BOTTOM_CLASS,
+  FLOATING_CORNER_STACKED_CLASS,
+} from '@/lib/floating-corner';
+import { useFloatingCornerScrollVisible } from '@/lib/use-floating-corner-scroll';
 import {
   getPmsWhatsAppChatUrl,
   getPmsWhatsAppDisplay,
@@ -18,7 +23,7 @@ const GREETING =
   "Hi, I'm the PM Structure assistant. Ask about certification pathways, FAQs, regional pricing, booking a mentor call, or how to enroll.";
 
 const CHAT_FAB_CLASS =
-  'flex h-14 w-14 items-center justify-center rounded-full bg-brand-orange text-white shadow-lg shadow-brand-orange/30 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange';
+  'flex h-12 w-12 items-center justify-center rounded-full bg-brand-orange text-white shadow-lg shadow-brand-orange/30 transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange';
 
 type ChatMessage = { role: 'user' | 'assistant'; content: string };
 
@@ -26,7 +31,10 @@ function isSupportChatEnabled(): boolean {
   return process.env.NEXT_PUBLIC_SUPPORT_CHAT_ENABLED !== 'false';
 }
 
+const CHAT_PANEL_CLASS = 'w-[min(100vw-2rem,22rem)] max-w-full';
+
 export function SupportChatWidget() {
+  const scrollFabVisible = useFloatingCornerScrollVisible();
   const [open, setOpen] = React.useState(false);
   const [messages, setMessages] = React.useState<ChatMessage[]>([]);
   const [input, setInput] = React.useState('');
@@ -99,14 +107,16 @@ export function SupportChatWidget() {
   return (
     <div
       className={cn(
-        'fixed z-[100] flex flex-col items-end gap-3',
-        'bottom-[max(1.5rem,env(safe-area-inset-bottom))]',
+        'fixed z-[100] flex w-fit max-w-[min(100vw-2rem,22rem)] flex-col items-end gap-3',
         'right-[max(1.5rem,env(safe-area-inset-right))]',
+        'transition-[bottom] duration-300 ease-out',
+        scrollFabVisible ? FLOATING_CORNER_STACKED_CLASS : FLOATING_CORNER_BOTTOM_CLASS,
       )}
     >
       <div
         className={cn(
-          'flex w-[min(100vw-2rem,22rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900',
+          CHAT_PANEL_CLASS,
+          'flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900',
           'origin-bottom-right transition-all duration-200',
           open
             ? 'pointer-events-auto scale-100 opacity-100'
@@ -136,33 +146,33 @@ export function SupportChatWidget() {
           </button>
         </div>
 
-        <div className="flex flex-wrap gap-2 border-b border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-950/60">
-          <button
-            type="button"
-            onClick={scheduleCall}
-            className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-slate-900 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-white dark:ring-slate-700"
-          >
-            <Calendar className="h-3.5 w-3.5 text-brand-orange" aria-hidden />
-            Schedule a call
-          </button>
+        <div className="flex flex-nowrap items-center gap-1 border-b border-slate-200 bg-slate-50 px-2 py-2 dark:border-slate-700 dark:bg-slate-950/60">
           {whatsappConfigured ? (
             <a
               href={getPmsWhatsAppChatUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full bg-[#25D366] px-3 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-[#20bd5a]"
+              className="inline-flex min-w-0 flex-1 items-center justify-center gap-1 rounded-full bg-[#25D366] px-2 py-1.5 text-[11px] font-bold leading-tight text-white shadow-sm hover:bg-[#20bd5a]"
             >
-              WhatsApp
+              <span className="truncate">WhatsApp</span>
               <span className="sr-only">({getPmsWhatsAppDisplay()})</span>
             </a>
           ) : null}
+          <button
+            type="button"
+            onClick={scheduleCall}
+            className="inline-flex min-w-0 flex-1 items-center justify-center gap-1 rounded-full bg-white px-2 py-1.5 text-[11px] font-bold leading-tight text-slate-900 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-white dark:ring-slate-700"
+          >
+            <Calendar className="h-3 w-3 shrink-0 text-brand-orange" aria-hidden />
+            <span className="truncate">Schedule a call</span>
+          </button>
           <Link
             href={PMS_SKOOL_COMMUNITY_JOIN_URL}
             {...externalHrefLinkProps(PMS_SKOOL_COMMUNITY_JOIN_URL)}
-            className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-slate-900 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-white dark:ring-slate-700"
+            className="inline-flex min-w-0 flex-1 items-center justify-center gap-1 rounded-full bg-white px-2 py-1.5 text-[11px] font-bold leading-tight text-slate-900 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 dark:bg-slate-900 dark:text-white dark:ring-slate-700"
           >
-            <Users className="h-3.5 w-3.5 text-brand-orange" aria-hidden />
-            Join Community
+            <Users className="h-3 w-3 shrink-0 text-brand-orange" aria-hidden />
+            <span className="truncate">Join Community</span>
           </Link>
         </div>
 
@@ -224,7 +234,7 @@ export function SupportChatWidget() {
         aria-expanded={open}
         className={CHAT_FAB_CLASS}
       >
-        {open ? <X className="h-7 w-7" aria-hidden /> : <Bot className="h-7 w-7" aria-hidden />}
+        {open ? <X className="h-5 w-5" aria-hidden /> : <MessageCircle className="h-5 w-5" aria-hidden />}
       </button>
     </div>
   );

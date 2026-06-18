@@ -752,7 +752,7 @@ export const newsletterPosts: NewsletterPost[] = [
     author: "Robert Vance",
     date: "Oct 12, 2024",
     category: "Exam Prep",
-    image: "https://picsum.photos/seed/pmp-exam/800/600",
+    image: "/images/marketing/community-collab-600.webp",
     readTime: "8 min read"
   },
   {
@@ -762,7 +762,7 @@ export const newsletterPosts: NewsletterPost[] = [
     author: "Elena Gilbert",
     date: "Oct 10, 2024",
     category: "Agile",
-    image: "https://picsum.photos/seed/agile/800/600",
+    image: "/images/marketing/community-workshop-600.webp",
     readTime: "6 min read"
   },
   {
@@ -772,7 +772,7 @@ export const newsletterPosts: NewsletterPost[] = [
     author: "Marcus Chen",
     date: "Oct 08, 2024",
     category: "Technology",
-    image: "https://picsum.photos/seed/ai-pm/800/600",
+    image: "/images/marketing/community-mentor-600.webp",
     readTime: "10 min read"
   }
 ];
@@ -784,7 +784,7 @@ export const testimonials: Testimonial[] = [
     role: "Senior PM at TechCorp",
     company: "Global Tech Solutions",
     content: "The PM Structure PMP pathway gave me a structured study rhythm, weak-area tracking, and mentor-style review. I knew where I stood before exam day.",
-    avatar: "https://i.pravatar.cc/100?u=sarah"
+    avatar: "/images/marketing/pmp-avatar-sarah.webp"
   },
   {
     id: "2",
@@ -792,7 +792,7 @@ export const testimonials: Testimonial[] = [
     role: "Agile Coach",
     company: "Innovate Corp",
     content: "The PMI-ACP readiness support focused on scenarios and weak-area revision, not random videos. The practice environment closely matched exam conditions, which built real confidence.",
-    avatar: "https://i.pravatar.cc/100?u=michael"
+    avatar: "/images/marketing/pmp-avatar-michael.webp"
   },
   {
     id: "3",
@@ -800,7 +800,7 @@ export const testimonials: Testimonial[] = [
     role: "Project Coordinator",
     company: "Future Build",
     content: "The Foundation pathway gave me structured vocabulary and a clear study rhythm during my career transition. I could speak with senior PMs with more confidence from week one.",
-    avatar: "https://i.pravatar.cc/100?u=elena"
+    avatar: "/images/marketing/pmp-avatar-elena.webp"
   },
   {
     id: "4",
@@ -808,7 +808,7 @@ export const testimonials: Testimonial[] = [
     role: "Operations Director",
     company: "Process Master",
     content: "The Lean Six Sigma Green Belt course was rigorous and practical. I was able to apply improvement tools at work during the preparation window.",
-    avatar: "https://i.pravatar.cc/100?u=james"
+    avatar: "/images/marketing/pmp-avatar-james.webp"
   }
 ];
 

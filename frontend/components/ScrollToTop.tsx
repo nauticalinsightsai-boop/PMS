@@ -3,10 +3,11 @@
 import * as React from 'react';
 import { ArrowUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { FLOATING_CORNER_SHOW_AFTER_PX } from '@/lib/floating-corner';
+import { FLOATING_CORNER_BOTTOM_CLASS } from '@/lib/floating-corner';
+import { useFloatingCornerScrollVisible } from '@/lib/use-floating-corner-scroll';
 
 export function ScrollToTop() {
-  const [visible, setVisible] = React.useState(false);
+  const visible = useFloatingCornerScrollVisible();
   const [reduceMotion, setReduceMotion] = React.useState(false);
 
   React.useEffect(() => {
@@ -15,13 +16,8 @@ export function ScrollToTop() {
     syncMotion();
     mq.addEventListener('change', syncMotion);
 
-    const onScroll = () => setVisible(window.scrollY > FLOATING_CORNER_SHOW_AFTER_PX);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-
     return () => {
       mq.removeEventListener('change', syncMotion);
-      window.removeEventListener('scroll', onScroll);
     };
   }, []);
 
@@ -35,8 +31,9 @@ export function ScrollToTop() {
       onClick={scrollToTop}
       aria-label="Scroll to top"
       className={cn(
-        'fixed z-40 flex h-12 w-12 items-center justify-center rounded-full bg-brand-orange text-white shadow-lg shadow-brand-orange/30',
-        'bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))]',
+        'fixed z-[90] flex h-12 w-12 items-center justify-center rounded-full bg-brand-orange text-white shadow-lg shadow-brand-orange/30',
+        FLOATING_CORNER_BOTTOM_CLASS,
+        'right-[max(1.5rem,env(safe-area-inset-right))]',
         'hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 focus-visible:ring-offset-background',
         reduceMotion ? 'transition-none' : 'transition-all duration-300 ease-out',
         visible

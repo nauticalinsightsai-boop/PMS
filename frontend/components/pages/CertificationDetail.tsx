@@ -1,4 +1,5 @@
 'use client';
+import dynamic from 'next/dynamic';
 import * as React from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -39,10 +40,7 @@ import { ConversionViewTracker } from '@/components/analytics/ConversionViewTrac
 import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
-import {
-  CertProgramHighlightsContent,
-  CertRoadmapCta,
-} from '@/components/cert/CertProgramHighlightsSection';
+import { CertRoadmapCta } from '@/components/cert/CertProgramHighlightsSection';
 import {
   CERT_ROADMAP_FORM_ANCHOR,
   getCertProgramOffer,
@@ -52,6 +50,14 @@ import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnroll
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
 import { CertComplianceNote } from '@/components/cert/CertComplianceNote';
+
+const CertProgramHighlightsContent = dynamic(
+  () =>
+    import('@/components/cert/CertProgramHighlightsSection').then((m) => ({
+      default: m.CertProgramHighlightsContent,
+    })),
+  { loading: () => null },
+);
 
 function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
   return getOfferingsForSiteCert(siteId).some((o) => {

@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { NewsletterArticle } from "@pms/site-content/newsletter-posts";
 import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
+import { marketingTestimonialAvatar } from '@/lib/marketing-stock-images';
 
 interface CategoryChipProps {
   label: string;
@@ -176,7 +177,13 @@ export const FeaturedPost: React.FC<{ article: NewsletterArticle; storyHref?: st
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="h-12 w-12 rounded-full bg-slate-100 border border-slate-200 overflow-hidden">
-                <img src={`https://i.pravatar.cc/150?u=${article.author}`} alt={article.author} />
+                <img
+                  src={marketingTestimonialAvatar(article.author.length)}
+                  alt={article.author}
+                  width={48}
+                  height={48}
+                  loading="lazy"
+                />
               </div>
               <div>
                 <div className="font-bold text-slate-900 dark:text-white">{article.author}</div>

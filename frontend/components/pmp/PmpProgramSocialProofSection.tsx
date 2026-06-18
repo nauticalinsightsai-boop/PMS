@@ -78,7 +78,7 @@ export function PmpProgramSocialProofSection({
                 </p>
                 <div className="flex items-center gap-4">
                   {item.avatar ? (
-                    <img src={item.avatar} alt="" className="h-12 w-12 rounded-full object-cover" />
+                    <img src={item.avatar} alt="" width={48} height={48} className="h-12 w-12 rounded-full object-cover" loading="lazy" />
                   ) : null}
                   <div>
                     <div className="font-bold text-slate-900 dark:text-white">{item.name}</div>
@@ -111,7 +111,7 @@ export function PmpProgramSocialProofSection({
               >
                 <div className="mb-4 flex items-center gap-4">
                   {story.avatar ? (
-                    <img src={story.avatar} alt="" className="h-14 w-14 rounded-full object-cover" />
+                    <img src={story.avatar} alt="" width={56} height={56} loading="lazy" className="h-14 w-14 rounded-full object-cover" />
                   ) : null}
                   <div>
                     <h3 className="font-bold text-lg tracking-tight text-slate-900 dark:text-white">

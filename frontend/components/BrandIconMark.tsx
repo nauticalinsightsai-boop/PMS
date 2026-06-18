@@ -58,7 +58,7 @@ export default function BrandIconMark({
         width={size}
         height={size}
         className={cn(imageClass, 'hidden dark:block')}
-        priority={priority}
+        loading={priority ? undefined : 'lazy'}
       />
     </div>
   );

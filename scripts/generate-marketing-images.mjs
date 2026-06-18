@@ -1,0 +1,114 @@
+/**
+ * Generate self-hosted marketing WebP placeholders (brand-neutral gradients).
+ * Run: node scripts/generate-marketing-images.mjs
+ */
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import sharp from 'sharp';
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const outDir = path.join(root, 'frontend/public/images/marketing');
+const brandDir = path.join(root, 'frontend/public/brand');
+
+const GRADIENTS = {
+  'hero-social-avatar-1': ['#2851b9', '#bc6ae2'],
+  'hero-social-avatar-2': ['#ff4a38', '#ff884a'],
+  'hero-social-avatar-3': ['#0859b3', '#57d5e2'],
+  'hero-social-avatar-4': ['#696ff7', '#ef67ca'],
+  'community-collab-600': ['#2851b9', '#57d5e2'],
+  'community-workshop-600': ['#ff4a38', '#bc6ae2'],
+  'community-mentor-600': ['#0859b3', '#bc6ae2'],
+  'community-network-600': ['#696ff7', '#57d5e2'],
+  'mentorship-circle-900': ['#2851b9', '#ff884a'],
+  'membership-templates-500': ['#2851b9', '#bc6ae2'],
+  'membership-guides-500': ['#ff4a38', '#ff884a'],
+  'membership-tools-500': ['#0859b3', '#57d5e2'],
+  'membership-webinars-500': ['#696ff7', '#ef67ca'],
+  'about-workshop-800': ['#2851b9', '#bc6ae2'],
+  'about-session-800': ['#ff4a38', '#57d5e2'],
+  'pmp-avatar-amara': ['#2851b9', '#bc6ae2'],
+  'pmp-avatar-david': ['#ff4a38', '#ff884a'],
+  'pmp-avatar-priya': ['#0859b3', '#57d5e2'],
+  'pmp-avatar-james': ['#696ff7', '#ef67ca'],
+  'pmp-avatar-sarah': ['#bc6ae2', '#ff884a'],
+  'pmp-avatar-hassan': ['#2851b9', '#ff4a38'],
+  'pmp-avatar-elena': ['#57d5e2', '#2851b9'],
+  'pmp-avatar-michael': ['#434855', '#57d5e2'],
+  'pmp-avatar-fatima': ['#ff884a', '#bc6ae2'],
+  'pmp-avatar-robert': ['#0859b3', '#696ff7'],
+};
+
+function svgGradient(name, w, h, [c1, c2]) {
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <defs>
+        <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="${c1}"/>
+          <stop offset="100%" stop-color="${c2}"/>
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#g)"/>
+    </svg>`,
+  );
+}
+
+async function writeWebp(name, w, h, colors) {
+  const dest = path.join(outDir, `${name}.webp`);
+  await sharp(svgGradient(name, w, h, colors)).webp({ quality: 82 }).toFile(dest);
+  console.log('Wrote', path.relative(root, dest));
+}
+
+async function writeWordmark(filename, bg, iconPath) {
+  const w = 332;
+  const h = 80;
+  const bgSvg = Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <rect width="100%" height="100%" fill="${bg}"/>
+    </svg>`,
+  );
+  const icon = await sharp(iconPath).resize(64, 64).png().toBuffer();
+  const dest = path.join(brandDir, filename);
+  await sharp(bgSvg)
+    .composite([{ input: icon, left: 8, top: 8 }])
+    .png({ compressionLevel: 9 })
+    .toFile(dest);
+  console.log('Wrote', path.relative(root, dest));
+}
+
+async function main() {
+  fs.mkdirSync(outDir, { recursive: true });
+  fs.mkdirSync(brandDir, { recursive: true });
+
+  const avatars = Object.keys(GRADIENTS).filter((k) => k.startsWith('hero-social') || k.startsWith('pmp-avatar'));
+  for (const name of avatars) {
+    const size = name.startsWith('pmp-avatar') ? 96 : 80;
+    await writeWebp(name, size, size, GRADIENTS[name]);
+  }
+
+  await writeWebp('community-collab-600', 600, 600, GRADIENTS['community-collab-600']);
+  await writeWebp('community-workshop-600', 600, 450, GRADIENTS['community-workshop-600']);
+  await writeWebp('community-mentor-600', 600, 450, GRADIENTS['community-mentor-600']);
+  await writeWebp('community-network-600', 600, 600, GRADIENTS['community-network-600']);
+  await writeWebp('mentorship-circle-900', 900, 900, GRADIENTS['mentorship-circle-900']);
+  await writeWebp('membership-templates-500', 500, 500, GRADIENTS['membership-templates-500']);
+  await writeWebp('membership-guides-500', 500, 500, GRADIENTS['membership-guides-500']);
+  await writeWebp('membership-tools-500', 500, 500, GRADIENTS['membership-tools-500']);
+  await writeWebp('membership-webinars-500', 500, 500, GRADIENTS['membership-webinars-500']);
+  await writeWebp('about-workshop-800', 800, 1000, GRADIENTS['about-workshop-800']);
+  await writeWebp('about-session-800', 800, 800, GRADIENTS['about-session-800']);
+
+  const iconLight = path.join(brandDir, 'pms-icon.png');
+  const iconDark = path.join(brandDir, 'pms-icon-dark.png');
+  if (fs.existsSync(iconLight)) {
+    await writeWordmark('pms-logo-light.png', '#ffffff', iconLight);
+  }
+  if (fs.existsSync(iconDark)) {
+    await writeWordmark('pms-logo-dark.png', '#07071c', iconDark);
+  }
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

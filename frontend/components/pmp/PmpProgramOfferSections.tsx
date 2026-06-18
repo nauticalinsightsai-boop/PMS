@@ -1,8 +1,23 @@
 'use client';
 
-import { PmpProgramHighlightsSection } from '@/components/pmp/PmpProgramHighlightsSection';
-import { PmpProgramSocialProofSection } from '@/components/pmp/PmpProgramSocialProofSection';
+import dynamic from 'next/dynamic';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
+
+const PmpProgramHighlightsSection = dynamic(
+  () =>
+    import('@/components/pmp/PmpProgramHighlightsSection').then((m) => ({
+      default: m.PmpProgramHighlightsSection,
+    })),
+  { loading: () => null },
+);
+
+const PmpProgramSocialProofSection = dynamic(
+  () =>
+    import('@/components/pmp/PmpProgramSocialProofSection').then((m) => ({
+      default: m.PmpProgramSocialProofSection,
+    })),
+  { loading: () => null },
+);
 
 type PmpProgramOfferSectionsProps = {
   roadmapAnchor?: string;

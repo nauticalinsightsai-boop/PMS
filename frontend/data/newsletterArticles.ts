@@ -15,7 +15,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     date: 'Oct 12, 2025',
     author: 'Dr. Robert Chen',
     readTime: '8 min read',
-    image: 'https://picsum.photos/seed/pmp/800/600',
+    image: '/images/marketing/community-collab-600.webp',
     body: [
       'PMI’s latest Exam Content Outline shifts emphasis toward hybrid delivery, stakeholder engagement, and value-driven decision-making. If you prepared under the previous ECO, you do not need to start from zero: but you should remap your study plan to the new task domains.',
       'We recommend anchoring weekly study blocks to official task statements, then validating weak areas with timed mocks. Structure matters more than volume: three focused sessions often outperform scattered evening reading.',
@@ -31,7 +31,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     date: 'Oct 10, 2025',
     author: 'Sarah Jenkins',
     readTime: '12 min read',
-    image: 'https://picsum.photos/seed/agile/800/600',
+    image: '/images/marketing/community-workshop-600.webp',
     body: [
       'Enterprise PMOs are no longer choosing a single religion. Governance gates from predictive methods coexist with iterative delivery teams, especially where compliance and speed both matter.',
       'A practical hybrid model defines which decisions are fixed per phase (budget envelopes, regulatory checkpoints) and which are negotiated each sprint (scope slices, team capacity).',
@@ -47,7 +47,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     date: 'Oct 08, 2025',
     author: 'Marcus Thorne',
     readTime: '10 min read',
-    image: 'https://picsum.photos/seed/risk/800/600',
+    image: '/images/marketing/community-mentor-600.webp',
     body: [
       'Heat maps are useful for communication, but they rarely capture dependency chains that amplify small failures. Start with interface risks between vendors, regulators, and internal ops.',
       'Pre-mortems and scenario trees help teams articulate low-probability, high-impact events without being dismissed as pessimism. The goal is prepared response, not paralysis.',
@@ -63,7 +63,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     date: 'Oct 05, 2025',
     author: 'Elena Rodriguez',
     readTime: '15 min read',
-    image: 'https://picsum.photos/seed/ai/800/600',
+    image: '/images/marketing/membership-tools-500.webp',
     body: [
       'AI assistants accelerate drafting status reports, summarizing RAID logs, and generating what-if scenarios: but the PM still owns judgment, ethics, and stakeholder trust.',
       'Start with low-risk workflows: meeting notes, comms templates, and backlog refinement prompts. Validate outputs against your standards before they reach executives.',
@@ -79,7 +79,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     date: 'Oct 02, 2025',
     author: 'James Wilson',
     readTime: '7 min read',
-    image: 'https://picsum.photos/seed/prince/800/600',
+    image: '/images/marketing/membership-guides-500.webp',
     body: [
       'The seventh edition sharpens language around sustainability, data, and people: without abandoning the principles/themes/process spine practitioners already know.',
       'If you certified on earlier versions, focus gap study on tailoring guidance and modern governance patterns rather than re-memorizing the entire manual.',
@@ -95,7 +95,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     date: 'Sep 28, 2025',
     author: 'Linda Wu',
     readTime: '20 min read',
-    image: 'https://picsum.photos/seed/pmo/800/600',
+    image: '/images/marketing/membership-webinars-500.webp',
     body: [
       'A PMO earns credibility by solving one painful executive problem first: portfolio visibility, resource conflicts, or benefits tracking: not by publishing templates nobody uses.',
       'Phase the rollout: charter and success metrics, then minimum viable standards, then tooling. Each phase should ship a visible win within a quarter.',

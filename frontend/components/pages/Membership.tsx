@@ -415,8 +415,10 @@ export function Membership() {
                     <img
                       src={image.src}
                       alt={image.alt}
+                      width={image.width}
+                      height={image.height}
                       className="h-full w-full object-cover"
-                      referrerPolicy="no-referrer"
+                      loading="lazy"
                     />
                   </div>
                 ))}

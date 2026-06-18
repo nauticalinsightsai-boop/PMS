@@ -89,7 +89,7 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
 
       if (stored && (!stored.source || stored.source === 'manual')) {
         clearStoredRegion();
-      } else if (stored?.source === 'ip' || stored?.source === 'geolocation') {
+      } else       if (stored?.source === 'ip' || stored?.source === 'geolocation') {
         if (!cancelled) {
           setRegionId(stored.regionId);
           setGccCountry(stored.gccCountry);
@@ -98,9 +98,21 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
         return;
       }
 
-      const hint = await fetchIpRegionHint();
-      if (!cancelled && hint) {
-        applyRegionHint(hint, 'ip', setRegionId, setGccCountry, setRegionSource);
+      const detectIp = async () => {
+        const hint = await fetchIpRegionHint();
+        if (!cancelled && hint) {
+          applyRegionHint(hint, 'ip', setRegionId, setGccCountry, setRegionSource);
+        }
+      };
+
+      if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(() => {
+          void detectIp();
+        });
+      } else {
+        setTimeout(() => {
+          void detectIp();
+        }, 0);
       }
     }
 

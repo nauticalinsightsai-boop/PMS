@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import { T176_STORE_WAITLIST_NOTE } from '@/content/t176-claims';
-import { CTAS } from '@/lib/brand-voice';
+import { MARKETING_STOCK_IMAGES } from '@/lib/marketing-stock-images';
 
 const categoryIcons: Record<string, typeof Package> = {
   'All Resources': Package,
@@ -48,7 +48,7 @@ export function StoreContent() {
       category: catalog?.categories.find((c) => c.id === p.categoryId)?.name ?? p.categoryId,
       rating: p.rating ?? 4.5,
       reviews: p.reviewCount ?? 0,
-      image: p.image?.url ?? p.imageUrl ?? 'https://picsum.photos/seed/product/400/500',
+      image: p.image?.url ?? p.imageUrl ?? MARKETING_STOCK_IMAGES.storeProduct.src,
       description: p.description,
       badge: p.badge ?? '',
     }));

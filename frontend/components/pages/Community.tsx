@@ -149,8 +149,10 @@ function CommunityNetworkContent() {
                 <img
                   src={MARKETING_STOCK_IMAGES.mentorship.src}
                   alt={MARKETING_STOCK_IMAGES.mentorship.alt}
+                  width={MARKETING_STOCK_IMAGES.mentorship.width}
+                  height={MARKETING_STOCK_IMAGES.mentorship.height}
                   className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
                 <div className="absolute bottom-8 left-8 right-8 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm p-8 rounded-3xl border border-white/20 dark:border-slate-800 shadow-xl">

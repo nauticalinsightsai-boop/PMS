@@ -90,16 +90,20 @@ export function About() {
                   <img
                     src={MARKETING_STOCK_IMAGES.aboutStory[0].src}
                     alt={MARKETING_STOCK_IMAGES.aboutStory[0].alt}
+                    width={MARKETING_STOCK_IMAGES.aboutStory[0].width}
+                    height={MARKETING_STOCK_IMAGES.aboutStory[0].height}
                     className="object-cover w-full h-full"
-                    referrerPolicy="no-referrer"
+                    loading="lazy"
                   />
                 </div>
                 <div className="rounded-[2rem] overflow-hidden shadow-xl border border-slate-100 dark:border-slate-800 aspect-square mt-10 sm:mt-14">
                   <img
                     src={MARKETING_STOCK_IMAGES.aboutStory[1].src}
                     alt={MARKETING_STOCK_IMAGES.aboutStory[1].alt}
+                    width={MARKETING_STOCK_IMAGES.aboutStory[1].width}
+                    height={MARKETING_STOCK_IMAGES.aboutStory[1].height}
                     className="object-cover w-full h-full"
-                    referrerPolicy="no-referrer"
+                    loading="lazy"
                   />
                 </div>
               </div>

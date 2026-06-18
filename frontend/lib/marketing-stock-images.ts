@@ -1,42 +1,70 @@
 /**
- * Stable stock imagery for marketing sections until CMS/media library assets are assigned.
- * Uses picsum seeds so URLs stay deterministic across deploys.
+ * Self-hosted marketing imagery (WebP under /images/marketing/).
+ * Regenerate assets: node scripts/generate-marketing-images.mjs
  */
 
-const picsum = (seed: string, width: number, height: number) =>
-  `https://picsum.photos/seed/${seed}/${width}/${height}`;
+const m = (name: string) => `/images/marketing/${name}.webp`;
 
-/** Stable Unsplash crop URLs for thematic marketing imagery. */
-const unsplash = (photoId: string, width: number, height: number) =>
-  `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${width}&h=${height}&q=80`;
+export const MARKETING_HERO_SOCIAL_AVATARS = [
+  { src: m('hero-social-avatar-1'), alt: '', width: 40, height: 40 },
+  { src: m('hero-social-avatar-2'), alt: '', width: 40, height: 40 },
+  { src: m('hero-social-avatar-3'), alt: '', width: 40, height: 40 },
+  { src: m('hero-social-avatar-4'), alt: '', width: 40, height: 40 },
+] as const;
+
+export const MARKETING_PMP_AVATARS = {
+  amara: m('pmp-avatar-amara'),
+  david: m('pmp-avatar-david'),
+  priya: m('pmp-avatar-priya'),
+  james: m('pmp-avatar-james'),
+  sarah: m('pmp-avatar-sarah'),
+  hassan: m('pmp-avatar-hassan'),
+  elena: m('pmp-avatar-elena'),
+  michael: m('pmp-avatar-michael'),
+  fatima: m('pmp-avatar-fatima'),
+  robert: m('pmp-avatar-robert'),
+} as const;
+
+/** Generic testimonial avatar by index (deterministic). */
+export function marketingTestimonialAvatar(index: number): string {
+  const keys = Object.keys(MARKETING_PMP_AVATARS) as (keyof typeof MARKETING_PMP_AVATARS)[];
+  return MARKETING_PMP_AVATARS[keys[index % keys.length]];
+}
 
 export const MARKETING_STOCK_IMAGES = {
-  hero: picsum('pms-hero-professional', 1200, 1500),
-  insights: picsum('pms-insights-leadership', 900, 1125),
   communityGrid: [
-    { src: picsum('pms-community-collab', 600, 600), alt: 'Project professionals collaborating' },
-    { src: picsum('pms-community-workshop', 600, 450), alt: 'Study workshop session' },
-    { src: picsum('pms-community-mentor', 600, 450), alt: 'Mentor-led discussion' },
-    { src: picsum('pms-community-network', 600, 600), alt: 'Professional networking' },
+    { src: m('community-collab-600'), alt: 'Project professionals collaborating', width: 600, height: 600 },
+    { src: m('community-workshop-600'), alt: 'Study workshop session', width: 600, height: 450 },
+    { src: m('community-mentor-600'), alt: 'Mentor-led discussion', width: 600, height: 450 },
+    { src: m('community-network-600'), alt: 'Professional networking', width: 600, height: 600 },
   ],
   mentorship: {
-    src: picsum('pms-mentorship-circle', 900, 900),
+    src: m('mentorship-circle-900'),
     alt: 'Community study circle and mentorship',
+    width: 900,
+    height: 900,
   },
   aboutStory: [
     {
-      src: unsplash('photo-1523240795612-9a054b0db644', 800, 1000),
+      src: m('about-workshop-800'),
       alt: 'Mentor-led certification workshop',
+      width: 800,
+      height: 1000,
     },
     {
-      src: unsplash('photo-1522202176988-66273c2fd55f', 800, 800),
+      src: m('about-session-800'),
       alt: 'Project professionals in a structured study session',
+      width: 800,
+      height: 800,
     },
   ],
   membershipResources: [
-    { src: picsum('pms-resource-templates', 500, 500), alt: 'Exam prep templates' },
-    { src: picsum('pms-resource-guides', 500, 500), alt: 'Study guides and playbooks' },
-    { src: picsum('pms-resource-tools', 500, 500), alt: 'PM planning tools' },
-    { src: picsum('pms-resource-webinars', 500, 500), alt: 'Expert webinar recordings' },
+    { src: m('membership-templates-500'), alt: 'Exam prep templates', width: 500, height: 500 },
+    { src: m('membership-guides-500'), alt: 'Study guides and playbooks', width: 500, height: 500 },
+    { src: m('membership-tools-500'), alt: 'PM planning tools', width: 500, height: 500 },
+    { src: m('membership-webinars-500'), alt: 'Expert webinar recordings', width: 500, height: 500 },
   ],
+  /** Blog / newsletter card fallback */
+  articleCard: { src: m('community-collab-600'), width: 800, height: 600 },
+  storeProduct: { src: m('membership-tools-500'), width: 400, height: 500 },
 } as const;
