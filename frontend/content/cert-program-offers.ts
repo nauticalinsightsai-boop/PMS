@@ -29,7 +29,7 @@ function pmiPack(certName: string, examFocus: string, educationNote: string): Ce
   return [
     {
       id: 'live-training',
-      title: 'Expert-Led Live Training',
+      title: 'Mentor-Supported Live Training',
       description: `Live sessions with recordings covering ${examFocus} and scenario-based application.`,
     },
     {
@@ -121,7 +121,7 @@ function sixSigmaPack(certName: string, beltFocus: string): CertProgramHighlight
       id: 'exam-prep',
       title: `${certName} Exam Preparation`,
       description:
-        'Question banks, timed practice, and readiness checks aligned to ASQ-style expectations.',
+        'Question banks, timed practice, and readiness checks aligned to common belt exam expectations.',
     },
     {
       id: 'roadmap',

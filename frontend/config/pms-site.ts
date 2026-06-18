@@ -12,7 +12,7 @@ export const PMS_SITE_URL =
 export const PMS_SITE_NAME = BRAND.name;
 
 export const PMS_SITE_DESCRIPTION =
-  'Independent exam prep across PMI, PRINCE2, and Lean Six Sigma. Structured readiness pathways, regional scholarship pricing, and mentor-led support.';
+  'PM Structure is an independent project management education, exam-prep, and readiness-support platform. Structured certification pathways, regional scholarship pricing, and mentor-led preparation support.';
 
 /** All legal, privacy, and compliance enquiries use the support inbox. */
 export const PMS_SUPPORT_EMAIL =

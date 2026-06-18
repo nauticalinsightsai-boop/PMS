@@ -20,7 +20,8 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
-import { FIELD_KEYS, defaultStoreCatalog, parseStoreCatalog } from "@pms/site-content";
+import { T176_STORE_WAITLIST_NOTE } from '@/content/t176-claims';
+import { CTAS } from '@/lib/brand-voice';
 
 const categoryIcons: Record<string, typeof Package> = {
   'All Resources': Package,
@@ -187,7 +188,7 @@ export function StoreContent() {
                       aria-disabled="true"
                       className="w-full h-12 rounded-xl font-bold text-sm flex items-center justify-center gap-2"
                     >
-                      <ShoppingCart className="h-4 w-4" /> Buy now (Coming soon)
+                      {CTAS.joinWaitlist}
                     </Button>
                   </CardFooter>
                 </Card>
@@ -205,11 +206,10 @@ export function StoreContent() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div>
               <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">
-                Instant Access <span className="text-brand-orange">Digital Downloads</span>
+                Resource <span className="text-brand-orange">Previews</span>
               </h2>
               <p className="text-lg md:text-xl text-slate-400 mb-10 leading-relaxed font-medium">
-                All our resources are available for immediate download upon purchase. 
-                Start your preparation in seconds with our high-quality digital assets.
+                {T176_STORE_WAITLIST_NOTE}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
                 {[
@@ -226,8 +226,8 @@ export function StoreContent() {
                   </div>
                 ))}
               </div>
-              <Button size="lg" className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all">
-                Browse All Downloads <ArrowRight className="ml-2 h-5 w-5" />
+              <Button size="lg" disabled aria-disabled className="bg-brand-orange/80 text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all cursor-not-allowed">
+                {CTAS.joinWaitlist} <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-12 backdrop-blur-sm shadow-2xl">

@@ -3,6 +3,7 @@ import * as siteData from '@/data/siteData';
 import { getCertDurationLabel } from '@/lib/regional-catalogue';
 import type { FaqCluster, FaqEntry } from './types';
 import { PMP_2026_FAQS } from './pmp-2026-faqs';
+import { T176_FAQS } from '@/content/t176-claims';
 
 export const FAQ_CLUSTERS: FaqCluster[] = [
   { id: 'about', title: 'About PM Structure' },
@@ -463,5 +464,13 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     'delivery-refund-start',
   ),
   ...certFaqs(),
+  ...T176_FAQS.filter((f) => f.id !== 't176-faq-35-pdu').map((f) =>
+    P(
+      f.id.includes('fee') || f.id.includes('product') || f.id.includes('pdu') ? 'exams' : 'about',
+      f.question,
+      f.answer,
+      f.id,
+    ),
+  ),
   ...PMP_2026_FAQS,
 ];

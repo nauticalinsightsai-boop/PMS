@@ -10,7 +10,7 @@ export const PMP_UNTIL_YOU_PASS_SUBLINE =
 export const PMP_PROGRAM_HIGHLIGHTS = [
   {
     id: 'live-training',
-    title: 'Expert-Led Live Training',
+    title: 'Mentor-Supported Live Training',
     description:
       'Participate in engaging, live training sessions across 6 days, complete with session recordings for your reference.',
   },
@@ -105,7 +105,7 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
     position: 'Senior PM, Global Tech Solutions',
     programme: 'PMP® Professional pathway',
     comment:
-      'Structured study rhythm, weak-area tracking, and mentor review. Passed with Above Target in all domains on the first attempt.',
+      'Structured study rhythm, weak-area tracking, and mentor review helped me understand where I stood before exam day.',
     avatar: 'https://i.pravatar.cc/100?u=sarah',
   },
   {
@@ -141,7 +141,7 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
     position: 'Transformation Lead, Banking',
     programme: 'PMP® Mastery pathway',
     comment:
-      '90-day mastermind accountability plus last-day cram pack: passed second attempt with confidence after structured retake plan.',
+      '90-day mastermind accountability plus last-day cram pack: a structured retake plan kept my preparation focused.',
     avatar: 'https://i.pravatar.cc/100?u=fatima-pmp',
   },
   {

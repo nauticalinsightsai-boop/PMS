@@ -47,8 +47,8 @@ function defaultRotations(): BottomBarRotation[] {
     },
     {
       id: 'r3',
-      headline: 'Join 1,284+ professionals in the network',
-      body: "Don't study in isolation: connect with structured prep circles.",
+      headline: 'Connect with structured prep support',
+      body: "Don't study in isolation: connect with structured preparation circles.",
       primary: { type: 'scroll', anchor: 'pmp-roadmap-form', label: PMP_ROADMAP_CTA_LABEL },
       secondary: { type: 'link', href: PMS_SKOOL_COMMUNITY_JOIN_URL, label: 'Join community' },
       dismissLabel: 'Skip',

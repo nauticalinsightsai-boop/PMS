@@ -1,4 +1,5 @@
 import type { LeadRecoveryContext, LeadRecoveryVariant, RecoveryCopy, RecoveryTierId } from './types';
+import { T176_SOCIAL_PROOF_REPLACEMENT } from '@/content/t176-claims';
 
 const DEFAULT_SUBMIT = 'Send my details';
 
@@ -224,8 +225,8 @@ const VARIANT_COPY: Partial<Record<LeadRecoveryVariant, (ctx: LeadRecoveryContex
     submitLabel: DEFAULT_SUBMIT,
   }),
   bottom_bar_r3: () => ({
-    headline: 'Join 1,284+ professionals',
-    body: "Don't study in isolation: connect with the PM Structure network.",
+    headline: 'Connect with structured prep support',
+    body: T176_SOCIAL_PROOF_REPLACEMENT,
     submitLabel: DEFAULT_SUBMIT,
   }),
   bottom_bar_r4: () => ({

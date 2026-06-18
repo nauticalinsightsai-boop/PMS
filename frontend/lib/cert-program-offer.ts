@@ -107,7 +107,7 @@ function familyHighlights(certName: string, familyId: string): CertProgramHighli
   return [
     {
       id: 'live-training',
-      title: 'Expert-Led Live Training',
+      title: 'Mentor-Supported Live Training',
       description: 'Live sessions with recordings structured for your exam syllabus.',
     },
     {

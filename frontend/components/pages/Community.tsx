@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { 
   Users, 
   Star, 
-  Users2, 
   GraduationCap,
   ArrowRight,
   Heart,
@@ -24,6 +23,7 @@ import { BRAND, COMMUNITY_COPY } from "@/lib/brand-voice";
 import { MARKETING_STOCK_IMAGES } from "@/lib/marketing-stock-images";
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
+import { T176_COMMUNITY_NOTE, T176_SOCIAL_PROOF_REPLACEMENT } from '@/content/t176-claims';
 
 const communityChannels = [
   {
@@ -32,7 +32,6 @@ const communityChannels = [
     icon: LayoutGrid,
     color: "text-amber-500",
     bg: "bg-amber-500/5 dark:bg-amber-500/10",
-    members: "2.1k",
     joinHref: PMS_SKOOL_COMMUNITY_JOIN_URL,
   },
   {
@@ -41,7 +40,6 @@ const communityChannels = [
     icon: GraduationCap,
     color: "text-brand-purple",
     bg: "bg-brand-purple/5 dark:bg-brand-purple/10",
-    members: "1.2k",
     joinHref: PMS_SKOOL_COMMUNITY_JOIN_URL,
   },
 ];
@@ -49,7 +47,7 @@ const communityChannels = [
 const mentorshipFeatures = [
   {
     title: "Peer Mentorship",
-    desc: "Connect with professionals who have recently passed the exams you're targeting.",
+    desc: "Connect with professionals preparing for the same exams you are targeting.",
     icon: Heart
   },
   {
@@ -91,11 +89,7 @@ function CommunityNetworkContent() {
                     <CardDescription className="text-slate-500 dark:text-slate-400 mt-3 text-base font-medium leading-relaxed">{channel.desc}</CardDescription>
                   </CardHeader>
                   <CardContent className="p-8">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-bold text-sm">
-                        <Users2 className="h-4 w-4" />
-                        <span>{channel.members} members</span>
-                      </div>
+                    <div className="flex items-center justify-end">
                       <Link
                         href={channel.joinHref}
                         {...externalHrefLinkProps(channel.joinHref)}
@@ -271,7 +265,6 @@ export function Community({ initialTab = "community" }: { initialTab?: Community
     parse: (raw) => (raw ? parseCommunityPageConfig(raw) : null),
   });
   const hero = pageConfig?.hero ?? fallback.hero;
-  const network = pageConfig?.network ?? fallback.network;
   const router = useRouter();
   const contentRef = React.useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = React.useState<CommunityTab>(initialTab);
@@ -288,10 +281,6 @@ export function Community({ initialTab = "community" }: { initialTab?: Community
     });
   };
 
-  const memberCount =
-    typeof network.memberCount === "number"
-      ? network.memberCount
-      : Number(network.memberCount);
 
   const heroTabButtonClass = (tab: "community" | "store") =>
     cn(
@@ -322,11 +311,12 @@ export function Community({ initialTab = "community" }: { initialTab?: Community
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
               {hero.subtitle || get('community_subtitle', COMMUNITY_COPY.heroSubtitle)}
             </p>
-            {Number.isFinite(memberCount) && memberCount > 0 ? (
-              <p className="mt-4 text-sm font-bold text-brand-orange">
-                {memberCount.toLocaleString()}+ professionals in the network
-              </p>
-            ) : null}
+            <p className="mt-4 text-sm text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              {T176_COMMUNITY_NOTE}
+            </p>
+            <p className="mt-4 text-sm font-medium text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              {T176_SOCIAL_PROOF_REPLACEMENT}
+            </p>
           </motion.div>
         </div>
       </section>

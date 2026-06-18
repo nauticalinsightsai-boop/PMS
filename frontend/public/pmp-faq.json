@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "updatedAt": "2026-06-18",
   "indexUrl": "https://pmstructure.com/pmp-faq",
-  "count": 113,
+  "count": 117,
   "items": [
     {
       "id": "about-certs",
@@ -254,6 +254,50 @@
       "answer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue. Availability varies by region. See /certifications/lss-green for your region.",
       "shortAnswer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue.  Availability varies by region.",
       "fullAnswer": "PM Structure offers Foundation, Professional, and Mastery-style tiers where published in our regional catalogue. Availability varies by region. See /certifications/lss-green for your region.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low"
+    },
+    {
+      "id": "t176-faq-pmi-affiliation",
+      "clusterId": "about",
+      "question": "Is PM Structure affiliated with PMI?",
+      "answer": "PM Structure is an independent project management education, exam-prep, and readiness-support platform. It should not be described as affiliated with PMI or as a PMI Authorized Training Partner unless that status is formally approved and publicly verifiable. PMP, CAPM, PMI-RMP, PMI-ACP, PgMP, and related PMI certifications are issued by PMI, not by PM Structure.",
+      "shortAnswer": "PM Structure is an independent project management education, exam-prep, and readiness-support platform.  It should not be described as affiliated with PMI or as a PMI Authorized Training Partner unless that status is formally approved and publicly verifiable.",
+      "fullAnswer": "PM Structure is an independent project management education, exam-prep, and readiness-support platform. It should not be described as affiliated with PMI or as a PMI Authorized Training Partner unless that status is formally approved and publicly verifiable. PMP, CAPM, PMI-RMP, PMI-ACP, PgMP, and related PMI certifications are issued by PMI, not by PM Structure.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low"
+    },
+    {
+      "id": "t176-faq-pmp-issuer",
+      "clusterId": "about",
+      "question": "Does PM Structure issue the PMP certification?",
+      "answer": "No. PMP is issued by PMI after a candidate meets PMI’s eligibility requirements, completes the application process, and passes the PMP exam. PM Structure provides independent preparation, pathway guidance, study structure, and readiness support.",
+      "shortAnswer": "No.  PMP is issued by PMI after a candidate meets PMI’s eligibility requirements, completes the application process, and passes the PMP exam.",
+      "fullAnswer": "No. PMP is issued by PMI after a candidate meets PMI’s eligibility requirements, completes the application process, and passes the PMP exam. PM Structure provides independent preparation, pathway guidance, study structure, and readiness support.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low"
+    },
+    {
+      "id": "t176-faq-exam-fees",
+      "clusterId": "exams",
+      "question": "Are exam fees included in PM Structure pricing?",
+      "answer": "Exam fees are paid separately to the relevant certification body unless a PM Structure package explicitly states otherwise. Candidates should always verify current exam fees, taxes, booking rules, and rescheduling policies directly with the relevant certification body before applying.",
+      "shortAnswer": "Exam fees are paid separately to the relevant certification body unless a PM Structure package explicitly states otherwise.  Candidates should always verify current exam fees, taxes, booking rules, and rescheduling policies directly with the relevant certification body before applying.",
+      "fullAnswer": "Exam fees are paid separately to the relevant certification body unless a PM Structure package explicitly states otherwise. Candidates should always verify current exam fees, taxes, booking rules, and rescheduling policies directly with the relevant certification body before applying.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low"
+    },
+    {
+      "id": "t176-faq-product-availability",
+      "clusterId": "exams",
+      "question": "Are PM Structure resources available immediately after purchase?",
+      "answer": "Only live products should be marked as available for immediate access. If a product, template, mock exam, or resource pack is still being prepared, it should be marked as coming soon or waitlist-only. PM Structure should not display “Buy Now” for resources that are not ready for delivery.",
+      "shortAnswer": "Only live products should be marked as available for immediate access.  If a product, template, mock exam, or resource pack is still being prepared, it should be marked as coming soon or waitlist-only.",
+      "fullAnswer": "Only live products should be marked as available for immediate access. If a product, template, mock exam, or resource pack is still being prepared, it should be marked as coming soon or waitlist-only. PM Structure should not display “Buy Now” for resources that are not ready for delivery.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"

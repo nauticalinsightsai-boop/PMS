@@ -11,6 +11,7 @@ import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import { FIELD_KEYS, defaultMembershipPageConfig, parseMembershipPageConfig } from "@pms/site-content";
 import Link from "next/link";
 import { BRAND, HOME_COPY } from "@/lib/brand-voice";
+import { T176_MEMBERSHIP_NOTE } from '@/content/t176-claims';
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { MembershipDualPrice } from '@/components/MembershipDualPrice';
 import { useRegion } from '@/contexts/RegionContext';
@@ -177,6 +178,9 @@ export function Membership() {
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
               {hero.subtitle || get('membership_hero_subtitle', HOME_COPY.membershipSubtitle)}
+            </p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              {T176_MEMBERSHIP_NOTE}
             </p>
           </motion.div>
         </div>
@@ -377,8 +381,7 @@ export function Membership() {
                   Access the Vault of PM Resources
                 </h2>
                 <p className="text-slate-400 text-lg mb-10 leading-relaxed font-medium">
-                  Our members get instant access to 500+ downloadable templates, planners, 
-                  and study packs. Stop reinventing the wheel and start leading.
+                  Membership resources and templates are organized for structured preparation support. Availability varies by plan and release status.
                 </p>
                 <div className="space-y-4 mb-12">
                   {["Exclusive Exam Simulators", "Career Coaching Sessions", "Industry Salary Reports"].map(item => (

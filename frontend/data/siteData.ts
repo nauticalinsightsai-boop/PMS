@@ -156,7 +156,7 @@ export const certifications: CertificationSummary[] = [
     officialFee: "$435 (member): $495 (full).",
     trainingPriceRange: "~$900-$2,000 depending on provider/format.",
     learningOutcomes: ["Agile principles", "Backlog/value delivery", "Team facilitation", "Agile planning/estimation", "Hybrid tailoring and governance"],
-    suggestedResources: ["PMI-ACP ECO", "PMI/ATP exam prep pathways", "PMI certification handbook"],
+    suggestedResources: ["PMI-ACP ECO", "PMI exam prep resources", "PMI certification handbook"],
     recommendedCTA: "Prove your agile delivery skills: validate experience, complete 21 hours, and book your PMI-ACP exam.",
     regionalDemand: "Agile credentials tend to be strongest where software/product delivery is high; PMI frames PMI-ACP as a 'gold standard'."
   },
@@ -783,7 +783,7 @@ export const testimonials: Testimonial[] = [
     name: "Sarah Jenkins",
     role: "Senior PM at TechCorp",
     company: "Global Tech Solutions",
-    content: "The PM Structure PMP pathway gave me a structured study rhythm, weak-area tracking, and mentor-style review. I knew where I stood before exam day: and passed with Above Target in all domains.",
+    content: "The PM Structure PMP pathway gave me a structured study rhythm, weak-area tracking, and mentor-style review. I knew where I stood before exam day.",
     avatar: "https://i.pravatar.cc/100?u=sarah"
   },
   {
@@ -807,7 +807,7 @@ export const testimonials: Testimonial[] = [
     name: "James Wilson",
     role: "Operations Director",
     company: "Process Master",
-    content: "The Lean Six Sigma Green Belt course was rigorous but very practical. I was able to implement a project at work immediately that saved us over $50k in the first quarter.",
+    content: "The Lean Six Sigma Green Belt course was rigorous and practical. I was able to apply improvement tools at work during the preparation window.",
     avatar: "https://i.pravatar.cc/100?u=james"
   }
 ];
@@ -835,7 +835,7 @@ export const footerSections: FooterSection[] = [
   {
     title: "Community",
     links: [
-      { label: "Slack Channel", href: "/community" },
+      { label: "Community", href: "/community" },
       { label: "Study Circles", href: "/community" },
       { label: "Resource Store", href: "/community?view=store" },
       { label: "Events", href: "/community" },

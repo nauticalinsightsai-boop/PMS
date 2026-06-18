@@ -51,7 +51,7 @@ import { EnrollReturnRecovery } from '@/components/conversion-recovery/EnrollRet
 import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnrollTrackedLink';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
-import { Pmp2026ComplianceNote } from '@/components/pmp/Pmp2026ComplianceNote';
+import { CertComplianceNote } from '@/components/cert/CertComplianceNote';
 
 function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
   return getOfferingsForSiteCert(siteId).some((o) => {
@@ -225,7 +225,7 @@ export function CertificationDetail() {
                 {[
                   { icon: Clock, label: "Flexible Learning", color: "text-brand-orange" },
                   { icon: Award, label: "Global Recognition", color: "text-brand-deep" },
-                  { icon: ShieldCheck, label: "Verified Content", color: "text-green-600" },
+                  { icon: ShieldCheck, label: "Structured Preparation", color: "text-green-600" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-4 group">
                     <div className={cn("p-3 rounded-xl bg-white dark:bg-slate-900 shadow-sm border border-slate-100 dark:border-slate-800 transition-transform group-hover:scale-110", item.color)}>
@@ -311,9 +311,7 @@ export function CertificationDetail() {
             embedded
             className="mb-16 pt-[40px] sm:mb-20 md:mb-24"
           />
-          {cert.id === 'pmp' ? (
-            <Pmp2026ComplianceNote className="mx-auto mb-16 max-w-6xl" showAlert />
-          ) : null}
+          <CertComplianceNote certId={cert.id} familyId={cert.familyId} className="mx-auto mb-16 max-w-6xl" />
           <div className="mx-auto max-w-6xl">
             <h2 className="sr-only">Certification details</h2>
             <div className="mb-10 border-t border-slate-200/80 pt-10 dark:border-slate-700/80 sm:mb-12 sm:pt-12">

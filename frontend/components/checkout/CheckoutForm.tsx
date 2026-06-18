@@ -12,6 +12,7 @@ import { createCheckoutSession, verifyRegion } from '@/services/regional';
 import Link from 'next/link';
 import { REGION_COPY } from '@/lib/brand-voice';
 import { CONVERSION_EVENTS, trackConversionEvent } from '@/lib/analytics/conversion-events';
+import { T176_PAYMENT_DISCLAIMER } from '@/content/t176-claims';
 
 export function CheckoutForm() {
   const params = useSearchParams();
@@ -168,6 +169,8 @@ export function CheckoutForm() {
       </label>
 
       {error && <p className="text-sm text-red-600">{error}</p>}
+
+      <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">{T176_PAYMENT_DISCLAIMER}</p>
 
       <Button type="submit" disabled={loading || !acceptedTerms} className="w-full rounded-full bg-brand-orange">
         {loading ? 'Processing…' : 'Submit checkout request'}

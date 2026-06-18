@@ -14,7 +14,7 @@ import {
   BookOpen, 
   Zap, 
   TrendingUp, 
-  Slack, 
+  LayoutGrid, 
   Calendar, 
   FileText, 
   LayoutDashboard, 
@@ -45,6 +45,12 @@ import { T169_SUPPORT_COPY } from '@/content/pmp/flagship-t169';
 import { COMPARE_PATHWAYS_HREF, PMP_ROADMAP_CTA_HREF } from '@/lib/pmp-roadmap-cta';
 import { getT169FeaturedCardOverrides } from '@/lib/t169-featured-cards';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
+import {
+  T176_COMMUNITY_NOTE,
+  T176_HOMEPAGE_CERT_DISCLAIMER,
+  T176_SOCIAL_PROOF_REPLACEMENT,
+  T176_SOCIAL_PROOF_REGIONAL,
+} from '@/content/t176-claims';
 import { NewsletterSubscribeForm } from '@/components/forms/NewsletterSubscribeForm';
 
 import * as siteData from "@/data/siteData";
@@ -364,6 +370,9 @@ export function Home() {
               );
             })}
           </ResponsiveSnapScroll>
+          <p className="mt-10 max-w-3xl text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-400">
+            {T176_HOMEPAGE_CERT_DISCLAIMER}
+          </p>
         </div>
       </section>
       )}
@@ -555,7 +564,7 @@ export function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 lg:gap-20 items-center">
               <div>
                 <div className="flex items-center gap-3 text-brand-orange mb-8">
-                  <Slack className="h-6 w-6" />
+                  <LayoutGrid className="h-6 w-6" />
                   <span className="font-bold uppercase tracking-widest text-[10px]">{BRAND.name} Network</span>
                 </div>
                 <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-6 tracking-tight leading-tight">Join the Global <span className="text-brand-orange">PM Network</span></h2>
@@ -563,11 +572,14 @@ export function Home() {
                   {T169_SUPPORT_COPY.community}
                 </p>
                 <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed font-medium">
-                  Don&apos;t study in isolation. Connect with 1,284+ professionals in our Slack-based community.
+                  {T176_SOCIAL_PROOF_REPLACEMENT}
+                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-10 leading-relaxed">
+                  {T176_COMMUNITY_NOTE}
                 </p>
                 <div className="grid grid-cols-2 gap-6 mb-10">
                   {[
-                    { title: "Slack Community", icon: MessageSquare },
+                    { title: "Skool Community", icon: MessageSquare },
                     { title: "Study Circles", icon: Users },
                     { title: "Peer Discussions", icon: MessageSquare },
                     { title: "Live Sessions", icon: Calendar },
@@ -650,7 +662,7 @@ export function Home() {
                   The <span className="text-brand-orange">Structure</span> Report
                 </h2>
                 <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed font-medium max-w-lg">
-                  Join 1,284+ project professionals receiving weekly deep-dives on methodology, leadership, and career growth.
+                  {T176_SOCIAL_PROOF_REGIONAL}
                 </p>
                 <NewsletterSubscribeForm
                   formId="home-newsletter"

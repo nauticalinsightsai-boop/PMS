@@ -1,5 +1,7 @@
 /** T-169 flagship copy — use exactly as provided unless a component has a hard limit. */
 
+import { T176_LSS_CARD_BODY, T176_PRINCE2_CARD_BODY } from '@/content/t176-claims';
+
 export const PMP_2026_LAST_REVIEWED = '18 June 2026';
 
 export const PMP_2026_SOURCE_NOTE =
@@ -150,15 +152,13 @@ export const T169_FEATURED_CARDS = {
   prince2: {
     badge: 'Secondary Pathway',
     title: 'PRINCE2 Practitioner Pathway',
-    description:
-      'For professionals who need a process-based project management framework, especially in organizations that use structured governance, controlled stages, and formal project boards.',
+    description: T176_PRINCE2_CARD_BODY,
     cta: T169_CTAS.waitlist,
   },
   lssGreen: {
     badge: 'Secondary Pathway',
     title: 'Lean Six Sigma Pathway',
-    description:
-      'For professionals focused on process improvement, operational efficiency, waste reduction, and measurable business performance improvement.',
+    description: T176_LSS_CARD_BODY,
     cta: T169_CTAS.waitlist,
   },
   pmiRmp: {
@@ -206,10 +206,10 @@ export const T169_SUPPORT_COPY = {
 export const T169_SEO = {
   homeTitle: 'PM Structure | PMP 2026 Readiness & Project Certification Pathways',
   homeDescription:
-    'Prepare for the PMP 2026 exam change with structured roadmap support, eligibility guidance, study planning, mock tracking, and mentor-led readiness from PM Structure.',
+    'PM Structure provides independent project-management certification preparation, PMP 2026 readiness support, pathway guidance, study planning, and practical project-management learning.',
   pmpTitle: 'PMP 2026 Readiness Pathway | PM Structure',
   pmpDescription:
-    'Decide whether to prepare for the current or updated PMP exam. Build a structured PMP 2026 roadmap with eligibility guidance, study planning, mock tracking, and readiness support.',
+    'Prepare for PMP with independent readiness support, eligibility guidance, study planning, mock tracking, and structured preparation from PM Structure.',
 } as const;
 
 export const T169_FEATURED_PATHWAYS = {

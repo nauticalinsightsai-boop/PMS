@@ -9,6 +9,7 @@ import {
 } from '@/config/pms-site';
 import { canonicalUrl } from '@/lib/canonical';
 import { robotsForPath } from '@/lib/indexing-metadata';
+import { T176_SEO, T176_SCHEMA } from '@/content/t176-claims';
 import * as siteData from '@/data/siteData';
 
 export { PMS_SITE_URL as SITE_URL };
@@ -67,11 +68,18 @@ export function buildCertMetadata(certId: string): Metadata {
       path: `/certifications/${certId}`,
     });
   }
+  const familyDescription =
+    cert.familyId === 'PRINCE2'
+      ? T176_SEO.prince2Description
+      : cert.familyId === 'SixSigma'
+        ? T176_SEO.lssDescription
+        : cert.id === 'pmp'
+          ? T176_SEO.pmpDescription
+          : cert.desc ||
+            `${T176_SCHEMA.courseDescription} ${cert.name} on ${PMS_SITE_NAME}.`;
   return buildPageMetadata({
     title: `${cert.name} exam preparation`,
-    description:
-      cert.desc ||
-      `Structured ${cert.name} readiness pathway with Foundation, Professional, and Mastery tiers on ${PMS_SITE_NAME}.`,
+    description: familyDescription,
     path: `/certifications/${certId}`,
     ogImage: PMS_OG_IMAGE_PATH,
   });

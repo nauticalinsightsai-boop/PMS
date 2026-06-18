@@ -19,7 +19,7 @@ import { useNewsletterCategories } from "@/hooks/useNewsletterCategories";
 import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
 import { NewsletterSubscribeForm } from "@/components/forms/NewsletterSubscribeForm";
 
-const SUBSCRIBER_COUNT = "5,000+";
+import { T176_SOCIAL_PROOF_REGIONAL } from '@/content/t176-claims';
 
 function renderHeroTitle(title: string) {
   const marker = "Structure";
@@ -84,7 +84,7 @@ export function Newsletter() {
                 {renderHeroTitle(hub.hero.title)}
               </h1>
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium max-w-2xl md:mx-0 mx-auto">
-                {hub.hero.subtitle} Delivered weekly to {SUBSCRIBER_COUNT} professionals.
+                {hub.hero.subtitle} {T176_SOCIAL_PROOF_REGIONAL}
               </p>
               <p className="mt-6">
                 <Link
@@ -224,7 +224,7 @@ export function Newsletter() {
             <div className="relative z-10 max-w-3xl mx-auto">
               <h3 className="font-heading text-3xl md:text-5xl font-bold text-white mb-6">Stay Ahead of the Curve</h3>
               <p className="text-white/90 text-lg md:text-xl mb-10 leading-relaxed">
-                Join {SUBSCRIBER_COUNT} project professionals receiving weekly deep-dives on methodology, leadership, and career growth.
+                {T176_SOCIAL_PROOF_REGIONAL}
               </p>
               <NewsletterSubscribeForm
                 formId="newsletter-hub-signup"

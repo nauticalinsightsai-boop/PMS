@@ -5,6 +5,7 @@ import { ProgramEnrollmentForm } from '@/components/enrollment/ProgramEnrollment
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { buttonVariants } from '@/components/ui/button';
 import { CTAS } from '@/lib/brand-voice';
+import { T176_PAYMENT_DISCLAIMER } from '@/content/t176-claims';
 import { cn } from '@/lib/utils';
 
 type ProgramEnrollmentPageProps = {
@@ -33,6 +34,9 @@ export function ProgramEnrollmentPage({
           </p>
         </div>
         <ProgramEnrollmentForm offeringId={offeringId} siteCertId={siteCertId} tierSlug={tierSlug} />
+        <p className="mt-6 text-xs leading-relaxed text-slate-500 dark:text-slate-400 lg:max-w-3xl">
+          {T176_PAYMENT_DISCLAIMER}
+        </p>
         <div className="mt-8 lg:max-w-3xl">
           <Link
             href={`/certifications/${siteCertId}`}
