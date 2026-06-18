@@ -26,6 +26,7 @@ import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 const HIGHLIGHT_ICONS: Record<string, typeof Video> = {
   'live-training': Video,
   coaching: PhoneCall,
+  'training-hours': Award,
   pdus: Award,
   'exam-prep': Award,
   roadmap: Map,

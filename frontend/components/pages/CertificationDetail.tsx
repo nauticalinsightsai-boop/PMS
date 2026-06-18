@@ -51,6 +51,7 @@ import { EnrollReturnRecovery } from '@/components/conversion-recovery/EnrollRet
 import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnrollTrackedLink';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
+import { Pmp2026ComplianceNote } from '@/components/pmp/Pmp2026ComplianceNote';
 
 function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
   return getOfferingsForSiteCert(siteId).some((o) => {
@@ -310,6 +311,9 @@ export function CertificationDetail() {
             embedded
             className="mb-16 pt-[40px] sm:mb-20 md:mb-24"
           />
+          {cert.id === 'pmp' ? (
+            <Pmp2026ComplianceNote className="mx-auto mb-16 max-w-6xl" showAlert />
+          ) : null}
           <div className="mx-auto max-w-6xl">
             <h2 className="sr-only">Certification details</h2>
             <div className="mb-10 border-t border-slate-200/80 pt-10 dark:border-slate-700/80 sm:mb-12 sm:pt-12">

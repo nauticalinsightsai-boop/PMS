@@ -3,21 +3,29 @@ import {
   PMP_2026_LAST_REVIEWED,
   PMP_2026_PMI_SOURCE_LINKS,
   PMP_2026_SOURCE_NOTE,
+  T169_COMPLIANCE_ALERT,
 } from '@/content/pmp/flagship-t169';
 
 type Pmp2026ComplianceNoteProps = {
   showSourceLinks?: boolean;
+  showAlert?: boolean;
   className?: string;
 };
 
 export function Pmp2026ComplianceNote({
   showSourceLinks = false,
+  showAlert = false,
   className = '',
 }: Pmp2026ComplianceNoteProps) {
   return (
     <aside
       className={`rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-400 ${className}`}
     >
+      {showAlert ? (
+        <p className="mb-3 font-medium leading-relaxed text-slate-700 dark:text-slate-300">
+          {T169_COMPLIANCE_ALERT}
+        </p>
+      ) : null}
       <p className="font-semibold text-slate-700 dark:text-slate-300">
         Last reviewed: {PMP_2026_LAST_REVIEWED}
       </p>

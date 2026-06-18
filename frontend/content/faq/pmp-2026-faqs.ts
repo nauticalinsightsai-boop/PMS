@@ -362,7 +362,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     relatedPage: '/pmp-exam-2026',
   }),
 
-  // Eligibility, Application, 35 Contact Hours (8)
+  // Eligibility, Application, Training-Hour Guidance
   pmp({
     id: 'pmp26-elig-01',
     pmpCategory: 'eligibility-application-contact-hours',
@@ -390,9 +390,17 @@ export const PMP_2026_FAQS: FaqEntry[] = [
   pmp({
     id: 'pmp26-elig-04',
     pmpCategory: 'eligibility-application-contact-hours',
+    question: 'Does PM Structure provide 35 PDUs for PMP eligibility?',
+    answer:
+      'For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs. PDUs are generally used for maintaining an existing PMI certification after someone has already earned it. PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record, but candidates should verify current eligibility rules directly with PMI before applying.',
+    complianceRisk: 'medium',
+  }),
+  pmp({
+    id: 'pmp26-elig-04b',
+    pmpCategory: 'eligibility-application-contact-hours',
     question: 'Does PM Structure provide PMI contact hours?',
     answer:
-      'We state contact-hour eligibility only where formally approved. See [pricing disclaimers](/legal/pricing-disclaimers) and your order confirmation.',
+      'PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record. Contact-hour or training-hour eligibility is stated only where formally approved. See [pricing disclaimers](/legal/pricing-disclaimers) and verify current requirements with PMI before applying.',
     complianceRisk: 'medium',
   }),
   pmp({

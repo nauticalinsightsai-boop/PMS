@@ -6,7 +6,7 @@ import {
   PMP_UNTIL_YOU_PASS_SUBLINE,
 } from '@/content/pmp/program-offer';
 
-const UNTIL_YOU_PASS = 'Support until you pass';
+const PREPARATION_WINDOW_HEADLINE = 'Support through your planned exam-preparation window';
 const FINAL_CTA_SUBTITLE =
   'Share your experience in the form above: or enroll directly when cohort seats are open.';
 
@@ -14,12 +14,12 @@ function offer(
   certName: string,
   subline: string,
   highlights: CertProgramHighlight[],
-  headline = UNTIL_YOU_PASS,
+  headline = PREPARATION_WINDOW_HEADLINE,
 ): CertProgramOffer {
   return {
     differentiatorHeadline: headline,
     differentiatorSubline: subline,
-    ctaLabel: `Get My ${certName} Roadmap & Secure My Seat`,
+    ctaLabel: `Get My ${certName} Roadmap`,
     finalCtaSubtitle: FINAL_CTA_SUBTITLE,
     highlights,
   };

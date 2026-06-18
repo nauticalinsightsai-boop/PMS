@@ -83,7 +83,7 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
             </div>
 
             {page.path === '/pmp-exam-2026' ? (
-              <Pmp2026ComplianceNote className="mb-10" showSourceLinks />
+              <Pmp2026ComplianceNote className="mb-10" showSourceLinks showAlert />
             ) : null}
 
             {page.sections.map((section) => (

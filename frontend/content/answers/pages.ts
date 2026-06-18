@@ -738,7 +738,7 @@ const pages: AnswerPageContent[] = [
       'Rush only if you are already exam-ready with strong timed mocks and a booked Pearson VUE slot; otherwise prepare properly for the post-transition format.',
     detailedAnswer:
       'Rushing to beat a calendar date without readiness often leads to failed attempts and lost fees. If you still have major domain gaps or inconsistent mock scores, extending prep is usually safer than cramming.',
-    whoApplies: 'PMI-approved candidates considering a pre-July 2026 test date.',
+    whoApplies: 'PMI-eligible candidates considering a pre-July 2026 test date.',
     nextSteps: ['/answers/should-i-take-pmp-before-8-july-2026', '/pmp-before-8-july-2026', '/pmp-readiness-diagnostic'],
     relatedCourses: [{ href: '/pmp-mastery', label: 'PMP Mastery' }],
     relatedPages: [{ href: '/pmp-before-8-july-2026', label: 'Before 8 July guide' }],

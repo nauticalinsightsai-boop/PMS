@@ -17,18 +17,18 @@ export type CertProgramOffer = {
   highlights: readonly CertProgramHighlight[];
 };
 
-const UNTIL_YOU_PASS_HEADLINE = 'Support until you pass';
+const PREPARATION_WINDOW_HEADLINE = 'Support through your planned exam-preparation window';
 
-function untilYouPassSubline(certName: string): string {
-  return `Structured coaching, accountability, and exam readiness: we stay with you through your ${certName} journey, not just until checkout.`;
+function preparationWindowSubline(certName: string): string {
+  return `Structured coaching, accountability, and readiness tracking: support to prepare with structure, practice, and review through your ${certName} preparation cycle, not just until checkout.`;
 }
 
 function roadmapCtaLabel(certName: string): string {
-  return `Get My ${certName} Roadmap & Secure My Seat`;
+  return `Get My ${certName} Roadmap`;
 }
 
 /** Short label for roadmap CTAs on narrow viewports (full cert name stays on sm+). */
-export const ROADMAP_CTA_LABEL_MOBILE = 'Get my roadmap & seat';
+export const ROADMAP_CTA_LABEL_MOBILE = 'Get my roadmap';
 
 const FINAL_CTA_SUBTITLE =
   'Share your experience in the form above: or enroll directly when cohort seats are open.';
@@ -140,8 +140,8 @@ function familyHighlights(certName: string, familyId: string): CertProgramHighli
 
 function fallbackOffer(certName: string, familyId: string): CertProgramOffer {
   return {
-    differentiatorHeadline: UNTIL_YOU_PASS_HEADLINE,
-    differentiatorSubline: untilYouPassSubline(certName),
+    differentiatorHeadline: PREPARATION_WINDOW_HEADLINE,
+    differentiatorSubline: preparationWindowSubline(certName),
     ctaLabel: roadmapCtaLabel(certName),
     finalCtaSubtitle: FINAL_CTA_SUBTITLE,
     highlights: familyHighlights(certName, familyId),

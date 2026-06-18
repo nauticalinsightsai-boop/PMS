@@ -392,8 +392,14 @@ export const FAQ_ENTRIES: FaqEntry[] = [
   ),
   P(
     'exams',
+    'Does PM Structure provide 35 PDUs for PMP eligibility?',
+    'For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs. PDUs are generally used for maintaining an existing PMI certification after someone has already earned it. PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record, but candidates should verify current eligibility rules directly with PMI before applying.',
+    'exams-pdu-eligibility',
+  ),
+  P(
+    'exams',
     'Does PM Structure include PMI contact hours?',
-    'We state PDU or contact-hour eligibility only where formally approved. See [pricing disclaimers](/legal/pricing-disclaimers).',
+    'PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record. Contact-hour or training-hour eligibility is stated only where formally approved. See [pricing disclaimers](/legal/pricing-disclaimers) and verify current requirements with PMI before applying.',
     'exams-pdu',
   ),
   P(

@@ -1,11 +1,11 @@
 /** Anchor for roadmap lead-form CTAs (hero / cert page). */
 export const PMP_ROADMAP_FORM_ANCHOR = 'pmp-roadmap-form';
 
-export const PMP_PROGRAM_CTA_LABEL = 'Get My PMP Roadmap & Secure My Seat';
+export const PMP_PROGRAM_CTA_LABEL = 'Get My PMP 2026 Roadmap';
 
-export const PMP_UNTIL_YOU_PASS_HEADLINE = 'Support until you pass';
+export const PMP_UNTIL_YOU_PASS_HEADLINE = 'Support through your planned exam-preparation window';
 export const PMP_UNTIL_YOU_PASS_SUBLINE =
-  'Structured coaching, accountability, and exam readiness: we stay with you through your PMP journey, not just until checkout.';
+  'Structured coaching, accountability, and readiness tracking: support to prepare with structure, practice, and review through your planned preparation cycle, not just until checkout.';
 
 export const PMP_PROGRAM_HIGHLIGHTS = [
   {
@@ -21,10 +21,10 @@ export const PMP_PROGRAM_HIGHLIGHTS = [
       'Stay on track with personalized coaching calls and consistent daily check-ins.',
   },
   {
-    id: 'pdus',
-    title: '35 PDUs Certification',
+    id: 'training-hours',
+    title: 'Training-Hour Guidance',
     description:
-      'Complete your training with 35 Professional Development Units to qualify for the PMP exam.',
+      'Understand the PMP training-hour requirement, what evidence may be needed, and how to keep your preparation records organized before applying through PMI.',
   },
   {
     id: 'roadmap',
@@ -123,7 +123,7 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
     position: 'Project Coordinator → PM',
     programme: 'PMP® Foundation → Professional',
     comment:
-      'Foundation built vocabulary; Professional tier mocks mirrored real exam pacing. The until-you-pass support removed retake anxiety.',
+      'Foundation built vocabulary; Professional tier mocks mirrored real exam pacing. Structured support through my preparation window kept retake planning calm.',
     avatar: 'https://i.pravatar.cc/100?u=elena',
   },
   {
@@ -132,7 +132,7 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
     position: 'Agile Coach, Innovate Corp',
     programme: 'PMP® Professional pathway',
     comment:
-      '35 PDUs logged cleanly for my PMI application. The roadmap accounted for my agile background and domain gaps.',
+      'Training-hour guidance helped me organize my preparation record for PMI. The roadmap accounted for my agile background and domain gaps.',
     avatar: 'https://i.pravatar.cc/100?u=michael',
   },
   {

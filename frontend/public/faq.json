@@ -2,7 +2,7 @@
   "site": "https://pmstructure.com",
   "version": "1.0.0",
   "updatedAt": "2026-06-18",
-  "count": 164,
+  "count": 166,
   "items": [
     {
       "id": "about-what",
@@ -621,12 +621,23 @@
       "complianceRisk": "low"
     },
     {
+      "id": "exams-pdu-eligibility",
+      "clusterId": "exams",
+      "question": "Does PM Structure provide 35 PDUs for PMP eligibility?",
+      "answer": "For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs. PDUs are generally used for maintaining an existing PMI certification after someone has already earned it. PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record, but candidates should verify current eligibility rules directly with PMI before applying.",
+      "shortAnswer": "For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs.  PDUs are generally used for maintaining an existing PMI certification after someone has already earned it.",
+      "fullAnswer": "For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs. PDUs are generally used for maintaining an existing PMI certification after someone has already earned it. PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record, but candidates should verify current eligibility rules directly with PMI before applying.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "low"
+    },
+    {
       "id": "exams-pdu",
       "clusterId": "exams",
       "question": "Does PM Structure include PMI contact hours?",
-      "answer": "We state PDU or contact-hour eligibility only where formally approved. See pricing disclaimers.",
-      "shortAnswer": "We state PDU or contact-hour eligibility only where formally approved.  See pricing disclaimers.",
-      "fullAnswer": "We state PDU or contact-hour eligibility only where formally approved. See pricing disclaimers.",
+      "answer": "PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record. Contact-hour or training-hour eligibility is stated only where formally approved. See pricing disclaimers and verify current requirements with PMI before applying.",
+      "shortAnswer": "PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record.  Contact-hour or training-hour eligibility is stated only where formally approved.",
+      "fullAnswer": "PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record. Contact-hour or training-hour eligibility is stated only where formally approved. See pricing disclaimers and verify current requirements with PMI before applying.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -1409,10 +1420,22 @@
     {
       "id": "pmp26-elig-04",
       "clusterId": "pmp2026",
+      "question": "Does PM Structure provide 35 PDUs for PMP eligibility?",
+      "answer": "For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs. PDUs are generally used for maintaining an existing PMI certification after someone has already earned it. PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record, but candidates should verify current eligibility rules directly with PMI before applying.",
+      "shortAnswer": "For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs.  PDUs are generally used for maintaining an existing PMI certification after someone has already earned it.",
+      "fullAnswer": "For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs. PDUs are generally used for maintaining an existing PMI certification after someone has already earned it. PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record, but candidates should verify current eligibility rules directly with PMI before applying.",
+      "status": "published",
+      "schemaEligible": true,
+      "complianceRisk": "medium",
+      "pmpCategory": "eligibility-application-contact-hours"
+    },
+    {
+      "id": "pmp26-elig-04b",
+      "clusterId": "pmp2026",
       "question": "Does PM Structure provide PMI contact hours?",
-      "answer": "We state contact-hour eligibility only where formally approved. See pricing disclaimers and your order confirmation.",
-      "shortAnswer": "We state contact-hour eligibility only where formally approved.  See pricing disclaimers and your order confirmation.",
-      "fullAnswer": "We state contact-hour eligibility only where formally approved. See pricing disclaimers and your order confirmation.",
+      "answer": "PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record. Contact-hour or training-hour eligibility is stated only where formally approved. See pricing disclaimers and verify current requirements with PMI before applying.",
+      "shortAnswer": "PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record.  Contact-hour or training-hour eligibility is stated only where formally approved.",
+      "fullAnswer": "PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record. Contact-hour or training-hour eligibility is stated only where formally approved. See pricing disclaimers and verify current requirements with PMI before applying.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "medium",

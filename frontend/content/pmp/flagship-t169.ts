@@ -120,11 +120,23 @@ export const T169_FAQS = [
       'No. No responsible exam-prep provider should guarantee a pass. PM Structure helps you prepare with structure, practice, review, and readiness tracking, but exam results depend on your eligibility, preparation quality, exam performance, and PMI\u2019s assessment process.',
   },
   {
-    question: 'Does this pathway include 35 hours of project management education?',
+    question: 'Does PM Structure provide 35 PDUs for PMP eligibility?',
     answer:
-      'Do not publish a fixed claim unless the final training-hour status is legally and operationally confirmed. Safe wording: PM Structure can help you understand the PMP training-hour requirement and map what evidence or training record you may need. Candidates should verify current training requirements directly with PMI before applying.',
+      'For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs. PDUs are generally used for maintaining an existing PMI certification after someone has already earned it. PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record, but candidates should verify current eligibility rules directly with PMI before applying.',
   },
 ] as const;
+
+export const T169_ELIGIBILITY_SECTION = {
+  heading: 'PMP eligibility and training-hour guidance',
+  body:
+    'PMP candidates must meet PMI\u2019s eligibility requirements before applying for the exam. One part of the application route is project management education/training. PM Structure helps candidates understand the training-hour requirement, organize their preparation record, and avoid confusing eligibility language.',
+  complianceNote:
+    'PM Structure is an independent exam-prep and readiness-support platform. It does not issue the PMP certification and should not be described as a PMI Authorized Training Partner unless that status is formally approved and publicly verified. Always confirm current eligibility and training requirements directly with PMI before applying.',
+  lastReviewed: 'Last reviewed: 18 June 2026',
+} as const;
+
+export const T169_COMPLIANCE_ALERT =
+  'Important: PMP is issued by PMI, not PM Structure. PM Structure provides independent exam-prep, pathway guidance, and readiness support. Candidates should verify eligibility, exam rules, and training requirements directly with PMI before applying or booking the exam.' as const;
 
 export const T169_FEATURED_CARDS = {
   pmp: {

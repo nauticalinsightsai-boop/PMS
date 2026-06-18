@@ -2,6 +2,7 @@ import type { PmpHubCard, PmpPageContent } from './types';
 import { PMP_SOURCE_TODO } from './disclaimer';
 import {
   T169_FAQS,
+  T169_ELIGIBILITY_SECTION,
   T169_PMP_PAGE,
   T169_ROADMAP_STEPS,
   T169_SEO,
@@ -118,6 +119,11 @@ const pages: PmpPageContent[] = [
         id: 'who-not-for',
         heading: T169_WHO_NOT_FOR.heading,
         body: T169_WHO_NOT_FOR.bullets.map((item) => `- ${item}`).join('\n'),
+      },
+      {
+        id: 'eligibility-training-hours',
+        heading: T169_ELIGIBILITY_SECTION.heading,
+        body: `${T169_ELIGIBILITY_SECTION.body}\n\n${T169_ELIGIBILITY_SECTION.complianceNote}\n\n${T169_ELIGIBILITY_SECTION.lastReviewed}`,
       },
       {
         id: 'compliance',
