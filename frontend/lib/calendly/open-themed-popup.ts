@@ -11,7 +11,8 @@ import {
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
 import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 import { attachCalendlyPopupEnhancements } from '@/lib/calendly/popup-enhancements';
-import { FUNNEL_EVENTS, trackFunnelEvent } from '@/lib/analytics/funnel';
+import { trackBookingClick } from '@/lib/analytics/track-booking-click';
+import type { BookingType } from '@/lib/analytics/pms-events';
 import { beginCalendlySession } from '@/lib/conversion-recovery/calendly-bridge';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 
@@ -162,6 +163,22 @@ export function preloadCalendlyPopupWidget(): void {
  void loadCalendlyWidget();
 }
 
+function inferCalendlyBookingType(funnelLabel?: string, url?: string): BookingType {
+  const hay = `${funnelLabel ?? ''} ${url ?? ''}`.toLowerCase();
+  if (hay.includes('pathway') || hay.includes('roadmap') || hay.includes('onboarding')) return 'roadmap_call';
+  if (hay.includes('corporate') || hay.includes('channel') || hay.includes('portal') || hay.includes('bottom_bar')) {
+    return hay.includes('mentor') || hay.includes('discovery') ? 'mentor_call' : 'corporate_call';
+  }
+  if (hay.includes('mentor') || hay.includes('discovery') || hay.includes('executive')) return 'mentor_call';
+  return 'unknown';
+}
+
+function isPmpFunnelLabel(funnelLabel?: string): boolean {
+  if (!funnelLabel) return false;
+  const lower = funnelLabel.toLowerCase();
+  return lower.includes('pathway:pmp') || lower.includes('pmp') || lower.includes('roadmap');
+}
+
 /**
  * Open Calendly popup with app light/dark embed colors + shared close/backdrop UX.
  */
@@ -201,11 +218,11 @@ export async function openCalendlyThemedPopup(
   portalPalette,
  });
 
- trackFunnelEvent(FUNNEL_EVENTS.CTA_CLICK, {
-  cta_type: 'calendly_popup',
-  link_url: trimmed,
-  funnel_stage: 'interest',
-  ...(opts?.funnelLabel ? { label: opts.funnelLabel } : {}),
+ trackBookingClick({
+  bookingType: inferCalendlyBookingType(opts?.funnelLabel, trimmed),
+  destination: 'calendly',
+  ctaText: opts?.funnelLabel,
+  includePmpOffer: isPmpFunnelLabel(opts?.funnelLabel),
  });
 
  markIntent();

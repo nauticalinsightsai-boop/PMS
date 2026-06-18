@@ -22,6 +22,7 @@ import {
   type CertProgramOffer,
 } from '@/lib/cert-program-offer';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
+import { trackRoadmapCtaClick } from '@/lib/analytics/track-roadmap-cta';
 
 const HIGHLIGHT_ICONS: Record<string, typeof Video> = {
   'live-training': Video,
@@ -53,16 +54,19 @@ export function CertRoadmapCta({
   mobileLabel = ROADMAP_CTA_LABEL_MOBILE,
   className,
   rounded = 'full',
+  ctaLocation = 'pricing',
 }: {
   anchor: string;
   label: string;
   mobileLabel?: string;
   className?: string;
   rounded?: 'full' | '2xl';
+  ctaLocation?: 'pricing' | 'body' | 'hero';
 }) {
   return (
     <a
       href={`#${anchor}`}
+      onClick={() => trackRoadmapCtaClick({ ctaText: label, ctaLocation })}
       className={cn(
         buttonVariants({ size: 'lg', variant: 'brand' }),
         certRoadmapCtaClassName,

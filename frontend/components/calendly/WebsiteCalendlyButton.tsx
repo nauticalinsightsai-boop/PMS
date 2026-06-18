@@ -8,7 +8,6 @@ import {
   type WebsiteCalendlyTier,
 } from '@/lib/calendly/website-events';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
-import { trackConversionEvent, CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 
 export type WebsiteCalendlyButtonProps = Omit<ButtonProps, 'onClick' | 'type'> & {
   tier?: WebsiteCalendlyTier;
@@ -30,10 +29,6 @@ export function WebsiteCalendlyButton({
   const handleClick = () => {
     onBeforeOpen?.();
     markIntent();
-    trackConversionEvent(CONVERSION_EVENTS.CONSULTATION_BOOK, {
-      source: funnelLabel,
-      calendly_tier: tier,
-    });
     openWebsiteCalendly(tier, { funnelLabel, utm });
   };
 

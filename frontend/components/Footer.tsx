@@ -31,6 +31,7 @@ import {
 import { SectionAmbience } from '@/components/SectionAmbience';
 import { FOOTER_LEGAL_LINKS } from '@/constants/legal';
 import { FOOTER_SOCIAL_LINKS } from '@/constants/socialProfiles';
+import { TrackedContactLink } from '@/components/analytics/TrackedContactLink';
 
 const FOOTER_SOCIAL_ICONS: Record<(typeof FOOTER_SOCIAL_LINKS)[number]['id'], LucideIcon> = {
   linkedin: Linkedin,
@@ -137,24 +138,30 @@ export function Footer() {
             <ul className="flex flex-col gap-3 text-sm text-carbon dark:text-slate-400 font-medium">
               <li className="flex items-start gap-2.5">
                 <Mail className="h-4 w-4 text-brand-orange shrink-0 mt-0.5" />
-                <a
+                <TrackedContactLink
                   href={`mailto:${PMS_SUPPORT_EMAIL}`}
+                  contactMethod="email"
+                  contactContext="support"
+                  ctaText="Footer support email"
                   className="hover:text-brand-orange transition-colors"
                 >
                   {PMS_SUPPORT_EMAIL}
-                </a>
+                </TrackedContactLink>
               </li>
               {isWhatsAppConfigured() ? (
                 <li className="flex items-start gap-2.5">
                   <MessageCircle className="h-4 w-4 text-brand-orange shrink-0 mt-0.5" />
-                  <a
+                  <TrackedContactLink
                     href={getPmsWhatsAppUrl()}
+                    contactMethod="whatsapp"
+                    contactContext="support"
+                    ctaText="Footer WhatsApp"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-brand-orange transition-colors"
                   >
                     WhatsApp: {getPmsWhatsAppDisplay()}
-                  </a>
+                  </TrackedContactLink>
                 </li>
               ) : null}
               {isContactPhoneConfigured() ? (

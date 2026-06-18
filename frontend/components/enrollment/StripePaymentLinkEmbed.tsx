@@ -3,7 +3,8 @@
 import * as React from 'react';
 import Script from 'next/script';
 import { Button } from '@/components/ui/button';
-import { CONVERSION_EVENTS, trackConversionEvent } from '@/lib/analytics/conversion-events';
+import { PMS_EVENTS } from '@/lib/analytics/pms-events';
+import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 import { SEAT_DEPOSIT_STRIPE_PAYMENT_LINK } from '@/lib/enrollment/seat-reservation';
 import { cn } from '@/lib/utils';
 
@@ -39,8 +40,10 @@ export function StripePaymentLinkEmbed({
 
   const handleContinue = React.useCallback(() => {
     if (!paymentLinkUrl) return;
-    trackConversionEvent(CONVERSION_EVENTS.START_CHECKOUT, { payment_type: 'seat_deposit_link' });
-    trackConversionEvent(CONVERSION_EVENTS.CLICK_PAYMENT, { payment_type: 'seat_deposit_link' });
+    pushAnalyticsEvent(PMS_EVENTS.BEGIN_CHECKOUT, {
+      payment_type: 'seat_deposit_link',
+      package_type: 'foundation',
+    });
     window.location.assign(paymentLinkUrl);
   }, [paymentLinkUrl]);
 

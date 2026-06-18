@@ -3,7 +3,6 @@ import {
   getWebsiteCalendlyUrl,
   pathwayTierToWebsiteCalendlyTier,
 } from '@/lib/calendly/website-events';
-import { trackConversionEvent, CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 
 /**
  * Env var name for a pathway consultation Calendly URL.
@@ -33,12 +32,6 @@ export function openPathwayConsultationCalendly(
   offeringId: string,
 ): void {
   const url = getPathwayConsultationCalendlyUrl(siteCertId, tierId);
-  trackConversionEvent(CONVERSION_EVENTS.CONSULTATION_BOOK, {
-    cert_id: siteCertId,
-    tier_id: tierId,
-    offering_id: offeringId,
-    source: 'calendly_popup',
-  });
   void openCalendlyThemedPopup(url, {
     utm: {
       utm_source: 'pathway',

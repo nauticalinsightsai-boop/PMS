@@ -9,6 +9,8 @@ import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { offeringFormContext } from '@/lib/interactions/offering-form-context';
 import { useRegion } from '@/contexts/RegionContext';
 import { useSimpleFormRecovery } from '@/components/conversion-recovery/useSimpleFormRecovery';
+import { inferWaitlistType, PMS_EVENTS } from '@/lib/analytics/pms-events';
+import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 
 export function WaitlistForm({ offeringId }: { offeringId?: string }) {
   const { regionId } = useRegion();
@@ -26,12 +28,18 @@ export function WaitlistForm({ offeringId }: { offeringId?: string }) {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const ctx = offeringFormContext('waitlist', 'Waitlist', offeringId, regionId);
-    await submitPublicInteraction({
+    const res = await submitPublicInteraction({
       source: 'waitlist',
       subject: `Waitlist: ${ctx.certName ?? offeringId ?? 'general'}`,
       email,
       formContext: ctx,
       payload: { message, offeringId, regionId },
+    });
+    if (!res.ok) return;
+    pushAnalyticsEvent(PMS_EVENTS.WAITLIST_JOIN, {
+      waitlist_type: inferWaitlistType(offeringId, ctx.certName),
+      offer_name: ctx.certName ?? offeringId ?? 'waitlist',
+      funnel_stage: 'waitlist',
     });
     onSuccess();
     setDone(true);

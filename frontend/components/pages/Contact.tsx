@@ -20,6 +20,7 @@ import {
   PMS_OFFICE_LOCATIONS,
   PMS_SUPPORT_EMAIL,
 } from '@/config/pms-site';
+import { TrackedContactLink } from '@/components/analytics/TrackedContactLink';
 
 export function Contact() {
   const { get } = useWebsiteData();
@@ -110,12 +111,15 @@ export function Contact() {
                 </div>
                 <div>
                   <h3 className="font-bold">Email Us</h3>
-                  <a
+                  <TrackedContactLink
                     href={`mailto:${PMS_SUPPORT_EMAIL}`}
+                    contactMethod="email"
+                    contactContext="general"
+                    ctaText="Contact page email"
                     className="text-sm text-muted-foreground mt-1 hover:text-brand-orange transition-colors"
                   >
                     {PMS_SUPPORT_EMAIL}
-                  </a>
+                  </TrackedContactLink>
                   <p className="text-xs text-muted-foreground mt-1">We typically respond within 24 hours.</p>
                 </div>
               </div>
@@ -126,14 +130,17 @@ export function Contact() {
                   </div>
                   <div>
                     <h3 className="font-bold">WhatsApp</h3>
-                    <a
+                    <TrackedContactLink
                       href={getPmsWhatsAppUrl()}
+                      contactMethod="whatsapp"
+                      contactContext="general"
+                      ctaText="Contact page WhatsApp"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm text-muted-foreground mt-1 hover:text-brand-orange transition-colors"
                     >
                       {getPmsWhatsAppDisplay()}
-                    </a>
+                    </TrackedContactLink>
                     <p className="text-xs text-muted-foreground mt-1">Message us for pathway or enrollment questions.</p>
                   </div>
                 </div>

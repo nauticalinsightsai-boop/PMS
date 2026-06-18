@@ -14,6 +14,8 @@ import {
   PMP_ROADMAP_FORM_ANCHOR,
   PMP_SUCCESS_JOURNEYS,
 } from '@/content/pmp/program-offer';
+import { trackRoadmapCtaClick } from '@/lib/analytics/track-roadmap-cta';
+import { trackContactClick } from '@/lib/analytics/track-contact-click';
 
 type PmpProgramSocialProofSectionProps = {
   roadmapAnchor?: string;
@@ -25,6 +27,12 @@ function PmpRoadmapCta({ anchor, className }: { anchor: string; className?: stri
   return (
     <a
       href={`#${anchor}`}
+      onClick={() =>
+        trackRoadmapCtaClick({
+          ctaText: PMP_PROGRAM_CTA_LABEL,
+          ctaLocation: 'body',
+        })
+      }
       className={cn(
         buttonVariants({ size: 'lg', variant: 'brand' }),
         'inline-flex h-14 items-center justify-center rounded-full px-8 text-base font-bold shadow-lg shadow-brand-orange/25',
@@ -142,6 +150,13 @@ export function PmpProgramSocialProofSection({
                       href={whatsappHref}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() =>
+                        trackContactClick({
+                          contactMethod: 'whatsapp',
+                          contactContext: 'roadmap',
+                          ctaText: 'WhatsApp',
+                        })
+                      }
                       className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-bold transition-colors hover:bg-white/10"
                     >
                       <MessageCircle className="h-5 w-5 text-green-400" aria-hidden />
@@ -150,6 +165,13 @@ export function PmpProgramSocialProofSection({
                   ) : null}
                   <a
                     href={`mailto:${PMS_SUPPORT_EMAIL}`}
+                    onClick={() =>
+                      trackContactClick({
+                        contactMethod: 'email',
+                        contactContext: 'roadmap',
+                        ctaText: 'Email support',
+                      })
+                    }
                     className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-bold transition-colors hover:bg-white/10"
                   >
                     <Mail className="h-5 w-5 text-brand-orange" aria-hidden />

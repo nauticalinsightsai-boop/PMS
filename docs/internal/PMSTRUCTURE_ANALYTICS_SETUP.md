@@ -35,9 +35,9 @@ Do not run duplicate GA4 pageview tracking through both GTM and direct gtag unle
 | GTM Container ID                  | GTM-XXXXXXX            | Not configured (direct GA4)  |
 | GA4 Measurement ID                | G-XXXXXXXXXX           | `G-E9QRM0GQ1W` (confirm owner) |
 | Consent/cookie requirement        | Owner/legal decision   | Required                     |
-| Roadmap form conversion event     | To be handled in T-013 | Pending                      |
-| Payment/checkout conversion event | To be handled in T-013 | Pending                      |
-| Offline lead/import tracking      | To be handled in T-013 | Pending                      |
+| Roadmap form conversion event     | T-013 browser events   | Implemented — see conversion plan |
+| Payment/checkout conversion event | T-013 browser events   | Implemented — begin_checkout, purchase |
+| Offline lead/import tracking      | T-013 docs + CSV       | Template only; server import pending |
 
 Consent/cookie behavior requires owner/legal confirmation. Analytics must respect applicable privacy requirements and any existing consent mechanism before full conversion tracking is enabled.
 

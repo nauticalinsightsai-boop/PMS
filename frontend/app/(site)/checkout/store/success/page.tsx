@@ -8,6 +8,8 @@ import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { defaultStoreCatalog } from '@pms/site-content/store';
 import { verifyCheckoutSession } from '@/services/checkout';
 import { cn } from '@/lib/utils';
+import { inferPackageType } from '@/lib/analytics/pms-events';
+import { trackPurchaseOnce } from '@/lib/analytics/track-purchase-once';
 
 function StoreCheckoutSuccessContent() {
   const searchParams = useSearchParams();
@@ -29,6 +31,24 @@ function StoreCheckoutSuccessContent() {
       cancelled = true;
     };
   }, [sessionId]);
+
+  useEffect(() => {
+    if (!sessionId?.startsWith('cs_') || paymentVerified !== true) return;
+    trackPurchaseOnce({
+      transactionId: sessionId,
+      packageType: 'resource',
+      items: product
+        ? [
+            {
+              item_id: product.id,
+              item_name: product.title,
+              item_category: 'resource',
+              quantity: 1,
+            },
+          ]
+        : undefined,
+    });
+  }, [sessionId, paymentVerified, product]);
 
   return (
     <section className={sectionSurface('blend', 'py-24')}>

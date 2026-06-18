@@ -27,6 +27,8 @@ import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
 import { getWebsiteHeroConsultationCalendlyUrl } from '@/lib/calendly/embed-url';
 import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 import { trackFunnelEvent, FUNNEL_EVENTS, trackGenerateLead } from '@/lib/analytics/funnel';
+import { trackRoadmapCtaClick } from '@/lib/analytics/track-roadmap-cta';
+import { PMP_ROADMAP_CTA_LABEL } from '@/lib/pmp-roadmap-cta';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { markIntent, canAccelerateBottomBarMicroForm } from '@/lib/conversion-recovery/engagement-score';
 import { Input } from '@/components/ui/input';
@@ -102,13 +104,6 @@ export function BottomCtaRotator() {
           variant: nextRotation?.variant,
           accelerated: useAcceleratedMicroForm,
         });
-        trackGenerateLead({
-          source: 'lead_recovery',
-          surface: 'bottom_bar',
-          rotation: idx + 1,
-          variant: nextRotation?.variant,
-          page_path: pathname,
-        });
       }, delayMs);
     },
     [centerDialogOpen, cookieGateReady, pathname, rotations],
@@ -167,6 +162,13 @@ export function BottomCtaRotator() {
       return;
     }
     if (action.type === 'scroll') {
+      if (action.anchor === 'pmp-roadmap-form') {
+        trackRoadmapCtaClick({
+          ctaText: action.label || PMP_ROADMAP_CTA_LABEL,
+          ctaLocation: 'footer',
+          pagePath: pathname,
+        });
+      }
       const el = document.getElementById(action.anchor);
       el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;

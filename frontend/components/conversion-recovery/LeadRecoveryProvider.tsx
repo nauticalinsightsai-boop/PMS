@@ -36,7 +36,7 @@ import {
   consumeEnrollStarted,
   findPendingEnrollReturn,
 } from '@/lib/conversion-recovery/session-state';
-import { trackFunnelEvent, FUNNEL_EVENTS, trackGenerateLead } from '@/lib/analytics/funnel';
+import { trackFunnelEvent, FUNNEL_EVENTS } from '@/lib/analytics/funnel';
 
 type LeadRecoveryContextValue = {
   dialogOpen: boolean;
@@ -139,13 +139,6 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
         tier_id: ctx.tierId,
         cert_id: ctx.siteCertId,
       });
-      trackGenerateLead({
-        source: 'lead_recovery',
-        variant: ctx.variant,
-        page_path: pathname,
-        tier_id: ctx.tierId,
-        cert_id: ctx.siteCertId,
-      });
       return true;
     },
     [cookieBannerVisible, cookieGateReady, dialogOpen, enabled, pathname],
@@ -156,12 +149,6 @@ export function LeadRecoveryProvider({ children }: { children: React.ReactNode }
       setDialogOpen(false);
       setDialogContext(null);
       trackFunnelEvent(FUNNEL_EVENTS.RECOVERY_DISMISSED, {
-        reason,
-        page_path: pathname,
-      });
-      trackGenerateLead({
-        source: 'lead_recovery',
-        action: 'dismiss',
         reason,
         page_path: pathname,
       });

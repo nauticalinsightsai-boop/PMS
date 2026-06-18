@@ -11,6 +11,9 @@ import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PMS_SUPPORT_EMAIL, getPmsWhatsAppDisplay, getPmsWhatsAppUrl, isWhatsAppConfigured } from '@/config/pms-site';
 import { getOfferingById } from '@/lib/regional-catalogue';
 import { cn } from '@/lib/utils';
+import { inferPackageType } from '@/lib/analytics/pms-events';
+import { trackPurchaseOnce } from '@/lib/analytics/track-purchase-once';
+import { trackContactClick } from '@/lib/analytics/track-contact-click';
 
 function ProgramEnrollmentSuccessContent({
   siteCertId,
@@ -42,6 +45,22 @@ function ProgramEnrollmentSuccessContent({
       cancelled = true;
     };
   }, [sessionId]);
+
+  useEffect(() => {
+    if (!sessionId?.startsWith('cs_') || paymentVerified !== true || !offering) return;
+    trackPurchaseOnce({
+      transactionId: sessionId,
+      packageType: inferPackageType(offeringId ?? undefined, offering.tierId),
+      items: [
+        {
+          item_id: offeringId ?? offering.offeringId,
+          item_name: offering.courseName,
+          item_category: 'certification_preparation',
+          quantity: 1,
+        },
+      ],
+    });
+  }, [sessionId, paymentVerified, offering, offeringId]);
 
   const paidInFull = paymentType === 'full_tuition';
 
@@ -90,7 +109,17 @@ function ProgramEnrollmentSuccessContent({
           <p className="text-sm font-semibold text-slate-900 dark:text-white">Need help?</p>
           <p className="text-sm text-slate-600 dark:text-slate-400">
             Email{' '}
-            <a href={`mailto:${PMS_SUPPORT_EMAIL}`} className="text-brand-orange font-bold hover:underline">
+            <a
+              href={`mailto:${PMS_SUPPORT_EMAIL}`}
+              onClick={() =>
+                trackContactClick({
+                  contactMethod: 'email',
+                  contactContext: 'support',
+                  ctaText: 'Enrollment support email',
+                })
+              }
+              className="text-brand-orange font-bold hover:underline"
+            >
               {PMS_SUPPORT_EMAIL}
             </a>{' '}
             with your enrollment email and we&apos;ll respond as soon as we can.
@@ -100,6 +129,13 @@ function ProgramEnrollmentSuccessContent({
               href={getPmsWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                trackContactClick({
+                  contactMethod: 'whatsapp',
+                  contactContext: 'support',
+                  ctaText: 'Enrollment WhatsApp',
+                })
+              }
               className={cn(
                 buttonVariants({ variant: 'outline', size: 'lg' }),
                 'w-full justify-center gap-2 rounded-2xl border-emerald-200 text-emerald-800 hover:bg-emerald-50 dark:border-emerald-900 dark:text-emerald-200',

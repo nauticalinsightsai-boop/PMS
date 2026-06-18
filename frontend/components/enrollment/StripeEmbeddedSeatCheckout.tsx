@@ -4,7 +4,8 @@ import * as React from 'react';
 import { loadStripe, type StripeEmbeddedCheckout } from '@stripe/stripe-js';
 import { useRegion } from '@/contexts/RegionContext';
 import { useSiteColorScheme } from '@/hooks/useSiteColorScheme';
-import { CONVERSION_EVENTS, trackConversionEvent } from '@/lib/analytics/conversion-events';
+import { PMS_EVENTS, inferPackageType } from '@/lib/analytics/pms-events';
+import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 import type { EnrollmentPaymentMode } from '@/lib/enrollment/seat-reservation';
 import { createEnrollmentEmbeddedCheckout, fetchStripePublishableKey } from '@/services/enrollment';
 import { assertPublishableKeyAllowedOnHost } from '@/lib/stripe-key-mode';
@@ -97,8 +98,9 @@ export function StripeEmbeddedSeatCheckout({
 
         checkoutRef.current = checkout;
         checkout.mount(mountRef.current);
-        trackConversionEvent(CONVERSION_EVENTS.START_CHECKOUT, {
+        pushAnalyticsEvent(PMS_EVENTS.BEGIN_CHECKOUT, {
           offering_id: offeringId,
+          package_type: inferPackageType(offeringId, tierSlug),
           payment_type: paymentMode === 'full_tuition' ? 'full_tuition_embedded' : 'seat_deposit_embedded',
         });
         setStatus('ready');

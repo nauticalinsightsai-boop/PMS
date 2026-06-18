@@ -24,7 +24,8 @@ import {
   resolveDialOption,
 } from '@/lib/pmp-roadmap-form-options';
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
-import { CONVERSION_EVENTS, trackConversionEvent } from '@/lib/analytics/conversion-events';
+import { mapRegionIdToAnalyticsRegion } from '@/lib/analytics/pms-events';
+import { trackRoadmapFormStart, trackRoadmapLeadSubmit } from '@/lib/analytics/track-roadmap-lead';
 import { CertFamilyMark } from '@/components/CertFamilyMark';
 import BrandIconMark from '@/components/BrandIconMark';
 import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
@@ -105,6 +106,7 @@ export function PmpRoadmapLeadForm({
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const formStartedRef = React.useRef(false);
 
   const recovery = useLeadRecoveryOptional();
   const partialVariant: LeadRecoveryVariant =
@@ -131,6 +133,16 @@ export function PmpRoadmapLeadForm({
   const touchField = () => {
     recovery?.markFormTouched();
     markTouched();
+    if (!formStartedRef.current) {
+      formStartedRef.current = true;
+      trackRoadmapFormStart({
+        formPlacement: placement,
+        region: mapRegionIdToAnalyticsRegion(regionId),
+        certification: certId === 'pmp' || certName?.includes('PMP') ? 'PMP' : certName,
+        buyerType: 'unknown',
+        examRoute: 'unknown',
+      });
+    }
   };
 
   const shellClass = cn(
@@ -276,10 +288,12 @@ export function PmpRoadmapLeadForm({
 
     setSubmitting(false);
     if (res.ok) {
-      trackConversionEvent(CONVERSION_EVENTS.CONSULTATION_BOOK, {
-        source: placement,
-        form: certId ? 'cert_roadmap' : 'pmp_roadmap',
-        cert_id: certId,
+      trackRoadmapLeadSubmit({
+        formPlacement: placement,
+        region: mapRegionIdToAnalyticsRegion(regionId),
+        certification: certId === 'pmp' || certName?.includes('PMP') ? 'PMP' : certName,
+        buyerType: role?.toLowerCase().includes('corporate') ? 'corporate' : 'individual',
+        examRoute: 'unknown',
       });
       recovery?.notifyConverted();
       setSubmitted(true);

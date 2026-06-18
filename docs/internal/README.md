@@ -21,3 +21,5 @@ Canonical host / redirects: see `PMSTRUCTURE_REDIRECT_DEPLOYMENT_NOTE.md`.
 Performance budget: see `PMSTRUCTURE_PERFORMANCE_BUDGET.md`.
 
 Analytics setup (GA4 base tracking): see `PMSTRUCTURE_ANALYTICS_SETUP.md`.
+
+Conversion tracking (T-013): see `PMSTRUCTURE_CONVERSION_TRACKING_PLAN.md` and `pmstructure-offline-conversion-template.csv`.

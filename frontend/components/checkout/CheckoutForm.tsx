@@ -11,7 +11,8 @@ import { useRegionalOffering } from '@/hooks/useRegionalOffering';
 import { createCheckoutSession, verifyRegion } from '@/services/regional';
 import Link from 'next/link';
 import { REGION_COPY } from '@/lib/brand-voice';
-import { CONVERSION_EVENTS, trackConversionEvent } from '@/lib/analytics/conversion-events';
+import { PMS_EVENTS, inferPackageType } from '@/lib/analytics/pms-events';
+import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 import { T176_PAYMENT_DISCLAIMER } from '@/content/t176-claims';
 
 export function CheckoutForm() {
@@ -43,8 +44,18 @@ export function CheckoutForm() {
     }
     setError(null);
     setLoading(true);
-    trackConversionEvent(CONVERSION_EVENTS.START_CHECKOUT, { offering_id: offeringId });
-    trackConversionEvent(CONVERSION_EVENTS.CLICK_PAYMENT, { offering_id: offeringId });
+    pushAnalyticsEvent(PMS_EVENTS.BEGIN_CHECKOUT, {
+      offering_id: offeringId,
+      package_type: inferPackageType(offeringId, data.offering.tierId),
+      items: [
+        {
+          item_id: offeringId,
+          item_name: data.offering.courseName,
+          item_category: 'certification_preparation',
+          quantity: 1,
+        },
+      ],
+    });
     try {
       const verification = await verifyRegion({
         regionId,

@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRegion } from '@/contexts/RegionContext';
-import { CONVERSION_EVENTS, trackConversionEvent } from '@/lib/analytics/conversion-events';
+import { PMS_EVENTS, inferPackageType } from '@/lib/analytics/pms-events';
+import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 import { createSeatDepositCheckout } from '@/services/enrollment';
 import { cn } from '@/lib/utils';
 
@@ -45,8 +46,11 @@ export function SeatDepositCheckout({
 
     setError(null);
     setLoading(true);
-    trackConversionEvent(CONVERSION_EVENTS.START_CHECKOUT, { offering_id: offeringId, payment_type: 'seat_deposit' });
-    trackConversionEvent(CONVERSION_EVENTS.CLICK_PAYMENT, { offering_id: offeringId, payment_type: 'seat_deposit' });
+    pushAnalyticsEvent(PMS_EVENTS.BEGIN_CHECKOUT, {
+      offering_id: offeringId,
+      package_type: inferPackageType(offeringId, tierSlug),
+      payment_type: 'seat_deposit',
+    });
 
     try {
       const result = await createSeatDepositCheckout({
