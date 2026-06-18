@@ -1,0 +1,29 @@
+{
+  "business": "PM Structure",
+  "status": "internal_only",
+  "lastUpdated": "2026-06-18",
+  "primaryOffer": "PMP 2026 Readiness Pathway",
+  "primaryCTA": "Get My PMP 2026 Roadmap",
+  "secondaryCTA": "Compare Certification Pathways",
+  "waitlistCTA": "Join Waitlist",
+  "reviewFrequency": "weekly",
+  "successMetrics": {
+    "qualifiedLeads": 30,
+    "paidLearners": 20,
+    "verifiedTestimonialsWithPermission": 5,
+    "corporateLead": 1,
+    "repeatableSalesScript": 1,
+    "mainTrafficSourceIdentified": true,
+    "primaryCTAWorking": true,
+    "conversionTrackingWorking": true
+  },
+  "campaignPillars": [
+    "PMP 2026 Transition",
+    "Eligibility & Training Hours",
+    "Study Structure",
+    "Career Positioning",
+    "Trust & Compliance",
+    "Corporate Readiness"
+  ],
+  "doNotPublishPublicly": true
+}
