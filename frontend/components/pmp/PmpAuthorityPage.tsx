@@ -9,9 +9,11 @@ import { PmpRelatedFaqs } from '@/components/pmp/PmpRelatedFaqs';
 import { PmpPriorityAnswers } from '@/components/pmp/PmpPriorityAnswers';
 import { PMP_EXAM_2026_PRIORITY_ANSWERS } from '@/content/answers/priority-answers';
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
-import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { FaqAnswer } from '@/components/faq/FaqAccordionList';
+import { Pmp2026ComplianceNote } from '@/components/pmp/Pmp2026ComplianceNote';
+import { ComparePathwaysCtaLink, PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
+import { CTAS } from '@/lib/brand-voice';
 import { cn } from '@/lib/utils';
 
 function MarkdownBlock({ text }: { text: string }) {
@@ -68,12 +70,21 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
               {page.h1}
             </h1>
 
-            <div className="rounded-xl border border-brand-purple/20 bg-brand-purple/5 p-5 mb-10">
+            <div className="rounded-xl border border-brand-purple/20 bg-brand-purple/5 p-5 mb-6">
               <h2 className="text-sm font-bold uppercase tracking-wider text-brand-purple mb-2">
                 Direct answer
               </h2>
               <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{page.directAnswer}</p>
             </div>
+
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-10">
+              <PmpRoadmapCtaLink size="lg" />
+              <ComparePathwaysCtaLink size="lg" />
+            </div>
+
+            {page.path === '/pmp-exam-2026' ? (
+              <Pmp2026ComplianceNote className="mb-10" showSourceLinks />
+            ) : null}
 
             {page.sections.map((section) => (
               <section key={section.id} id={section.id} className="mb-10">
@@ -123,8 +134,12 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
             </section>
 
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-10">
-              <Link href="/certifications/pmp" className={buttonVariants({ size: 'lg' })}>
-                View PMP pathway
+              <PmpRoadmapCtaLink size="lg" />
+              <Link
+                href="/certifications/compare"
+                className={buttonVariants({ size: 'lg', variant: 'outline' })}
+              >
+                {CTAS.comparePathways}
               </Link>
               {page.path !== '/pmp-exam-2026' ? (
                 <Link
@@ -133,14 +148,14 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
                 >
                   PMP 2026 guide
                 </Link>
-              ) : null}
-              <TrackedConversionLink
-                href="/pmp-readiness-diagnostic"
-                event={CONVERSION_EVENTS.CLICK_PMP_DIAGNOSTIC}
-                className={buttonVariants({ size: 'lg', variant: 'outline' })}
-              >
-                Readiness diagnostic
-              </TrackedConversionLink>
+              ) : (
+                <Link
+                  href="/certifications/pmp"
+                  className={buttonVariants({ size: 'lg', variant: 'outline' })}
+                >
+                  View PMP pathway
+                </Link>
+              )}
             </div>
 
             <aside className="text-sm text-slate-500 dark:text-slate-400 border-t pt-6 space-y-3">

@@ -4,16 +4,16 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Moon, Sun } from "lucide-react";
-import { WebsiteCalendlyButton } from "@/components/calendly/WebsiteCalendlyButton";
 import { BrandLogo } from "./BrandLogo";
-import { CTAS } from "@/lib/brand-voice";
 import { RegionChip } from "@/components/RegionChip";
+import { PmpRoadmapCtaLink } from "@/components/pmp/PmpRoadmapCtaLink";
 import { cn } from "@/lib/utils";
 
 const MAIN_NAV_LINKS = [
   { label: "Certifications", href: "/certifications" },
-  { label: "Services", href: "/pm-service" },
-  { label: "Newsletter", href: "/newsletter" },
+  { label: "PMP 2026", href: "/pmp-exam-2026" },
+  { label: "Compare Pathways", href: "/certifications/compare" },
+  { label: "Resources", href: "/answers" },
   { label: "Community", href: "/community" },
 ] as const;
 
@@ -27,6 +27,12 @@ function isNavLinkActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
   if (href === "/certifications") {
     return pathname === "/certifications" || pathname.startsWith("/certifications/");
+  }
+  if (href === "/certifications/compare") {
+    return pathname === "/certifications/compare";
+  }
+  if (href === "/pmp-exam-2026") {
+    return pathname === "/pmp-exam-2026";
   }
   return pathname === href || pathname.startsWith(`${href}/`);
 }
@@ -79,15 +85,10 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
             <Button variant="ghost" size="icon" onClick={toggleTheme} className="min-h-11 min-w-11 rounded-full" aria-label="Toggle theme">
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
-            <WebsiteCalendlyButton
-              tier="discovery"
-              variant="brand"
+            <PmpRoadmapCtaLink
+              size="default"
               className="font-semibold px-5 h-10 rounded-full"
-              funnelLabel="nav_talk_to_mentor"
-              utm={{ utm_source: 'pmstructure', utm_medium: 'navbar', utm_campaign: 'hero_consultation' }}
-            >
-              {CTAS.talkToMentor}
-            </WebsiteCalendlyButton>
+            />
           </div>
         </div>
 
@@ -122,15 +123,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
                   );
                 })}
                 <div className="mt-4 pt-4 border-t border-border">
-                  <WebsiteCalendlyButton
-                    tier="discovery"
-                    variant="brand"
-                    className="w-full min-h-11"
-                    funnelLabel="nav_talk_to_mentor"
-                    utm={{ utm_source: 'pmstructure', utm_medium: 'navbar_mobile', utm_campaign: 'hero_consultation' }}
-                  >
-                    {CTAS.talkToMentor}
-                  </WebsiteCalendlyButton>
+                  <PmpRoadmapCtaLink className="w-full min-h-11 rounded-full" />
                 </div>
               </nav>
             </SheetContent>

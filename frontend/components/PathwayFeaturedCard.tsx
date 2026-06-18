@@ -103,8 +103,14 @@ export interface PathwayFeaturedCardProps {
   cert: CertificationSummary;
   /** Badge label (Home uses featured.family, e.g. PMI) */
   familyLabel?: string;
+  /** Override family badge (e.g. Featured Pathway) */
+  badgeLabel?: string;
   title?: string;
   description?: string;
+  /** Shown under description (e.g. PMP exam date line) */
+  metaLine?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
   /** Shown under the icon in the visual header */
   visualSubtitle?: string;
   /** `visual` = gradient image header (Home). `catalog` = listing card, no image (Certifications). */
@@ -123,19 +129,27 @@ function PathwayCardCta({
   certId,
   regionId,
   accentColor,
+  ctaLabel,
+  ctaHref,
 }: {
   certId: string;
   regionId: RegionId;
   accentColor?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
 }) {
+  const label =
+    ctaLabel ?? (isEnrollmentOpen(certId, regionId) ? 'View pathway' : 'View overview');
+  const href = ctaHref ?? `/certifications/${certId}`;
+
   return (
-    <Link href={`/certifications/${certId}`} className="w-full">
+    <Link href={href} className="w-full">
       <Button
         variant={accentColor ? 'default' : 'brand'}
         className="w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md hover:opacity-90"
         style={accentColor ? { backgroundColor: accentColor } : undefined}
       >
-        {isEnrollmentOpen(certId, regionId) ? 'View pathway' : 'View overview'}
+        {label}
       </Button>
     </Link>
   );
@@ -145,15 +159,19 @@ function PathwayCardCta({
 function PathwayFeaturedVisualCard({
   cert,
   familyLabel,
+  badgeLabel,
   title,
   description,
+  metaLine,
+  ctaLabel,
+  ctaHref,
   visualSubtitle,
   className,
 }: PathwayFeaturedCardProps) {
   const { regionId } = useRegion();
   const displayTitle = title ?? cert.name;
   const displayDesc = description ?? cert.desc;
-  const badgeLabel = familyLabel ?? cert.familyId;
+  const familyBadge = badgeLabel ?? familyLabel ?? cert.familyId;
   const subtitle = visualSubtitle ?? displayTitle;
   const outcomes =
     cert.learningOutcomes?.slice(0, 3) ?? [
@@ -168,7 +186,7 @@ function PathwayFeaturedVisualCard({
       <CardHeader className="p-5 pb-2">
         <div className="flex flex-wrap items-center justify-start gap-2 mb-3">
           <Badge className="inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1 text-center">
-            {badgeLabel}
+            {familyBadge}
           </Badge>
           <PathwayEnrollmentBadge certId={cert.id} />
         </div>
@@ -182,6 +200,11 @@ function PathwayFeaturedVisualCard({
         <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
           {displayDesc}
         </CardDescription>
+        {metaLine ? (
+          <p className="mt-3 text-xs font-semibold text-brand-purple dark:text-brand-purple/90 leading-snug">
+            {metaLine}
+          </p>
+        ) : null}
       </CardHeader>
       <CardContent className="px-5 pb-5 flex-1">
         <PathwayFeaturedPricingChips certId={cert.id} />
@@ -195,7 +218,12 @@ function PathwayFeaturedVisualCard({
         </ul>
       </CardContent>
       <CardFooter className="border-t border-border bg-muted/50 px-5 pb-5 pt-6">
-        <PathwayCardCta certId={cert.id} regionId={regionId} />
+        <PathwayCardCta
+          certId={cert.id}
+          regionId={regionId}
+          ctaLabel={ctaLabel}
+          ctaHref={ctaHref}
+        />
       </CardFooter>
     </Card>
   );

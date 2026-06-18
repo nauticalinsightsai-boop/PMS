@@ -1,0 +1,207 @@
+/** T-169 flagship copy — use exactly as provided unless a component has a hard limit. */
+
+export const PMP_2026_LAST_REVIEWED = '18 June 2026';
+
+export const PMP_2026_SOURCE_NOTE =
+  'Source note: PMP exam details should always be verified with PMI before booking or applying. PM Structure is an independent exam-prep and readiness-support platform.';
+
+export const PMP_2026_PMI_SOURCE_LINKS = [
+  {
+    href: 'https://www.pmi.org/certifications/project-management-pmp/new-exam',
+    label: 'PMI — updated PMP exam',
+  },
+  {
+    href: 'https://www.pmi.org/certifications/project-management-pmp',
+    label: 'PMI — PMP certification',
+  },
+  {
+    href: 'https://www.pmi.org/certifications/project-management-pmp/pmp-exam-preparation',
+    label: 'PMI — PMP exam preparation',
+  },
+] as const;
+
+export const T169_CTAS = {
+  primary: 'Get My PMP 2026 Roadmap',
+  secondary: 'Compare Certification Pathways',
+  waitlist: 'Join Waitlist',
+  mentor: 'Talk to a Mentor',
+} as const;
+
+export const T169_HERO = {
+  eyebrow: 'PMP 2026 Readiness Pathway',
+  h1: 'Prepare for the PMP exam change with a clear route, not random study noise.',
+  body: 'The PMP exam changes on 9 July 2026. PM Structure helps working professionals decide whether they are preparing for the current or updated exam, map their eligibility, organize study effort, and track readiness with mentor-led structure.',
+  microcopy:
+    'Independent exam-prep and readiness support. PM Structure is not PMI and does not issue PMI certifications. Always verify exam rules and eligibility with PMI before applying or booking.',
+} as const;
+
+export const T169_NINETY_DAY_FOCUS = {
+  label: '90-Day Focus',
+  heading: 'PM Structure is prioritizing PMP 2026 readiness first.',
+  body: 'For the next 90 days, the main PM Structure pathway is PMP 2026 readiness. The exam transition creates immediate decisions for candidates: whether to sit before the change, prepare for the updated exam, or rebuild their study plan around the new content outline.\n\nOther certification pathways remain available for comparison, guidance, and waitlist interest, but PMP 2026 is the flagship offer until the first funnel is proven.',
+  bullets: [
+    'Decide whether the current or updated PMP exam route fits your timeline.',
+    'Map eligibility and training-hour requirements without overclaiming approval.',
+    'Build a structured study plan instead of jumping between random resources.',
+    'Track mock performance, weak areas, and readiness before booking the exam.',
+    'Use mentor-led structure where self-study alone is not enough.',
+  ],
+} as const;
+
+export const T169_ROADMAP_STEPS = {
+  heading: 'How the PMP 2026 roadmap works',
+  steps: [
+    {
+      title: 'Check your route',
+      body: 'We check whether your target date points toward the current PMP exam or the updated PMP exam from 9 July 2026 onward.',
+    },
+    {
+      title: 'Map your readiness',
+      body: 'We review eligibility basics, study time, weak areas, mock performance, and whether you need self-study, cohort structure, or mentor-led support.',
+    },
+    {
+      title: 'Build the plan',
+      body: 'You get a structured study roadmap with clear priorities, practice rhythm, review checkpoints, and a realistic exam-readiness decision point.',
+    },
+  ],
+} as const;
+
+export const T169_WHO_FOR = {
+  heading: 'Who this pathway is for',
+  bullets: [
+    'Working professionals with project experience who are considering PMP.',
+    'Engineers, coordinators, planners, PMO staff, and delivery professionals moving into project leadership.',
+    'Candidates confused by the July 2026 PMP exam change.',
+    'Candidates unsure whether to prepare for the current or updated exam.',
+    'Professionals in GCC and South Asia who want a structured certification route instead of random self-study.',
+  ],
+} as const;
+
+export const T169_WHO_NOT_FOR = {
+  heading: 'Who this is not for',
+  bullets: [
+    'Anyone looking for an instant certification without study or experience.',
+    'Anyone expecting PM Structure to issue the PMP certification.',
+    'Anyone looking for a guaranteed pass claim.',
+    'Anyone who has not checked their eligibility against PMI\u2019s official requirements.',
+    'Anyone who wants generic video access without structure, tracking, or accountability.',
+  ],
+} as const;
+
+export const T169_FAQS = [
+  {
+    question: 'Is the PMP exam changing in 2026?',
+    answer:
+      'Yes. PMI states that the updated PMP exam launches on 9 July 2026. Candidates planning to sit before 8 July 2026 should prepare for the current exam. Candidates planning to sit from 9 July 2026 onward should prepare for the updated exam content outline.',
+  },
+  {
+    question: 'Should I prepare for the current PMP exam or the updated PMP exam?',
+    answer:
+      'It depends on your exam timeline, eligibility, study progress, and mock performance. If you are ready to sit before 8 July 2026, the current exam may still be relevant. If your realistic exam date is 9 July 2026 or later, your preparation should align with the updated PMP exam structure.',
+  },
+  {
+    question: 'What does PM Structure help with?',
+    answer:
+      'PM Structure helps you choose the right PMP route, map eligibility basics, organize your study plan, track mock performance, identify weak areas, and decide when you are ready to book the exam. It is designed for professionals who need structure, not just more study material.',
+  },
+  {
+    question: 'Is PM Structure a PMI Authorized Training Partner?',
+    answer:
+      'PM Structure should only be described as a PMI Authorized Training Partner if that status is formally approved and publicly verifiable. Unless that approval exists, PM Structure must be described as an independent exam-prep and readiness-support platform.',
+  },
+  {
+    question: 'Does PM Structure issue the PMP certification?',
+    answer:
+      'No. PMP is issued by PMI after candidates meet PMI\u2019s eligibility requirements, apply successfully, and pass the PMP exam. PM Structure provides independent preparation, pathway guidance, and readiness support.',
+  },
+  {
+    question: 'Does PM Structure guarantee that I will pass the PMP exam?',
+    answer:
+      'No. No responsible exam-prep provider should guarantee a pass. PM Structure helps you prepare with structure, practice, review, and readiness tracking, but exam results depend on your eligibility, preparation quality, exam performance, and PMI\u2019s assessment process.',
+  },
+  {
+    question: 'Does this pathway include 35 hours of project management education?',
+    answer:
+      'Do not publish a fixed claim unless the final training-hour status is legally and operationally confirmed. Safe wording: PM Structure can help you understand the PMP training-hour requirement and map what evidence or training record you may need. Candidates should verify current training requirements directly with PMI before applying.',
+  },
+] as const;
+
+export const T169_FEATURED_CARDS = {
+  pmp: {
+    badge: 'Featured Pathway',
+    title: 'PMP 2026 Readiness Pathway',
+    description:
+      'For working professionals preparing around the July 2026 PMP exam change. Get a structured roadmap, eligibility guidance, study plan, mock tracking, and mentor-led readiness support.',
+    meta: 'Current exam before 8 July 2026. Updated exam from 9 July 2026.',
+    cta: T169_CTAS.primary,
+  },
+  prince2: {
+    badge: 'Secondary Pathway',
+    title: 'PRINCE2 Practitioner Pathway',
+    description:
+      'For professionals who need a process-based project management framework, especially in organizations that use structured governance, controlled stages, and formal project boards.',
+    cta: T169_CTAS.waitlist,
+  },
+  lssGreen: {
+    badge: 'Secondary Pathway',
+    title: 'Lean Six Sigma Pathway',
+    description:
+      'For professionals focused on process improvement, operational efficiency, waste reduction, and measurable business performance improvement.',
+    cta: T169_CTAS.waitlist,
+  },
+  pmiRmp: {
+    badge: 'Secondary Pathway',
+    title: 'PMI-RMP Risk Management Pathway',
+    description:
+      'For project professionals who want to specialize in risk identification, risk response planning, uncertainty management, and risk-based project decision-making.',
+    cta: T169_CTAS.waitlist,
+  },
+} as const;
+
+export const T169_PMP_PAGE = {
+  h1: 'PMP 2026 Readiness Pathway',
+  intro:
+    'The PMP exam changes on 9 July 2026. This pathway helps you decide whether to prepare for the current exam or the updated exam, then gives you a structured plan to study, practice, and track readiness.',
+  disclaimer:
+    'Last reviewed: 18 June 2026. PMP exam details, eligibility rules, and training requirements should always be verified with PMI. PM Structure is an independent exam-prep and readiness-support platform.',
+  currentVsUpdatedHeading: 'Current PMP vs Updated PMP Exam',
+  currentVsUpdatedTable: `| Candidate Situation | Exam Route | What to Prepare For | PM Structure Guidance |
+| --- | --- | --- | --- |
+| Sitting before 8 July 2026 | Current PMP exam | Current exam content outline, 180 questions, 230 minutes | Use a focused sprint plan and confirm readiness before booking. |
+| Sitting from 9 July 2026 onward | Updated PMP exam | Updated exam content outline, 180 questions, 240 minutes, revised domain weights | Use the PMP 2026 pathway and align study to the updated exam structure. |
+| Not sure when to sit | Decision route | Eligibility, timeline, study availability, mock performance, and confidence level | Start with the PMP 2026 roadmap before choosing an exam date. |`,
+  domainHeading: 'What changes in the updated PMP exam?',
+  domainBody:
+    'The updated PMP exam keeps the focus on practical project leadership, but the domain balance changes. The Business Environment domain becomes much more important, and the exam gives more attention to value, outcomes, AI, sustainability, stakeholder engagement, and real project dynamics.',
+  domainTable: `| Domain | Updated Weight |
+| --- | ---: |
+| People | 33% |
+| Process | 41% |
+| Business Environment | 26% |`,
+  domainNote:
+    'This section is a study-planning summary only. Always verify the official exam content outline and candidate guidance with PMI before booking the exam.',
+} as const;
+
+export const T169_SUPPORT_COPY = {
+  membership:
+    'Membership is a support layer, not the main pathway. For now, PM Structure is prioritizing PMP 2026 readiness. Membership benefits should support active learners with resources, review sessions, and community access where available.',
+  community:
+    'The community supports structured preparation, accountability, and discussion. It should not replace the PMP 2026 roadmap or official PMI guidance.',
+  resourceStore:
+    'Resources and templates are being organized around the PMP 2026 pathway. Any resource that is not live should use "Join Waitlist" or "Preview Coming Soon," not "Buy Now."',
+} as const;
+
+export const T169_SEO = {
+  homeTitle: 'PM Structure | PMP 2026 Readiness & Project Certification Pathways',
+  homeDescription:
+    'Prepare for the PMP 2026 exam change with structured roadmap support, eligibility guidance, study planning, mock tracking, and mentor-led readiness from PM Structure.',
+  pmpTitle: 'PMP 2026 Readiness Pathway | PM Structure',
+  pmpDescription:
+    'Decide whether to prepare for the current or updated PMP exam. Build a structured PMP 2026 roadmap with eligibility guidance, study planning, mock tracking, and readiness support.',
+} as const;
+
+export const T169_FEATURED_PATHWAYS = {
+  title: 'Featured Pathways',
+  subtitle:
+    'PMP 2026 readiness is the flagship pathway. Other certifications remain available for comparison and waitlist interest.',
+} as const;

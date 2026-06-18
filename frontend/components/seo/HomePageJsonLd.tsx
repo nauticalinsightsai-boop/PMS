@@ -1,13 +1,13 @@
-import { PMS_SITE_DESCRIPTION } from '@/config/pms-site';
 import { HOME_COPY } from '@/lib/brand-voice';
+import { T169_SEO } from '@/content/pmp/flagship-t169';
 import { buildWebPageSchema } from '@/lib/schema';
 
 /** Homepage WebPage JSON-LD; Organization + WebSite ship from PublicShell. */
 export function HomePageJsonLd() {
   const schema = buildWebPageSchema({
     path: '/',
-    name: `${HOME_COPY.heroTitle}: ${HOME_COPY.heroTitleAccents.join(' · ')}`,
-    description: PMS_SITE_DESCRIPTION,
+    name: HOME_COPY.heroTitle,
+    description: T169_SEO.homeDescription,
   });
 
   return (

@@ -50,7 +50,7 @@ const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: bo
 ];
 
 const RESOURCES_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
-  { label: 'PMP exam 2026', href: '/pmp-exam-2026', highlight: true },
+  { label: 'PMP 2026 Readiness', href: '/pmp-exam-2026', highlight: true },
   { label: 'Answers', href: '/answers' },
   { label: 'Topics', href: '/topics' },
   { label: 'Newsletter', href: '/newsletter' },

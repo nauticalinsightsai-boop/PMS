@@ -217,14 +217,14 @@ export function defaultHomePageConfigV2(): HomePageConfigV2 {
       {
         id: 1,
         visible: true,
-        heading: 'Prepare with structure. Lead with confidence.',
+        heading: 'Prepare for the PMP exam change with a clear route, not random study noise.',
         description:
-          'Independent certification readiness pathways across PMI, PRINCE2, and Lean Six Sigma: built for professionals who want clarity, not chaos.',
-        primaryCta: 'Talk to Mentor',
-        primaryAction: 'register_modal',
-        primaryLink: '/contact?topic=consultation',
-        secondaryCta: 'Find a pathway',
-        secondaryLink: '/certifications',
+          'The PMP exam changes on 9 July 2026. PM Structure helps working professionals decide whether they are preparing for the current or updated exam, map their eligibility, organize study effort, and track readiness with mentor-led structure.',
+        primaryCta: 'Get My PMP 2026 Roadmap',
+        primaryAction: 'link',
+        primaryLink: '/#pmp-roadmap-form',
+        secondaryCta: 'Compare Certification Pathways',
+        secondaryLink: '/certifications/compare',
       },
     ],
     stats: {
@@ -234,7 +234,8 @@ export function defaultHomePageConfigV2(): HomePageConfigV2 {
     sections: { ...DEFAULT_HOME_SECTIONS },
     featuredPathways: {
       title: 'Featured Pathways',
-      subtitle: 'Structured readiness routes across PMI, PRINCE2, and Lean Six Sigma.',
+      subtitle:
+        'PMP 2026 readiness is the flagship pathway. Other certifications remain available for comparison and waitlist interest.',
       certIds: ['pmp', 'prince2', 'lss-green'],
     },
     programFamilies: [

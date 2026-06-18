@@ -26,9 +26,6 @@ import {
 } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { WebsiteCalendlyButton } from "@/components/calendly/WebsiteCalendlyButton";
-import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
-import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { BRAND, CTAS, HOME_COPY } from "@/lib/brand-voice";
@@ -41,8 +38,12 @@ import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { useHomePageConfig } from '@/lib/home-config';
 import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
-import { HomeHeroAccentRotator } from '@/components/home/HomeHeroAccentRotator';
+import { Pmp2026FlagshipSections } from '@/components/home/Pmp2026FlagshipSections';
+import { PmpRoadmapCtaLink, ComparePathwaysCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
+import { T169_SUPPORT_COPY } from '@/content/pmp/flagship-t169';
+import { COMPARE_PATHWAYS_HREF, PMP_ROADMAP_CTA_HREF } from '@/lib/pmp-roadmap-cta';
+import { getT169FeaturedCardOverrides } from '@/lib/t169-featured-cards';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
 import { NewsletterSubscribeForm } from '@/components/forms/NewsletterSubscribeForm';
 
@@ -127,16 +128,23 @@ export function Home() {
 
   const renderPrimaryCta = () => {
     const action = homeCms.primaryAction;
-    const primaryLink = homeCms.ctaPrimaryLink || '/contact?topic=consultation';
-    const useHeroConsultationCalendly =
-      action === 'calendly' ||
-      action === 'register_modal' ||
-      (action === 'contact' && primaryLink.includes('topic=consultation'));
-    const defaultLabel = CTAS.talkToMentor;
+    const primaryLink = homeCms.ctaPrimaryLink || PMP_ROADMAP_CTA_HREF;
     const label =
       homeCms.ctaPrimary ||
-      get('cta_primary', defaultLabel);
+      get('cta_primary', HOME_COPY.ctaPrimary);
     const btnClass = HERO_BTN;
+
+    if (
+      action === 'link' &&
+      (primaryLink.includes(PMP_ROADMAP_FORM_ANCHOR) || primaryLink === PMP_ROADMAP_CTA_HREF)
+    ) {
+      return (
+        <PmpRoadmapCtaLink
+          label={label}
+          className={cn(btnClass, 'w-full sm:w-auto')}
+        />
+      );
+    }
 
     if (action === 'link') {
       const href = homeCms.ctaPrimaryLink || '/membership';
@@ -147,24 +155,25 @@ export function Home() {
       );
     }
 
+    const useHeroConsultationCalendly =
+      action === 'calendly' ||
+      action === 'register_modal' ||
+      (action === 'contact' && primaryLink.includes('topic=consultation'));
+
     if (useHeroConsultationCalendly) {
       return (
-        <WebsiteCalendlyButton
-          size="lg"
-          tier="hero"
-          className={cn(btnClass, 'block')}
-          funnelLabel="home_hero_consultation"
-          utm={{ utm_source: 'pmstructure', utm_medium: 'website', utm_campaign: 'home_hero' }}
-        >
-          {label}
-        </WebsiteCalendlyButton>
+        <PmpRoadmapCtaLink
+          label={label || CTAS.pmp2026Roadmap}
+          className={cn(btnClass, 'w-full sm:w-auto')}
+        />
       );
     }
 
     return (
-      <Link href={primaryLink} className="block w-full sm:w-auto">
-        <Button size="lg" className={btnClass}>{label}</Button>
-      </Link>
+      <PmpRoadmapCtaLink
+        label={label || CTAS.pmp2026Roadmap}
+        className={cn(btnClass, 'w-full sm:w-auto')}
+      />
     );
   };
 
@@ -195,8 +204,6 @@ export function Home() {
               <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-[1.1] text-balance">
                 {homeCms.heroTitle || get('hero_title', HOME_COPY.heroTitle)}
               </h1>
-
-              <HomeHeroAccentRotator />
               
               <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 sm:mb-10 max-w-lg leading-relaxed font-medium">
                 {homeCms.heroSubtitle || get('hero_subtitle', HOME_COPY.heroSubtitle)}
@@ -204,14 +211,14 @@ export function Home() {
               
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <div className="w-full sm:w-auto">{renderPrimaryCta()}</div>
-                <Link href={homeCms.ctaSecondaryLink || '/certifications'} className="w-full sm:w-auto">
-                  <Button size="lg" variant="outline" className={HERO_BTN_OUTLINE}>
-                    {homeCms.ctaSecondary || get('cta_secondary', CTAS.findPathway)}
-                  </Button>
-                </Link>
+                <ComparePathwaysCtaLink buttonClassName={HERO_BTN_OUTLINE} />
               </div>
+
+              <p className="mt-6 text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-lg leading-relaxed font-medium">
+                {HOME_COPY.heroMicrocopy}
+              </p>
               
-              <div className="mt-10 sm:mt-16 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+              <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                 <div className="flex -space-x-3">
                   {[1, 2, 3, 4].map((i) => (
                     <div key={i} className="h-10 w-10 rounded-full border-2 border-white dark:border-slate-950 overflow-hidden shadow-sm">
@@ -248,6 +255,8 @@ export function Home() {
           </div>
         </div>
       </section>
+
+      <Pmp2026FlagshipSections />
 
       {(sections?.latestNews !== false) && homeCms.latestNews.length > 0 && (
         <section className={`${SECTION_PY} bg-white dark:bg-slate-950`}>
@@ -295,44 +304,6 @@ export function Home() {
         </section>
       )}
 
-      <section className={sectionSurface('purple', 'py-12 sm:py-16')}>
-        <SectionAmbience tone="purple" />
-        <div className="container relative z-10 mx-auto px-4">
-          <div className="rounded-2xl border border-brand-purple/20 bg-brand-purple/5 p-6 sm:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h2 className="font-heading text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                PMP exam 2026: what&apos;s changing?
-              </h2>
-              <p className="text-slate-600 dark:text-slate-400 max-w-xl">
-                Independent guides for the 2026 transition, study plans, and domain focus areas.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3 shrink-0">
-              <Link href="/pmp-exam-2026">
-                <Button className="w-full sm:w-auto bg-brand-purple hover:bg-brand-purple/90 text-white font-bold">
-                  PMP 2026 guide
-                </Button>
-              </Link>
-              <Link href="/pmp">
-                <Button variant="outline" className="w-full sm:w-auto font-bold">
-                  PMP hub
-                </Button>
-              </Link>
-              <Link href="/answers">
-                <Button variant="outline" className="w-full sm:w-auto font-bold">
-                  Direct answers
-                </Button>
-              </Link>
-              <Link href="/topics">
-                <Button variant="outline" className="w-full sm:w-auto font-bold">
-                  Topic hubs
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {(sections?.featuredPathways !== false) && (
       <section className={sectionSurface('soft', SECTION_PY)}>
         <SectionAmbience tone="soft" />
@@ -344,10 +315,12 @@ export function Home() {
               viewport={{ once: true }}
             >
               <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-4 sm:mb-6">
-                Featured <span className="text-pms-gradient-orange">Pathways</span>
+                {homeCms.featuredPathways?.title ?? (
+                  <>Featured <span className="text-pms-gradient-orange">Pathways</span></>
+                )}
               </h2>
               <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 max-w-lg font-medium leading-relaxed">
-                {HOME_COPY.featuredSubtitle}
+                {homeCms.featuredPathways?.subtitle ?? get('featured_subtitle', HOME_COPY.featuredSubtitle)}
               </p>
             </motion.div>
             <Link href="/certifications">
@@ -365,6 +338,7 @@ export function Home() {
           >
             {featuredPathwaysResolved.map((featured, index) => {
               const cert = siteData.certifications.find(c => c.id === featured.id) || siteData.certifications[0];
+              const t169 = getT169FeaturedCardOverrides(featured.id);
               
               return (
                 <motion.div
@@ -378,9 +352,13 @@ export function Home() {
                   <PathwayFeaturedCard
                     cert={cert}
                     familyLabel={featured.family}
-                    title={featured.title}
-                    description={featured.desc}
-                    visualSubtitle={featured.title}
+                    badgeLabel={t169?.badgeLabel}
+                    title={t169?.title ?? featured.title}
+                    description={t169?.description ?? featured.desc}
+                    metaLine={t169?.metaLine}
+                    ctaLabel={t169?.ctaLabel}
+                    ctaHref={t169?.ctaHref}
+                    visualSubtitle={t169?.title ?? featured.title}
                   />
                 </motion.div>
               );
@@ -485,6 +463,7 @@ export function Home() {
                 {homeCms.membership?.sectionTitle ?? get('membership_title', 'Membership Plans')}
               </h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                {T169_SUPPORT_COPY.membership}{' '}
                 {homeCms.membership?.sectionSubtitle ?? get('membership_subtitle', HOME_COPY.membershipSubtitle)}
               </p>
             </motion.div>
@@ -552,8 +531,8 @@ export function Home() {
                   </ul>
                 </div>
                 <Link href="/membership" className="relative z-10 block">
-                  <Button variant="brand" className="w-full h-14 font-bold text-lg rounded-2xl transition-all">
-                    Join Now
+                  <Button variant="outline" className="w-full h-14 font-bold text-lg rounded-2xl transition-all">
+                    View membership
                   </Button>
                 </Link>
               </Card>
@@ -580,8 +559,11 @@ export function Home() {
                   <span className="font-bold uppercase tracking-widest text-[10px]">{BRAND.name} Network</span>
                 </div>
                 <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-6 tracking-tight leading-tight">Join the Global <span className="text-brand-orange">PM Network</span></h2>
+                <p className="text-lg text-slate-600 dark:text-slate-400 mb-4 leading-relaxed font-medium">
+                  {T169_SUPPORT_COPY.community}
+                </p>
                 <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed font-medium">
-                  Don't study in isolation. Connect with 1,284+ professionals in our Slack-based community.
+                  Don&apos;t study in isolation. Connect with 1,284+ professionals in our Slack-based community.
                 </p>
                 <div className="grid grid-cols-2 gap-6 mb-10">
                   {[
@@ -717,7 +699,7 @@ export function Home() {
                 Career <span className="text-brand-orange">Accelerators</span>
               </h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-                Professional utilities designed to streamline your certification journey and career advancement.
+                {T169_SUPPORT_COPY.resourceStore}
               </p>
             </motion.div>
           </div>
@@ -738,9 +720,9 @@ export function Home() {
                 desc: "Custom schedules based on your exam date.",
                 icon: Calendar,
                 color: "text-brand-orange",
-                action: "external" as const,
-                href: PMS_SKOOL_COMMUNITY_JOIN_URL,
-                ctaLabel: "Join Community",
+                action: "link" as const,
+                href: "/contact?topic=waitlist&offering=study-planner",
+                ctaLabel: CTAS.joinWaitlist,
               },
               {
                 title: "Cert Comparison",
@@ -748,17 +730,16 @@ export function Home() {
                 icon: LayoutDashboard,
                 color: "text-indigo-600",
                 action: "link" as const,
-                href: "/certifications/compare",
-                ctaLabel: 'Compare Certifications',
+                href: COMPARE_PATHWAYS_HREF,
+                ctaLabel: CTAS.comparePathways,
               },
               {
                 title: "Roadmap Guidance",
                 desc: "Step-by-step career progression maps.",
                 icon: Map,
                 color: "text-emerald-600",
-                action: "calendly" as const,
-                calendlyUrl: getWebsiteCalendlyUrl('discovery'),
-                ctaLabel: CTAS.talkToMentor,
+                action: "scroll" as const,
+                ctaLabel: CTAS.pmp2026Roadmap,
               },
             ].map((tool, index) => (
               <motion.div
@@ -779,22 +760,14 @@ export function Home() {
                     </CardDescription>
                   </CardHeader>
                   <CardFooter className="mt-auto border-0 bg-transparent p-6 pt-0">
-                    {tool.action === 'calendly' ? (
-                      <Button
-                        type="button"
-                        className="w-full h-12 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base shadow-md shadow-brand-orange/20 dark:bg-brand-orange dark:hover:bg-brand-hover dark:text-white group/link"
-                        onClick={() => {
-                          void openCalendlyThemedPopup(tool.calendlyUrl, {
-                            funnelLabel: 'home_tool_calendly',
-                          });
-                        }}
-                      >
-                        {tool.ctaLabel ?? 'Try Tool'}
-                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/link:translate-x-1" />
-                      </Button>
+                    {tool.action === 'scroll' ? (
+                      <PmpRoadmapCtaLink
+                        label={tool.ctaLabel}
+                        className="w-full h-12 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base shadow-md shadow-brand-orange/20"
+                      />
                     ) : (
                       <Link
-                        href={tool.href}
+                        href={tool.href!}
                         className="w-full"
                         {...(tool.action === 'external'
                           ? { target: '_blank', rel: 'noopener noreferrer' }
@@ -960,34 +933,12 @@ export function Home() {
                   'Start with eligibility, timeline, and weekly study capacity.'}
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-                {finalCta?.ctaLink ? (
-                  <Link href={finalCta.ctaLink} className="w-full sm:w-auto">
-                    <Button size="lg" className="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl shadow-xl transition-all group/btn">
-                      {finalCta.ctaText || 'Learn More'}
-                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
-                    </Button>
-                  </Link>
-                ) : (
-                  <WebsiteCalendlyButton
-                    size="lg"
-                    tier="discovery"
-                    className="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl shadow-xl transition-all group/btn"
-                    funnelLabel="home_final_cta_consultation"
-                    utm={{ utm_source: 'pmstructure', utm_medium: 'website', utm_campaign: 'home_final' }}
-                  >
-                    {CTAS.talkToMentor}
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
-                  </WebsiteCalendlyButton>
-                )}
-                <Link href="/certifications" className="w-full sm:w-auto">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-full sm:w-auto border-white/20 bg-white text-black hover:bg-slate-100 hover:text-black dark:bg-transparent dark:text-white dark:border-white/30 dark:hover:bg-white/10 dark:hover:text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl transition-all"
-                  >
-                    Browse Courses
-                  </Button>
-                </Link>
+                <PmpRoadmapCtaLink
+                  className="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl shadow-xl"
+                />
+                <ComparePathwaysCtaLink
+                  buttonClassName="w-full sm:w-auto border-white/20 bg-white text-black hover:bg-slate-100 hover:text-black dark:bg-transparent dark:text-white dark:border-white/30 dark:hover:bg-white/10 dark:hover:text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl transition-all"
+                />
               </div>
             </div>
           </motion.div>

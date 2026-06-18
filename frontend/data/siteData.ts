@@ -43,9 +43,27 @@ export const familyConfigs: Record<string, FamilyConfig> = {
 };
 
 export const featuredCertifications = [
-  { id: "pmp", title: "PMP®", desc: "Flagship PMI readiness pathway with structured ECO coverage and scenario-based preparation.", family: "PMI", color: "#6D28D9" },
-  { id: "prince2", title: "PRINCE2®", desc: "Governance-led methodology preparation for controlled delivery through stages and tolerances.", family: "PRINCE2", color: "#0F766E" },
-  { id: "lss-green", title: "Lean Six Sigma", desc: "Process-improvement pathway built on DMAIC discipline and measurable operational outcomes.", family: "SixSigma", color: "#15803D" },
+  {
+    id: 'pmp',
+    title: 'PMP 2026 Readiness Pathway',
+    desc: 'For working professionals preparing around the July 2026 PMP exam change. Structured roadmap, eligibility guidance, study plan, mock tracking, and mentor-led readiness support.',
+    family: 'PMI',
+    color: '#6D28D9',
+  },
+  {
+    id: 'prince2',
+    title: 'PRINCE2 Practitioner Pathway',
+    desc: 'For professionals who need a process-based project management framework, especially in organizations that use structured governance, controlled stages, and formal project boards.',
+    family: 'PRINCE2',
+    color: '#0F766E',
+  },
+  {
+    id: 'lss-green',
+    title: 'Lean Six Sigma Pathway',
+    desc: 'For professionals focused on process improvement, operational efficiency, waste reduction, and measurable business performance improvement.',
+    family: 'SixSigma',
+    color: '#15803D',
+  },
 ];
 
 export const certifications: CertificationSummary[] = [

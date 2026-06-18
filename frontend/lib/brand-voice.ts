@@ -107,6 +107,13 @@ export const CTAS = {
   /** Home hero Calendly consultation (≤5 words). */
   websiteHeroConsultation: 'Talk to Mentor',
 
+  /** T-169 flagship primary CTA (task copy; 6 words). */
+  pmp2026Roadmap: 'Get My PMP 2026 Roadmap',
+
+  comparePathways: 'Compare Certification Pathways',
+
+  joinWaitlist: 'Join Waitlist',
+
 } as const;
 
 
@@ -125,24 +132,26 @@ export function tierDisplayName(tier: 'Foundation' | 'Professional' | 'Elite'): 
 
 export const HOME_COPY = {
 
-  heroBadge: 'Prepare with structure',
+  heroBadge: 'PMP 2026 Readiness Pathway',
 
-  heroTitle: 'Project management guidance',
+  heroTitle: 'Prepare for the PMP exam change with a clear route, not random study noise.',
 
   heroTitleAccents: [
-    'PMP mentorship',
-    'Certification mentorship',
-    'Certification readiness',
+    'PMP 2026 readiness',
   ] as const,
 
   /** @deprecated Use heroTitleAccents; kept for CMS default string */
-  heroTitleAccent: 'PMP mentorship',
+  heroTitleAccent: 'PMP 2026 readiness',
 
-  heroSubtitle: BRAND_LINES.promise,
+  heroSubtitle:
+    'The PMP exam changes on 9 July 2026. PM Structure helps working professionals decide whether they are preparing for the current or updated exam, map their eligibility, organize study effort, and track readiness with mentor-led structure.',
 
-  ctaPrimary: 'Talk to Mentor',
+  heroMicrocopy:
+    'Independent exam-prep and readiness support. PM Structure is not PMI and does not issue PMI certifications. Always verify exam rules and eligibility with PMI before applying or booking.',
 
-  ctaSecondary: 'Find your pathway',
+  ctaPrimary: 'Get My PMP 2026 Roadmap',
+
+  ctaSecondary: 'Compare Certification Pathways',
 
   frameworksTitle: 'Programme families',
 
@@ -152,7 +161,7 @@ export const HOME_COPY = {
 
   featuredSubtitle:
 
-    'Pathways aligned to current exam standards and practical judgment.',
+    'PMP 2026 readiness is the flagship pathway. Other certifications remain available for comparison and waitlist interest.',
 
   membershipSubtitle:
 

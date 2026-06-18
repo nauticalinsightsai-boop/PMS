@@ -1,4 +1,5 @@
 import { CTAS } from '@/lib/brand-voice';
+import { PMP_ROADMAP_CTA_LABEL } from '@/lib/pmp-roadmap-cta';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL } from '@/config/pms-site';
 import type { BottomBarPageGroup, BottomBarRotation } from './types';
 import { getPathwayModalTierOpened } from './session-state';
@@ -28,18 +29,18 @@ function defaultRotations(): BottomBarRotation[] {
   return [
     {
       id: 'r1',
-      headline: 'Plan your certification pathway with structure',
-      body: 'Independent exam prep across PMI, PRINCE2, and Lean Six Sigma.',
-      primary: { type: 'calendly_hero' },
-      secondary: { type: 'link', href: '/certifications', label: CTAS.findPathway },
+      headline: 'Plan your PMP 2026 readiness route',
+      body: 'Get a structured roadmap before you commit study time or book the exam.',
+      primary: { type: 'scroll', anchor: 'pmp-roadmap-form', label: PMP_ROADMAP_CTA_LABEL },
+      secondary: { type: 'link', href: '/certifications/compare', label: CTAS.comparePathways },
       dismissLabel: 'Not now',
       variant: 'bottom_bar_r1',
     },
     {
       id: 'r2',
       headline: 'PMP 2026 is changing: check readiness',
-      body: 'Use the diagnostic or talk to a mentor before exam day.',
-      primary: { type: 'link', href: '/pmp-readiness-diagnostic', label: CTAS.readinessCheck },
+      body: 'Use the diagnostic or review the updated exam guide before exam day.',
+      primary: { type: 'scroll', anchor: 'pmp-roadmap-form', label: PMP_ROADMAP_CTA_LABEL },
       secondary: { type: 'link', href: '/pmp-exam-2026', label: 'PMP 2026 guide' },
       dismissLabel: 'Maybe later',
       variant: 'bottom_bar_r2',
@@ -48,8 +49,8 @@ function defaultRotations(): BottomBarRotation[] {
       id: 'r3',
       headline: 'Join 1,284+ professionals in the network',
       body: "Don't study in isolation: connect with structured prep circles.",
-      primary: { type: 'link', href: PMS_SKOOL_COMMUNITY_JOIN_URL, label: 'Join community' },
-      secondary: { type: 'calendly_hero' },
+      primary: { type: 'scroll', anchor: 'pmp-roadmap-form', label: PMP_ROADMAP_CTA_LABEL },
+      secondary: { type: 'link', href: PMS_SKOOL_COMMUNITY_JOIN_URL, label: 'Join community' },
       dismissLabel: 'Skip',
       variant: 'bottom_bar_r3',
     },
@@ -69,10 +70,10 @@ const GROUP_ROTATIONS: Partial<Record<BottomBarPageGroup, BottomBarRotation[]>> 
   cert_detail: [
     {
       id: 'cert-r1',
-      headline: 'Build your certification roadmap',
-      body: "Share your experience: we'll map a study plan for your tier.",
-      primary: { type: 'scroll', anchor: 'cert-roadmap-form', label: 'Get my roadmap' },
-      secondary: { type: 'calendly_hero' },
+      headline: 'Build your PMP 2026 roadmap',
+      body: "Share your experience: we'll map a study plan for your route.",
+      primary: { type: 'link', href: '/#pmp-roadmap-form', label: PMP_ROADMAP_CTA_LABEL },
+      secondary: { type: 'link', href: '/certifications/compare', label: CTAS.comparePathways },
       dismissLabel: 'Not now',
       variant: 'bottom_bar_r1',
     },
@@ -82,9 +83,9 @@ const GROUP_ROTATIONS: Partial<Record<BottomBarPageGroup, BottomBarRotation[]>> 
     {
       id: 'pmp-r1',
       headline: 'PMP 2026: get structured guidance',
-      body: 'Compare pathways or check readiness before you commit.',
-      primary: { type: 'link', href: '/pmp-readiness-diagnostic', label: CTAS.readinessCheck },
-      secondary: { type: 'link', href: '/certifications/pmp', label: 'PMP pathways' },
+      body: 'Start with the roadmap before you choose an exam date or study plan.',
+      primary: { type: 'link', href: '/#pmp-roadmap-form', label: PMP_ROADMAP_CTA_LABEL },
+      secondary: { type: 'link', href: '/certifications/compare', label: CTAS.comparePathways },
       dismissLabel: 'Not now',
       variant: 'bottom_bar_r1',
     },

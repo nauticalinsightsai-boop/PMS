@@ -1,5 +1,13 @@
 import type { PmpHubCard, PmpPageContent } from './types';
 import { PMP_SOURCE_TODO } from './disclaimer';
+import {
+  T169_FAQS,
+  T169_PMP_PAGE,
+  T169_ROADMAP_STEPS,
+  T169_SEO,
+  T169_WHO_FOR,
+  T169_WHO_NOT_FOR,
+} from '@/content/pmp/flagship-t169';
 
 const clusterLinks = (current: string): PmpPageContent['relatedLinks'] => [
   { href: '/pmp', label: 'PMP hub' },
@@ -79,49 +87,48 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-exam-2026',
     path: '/pmp-exam-2026',
-    title: 'PMP exam 2026: changes, timeline & preparation',
-    description:
-      'Independent guide to the 2026 PMP exam transition: current vs new format, key dates, domains, and how to prepare with PM Structure.',
-    h1: 'PMP exam 2026: what candidates need to know',
-    directAnswer:
-      'PMI has communicated a transition to an updated PMP exam experience with a key date of 9 July 2026 for the new format. Candidates should confirm official PMI guidance, decide whether to test before or after that date, and align study plans to the exam version they will sit.',
+    title: T169_SEO.pmpTitle,
+    description: T169_SEO.pmpDescription,
+    h1: T169_PMP_PAGE.h1,
+    directAnswer: T169_PMP_PAGE.intro,
     sections: [
       {
-        id: 'what-is-changing',
-        heading: 'What is changing in 2026?',
-        body:
-          'The PMP credential remains the flagship PMI certification, but exam emphasis continues to evolve toward situational judgment, professional responsibility, and modern delivery contexts. Treat any domain-level detail on this site as orientation only until cross-checked with the current PMI Exam Content Outline (ECO) and handbook.',
+        id: 'current-vs-updated',
+        heading: T169_PMP_PAGE.currentVsUpdatedHeading,
+        body: T169_PMP_PAGE.currentVsUpdatedTable,
       },
       {
-        id: 'who-should-read',
-        heading: 'Who should use this guide?',
-        body:
-          'Project managers planning PMP readiness in 2026, career-changers evaluating timing, and employers supporting certification pathways. PM Structure provides independent preparation pathways: not official PMI registration or exam delivery.',
+        id: 'domain-changes',
+        heading: T169_PMP_PAGE.domainHeading,
+        body: `${T169_PMP_PAGE.domainBody}\n\n${T169_PMP_PAGE.domainTable}\n\n${T169_PMP_PAGE.domainNote}`,
       },
       {
-        id: 'decision-framework',
-        heading: 'How should I decide when to sit the exam?',
-        body:
-          'Use our before/after July pages and timeline to map your study capacity. If you are exam-ready before mid-2026, sitting the current format may reduce uncertainty. If you need more preparation time, plan for the post-9 July experience and scenario-heavy practice.',
+        id: 'roadmap-steps',
+        heading: T169_ROADMAP_STEPS.heading,
+        body: T169_ROADMAP_STEPS.steps
+          .map((step, index) => `**${index + 1}. ${step.title}** — ${step.body}`)
+          .join('\n\n'),
       },
       {
-        id: 'pathway-cta',
-        heading: 'PM Structure PMP pathways',
-        body:
-          'Explore Foundation, Professional, and Mastery tiers on the PMP certification page. Enrollment and checkout are separate from these informational guides.',
+        id: 'who-for',
+        heading: T169_WHO_FOR.heading,
+        body: T169_WHO_FOR.bullets.map((item) => `- ${item}`).join('\n'),
+      },
+      {
+        id: 'who-not-for',
+        heading: T169_WHO_NOT_FOR.heading,
+        body: T169_WHO_NOT_FOR.bullets.map((item) => `- ${item}`).join('\n'),
+      },
+      {
+        id: 'compliance',
+        heading: 'Review and verification',
+        body: T169_PMP_PAGE.disclaimer,
       },
     ],
-    faqs: [
-      {
-        question: 'Is the PMP exam changing in 2026?',
-        answer:
-          'PMI has announced a transition period around 9 July 2026 for an updated exam experience. Verify dates and scope on PMI.org before scheduling.',
-      },
-      {
-        question: 'Does PM Structure guarantee PMP pass results?',
-        answer: 'No. We provide independent exam preparation support; outcomes depend on your study time, experience, and exam performance.',
-      },
-    ],
+    faqs: T169_FAQS.map((faq) => ({
+      question: faq.question,
+      answer: faq.answer,
+    })),
     relatedLinks: [
       ...clusterLinks('/pmp-exam-2026'),
       { href: '/answers/is-the-pmp-exam-changing-in-2026', label: 'Is the PMP exam changing in 2026?' },
