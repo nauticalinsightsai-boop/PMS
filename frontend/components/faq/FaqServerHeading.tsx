@@ -6,14 +6,10 @@ export function FaqServerHeading() {
 
     <header className="sr-only">
 
-      <h1>FAQ. PMP 2026, Certifications, Pricing &amp; Support</h1>
-
+      <h1>PM Structure FAQ</h1>
       <p>
-
-        PMP exam 2026 FAQs plus PRINCE2 pathways, regional scholarship pricing, membership, delivery,
-
-        privacy, and exam preparation on PM Structure.
-
+        Find answers about PM Structure, PMP 2026 readiness, certification-body ownership,
+        training-hour guidance, exam fees, membership, and independent preparation support.
       </p>
 
     </header>

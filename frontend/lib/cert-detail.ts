@@ -47,7 +47,9 @@ export function resolveCertMarketing(
     recommendedCTA: pickRegistryString(registryEntry?.recommendedCta, siteCert.recommendedCTA),
     regionalDemand: pickRegistryString(registryEntry?.regionalDemand, siteCert.regionalDemand),
     outputValue: pickRegistryString(registryEntry?.outputValue, siteCert.outputValue),
-    detailHeroTitle: registryEntry?.detailHeroTitle ?? `${siteCert.name} Pathway`,
+    detailHeroTitle:
+      registryEntry?.detailHeroTitle ??
+      (siteCert.id === 'pmp' ? 'PMP 2026 Readiness Pathway' : `${siteCert.name} Pathway`),
     detailHeroSubtitle:
       registryEntry?.detailHeroSubtitle ?? registryEntry?.desc ?? siteCert.desc,
     outputValueDisplay: pickRegistryString(registryEntry?.outputValue, siteCert.outputValue),

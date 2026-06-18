@@ -5,9 +5,9 @@ const pages: AnswerPageContent[] = [
     slug: 'is-the-pmp-exam-changing-in-2026',
     path: '/answers/is-the-pmp-exam-changing-in-2026',
     question: 'Is the PMP exam changing in 2026?',
-    title: 'Is the PMP exam changing in 2026?',
+    title: 'Is the PMP Exam Changing in 2026? | PM Structure',
     description:
-      'Independent answer on the 2026 PMP exam transition, key dates, and how candidates should verify official PMI guidance.',
+      'Yes. The PMP exam changes in July 2026. Learn what the change means, whether to prepare for the current or updated exam, and how to plan your PMP route.',
     shortAnswer:
       'Yes. PMI has communicated an updated PMP exam experience with a transition around 9 July 2026. Confirm dates and scope on PMI.org before scheduling.',
     detailedAnswer:
@@ -23,6 +23,9 @@ const pages: AnswerPageContent[] = [
       { href: '/pmp-professional', label: 'PMP Professional pathway' },
     ],
     relatedPages: [
+      { href: '/certifications/pmp', label: 'PMP 2026 Readiness Pathway' },
+      { href: '/topics/pmp-exam-2026', label: 'PMP exam 2026 guide' },
+      { href: '/faq', label: 'PM Structure FAQ' },
       { href: '/pmp-exam-2026', label: 'PMP exam 2026 hub guide' },
       { href: '/pmp-exam-timeline-2026', label: '2026 timeline' },
     ],

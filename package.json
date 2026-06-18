@@ -80,6 +80,7 @@
     "seo:ai-files-check": "node scripts/seo/ai-files-check.mjs",
     "seo:course-check": "node scripts/seo/course-check.mjs",
     "seo:internal-links-check": "node scripts/seo/internal-links-check.mjs",
+    "seo:keyword-map-check": "node scripts/seo/keyword-map-check.mjs",
     "seo:audit": "node scripts/seo/audit.mjs",
     "seo:metadata-check": "node scripts/seo/metadata-check.mjs",
     "seo:robots-check": "node scripts/seo/robots-check.mjs",

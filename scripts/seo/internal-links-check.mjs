@@ -12,6 +12,20 @@ const frontend = path.join(root, 'frontend');
 const hub = fs.readFileSync(path.join(frontend, 'components/pmp/PmpHubPage.tsx'), 'utf8');
 const pages = fs.readFileSync(path.join(frontend, 'content/pmp/pages.ts'), 'utf8');
 const home = fs.readFileSync(path.join(frontend, 'components/pages/Home.tsx'), 'utf8');
+const homePage = fs.readFileSync(path.join(frontend, 'app/(site)/page.tsx'), 'utf8');
+const phase2Path = path.join(frontend, 'content/seo/phase-2-page-seo.ts');
+let homePhase2Block = '';
+if (fs.existsSync(phase2Path)) {
+  const phase2 = fs.readFileSync(phase2Path, 'utf8');
+  const homeStart = phase2.indexOf("  '/': {");
+  const homeEnd = phase2.indexOf("  '/certifications': {");
+  if (homeStart >= 0 && homeEnd > homeStart) {
+    homePhase2Block = phase2.slice(homeStart, homeEnd);
+  }
+}
+const homeUsesPhase2Related =
+  homePage.includes('RelatedGuidesLinks') && homePage.includes('getPhase2Seo');
+const homeLinks = home + homePage + (homeUsesPhase2Related ? homePhase2Block : '');
 const footer = fs.readFileSync(path.join(frontend, 'components/Footer.tsx'), 'utf8');
 
 const hubLinks = ['/answers', '/topics', '/pmp-readiness-diagnostic', '/pmp-enrollment'];
@@ -36,7 +50,7 @@ for (const href of siteWideLinks) {
     console.error(`internal-links-check FAIL: Footer missing link to ${href}`);
     failed = true;
   }
-  if (!home.includes(href)) {
+  if (!homeLinks.includes(href)) {
     console.error(`internal-links-check FAIL: Home missing link to ${href}`);
     failed = true;
   }

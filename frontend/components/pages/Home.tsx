@@ -308,7 +308,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                     <CardFooter className="p-0 pt-6">
                       <Link href={item.link}>
                         <Button variant="link" className="p-0 h-auto text-brand-orange font-bold">
-                          Read More <ArrowRight className="ml-2 h-4 w-4" />
+                          Read article: {item.title} <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </Link>
                     </CardFooter>

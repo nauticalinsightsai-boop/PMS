@@ -10,6 +10,10 @@ import {
 import { canonicalUrl } from '@/lib/canonical';
 import { robotsForPath } from '@/lib/indexing-metadata';
 import { T176_SEO, T176_SCHEMA } from '@/content/t176-claims';
+import {
+  getPhase2Seo,
+  titleNeedsNoSuffix,
+} from '@/content/seo/phase-2-page-seo';
 import * as siteData from '@/data/siteData';
 
 export { PMS_SITE_URL as SITE_URL };
@@ -61,11 +65,22 @@ export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
 }
 
 export function buildCertMetadata(certId: string): Metadata {
+  const path = `/certifications/${certId}`;
+  const phase2 = getPhase2Seo(path);
+  if (phase2) {
+    return buildPageMetadata({
+      title: phase2.title,
+      description: phase2.description,
+      path: phase2.canonicalPath,
+      noSuffix: titleNeedsNoSuffix(phase2.title),
+      ogImage: PMS_OG_IMAGE_PATH,
+    });
+  }
   const cert = siteData.certifications.find((c) => c.id === certId);
   if (!cert) {
     return buildPageMetadata({
       title: 'Certification pathway',
-      path: `/certifications/${certId}`,
+      path,
     });
   }
   const familyDescription =
@@ -82,6 +97,18 @@ export function buildCertMetadata(certId: string): Metadata {
     description: familyDescription,
     path: `/certifications/${certId}`,
     ogImage: PMS_OG_IMAGE_PATH,
+  });
+}
+
+/** T-022: metadata from Phase Two map when defined. */
+export function buildPhase2PageMetadata(path: string): Metadata | null {
+  const phase2 = getPhase2Seo(path);
+  if (!phase2) return null;
+  return buildPageMetadata({
+    title: phase2.title,
+    description: phase2.description,
+    path: phase2.canonicalPath,
+    noSuffix: titleNeedsNoSuffix(phase2.title),
   });
 }
 

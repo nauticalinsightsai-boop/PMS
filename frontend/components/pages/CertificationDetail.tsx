@@ -50,6 +50,8 @@ import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnroll
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
 import { CertComplianceNote } from '@/components/cert/CertComplianceNote';
+import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
+import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
 
 const CertProgramHighlightsContent = dynamic(
   () =>
@@ -203,20 +205,12 @@ export function CertificationDetail() {
               </p>
 
               {cert.id === 'pmp' ? (
-                <div className="mb-8 rounded-2xl border border-brand-purple/25 bg-brand-purple/5 p-5">
-                  <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">
-                    PMP exam 2026 transition
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                    Independent guides for the 2026 exam change, timeline, domains, and study planning.
-                  </p>
-                  <Link
-                    href="/pmp-exam-2026"
-                    className="text-sm font-bold text-brand-purple hover:underline"
-                  >
-                    Read the PMP 2026 guide →
-                  </Link>
-                </div>
+                <RelatedGuidesLinks
+                  title={getPhase2RelatedBlock('/certifications/pmp')?.title ?? 'Plan your PMP 2026 route'}
+                  links={getPhase2RelatedBlock('/certifications/pmp')?.links ?? []}
+                  currentPath="/certifications/pmp"
+                  className="mb-8"
+                />
               ) : null}
 
               <div className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm mb-10">

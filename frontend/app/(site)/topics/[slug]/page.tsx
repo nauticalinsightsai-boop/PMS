@@ -7,6 +7,7 @@ import {
   isTopicPublished,
 } from '@/content/topics';
 import { buildPageMetadata } from '@/lib/site-metadata';
+import { getPhase2Seo, titleNeedsNoSuffix } from '@/content/seo/phase-2-page-seo';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -18,6 +19,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const hub = getTopicHub(slug);
   if (!hub) return {};
+  const phase2 = getPhase2Seo(hub.path);
+  if (phase2) {
+    return buildPageMetadata({
+      title: phase2.title,
+      description: phase2.description,
+      path: phase2.canonicalPath,
+      noSuffix: titleNeedsNoSuffix(phase2.title),
+      ...(hub.status && !isTopicPublished(hub) ? { robots: { index: false, follow: false } } : {}),
+    });
+  }
   const title = hub.title.includes('| PM Structure')
     ? hub.title
     : `${hub.title} | PM Structure`;

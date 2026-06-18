@@ -31,3 +31,5 @@ Search Console sitemap submission (T-016): see `PMSTRUCTURE_SEARCH_CONSOLE_SUBMI
 Robots.txt sitemap reference (T-017): see `PMSTRUCTURE_ROBOTS_SITEMAP_CHECK.md` and `.cursor/plans/t-017_robots_sitemap.plan.md`.
 
 Owner GSC/Bing UI steps (5 min): see `PMSTRUCTURE_OWNER_SEO_UI_CHECKLIST.md`.
+
+Keyword & anchor map Phase Two (T-022): see `PMSTRUCTURE_KEYWORD_ANCHOR_MAP_PHASE_2.md`, `pmstructure-keyword-anchor-map-phase-2.csv`, and `.cursor/plans/t-022_keyword_anchor_map.plan.md`.

@@ -34,9 +34,10 @@ const hubs: TopicHubContent[] = [
   {
     slug: 'pmp-exam-2026',
     path: '/topics/pmp-exam-2026',
-    title: 'PMP exam 2026: knowledge hub',
-    description: '2026 PMP transition guides, timeline, domain orientation, and preparation on PM Structure.',
-    h1: 'PMP exam 2026. PM Structure knowledge hub',
+    title: 'PMP Exam 2026 Guide | Changes, Timeline & Preparation',
+    description:
+      'Understand the PMP exam 2026 change, updated exam route, domain weighting, timeline decisions, and preparation structure with PM Structure.',
+    h1: 'PMP Exam 2026 Guide',
     whatIs:
       'The 2026 PMP narrative centers on a transition to an updated exam experience, commonly anchored around 9 July 2026. Verify all dates on PMI.org.',
     whyMatters:
@@ -44,6 +45,7 @@ const hubs: TopicHubContent[] = [
     viewpoint:
       'Our cluster pages explain before/after July decisions without inventing official domain weights. Cross-check PMI publications.',
     resources: [
+      { href: '/certifications/pmp', label: 'PMP 2026 Readiness Pathway' },
       { href: '/pmp-exam-2026', label: 'Main 2026 guide' },
       { href: '/pmp-current-vs-new-exam', label: 'Current vs new exam' },
       { href: '/pmp-exam-timeline-2026', label: 'Timeline' },

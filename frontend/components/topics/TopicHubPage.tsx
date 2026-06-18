@@ -5,6 +5,8 @@ import { PMP_INDEPENDENT_DISCLAIMER } from '@/content/pmp/disclaimer';
 import type { TopicHubContent } from '@/content/topics/types';
 import { getTopicFaqsForHub } from '@/content/topics';
 import { TopicHubJsonLd } from '@/components/seo/TopicHubJsonLd';
+import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
+import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { cn } from '@/lib/utils';
@@ -17,6 +19,7 @@ export function TopicHubPage({ hub }: { hub: TopicHubContent }) {
   const name = topicShortName(hub.h1);
   const relatedFaqs = getTopicFaqsForHub(hub);
   const prepPages = [...hub.resources, ...(hub.relatedCourses ?? [])];
+  const phase2Related = getPhase2RelatedBlock(hub.path);
 
   return (
     <>
@@ -158,6 +161,14 @@ export function TopicHubPage({ hub }: { hub: TopicHubContent }) {
                 ))}
               </ul>
             </section>
+          ) : null}
+
+          {phase2Related ? (
+            <RelatedGuidesLinks
+              title={phase2Related.title}
+              links={phase2Related.links}
+              currentPath={hub.path}
+            />
           ) : null}
 
           <p className="text-sm text-slate-500 border-t pt-6">{PMP_INDEPENDENT_DISCLAIMER}</p>

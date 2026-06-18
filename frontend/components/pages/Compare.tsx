@@ -11,6 +11,8 @@ import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { CompareCertPicker } from '@/components/CompareCertPicker';
 import { CompareComparisonMatrix } from '@/components/CompareComparisonMatrix';
 import { PricingComplianceNote } from '@/components/PricingComplianceNote';
+import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
+import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
 import {
   compareIdsToQuery,
   getCompareableCertifications,
@@ -81,7 +83,7 @@ export function Compare() {
             {get('compare_badge', 'Comparison matrix')}
           </Badge>
           <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
-            {get('compare_title', 'Compare certifications')}
+            {get('compare_title', 'Compare project management certifications')}
           </h1>
           <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
             {get(
@@ -153,6 +155,16 @@ export function Compare() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className={sectionSurface('soft', 'py-16 border-t border-sandstone/60 dark:border-slate-800')}>
+        <div className="container relative z-10 mx-auto max-w-3xl px-4">
+          <RelatedGuidesLinks
+            title={getPhase2RelatedBlock('/certifications/compare')?.title ?? 'Compare your next certification route'}
+            links={getPhase2RelatedBlock('/certifications/compare')?.links ?? []}
+            currentPath="/certifications/compare"
+          />
         </div>
       </section>
     </div>

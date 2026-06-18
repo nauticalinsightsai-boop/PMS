@@ -11,6 +11,8 @@ import {
   stepContainsInternalPath,
 } from '@/content/answers/next-step-labels';
 import { AnswerJsonLd } from '@/components/seo/AnswerJsonLd';
+import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
+import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { cn } from '@/lib/utils';
@@ -49,6 +51,7 @@ function AnswerNextStep({ step }: { step: string }) {
 
 export function AnswerPage({ page }: { page: AnswerPageContent }) {
   const linkedFaqs = [...(page.faqs ?? []), ...getAnswerFaqsForPage(page)];
+  const phase2Related = getPhase2RelatedBlock(page.path);
   return (
     <>
       <ConversionViewTracker
@@ -205,7 +208,15 @@ export function AnswerPage({ page }: { page: AnswerPageContent }) {
               </Link>
             </div>
 
-            <p className="text-sm text-slate-500 border-t pt-6">
+            {phase2Related ? (
+              <RelatedGuidesLinks
+                title={phase2Related.title}
+                links={phase2Related.links}
+                currentPath={page.path}
+              />
+            ) : null}
+
+            <p className="text-sm text-slate-500 border-t pt-6 mt-10">
               {PMP_INDEPENDENT_DISCLAIMER}{' '}
               <Link href="/legal/pricing-disclaimers#independent-platform" className="text-brand-purple hover:underline">
                 Independent platform notice
