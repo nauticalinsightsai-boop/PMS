@@ -1,9 +1,9 @@
 'use client';
 
+import Script from 'next/script';
 import { useEffect, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { isGaConfigured } from '@/lib/analytics/ga-config';
-import { loadGtagScript } from '@/lib/analytics/load-gtag';
+import { getGaMeasurementId, isGaConfigured } from '@/lib/analytics/ga-config';
 import { trackPageView } from '@/lib/analytics/funnel';
 import { hasAnalyticsConsent } from '@/lib/legal/consent';
 
@@ -11,21 +11,20 @@ import { hasAnalyticsConsent } from '@/lib/legal/consent';
 export function GoogleAnalytics() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const measurementId = getGaMeasurementId();
+  const [consentGranted, setConsentGranted] = useState(false);
   const [gaReady, setGaReady] = useState(false);
 
   useEffect(() => {
     if (!isGaConfigured()) return;
 
-    const sync = async () => {
-      if (!hasAnalyticsConsent()) {
-        setGaReady(false);
-        return;
-      }
-      await loadGtagScript();
-      setGaReady(true);
+    const sync = () => {
+      const granted = hasAnalyticsConsent();
+      setConsentGranted(granted);
+      if (!granted) setGaReady(false);
     };
 
-    void sync();
+    sync();
     window.addEventListener('legal-consent-updated', sync);
     return () => window.removeEventListener('legal-consent-updated', sync);
   }, []);
@@ -37,5 +36,25 @@ export function GoogleAnalytics() {
     trackPageView(path, window.location.href, document.title);
   }, [gaReady, pathname, searchParams]);
 
-  return null;
+  if (!measurementId || !consentGranted) return null;
+
+  return (
+    <>
+      <Script id="ga4-init" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = window.gtag || gtag;
+          gtag('js', new Date());
+          gtag('config', '${measurementId}', { send_page_view: false });
+        `}
+      </Script>
+      <Script
+        id="ga4-script"
+        src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
+        strategy="afterInteractive"
+        onLoad={() => setGaReady(true)}
+      />
+    </>
+  );
 }

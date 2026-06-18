@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ??
       process.env.STRIPE_PUBLISHABLE_KEY ??
       '',
+    NEXT_PUBLIC_GA_MEASUREMENT_ID:
+      process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() || 'G-E9QRM0GQ1W',
   },
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },

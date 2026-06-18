@@ -19,6 +19,10 @@ NEXT_PUBLIC_API_URL=https://pmstructure.com
 NEXT_PUBLIC_DASHBOARD_URL=https://pmstructure.com
 NEXT_PUBLIC_BASE_PATH=/admin
 
+# GA4 — consent-gated direct gtag.js (see docs/internal/PMSTRUCTURE_ANALYTICS_SETUP.md)
+# Default build fallback G-E9QRM0GQ1W if unset — owner must confirm production ID
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-E9QRM0GQ1W
+
 # Do NOT set BACKEND_URL on the marketing project unless you deploy a separate backend
 # Vercel project and opt in with USE_BACKEND_PROXY=true. All /api/* routes (checkout,
 # regions, catalogue, Stripe webhook, …) are bundled into this deployment at build time.

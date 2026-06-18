@@ -17,3 +17,7 @@ Kill/pivot review: see `PMSTRUCTURE_KILL_PIVOT_THRESHOLDS.md`, `pmstructure-kill
 90-day marketing schedule: see `PMSTRUCTURE_90_DAY_MARKETING_SCHEDULE.md` and `pmstructure-90-day-marketing-schedule.csv`.
 
 Canonical host / redirects: see `PMSTRUCTURE_REDIRECT_DEPLOYMENT_NOTE.md`.
+
+Performance budget: see `PMSTRUCTURE_PERFORMANCE_BUDGET.md`.
+
+Analytics setup (GA4 base tracking): see `PMSTRUCTURE_ANALYTICS_SETUP.md`.

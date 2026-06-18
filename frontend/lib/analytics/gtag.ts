@@ -1,6 +1,7 @@
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
   }
 }
 
@@ -12,4 +13,3 @@ export function trackEvent(eventName: string, params?: Record<string, unknown>) 
   if (!hasAnalyticsConsent()) return;
   window.gtag('event', eventName, params || {});
 }
-

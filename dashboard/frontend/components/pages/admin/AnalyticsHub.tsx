@@ -58,7 +58,10 @@ export function AnalyticsHub() {
         <ul className="text-sm text-muted-foreground space-y-2 list-disc pl-5">
           <li>Use <strong className="text-foreground font-medium">Reports → Realtime</strong> to confirm live traffic after deploy.</li>
           <li>Conversion events (enroll clicks, Calendly, leads) appear under Events once users accept cookies.</li>
-          <li>Set <code className="text-xs">NEXT_PUBLIC_GA_MEASUREMENT_ID</code> on the marketing Vercel project if not already deployed.</li>
+          <li>
+            Measurement ID <code className="text-xs">{GA4_MEASUREMENT_ID}</code> is baked into the marketing build
+            (override with <code className="text-xs">NEXT_PUBLIC_GA_MEASUREMENT_ID</code> on Vercel if needed).
+          </li>
         </ul>
       </GlassCard>
     </div>
