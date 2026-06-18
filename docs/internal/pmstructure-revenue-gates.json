@@ -1,0 +1,60 @@
+{
+  "business": "PM Structure",
+  "status": "internal_only",
+  "lastUpdated": "2026-06-18",
+  "primaryOffer": "PMP 2026 Readiness Pathway",
+  "reviewFrequency": "monthly",
+  "currency": {
+    "primary": "USD",
+    "secondary": "PKR"
+  },
+  "revenueGates": [
+    {
+      "name": "Pre-proof",
+      "minMonthlyRevenueUsd": 0,
+      "maxMonthlyRevenueUsd": 1499,
+      "decision": "Do not add retainers, ads, new freelancers, new certification pathways, or non-critical software."
+    },
+    {
+      "name": "Survival proof",
+      "minMonthlyRevenueUsd": 1500,
+      "maxMonthlyRevenueUsd": 4999,
+      "decision": "Keep burn low. Only reinvest into proven conversion, delivery, analytics, and sales follow-up."
+    },
+    {
+      "name": "Healthy early proof",
+      "minMonthlyRevenueUsd": 5000,
+      "maxMonthlyRevenueUsd": 9999,
+      "decision": "Allow limited reinvestment into proven revenue paths."
+    },
+    {
+      "name": "Strong niche signal",
+      "minMonthlyRevenueUsd": 10000,
+      "maxMonthlyRevenueUsd": 20000,
+      "decision": "Controlled scaling may begin, with burn review and proof-based spending."
+    }
+  ],
+  "requiredBeforePaidAds": [
+    "Focused PMP 2026 landing page",
+    "Working primary CTA",
+    "Working lead form",
+    "Confirmed lead destination",
+    "GA4/GTM conversion tracking",
+    "Thank-you page or confirmation event",
+    "Follow-up script",
+    "Clear offer price",
+    "Clear refund and terms wording",
+    "Budget cap",
+    "Stop-loss rule"
+  ],
+  "expansionAllowedWhenAtLeastTwoAreTrue": [
+    "20 paid learners reached",
+    "5 verified testimonials with permission collected",
+    "1 corporate lead generated",
+    "$5,000/month collected revenue reached",
+    "Repeatable sales script created",
+    "PMP 2026 delivery process documented",
+    "Refund or complaint rate is manageable",
+    "Lead source is known and repeatable"
+  ]
+}
