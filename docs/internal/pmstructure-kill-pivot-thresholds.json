@@ -1,0 +1,35 @@
+{
+  "business": "PM Structure",
+  "status": "internal_only",
+  "lastUpdated": "2026-06-18",
+  "primaryOffer": "PMP 2026 Readiness Pathway",
+  "reviewFrequency": "weekly",
+  "thresholds": {
+    "day30": {
+      "qualifiedLeadsMinimum": 10,
+      "paidLearnersMinimum": 3,
+      "salesCallsMinimum": 5,
+      "requiredActionIfMissed": "Rework offer, landing page, CTA, pricing, traffic source, or follow-up process before adding spend."
+    },
+    "day60": {
+      "paidLearnersMinimum": 8,
+      "verifiedTestimonialsMinimum": 2,
+      "repeatableSalesScriptStatus": "drafted",
+      "requiredActionIfMissed": "Pause secondary certification expansion and diagnose conversion weakness."
+    },
+    "day90": {
+      "paidLearnersMinimum": 20,
+      "verifiedTestimonialsMinimum": 5,
+      "corporateLeadsMinimum": 1,
+      "repeatableSalesScriptMinimum": 1,
+      "requiredActionIfMissed": "Pause expansion and rework the PMP 2026 funnel before adding new pathways, paid ads, retainers, or resource-store scaling."
+    }
+  },
+  "pivotOptions": [
+    "Narrow the buyer",
+    "Narrow the offer",
+    "Shift to corporate",
+    "Shift to authority content first"
+  ],
+  "doNotPublishPublicly": true
+}

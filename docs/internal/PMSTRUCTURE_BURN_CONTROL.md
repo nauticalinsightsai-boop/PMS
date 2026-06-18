@@ -8,6 +8,10 @@ PM Structure is currently prioritizing the PMP 2026 Readiness Pathway as the fir
 
 This is an internal business-control document. Do not publish it on the public website.
 
+Related control document: PMSTRUCTURE_REVENUE_GATES.md defines when PM Structure is allowed to add new retainers, paid ads, software, contractors, or expansion spend. Burn control and revenue gates should be reviewed together each month.
+
+Related control document: PMSTRUCTURE_KILL_PIVOT_THRESHOLDS.md defines when PM Structure must pause spending, stop expansion, or rework the funnel if proof targets are missed.
+
 ---
 
 ## Current Rule
