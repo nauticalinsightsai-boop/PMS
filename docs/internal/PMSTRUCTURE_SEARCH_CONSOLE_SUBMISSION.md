@@ -324,4 +324,5 @@ Last updated: 18 June 2026
 | `docs/PMSTRUCTURE_GSC_BING_SUBMISSION_PLAN.md` | Public submission plan |
 | `docs/PMSTRUCTURE_BING_WEBMASTER_CHECKLIST.md` | Bing checklist |
 
-Verification file deployed: `frontend/public/google5780310dc725cd18.html`
+Verification file deployed: `frontend/public/google5780310dc725cd18.html`  
+Bing verification file deployed: `frontend/public/BingSiteAuth.xml`

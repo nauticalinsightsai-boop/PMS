@@ -4,13 +4,9 @@
 
 ## Setup
 
-- [ ] MANUAL_REQUIRED. Import from Google Search Console (recommended)
-  1. Open [Bing Webmaster Tools](https://www.bing.com/webmasters)
-  2. **Add a site** → choose **Import from Google Search Console**
-  3. Sign in with the same Google account that owns the GSC property
-  4. Confirm `https://pmstructure.com` appears in Bing dashboard
-
-**Status (2026-06-18):** Pre-checks passed. Submit sitemap after GSC import. Internal log: `docs/internal/PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md` (T-016).
+- [x] COMPLETE. Bing XML verification file deployed: `frontend/public/BingSiteAuth.xml` → `https://pmstructure.com/BingSiteAuth.xml`
+- [ ] MANUAL_REQUIRED. Click **Verify** in Bing Webmaster Tools after production deploy
+- [ ] MANUAL_REQUIRED. Import from Google Search Console (optional, after GSC verified)
 
 ## Sitemap submission (owner manual)
 
