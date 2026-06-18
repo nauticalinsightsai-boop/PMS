@@ -15,3 +15,5 @@ Monthly revenue-gate review: see `PMSTRUCTURE_REVENUE_GATES.md` and `pmstructure
 Kill/pivot review: see `PMSTRUCTURE_KILL_PIVOT_THRESHOLDS.md`, `pmstructure-kill-pivot-review-template.csv`, and `PMSTRUCTURE_FUNNEL_DIAGNOSIS_PLAYBOOK.md`.
 
 90-day marketing schedule: see `PMSTRUCTURE_90_DAY_MARKETING_SCHEDULE.md` and `pmstructure-90-day-marketing-schedule.csv`.
+
+Canonical host / redirects: see `PMSTRUCTURE_REDIRECT_DEPLOYMENT_NOTE.md`.

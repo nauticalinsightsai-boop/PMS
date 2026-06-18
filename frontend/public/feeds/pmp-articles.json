@@ -1,21 +1,21 @@
 {
-  "site": "https://www.pmstructure.com",
-  "updatedAt": "2026-06-10",
+  "site": "https://pmstructure.com",
+  "updatedAt": "2026-06-18",
   "description": "PMP-focused articles and newsletter entries for AI crawlers",
   "items": [
     {
       "title": "2026 PMP exam changes",
-      "url": "https://www.pmstructure.com/newsletter/2026-pmp-exam-changes",
+      "url": "https://pmstructure.com/newsletter/2026-pmp-exam-changes",
       "type": "newsletter"
     },
     {
       "title": "PMP exam 2026 guide",
-      "url": "https://www.pmstructure.com/pmp-exam-2026",
+      "url": "https://pmstructure.com/pmp-exam-2026",
       "type": "guide"
     },
     {
       "title": "Is the PMP exam changing in 2026?",
-      "url": "https://www.pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
+      "url": "https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
       "type": "answer"
     }
   ]

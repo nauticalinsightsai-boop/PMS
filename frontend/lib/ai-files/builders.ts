@@ -510,4 +510,29 @@ export function buildTopicsJson() {
   };
 }
 
+export function buildPmpArticlesFeedJson() {
+  return {
+    site: siteUrl,
+    updatedAt: today(),
+    description: 'PMP-focused articles and newsletter entries for AI crawlers',
+    items: [
+      {
+        title: '2026 PMP exam changes',
+        url: `${siteUrl}/newsletter/2026-pmp-exam-changes`,
+        type: 'newsletter',
+      },
+      {
+        title: 'PMP exam 2026 guide',
+        url: `${siteUrl}/pmp-exam-2026`,
+        type: 'guide',
+      },
+      {
+        title: 'Is the PMP exam changing in 2026?',
+        url: `${siteUrl}/answers/is-the-pmp-exam-changing-in-2026`,
+        type: 'answer',
+      },
+    ],
+  };
+}
+
 export { DO_NOT_CITE_PATH_PREFIXES, DO_NOT_CITE_EXACT };

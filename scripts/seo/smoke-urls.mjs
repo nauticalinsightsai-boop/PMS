@@ -1,6 +1,6 @@
 /**
  * Print priority post-deploy smoke URLs (GSC inspection + manual checks).
- * Usage: node scripts/seo/smoke-urls.mjs [--base https://www.pmstructure.com]
+ * Usage: node scripts/seo/smoke-urls.mjs [--base https://pmstructure.com]
  */
 import fs from 'fs';
 import path from 'path';

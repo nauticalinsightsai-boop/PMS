@@ -17,6 +17,7 @@ import {
   buildPmpFaqJson,
   buildPmpKeywordsJson,
   buildPmpRoutesJson,
+  buildPmpArticlesFeedJson,
   buildPricingPolicyJson,
   buildTopicsJson,
 } from '../lib/ai-files/builders.ts';
@@ -45,3 +46,7 @@ writeJson('pmp-routes.json', buildPmpRoutesJson());
 writeJson('faq.json', buildFaqJson());
 writeJson('answers.json', buildAnswersJson());
 writeJson('topics.json', buildTopicsJson());
+
+const feedsDir = path.join(publicDir, 'feeds');
+fs.mkdirSync(feedsDir, { recursive: true });
+writeJson('feeds/pmp-articles.json', buildPmpArticlesFeedJson());

@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { canonicalHostRedirect } from '@/lib/canonical-host';
 
 const BOOKING_CRM_CTA = '/admin/dashboard/booking-crm/cta';
 
 export async function middleware(request: NextRequest) {
+  const canonical = canonicalHostRedirect(request);
+  if (canonical) return canonical;
+
   const { pathname, searchParams } = request.nextUrl;
 
   if (pathname.startsWith('/admin/dashboard/members-revenue')) {
@@ -28,9 +32,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/admin/dashboard/booking-crm/cta',
-    '/admin/dashboard/members-revenue/:path*',
-    '/admin/dashboard',
-    '/admin/dashboard/:path*',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|css|js|map)).*)',
   ],
 };

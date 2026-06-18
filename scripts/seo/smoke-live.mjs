@@ -1,6 +1,6 @@
 /**
  * Post-deploy live smoke test. HTTP 200 + H1 + canonical on priority URLs.
- * Usage: node scripts/seo/smoke-live.mjs [--base=https://www.pmstructure.com]
+ * Usage: node scripts/seo/smoke-live.mjs [--base=https://pmstructure.com]
  */
 import { execFileSync } from 'child_process';
 import fs from 'fs';
