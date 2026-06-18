@@ -33,11 +33,11 @@ Do not run duplicate GA4 pageview tracking through both GTM and direct gtag unle
 | Input                             | Required Format        | Status                       |
 | --------------------------------- | ---------------------- | ---------------------------- |
 | GTM Container ID                  | GTM-XXXXXXX            | Not configured (direct GA4)  |
-| GA4 Measurement ID                | G-XXXXXXXXXX           | `G-E9QRM0GQ1W` (confirm owner) |
-| Consent/cookie requirement        | Owner/legal decision   | Required                     |
+| GA4 Measurement ID                | G-XXXXXXXXXX           | **Confirmed:** `G-E9QRM0GQ1W` |
+| Consent/cookie requirement        | Owner/legal decision   | **Signed off** — banner gates analytics; Consent Mode v2 not implemented |
 | Roadmap form conversion event     | T-013 browser events   | Implemented — see conversion plan |
 | Payment/checkout conversion event | T-013 browser events   | Implemented — begin_checkout, purchase |
-| Offline lead/import tracking      | T-013 docs + CSV       | Template only; server import pending |
+| Offline lead/import tracking      | T-013 docs + CSV       | Lead payloads capture ga_client_id, gclid, UTMs; server import pending |
 
 Consent/cookie behavior requires owner/legal confirmation. Analytics must respect applicable privacy requirements and any existing consent mechanism before full conversion tracking is enabled.
 
@@ -63,7 +63,7 @@ NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 
 Do not enable both for the same GA4 pageview unless tracking duplication is controlled.
 
-Set the measurement ID on Vercel (marketing `frontend` project). The codebase falls back to `G-E9QRM0GQ1W` when unset at build time — owner must confirm this matches the production GA4 property.
+Set the measurement ID on Vercel (marketing `frontend` project). The codebase falls back to `G-E9QRM0GQ1W` when unset at build time. **Owner confirmed** this matches the production GA4 property (June 2026).
 
 ---
 

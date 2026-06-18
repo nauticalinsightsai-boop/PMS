@@ -2,6 +2,7 @@
 
 import type { WebsiteFormContextInput } from '@pms/booking-crm/form-submissions';
 import { buildWebsiteFormContext } from '@pms/booking-crm/form-submissions';
+import { collectLeadTrackingContext } from '@/lib/analytics/lead-tracking-context';
 
 export type InteractionSource =
   | 'contact'
@@ -33,6 +34,7 @@ export async function submitPublicInteraction(
     const contextFields = data.formContext
       ? buildWebsiteFormContext(data.formContext)
       : {};
+    const leadTracking = await collectLeadTrackingContext();
 
     const res = await fetch('/api/interactions', {
       method: 'POST',
@@ -43,6 +45,7 @@ export async function submitPublicInteraction(
         email: data.email,
         payload: {
           ...contextFields,
+          ...leadTracking,
           ...(data.payload ?? {}),
         },
         metadata: {

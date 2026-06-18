@@ -12,6 +12,7 @@ import { LeadRecoveryProvider } from '@/components/conversion-recovery/LeadRecov
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 import { syncBrandFavicon } from '@/lib/brand/site-logo';
+import { initAttributionCapture } from '@/lib/analytics/funnel';
 
 const ScrollToTop = dynamic(
   () => import('@/components/ScrollToTop').then((m) => ({ default: m.ScrollToTop })),
@@ -45,6 +46,10 @@ export const PUBLIC_SUBNAV_SPACER_CLASS = 'h-14';
 
 export function PublicShell({ children }: { children: React.ReactNode }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    initAttributionCapture();
+  }, []);
 
   useEffect(() => {
     const stored = localStorage.getItem('theme');

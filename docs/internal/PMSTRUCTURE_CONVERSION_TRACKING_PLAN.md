@@ -49,6 +49,7 @@ This is an internal technical and marketing document. Do not publish it as a pub
 | ----- | -------- |
 | Event names + defaults | `frontend/lib/analytics/pms-events.ts` |
 | Transport | `frontend/lib/analytics/push-event.ts` → `trackFunnelEvent` → consent-gated `gtag` |
+| Lead attribution (offline) | `frontend/lib/analytics/lead-tracking-context.ts` → merged in `submit-public.ts` |
 | Roadmap CTA | `track-roadmap-cta.ts`, `PmpRoadmapCtaLink`, `CertRoadmapCta` |
 | Roadmap form | `PmpRoadmapLeadForm` — start + submit in handler only |
 | Booking | `track-booking-click.ts`, `open-themed-popup.ts` |
@@ -109,7 +110,17 @@ Until then, offline tracking should use a CSV/manual review process.
 
 Template: `pmstructure-offline-conversion-template.csv`
 
-**Current gaps:** no `ga_client_id` or gclid capture on lead records; UTM stored client-side in sessionStorage only.
+**Lead payload fields (browser → CRM):** every public form submission via `submitPublicInteraction` attaches:
+
+* `ga_client_id` — when analytics consent granted and gtag loaded
+* `gclid`, `gbraid`, `wbraid` (+ first-touch `first_*` variants)
+* last-touch UTMs (`utm_source`, `utm_medium`, etc.)
+* `landing_page` — first page path in session
+* `consent_analytics`, `consent_marketing`
+
+Attribution is captured on shell mount (`initAttributionCapture`) and refreshed at submit time.
+
+**Remaining gaps:** no server-side Measurement Protocol or Google Ads offline import yet; qualification workflow (`qualify_lead`, `close_convert_lead`) is CSV/manual.
 
 ---
 
@@ -128,6 +139,8 @@ close_convert_lead
 ```
 
 Only mark events that are actually firing.
+
+**Owner action (June 2026):** mark key events in GA4 Admin after post-deploy DebugView verification (see checklist below).
 
 ---
 
@@ -166,17 +179,17 @@ After deployment:
 
 ## Owner Inputs Required
 
-| Input                                 | Required For               |
-| ------------------------------------- | -------------------------- |
-| GTM ID or GA4 Measurement ID          | Base tracking              |
-| GA4 Admin access                      | Mark key events            |
-| Google Ads account access             | Import conversions         |
-| Consent/cookie decision               | Legal/privacy handling     |
-| Form destination                      | Lead tracking              |
-| CRM/database/Google Sheet destination | Offline tracking           |
-| Payment provider/session ID           | Purchase tracking          |
-| Final package prices                  | Ecommerce values           |
-| Confirmation of live products         | Checkout/purchase tracking |
+| Input                                 | Required For               | Status (June 2026) |
+| ------------------------------------- | -------------------------- | ------------------ |
+| GTM ID or GA4 Measurement ID          | Base tracking              | **Confirmed:** `G-E9QRM0GQ1W` (direct GA4) |
+| GA4 Admin access                      | Mark key events            | Owner — post-deploy manual step |
+| Google Ads account access             | Import conversions         | Pending (when ads run) |
+| Consent/cookie decision               | Legal/privacy handling     | **Signed off** — banner gates analytics; Consent Mode v2 not implemented |
+| Form destination                      | Lead tracking              | Implemented |
+| CRM/database/Google Sheet destination | Offline tracking           | Lead payloads include attribution fields |
+| Payment provider/session ID           | Purchase tracking          | Implemented (Stripe success pages) |
+| Final package prices                  | Ecommerce values           | As configured in checkout flows |
+| Confirmation of live products         | Checkout/purchase tracking | Owner confirms per launch |
 
 Owner: Sheikh M. Abdullah  
 Technical owner: Developer  
