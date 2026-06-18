@@ -75,6 +75,19 @@ Developer will update:
 
 ---
 
+## Owner report (2026-06-18)
+
+| Item | Result |
+| ---- | ------ |
+| GSC sitemap status | **Pending** |
+| GSC discovered URLs | **15** (sitemap ~187 URLs) |
+| Bing verified | **Yes** |
+| Bing sitemap submitted | **Yes** |
+
+**Next:** Recheck GSC until **Success**; run URL Inspection on 5 priority URLs; monitor Bing URL discovery.
+
+---
+
 ## Related internal docs
 
 | Task | Doc |

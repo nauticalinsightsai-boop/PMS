@@ -2,14 +2,14 @@
 
 **Run:** 19 (Phase 18)  
 **Property:** https://pmstructure.com (apex: `www` has no DNS until added)  
-**Status:** Pre-checks passed (2026-06-18); GSC submit reported by owner — confirm Success in UI
+**Status:** GSC sitemap **Pending** (15 discovered / ~187 sitemap URLs, owner 2026-06-18). Bing verified + sitemap submitted.
 
 ## Properties to verify
 
 | Platform | URL prefix / domain | Action |
 |----------|---------------------|--------|
 | Google Search Console | `https://pmstructure.com` | Verify ownership (HTML file already deployed) |
-| Bing Webmaster Tools | `https://pmstructure.com` | Import from GSC or verify separately |
+| Bing Webmaster Tools | `https://pmstructure.com` | **Verified** (owner 2026-06-18, `BingSiteAuth.xml`) |
 
 ## Sitemap submission
 
@@ -58,4 +58,4 @@ Add remaining PMP cluster URLs after indexation of anchor pages.
 
 See `docs/reports/SMOKE_LIVE_2026-06-18.md` for live HTTP verification.
 
-**Owner still required:** Confirm GSC sitemap **Success** + Discovered URLs; URL Inspection + Request indexing; Bing sitemap submit. Internal checklist: `docs/internal/PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md` (T-016).
+**Owner still required:** GSC sitemap **Success** (currently Pending); URL Inspection + Request indexing on priority URLs. Bing: monitor discovered URLs 48–72h. Internal log: `docs/internal/PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md`.

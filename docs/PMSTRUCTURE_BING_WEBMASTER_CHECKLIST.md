@@ -5,8 +5,8 @@
 ## Setup
 
 - [x] COMPLETE. Bing XML verification file deployed: `frontend/public/BingSiteAuth.xml` → `https://pmstructure.com/BingSiteAuth.xml`
-- [ ] MANUAL_REQUIRED. Sign in at [Bing Webmaster Tools](https://www.bing.com/webmasters) → **Verify** (XML file method) → see `docs/internal/PMSTRUCTURE_OWNER_SEO_UI_CHECKLIST.md`
-- [ ] MANUAL_REQUIRED. Submit sitemap: `https://pmstructure.com/sitemap.xml`
+- [x] COMPLETE. Bing site verified (owner 2026-06-18, `BingSiteAuth.xml`)
+- [x] COMPLETE. Sitemap submitted: `https://pmstructure.com/sitemap.xml` (owner 2026-06-18)
 
 ## Sitemap submission (owner manual)
 

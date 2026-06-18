@@ -126,20 +126,20 @@ todos:
     content: "Owner: GSC — confirm sitemap listed in robots.txt (blocked: GSC login)"
     status: pending
   - id: owner-gsc-sitemap-success
-    content: "Owner: GSC Sitemaps — confirm sitemap.xml Success + Discovered URLs (T-016; blocked: GSC login)"
-    status: pending
+    content: "Owner: GSC Sitemaps — reported Pending, 15 discovered URLs (~187 sitemap); recheck for Success"
+    status: completed
   - id: owner-gsc-url-inspection-home
-    content: "Owner: GSC URL Inspection https://pmstructure.com/ (blocked: GSC login)"
+    content: "Owner: GSC URL Inspection https://pmstructure.com/ + Request indexing"
     status: pending
   - id: owner-gsc-url-inspection-pmp
-    content: "Owner: GSC URL Inspection https://pmstructure.com/certifications/pmp (blocked: GSC login)"
+    content: "Owner: GSC URL Inspection https://pmstructure.com/certifications/pmp + Request indexing"
     status: pending
   - id: owner-gsc-url-inspection-answer
-    content: "Owner: GSC URL Inspection https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026 (blocked: GSC login)"
+    content: "Owner: GSC URL Inspection https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026 + Request indexing"
     status: pending
   - id: owner-bing-verify
-    content: "Owner: Bing — Sign In, Verify BingSiteAuth.xml, submit sitemap (blocked: Bing login — PMSTRUCTURE_OWNER_SEO_UI_CHECKLIST.md)"
-    status: pending
+    content: "Owner: Bing verified + sitemap submitted (owner confirmed 2026-06-18)"
+    status: completed
   - id: owner-checklist-doc
     content: "Agent: Create docs/internal/PMSTRUCTURE_OWNER_SEO_UI_CHECKLIST.md"
     status: completed
@@ -150,7 +150,10 @@ todos:
     content: "Dependency T-015: XML sitemap exists and is correct"
     status: completed
   - id: dep-t016-gsc-submit
-    content: "Dependency T-016: Sitemap submitted to Search Console (owner Success confirmation pending — GSC login required)"
+    content: "Dependency T-016: GSC sitemap submitted — Pending (not Success yet); 15 discovered URLs"
+    status: completed
+  - id: owner-gsc-recheck-success
+    content: "Owner: Recheck GSC Sitemaps until status Success (currently Pending)"
     status: pending
 isProject: false
 ---

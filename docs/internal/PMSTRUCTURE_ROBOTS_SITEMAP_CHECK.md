@@ -149,7 +149,7 @@ npm run seo:robots-check
 | 7 | Public routes not blocked (`/`, `/certifications/`, `/answers/`, `/topics/`, `/faq`) | Pass |
 | 8 | Sitemap returns XML | Pass |
 | 9 | Sitemap `<loc>` uses apex host | Pass |
-| 10 | GSC fetch | Owner — see T-016 submission log |
+| 10 | GSC fetch | **Pending** — owner confirmed submit; 15 discovered URLs (2026-06-18); await Success |
 
 ---
 
@@ -169,7 +169,7 @@ T-016 — XML Sitemap Submitted to Search Console
 
 **T-015 status:** Complete — `frontend/app/sitemap.ts` live at `https://pmstructure.com/sitemap.xml`.
 
-**T-016 status:** GSC submit reported by owner; confirm Success in Search Console UI.
+**T-016 status:** GSC sitemap **Pending**, 15 discovered URLs (~187 in sitemap). Bing verified + sitemap submitted (owner 2026-06-18).
 
 Owner: Sheikh M. Abdullah  
 Technical owner: Developer  

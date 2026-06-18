@@ -236,7 +236,8 @@ If credentials are not available, use manual submission.
 
 | Item                             | Status                                   |
 | -------------------------------- | ---------------------------------------- |
-| Search Console property verified | Owner to confirm                         |
+| Search Console property verified | Owner confirmed (sitemap submitted) |
+| Bing Webmaster verified          | Owner confirmed (2026-06-18)          |
 | API credentials available        | No — not in repo                         |
 | API submission implemented       | Not implemented unless credentials exist |
 | Manual submission required       | Yes unless API access is confirmed       |
@@ -265,20 +266,22 @@ https://pmstructure.com/sitemap.xml
 
 ## Submission Log
 
-| Date       | Platform              | Property        | Sitemap URL                         | Submitted By              | Status                       | Notes                                                                                  |
-| ---------- | --------------------- | --------------- | ----------------------------------- | ------------------------- | ---------------------------- | -------------------------------------------------------------------------------------- |
-| 2026-06-18 | Google Search Console | pmstructure.com | https://pmstructure.com/sitemap.xml | Owner (reported manually) | Pending Success confirmation | Owner reported submit; confirm **Success** + Discovered URLs in GSC. Use `PMSTRUCTURE_OWNER_SEO_UI_CHECKLIST.md`. |
-| 2026-06-18 | Bing Webmaster Tools  | pmstructure.com | https://pmstructure.com/sitemap.xml | Owner required            | Pending verification + submit | `BingSiteAuth.xml` live at site root; owner Sign In → Verify → submit sitemap. |
+| Date       | Platform              | Property        | Sitemap URL                         | Submitted By        | Status   | Notes |
+| ---------- | --------------------- | --------------- | ----------------------------------- | ------------------- | -------- | ----- |
+| 2026-06-18 | Google Search Console | pmstructure.com | https://pmstructure.com/sitemap.xml | Owner (Sheikh M. A.) | **Pending** | Owner confirmed 2026-06-18: status **Pending**, **15** discovered URLs (sitemap ~187 URLs). Recheck until **Success**. |
+| 2026-06-18 | Bing Webmaster Tools  | pmstructure.com | https://pmstructure.com/sitemap.xml | Owner (Sheikh M. A.) | **Complete** | Verified via `BingSiteAuth.xml`; sitemap submitted. Monitor URLs discovered in 48–72h. |
 
 ---
 
 ## Task Status (T-016)
 
 ```txt
-Ready for manual submission — pre-checks passed; GSC submit reported by owner; awaiting Success confirmation in Search Console UI.
+Submitted manually by owner — GSC status Pending (15 discovered URLs of ~187 sitemap URLs). Not marked Success yet; monitor until GSC shows Success.
 ```
 
-Cursor cannot submit to Google Search Console from this repo (no Search Console API credentials). Do not mark Complete until GSC Sitemaps report shows **Success**.
+Bing: verified + sitemap submitted (owner confirmed 2026-06-18).
+
+Do not mark GSC **Complete** until Sitemaps report shows **Success** (currently **Pending**).
 
 ---
 

@@ -24,7 +24,7 @@
 5. After submit, confirm status moves from **Couldn't fetch** → **Success** (or **Discovered URLs** > 0 / **Indexed** growing over 7-14 days).
 6. Re-submit after major v2 releases (PMP FAQ, answers, topics).
 
-**Status (2026-06-18):** Owner reported GSC sitemap submit. Confirm **Success** + Discovered URLs in GSC Sitemaps report. Internal log: `docs/internal/PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md` (T-016).
+**Status (2026-06-18):** Owner confirmed GSC sitemap submitted — status **Pending**, **15** discovered URLs (sitemap ~187 URLs). Recheck until **Success**. Internal log: `docs/internal/PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md` (T-016).
 
 ## 4. Priority URL inspection
 
