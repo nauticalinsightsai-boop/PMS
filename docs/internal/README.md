@@ -27,3 +27,5 @@ Conversion tracking (T-013): see `PMSTRUCTURE_CONVERSION_TRACKING_PLAN.md` and `
 XML sitemap (T-015): see `PMSTRUCTURE_SITEMAP_NOTES.md`.
 
 Search Console sitemap submission (T-016): see `PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md`.
+
+Robots.txt sitemap reference (T-017): see `PMSTRUCTURE_ROBOTS_SITEMAP_CHECK.md`.
