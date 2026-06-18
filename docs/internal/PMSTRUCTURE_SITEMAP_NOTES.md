@@ -39,6 +39,8 @@ Dynamic sources: certifications (`siteData`), PMP cluster, answers, topics, lega
 
 `lastModified` uses `new Date()` at generation time until content modules expose real `updatedAt` fields.
 
+**Critical:** Production must never bake `http://localhost:3000` into sitemap or canonical URLs. Set `NEXT_PUBLIC_SITE_URL=https://pmstructure.com` on the Vercel marketing project and redeploy. `frontend/config/pms-site.ts` falls back to apex in production if localhost is misconfigured.
+
 ---
 
 ## Sitemap Policy

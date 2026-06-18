@@ -5,9 +5,39 @@ import { buildOnboardingCalendlyUrl } from '@/lib/calendly/onboarding-calendly-u
 import { BRAND } from '@/lib/brand-voice';
 import { getOfferingById } from '@/lib/regional-catalogue';
 
-export const PMS_SITE_URL =
-  (process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') as string | undefined) ||
-  'https://pmstructure.com';
+const PRODUCTION_SITE_URL = 'https://pmstructure.com';
+
+function isLocalDevHost(hostname: string): boolean {
+  return (
+    hostname === 'localhost' ||
+    hostname.endsWith('.localhost') ||
+    hostname === '127.0.0.1' ||
+    hostname === '[::1]'
+  );
+}
+
+/** Resolve public site URL; never emit localhost on production builds. */
+export function resolvePublicSiteUrl(): string {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, '');
+  const isProduction =
+    process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production';
+
+  if (raw) {
+    try {
+      const host = new URL(raw).hostname;
+      if (isProduction && isLocalDevHost(host)) {
+        return PRODUCTION_SITE_URL;
+      }
+      return raw;
+    } catch {
+      // fall through
+    }
+  }
+
+  return isProduction ? PRODUCTION_SITE_URL : raw || PRODUCTION_SITE_URL;
+}
+
+export const PMS_SITE_URL = resolvePublicSiteUrl();
 
 export const PMS_SITE_NAME = BRAND.name;
 
