@@ -16,6 +16,7 @@ export const ROBOTS_NOINDEX_NOFOLLOW: NonNullable<Metadata['robots']> = {
 export const NOINDEX_PATH_PREFIXES = [
   '/admin',
   '/checkout',
+  '/membership/checkout',
   '/api',
   '/compare',
   '/store',

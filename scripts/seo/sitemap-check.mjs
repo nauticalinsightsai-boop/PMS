@@ -9,7 +9,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const sitemapPath = path.join(__dirname, '../../frontend/app/sitemap.ts');
 const indexingPath = path.join(__dirname, '../../frontend/lib/indexing-metadata.ts');
 
-const NOINDEX_PREFIXES = ['/admin', '/checkout', '/api', '/compare', '/store'];
+const NOINDEX_PREFIXES = [
+  '/admin',
+  '/checkout',
+  '/membership/checkout',
+  '/api',
+  '/compare',
+  '/store',
+];
 const NOINDEX_PATTERN = /\/certifications\/[^/]+\/[^/]+\/enroll/;
 
 function isIndexable(pathname) {
