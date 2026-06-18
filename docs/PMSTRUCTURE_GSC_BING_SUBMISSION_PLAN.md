@@ -1,8 +1,8 @@
 # PM Structure. GSC & Bing Submission Plan
 
 **Run:** 19 (Phase 18)  
-**Property:** https://pmstructure.com (apex: `www` has no DNS until added in Vercel Domains)  
-**Status:** Deploy verified: submit sitemap after ownership verified
+**Property:** https://pmstructure.com (apex: `www` has no DNS until added)  
+**Status:** Pre-checks passed (2026-06-18); GSC submit reported by owner — confirm Success in UI
 
 ## Properties to verify
 
@@ -48,13 +48,14 @@ Add remaining PMP cluster URLs after indexation of anchor pages.
 
 ## Blockers before submit
 
-- [x] Production deploy complete (live 200 on priority routes: 2026-06-10)
-- [x] `npm run seo:release-verify` green on release branch (2026-06-10, 274 pages)
-- [x] `npm run seo:smoke-live` green against `https://pmstructure.com`
-- [x] No `noindex` on PMP/answer/topic indexable routes (local `seo:noindex-check` PASS; live HTTP 200 on `/pmp-faq`, answers, topics)
+- [x] Production deploy complete (Railway PMS service, apex HTTPS live)
+- [x] `npm run seo:production-check` green (2026-06-18)
+- [x] `npm run seo:smoke-live` green (2026-06-18, 10/10)
+- [x] Sitemap/robots use `https://pmstructure.com` (localhost guard in `pms-site.ts`)
+- [x] No `noindex` on PMP/answer/topic indexable routes
 
 ## Release run log
 
-See `docs/reports/RELEASE_VERIFY_2026-06-10.md` for full gate output and 15-URL HTTP pre-inspection.
+See `docs/reports/SMOKE_LIVE_2026-06-18.md` for live HTTP verification.
 
-**Owner still required:** GSC/Bing sitemap submit + URL Inspection tool + Request indexing (cannot be automated without owner credentials).
+**Owner still required:** Confirm GSC sitemap **Success** + Discovered URLs; URL Inspection + Request indexing; Bing sitemap submit. Internal checklist: `docs/internal/PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md` (T-016).

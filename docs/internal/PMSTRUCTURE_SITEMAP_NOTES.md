@@ -39,7 +39,7 @@ Dynamic sources: certifications (`siteData`), PMP cluster, answers, topics, lega
 
 `lastModified` uses `new Date()` at generation time until content modules expose real `updatedAt` fields.
 
-**Critical:** Production must never bake `http://localhost:3000` into sitemap or canonical URLs. Set `NEXT_PUBLIC_SITE_URL=https://pmstructure.com` on the Vercel marketing project and redeploy. `frontend/config/pms-site.ts` falls back to apex in production if localhost is misconfigured.
+**Critical:** Production must never bake `http://localhost:3000` into sitemap or canonical URLs. Set all four `NEXT_PUBLIC_*` URL vars to `https://pmstructure.com` on the Railway **PMS** production service and redeploy. `frontend/config/pms-site.ts` falls back to apex in production if localhost is misconfigured.
 
 ---
 
@@ -84,21 +84,7 @@ Intentionally included (not checkout):
 
 ## Search Console Submission
 
-After deployment:
-
-1. Open Google Search Console.
-2. Select the `https://pmstructure.com` property.
-3. Go to Sitemaps.
-4. Submit:
-
-```txt
-sitemap.xml
-```
-
-5. Confirm Google can fetch the sitemap.
-6. Review discovered URLs.
-7. Fix excluded/noindex/redirect conflicts.
-8. Resubmit after major route changes.
+See **`PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md`** (T-016) for GSC + Bing submission steps, pre-checks, URL inspection list, and submission log.
 
 ---
 

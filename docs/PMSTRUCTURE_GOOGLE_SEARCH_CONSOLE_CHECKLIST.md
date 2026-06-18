@@ -11,7 +11,9 @@
 
 ## 2. Pre-submission
 
-- [x] COMPLETE: `npm run seo:production-check` PASS (2026-06-10): `/`, `/sitemap.xml`, `/robots.txt`, `/pmp-faq`, `/faq`, `/llms.txt` all 200
+- [x] COMPLETE: `npm run seo:production-check` PASS (2026-06-18): apex HTTPS, sitemap, robots, priority routes
+- [x] COMPLETE: `npm run seo:smoke-live` PASS (2026-06-18): 10/10 live URLs — `docs/reports/SMOKE_LIVE_2026-06-18.md`
+- [x] COMPLETE: Sitemap uses `https://pmstructure.com` only (no localhost/www in `<loc>` entries)
 
 ## 3. Sitemap submission (owner manual)
 
@@ -22,7 +24,7 @@
 5. After submit, confirm status moves from **Couldn't fetch** → **Success** (or **Discovered URLs** > 0 / **Indexed** growing over 7-14 days).
 6. Re-submit after major v2 releases (PMP FAQ, answers, topics).
 
-**v1 Run 19 status:** GSC property verified + sitemap submitted per owner: mark **MANUAL_REQUIRED** for v2 re-submit after this deploy.
+**Status (2026-06-18):** Owner reported GSC sitemap submit. Confirm **Success** + Discovered URLs in GSC Sitemaps report. Internal log: `docs/internal/PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md` (T-016).
 
 ## 4. Priority URL inspection
 

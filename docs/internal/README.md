@@ -25,3 +25,5 @@ Analytics setup (GA4 base tracking): see `PMSTRUCTURE_ANALYTICS_SETUP.md`.
 Conversion tracking (T-013): see `PMSTRUCTURE_CONVERSION_TRACKING_PLAN.md` and `pmstructure-offline-conversion-template.csv`.
 
 XML sitemap (T-015): see `PMSTRUCTURE_SITEMAP_NOTES.md`.
+
+Search Console sitemap submission (T-016): see `PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md`.

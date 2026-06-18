@@ -79,6 +79,8 @@ Use one property aligned with the apex host (`https://pmstructure.com`) and subm
 https://pmstructure.com/sitemap.xml
 ```
 
+Full checklist, submission log, and post-submit URL inspections: `PMSTRUCTURE_SEARCH_CONSOLE_SUBMISSION.md` (T-016).
+
 ---
 
 Status: Internal only  
