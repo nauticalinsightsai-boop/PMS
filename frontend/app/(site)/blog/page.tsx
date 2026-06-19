@@ -8,6 +8,7 @@ export const metadata = buildPageMetadata({
   title: 'Blog',
   description: 'Certification strategies, safety leadership, and professional development from PM Structure.',
   path: '/blog',
+  robots: { index: false, follow: true },
 });
 
 export default async function Page() {

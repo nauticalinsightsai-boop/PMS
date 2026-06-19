@@ -14,7 +14,7 @@ const FAMILY_GRADIENT_CLASSES: Record<string, string> = {
 };
 
 /** Full wordmark PNGs: `frontend/public/brand/` */
-export const BRAND_LOGO_ASSET_VERSION = '2';
+export const BRAND_LOGO_ASSET_VERSION = '4';
 
 export const BRAND_LOGO = {
   light: `/brand/pms-logo-light.png?v=${BRAND_LOGO_ASSET_VERSION}`,
@@ -78,6 +78,10 @@ export const PMS_GRADIENTS = {
 } as const;
 
 export type PmsGradientKey = keyof typeof PMS_GRADIENTS;
+
+/** Shared marketing-page hero H1 scale (home, certifications hub, pathway detail). */
+export const MARKETING_HERO_H1_CLASS =
+  'font-heading text-4xl font-bold tracking-tight leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl text-slate-900 dark:text-white';
 
 /** Certification family → dominant pathway visual gradient */
 export function familyGradientKey(familyId: string): PmsGradientKey {

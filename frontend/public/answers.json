@@ -2,7 +2,7 @@
   "site": "https://pmstructure.com",
   "version": "1.0.0",
   "updatedAt": "2026-06-19",
-  "count": 35,
+  "count": 36,
   "indexUrl": "https://pmstructure.com/answers",
   "answers": [
     {
@@ -113,6 +113,16 @@
       "question": "Is PM Structure a PMI Authorized Training Partner (ATP)?",
       "description": "Clarifies PM Structure’s independent exam-prep status and PMI ATP positioning.",
       "shortAnswer": "No: unless formally confirmed on a live page, PM Structure is an independent exam-preparation platform, not a PMI Authorized Training Partner.",
+      "status": "live"
+    },
+    {
+      "slug": "pmp-training-hours-vs-pdus",
+      "path": "/answers/pmp-training-hours-vs-pdus",
+      "url": "https://pmstructure.com/answers/pmp-training-hours-vs-pdus",
+      "title": "PMP Training Hours vs PDUs | PM Structure",
+      "question": "Are PMP training hours the same as PDUs?",
+      "description": "Direct answer on PMP eligibility training-hour language versus PDUs used for maintaining PMI credentials.",
+      "shortAnswer": "No. PMP eligibility refers to project management education or training hours. PDUs are generally used after you earn a PMI credential to maintain it.",
       "status": "live"
     },
     {

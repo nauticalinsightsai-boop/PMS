@@ -9,6 +9,7 @@ import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { getTopicHubBreadcrumbs } from '@/content/site-architecture/routes';
 import { TopicHubJsonLd } from '@/components/seo/TopicHubJsonLd';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
+import { PagePrimaryCta } from '@/components/marketing/PagePrimaryCta';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
@@ -130,9 +131,11 @@ export function TopicHubPage({ hub }: { hub: TopicHubContent }) {
               Continue with the pathway or guide that best matches your exam timeline and readiness.
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-3">
-              <Link href={hub.ctaHref} className={buttonVariants({ size: 'lg' })}>
-                {hub.ctaLabel}
-              </Link>
+              <PagePrimaryCta
+                href={hub.ctaHref}
+                label={hub.ctaLabel}
+                funnelLabel={`topic_${hub.slug}`}
+              />
               <Link href="/pmp-faq" className={buttonVariants({ size: 'lg', variant: 'outline' })}>
                 PMP FAQs
               </Link>

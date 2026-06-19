@@ -1,0 +1,23 @@
+{
+  "capturedAt": "2026-06-19T21:09:45.678Z",
+  "sitemapUrl": "https://pmstructure.com/sitemap.xml",
+  "urlCount": 203,
+  "priorityIncluded": {
+    "https://pmstructure.com/": true,
+    "https://pmstructure.com/certifications": true,
+    "https://pmstructure.com/certifications/pmp": true,
+    "https://pmstructure.com/topics/pmp-exam-2026": true,
+    "https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026": true,
+    "https://pmstructure.com/faq": true,
+    "https://pmstructure.com/legal/privacy": true,
+    "https://pmstructure.com/legal/terms": true
+  },
+  "forbiddenHits": [],
+  "sampleChecked": 50,
+  "sampleFailures": [],
+  "legacyUrls": {
+    "pmp": true,
+    "pmpExam2026": true,
+    "goWebsite": true
+  }
+}

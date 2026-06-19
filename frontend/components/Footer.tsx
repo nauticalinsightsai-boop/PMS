@@ -33,6 +33,7 @@ import { FAQ_HUB_PATH } from '@/constants/faq';
 import { FOOTER_LEGAL_LINKS, LEGAL_HUB_PATH } from '@/constants/legal';
 import { FOOTER_SOCIAL_LINKS } from '@/constants/socialProfiles';
 import { TrackedContactLink } from '@/components/analytics/TrackedContactLink';
+import { FooterPmpExam2026Nav } from '@/components/footer/FooterPmpExam2026Nav';
 
 const FOOTER_SOCIAL_ICONS: Record<(typeof FOOTER_SOCIAL_LINKS)[number]['id'], LucideIcon> = {
   linkedin: Linkedin,
@@ -45,13 +46,16 @@ const FOOTER_SOCIAL_ICONS: Record<(typeof FOOTER_SOCIAL_LINKS)[number]['id'], Lu
 };
 
 const RESOURCES_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
-  { label: 'PMP Exam 2026', href: '/pmp-exam-2026', highlight: true },
   { label: 'Newsletter', href: '/newsletter' },
   { label: 'FAQ Hub', href: FAQ_HUB_PATH },
   { label: 'Legal Hub', href: LEGAL_HUB_PATH },
 ];
 
 const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string }> = [
+  { label: 'Answer guides', href: '/answers' },
+  { label: 'Topic guides', href: '/topics' },
+  { label: 'PMP Exam 2026 guide', href: '/pmp-exam-2026' },
+  { label: 'PMP Exam 2026 topic hub', href: '/topics/pmp-exam-2026' },
   { label: 'Community', href: '/community' },
   { label: 'Compare pathways', href: '/certifications/compare' },
   { label: 'Resource store', href: '/community?view=store' },
@@ -60,7 +64,7 @@ const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string }> = [
 
 export function Footer() {
   return (
-    <footer className="relative w-full overflow-hidden border-t border-sandstone dark:border-slate-800 bg-gradient-to-b from-ivory via-porcelain to-orange-50/35 dark:from-obsidian dark:via-[#0a0f24] dark:to-[#120e28]">
+    <footer className="relative w-full overflow-x-clip border-t border-sandstone dark:border-slate-800 bg-gradient-to-b from-ivory via-porcelain to-orange-50/35 dark:from-obsidian dark:via-[#0a0f24] dark:to-[#120e28]">
       <SectionAmbience tone="blend" />
       <div className="container relative z-10 mx-auto pt-10 md:pt-12 pb-0">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
@@ -88,11 +92,14 @@ export function Footer() {
             </div>
           </div>
 
-          <div>
+          <div className="overflow-visible">
             <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-obsidian dark:text-white">
               Resources
             </h3>
             <ul className="flex flex-col gap-2.5 text-sm text-carbon dark:text-slate-400 font-medium">
+              <li>
+                <FooterPmpExam2026Nav />
+              </li>
               {RESOURCES_LINKS.map(({ label, href, highlight }) => (
                 <li key={href}>
                   <Link

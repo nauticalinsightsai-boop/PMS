@@ -7,6 +7,7 @@ import {
   parseHomeHeroHeadingLines,
   normalizeHomeHeroHeading,
   DEFAULT_HOME_HERO_HEADING,
+  DEFAULT_HOME_HERO_HEADING_LINES,
   safeParseHomePageConfig,
   DEFAULT_HOME_HERO_SUBTITLE,
 } from './home';
@@ -60,28 +61,28 @@ describe('home config', () => {
     const cfg = defaultHomePageConfigV2();
     expect(cfg.heroSlides[0].primaryAction).toBe('link');
     expect(cfg.heroSlides[0].primaryCta).toBe('Get My PMP 2026 Roadmap');
-    expect(cfg.heroSlides[0].heading).toBe(DEFAULT_HOME_HERO_HEADING);
+    expect(cfg.heroSlides[0].heading).toBe(DEFAULT_HOME_HERO_HEADING_LINES.join('\n'));
     expect(cfg.heroSlides[0].description).toBe(DEFAULT_HOME_HERO_SUBTITLE);
     expect(cfg.stats.professionalsCount).toBe(1284);
     expect(cfg.sections.testimonials).toBe(false);
     expect(cfg.instituteSection.institute.title).toBe('Ready to Start Your Journey?');
   });
 
-  it('parseHomeHeroHeadingLines splits two-line default and migrates legacy single line', () => {
+  it('parseHomeHeroHeadingLines returns two visual lines for default copy', () => {
     expect(parseHomeHeroHeadingLines(DEFAULT_HOME_HERO_HEADING)).toEqual([
       'Project management',
       'guidance',
     ]);
-    expect(parseHomeHeroHeadingLines('Project management guidance')).toEqual([
+    expect(parseHomeHeroHeadingLines('Project management\nguidance')).toEqual([
       'Project management',
       'guidance',
     ]);
-    expect(normalizeHomeHeroHeading('Project management guidance')).toBe(DEFAULT_HOME_HERO_HEADING);
+    expect(normalizeHomeHeroHeading('Project management\nguidance')).toBe(DEFAULT_HOME_HERO_HEADING);
   });
 
   it('resolveHomeHeroSubtitle migrates lean-down PMP one-liner copy', () => {
     const legacy =
-      'The PMP exam changes on 9 July 2026 — get a structured readiness route with mentor-led support, not random study noise.';
+      'The PMP exam changes on 9 July 2026 \u2014 get a structured readiness route with mentor-led support, not random study noise.';
     expect(resolveHomeHeroSubtitle(legacy)).toBe(DEFAULT_HOME_HERO_SUBTITLE);
   });
 
@@ -117,7 +118,7 @@ describe('home config', () => {
         speaking: { title: 'Speaking', subtitle: '', description: '', ctaText: '', ctaLink: '' },
       },
     });
-    expect(v2.heroSlides[0].heading).toBe(DEFAULT_HOME_HERO_HEADING);
+    expect(v2.heroSlides[0].heading).toBe(DEFAULT_HOME_HERO_HEADING_LINES.join('\n'));
     expect(v2.heroSlides[0].description).toBe(DEFAULT_HOME_HERO_SUBTITLE);
     expect(v2.heroSlides[0].secondaryCta).toBe('Compare certifications');
     expect(v2.instituteSection.institute.title).toBe('Ready to Start Your Journey?');

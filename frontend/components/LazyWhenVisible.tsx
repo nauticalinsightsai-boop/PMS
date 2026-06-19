@@ -10,7 +10,7 @@ type LazyWhenVisibleProps = {
   rootMargin?: string;
 };
 
-/** Mount children only when near the viewport — defers below-fold JS and network work. */
+/** Mount children only when near the viewport: defers below-fold JS and network work. */
 export function LazyWhenVisible({
   children,
   className,

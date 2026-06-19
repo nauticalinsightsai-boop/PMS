@@ -1,10 +1,10 @@
 URL,Route,Page_Type,Device,Lighthouse_Performance,LCP,INP_or_TBT,CLS,Total_Requests,Transfer_Size,Main_Issues,Recommended_Fixes,Priority,Implementation_Status,After_Lighthouse_Performance,After_LCP,After_INP_or_TBT,After_CLS,Notes
-https://pmstructure.com/,/,Homepage,Mobile,TBD,TBD,TBD,TBD,TBD,TBD,"Brand icon PNG 273KB (fixed B08); client shell + motion/react; text LCP","WebP brand icons; next/image community grid; baseline Lighthouse",P0,Partial,B08 code done,TBD,TBD,TBD,Before data not available — first baseline during B08
-https://pmstructure.com/,/,Homepage,Desktop,TBD,TBD,TBD,TBD,TBD,TBD,Same as mobile,TBD,P0,Partial,,,,,Run PageSpeed Insights post-deploy
-https://pmstructure.com/certifications/pmp,/certifications/pmp,Commercial PMP,Mobile,TBD,TBD,TBD,TBD,TBD,TBD,Form BrandIconMark LCP; cert page JS,Brand icon WebP; keep form priority,P0,TBD,,,,,Money page
-https://pmstructure.com/certifications/pmp,/certifications/pmp,Commercial PMP,Desktop,TBD,TBD,TBD,TBD,TBD,TBD,Same,TBD,P0,TBD,,,,,
-https://pmstructure.com/certifications,/certifications,Cert hub,Mobile,TBD,TBD,TBD,TBD,TBD,TBD,Cert cards JS,TBD,P1,TBD,,,,,
-https://pmstructure.com/certifications/compare,/certifications/compare,Comparison,Mobile,TBD,TBD,TBD,TBD,TBD,TBD,Compare table layout,TBD,P1,TBD,,,,,
+https://pmstructure.com/,/,Homepage,Mobile,66,4234ms,417ms TBT,TBD,TBD,696KB,"Brand icon; client shell + motion/react; text LCP","WebP brand icons; next/image community grid; baseline Lighthouse",P0,Partial,66,4234ms,417ms,TBD,Production Lighthouse 2026-06-20 evidence/b15-lighthouse-production-summary-2026-06-20.json
+https://pmstructure.com/,/,Homepage,Desktop,TBD,TBD,TBD,TBD,TBD,TBD,Same as mobile,TBD,P0,Partial,,,,,Desktop PSI pending OA-009
+https://pmstructure.com/certifications/pmp,/certifications/pmp,Commercial PMP,Mobile,65,6548ms,358ms TBT,TBD,TBD,733KB,Form BrandIconMark LCP; cert page JS,Brand icon WebP; keep form priority,P0,Partial,65,6548ms,358ms,TBD,Production Lighthouse 2026-06-20
+https://pmstructure.com/certifications/pmp,/certifications/pmp,Commercial PMP,Desktop,TBD,TBD,TBD,TBD,TBD,TBD,Same,TBD,P0,TBD,,,,,Desktop PSI pending
+https://pmstructure.com/certifications,/certifications,Cert hub,Mobile,51,6042ms,1204ms TBT,TBD,TBD,683KB,Cert cards JS,TBD,P1,Partial,51,6042ms,1204ms,TBD,Production Lighthouse 2026-06-20
+https://pmstructure.com/certifications/compare,/certifications/compare,Comparison,Mobile,TBD,TBD,TBD,TBD,TBD,TBD,Compare table layout,TBD,P1,TBD,,,,,Lighthouse pending for compare route
 https://pmstructure.com/topics/pmp-exam-2026,/topics/pmp-exam-2026,Topic hub,Mobile,TBD,TBD,TBD,TBD,TBD,TBD,Standard content page,TBD,P1,TBD,,,,,
 https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026,/answers/is-the-pmp-exam-changing-in-2026,Answer,Mobile,TBD,TBD,TBD,TBD,TBD,TBD,Standard content page,TBD,P1,TBD,,,,,
 https://pmstructure.com/faq,/faq,FAQ,Mobile,TBD,TBD,TBD,TBD,TBD,TBD,Accordion JS,TBD,P1,TBD,,,,,

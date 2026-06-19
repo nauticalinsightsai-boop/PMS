@@ -22,6 +22,7 @@ import {
   type CertProgramOffer,
 } from '@/lib/cert-program-offer';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
+import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { trackRoadmapCtaClick } from '@/lib/analytics/track-roadmap-cta';
 
 const HIGHLIGHT_ICONS: Record<string, typeof Video> = {
@@ -40,6 +41,7 @@ const HIGHLIGHT_ICONS: Record<string, typeof Video> = {
 type CertProgramHighlightsProps = {
   offer: CertProgramOffer;
   roadmapAnchor?: string;
+  siteCertId?: string;
   className?: string;
   /** Cert detail page: form is in hero: hide redundant scroll CTAs */
   embedded?: boolean;
@@ -49,12 +51,13 @@ const certRoadmapCtaClassName =
   'inline-flex min-h-14 h-auto w-full items-center justify-center whitespace-normal px-5 py-3 text-center text-base font-bold leading-snug shadow-lg shadow-brand-orange/25 sm:w-auto sm:px-8 sm:py-0 sm:whitespace-nowrap sm:text-base';
 
 export function CertRoadmapCta({
-  anchor,
+  anchor: _anchor,
   label,
   mobileLabel = ROADMAP_CTA_LABEL_MOBILE,
   className,
   rounded = 'full',
   ctaLocation = 'pricing',
+  siteCertId = 'cert',
 }: {
   anchor: string;
   label: string;
@@ -62,11 +65,18 @@ export function CertRoadmapCta({
   className?: string;
   rounded?: 'full' | '2xl';
   ctaLocation?: 'pricing' | 'body' | 'hero';
+  siteCertId?: string;
 }) {
   return (
-    <a
-      href={`#${anchor}`}
-      onClick={() => trackRoadmapCtaClick({ ctaText: label, ctaLocation })}
+    <WebsiteCalendlyButton
+      tier="discovery"
+      funnelLabel={`cert_roadmap_${siteCertId}`}
+      utm={{
+        utm_source: 'pmstructure',
+        utm_medium: 'cert_detail',
+        utm_campaign: siteCertId,
+      }}
+      onBeforeOpen={() => trackRoadmapCtaClick({ ctaText: label, ctaLocation })}
       className={cn(
         buttonVariants({ size: 'lg', variant: 'brand' }),
         certRoadmapCtaClassName,
@@ -76,13 +86,14 @@ export function CertRoadmapCta({
     >
       <span className="sm:hidden">{mobileLabel}</span>
       <span className="hidden sm:inline">{label}</span>
-    </a>
+    </WebsiteCalendlyButton>
   );
 }
 
 export function CertProgramHighlightsContent({
   offer,
   roadmapAnchor = CERT_ROADMAP_FORM_ANCHOR,
+  siteCertId,
   className,
   embedded = false,
 }: CertProgramHighlightsProps) {
@@ -115,6 +126,7 @@ export function CertProgramHighlightsContent({
             <CertRoadmapCta
               anchor={roadmapAnchor}
               label={offer.ctaLabel}
+              siteCertId={siteCertId}
               className="w-full shrink-0 md:w-auto"
             />
           ) : null}
@@ -153,7 +165,7 @@ export function CertProgramHighlightsContent({
 
       {!embedded ? (
         <div className="mt-10 flex justify-center sm:mt-14">
-          <CertRoadmapCta anchor={roadmapAnchor} label={offer.ctaLabel} />
+          <CertRoadmapCta anchor={roadmapAnchor} label={offer.ctaLabel} siteCertId={siteCertId} />
         </div>
       ) : null}
     </div>
@@ -163,13 +175,14 @@ export function CertProgramHighlightsContent({
 export function CertProgramHighlightsSection({
   offer,
   roadmapAnchor = CERT_ROADMAP_FORM_ANCHOR,
+  siteCertId,
   className,
 }: CertProgramHighlightsProps) {
   return (
     <section className={cn(sectionSurface('warm', 'py-16 sm:py-20 md:py-24 lg:py-28'), className)}>
       <SectionAmbience tone="warm" />
       <div className="container relative z-10 mx-auto">
-        <CertProgramHighlightsContent offer={offer} roadmapAnchor={roadmapAnchor} />
+        <CertProgramHighlightsContent offer={offer} roadmapAnchor={roadmapAnchor} siteCertId={siteCertId} />
       </div>
     </section>
   );

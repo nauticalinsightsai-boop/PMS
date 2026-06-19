@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PMP_ACCREDITATION_NOTE, PMP_INDEPENDENT_DISCLAIMER } from '@/content/pmp/disclaimer';
@@ -14,14 +15,35 @@ import { ConversionViewTracker } from '@/components/analytics/ConversionViewTrac
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { FaqAnswer } from '@/components/faq/FaqAccordionList';
 import { Pmp2026ComplianceNote } from '@/components/pmp/Pmp2026ComplianceNote';
+import { PmpPackageTierPositioning } from '@/components/pmp/PmpPackageTierPositioning';
 import { ComparePathwaysCtaLink, PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { CTAS } from '@/lib/brand-voice';
 import { cn } from '@/lib/utils';
+import { CheckCircle2, XCircle } from 'lucide-react';
+import dynamic from 'next/dynamic';
 
-function MarkdownBlock({ text }: { text: string }) {
+const Pmp2026FlagshipSections = dynamic(
+  () =>
+    import('@/components/home/Pmp2026FlagshipSections').then((m) => ({
+      default: m.Pmp2026FlagshipSections,
+    })),
+  { loading: () => null },
+);
+
+function MarkdownBlock({
+  text,
+  listVariant = 'default',
+}: {
+  text: string;
+  listVariant?: 'check' | 'cross' | 'default';
+}) {
+  const ListIcon =
+    listVariant === 'check' ? CheckCircle2 : listVariant === 'cross' ? XCircle : null;
+
   return (
-    <div className="prose prose-slate dark:prose-invert max-w-none">
+    <div className="prose prose-slate dark:prose-invert max-w-none prose-table:my-6">
       <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
         components={{
           a: ({ href, children }) => {
             if (href?.startsWith('/')) {
@@ -37,6 +59,46 @@ function MarkdownBlock({ text }: { text: string }) {
               </a>
             );
           },
+          ul: ({ children }) => (
+            <ul className="not-prose my-4 list-none space-y-3 pl-0">{children}</ul>
+          ),
+          li: ({ children }) => (
+            <li className="flex items-start gap-3 text-sm font-medium leading-relaxed text-slate-700 sm:text-base dark:text-slate-300">
+              {ListIcon ? (
+                <ListIcon
+                  className={cn(
+                    'mt-0.5 h-5 w-5 shrink-0',
+                    listVariant === 'check' ? 'text-brand-orange' : 'text-slate-400',
+                  )}
+                  aria-hidden
+                />
+              ) : (
+                <span
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange"
+                  aria-hidden
+                />
+              )}
+              <span className="min-w-0 flex-1">{children}</span>
+            </li>
+          ),
+          table: ({ children }) => (
+            <div className="not-prose my-6 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+              <table className="w-full min-w-[20rem] border-collapse text-left text-sm">{children}</table>
+            </div>
+          ),
+          thead: ({ children }) => (
+            <thead className="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-900/80">
+              {children}
+            </thead>
+          ),
+          th: ({ children }) => (
+            <th className="px-4 py-3 font-bold text-slate-900 dark:text-white">{children}</th>
+          ),
+          td: ({ children }) => (
+            <td className="border-t border-slate-100 px-4 py-3 font-medium text-slate-700 dark:border-slate-800 dark:text-slate-300">
+              {children}
+            </td>
+          ),
         }}
       >
         {text}
@@ -84,7 +146,16 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
                 <h2 className="font-heading text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-4">
                   {section.heading}
                 </h2>
-                <MarkdownBlock text={section.body} />
+                <MarkdownBlock
+                  text={section.body}
+                  listVariant={
+                    section.id === 'who-for'
+                      ? 'check'
+                      : section.id === 'who-not-for'
+                        ? 'cross'
+                        : 'default'
+                  }
+                />
               </section>
             ))}
 
@@ -162,6 +233,12 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
             </aside>
         </div>
       </section>
+      {page.path === '/pmp-exam-2026' ? (
+        <>
+          <PmpPackageTierPositioning />
+          <Pmp2026FlagshipSections />
+        </>
+      ) : null}
     </>
   );
 }

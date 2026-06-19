@@ -85,10 +85,28 @@ export function isPublicNewsletterPost(post: NewsletterPost, now = new Date()): 
   return false;
 }
 
+/** Self-hosted marketing WebP fallbacks when CMS featuredImageUrl is empty. */
+export const NEWSLETTER_ARTICLE_IMAGE_FALLBACKS: Record<string, string> = {
+  '2026-pmp-exam-changes': '/images/marketing/community-collab-600.webp',
+  'hybrid-methodologies-enterprise': '/images/marketing/community-workshop-600.webp',
+  'risk-beyond-probability-matrix': '/images/marketing/community-mentor-600.webp',
+  'ai-augmented-project-manager': '/images/marketing/community-network-600.webp',
+  'prince2-7th-edition-practitioner': '/images/marketing/about-workshop-800.webp',
+  'building-high-performance-pmo': '/images/marketing/about-session-800.webp',
+  'moral-legal-financial-reasons-managing-safety': '/images/marketing/mentorship-circle-900.webp',
+  'top-certification-strategies-2026': '/images/marketing/membership-guides-500.webp',
+};
+
+const DEFAULT_NEWSLETTER_ARTICLE_IMAGE = '/images/marketing/community-collab-600.webp';
+
+export function resolveNewsletterArticleImage(slug: string, featuredImageUrl?: string): string {
+  const trimmed = featuredImageUrl?.trim() ?? '';
+  if (trimmed && !trimmed.includes('picsum.photos')) return trimmed;
+  return NEWSLETTER_ARTICLE_IMAGE_FALLBACKS[slug] ?? DEFAULT_NEWSLETTER_ARTICLE_IMAGE;
+}
+
 export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle {
-  const image =
-    post.featuredImageUrl.trim() ||
-    `https://picsum.photos/seed/${encodeURIComponent(post.slug)}/800/600`;
+  const image = resolveNewsletterArticleImage(post.slug, post.featuredImageUrl);
 
   return {
     slug: post.slug,
@@ -137,7 +155,7 @@ export function defaultNewsletterPostsRegistry(): NewsletterPostsRegistry {
         author: 'Badar Javed',
         topics: ['Safety'],
         youtubeUrl: '',
-        featuredImageUrl: '',
+        featuredImageUrl: '/images/marketing/mentorship-circle-900.webp',
         audioUrl: '',
         content:
           'I vividly remember sitting across from a Project Director during a tense budget meeting for a massive offshore expansion project. The conversation turned to safety investment: and whether it was optional.\n\n## The Moral Reason\n\nEvery organization has an ethical duty to protect people who depend on its operations.\n\n## The Legal Reason\n\nRegulators expect documented controls, not good intentions.\n\n## The Financial Reason\n\nAccidents destroy margin through downtime, fines, and reputational loss.',

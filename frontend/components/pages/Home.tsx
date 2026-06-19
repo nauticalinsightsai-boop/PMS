@@ -21,11 +21,11 @@ import {
   MessageSquare,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { MARKETING_HERO_H1_CLASS } from '@/lib/brand-visual';
 import { BRAND, CTAS, HOME_COPY } from '@/lib/brand-voice';
 import { MARKETING_STOCK_IMAGES, MARKETING_HERO_SOCIAL_AVATARS, marketingTestimonialAvatar } from '@/lib/marketing-stock-images';
 import {
-  resolveHomeHeroHeading,
-  parseHomeHeroHeadingLines,
+  resolveHomeHeroHeadingLines,
   resolveHomeHeroSubtitle,
   type HomePageConfigV2,
 } from '@pms/site-content';
@@ -36,7 +36,6 @@ import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { MembershipDualPrice } from '@/components/MembershipDualPrice';
 import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { useHomePageConfig } from '@/lib/home-config';
-import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { T169_SUPPORT_COPY } from '@/content/pmp/flagship-t169';
@@ -161,7 +160,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
     homeCms.heroTitle ||
     serverSlide?.heading ||
     HOME_COPY.heroTitle;
-  const heroTitleResolved = resolveHomeHeroHeading(heroTitleRaw);
+  const heroHeadingLines = resolveHomeHeroHeadingLines(heroTitleRaw);
   const heroSubtitleRaw =
     homeCms.heroSubtitle || serverSlide?.description || HOME_COPY.heroSubtitle;
   const heroSubtitleResolved = resolveHomeHeroSubtitle(heroSubtitleRaw);
@@ -238,18 +237,20 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               initial={reduceMotion ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={reduceMotion ? { duration: 0 } : { duration: 0.6 }}
-              className="relative z-10 min-w-0"
+              className="relative z-30 min-w-0 overflow-x-clip"
             >
               <Badge className="mb-4 sm:mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
                 {HOME_COPY.heroBadge}
               </Badge>
               
-              <h1 className="font-heading text-[1.924rem] sm:text-[2.565rem] md:text-[3.206rem] lg:text-[3.848rem] font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-[1.1]">
-                {parseHomeHeroHeadingLines(heroTitleResolved).map((line, index) => (
-                  <span
-                    key={line}
-                    className={index === 0 ? 'block whitespace-nowrap' : 'block'}
-                  >
+              <h1
+                className={cn(
+                  MARKETING_HERO_H1_CLASS,
+                  'mb-3 sm:mb-4 max-w-full text-balance lg:text-6xl xl:text-7xl',
+                )}
+              >
+                {heroHeadingLines.map((line, index) => (
+                  <span key={line} className="block">
                     {line}
                   </span>
                 ))}
@@ -293,12 +294,12 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               </div>
             </m.div>
 
-            <div id={PMP_ROADMAP_FORM_ANCHOR} className="scroll-mt-24">
+            <div id={PMP_ROADMAP_FORM_ANCHOR} className="relative z-10 scroll-mt-24 min-w-0">
               <m.div
                 initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={reduceMotion ? { duration: 0 } : { duration: 0.7 }}
-                className="relative z-20"
+                className="relative"
               >
                 <PmpRoadmapLeadFormHero placement={heroFormPlacement} variant="hero" />
               </m.div>
@@ -379,12 +380,6 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 {homeCms.featuredPathways?.subtitle ?? HOME_COPY.featuredSubtitle}
               </p>
             </m.div>
-            <Link href="/certifications" className="hidden md:inline-flex">
-              <Button variant="ghost" className="text-brand-orange font-bold text-lg hover:bg-brand-orange/5 rounded-full px-6">
-                View All Certifications
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
           </div>
 
           <ResponsiveSnapScroll
@@ -449,6 +444,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             desktopLayoutClassName="md:grid md:grid-cols-2 lg:grid-cols-3"
             gapClassName="gap-6 md:gap-8"
             mobileItemClassName="w-[min(88vw,19rem)]"
+            mobileLoop
           >
             {(["PMI", "PRINCE2", "SixSigma"] as const)
               .filter((familyId) => {
@@ -468,13 +464,15 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
       )}
 
       {(sections?.insightsBand !== false) && (
-      <section className={`${SECTION_PY} bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-white relative overflow-x-hidden max-lg:overflow-y-visible lg:overflow-hidden`}>
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-10%] right-[-5%] w-[35%] h-[35%] rounded-full blur-[100px] opacity-20 dark:opacity-30 bg-pms-gradient-blue-purple" />
-          <div className="absolute bottom-[-10%] left-[-5%] w-[30%] h-[30%] rounded-full blur-[100px] opacity-15 dark:opacity-25 bg-pms-gradient-orange" />
+      <section className={`${SECTION_PY} relative overflow-x-hidden max-lg:overflow-y-visible lg:overflow-hidden bg-gradient-to-br from-violet-50/70 via-background to-orange-50/30 dark:from-[#0f0e38] dark:via-[#07071c] dark:to-[#12081a]`}>
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-[-12%] right-[-8%] w-[42%] h-[42%] rounded-full blur-[120px] opacity-30 bg-pms-gradient-orange" />
+          <div className="absolute bottom-[-15%] left-[-12%] w-[48%] h-[48%] rounded-full blur-[120px] opacity-40 bg-pms-gradient-blue-purple" />
+          <div className="absolute top-[15%] left-[-5%] w-[32%] h-[38%] rounded-full blur-[110px] opacity-25 bg-pms-gradient-blue-purple dark:opacity-35" />
+          <div className="absolute bottom-[10%] right-[5%] w-[28%] h-[32%] rounded-full blur-[100px] opacity-20 bg-pms-gradient-blue-cyan dark:opacity-25" />
         </div>
         <div className="container mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 lg:gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center">
             <m.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -510,14 +508,17 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               </Link>
             </m.div>
             <LazyWhenVisible minHeightClassName="min-h-[320px]">
+            <div className="scroll-mt-24">
             <m.div
-              className="relative"
-              initial={{ opacity: 0, scale: 0.95 }}
+              className="relative z-20"
+              initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
             >
-              <PmpRoadmapLeadFormInsights placement="home_insights" variant="insights" />
+              <PmpRoadmapLeadFormInsights placement="home_insights" variant="hero" />
             </m.div>
+            </div>
             </LazyWhenVisible>
           </div>
         </div>
@@ -747,7 +748,12 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             </m.div>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <ResponsiveSnapScroll
+            mobileLoop
+            desktopLayoutClassName="sm:grid sm:grid-cols-2 lg:grid-cols-4"
+            gapClassName="gap-6 md:gap-8"
+            mobileItemClassName="w-[min(88vw,19rem)]"
+          >
             {[
               {
                 title: "CV Maker",
@@ -763,8 +769,8 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 desc: "Custom schedules based on your exam date.",
                 icon: Calendar,
                 color: "text-brand-orange",
-                action: "link" as const,
-                href: "/contact?topic=waitlist&offering=study-planner",
+                action: "calendly" as const,
+                funnelLabel: "home_career_study_planner",
                 ctaLabel: CTAS.joinWaitlist,
               },
               {
@@ -781,7 +787,8 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 desc: "Step-by-step career progression maps.",
                 icon: Map,
                 color: "text-emerald-600",
-                action: "scroll" as const,
+                action: "calendly" as const,
+                funnelLabel: "home_career_roadmap",
                 ctaLabel: 'Get my roadmap',
               },
             ].map((tool, index) => (
@@ -805,11 +812,20 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                     </CardDescription>
                   </CardHeader>
                   <CardFooter className="mt-auto border-0 bg-transparent p-6 pt-0">
-                    {tool.action === 'scroll' ? (
-                      <PmpRoadmapCtaLink
-                        label={tool.ctaLabel}
-                        className="w-full h-12 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base shadow-md shadow-brand-orange/20"
-                      />
+                    {tool.action === 'calendly' ? (
+                      <WebsiteCalendlyButton
+                        tier="mentor"
+                        funnelLabel={tool.funnelLabel}
+                        utm={{
+                          utm_source: 'pmstructure',
+                          utm_medium: 'home',
+                          utm_campaign: 'career_accelerators',
+                          utm_content: tool.funnelLabel,
+                        }}
+                        className="w-full h-12 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base shadow-md shadow-brand-orange/20 dark:bg-brand-orange dark:hover:bg-brand-hover dark:text-white"
+                      >
+                        {tool.ctaLabel}
+                      </WebsiteCalendlyButton>
                     ) : (
                       <Link
                         href={tool.href!}
@@ -828,7 +844,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 </Card>
               </m.div>
             ))}
-          </div>
+          </ResponsiveSnapScroll>
         </div>
       </section>
 
@@ -899,15 +915,25 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                   'Start with eligibility, timeline, and weekly study capacity.'}
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-                <PmpRoadmapCtaLink
-                  label="Get My Roadmap"
+                <WebsiteCalendlyButton
+                  size="lg"
                   className="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl shadow-xl"
-                />
+                  tier="mentor"
+                  funnelLabel="home_final_roadmap"
+                  utm={{
+                    utm_source: 'pmstructure',
+                    utm_medium: 'home',
+                    utm_campaign: 'final_mentor',
+                    utm_content: 'get_my_roadmap',
+                  }}
+                >
+                  Get My Roadmap
+                </WebsiteCalendlyButton>
                 <WebsiteCalendlyButton
                   size="lg"
                   variant="outline"
                   className="w-full sm:w-auto border-white/20 bg-white text-black hover:bg-slate-100 hover:text-black dark:bg-transparent dark:text-white dark:border-white/30 dark:hover:bg-white/10 dark:hover:text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl transition-all"
-                  tier="discovery"
+                  tier="mentor"
                   funnelLabel="home_final_mentor"
                   utm={{ utm_source: 'pmstructure', utm_medium: 'home', utm_campaign: 'final_mentor' }}
                 >

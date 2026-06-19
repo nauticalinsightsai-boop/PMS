@@ -15,6 +15,7 @@ import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { getAnswerPageBreadcrumbs } from '@/content/site-architecture/routes';
 import { AnswerJsonLd } from '@/components/seo/AnswerJsonLd';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
+import { PagePrimaryCta } from '@/components/marketing/PagePrimaryCta';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
@@ -196,9 +197,11 @@ export function AnswerPage({ page }: { page: AnswerPageContent }) {
             ) : null}
 
             <div className="flex flex-col sm:flex-row gap-3 mb-10">
-              <Link href={page.ctaHref} className={buttonVariants({ size: 'lg' })}>
-                {page.ctaLabel}
-              </Link>
+              <PagePrimaryCta
+                href={page.ctaHref}
+                label={page.ctaLabel}
+                funnelLabel={`answer_${page.slug}`}
+              />
               <Link href="/pmp-faq" className={buttonVariants({ size: 'lg', variant: 'outline' })}>
                 PMP FAQs
               </Link>

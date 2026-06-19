@@ -169,7 +169,6 @@ const MARKETING_ROUTES: RouteSpec[] = [
   { path: '/about', priority: 0.5, changeFrequency: 'monthly' },
   { path: '/contact', priority: 0.5, changeFrequency: 'monthly' },
   { path: '/newsletter', priority: 0.6, changeFrequency: 'monthly' },
-  { path: '/blog', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/sitemap', priority: 0.3, changeFrequency: 'monthly' },
 ];
 
@@ -184,15 +183,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
   const portalPaths = safePortalPaths();
   const newsletterArticles = await safeNewsletterArticles();
-  const blogArticles = await safeBlogArticles();
 
   const newsletter = newsletterArticles
     .map((n) => safeEntry(`/newsletter/${n.slug}`, 0.6, 'monthly'))
     .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
-  const blog = blogArticles
-    .map((b) => safeEntry(`/blog/${b.slug}`, 0.6, 'monthly'))
-    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
+  // Blog hub is noindex until substantive content ships (G4 default).
+  const blog: MetadataRoute.Sitemap = [];
 
   const portalEntries = safePathsToEntries(portalPaths, 0.5, 'monthly');
 

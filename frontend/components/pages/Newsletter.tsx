@@ -127,13 +127,6 @@ export function Newsletter({
                   topicOptions={topicOptions}
                 />
               </div>
-              <div className="relative group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-brand-purple transition-colors" />
-                <Input
-                  placeholder="Search articles..."
-                  className="pl-12 h-14 w-full rounded-2xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:ring-brand-purple"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -152,6 +145,14 @@ export function Newsletter({
                 onClick={() => setActiveCategory(cat)}
               />
             ))}
+            <div className="relative group ml-auto shrink-0 w-full min-w-[12rem] max-w-xs sm:max-w-sm">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-brand-purple transition-colors" />
+              <Input
+                placeholder="Search articles..."
+                className="pl-10 h-10 w-full rounded-xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:ring-brand-purple"
+                aria-label="Search articles"
+              />
+            </div>
           </div>
         </div>
       </section>

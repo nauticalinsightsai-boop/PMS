@@ -8,9 +8,9 @@ const brandDir = path.join(root, 'frontend/public/brand');
 
 const SOURCES = {
   light:
-    'C:/Users/Sh3ik/.cursor/projects/d-My-Websites-PMS/assets/c__Users_Sh3ik_AppData_Roaming_Cursor_User_workspaceStorage_f66bd09cedd349481f143b4d261adc3f_images_1-e1a4ae94-62a5-45ee-8383-dd3bdf18539f.png',
+    'C:/Users/Sh3ik/.cursor/projects/d-My-Websites-PMS/assets/c__Users_Sh3ik_AppData_Roaming_Cursor_User_workspaceStorage_f66bd09cedd349481f143b4d261adc3f_images_1-f60ccb0c-cb6a-4341-b7dd-45394b6ced08.png',
   dark:
-    'C:/Users/Sh3ik/.cursor/projects/d-My-Websites-PMS/assets/c__Users_Sh3ik_AppData_Roaming_Cursor_User_workspaceStorage_f66bd09cedd349481f143b4d261adc3f_images_2-94baaa70-17b2-4f3e-a3a7-e029b4d384b1.png',
+    'C:/Users/Sh3ik/.cursor/projects/d-My-Websites-PMS/assets/c__Users_Sh3ik_AppData_Roaming_Cursor_User_workspaceStorage_f66bd09cedd349481f143b4d261adc3f_images_2-c2c6aa18-11f0-42e4-b78e-b79d9495c44f.png',
 };
 
 /** Square PMS mark for mobile nav/footer */
@@ -26,6 +26,9 @@ const MARK_SIZE = 128;
 const KEY_THRESHOLD = 24;
 const CROP_PAD = 4;
 const DARK_BG = { r: 7, g: 7, b: 28 };
+/** Charcoal for neutral wordmark text on light backgrounds (matches PMS_COLORS.charcoal). */
+const LIGHT_NEUTRAL = { r: 38, g: 42, b: 51 };
+const LIGHT_NEUTRAL_DARK = { r: 26, g: 32, b: 41 };
 
 /** Key near-black pixels and crop to visible bounds (trim() clips gradient text on wide wordmarks). */
 function keyCropAndResizeFromBuffer(inputBuffer, maxWidth) {
@@ -77,9 +80,32 @@ async function keyCropAndResize(sourcePath, maxWidth) {
   return keyCropAndResizeFromBuffer(inputBuffer, maxWidth);
 }
 
-async function processLight(sourcePath, outPath) {
-  const pipeline = await keyCropAndResize(sourcePath, MAX_WIDTH);
-  const out = await pipeline
+/** Light wordmark: same crop/geometry as dark master; grey/white text → charcoal for white headers. */
+async function processLightFromDarkMaster(darkSourcePath, outPath) {
+  const pipeline = await keyCropAndResize(darkSourcePath, MAX_WIDTH);
+  const { data, info } = await pipeline.ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    const a = data[i + 3];
+    if (a < 8) continue;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const sat = max - min;
+    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+
+    if (sat < 48 && lum > 92) {
+      const t = Math.min(1, (lum - 92) / 130);
+      data[i] = Math.round(LIGHT_NEUTRAL_DARK.r + (LIGHT_NEUTRAL.r - LIGHT_NEUTRAL_DARK.r) * t);
+      data[i + 1] = Math.round(LIGHT_NEUTRAL_DARK.g + (LIGHT_NEUTRAL.g - LIGHT_NEUTRAL_DARK.g) * t);
+      data[i + 2] = Math.round(LIGHT_NEUTRAL_DARK.b + (LIGHT_NEUTRAL.b - LIGHT_NEUTRAL_DARK.b) * t);
+    }
+  }
+
+  const out = await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } })
     .flatten({ background: '#ffffff' })
     .png({ compressionLevel: 9, adaptiveFiltering: true, palette: false })
     .toBuffer();
@@ -149,8 +175,7 @@ async function main() {
     console.log(`Backed up ${mode} -> ${path.relative(root, backup)}`);
     const meta =
       mode === 'light'
-        ? // Light wordmark: derive from the dark master (light upload composites are unreliable)
-          await processLight(SOURCES.dark, out)
+        ? await processLightFromDarkMaster(SOURCES.dark, out)
         : await processDark(backup, out);
     const size = fs.statSync(out).size;
     console.log(

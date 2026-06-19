@@ -322,9 +322,57 @@ const pages: AnswerPageContent[] = [
     relatedPages: [{ href: '/faq?tab=about-pathways', label: 'About & pathways FAQs' }],
     relatedAnswers: [
       { href: '/answers/does-pm-structure-guarantee-pmp-success', label: 'Does PM Structure guarantee PMP success?' },
+      { href: '/answers/pmp-training-hours-vs-pdus', label: 'PMP training hours vs PDUs' },
     ],
     ctaHref: '/legal/pricing-disclaimers',
     ctaLabel: 'Pricing disclaimers',
+  },
+  {
+    slug: 'pmp-training-hours-vs-pdus',
+    path: '/answers/pmp-training-hours-vs-pdus',
+    question: 'Are PMP training hours the same as PDUs?',
+    title: 'PMP Training Hours vs PDUs | PM Structure',
+    description:
+      'Direct answer on PMP eligibility training-hour language versus PDUs used for maintaining PMI credentials.',
+    shortAnswer:
+      'No. PMP eligibility refers to project management education or training hours. PDUs are generally used after you earn a PMI credential to maintain it.',
+    detailedAnswer:
+      'Confusing training hours with PDUs is a common application mistake. For PMP eligibility, use PMI’s current language on project management education or commercial training hours and verify requirements on PMI.org before applying. PM Structure helps candidates understand the training-hour requirement and organize preparation records; it does not issue PMI credentials or guarantee eligibility approval.',
+    whoApplies: 'PMP candidates preparing applications and comparing provider marketing copy.',
+    nextSteps: [
+      'Read eligibility guidance on /pmp-exam-2026#eligibility-training-hours',
+      'Review /faq for training-hour FAQs',
+      'Verify current PMI eligibility rules before applying',
+    ],
+    relatedCourses: [
+      { href: '/pmp-foundation', label: 'PMP Foundation pathway' },
+      { href: '/pmp-professional', label: 'PMP Professional pathway' },
+    ],
+    relatedPages: [
+      { href: '/certifications/pmp', label: 'PMP 2026 Readiness Pathway' },
+      { href: '/legal/pricing-disclaimers', label: 'Pricing disclaimers' },
+      { href: '/pmp-exam-2026', label: 'PMP exam 2026 guide' },
+    ],
+    relatedAnswers: [
+      { href: '/answers/is-pm-structure-an-official-pmi-atp', label: 'Is PM Structure a PMI ATP?' },
+      { href: '/answers/does-pm-structure-guarantee-pmp-success', label: 'Does PM Structure guarantee a PMP pass?' },
+    ],
+    dateModified: '2026-06-19',
+    references: [
+      {
+        label: 'PMI: PMP certification',
+        url: 'https://www.pmi.org/certifications/project-management-pmp',
+      },
+    ],
+    ctaHref: '/certifications/pmp#cert-roadmap-form',
+    ctaLabel: 'Get My PMP 2026 Roadmap',
+    faqs: [
+      {
+        question: 'Does PM Structure provide 35 hours of project management education for PMP eligibility?',
+        answer:
+          'PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record. Contact-hour or training-hour eligibility is stated only where formally approved. Verify current requirements with PMI before applying.',
+      },
+    ],
   },
   {
     slug: 'does-pm-structure-guarantee-pmp-success',

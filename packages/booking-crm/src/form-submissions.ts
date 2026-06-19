@@ -1,8 +1,26 @@
 import type { LeadAttribution } from './channel-landing-pages/lead-attribution'
 import { attributionOriginLabel } from './channel-landing-pages/lead-attribution'
 
+/** All `form_submissions.source` values accepted by POST /api/interactions. */
+export const INTERACTION_SOURCES = [
+  'contact',
+  'subscription',
+  'meeting_booking',
+  'documentation_request',
+  'pmp_roadmap_lead',
+  'cert_roadmap_lead',
+  'consultation',
+  'waitlist',
+  'scholarship_review',
+  'lead_recovery',
+  'channel_portal',
+  'register_modal',
+] as const
+
+export type InteractionSource = (typeof INTERACTION_SOURCES)[number]
+
 /** Human-readable labels for `form_submissions.source` values. */
-export const FORM_SOURCE_LABELS: Record<string, string> = {
+export const FORM_SOURCE_LABELS: Record<InteractionSource, string> = {
   contact: 'Contact',
   meeting_booking: 'Meeting / mentor call',
   subscription: 'Newsletter',
@@ -12,12 +30,15 @@ export const FORM_SOURCE_LABELS: Record<string, string> = {
   consultation: 'Pathway consultation',
   waitlist: 'Waitlist',
   scholarship_review: 'Scholarship review',
+  lead_recovery: 'Lead recovery',
+  channel_portal: 'Channel portal',
+  register_modal: 'Register modal',
 }
 
 export function submissionSourceLabel(source: string): string {
   const key = source.trim()
   if (!key) return '-'
-  return FORM_SOURCE_LABELS[key] ?? key.replace(/_/g, ' ')
+  return FORM_SOURCE_LABELS[key as InteractionSource] ?? key.replace(/_/g, ' ')
 }
 
 export type WebsiteFormContextInput = {

@@ -1,14 +1,9 @@
 import * as XLSX from 'xlsx';
 
-import { submissionSourceLabel } from '@pms/booking-crm/form-submissions';
+import { FORM_SOURCE_LABELS, submissionSourceLabel } from '@pms/booking-crm/form-submissions';
 import type { InteractionSource } from '@/lib/interactions/types';
 
-export const SHEET_SOURCE_LABEL: Record<InteractionSource, string> = {
-  contact: 'Contact',
-  subscription: 'Subscription',
-  meeting_booking: 'Meeting / booking',
-  documentation_request: 'Documentation',
-};
+export const SHEET_SOURCE_LABEL = FORM_SOURCE_LABELS;
 
 export const DEFAULT_SHEET_HEADERS = [
   'created_at',

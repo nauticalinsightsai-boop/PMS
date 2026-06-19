@@ -1,12 +1,6 @@
 import { sendAuthEmail, isEmailConfigured } from '@/lib/auth/send-email';
+import { FORM_SOURCE_LABELS } from '@/lib/interactions/types';
 import type { InteractionSource } from '@/lib/interactions/types';
-
-const SOURCE_LABELS: Record<InteractionSource, string> = {
-  contact: 'Contact',
-  subscription: 'Subscription',
-  meeting_booking: 'Meeting / booking',
-  documentation_request: 'Documentation',
-};
 
 export function resolveInteractionsAdminEmail(): string | null {
   const candidates = [
@@ -46,7 +40,7 @@ export function scheduleInteractionAdminEmail(params: {
     return;
   }
 
-  const label = SOURCE_LABELS[params.source] ?? params.source;
+  const label = FORM_SOURCE_LABELS[params.source] ?? params.source;
   const mailSubject = `[New lead] ${params.subject} — ${params.email}`;
   const text = [
     `New ${label} submission`,

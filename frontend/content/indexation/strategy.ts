@@ -128,7 +128,6 @@ const NOT_IN_REPO_SPEC_PATHS = [
   '/account',
   '/pmp-certification',
   '/pmp-exam',
-  '/answers/pmp-training-hours-vs-pdus',
   '/answers/should-i-take-pmp-before-july-2026',
   '/corporate/pmp-2026-readiness',
 ];

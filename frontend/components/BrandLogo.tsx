@@ -7,12 +7,12 @@ import { cn } from '@/lib/utils';
 export const BRAND_LOGO_LIGHT = BRAND_LOGO.light;
 /** Dark header/footer backgrounds */
 export const BRAND_LOGO_DARK = BRAND_LOGO.dark;
-/** Square PMS mark — below xl (mobile, tablet, laptop) */
+/** Square PMS mark: below xl (mobile, tablet, laptop) */
 export const BRAND_MARK_LIGHT = '/brand/pms-mark-light.png';
-/** Square PMS mark — below xl (mobile, tablet, laptop) */
+/** Square PMS mark: below xl (mobile, tablet, laptop) */
 export const BRAND_MARK_DARK = '/brand/pms-mark-dark.png';
 
-/** Processed wordmark is 640×154 (~4.16:1) — see `scripts/process-pms-wordmarks.mjs` */
+/** Processed wordmark is 640×173 (~3.7:1): see `scripts/process-pms-wordmarks.mjs` */
 const SIZE_MAP = {
   nav: {
     height: 40,

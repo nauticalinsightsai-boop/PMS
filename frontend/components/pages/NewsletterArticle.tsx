@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArticleCard, CTABanner } from '@/components/NewsletterComponents';
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import type { NewsletterArticle } from '@pms/site-content/newsletter-posts';
+import { resolveNewsletterArticleImage } from '@pms/site-content/newsletter-posts';
 
 export function NewsletterArticlePage({
   article,
@@ -55,8 +56,8 @@ export function NewsletterArticlePage({
       <div className="container mx-auto max-w-4xl py-12 md:py-16">
         <div className="aspect-[16/10] rounded-[2rem] overflow-hidden shadow-xl mb-12">
           <img
-            src={article.image}
-            alt=""
+            src={resolveNewsletterArticleImage(article.slug, article.image)}
+            alt={article.title}
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />

@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { CompareCertPicker } from '@/components/CompareCertPicker';
 import { CompareComparisonMatrix } from '@/components/CompareComparisonMatrix';
-import { PricingComplianceNote } from '@/components/PricingComplianceNote';
+import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import {
   compareIdsToQuery,
   getCompareableCertifications,
@@ -101,6 +101,16 @@ export function Compare({ globalContent }: { globalContent?: GlobalContentMap })
       <section className={sectionSurface('soft', 'py-16 md:py-20 border-b border-slate-100 dark:border-slate-800')}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
+            Select certifications to compare
+          </h2>
+          <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-2xl font-medium">
+            Start with the{' '}
+            <Link href="/certifications/pmp" className="font-bold text-brand-orange hover:underline">
+              PMP 2026 Readiness Pathway
+            </Link>{' '}
+            if you are planning for the July 2026 exam transition, then add other pathways for side-by-side review.
+          </p>
           <CompareCertPicker
             certifications={compareable}
             selectedIds={selectedIds}
@@ -127,7 +137,6 @@ export function Compare({ globalContent }: { globalContent?: GlobalContentMap })
               <CompareComparisonMatrix certs={compareCerts} />
             </>
           )}
-          <PricingComplianceNote className="mt-10 max-w-3xl mx-auto" />
         </div>
       </section>
 
@@ -144,11 +153,16 @@ export function Compare({ globalContent }: { globalContent?: GlobalContentMap })
               </div>
               <div className="text-center md:text-left">
                 <h2 className="text-3xl font-bold mb-4 tracking-tight">Not sure which one to choose?</h2>
-                <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed font-medium text-lg">
+                <p className="text-slate-500 dark:text-slate-400 mb-6 leading-relaxed font-medium text-lg">
                   Our certification experts can help you map out a personalized professional
                   development plan based on your experience and career aspirations.
                 </p>
-                <WebsiteCalendlyButton
+                <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center md:justify-start gap-4 mb-2">
+                  <PmpRoadmapCtaLink
+                    className="inline-flex h-14 items-center justify-center rounded-2xl bg-brand-orange px-10 text-lg font-bold text-white shadow-md shadow-brand-orange/20 hover:bg-brand-hover"
+                    ctaLocation="body"
+                  />
+                  <WebsiteCalendlyButton
                   tier="advisor"
                   className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-md shadow-brand-orange/20"
                   funnelLabel="compare_talk_to_advisor"
@@ -156,6 +170,7 @@ export function Compare({ globalContent }: { globalContent?: GlobalContentMap })
                 >
                   Talk to an advisor
                 </WebsiteCalendlyButton>
+                </div>
               </div>
             </div>
           </div>

@@ -84,7 +84,7 @@ function useMobileScrollAxis(
   }, [ref, enabled]);
 }
 
-function MobileLoopCarousel({
+export function MobileLoopCarousel({
   items,
   mobileItemClassName,
   className,

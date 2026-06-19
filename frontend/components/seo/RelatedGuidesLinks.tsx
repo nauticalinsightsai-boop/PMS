@@ -12,7 +12,8 @@ type Props = {
   currentPath?: string;
   className?: string;
   collapsible?: boolean;
-  variant?: 'default' | 'dark';
+  variant?: 'default' | 'dark' | 'dark-adaptive';
+  children?: React.ReactNode;
 };
 
 function useMinLgViewport() {
@@ -34,6 +35,7 @@ export function RelatedGuidesLinks({
   className,
   collapsible = false,
   variant = 'default',
+  children,
 }: Props) {
   const [toggled, setToggled] = React.useState(false);
   const [hovering, setHovering] = React.useState(false);
@@ -42,24 +44,33 @@ export function RelatedGuidesLinks({
   const visible = links.filter((l) => l.href !== currentPath);
   if (!visible.length) return null;
 
-  const isDark = variant === 'dark';
+  const isDark = variant === 'dark' || variant === 'dark-adaptive';
+  const isAdaptive = variant === 'dark-adaptive';
 
   const asideClass = cn(
     'rounded-2xl border p-6',
     !collapsible && 'mt-12',
     isDark
-      ? 'border-white/10 bg-white/5'
+      ? isAdaptive
+        ? 'border-white/10 bg-white/5 dark:border-slate-200 dark:bg-slate-900/[0.04]'
+        : 'border-white/10 bg-white/5'
       : 'border-slate-200 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-900/50',
     className,
   );
 
   const titleClass = cn(
     'font-heading text-lg font-bold',
-    isDark ? 'text-white' : 'text-slate-900 dark:text-white',
+    isDark
+      ? isAdaptive
+        ? 'text-white dark:text-slate-900'
+        : 'text-white'
+      : 'text-slate-900 dark:text-white',
   );
 
   const linkClass = isDark
-    ? 'font-medium text-slate-300 hover:text-brand-orange hover:underline'
+    ? isAdaptive
+      ? 'font-medium text-slate-300 hover:text-brand-orange hover:underline dark:text-slate-600 dark:hover:text-brand-orange'
+      : 'font-medium text-slate-300 hover:text-brand-orange hover:underline'
     : 'font-medium text-brand-purple hover:underline';
 
   const linkList = (
@@ -79,6 +90,7 @@ export function RelatedGuidesLinks({
       <aside className={asideClass} aria-label={title}>
         <h2 className={cn(titleClass, 'mb-4')}>{title}</h2>
         {linkList}
+        {children}
       </aside>
     );
   }
@@ -104,7 +116,11 @@ export function RelatedGuidesLinks({
         <ChevronDown
           className={cn(
             'h-5 w-5 shrink-0 transition-transform duration-300',
-            isDark ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400',
+            isDark
+              ? isAdaptive
+                ? 'text-slate-400 dark:text-slate-500'
+                : 'text-slate-400'
+              : 'text-slate-500 dark:text-slate-400',
             expanded && 'rotate-180',
           )}
           aria-hidden
@@ -119,6 +135,7 @@ export function RelatedGuidesLinks({
       >
         <div className={cn('min-h-0 overflow-hidden', !expanded && 'pointer-events-none')}>
           {linkList}
+          {children}
         </div>
       </div>
     </aside>

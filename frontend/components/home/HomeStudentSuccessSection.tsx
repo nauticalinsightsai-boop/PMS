@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { BRAND } from '@/lib/brand-voice';
 import { MARKETING_PMP_AVATARS } from '@/lib/marketing-stock-images';
 import { cn } from '@/lib/utils';
+import { MobileLoopCarousel } from '@/components/ResponsiveSnapScroll';
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
 
@@ -21,7 +22,7 @@ const STUDENT_SUCCESS_STORIES = [
     name: 'Sarah Jenkins',
     role: 'Senior PM at TechCorp',
     quote:
-      'The PM Structure PMP pathway gave me a structured study rhythm, weak-area tracking, and mentor-style review. I knew where I stood before exam day—and passed with Above Target in all domains.',
+      'The PM Structure PMP pathway gave me a structured study rhythm, weak-area tracking, and mentor-style review. I knew where I stood before exam day, and passed with Above Target in all domains.',
     avatar: MARKETING_PMP_AVATARS.sarah,
   },
   {
@@ -173,7 +174,7 @@ export function HomeStudentSuccessSection() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2" role="tablist" aria-label="Student success stories">
+            <div className="hidden md:flex items-center gap-2" role="tablist" aria-label="Student success stories">
               {STUDENT_SUCCESS_STORIES.map((story, index) => (
                 <button
                   key={story.id}
@@ -194,7 +195,14 @@ export function HomeStudentSuccessSection() {
           </m.div>
 
           <div className="lg:col-span-8">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+            <MobileLoopCarousel
+              mobileItemClassName="w-[min(88vw,19rem)]"
+              gapClassName="gap-6"
+              items={STUDENT_SUCCESS_STORIES.map((story) => (
+                <TestimonialCard key={story.id} story={story} />
+              ))}
+            />
+            <div className="hidden md:grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
               <AnimatePresence mode="popLayout" initial={false}>
                 {visibleStories.map((story) => (
                   <m.div

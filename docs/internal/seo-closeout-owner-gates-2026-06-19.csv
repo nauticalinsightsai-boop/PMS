@@ -1,0 +1,7 @@
+Gate_ID,Decision,Default_Applied,Recorded_Date,Owner,Status,Notes
+G1,Homepage H1: audit PMP-focused vs live broad,Keep live broad H1 Project management guidance,2026-06-19,Sheikh,Verified,On-page audit row updated
+G2,/pmp vs /certifications/pmp,Keep T-032 /pmp hub; no 301,2026-06-19,Sheikh,Verified,OA-004 updated
+G3,/pmp-exam-2026 vs /topics/pmp-exam-2026,Keep cluster; fix metadata; no 301,2026-06-19,Sheikh,Verified,OA-005 updated; phase-2-page-seo.ts
+G4,/blog indexation,noindex until content ships,2026-06-19,Sheikh,Verified,blog/page.tsx robots + sitemap exclusion
+G5,Regional SEO routes,Defer until OA-008 approval,2026-06-19,Sheikh,Verified,Regional schedule rows Blocked
+G6,Portal testimonials,Stay removed until written permission,2026-06-19,Sheikh,Verified,OA-011 unchanged

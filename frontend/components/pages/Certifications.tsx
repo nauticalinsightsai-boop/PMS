@@ -14,15 +14,18 @@ import {
   Search,
   ShieldCheck,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { MARKETING_HERO_H1_CLASS } from '@/lib/brand-visual';
+import { cn } from '@/lib/utils';
 import { certifications, familyConfigs } from "@/data/certification-index";
 import type { CertificationSummary } from "@/types/site";
 import { CERTIFICATIONS_COPY, CTAS } from "@/lib/brand-voice";
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
 import { LazyWhenVisible } from '@/components/LazyWhenVisible';
-import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
+import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
+import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
 import { useRegion } from "@/contexts/RegionContext";
 import {
@@ -127,6 +130,8 @@ const certificationsBase = certifications.filter((c) =>
 
 const emptyRegistry: CertificationsRegistry = { entries: [] };
 
+const CERTIFICATIONS_RELATED = getPhase2RelatedBlock('/certifications');
+
 export function Certifications({
   initialHubConfig,
   initialRegistry,
@@ -173,8 +178,7 @@ export function Certifications({
       {/* Hero Section */}
       <section
         className={cn(
-          'relative overflow-hidden bg-gradient-to-b from-orange-50/80 via-slate-50 to-slate-50 dark:from-[#1a0f0c] dark:via-slate-950 dark:to-slate-950',
-          PAGE_HERO_PADDING,
+          'relative flex h-[804px] items-center overflow-hidden bg-gradient-to-b from-orange-50/80 via-slate-50 to-slate-50 dark:from-[#1a0f0c] dark:via-slate-950 dark:to-slate-950',
         )}
       >
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -183,7 +187,7 @@ export function Certifications({
           <div className="absolute top-[20%] left-[30%] w-[25%] h-[30%] rounded-full blur-[100px] opacity-15 bg-pms-gradient-blue-purple dark:opacity-20" />
         </div>
         
-        <div className="container relative z-10 mx-auto">
+        <div className="container relative z-10 mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             <m.div
               initial={{ opacity: 0, y: 20 }}
@@ -194,7 +198,7 @@ export function Certifications({
               <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
                 {hub.hero.badge || CERTIFICATIONS_COPY.heroBadge}
               </Badge>
-              <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
+              <h1 className={cn(MARKETING_HERO_H1_CLASS, 'mb-8 leading-tight')}>
                 {hub.hero.title || (<>Find your <span className="text-pms-gradient-orange">pathway</span></>)}
               </h1>
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
@@ -366,25 +370,15 @@ export function Certifications({
             </div>
 
             <div className="lg:w-1/2 w-full">
-              <div className="bg-pms-navy rounded-[3rem] p-8 md:p-12 relative overflow-hidden shadow-2xl border border-slate-800 group">
+              <div className="bg-pms-navy rounded-[3rem] p-8 md:p-12 relative overflow-hidden shadow-2xl border border-slate-800 group flex flex-col">
                 <div className="absolute top-0 right-0 w-64 h-64 opacity-40 bg-pms-gradient-blue-purple blur-[100px] -mr-32 -mt-32" />
                 
                 <h3 className="text-2xl font-bold text-white mb-6 relative z-10 flex items-center gap-3">
                   <ShieldCheck className="h-6 w-6 text-brand-orange" />
                   How we guide your decision
                 </h3>
-
-                <WebsiteCalendlyButton
-                  size="lg"
-                  tier="discovery"
-                  className="relative z-10 mb-8 h-12 w-full rounded-2xl bg-brand-orange px-6 font-bold text-white transition-all hover:bg-brand-hover sm:h-14 sm:w-auto sm:px-8"
-                  funnelLabel="certifications_pathway_advisory"
-                  utm={{ utm_source: 'pmstructure', utm_medium: 'certifications', utm_campaign: 'pathway_advisory' }}
-                >
-                  {CTAS.pathwayConsultation}
-                </WebsiteCalendlyButton>
                 
-                <ul className="space-y-6 relative z-10">
+                <ul className="space-y-6 relative z-10 flex-1">
                   {[
                     { title: "Certification target", desc: "PMI, PRINCE2, Six Sigma, or hybrid: matched to your role." },
                     { title: "Weekly capacity", desc: "Foundation, Professional, or Mastery to fit your schedule." },
@@ -401,6 +395,18 @@ export function Certifications({
                     </li>
                   ))}
                 </ul>
+
+                <div className="relative z-10 mt-8 flex justify-end">
+                  <WebsiteCalendlyButton
+                    size="lg"
+                    tier="discovery"
+                    className="h-12 rounded-2xl bg-brand-orange px-6 font-bold text-white transition-all hover:bg-brand-hover sm:h-14 sm:w-auto sm:px-8"
+                    funnelLabel="certifications_pathway_advisory"
+                    utm={{ utm_source: 'pmstructure', utm_medium: 'certifications', utm_campaign: 'pathway_advisory' }}
+                  >
+                    {CTAS.pathwayConsultation}
+                  </WebsiteCalendlyButton>
+                </div>
               </div>
             </div>
           </m.div>
@@ -440,15 +446,25 @@ export function Certifications({
                 </Link>
                 <WebsiteCalendlyButton
                   size="lg"
-                  tier="advisor"
+                  tier="mentor"
                   variant="outline"
                   className="h-16 px-10 rounded-2xl border-white/30 bg-white text-black hover:bg-slate-100 hover:text-black dark:border-slate-300 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800 dark:hover:text-white font-bold text-lg transition-all"
-                  funnelLabel="certifications_talk_to_advisor"
-                  utm={{ utm_source: 'pmstructure', utm_medium: 'certifications', utm_campaign: 'advisor' }}
+                  funnelLabel="certifications_talk_to_mentor"
+                  utm={{ utm_source: 'pmstructure', utm_medium: 'certifications', utm_campaign: 'mentor' }}
                 >
-                  Talk to an Advisor
+                  {CTAS.talkToAMentor}
                 </WebsiteCalendlyButton>
               </div>
+              {CERTIFICATIONS_RELATED ? (
+                <RelatedGuidesLinks
+                  title={CERTIFICATIONS_RELATED.title}
+                  links={CERTIFICATIONS_RELATED.links}
+                  currentPath="/certifications"
+                  collapsible
+                  variant="dark-adaptive"
+                  className="mx-auto mt-8 max-w-xl text-left sm:mt-10"
+                />
+              ) : null}
             </div>
           </m.div>
         </div>

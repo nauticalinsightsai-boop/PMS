@@ -126,18 +126,35 @@ NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL=<same value>
 | `source` | Label | Examples |
 |----------|-------|----------|
 | `contact` | Contact | `/contact`, channel forms |
-| `subscription` | Subscription | Footer newsletter |
+| `subscription` | Subscription | Footer newsletter, `/newsletter` hero |
 | `meeting_booking` | Meeting / booking | `/go/*` portals, engagement Stripe |
 | `documentation_request` | Documentation | Course enrollment, brief modals |
+| `pmp_roadmap_lead` | PMP roadmap lead | Home hero, cert hub, `/certifications/pmp` |
+| `cert_roadmap_lead` | Certification roadmap | Certification detail heroes |
+| `consultation` | Pathway consultation | PM Service advisory, mastery, register modal |
+| `waitlist` | Waitlist | Community waitlist, contact waitlist, store |
+| `scholarship_review` | Scholarship review | Regional scholarship forms |
+| `lead_recovery` | Lead recovery | Bottom bar, lead recovery dialog |
+| `channel_portal` | Channel portal | `/go/*` channel landing |
+| `register_modal` | Register modal | Register modal signup |
 
 ## Forms wired in this repo
 
+All public marketing forms use `submitPublicInteraction` → `POST /api/interactions` (same pipeline as above).
+
 - `frontend/lib/interactions/submit-public.ts` — shared client helper
+- `frontend/components/forms/PmpRoadmapLeadForm.tsx` — roadmap (home, certs)
+- `frontend/components/forms/CommunityWaitlistForm.tsx` — community waitlist
+- `frontend/components/forms/WaitlistForm.tsx` — contact waitlist
+- `frontend/components/forms/NewsletterSubscribeForm.tsx` / `NewsletterHeroSubscribeForm.tsx`
+- `frontend/components/forms/PmServiceAdvisoryLeadForm.tsx` — PM Service
+- `frontend/components/forms/MasteryConsultationForm.tsx` / `ScholarshipReviewForm.tsx`
+- `frontend/components/pages/Contact.tsx`
+- `frontend/components/conversion-recovery/BottomCtaRotator.tsx` / `LeadRecoveryDialog.tsx`
 - `frontend/components/channel-landing/ChannelLandingPublicView.tsx`
 - `frontend/components/channel-landing/portal/ChannelPortalBookingForm.tsx`
-- `frontend/services/interactions.ts`
-
-Extend with the same helper for additional surfaces (footer subscribe, contact page, etc.).
+- `frontend/components/RegisterModal.tsx`
+- Legacy API aliases (proxy to same pipeline): `backend/app/api/waitlist`, `/consultation`, `/scholarship-review`
 
 **Not interactions:** Stripe engagement bookings use `/api/engagement/bookings/*` and the engagement bridge (`logEngagementMeetingInteraction`).
 
@@ -148,6 +165,19 @@ Extend with the same helper for additional surfaces (footer subscribe, contact p
 3. Check **Interaction Inbox** — new row, Sheets badge Pending → Synced
 4. Check Gmail/admin inbox for `[New lead] …` ping
 5. Check Google Sheet for new row (when configured)
+
+## June 2026 SEO closeout (dev complete)
+
+All 12 `INTERACTIONS_SOURCES` are wired to `POST /api/interactions`. Code and docs are complete.
+
+**Owner must complete before live smoke:**
+
+1. Set env vars on dashboard API (see Production checklist below)
+2. Create `Submissions` tab with columns A–G
+3. Share spreadsheet with service account Editor
+4. Run smoke: home PMP roadmap → Inbox → Sheet (`pmp_roadmap_lead`); community waitlist (`waitlist`); newsletter (`subscription`)
+
+Track completion in Railway/hosting env + owner QA; dev cannot verify without production credentials.
 
 ## Production checklist
 

@@ -1,0 +1,173 @@
+{
+  "capturedAt": "2026-06-19T21:09:26.354Z",
+  "results": [
+    {
+      "url": "https://pmstructure.com/",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/",
+      "title": "PM Structure | PMP 2026 Readiness & Project Certification Pathways",
+      "canon": "https://pmstructure.com",
+      "robots": "index, follow",
+      "h1": "N/A",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/certifications",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/certifications",
+      "title": "Project Management Certification Pathways | PM Structure",
+      "canon": "https://pmstructure.com/certifications",
+      "robots": "index, follow",
+      "h1": "Choose the project management certification pathway that fits your role.",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/certifications/pmp",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/certifications/pmp",
+      "title": "PMP 2026 Readiness Pathway | PM Structure",
+      "canon": "https://pmstructure.com/certifications/pmp",
+      "robots": "index, follow",
+      "h1": "PMP ",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/topics/pmp-exam-2026",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/topics/pmp-exam-2026",
+      "title": "PMP Exam 2026 Guide | PM Structure",
+      "canon": "https://pmstructure.com/topics/pmp-exam-2026",
+      "robots": "index, follow",
+      "h1": "PMP Exam 2026 Guide",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
+      "title": "Is the PMP Exam Changing in 2026? | PM Structure",
+      "canon": "https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
+      "robots": "index, follow",
+      "h1": "Is the PMP exam changing in 2026?",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/faq",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/faq",
+      "title": "PM Structure FAQ | PMP, Certification Prep & Readiness Support",
+      "canon": "https://pmstructure.com/faq",
+      "robots": "index, follow",
+      "h1": "PM Structure FAQ",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/certifications/compare",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/certifications/compare",
+      "title": "Compare Project Management Certifications | PMP, PRINCE2, PMI-RMP & Six Sigma | PM Structure",
+      "canon": "https://pmstructure.com/certifications/compare",
+      "robots": "index, follow",
+      "h1": "N/A",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/legal/privacy",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/legal/privacy",
+      "title": "Privacy Policy | PM Structure",
+      "canon": "https://pmstructure.com/legal/privacy",
+      "robots": "index, follow",
+      "h1": "Privacy Policy (Global)",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/legal/terms",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/legal/terms",
+      "title": "Terms & Conditions | PM Structure",
+      "canon": "https://pmstructure.com/legal/terms",
+      "robots": "index, follow",
+      "h1": "Terms & Conditions",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/pmp",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/pmp",
+      "title": "PMP exam preparation hub | PM Structure",
+      "canon": "https://pmstructure.com/pmp",
+      "robots": "index, follow",
+      "h1": "PMP exam preparation hub",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/pmp-exam-2026",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/pmp-exam-2026",
+      "title": "PMP 2026 Readiness Pathway | PM Structure | PM Structure",
+      "canon": "https://pmstructure.com/pmp-exam-2026",
+      "robots": "index, follow",
+      "h1": "PMP 2026 Readiness Pathway",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/go/website",
+      "headStatus": 200,
+      "redirectTo": null,
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/go/website",
+      "title": "PM Structure: certification and career guidance | PM Structure | PM Structure",
+      "canon": "https://pmstructure.com/go/website",
+      "robots": "index, follow",
+      "h1": "N/A",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/terms",
+      "headStatus": 308,
+      "redirectTo": "/legal/terms",
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/legal/terms",
+      "title": "Terms & Conditions | PM Structure",
+      "canon": "https://pmstructure.com/legal/terms",
+      "robots": "index, follow",
+      "h1": "Terms & Conditions",
+      "todoInHtml": false
+    },
+    {
+      "url": "https://pmstructure.com/privacy",
+      "headStatus": 308,
+      "redirectTo": "/legal/privacy",
+      "finalStatus": 200,
+      "finalUrl": "https://pmstructure.com/legal/privacy",
+      "title": "Privacy Policy | PM Structure",
+      "canon": "https://pmstructure.com/legal/privacy",
+      "robots": "index, follow",
+      "h1": "Privacy Policy (Global)",
+      "todoInHtml": false
+    }
+  ]
+}

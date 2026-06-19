@@ -24,6 +24,7 @@ export function PmpProgramHighlightsContent({
     <CertProgramHighlightsContent
       offer={PMP_PROGRAM_OFFER}
       roadmapAnchor={roadmapAnchor}
+      siteCertId="pmp"
       className={className}
       embedded={embedded}
     />
@@ -39,6 +40,7 @@ export function PmpProgramHighlightsSection({
     <CertProgramHighlightsSection
       offer={PMP_PROGRAM_OFFER}
       roadmapAnchor={roadmapAnchor}
+      siteCertId="pmp"
       className={className}
     />
   );

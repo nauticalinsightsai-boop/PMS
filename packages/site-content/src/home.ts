@@ -221,29 +221,34 @@ const LEGACY_HOME_HERO_SUBTITLE_PREFIX = 'The PMP exam changes on 9 July 2026. P
 export const DEFAULT_HOME_HERO_SUBTITLE =
   'Choose the right pathway. Prepare with structure. Build judgment for real projects.';
 
-/** Two-line homepage H1 (line 1 + newline + line 2). */
-export const DEFAULT_HOME_HERO_HEADING = 'Project management\nguidance';
+/** Single-line homepage H1 (meta / JSON-LD). */
+export const DEFAULT_HOME_HERO_HEADING = 'Project management guidance';
 
-const SINGLE_LINE_HOME_HERO_HEADING = 'Project management guidance';
+/** Default visual H1 lines in the homepage hero. */
+export const DEFAULT_HOME_HERO_HEADING_LINES = ['Project management', 'guidance'] as const;
 
-/** Normalize CMS / legacy single-line hero heading to the default two-line form. */
+const DEFAULT_HOME_HERO_HEADING_MULTILINE = DEFAULT_HOME_HERO_HEADING_LINES.join('\n');
+
+const LEGACY_TWO_LINE_HOME_HERO_HEADING = DEFAULT_HOME_HERO_HEADING_MULTILINE;
+
+/** Normalize CMS / legacy hero heading to a single line for meta copy. */
 export function normalizeHomeHeroHeading(heading: string): string {
   const trimmed = heading.trim();
   if (!trimmed) return DEFAULT_HOME_HERO_HEADING;
-  if (trimmed === SINGLE_LINE_HOME_HERO_HEADING) return DEFAULT_HOME_HERO_HEADING;
-  return trimmed;
+  return trimmed.replace(/\s*\n\s*/g, ' ');
 }
 
 /** Visual H1 lines for the homepage hero. */
 export function parseHomeHeroHeadingLines(heading: string): string[] {
-  const normalized = normalizeHomeHeroHeading(heading);
-  if (normalized.includes('\n')) {
-    return normalized
-      .split('\n')
-      .map((line) => line.trim())
-      .filter(Boolean);
+  const trimmed = heading.trim();
+  if (!trimmed) return [...DEFAULT_HOME_HERO_HEADING_LINES];
+  if (trimmed.includes('\n')) {
+    return trimmed.split(/\n+/).map((line) => line.trim()).filter(Boolean);
   }
-  return [normalized];
+  if (trimmed === DEFAULT_HOME_HERO_HEADING || trimmed === LEGACY_TWO_LINE_HOME_HERO_HEADING.replace(/\n/g, ' ')) {
+    return [...DEFAULT_HOME_HERO_HEADING_LINES];
+  }
+  return [trimmed];
 }
 
 /** Migrate published CMS rows that still carry pre-lean-down hero / final CTA copy. */
@@ -347,6 +352,18 @@ export function resolveHomeHeroHeading(heading: string): string {
   return normalizeHomeHeroHeading(resolved);
 }
 
+/** Resolve homepage hero heading to visual lines (after legacy migration). */
+export function resolveHomeHeroHeadingLines(heading: string): string[] {
+  const base = defaultHomePageConfigV2();
+  const trimmed = heading.trim();
+  if (!trimmed) return parseHomeHeroHeadingLines(base.heroSlides[0].heading);
+  const resolved = applyLeanHomeDefaults({
+    ...base,
+    heroSlides: [{ ...base.heroSlides[0], heading: trimmed }],
+  }).heroSlides[0].heading;
+  return parseHomeHeroHeadingLines(resolved);
+}
+
 /** Resolve a single hero subtitle through lean-down legacy migration. */
 export function resolveHomeHeroSubtitle(description: string): string {
   const base = defaultHomePageConfigV2();
@@ -365,7 +382,7 @@ export function defaultHomePageConfigV2(): HomePageConfigV2 {
       {
         id: 1,
         visible: true,
-        heading: DEFAULT_HOME_HERO_HEADING,
+        heading: DEFAULT_HOME_HERO_HEADING_MULTILINE,
         description: DEFAULT_HOME_HERO_SUBTITLE,
         primaryCta: 'Get My PMP 2026 Roadmap',
         primaryAction: 'link',

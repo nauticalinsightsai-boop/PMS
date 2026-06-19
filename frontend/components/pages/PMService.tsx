@@ -30,7 +30,6 @@ const SERVICE_COLORS = [
   { color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-900/10" },
   { color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-900/10" },
 ];
-
 export function PMService({ initialPageConfig }: { initialPageConfig?: ServicesPageConfig }) {
   const fallback = defaultServicesPageConfig();
   const { data: pageConfig } = usePublishedSiteDocument(FIELD_KEYS.SERVICES_PAGE_CONFIG, {

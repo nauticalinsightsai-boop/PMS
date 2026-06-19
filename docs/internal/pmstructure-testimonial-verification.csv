@@ -18,4 +18,4 @@ home-stats,1284 professionals count,N/A,Home stats,Home.tsx,Unknown,Removed,Remo
 community-member-count,1284 memberCount default,N/A,Community CMS,community.ts,Unknown,Removed,Removed,N/A,High,Mahaa,Default removed B12
 community-inline-quote,Sarah J study circles quote,Sarah J.,Community mentorship overlay,Community.tsx,Unknown,Removed,Removed,N/A,High,Sheikh M. Abdullah,Removed B12
 pm-service-quote,Jonathan Vance governance quote,Jonathan Vance,Director Operations,PmService.tsx,Unknown,Removed,Removed,N/A,High,Sheikh M. Abdullah,Removed B12
-home-rating-4.9,4.9/5 Average Rating display,N/A,HomeTestimonialsSection,HomeTestimonialsSection.tsx,Unknown,Removed,Removed,N/A,High,Mahaa,Stars removed B12
+go-website-production,Verified learner stories are being collected and will be added only after permission is confirmed.,N/A,/go/website,Production live check,Permission required before named stories,Verified safe (no named stories),Hidden until permission,Permission pending,Low,Sheikh M. Abdullah,"Production 2026-06-20: no Sarah M./James O./pass claims. Placeholder only. evidence/B15_POST_FIX_VERIFICATION_EVIDENCE.md"

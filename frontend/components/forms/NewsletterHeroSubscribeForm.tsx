@@ -27,6 +27,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
   const idPrefix = placement.replace(/[^a-z0-9]/gi, '-');
   const isMobile = placement === 'newsletter_hero_mobile';
 
+  const [fullName, setFullName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [selectedTopics, setSelectedTopics] = React.useState<string[]>([]);
   const [honeypot, setHoneypot] = React.useState('');
@@ -82,6 +83,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
         pagePath,
       },
       payload: {
+        fullName: fullName.trim(),
         topics: selectedTopics,
         topicsLabel,
         placement,
@@ -95,6 +97,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
         page_path: pagePath,
       });
       setSubmitted(true);
+      setFullName('');
       setEmail('');
       setSelectedTopics([]);
     } else {
@@ -106,7 +109,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
     return (
       <div className={cn(shellClass, 'p-8 sm:p-10')}>
         <p className="text-base font-semibold text-green-700 dark:text-green-400">
-          You&apos;re subscribed — we&apos;ll send insights on your selected topics.
+          You&apos;re subscribed. We&apos;ll send insights on your selected topics.
         </p>
         <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
           Browse the latest articles below or{' '}
@@ -137,7 +140,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
                 Subscribe to the newsletter
               </p>
               <p className="mt-0.5 text-sm font-medium text-slate-500 dark:text-slate-400">
-                Pick the topics you care about — we&apos;ll tailor what we send.
+                Pick the topics you care about. We&apos;ll tailor what we send.
               </p>
             </div>
           </div>
@@ -165,6 +168,22 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
               })}
             </div>
           </fieldset>
+
+          <div className="space-y-2.5">
+            <Label htmlFor={`${idPrefix}-name`} className={labelClass}>
+              Full name
+            </Label>
+            <Input
+              id={`${idPrefix}-name`}
+              type="text"
+              required
+              autoComplete="name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder="John Smith"
+              className={fieldClass}
+            />
+          </div>
 
           <div className="space-y-2.5">
             <Label htmlFor={`${idPrefix}-email`} className={labelClass}>

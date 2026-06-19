@@ -26,13 +26,11 @@ import {
   type CommunityPageConfig,
   type StoreCatalog,
 } from "@pms/site-content";
-import { BRAND, COMMUNITY_COPY, CTAS } from "@/lib/brand-voice";
-import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
-import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
+import { BRAND, COMMUNITY_COPY } from "@/lib/brand-voice";
 import { MARKETING_STOCK_IMAGES } from "@/lib/marketing-stock-images";
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
-import { T176_COMMUNITY_NOTE, T176_SOCIAL_PROOF_REPLACEMENT } from '@/content/t176-claims';
+import { CommunityWaitlistForm } from '@/components/forms/CommunityWaitlistForm';
 
 const StoreContent = dynamic(
   () => import('@/components/pages/Store').then((m) => ({ default: m.StoreContent })),
@@ -86,27 +84,29 @@ function CommunityNetworkContent({
   return (
     <>
       {/* Community Channels */}
-      <section className="py-20 -mt-20 relative z-20">
+      <section className="relative z-20 pt-14 pb-20 md:pt-16">
         <div className="container mx-auto">
-          <h2 className="text-2xl font-bold tracking-tight text-center mb-10 dark:text-white">Community channels</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
             {communityChannels.map((channel, index) => (
               <m.div
                 key={channel.title}
+                className="h-full"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
               >
-                <Card className="h-full border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 group rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-900">
-                  <CardHeader className={cn("p-8", channel.bg)}>
+                <Card className="flex h-full flex-col border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 group rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-900">
+                  <CardHeader className={cn("flex flex-1 flex-col p-8", channel.bg)}>
                     <div className={cn("p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm mb-6 w-fit transition-transform group-hover:scale-110", channel.color)}>
                       <channel.icon className="h-6 w-6" />
                     </div>
                     <h3 className="text-2xl font-bold tracking-tight">{channel.title}</h3>
-                    <CardDescription className="text-slate-500 dark:text-slate-400 mt-3 text-base font-medium leading-relaxed">{channel.desc}</CardDescription>
+                    <CardDescription className="mt-3 flex-1 text-base font-medium leading-relaxed text-slate-500 dark:text-slate-400">
+                      {channel.desc}
+                    </CardDescription>
                   </CardHeader>
-                  <CardContent className="p-8">
+                  <CardContent className="mt-auto shrink-0 p-8 pt-0">
                     <div className="flex items-center justify-end">
                       <Link
                         href={channel.joinHref}
@@ -173,7 +173,9 @@ function CommunityNetworkContent({
                   className="object-cover w-full h-full"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+                <div className="absolute inset-0 flex flex-col bg-gradient-to-t from-slate-950/98 via-slate-950/94 to-slate-950/88 p-5 sm:p-6 lg:p-8">
+                  <CommunityWaitlistForm className="h-full" />
+                </div>
               </div>
             </m.div>
           </div>
@@ -325,7 +327,7 @@ export function Community({
     <LazyMotion features={domAnimation} strict>
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className={pageHeroSection('blend', 'text-center')}>
+      <section className={pageHeroSection('blend', 'text-center pb-10 md:pb-12')}>
         <SectionAmbience tone="blend" />
         
         <div className="container relative z-10 mx-auto">
@@ -343,59 +345,37 @@ export function Community({
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
               {hero.subtitle || globalContentString(globalContent, 'community_subtitle', COMMUNITY_COPY.heroSubtitle)}
             </p>
-            <p className="mt-4 text-sm text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              {T176_COMMUNITY_NOTE}
-            </p>
-            <p className="mt-4 text-sm font-medium text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              {T176_SOCIAL_PROOF_REPLACEMENT}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-              <PmpRoadmapCtaLink ctaLocation="hero" />
-              <WebsiteCalendlyButton
-                size="lg"
-                variant="outline"
-                className="h-14 px-8 rounded-2xl font-bold"
-                tier="discovery"
-                funnelLabel="community_hero_mentor"
-                utm={{ utm_source: 'pmstructure', utm_medium: 'community', utm_campaign: 'hero' }}
+            <div className="mt-10 flex justify-center">
+              <div
+                className="inline-flex flex-col sm:flex-row justify-center gap-2 p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm"
+                role="tablist"
+                aria-label="Community and resource store"
               >
-                {CTAS.talkToAMentor}
-              </WebsiteCalendlyButton>
+                <Button
+                  type="button"
+                  size="lg"
+                  variant="ghost"
+                  role="tab"
+                  aria-selected={activeTab === "community"}
+                  className={heroTabButtonClass("community")}
+                  onClick={() => handleTabChange("community")}
+                >
+                  Join Skool Community
+                </Button>
+                <Button
+                  type="button"
+                  size="lg"
+                  variant="ghost"
+                  role="tab"
+                  aria-selected={activeTab === "store"}
+                  className={heroTabButtonClass("store")}
+                  onClick={() => handleTabChange("store")}
+                >
+                  Browse Resources
+                </Button>
+              </div>
             </div>
           </m.div>
-        </div>
-      </section>
-
-      <section className="py-5 border-b border-slate-100 dark:border-slate-900 bg-slate-50/60 dark:bg-slate-900/30 sticky top-16 z-40 backdrop-blur-md">
-        <div className="container mx-auto flex justify-center">
-          <div
-            className="inline-flex flex-col sm:flex-row justify-center gap-2 p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm"
-            role="tablist"
-            aria-label="Community and resource store"
-          >
-            <Button
-              type="button"
-              size="lg"
-              variant="ghost"
-              role="tab"
-              aria-selected={activeTab === "community"}
-              className={heroTabButtonClass("community")}
-              onClick={() => handleTabChange("community")}
-            >
-              Join Skool Community
-            </Button>
-            <Button
-              type="button"
-              size="lg"
-              variant="ghost"
-              role="tab"
-              aria-selected={activeTab === "store"}
-              className={heroTabButtonClass("store")}
-              onClick={() => handleTabChange("store")}
-            >
-              Browse Resources
-            </Button>
-          </div>
         </div>
       </section>
 

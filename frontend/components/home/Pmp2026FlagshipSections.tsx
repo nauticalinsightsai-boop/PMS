@@ -20,7 +20,7 @@ const SECTION_PY = 'py-16 sm:py-20 md:py-24';
 export function Pmp2026FlagshipSections() {
   return (
     <>
-      <section className={sectionSurface('purple', SECTION_PY)}>
+      <section id="pmp-90-day-focus" className={sectionSurface('purple', SECTION_PY)}>
         <SectionAmbience tone="purple" />
         <div className="container relative z-10 mx-auto px-4">
           <m.div
@@ -59,7 +59,7 @@ export function Pmp2026FlagshipSections() {
         </div>
       </section>
 
-      <section className={`${SECTION_PY} bg-white dark:bg-slate-950`}>
+      <section id="pmp-roadmap-steps" className={`${SECTION_PY} bg-white dark:bg-slate-950`}>
         <div className="container mx-auto px-4">
           <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-10 tracking-tight">
             {T169_ROADMAP_STEPS.heading}
@@ -90,7 +90,7 @@ export function Pmp2026FlagshipSections() {
         </div>
       </section>
 
-      <section className={sectionSurface('soft', SECTION_PY)}>
+      <section id="pmp-who-for" className={sectionSurface('soft', SECTION_PY)}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
@@ -125,7 +125,7 @@ export function Pmp2026FlagshipSections() {
         </div>
       </section>
 
-      <section className={`${SECTION_PY} bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900`}>
+      <section id="pmp-readiness-faqs" className={`${SECTION_PY} bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900`}>
         <div className="container mx-auto px-4 max-w-3xl">
           <h2 className="font-heading text-section font-bold mb-8 tracking-tight">
             PMP 2026 readiness: common questions

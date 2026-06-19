@@ -1,20 +1,17 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { LazyMotion, domAnimation, m } from "motion/react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Users, Sparkles, FileText, Gift } from "lucide-react";
+import { Check, ChevronDown, Users, Sparkles, FileText, Gift } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { globalContentString, type GlobalContentMap } from '@/lib/cms/global-content';
 import { usePublishedSiteDocument } from '@/lib/usePublishedSiteDocument';
 import { FIELD_KEYS, defaultMembershipPageConfig, parseMembershipPageConfig, type MembershipPageConfig } from "@pms/site-content";
 import Link from "next/link";
-import { BRAND, CTAS, HOME_COPY } from "@/lib/brand-voice";
-import { T176_MEMBERSHIP_NOTE } from '@/content/t176-claims';
-import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
-import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
-import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { BRAND, HOME_COPY } from "@/lib/brand-voice";
+import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { MembershipDualPrice } from '@/components/MembershipDualPrice';
 import { useRegion } from '@/contexts/RegionContext';
 import {
@@ -28,9 +25,72 @@ import { getRegionalMembershipAmounts } from '@/lib/membership-regional-pricing'
 import { membershipCheckoutHref, type MembershipCheckoutTier } from '@/lib/membership-checkout';
 import { MARKETING_STOCK_IMAGES } from '@/lib/marketing-stock-images';
 
-import { membershipTiers } from "@/data/certification-index";
 import { LazyWhenVisible } from '@/components/LazyWhenVisible';
-import { PricingComplianceNote } from '@/components/PricingComplianceNote';
+import { membershipTiers } from '@/data/certification-index';
+
+const MEMBERSHIP_FEATURES_PREVIEW = 4;
+const MEMBERSHIP_TIER_DESCRIPTION_MIN_H = 'min-h-[6.5rem]';
+const MEMBERSHIP_TIER_FEATURES_MIN_H = 'min-h-[15rem]';
+const MEMBERSHIP_BENEFIT_TITLE_MIN_H = 'min-h-[3.5rem]';
+const MEMBERSHIP_BENEFIT_DESC_MIN_H = 'min-h-[5rem] lg:min-h-[10rem]';
+
+function MembershipTierFeatures({ features }: { features: string[] }) {
+  const [expanded, setExpanded] = useState(false);
+  const collapsible = features.length > MEMBERSHIP_FEATURES_PREVIEW;
+  const visibleFeatures =
+    expanded || !collapsible ? features : features.slice(0, MEMBERSHIP_FEATURES_PREVIEW);
+  const hiddenCount = features.length - MEMBERSHIP_FEATURES_PREVIEW;
+
+  return (
+    <div className={cn('flex flex-col space-y-3', MEMBERSHIP_TIER_FEATURES_MIN_H)}>
+      <button
+        type="button"
+        className={cn(
+          'flex w-full items-center justify-between gap-2 text-left',
+          collapsible && 'cursor-pointer',
+        )}
+        onClick={() => collapsible && setExpanded((open) => !open)}
+        aria-expanded={collapsible ? expanded : undefined}
+        disabled={!collapsible}
+      >
+        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
+          What&apos;s included
+        </span>
+        {collapsible ? (
+          <ChevronDown
+            className={cn(
+              'h-4 w-4 shrink-0 text-slate-400 transition-transform duration-300',
+              expanded && 'rotate-180',
+            )}
+            aria-hidden
+          />
+        ) : null}
+      </button>
+      <ul className="space-y-3">
+        {visibleFeatures.map((feature) => (
+          <li
+            key={feature}
+            className="flex items-start gap-3 text-sm font-semibold text-slate-600 dark:text-slate-400"
+          >
+            <Check className="h-4 w-4 text-brand-purple shrink-0 mt-0.5" />
+            {feature}
+          </li>
+        ))}
+      </ul>
+      {collapsible ? (
+        <button
+          type="button"
+          onClick={() => setExpanded((open) => !open)}
+          className="mt-auto text-left text-xs font-bold text-brand-purple hover:underline"
+        >
+          {expanded ? 'Show less' : `Show ${hiddenCount} more`}
+        </button>
+      ) : (
+        <span className="mt-auto block min-h-5" aria-hidden />
+      )}
+    </div>
+  );
+}
 
 function useMaxAnnualSavingsPercent() {
   const { regionId, gccCountry } = useRegion();
@@ -87,13 +147,15 @@ function MembershipBillingToggle({
   billing,
   onChange,
   maxAnnualSavingsPercent,
+  className,
 }: {
   billing: BillingCycle;
   onChange: (cycle: BillingCycle) => void;
   maxAnnualSavingsPercent: number;
+  className?: string;
 }) {
   return (
-    <div className="flex justify-center mb-12" role="group" aria-label="Billing period">
+    <div className={cn('flex justify-center', className)} role="group" aria-label="Billing period">
       <div className="inline-flex p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700">
         <button
           type="button"
@@ -126,6 +188,60 @@ function MembershipBillingToggle({
             </span>
           ) : null}
         </button>
+      </div>
+    </div>
+  );
+}
+
+function MembershipHeroBilling({
+  billing,
+  onChange,
+  maxAnnualSavingsPercent,
+  pricingNote,
+}: {
+  billing: BillingCycle;
+  onChange: (cycle: BillingCycle) => void;
+  maxAnnualSavingsPercent: number;
+  pricingNote: ReactNode;
+}) {
+  const [hovering, setHovering] = useState(false);
+  const [isLg, setIsLg] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const sync = () => setIsLg(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  const expanded = isLg && hovering;
+
+  return (
+    <div
+      className="mt-10"
+      onMouseEnter={() => {
+        if (isLg) setHovering(true);
+      }}
+      onMouseLeave={() => {
+        if (isLg) setHovering(false);
+      }}
+    >
+      <MembershipBillingToggle
+        billing={billing}
+        onChange={onChange}
+        maxAnnualSavingsPercent={maxAnnualSavingsPercent}
+      />
+      <div
+        className={cn(
+          'grid transition-all duration-300 ease-out',
+          expanded ? 'mt-6 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
+        )}
+        aria-hidden={!expanded}
+      >
+        <div className={cn('min-h-0 overflow-hidden', !expanded && 'pointer-events-none')}>
+          {pricingNote}
+        </div>
       </div>
     </div>
   );
@@ -171,7 +287,7 @@ export function Membership({
     <LazyMotion features={domAnimation} strict>
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className={sectionSurface('blend', cn('relative', PAGE_HERO_PADDING))}>
+      <section className={sectionSurface('blend', cn('relative pt-32 pb-8 md:pb-12'))}>
         <SectionAmbience tone="blend" />
         
         <div className="container relative z-10 mx-auto text-center">
@@ -189,52 +305,29 @@ export function Membership({
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
               {hero.subtitle || globalContentString(globalContent, 'membership_hero_subtitle', HOME_COPY.membershipSubtitle)}
             </p>
-            <p className="text-sm text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              {T176_MEMBERSHIP_NOTE}
-            </p>
-            <p className="text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium mt-4">
-              Membership supports learners who want ongoing structure, resources, and community. The first step for PMP 2026 candidates is still to request a readiness roadmap.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-              <PmpRoadmapCtaLink ctaLocation="hero" />
-              <WebsiteCalendlyButton
-                size="lg"
-                variant="outline"
-                className="h-14 px-8 rounded-2xl font-bold"
-                tier="discovery"
-                funnelLabel="membership_hero_mentor"
-                utm={{ utm_source: 'pmstructure', utm_medium: 'membership', utm_campaign: 'hero' }}
-              >
-                {CTAS.talkToAMentor}
-              </WebsiteCalendlyButton>
-              <Link href="/membership#plans">
-                <Button size="lg" variant="ghost" className="h-14 px-8 rounded-2xl font-bold">
-                  {CTAS.joinMembershipWaitlist}
-                </Button>
-              </Link>
-            </div>
+            <MembershipHeroBilling
+              billing={billing}
+              onChange={setBilling}
+              maxAnnualSavingsPercent={maxAnnualSavingsPercent}
+              pricingNote={
+                <p className="text-center text-sm text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto">
+                  Prices in {regionLabel} currency. Professional is {proRegional.monthly}/month or{' '}
+                  {proRegional.yearly}/year (
+                  {formatMembershipSavingsPercent(proRegional.monthlyNumeric, proRegional.yearlyNumeric)}
+                  ). Mastery is {masteryRegional.monthly}/month or {masteryRegional.yearly}/year (
+                  {formatMembershipSavingsPercent(masteryRegional.monthlyNumeric, masteryRegional.yearlyNumeric)}
+                  ). Checkout is charged in your regional currency where supported.
+                </p>
+              }
+            />
           </m.div>
         </div>
       </section>
 
       {/* Pricing Tiers */}
       <LazyWhenVisible minHeightClassName="min-h-[28rem]">
-      <section id="plans" className="py-20 -mt-12 relative z-20">
+      <section id="plans" className="pb-20 pt-16 md:pt-20 relative z-20">
         <div className="container mx-auto">
-          <h2 className="text-2xl font-bold tracking-tight text-center mb-8 dark:text-white">Membership plans</h2>
-          <MembershipBillingToggle
-            billing={billing}
-            onChange={setBilling}
-            maxAnnualSavingsPercent={maxAnnualSavingsPercent}
-          />
-          <p className="text-center text-sm text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto -mt-6 mb-10">
-            Prices in {regionLabel} currency. Professional is {proRegional.monthly}/month or{' '}
-            {proRegional.yearly}/year (
-            {formatMembershipSavingsPercent(proRegional.monthlyNumeric, proRegional.yearlyNumeric)}
-            ). Mastery is {masteryRegional.monthly}/month or {masteryRegional.yearly}/year (
-            {formatMembershipSavingsPercent(masteryRegional.monthlyNumeric, masteryRegional.yearlyNumeric)}
-            ). Checkout is charged in your regional currency where supported.
-          </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
             {tiers.map((tier, index) => {
               const display = getMembershipDisplayPrice(
@@ -266,7 +359,7 @@ export function Membership({
                   )}
                   <CardHeader className="p-8">
                     <CardTitle className="text-2xl font-bold tracking-tight">{tier.name}</CardTitle>
-                    <div className="mt-6 flex flex-col items-start gap-2">
+                    <div className="mt-6 flex min-h-[5.25rem] flex-col items-start justify-end gap-2">
                       {billing === 'monthly' && tier.monthlyPriceUsd > 0 ? (
                         <MembershipDualPrice
                           monthlyUsd={tier.monthlyPriceUsd}
@@ -306,22 +399,17 @@ export function Membership({
                         </>
                       )}
                     </div>
-                    <CardDescription className="mt-4 text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                    <CardDescription
+                      className={cn(
+                        'mt-4 text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed',
+                        MEMBERSHIP_TIER_DESCRIPTION_MIN_H,
+                      )}
+                    >
                       {tier.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="px-8 pb-8 flex-1">
-                    <div className="space-y-4">
-                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">What's included</div>
-                      <ul className="space-y-3">
-                        {tier.features.map((feature) => (
-                          <li key={feature} className="flex items-start gap-3 text-sm font-semibold text-slate-600 dark:text-slate-400">
-                            <Check className="h-4 w-4 text-brand-purple shrink-0 mt-0.5" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <MembershipTierFeatures features={tier.features} />
                   </CardContent>
                   <CardFooter className="flex justify-center px-8 pb-8 pt-[10%]">
                     {(() => {
@@ -377,7 +465,7 @@ export function Membership({
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto items-stretch">
             {benefits.map((benefit, index) => (
               <m.div
                 key={benefit.title}
@@ -385,13 +473,28 @@ export function Membership({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className={cn("p-8 rounded-3xl border border-slate-100 dark:border-slate-800 transition-all hover:shadow-md", benefit.bg)}
+                className={cn(
+                  'flex h-full flex-col p-8 rounded-3xl border border-slate-100 dark:border-slate-800 transition-all hover:shadow-md',
+                  benefit.bg,
+                )}
               >
                 <div className={cn("p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm mb-6 w-fit", benefit.color)}>
                   <benefit.icon className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">{benefit.title}</h3>
-                <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+                <h3
+                  className={cn(
+                    'text-xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight',
+                    MEMBERSHIP_BENEFIT_TITLE_MIN_H,
+                  )}
+                >
+                  {benefit.title}
+                </h3>
+                <p
+                  className={cn(
+                    'text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium',
+                    MEMBERSHIP_BENEFIT_DESC_MIN_H,
+                  )}
+                >
                   {benefit.desc}
                 </p>
               </m.div>
@@ -462,21 +565,6 @@ export function Membership({
         </div>
       </section>
       </LazyWhenVisible>
-
-      <section className="py-16 border-t border-slate-100 dark:border-slate-800">
-        <div className="container mx-auto max-w-3xl px-4">
-          <PricingComplianceNote />
-          <p className="text-center mt-4 text-sm text-slate-500">
-            <Link href="/legal/membership-terms" className="text-brand-orange font-bold hover:underline">
-              Membership terms
-            </Link>
-            {' · '}
-            <Link href="/legal/regional-pricing" className="text-brand-orange font-bold hover:underline">
-              Regional pricing policy
-            </Link>
-          </p>
-        </div>
-      </section>
     </div>
     </LazyMotion>
   );

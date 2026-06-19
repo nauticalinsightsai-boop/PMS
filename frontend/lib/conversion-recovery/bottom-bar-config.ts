@@ -25,13 +25,17 @@ export function resolvePageGroup(pathname: string): BottomBarPageGroup {
   return 'marketing_default';
 }
 
+function roadmapCalendlyPrimary(label: string = PMP_ROADMAP_CTA_LABEL) {
+  return { type: 'calendly' as const, tier: 'discovery' as const, label };
+}
+
 function defaultRotations(): BottomBarRotation[] {
   return [
     {
       id: 'r1',
       headline: 'Plan your PMP 2026 readiness route',
       body: 'Get a structured roadmap before you commit study time or book the exam.',
-      primary: { type: 'scroll', anchor: 'pmp-roadmap-form', label: PMP_ROADMAP_CTA_LABEL },
+      primary: roadmapCalendlyPrimary(),
       secondary: { type: 'calendly', tier: 'discovery', label: CTAS.talkToAMentor },
       dismissLabel: 'Not now',
       variant: 'bottom_bar_r1',
@@ -40,7 +44,7 @@ function defaultRotations(): BottomBarRotation[] {
       id: 'r2',
       headline: 'PMP 2026 is changing: check readiness',
       body: 'Use the diagnostic or review the updated exam guide before exam day.',
-      primary: { type: 'scroll', anchor: 'pmp-roadmap-form', label: PMP_ROADMAP_CTA_LABEL },
+      primary: roadmapCalendlyPrimary(),
       secondary: { type: 'link', href: '/pmp-exam-2026', label: 'PMP 2026 guide' },
       dismissLabel: 'Maybe later',
       variant: 'bottom_bar_r2',
@@ -49,7 +53,7 @@ function defaultRotations(): BottomBarRotation[] {
       id: 'r3',
       headline: 'Connect with structured prep support',
       body: "Don't study in isolation: connect with structured preparation circles.",
-      primary: { type: 'scroll', anchor: 'pmp-roadmap-form', label: PMP_ROADMAP_CTA_LABEL },
+      primary: roadmapCalendlyPrimary(),
       secondary: { type: 'link', href: PMS_SKOOL_COMMUNITY_JOIN_URL, label: 'Join community' },
       dismissLabel: 'Skip',
       variant: 'bottom_bar_r3',
@@ -57,8 +61,8 @@ function defaultRotations(): BottomBarRotation[] {
     {
       id: 'r4',
       headline: 'Map your roadmap in 24 hours',
-      body: "Leave your mobile number: we'll follow up with a structured certification plan.",
-      primary: { type: 'micro_form' },
+      body: 'Book a short mentor call and we will map your certification plan with you.',
+      primary: roadmapCalendlyPrimary(),
       dismissLabel: "Don't ask again",
       variant: 'bottom_bar_r4',
     },
@@ -72,7 +76,7 @@ const GROUP_ROTATIONS: Partial<Record<BottomBarPageGroup, BottomBarRotation[]>> 
       id: 'cert-r1',
       headline: 'Build your PMP 2026 roadmap',
       body: "Share your experience: we'll map a study plan for your route.",
-      primary: { type: 'link', href: '/#pmp-roadmap-form', label: PMP_ROADMAP_CTA_LABEL },
+      primary: roadmapCalendlyPrimary(),
       secondary: { type: 'calendly', tier: 'discovery', label: CTAS.talkToAMentor },
       dismissLabel: 'Not now',
       variant: 'bottom_bar_r1',
@@ -84,7 +88,7 @@ const GROUP_ROTATIONS: Partial<Record<BottomBarPageGroup, BottomBarRotation[]>> 
       id: 'pmp-r1',
       headline: 'PMP 2026: get structured guidance',
       body: 'Start with the roadmap before you choose an exam date or study plan.',
-      primary: { type: 'link', href: '/#pmp-roadmap-form', label: PMP_ROADMAP_CTA_LABEL },
+      primary: roadmapCalendlyPrimary(),
       secondary: { type: 'calendly', tier: 'discovery', label: CTAS.talkToAMentor },
       dismissLabel: 'Not now',
       variant: 'bottom_bar_r1',
@@ -121,7 +125,7 @@ const GROUP_ROTATIONS: Partial<Record<BottomBarPageGroup, BottomBarRotation[]>> 
       headline: 'Unlock member pricing and tools',
       body: '20% off regional tuition and premium study resources.',
       primary: { type: 'link', href: '/membership', label: 'View membership' },
-      secondary: { type: 'micro_form' },
+      secondary: { type: 'calendly', tier: 'discovery', label: CTAS.talkToAMentor },
       dismissLabel: 'Not now',
       variant: 'bottom_bar_r1',
     },
@@ -141,7 +145,7 @@ export function getRotationsForPath(pathname: string): BottomBarRotation[] {
     copy[1] = {
       ...copy[1],
       headline: 'Still thinking about Foundation?',
-      body: "Leave your mobile number: we'll follow up before you enroll.",
+      body: 'Book a quick mentor call before you enroll.',
     };
     return copy;
   }

@@ -10,6 +10,9 @@ import { StatChip } from '@/components/ui/stat-chip';
 import { MembershipPriceChip } from '@/components/MembershipPriceChip';
 import { CertificationPathwayVisual } from '@/components/CertificationPathwayVisual';
 import { PathwayEnrollmentBadge } from '@/components/PathwayEnrollmentBadge';
+import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
+import { isRoadmapSchedulingHref } from '@/lib/pmp-roadmap-cta';
+import { trackRoadmapCtaClick } from '@/lib/analytics/track-roadmap-cta';
 import { cn } from '@/lib/utils';
 import { useRegion } from '@/contexts/RegionContext';
 import { isEnrollmentOpen } from '@/lib/certification-enrollment';
@@ -182,12 +185,36 @@ function PathwayCardCta({
   const label =
     ctaLabel ?? (isEnrollmentOpen(certId, regionId) ? 'View pathway' : 'View overview');
   const href = ctaHref ?? `/certifications/${certId}`;
+  const btnClass =
+    'w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md hover:opacity-90';
+
+  if (isRoadmapSchedulingHref(href)) {
+    return (
+      <WebsiteCalendlyButton
+        tier="discovery"
+        funnelLabel={`featured_card_${certId}`}
+        utm={{
+          utm_source: 'pmstructure',
+          utm_medium: 'featured_card',
+          utm_campaign: certId,
+        }}
+        onBeforeOpen={() => trackRoadmapCtaClick({ ctaText: label, ctaLocation: 'body' })}
+        className={cn(
+          btnClass,
+          accentColor ? '' : 'bg-brand-orange hover:bg-brand-hover',
+        )}
+        style={accentColor ? { backgroundColor: accentColor } : undefined}
+      >
+        {label}
+      </WebsiteCalendlyButton>
+    );
+  }
 
   return (
     <Link href={href} className="w-full">
       <Button
         variant={accentColor ? 'default' : 'brand'}
-        className="w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md hover:opacity-90"
+        className={btnClass}
         style={accentColor ? { backgroundColor: accentColor } : undefined}
       >
         {label}

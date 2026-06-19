@@ -4,12 +4,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ComponentProps } from 'react';
 import { Button } from '@/components/ui/button';
+import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import {
   COMPARE_PATHWAYS_CTA_LABEL,
   COMPARE_PATHWAYS_HREF,
-  PMP_ROADMAP_CTA_HREF,
   PMP_ROADMAP_CTA_LABEL,
-  scrollToPmpRoadmapForm,
 } from '@/lib/pmp-roadmap-cta';
 import { cn } from '@/lib/utils';
 import type { CtaLocation } from '@/lib/analytics/pms-events';
@@ -20,12 +19,13 @@ type PmpRoadmapCtaLinkProps = {
   size?: ComponentProps<typeof Button>['size'];
   variant?: ComponentProps<typeof Button>['variant'];
   label?: string;
-  asButton?: boolean;
   ctaLocation?: CtaLocation;
 };
 
-function fireRoadmapCta(label: string, ctaLocation: CtaLocation) {
-  trackRoadmapCtaClick({ ctaText: label, ctaLocation });
+function funnelSuffixFromPath(pathname: string): string {
+  if (pathname === '/') return 'home';
+  const slug = pathname.replace(/^\/+|\/+$/g, '').replace(/\//g, '_');
+  return slug || 'site';
 }
 
 export function PmpRoadmapCtaLink({
@@ -33,50 +33,28 @@ export function PmpRoadmapCtaLink({
   size = 'lg',
   variant = 'default',
   label = PMP_ROADMAP_CTA_LABEL,
-  asButton = true,
   ctaLocation,
 }: PmpRoadmapCtaLinkProps) {
-  const pathname = usePathname();
-  const onHome = pathname === '/';
-  const location: CtaLocation = ctaLocation ?? (onHome ? 'hero' : 'body');
-
-  const handleHomeClick = () => {
-    fireRoadmapCta(label, location);
-    scrollToPmpRoadmapForm();
-  };
-
-  if (onHome) {
-    return (
-      <Button
-        type="button"
-        size={size}
-        variant={variant}
-        className={cn(className)}
-        onClick={handleHomeClick}
-      >
-        {label}
-      </Button>
-    );
-  }
-
-  const handleLinkClick = () => {
-    fireRoadmapCta(label, location);
-  };
-
-  if (!asButton) {
-    return (
-      <Link href={PMP_ROADMAP_CTA_HREF} className={cn(className)} onClick={handleLinkClick}>
-        {label}
-      </Link>
-    );
-  }
+  const pathname = usePathname() ?? '/';
+  const location: CtaLocation = ctaLocation ?? (pathname === '/' ? 'hero' : 'body');
+  const funnelSuffix = funnelSuffixFromPath(pathname);
 
   return (
-    <Link href={PMP_ROADMAP_CTA_HREF} className="inline-flex" onClick={handleLinkClick}>
-      <Button size={size} variant={variant} className={cn('w-full sm:w-auto', className)}>
-        {label}
-      </Button>
-    </Link>
+    <WebsiteCalendlyButton
+      size={size}
+      variant={variant}
+      className={cn('w-full sm:w-auto', className)}
+      tier="discovery"
+      funnelLabel={`roadmap_cta_${funnelSuffix}`}
+      utm={{
+        utm_source: 'pmstructure',
+        utm_medium: location,
+        utm_campaign: 'roadmap',
+      }}
+      onBeforeOpen={() => trackRoadmapCtaClick({ ctaText: label, ctaLocation: location })}
+    >
+      {label}
+    </WebsiteCalendlyButton>
   );
 }
 

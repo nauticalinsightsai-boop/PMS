@@ -63,7 +63,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     date: 'Oct 05, 2025',
     author: 'Elena Rodriguez',
     readTime: '15 min read',
-    image: '/images/marketing/membership-tools-500.webp',
+    image: '/images/marketing/community-network-600.webp',
     body: [
       'AI assistants accelerate drafting status reports, summarizing RAID logs, and generating what-if scenarios: but the PM still owns judgment, ethics, and stakeholder trust.',
       'Start with low-risk workflows: meeting notes, comms templates, and backlog refinement prompts. Validate outputs against your standards before they reach executives.',
@@ -79,7 +79,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     date: 'Oct 02, 2025',
     author: 'James Wilson',
     readTime: '7 min read',
-    image: '/images/marketing/membership-guides-500.webp',
+    image: '/images/marketing/about-workshop-800.webp',
     body: [
       'The seventh edition sharpens language around sustainability, data, and people: without abandoning the principles/themes/process spine practitioners already know.',
       'If you certified on earlier versions, focus gap study on tailoring guidance and modern governance patterns rather than re-memorizing the entire manual.',
@@ -95,7 +95,7 @@ export const newsletterArticles: NewsletterArticle[] = [
     date: 'Sep 28, 2025',
     author: 'Linda Wu',
     readTime: '20 min read',
-    image: '/images/marketing/membership-webinars-500.webp',
+    image: '/images/marketing/about-session-800.webp',
     body: [
       'A PMO earns credibility by solving one painful executive problem first: portfolio visibility, resource conflicts, or benefits tracking: not by publishing templates nobody uses.',
       'Phase the rollout: charter and success metrics, then minimum viable standards, then tooling. Each phase should ship a visible win within a quarter.',

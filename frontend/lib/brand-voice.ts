@@ -152,7 +152,7 @@ export const HOME_COPY = {
     'PM membership',
     'PMS network',
     'Certification readiness',
-    'PMP 2026 Changes',
+    'PMP 2026 updates',
   ] as const,
 
   /** @deprecated Use heroTitleAccents; kept for CMS default string */

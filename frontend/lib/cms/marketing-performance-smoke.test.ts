@@ -30,12 +30,18 @@ describe('marketing performance — content preservation smoke', () => {
     expect(src).not.toContain('useWebsiteData');
   });
 
-  it('Certification detail keeps one hero PmpRoadmapLeadForm and dynamic flagship sections', () => {
+  it('Certification detail keeps one hero PmpRoadmapLeadForm and programme highlights', () => {
     const src = readPage('CertificationDetail.tsx');
     expect(countOccurrences(src, '<PmpRoadmapLeadForm')).toBe(1);
-    expect(src).toContain('Pmp2026FlagshipSections');
+    expect(src).not.toContain('Pmp2026FlagshipSections');
     expect(src).toContain('CertProgramHighlightsContent');
     expect(src).toContain('LazyWhenVisible');
+  });
+
+  it('PMP exam 2026 guide hosts flagship readiness sections', () => {
+    const src = fs.readFileSync(path.join(ROOT, 'components/pmp/PmpAuthorityPage.tsx'), 'utf8');
+    expect(src).toContain('Pmp2026FlagshipSections');
+    expect(src).toContain('PmpPackageTierPositioning');
   });
 
   it('Community keeps store tab wiring and dynamic StoreContent', () => {

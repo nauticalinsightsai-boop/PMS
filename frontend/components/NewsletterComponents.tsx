@@ -8,8 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { NewsletterArticle } from "@pms/site-content/newsletter-posts";
-import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
+import {
+  getNewsletterArticleHref,
+  resolveNewsletterArticleImage,
+} from "@pms/site-content/newsletter-posts";
 import { marketingTestimonialAvatar } from '@/lib/marketing-stock-images';
+
+function newsletterAuthorAvatar(author: string): string {
+  const index = author.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return marketingTestimonialAvatar(index);
+}
 
 interface CategoryChipProps {
   label: string;
@@ -52,7 +60,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
         <Link href={linkHref} className="flex gap-6 group">
         <div className="w-1/3 aspect-[4/3] rounded-2xl overflow-hidden shrink-0">
           <img 
-            src={article.image} 
+            src={resolveNewsletterArticleImage(article.slug, article.image)} 
             alt={article.title} 
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             referrerPolicy="no-referrer"
@@ -87,7 +95,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
       <Card className="h-full border-none shadow-none bg-transparent overflow-hidden">
         <div className="aspect-video rounded-3xl overflow-hidden mb-6">
           <img 
-            src={article.image} 
+            src={resolveNewsletterArticleImage(article.slug, article.image)} 
             alt={article.title} 
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             referrerPolicy="no-referrer"
@@ -117,7 +125,16 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
           </p>
           <div className="flex items-center justify-between text-xs font-medium text-slate-500">
             <div className="flex items-center gap-2">
-              <div className="h-6 w-6 rounded-full bg-slate-200" />
+              <div className="h-6 w-6 shrink-0 overflow-hidden rounded-full border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
+                <img
+                  src={newsletterAuthorAvatar(article.author)}
+                  alt={article.author}
+                  width={24}
+                  height={24}
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
               <span>{article.author}</span>
             </div>
             <div className="flex items-center gap-3">
@@ -149,7 +166,7 @@ export const FeaturedPost: React.FC<{ article: NewsletterArticle; storyHref?: st
             className="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden shadow-2xl group"
           >
             <img 
-              src={article.image} 
+              src={resolveNewsletterArticleImage(article.slug, article.image)} 
               alt={article.title} 
               className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
               referrerPolicy="no-referrer"
@@ -178,7 +195,7 @@ export const FeaturedPost: React.FC<{ article: NewsletterArticle; storyHref?: st
             <div className="flex items-center gap-3">
               <div className="h-12 w-12 rounded-full bg-slate-100 border border-slate-200 overflow-hidden">
                 <img
-                  src={marketingTestimonialAvatar(article.author.length)}
+                  src={newsletterAuthorAvatar(article.author)}
                   alt={article.author}
                   width={48}
                   height={48}

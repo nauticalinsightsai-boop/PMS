@@ -2,17 +2,14 @@
 
 import { m } from 'motion/react';
 import { ExternalLink, Mail, MessageCircle } from 'lucide-react';
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PMS_SUPPORT_EMAIL, getPmsWhatsAppDisplay, getPmsWhatsAppUrl, isWhatsAppConfigured } from '@/config/pms-site';
 import { SITE_SOCIAL_PROFILE_URLS } from '@/config/site';
+import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import {
   PMP_PROGRAM_CTA_LABEL,
-  PMP_ROADMAP_FORM_ANCHOR,
 } from '@/content/pmp/program-offer';
 import { T176_TESTIMONIAL_PLACEHOLDER } from '@/content/t176-claims';
-import { trackRoadmapCtaClick } from '@/lib/analytics/track-roadmap-cta';
 import { trackContactClick } from '@/lib/analytics/track-contact-click';
 
 type PmpProgramSocialProofSectionProps = {
@@ -21,29 +18,7 @@ type PmpProgramSocialProofSectionProps = {
   className?: string;
 };
 
-function PmpRoadmapCta({ anchor, className }: { anchor: string; className?: string }) {
-  return (
-    <a
-      href={`#${anchor}`}
-      onClick={() =>
-        trackRoadmapCtaClick({
-          ctaText: PMP_PROGRAM_CTA_LABEL,
-          ctaLocation: 'body',
-        })
-      }
-      className={cn(
-        buttonVariants({ size: 'lg', variant: 'brand' }),
-        'inline-flex h-14 items-center justify-center rounded-full px-8 text-base font-bold shadow-lg shadow-brand-orange/25',
-        className,
-      )}
-    >
-      {PMP_PROGRAM_CTA_LABEL}
-    </a>
-  );
-}
-
 export function PmpProgramSocialProofSection({
-  roadmapAnchor = PMP_ROADMAP_FORM_ANCHOR,
   showContactBar = false,
   className,
 }: PmpProgramSocialProofSectionProps) {
@@ -64,7 +39,10 @@ export function PmpProgramSocialProofSection({
           <p className="text-base font-medium leading-relaxed text-slate-600 dark:text-slate-400 mb-10">
             {T176_TESTIMONIAL_PLACEHOLDER}
           </p>
-          <PmpRoadmapCta anchor={roadmapAnchor} />
+          <PmpRoadmapCtaLink
+            label={PMP_PROGRAM_CTA_LABEL}
+            className="inline-flex h-14 items-center justify-center rounded-full px-8 text-base font-bold shadow-lg shadow-brand-orange/25"
+          />
         </div>
       </section>
 
@@ -121,7 +99,10 @@ export function PmpProgramSocialProofSection({
                   Watch preparation resources
                   <ExternalLink className="h-4 w-4" aria-hidden />
                 </a>
-                <PmpRoadmapCta anchor={roadmapAnchor} />
+                <PmpRoadmapCtaLink
+            label={PMP_PROGRAM_CTA_LABEL}
+            className="inline-flex h-14 items-center justify-center rounded-full px-8 text-base font-bold shadow-lg shadow-brand-orange/25"
+          />
               </div>
             </div>
           </div>

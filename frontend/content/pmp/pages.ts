@@ -90,7 +90,7 @@ const pages: PmpPageContent[] = [
     path: '/pmp-exam-2026',
     title: T169_SEO.pmpTitle,
     description: T169_SEO.pmpDescription,
-    h1: T169_PMP_PAGE.h1,
+    h1: 'PMP Exam 2026: deep readiness guide',
     directAnswer: T169_PMP_PAGE.intro,
     sections: [
       {

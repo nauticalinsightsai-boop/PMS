@@ -56,6 +56,7 @@ export type WaitlistType =
   | 'pmi_rmp'
   | 'membership'
   | 'resource'
+  | 'community'
   | 'unknown';
 
 /** Map site region IDs to analytics region groups (non-PII). */
@@ -87,6 +88,7 @@ export function inferWaitlistType(offeringId?: string | null, certName?: string 
   if (hay.includes('six_sigma') || hay.includes('lss') || hay.includes('lean')) return 'lean_six_sigma';
   if (hay.includes('rmp') || hay.includes('pmi-rmp')) return 'pmi_rmp';
   if (hay.includes('membership')) return 'membership';
+  if (hay.includes('community')) return 'community';
   if (hay.includes('store') || hay.includes('resource')) return 'resource';
   return 'unknown';
 }

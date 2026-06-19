@@ -1,4 +1,3 @@
-import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 import { jsonError, jsonOk } from '@/lib/response-helpers.js';
 
 export type InsertFormSubmissionInput = {
@@ -12,22 +11,14 @@ export type InsertFormSubmissionInput = {
   company?: string;
 };
 
-function serverMetadata(request: Request): Record<string, unknown> {
-  return {
-    userAgent: request.headers.get('user-agent') ?? undefined,
-    referer: request.headers.get('referer') ?? undefined,
-    serverReceivedAt: new Date().toISOString(),
-  };
-}
-
+/**
+ * Proxies legacy marketing API form routes to the dashboard interactions pipeline
+ * (Supabase → admin email → Google Sheets background sync).
+ */
 export async function insertFormSubmission(
   request: Request,
   input: InsertFormSubmissionInput,
 ) {
-  if (!isSupabaseConfigured) {
-    return jsonError('Database not configured', 503);
-  }
-
   if (input.website?.trim() || input.company?.trim()) {
     return jsonOk({ data: { ok: true } }, 201);
   }
@@ -41,31 +32,51 @@ export async function insertFormSubmission(
     return jsonError('Email is required', 400);
   }
 
-  const metadata = {
-    ...serverMetadata(request),
-    ...(input.metadata ?? {}),
-  };
+  const base = (process.env.DASHBOARD_BACKEND_URL || 'http://localhost:3002').replace(/\/$/, '');
 
-  const { data, error } = await supabaseAdmin
-    .from('form_submissions')
-    .insert({
+  const res = await fetch(`${base}/api/interactions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(request.headers.get('x-forwarded-for')
+        ? { 'x-forwarded-for': request.headers.get('x-forwarded-for')! }
+        : {}),
+      ...(request.headers.get('referer') ? { referer: request.headers.get('referer')! } : {}),
+      ...(request.headers.get('user-agent')
+        ? { 'user-agent': request.headers.get('user-agent')! }
+        : {}),
+    },
+    body: JSON.stringify({
       source: input.source,
       subject:
         input.subject ??
         (typeof payload.subject === 'string' ? payload.subject : undefined) ??
         'New submission',
       email: email.trim(),
-      payload,
-      metadata,
-      sheets_status: 'pending',
-    })
-    .select()
-    .single();
+      payload: {
+        ...payload,
+        ...(input.metadata ?? {}),
+      },
+      website: input.website ?? '',
+      company: input.company ?? '',
+    }),
+  });
 
-  if (error) {
-    console.error('form_submissions insert error:', error);
-    return jsonError(error.message, 500);
+  const text = await res.text();
+  let body: unknown = {};
+  try {
+    body = text ? JSON.parse(text) : {};
+  } catch {
+    body = { error: text.slice(0, 200) || 'Invalid response from interactions API' };
   }
 
-  return jsonOk({ data }, 201);
+  if (!res.ok) {
+    const err =
+      typeof body === 'object' && body && 'error' in body && typeof (body as { error: unknown }).error === 'string'
+        ? (body as { error: string }).error
+        : 'Submission failed';
+    return jsonError(err, res.status >= 400 && res.status < 600 ? res.status : 503);
+  }
+
+  return jsonOk({ data: body }, 201);
 }

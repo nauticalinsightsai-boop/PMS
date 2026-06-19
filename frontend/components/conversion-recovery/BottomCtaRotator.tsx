@@ -161,7 +161,18 @@ export function BottomCtaRotator() {
   const runPrimaryAction = async (action: BottomBarAction) => {
     markIntent();
     dismiss(false);
-    if (action.type === 'calendly_hero' || action.type === 'register_modal' || action.type === 'calendly') {
+    if (action.type === 'calendly') {
+      if (action.label === PMP_ROADMAP_CTA_LABEL) {
+        trackRoadmapCtaClick({
+          ctaText: action.label,
+          ctaLocation: 'footer',
+          pagePath: pathname,
+        });
+      }
+      openBottomBarCalendly(action);
+      return;
+    }
+    if (action.type === 'calendly_hero' || action.type === 'register_modal') {
       openBottomBarCalendly(action);
       return;
     }

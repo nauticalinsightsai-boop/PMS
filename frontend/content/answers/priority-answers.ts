@@ -38,6 +38,11 @@ export const PMP_HUB_PRIORITY_ANSWERS: PriorityAnswerLink[] = [
     description: 'Independent platform and ATP compliance answer.',
   },
   {
+    href: '/answers/pmp-training-hours-vs-pdus',
+    label: 'PMP training hours vs PDUs',
+    description: 'Eligibility language and common terminology mistakes.',
+  },
+  {
     href: '/answers/which-pm-structure-pmp-pathway-should-i-choose',
     label: 'Which PMP pathway should I choose?',
     description: 'Foundation, Professional, and Mastery fit.',

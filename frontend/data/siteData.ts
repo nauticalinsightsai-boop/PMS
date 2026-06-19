@@ -699,11 +699,13 @@ export const membershipTiers: MembershipTier[] = [
     name: "Free Tier",
     monthlyPriceUsd: 0,
     yearlyPriceUsd: 0,
-    description: "Essential resources for project enthusiasts.",
+    description:
+      "Essential resources for project enthusiasts: monthly newsletter, basic study guides, and public community forums. Free to join.",
     features: [
       "Monthly newsletter",
       "Basic study guides",
       "Public community & forums",
+      "Regional Scholarship pricing & more",
     ],
     cta: "Already included",
     variant: "outline",
@@ -716,12 +718,10 @@ export const membershipTiers: MembershipTier[] = [
       "Full platform access plus direct mentor reach-out for your membership month: built for exam-ready momentum.",
     features: [
       "All Free features",
-      "20% off learning platform & store resources",
+      "20% off learning platform, store & regional certification tuition",
       "Direct mentor access for your membership month",
-      "Premium exam simulator & weekly sessions",
       "Skool community access",
       "AI CV maker access",
-      "20% off regional certification tuition",
     ],
     cta: "Join Professional",
     variant: "default",
@@ -735,6 +735,7 @@ export const membershipTiers: MembershipTier[] = [
       "Everything in Professional, with deeper mentor accountability and readiness review for senior PMs.",
     features: [
       "All Professional features",
+      "35% off regional certification tuition",
       "Extended 1-on-1 mentorship sessions",
       "Priority support & readiness review",
       "Bulk certification licenses (teams)",

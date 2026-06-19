@@ -2,18 +2,10 @@
 
 import type { WebsiteFormContextInput } from '@pms/booking-crm/form-submissions';
 import { buildWebsiteFormContext } from '@pms/booking-crm/form-submissions';
+import type { InteractionSource } from '@pms/booking-crm/form-submissions';
 import { collectLeadTrackingContext } from '@/lib/analytics/lead-tracking-context';
 
-export type InteractionSource =
-  | 'contact'
-  | 'meeting_booking'
-  | 'pmp_roadmap_lead'
-  | 'cert_roadmap_lead'
-  | 'consultation'
-  | 'waitlist'
-  | 'scholarship_review'
-  | 'subscription'
-  | string;
+export type { InteractionSource };
 
 export type ClientInteractionBody = {
   source: InteractionSource;

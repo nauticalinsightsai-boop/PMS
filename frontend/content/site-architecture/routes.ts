@@ -121,6 +121,14 @@ export function getCompareBreadcrumbs(): BreadcrumbItem[] {
   ];
 }
 
+export function getCommunityBreadcrumbs(): BreadcrumbItem[] {
+  return [HOME_CRUMB, { label: 'Community' }];
+}
+
+export function getMembershipBreadcrumbs(): BreadcrumbItem[] {
+  return [HOME_CRUMB, { label: 'Membership' }];
+}
+
 export function getFaqBreadcrumbs(): BreadcrumbItem[] {
   return getBreadcrumbsForPath('/faq') ?? [HOME_CRUMB, { label: 'FAQ' }];
 }

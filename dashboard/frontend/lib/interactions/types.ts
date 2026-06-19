@@ -1,16 +1,14 @@
-export const INTERACTION_SOURCES = [
-  'contact',
-  'subscription',
-  'meeting_booking',
-  'documentation_request',
-] as const;
-
-export type InteractionSource = (typeof INTERACTION_SOURCES)[number];
+export {
+  INTERACTION_SOURCES,
+  FORM_SOURCE_LABELS,
+  submissionSourceLabel,
+  type InteractionSource,
+} from '@pms/booking-crm/form-submissions';
 
 export type FormSubmissionRow = {
   id: string;
   created_at: string;
-  source: InteractionSource;
+  source: import('@pms/booking-crm/form-submissions').InteractionSource;
   subject: string;
   email: string;
   payload: Record<string, unknown>;

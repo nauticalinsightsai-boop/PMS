@@ -32,7 +32,11 @@ export function getMembershipDisplayPrice(
 ): { price: string; period: string; savingsLabel: string | null } {
   if (monthlyUsd === 0 && yearlyUsd === 0) {
     const zero = getRegionalMembershipAmounts(0, 0, regionId, gccCountry);
-    return { price: zero.monthly, period: '', savingsLabel: null };
+    return {
+      price: cycle === 'yearly' ? zero.yearly : zero.monthly,
+      period: cycle === 'yearly' ? '/year' : '/month',
+      savingsLabel: null,
+    };
   }
 
   const amounts = getRegionalMembershipAmounts(monthlyUsd, yearlyUsd, regionId, gccCountry);

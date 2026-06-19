@@ -24,8 +24,8 @@ https://pmstructure.com
 - /answers
 - /topics
 - /faq
-- /legal/privacy (canonical; `/privacy` redirects here)
-- /legal/terms (canonical; `/terms` has no redirect yet — see legacy register)
+- /legal/privacy (canonical; `/privacy` redirects here via 308)
+- /legal/terms (canonical; `/terms` redirects here via 308)
 
 ## Related registers (B15)
 
@@ -37,6 +37,7 @@ https://pmstructure.com
 | A–Z batch closeout | [pmstructure-a-z-implementation-closeout.csv](./pmstructure-a-z-implementation-closeout.csv) |
 | Digital PR / backlinks | [pmstructure-digital-pr-backlink-register.csv](./pmstructure-digital-pr-backlink-register.csv) |
 | Owner actions | [pmstructure-final-owner-action-list.csv](./pmstructure-final-owner-action-list.csv) |
+| Post-fix evidence | [evidence/B15_POST_FIX_VERIFICATION_EVIDENCE.md](./evidence/B15_POST_FIX_VERIFICATION_EVIDENCE.md) |
 
 ## Closeout Rule
 
@@ -53,6 +54,21 @@ Acceptable evidence:
 - manual QA record
 - owner approval register entry
 
+## Production fix verification (20 June 2026)
+
+**Status: Verified** — live public-fetch evidence in [evidence/B15_POST_FIX_VERIFICATION_EVIDENCE.md](./evidence/B15_POST_FIX_VERIFICATION_EVIDENCE.md).
+
+| Fix | Status | Evidence |
+|-----|--------|----------|
+| `/sitemap.xml` no longer 500 | Verified | HTTP 200; 203 URLs |
+| `/terms` no longer 404 | Verified | HTTP 308 → `/legal/terms` |
+| `/privacy` duplicate resolved | Verified | HTTP 308 → `/legal/privacy` |
+| Answer page public TODO removed | Verified | No TODO strings in HTML |
+| `/go/website` testimonial risk | Verified | No named pass stories; permission placeholder |
+| `robots.txt` sitemap reference | Verified | Live robots.txt |
+| Sitemap private-route exclusion | Verified | Sitemap URL audit |
+| Priority URLs HTTP/indexability | Verified | 9/9 return 200; index,follow; self-canonical |
+
 ## Legacy URL Rule
 
 Do not leave duplicate PMP commercial intent undocumented.
@@ -63,27 +79,45 @@ Do not leave duplicate PMP commercial intent undocumented.
 - `/topics/pmp-exam-2026` — informational PMP 2026 topic hub
 - `/answers/is-the-pmp-exam-changing-in-2026` — direct answer for one search question
 
-**Current repo decision (T-032 — live, indexed):**
+**Interim operational decision (T-032 — live, indexed, 20 June 2026):**
 
-- `/pmp` — supporting PMP hub (distinct from commercial page; see [pmstructure-legacy-url-decision-register.csv](./pmstructure-legacy-url-decision-register.csv))
-- `/pmp-exam-2026` — deep cluster guide (distinct from topic hub; redirect explicitly **not implemented** per [frontend/content/redirects/inventory.ts](../../frontend/content/redirects/inventory.ts))
+- `/pmp` — **keep** supporting PMP hub (self-canonical; in sitemap) until Sheikh approves OA-004 consolidation
+- `/pmp-exam-2026` — **keep** deep cluster guide (self-canonical; in sitemap) until Sheikh approves OA-005 consolidation
 
-Owner must confirm: **keep T-032 multi-URL architecture** or **consolidate** to B15 preferred URLs (301 redirects).
+Owner must confirm: **keep T-032 multi-URL architecture** or **consolidate** to B15 preferred URLs (301 redirects). See [pmstructure-legacy-url-decision-register.csv](./pmstructure-legacy-url-decision-register.csv).
 
 ## Legal URL Rule
 
 Canonical legal structure: `/legal/*`.
 
-- `/privacy` → `/legal/privacy` — **implemented** (`frontend/next.config.ts`)
-- `/terms` → `/legal/terms` — **recommended, not implemented** — pending owner approval
+- `/privacy` → `/legal/privacy` — **Verified live** (308, `frontend/next.config.ts`)
+- `/terms` → `/legal/terms` — **Verified live** (308, `frontend/next.config.ts`)
 
 Do not leave duplicate legal pages indexable with identical content.
 
+## June 2026 schedule dev continuation (19 June 2026)
+
+- Published `/answers/pmp-training-hours-vs-pdus` (Jul 3 website row)
+- Marked Jul 2, 3, 6, 11 website schedule rows **Done** in marketing CSV
+- Fixed on-page audit drift (community/membership breadcrumbs, diagnostic metadata)
+- Owner gates: [seo-closeout-owner-gates-2026-06-19.csv](./seo-closeout-owner-gates-2026-06-19.csv)
+- `npm run seo:release-verify` pass after changes
+
 ## Full crawl status
 
-**Full crawl pending** — requires Screaming Frog / Sitebulb / crawler export.
+**Partial crawl evidence attached** — lightweight sitemap URL audit (50-URL sample, 0 failures) in [evidence/b15-sitemap-url-audit-2026-06-20.json](./evidence/b15-sitemap-url-audit-2026-06-20.json).
 
-No crawl export was found in repo at B15 closeout doc creation. See [pmstructure-crawl-findings-register.csv](./pmstructure-crawl-findings-register.csv) CRAWL-001 and [pmstructure-result-scan-links.csv](./pmstructure-result-scan-links.csv) SCAN-001.
+**Full Screaming Frog/Sitebulb export still pending** (OA-001). Do not claim full crawl complete until Mahaa attaches export.
+
+## Performance status
+
+**Partial Lighthouse baseline attached** — mobile performance scores for `/`, `/certifications`, `/certifications/pmp`, `/newsletter` in [evidence/b15-lighthouse-production-summary-2026-06-20.json](./evidence/b15-lighthouse-production-summary-2026-06-20.json).
+
+Desktop PSI and remaining priority URLs pending (OA-009).
+
+## GSC / GA4 status
+
+Public prerequisites verified. Authenticated GSC/GA4 proof pending — see [evidence/GSC_GA4_OWNER_ACTIONS.md](./evidence/GSC_GA4_OWNER_ACTIONS.md) (OA-002, OA-003).
 
 ## Backlink / Digital PR Rule
 
@@ -103,9 +137,25 @@ Use only legitimate outreach, citations, partnerships, expert contributions, and
 
 See [pmstructure-final-owner-action-list.csv](./pmstructure-final-owner-action-list.csv).
 
-Remaining actions requiring GSC, GA4, legal review, live crawl exports, regional route approval, PMP URL consolidation decision, or backlink outreach must stay **Pending** until evidence is attached.
+## Batch B15 closeout status
+
+**Partially Verified** (20 June 2026)
+
+- Production technical fixes: **Verified**
+- Sitemap readiness: **Verified**
+- Legal route readiness: **Verified** (live redirects)
+- PMP content safety: **Verified**
+- Testimonials safety: **Verified**
+- Legacy URL SEO risk: **Needs Owner Approval** (T-032 interim keep)
+- GSC readiness: **Pending External Evidence**
+- GA4 readiness: **Pending External Evidence**
+- Performance readiness: **Partially Verified** (Lighthouse baseline attached)
+- Full crawl readiness: **Partially Verified** (sitemap audit attached; SF export pending)
+- Legal approval: **Pending External Evidence**
+- Owner approvals: **Needs Owner Approval**
+- Final SEO closeout: **Partially Verified**
 
 Owner: Sheikh M. Abdullah  
 Technical owner: Developer  
 Marketing owner: Mahaa  
-Last updated: 19 June 2026
+Last updated: 19 June 2026 (schedule + answer page continuation)

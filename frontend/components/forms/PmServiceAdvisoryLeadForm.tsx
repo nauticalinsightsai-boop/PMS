@@ -77,17 +77,15 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   const legendClass = cn(labelClass, 'mb-2.5');
   const radioOptionClass = (selected: boolean) =>
     cn(
-      'flex cursor-pointer items-center gap-2.5 rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors',
+      'flex cursor-pointer items-center gap-2.5 rounded-lg border px-3 py-2.5 text-sm transition-colors',
       selected
-        ? 'border-brand-orange bg-brand-orange/5 text-slate-900 dark:text-white'
-        : 'border-input text-slate-600 hover:border-brand-orange/40 dark:text-slate-400',
+        ? 'border-brand-orange bg-brand-orange text-white font-bold shadow-sm [&_input]:accent-white'
+        : 'border-input bg-white font-medium text-slate-700 hover:border-brand-orange/40 dark:bg-slate-900 dark:text-slate-300',
     );
 
   const resolvedInterest = resolvePmServiceInterestLabel(serviceInterest, serviceInterestOther);
 
-  const hasInterestSelection =
-    serviceInterest !== '' &&
-    (serviceInterest !== 'other' || serviceInterestOther.trim().length > 0);
+  const hasInterestSelection = serviceInterest !== '';
   const hasIndustrySelection = industry !== '';
 
   const revealClass = (show: boolean) =>
@@ -162,7 +160,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     return (
       <div className={cn(shellClass, 'p-8 sm:p-10')}>
         <p className="text-base font-semibold text-green-700 dark:text-green-400">
-          Thanks — we received your request and will follow up on your advisory inquiry.
+          Thanks. We received your request and will follow up on your advisory inquiry.
         </p>
         <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
           Questions?{' '}
@@ -196,13 +194,18 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                 Request advisory support
               </p>
               <p className="mt-0.5 text-sm font-medium text-slate-500 dark:text-slate-400">
-                Tell us your interest and background — we&apos;ll route you to the right advisor.
+                Tell us your interest and background. We&apos;ll route you to the right advisor.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="space-y-5 px-5 py-6 sm:space-y-6 sm:px-6 sm:py-7 lg:min-h-0 lg:flex-1 lg:overflow-y-auto">
+        <div
+          className={cn(
+            'space-y-5 px-5 py-6 sm:space-y-6 sm:px-6 sm:py-7 lg:min-h-0 lg:flex-1 lg:overflow-y-auto',
+            'lg:[scrollbar-width:none] lg:[-ms-overflow-style:none] lg:[&::-webkit-scrollbar]:hidden',
+          )}
+        >
           <div className="space-y-2.5">
             <Label htmlFor={`${idPrefix}-name`} className={labelClass}>
               Full Name
