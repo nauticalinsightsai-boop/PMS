@@ -21,3 +21,4 @@ export {
   type PortalGoLink,
 } from './channel-landing-pages/portalGoLinks';
 export { assertTierDurationsValid } from './channel-landing-pages/tierDuration';
+export { PORTAL_SOCIAL_PROOF_PENDING_MESSAGE } from './channel-landing-pages/portalLearnerCopy';

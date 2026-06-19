@@ -63,6 +63,7 @@ type Props = {
   channelLabel?: string
   metrics: PortalProofMetric[]
   quotes: PortalSocialProofItem[]
+  quotesPlaceholder?: string
 }
 
 export default function PortalCredibilityTabs({
@@ -71,16 +72,18 @@ export default function PortalCredibilityTabs({
   channelLabel = '',
   metrics,
   quotes,
+  quotesPlaceholder,
 }: Props) {
   const hasMetrics = metrics.length > 0
   const hasQuotes = quotes.length > 0
+  const hasQuotesPanel = hasQuotes || Boolean(quotesPlaceholder)
   const labels = getCredibilityTabLabels(channelId, channelLabel)
-  const [activeTab, setActiveTab] = useState<TabId>(hasQuotes ? 'quotes' : 'metrics')
+  const [activeTab, setActiveTab] = useState<TabId>(hasQuotesPanel ? 'quotes' : 'metrics')
   const quoteSurface = useMemo(() => resolvePortalQuoteSurface(theme), [theme])
 
-  if (!hasMetrics && !hasQuotes) return null
+  if (!hasMetrics && !hasQuotesPanel) return null
 
-  const showTabs = hasMetrics && hasQuotes
+  const showTabs = hasMetrics && hasQuotesPanel
 
   return (
     <div className="portal-credibility-tabs w-full">
@@ -95,7 +98,7 @@ export default function PortalCredibilityTabs({
           role="tablist"
           aria-label="Credibility"
         >
-          {hasQuotes ? (
+          {hasQuotesPanel ? (
             <button
               type="button"
               role="tab"
@@ -136,13 +139,14 @@ export default function PortalCredibilityTabs({
         </div>
       ) : null}
 
-      {hasQuotes && (!showTabs || activeTab === 'quotes') ? (
+      {hasQuotesPanel && (!showTabs || activeTab === 'quotes') ? (
         <div
           id="portal-cred-panel-quotes"
           role="tabpanel"
           aria-labelledby={showTabs ? 'portal-cred-tab-quotes' : undefined}
           className="portal-credibility-panel w-full"
         >
+          {hasQuotes ? (
           <ul
             className={`w-full m-0 p-0 list-none ${
               quotes.length > 1 ? 'grid grid-cols-1 sm:grid-cols-2 gap-4' : ''
@@ -191,6 +195,11 @@ export default function PortalCredibilityTabs({
               </li>
             ))}
           </ul>
+          ) : (
+            <p className="text-body-sm leading-relaxed m-0" style={{ color: theme.textMuted }}>
+              {quotesPlaceholder}
+            </p>
+          )}
         </div>
       ) : null}
 

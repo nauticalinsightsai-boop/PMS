@@ -2,10 +2,10 @@
 
 import { T176_LSS_CARD_BODY, T176_PRINCE2_CARD_BODY } from '@/content/t176-claims';
 
-export const PMP_2026_LAST_REVIEWED = '18 June 2026';
+export const PMP_2026_LAST_REVIEWED = '19 June 2026';
 
 export const PMP_2026_SOURCE_NOTE =
-  'Source note: PMP exam details should always be verified with PMI before booking or applying. PM Structure is an independent exam-prep and readiness-support platform.';
+  'Source note: PMP 2026 transition facts should be reviewed against official PMI sources before each major content update.';
 
 export const PMP_2026_PMI_SOURCE_LINKS = [
   {

@@ -66,6 +66,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/terms',
+        destination: '/legal/terms',
+        permanent: true,
+      },
+      {
         source: '/legalhub',
         destination: '/legal',
         permanent: true,

@@ -21,6 +21,8 @@ import { CERTIFICATIONS_COPY, CTAS } from "@/lib/brand-voice";
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
 import { ResponsiveSnapScroll } from "@/components/ResponsiveSnapScroll";
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { PageMarketingImage } from "@/components/marketing/PageMarketingImage";
+import { MARKETING_PAGE_IMAGES } from "@/lib/marketing-stock-images";
 import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
 import { CertificationHubActions } from "@/components/CertificationHubActions";
 import { useRegion } from "@/contexts/RegionContext";
@@ -152,42 +154,55 @@ export function Certifications() {
           <div className="absolute top-[20%] left-[30%] w-[25%] h-[30%] rounded-full blur-[100px] opacity-15 bg-pms-gradient-blue-purple dark:opacity-20" />
         </div>
         
-        <div className="container relative z-10 mx-auto text-center">
+        <div className="container relative z-10 mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center mb-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center lg:text-left"
+            >
+              <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+                {hub.hero.badge || CERTIFICATIONS_COPY.heroBadge}
+              </Badge>
+              <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
+                {hub.hero.title || (<>Find your <span className="text-pms-gradient-orange">pathway</span></>)}
+              </h1>
+              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                {hub.hero.subtitle || CERTIFICATIONS_COPY.heroSubtitle}
+              </p>
+            </motion.div>
+            <PageMarketingImage
+              image={MARKETING_PAGE_IMAGES.certifications}
+              aspectClassName="aspect-square max-w-md mx-auto lg:max-w-none w-full"
+              priority
+            />
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-center max-w-3xl mx-auto space-y-4 mt-10"
           >
-            <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              {hub.hero.badge || CERTIFICATIONS_COPY.heroBadge}
-            </Badge>
-            <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
-              {hub.hero.title || (<>Find your <span className="text-pms-gradient-orange">pathway</span></>)}
-            </h1>
-            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-              {hub.hero.subtitle || CERTIFICATIONS_COPY.heroSubtitle}
-            </p>
-
-            <div className="mt-10 max-w-3xl mx-auto space-y-4">
-              <div className="relative w-full group">
-                <Search
-                  className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-brand-orange transition-colors pointer-events-none"
-                  aria-hidden
-                />
-                <label htmlFor="cert-family-search" className="sr-only">
-                  Search certifications in the active family
-                </label>
-                <input
-                  id="cert-family-search"
-                  type="search"
-                  placeholder={`Search ${FAMILY_TAB_LABEL[activeTab]} pathways…`}
-                  className="w-full h-14 pl-14 pr-6 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-700 shadow-lg shadow-slate-900/5 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-brand-orange/30 font-bold text-base transition-all dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <CertificationHubActions className="justify-center" />
+            <div className="relative w-full group">
+              <Search
+                className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-brand-orange transition-colors pointer-events-none"
+                aria-hidden
+              />
+              <label htmlFor="cert-family-search" className="sr-only">
+                Search certifications in the active family
+              </label>
+              <input
+                id="cert-family-search"
+                type="search"
+                placeholder={`Search ${FAMILY_TAB_LABEL[activeTab]} pathways…`}
+                className="w-full h-14 pl-14 pr-6 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-700 shadow-lg shadow-slate-900/5 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-brand-orange/30 font-bold text-base transition-all dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
+            <CertificationHubActions className="justify-center" />
           </motion.div>
         </div>
       </section>

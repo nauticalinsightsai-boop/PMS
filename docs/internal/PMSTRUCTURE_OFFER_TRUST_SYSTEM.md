@@ -119,6 +119,7 @@ Use:
 - B11 fact lock: `PMSTRUCTURE_PMP_2026_FACT_LOCK.md`
 - B11 content engine: `PMSTRUCTURE_CONTENT_ENGINE.md`
 - B03 analytics: `PMSTRUCTURE_ANALYTICS_CONVERSION_SYSTEM.md`
+- B14 local/brand SEO: `PMSTRUCTURE_LOCAL_BRAND_SEO_SYSTEM.md`
 - Legal review: `pmstructure-legal-disclaimer-review.csv`
 - Regional routes: `pmstructure-regional-route-approval.csv`
 

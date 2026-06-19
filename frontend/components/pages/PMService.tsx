@@ -21,6 +21,8 @@ import {
   parseServicesPageConfig,
 } from "@pms/site-content";
 import { serviceIcon } from "@/lib/service-icons";
+import { PageHeroWithImage } from "@/components/marketing/PageMarketingImage";
+import { MARKETING_PAGE_IMAGES } from "@/lib/marketing-stock-images";
 
 const SERVICE_COLORS = [
   { color: "text-brand-orange", bg: "bg-brand-orange/10" },
@@ -44,36 +46,38 @@ export function PMService() {
       {/* Hero Section */}
       <section className={pageHeroSection('warm')}>
         <SectionAmbience tone="warm" />
-        <div className="container relative z-10 mx-auto text-center md:text-left">
-          <div className="max-w-4xl mx-auto md:mx-0">
-            <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              {hero.badge || SERVICES_COPY.heroBadge}
-            </Badge>
-            <h1 className="font-heading text-hero font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-8">
-              {hero.title || SERVICES_COPY.heroTitle}
-            </h1>
-            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-2xl font-medium md:mx-0 mx-auto">
-              {hero.subtitle || SERVICES_COPY.heroSubtitle}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <PmpRoadmapCtaLink ctaLocation="hero" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20" />
-              <WebsiteCalendlyButton
-                size="lg"
-                variant="brand"
-                className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20"
-                tier="advisor"
-                funnelLabel="pm_service_hero_consultation"
-                utm={{ utm_source: 'pmstructure', utm_medium: 'pm_service', utm_campaign: 'hero' }}
-              >
-                {CTAS.talkToAdvisor}
-              </WebsiteCalendlyButton>
-              <Link href="#corporate-cohort">
-                <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white h-14 px-10 rounded-2xl font-bold text-lg">
-                  {CTAS.requestCorporateCohortBrief}
-                </Button>
-              </Link>
+        <div className="container relative z-10 mx-auto">
+          <PageHeroWithImage image={MARKETING_PAGE_IMAGES.services} imageAspectClassName="aspect-square" priority>
+            <div className="max-w-4xl mx-auto md:mx-0 text-center md:text-left">
+              <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+                {hero.badge || SERVICES_COPY.heroBadge}
+              </Badge>
+              <h1 className="font-heading text-hero font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-8">
+                {hero.title || SERVICES_COPY.heroTitle}
+              </h1>
+              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-2xl font-medium md:mx-0 mx-auto">
+                {hero.subtitle || SERVICES_COPY.heroSubtitle}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <PmpRoadmapCtaLink ctaLocation="hero" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20" />
+                <WebsiteCalendlyButton
+                  size="lg"
+                  variant="brand"
+                  className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20"
+                  tier="advisor"
+                  funnelLabel="pm_service_hero_consultation"
+                  utm={{ utm_source: 'pmstructure', utm_medium: 'pm_service', utm_campaign: 'hero' }}
+                >
+                  {CTAS.talkToAdvisor}
+                </WebsiteCalendlyButton>
+                <Link href="#corporate-cohort">
+                  <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white h-14 px-10 rounded-2xl font-bold text-lg">
+                    {CTAS.requestCorporateCohortBrief}
+                  </Button>
+                </Link>
+              </div>
             </div>
-          </div>
+          </PageHeroWithImage>
         </div>
       </section>
 

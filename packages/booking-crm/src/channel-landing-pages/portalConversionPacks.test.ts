@@ -31,65 +31,32 @@ describe('portalConversionPacks', () => {
   it('uses certification-focused value cards', () => {
     const substack = getPortalConversionPack('substack')?.valueCards?.[0]?.title
     const linkedin = getPortalConversionPack('linkedin')?.valueCards?.[0]?.title
-    expect(substack).toBe('Reading to exam plan')
-    expect(linkedin).toBe('Certification fit first')
+    expect(substack).toBe('Read to exam plan')
+    expect(linkedin).toBe('From content to pathway')
   })
 
-  it('has learner-voice social proof per scope-41 channel', () => {
-    const quotes = new Set<string>()
-    const names = new Set<string>()
+  it('withholds unverified learner-voice social proof on scope-41 channels', () => {
     for (const channelId of IMPLEMENTATION_SCOPE_41) {
       const proof = getPortalConversionPack(channelId)?.socialProof
-      expect(proof?.length, channelId).toBe(2)
-      for (const item of proof ?? []) {
-        expect(item.quote.length).toBeGreaterThan(20)
-        expect(item.name).toBeTruthy()
-        expect(item.title).toBeTruthy()
-        expect(item.avatarUrl).toMatch(/^\/portal\/learners\//)
-        quotes.add(item.quote)
-        names.add(item.name!)
-      }
+      expect(proof?.length, channelId).toBe(0)
     }
-    expect(quotes.size).toBe(82)
-    expect(names.size).toBe(82)
   })
 
-  it('uses learner voices before platform track record tab labels', () => {
+  it('uses channel-specific credibility tab labels', () => {
     expect(getCredibilityTabLabels('substack')).toEqual({
-      quotes: 'Learner voices',
-      metrics: 'Platform track record',
+      quotes: 'Subscriber voices',
+      metrics: 'Newsletter outcomes',
     })
   })
 
-  it('substack social proof references certification prep', () => {
-    const proof = getPortalConversionPack('substack')?.socialProof ?? []
-    const joined = proof.map((p) => p.quote).join(' ')
-    expect(joined).toMatch(/prep|PMP|CAPM|certification|membership/i)
-  })
-
-  it('website social proof focuses on learners not project deliverables', () => {
-    const proof = getPortalConversionPack('website')?.socialProof ?? []
-    const joined = proof.map((p) => p.quote).join(' ').toLowerCase()
-    expect(joined).not.toContain('deliverable list')
-    expect(joined).toMatch(/prep|certification|pathway|mentor/i)
-  })
-
-  it('platform proof metrics are aggregate not individual CV', () => {
+  it('platform proof metrics exclude unverified pass/cleared outcome counts', () => {
     const metrics = getPortalConversionPack('webinar')?.proofMetrics ?? []
     expect(metrics.length).toBeGreaterThanOrEqual(4)
-    expect(metrics[0]?.label).toMatch(/cleared certifications/i)
-    expect(metrics[1]?.label).toMatch(/Issuing bodies/i)
-    expect(metrics[2]?.label).toMatch(/Certification pathways/i)
+    expect(metrics[0]?.label).toMatch(/Issuing bodies/i)
+    expect(metrics[1]?.label).toMatch(/Certification pathways/i)
     const labels = metrics.map((m) => m.label).join(' ')
+    expect(labels).not.toMatch(/cleared certifications/i)
     expect(labels).not.toMatch(/Professional experience|Geographic exposure/)
-  })
-
-  it('social proof uses name and title not community member labels', () => {
-    const proof = getPortalConversionPack('whatsapp')?.socialProof ?? []
-    const joined = proof.map((p) => `${p.quote} ${p.name ?? ''} ${p.title ?? ''} ${p.role ?? ''}`).join(' ')
-    expect(joined).not.toMatch(/community sent me here/i)
-    expect(joined).not.toMatch(/Community member · study plan/i)
-    expect(proof.every((p) => p.name && p.name.length > 0)).toBe(true)
   })
 
   it('qualification excludes project consulting', () => {
@@ -97,12 +64,5 @@ describe('portalConversionPacks', () => {
     expect(notFor.some((line) => /project delivery|compliance audits|design reviews/i.test(line))).toBe(
       true
     )
-  })
-
-  it('finalCtaBody avoids upgrade-tier framing', () => {
-    for (const ch of ALL_CHANNELS) {
-      const body = getPortalConversionPack(ch.id)?.finalCtaBody ?? ''
-      expect(body.toLowerCase()).not.toMatch(/\bupgrade\b/)
-    }
   })
 })

@@ -44,8 +44,6 @@ const pages: AnswerPageContent[] = [
         url: 'https://www.pmi.org/certifications/project-management-pmp/new-exam',
       },
     ],
-    sourceTodo:
-      'Verify PMP 2026 transition dates and exam scope on PMI.org before treating any third-party summary as final.',
     ctaHref: '/certifications/pmp#cert-roadmap-form',
     ctaLabel: 'Get My PMP 2026 Roadmap',
     faqs: [

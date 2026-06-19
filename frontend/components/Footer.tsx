@@ -17,7 +17,6 @@ import { Separator } from '@/components/ui/separator';
 import { BrandLogo } from '@/components/BrandLogo';
 import { BRAND, BRAND_LINES } from '@/lib/brand-voice';
 import {
-  formatOfficeLocation,
   getPmsWhatsAppDisplay,
   getPmsWhatsAppUrl,
   isContactPhoneConfigured,
@@ -25,7 +24,7 @@ import {
   isWhatsAppConfigured,
   PMS_CONTACT_PHONE,
   PMS_LEGAL_ENTITY_ADDRESS,
-  PMS_OFFICE_LOCATIONS,
+  PMS_REGIONAL_SUPPORT_NOTE,
   PMS_SUPPORT_EMAIL,
 } from '@/config/pms-site';
 import { SectionAmbience } from '@/components/SectionAmbience';
@@ -175,11 +174,12 @@ export function Footer() {
                 </li>
               ) : null}
               <li className="flex items-start gap-2.5">
-                <MapPin className="h-4 w-4 text-brand-orange shrink-0 mt-0.5" />
+                <span className="text-brand-orange shrink-0 mt-0.5 font-semibold" aria-hidden>
+                  •
+                </span>
                 <div className="flex flex-col gap-1">
-                  {PMS_OFFICE_LOCATIONS.map((loc) => (
-                    <span key={loc.city}>{formatOfficeLocation(loc)}</span>
-                  ))}
+                  <span className="font-semibold text-obsidian dark:text-white">Regional support</span>
+                  <span>{PMS_REGIONAL_SUPPORT_NOTE}</span>
                 </div>
               </li>
               {isLegalEntityConfigured() ? (

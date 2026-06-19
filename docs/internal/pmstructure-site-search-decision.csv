@@ -1,0 +1,4 @@
+Decision_ID,Feature,Decision,Rationale,Exclude_Routes,SearchAction_Schema,Owner,Status,Notes
+SRCH-001,Sitewide search UI,Defer,No unified index; HTML sitemap + page filters sufficient today,/docs/internal admin checkout account routes,No,Developer,Deferred,Implement only when content volume justifies scoped index
+SRCH-002,SearchAction JSON-LD,Do not add,No sitewide search implemented,,No,Developer,Deferred,Add only when search UI ships
+SRCH-003,Internal route exposure guard,Required when built,Mis-scoped search could expose admin/checkout,,No,Developer,Pending,Must exclude internal and account routes from index

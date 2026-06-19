@@ -1,0 +1,22 @@
+Task_ID,Area,Applicable,Agent_Action,Status,Owner_Approval,Notes
+T-029,Favicon,Yes,Audit + document as Implemented,Implemented,Not required,PNG light/dark app/icon.png metadata in site-metadata.ts
+T-082,Google Business Profile,Deferred,Internal GBP readiness checklist only,Deferred,Required,No public GBP claims until owner confirms eligibility
+T-083,Physical address,N/A until owner env,Document only; env-gated legal entity,Pending,Required,NEXT_PUBLIC_LEGAL_ENTITY_* unset in .env.example
+T-084,Service location,Yes,Online-first regional support copy in Footer/Contact,Implemented,Not required,PMS_REGIONAL_SUPPORT_NOTE replaces Dubai/London pins
+T-085,Opening hours,N/A,Document pending,N/A,Required,No business hours on site
+T-086,GBP profile optimization,Deferred,Checklist row only,Deferred,Required,Owner must confirm GBP eligibility
+T-087,GBP reviews management,Deferred,N/A until GBP verified,N/A,Required,
+T-088,GBP Q&A management,Deferred,N/A until GBP verified,N/A,Required,
+T-089,GBP posts,Deferred,N/A until GBP verified,N/A,Required,
+T-090,GBP promotions,Deferred,N/A until GBP verified,N/A,Required,
+T-091,GBP photo set,Deferred,N/A until GBP verified,N/A,Required,
+T-093,Team/service photos,Conditional,Document requirements; B12 permission rules,Pending,Required,No stock-as-office
+T-094,Inside location photos,N/A,Mark N/A in register,N/A,Not required,No verified office
+T-095,Outside location photos,N/A,Mark N/A in register,N/A,Not required,No verified office
+T-096,Team/founder photos for GBP,Conditional,B12 founder/testimonial rules,Pending,Required,Permission required
+T-097,Citations/NAP consistency,Deferred,Placeholder register only,Deferred,Required,Do not create directory listings
+T-098,Citation audit,Deferred,Owner input when stable NAP exists,Deferred,Required,
+T-099,Citation submissions,Deferred,Do not submit without owner NAP,Deferred,Required,
+T-111,Sitewide search,Deferred,Document decision CSV; no implementation,Deferred,Required,HTML sitemap + filters only today
+LocalBusiness,LocalBusiness schema,N/A,Keep Organization from B07,N/A,Not required,Do not add LocalBusiness
+SearchAction,SearchAction schema,N/A,Do not add until search exists,N/A,Not required,Defer with T-111

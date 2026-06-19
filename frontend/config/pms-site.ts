@@ -159,17 +159,20 @@ export function isWhatsAppConfigured(): boolean {
   }
 }
 
-/** Regional presence shown in footer and contact surfaces (not full street addresses). */
+/** Online-first regional support note (B12/B14 — no physical office location pins). */
+export const PMS_REGIONAL_SUPPORT_NOTE =
+  'PM Structure supports GCC-based, South Asian, and global project professionals through online readiness support, roadmap guidance, and corporate cohort planning.';
+
+/** @deprecated B14 — removed misleading city pins; use {@link PMS_REGIONAL_SUPPORT_NOTE}. */
 export type PmsOfficeLocation = {
   city: string;
   region: string;
 };
 
-export const PMS_OFFICE_LOCATIONS: readonly PmsOfficeLocation[] = [
-  { city: 'Dubai', region: 'United Arab Emirates' },
-  { city: 'London', region: 'United Kingdom' },
-] as const;
+/** @deprecated B14 — empty; do not render MapPin location lists. */
+export const PMS_OFFICE_LOCATIONS: readonly PmsOfficeLocation[] = [] as const;
 
+/** @deprecated B14 — use {@link PMS_REGIONAL_SUPPORT_NOTE} instead. */
 export function formatOfficeLocation(loc: PmsOfficeLocation): string {
   return `${loc.city}, ${loc.region}`;
 }
@@ -200,8 +203,9 @@ export function formatLegalControllerLine(): string {
   return `${BRAND.fullName} (${BRAND.domain})`;
 }
 
-/** Default Open Graph image (1200×630 preferred; fallback to brand mark). */
-export const PMS_OG_IMAGE_PATH = process.env.NEXT_PUBLIC_OG_IMAGE_PATH || '/og/default.png';
+/** Default Open Graph image (1200×630; generate via npm run generate:marketing-images). */
+export const PMS_OG_IMAGE_PATH =
+  process.env.NEXT_PUBLIC_OG_IMAGE_PATH?.trim() || '/og/default.png';
 
 export const PMS_LOGO_PATH = '/brand/pms-logo-light.png';
 

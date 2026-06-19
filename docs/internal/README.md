@@ -52,6 +52,8 @@ Offer, trust, CTA, and regional positioning (B12): see `PMSTRUCTURE_OFFER_TRUST_
 
 Reporting, weekly SEO dashboard, scan links, monthly audit, and QA sign-off (B13): see `PMSTRUCTURE_REPORTING_QA_SYSTEM.md`, `PMSTRUCTURE_WEEKLY_REPORT_TEMPLATE.md`, `pmstructure-weekly-seo-dashboard.csv`, `pmstructure-result-scan-links.csv`, `pmstructure-monthly-technical-audit.csv`, and `pmstructure-qa-signoff-register.csv`. Audits: `npm run audit:reporting-qa`, `npm run audit:weekly-seo-health`.
 
+Local / brand SEO, GBP deferrals, citations, favicon, social, site search (B14): see `PMSTRUCTURE_LOCAL_BRAND_SEO_SYSTEM.md`, `pmstructure-local-seo-applicability.csv`, `pmstructure-gbp-readiness-checklist.csv`, `pmstructure-citation-nap-register.csv`, `pmstructure-social-link-register.csv`, and `pmstructure-site-search-decision.csv`. Audit: `npm run audit:local-brand-seo`.
+
 Site architecture (T-032): see `PMSTRUCTURE_SITE_ARCHITECTURE.md`, `pmstructure-site-architecture.csv`, and `.cursor/plans/t-032_site_architecture_6ad6b920.plan.md`.
 
 302 redirect audit (T-037): see `PMSTRUCTURE_302_REDIRECT_AUDIT.md`, `pmstructure-302-redirect-audit.csv`.
@@ -63,5 +65,7 @@ Indexation strategy (T-038): see `PMSTRUCTURE_INDEXATION_STRATEGY.md`, `pmstruct
 Crawl / sitemap / indexation control (B04): see `PMSTRUCTURE_CRAWL_INDEXATION_CONTROL.md`, `pmstructure-indexation-control-matrix.csv`, and `PMSTRUCTURE_SEARCH_CONSOLE_CHECKLIST.md`.
 
 Architecture, keywords, and on-page SEO (B06): see `PMSTRUCTURE_ARCHITECTURE_ON_PAGE_SEO.md`, `pmstructure-keyword-url-map.csv`, `pmstructure-on-page-seo-audit.csv`, `pmstructure-internal-link-map.csv`, and `pmstructure-breadcrumb-map.csv`. Audit: `npm run seo:audit-on-page-seo`.
+
+Final crawl fixes, priority URL QA, A–Z closeout, digital PR register (B15): see `PMSTRUCTURE_FINAL_CRAWL_CLOSEOUT.md`, `pmstructure-crawl-findings-register.csv`, `pmstructure-priority-url-qa.csv`, `pmstructure-legacy-url-decision-register.csv`, `pmstructure-a-z-implementation-closeout.csv`, `pmstructure-digital-pr-backlink-register.csv`, `pmstructure-final-owner-action-list.csv`, and `.cursor/plans/b15_final_crawl_closeout.plan.md`. Audits: `npm run seo:audit-crawl-indexation`, `npm run seo:t022-live-qa`, `npm run seo:smoke-live`.
 
 Performance, PageSpeed, images, caching (B08): see `PMSTRUCTURE_PERFORMANCE_SYSTEM.md`, `PMSTRUCTURE_PERFORMANCE_BUDGET.md`, `pmstructure-performance-audit.csv`, `pmstructure-image-optimization-inventory.csv`, and `pmstructure-third-party-script-inventory.csv`. Audits: `npm run audit:performance-assets`, `npm run optimize:brand-icons` (owner-run asset refresh).

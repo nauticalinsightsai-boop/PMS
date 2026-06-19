@@ -1,0 +1,12 @@
+Action_ID,Action,Area,Owner,Priority,Due_Before,Status,Notes
+OA-001,Run full Screaming Frog/Sitebulb crawl and attach export to repo or scan register,Crawl QA,Mahaa,High,Final verification,Pending,Do not mark crawl complete without export. Update pmstructure-crawl-findings-register.csv.
+OA-002,Verify GSC sitemap submitted and priority URLs indexed,GSC,Mahaa,High,Post-deploy,Pending,No fake GSC completion. See PMSTRUCTURE_SEARCH_CONSOLE_CHECKLIST.md.
+OA-003,Verify GA4 key events in DebugView/Tag Assistant after cookie consent,GA4,Mahaa,High,Post-deploy,Pending,B03 validation. Accept analytics cookies when testing.
+OA-004,Confirm legacy /pmp decision: keep T-032 hub OR 301 to /certifications/pmp,Redirects,Sheikh,High,Before any consolidation,Pending,Default B15 target: /certifications/pmp. Current repo: keep live.
+OA-005,Confirm legacy /pmp-exam-2026 decision: keep cluster OR 301 to /topics/pmp-exam-2026,Redirects,Sheikh,High,Before any consolidation,Pending,Default B15 target: /topics/pmp-exam-2026. Current repo: keep live.
+OA-006,Confirm legal URL canonical structure and approve /terms → /legal/terms redirect,Legal routes,Sheikh,Medium,Before final sitemap sign-off,Fixed locally,/privacy and /terms redirect in next.config.ts. Needs deploy verification.
+OA-011,Reintroduce portal learner testimonials only with written permission proof,Trust/compliance,Sheikh,High,Before any testimonial restore,Needs Owner Approval,Unverified stories removed from all /go/* portals 2026-06-10.
+OA-007,Legal review of trademark/disclaimer wording on PMP pages,Legal,Sheikh,High,Before broad publish,Pending,PMP/PMI mark and independent-platform language.
+OA-008,Approve regional routes before creation,Regional SEO,Sheikh,Medium,Before route creation,Pending,No GCC/South Asia routes until approved.
+OA-009,Provide PageSpeed/Lighthouse baseline for priority URLs mobile + desktop,Performance,Developer,Medium,Post-deploy,Pending,Fill pmstructure-performance-audit.csv TBD columns.
+OA-010,Create legitimate digital PR outreach list from planning register,Backlinks,Mahaa,Medium,After content launch,Pending,No fake backlinks. See pmstructure-digital-pr-backlink-register.csv.

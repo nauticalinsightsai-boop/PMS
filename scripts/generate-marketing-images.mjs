@@ -76,6 +76,36 @@ async function writeWordmark(filename, bg, iconPath) {
   console.log('Wrote', path.relative(root, dest));
 }
 
+async function writeOgDefault(iconPath) {
+  const ogDir = path.join(root, 'frontend/public/og');
+  fs.mkdirSync(ogDir, { recursive: true });
+  const w = 1200;
+  const h = 630;
+  const bgSvg = Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <defs>
+        <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#2851b9"/>
+          <stop offset="50%" stop-color="#bc6ae2"/>
+          <stop offset="100%" stop-color="#ff884a"/>
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#g)"/>
+    </svg>`,
+  );
+  const dest = path.join(ogDir, 'default.png');
+  if (fs.existsSync(iconPath)) {
+    const icon = await sharp(iconPath).resize(280, 280).png().toBuffer();
+    await sharp(bgSvg)
+      .composite([{ input: icon, left: Math.round((w - 280) / 2), top: Math.round((h - 280) / 2 - 20) }])
+      .png({ compressionLevel: 9 })
+      .toFile(dest);
+  } else {
+    await sharp(bgSvg).png({ compressionLevel: 9 }).toFile(dest);
+  }
+  console.log('Wrote', path.relative(root, dest));
+}
+
 async function main() {
   fs.mkdirSync(outDir, { recursive: true });
   fs.mkdirSync(brandDir, { recursive: true });
@@ -105,6 +135,10 @@ async function main() {
   }
   if (fs.existsSync(iconDark)) {
     await writeWordmark('pms-logo-dark.png', '#07071c', iconDark);
+  }
+
+  if (fs.existsSync(iconLight)) {
+    await writeOgDefault(iconLight);
   }
 }
 

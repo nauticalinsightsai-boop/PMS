@@ -42,9 +42,13 @@ export function getCredibilityTabLabels(
   return { quotes: 'Learner voices', metrics: 'Platform track record' }
 }
 
-/** Platform-native success stories: two per channel from {@link getPortalLearnerStories}. */
-export function buildLearnerSocialProof(channelId: string, _channelLabel: string): PortalSocialProofItem[] {
-  return getPortalLearnerStories(channelId)
+/** Permission-pending placeholder — shown when no verified learner stories are published. */
+export const PORTAL_SOCIAL_PROOF_PENDING_MESSAGE =
+  'Verified learner stories are being collected and will be added only after permission is confirmed.'
+
+/** Verified learner stories only — returns empty until owner-approved sources exist. */
+export function buildLearnerSocialProof(_channelId: string, _channelLabel: string): PortalSocialProofItem[] {
+  return getPortalLearnerStories(_channelId)
 }
 
 export function normalizeSocialProofItem(item: PortalSocialProofItem): PortalSocialProofItem {

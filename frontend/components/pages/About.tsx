@@ -9,7 +9,8 @@ import { BRAND, BRAND_LINES, CTAS } from "@/lib/brand-voice";
 import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
-import { MARKETING_STOCK_IMAGES } from "@/lib/marketing-stock-images";
+import { MARKETING_STOCK_IMAGES, MARKETING_PAGE_IMAGES } from "@/lib/marketing-stock-images";
+import { PageHeroWithImage } from "@/components/marketing/PageMarketingImage";
 
 export function About() {
   const { get } = useWebsiteData();
@@ -25,30 +26,32 @@ export function About() {
       <section className={sectionSurface('blend', 'py-24 md:py-32')}>
         <SectionAmbience tone="blend" />
         <div className="container relative z-10 mx-auto">
-          <div className="max-w-3xl mx-auto text-center">
-            <Badge className="mb-6 bg-brand-purple/10 text-brand-purple border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              {hero.badge || get('mission_badge', 'Our Mission')}
-            </Badge>
-            <h1 className="font-heading text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
-              {hero.title || get('mission_title', 'Structured project management education and advisory')}
-            </h1>
-            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-              {mission.subtitle || get('mission_subtitle', BRAND_LINES.positioning)}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-              <PmpRoadmapCtaLink ctaLocation="hero" />
-              <WebsiteCalendlyButton
-                size="lg"
-                variant="outline"
-                className="h-14 px-8 rounded-2xl font-bold"
-                tier="discovery"
-                funnelLabel="about_hero_mentor"
-                utm={{ utm_source: 'pmstructure', utm_medium: 'about', utm_campaign: 'hero' }}
-              >
-                {CTAS.talkToAMentor}
-              </WebsiteCalendlyButton>
+          <PageHeroWithImage image={MARKETING_PAGE_IMAGES.aboutHero} imageAspectClassName="aspect-[4/5] max-h-[28rem]">
+            <div className="max-w-3xl mx-auto lg:mx-0 text-center lg:text-left">
+              <Badge className="mb-6 bg-brand-purple/10 text-brand-purple border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+                {hero.badge || get('mission_badge', 'Our Mission')}
+              </Badge>
+              <h1 className="font-heading text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
+                {hero.title || get('mission_title', 'Structured project management education and advisory')}
+              </h1>
+              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+                {mission.subtitle || get('mission_subtitle', BRAND_LINES.positioning)}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
+                <PmpRoadmapCtaLink ctaLocation="hero" />
+                <WebsiteCalendlyButton
+                  size="lg"
+                  variant="outline"
+                  className="h-14 px-8 rounded-2xl font-bold"
+                  tier="discovery"
+                  funnelLabel="about_hero_mentor"
+                  utm={{ utm_source: 'pmstructure', utm_medium: 'about', utm_campaign: 'hero' }}
+                >
+                  {CTAS.talkToAMentor}
+                </WebsiteCalendlyButton>
+              </div>
             </div>
-          </div>
+          </PageHeroWithImage>
         </div>
       </section>
 

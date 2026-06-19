@@ -84,6 +84,14 @@ const STATIC_NEXT_CONFIG_REDIRECTS: StaticRedirect[] = [
     redirectType: 'Legacy slug redirect',
   },
   {
+    source: '/terms',
+    destination: '/legal/terms',
+    permanent: true,
+    priority: 'P1',
+    reason: 'Terms moved under /legal',
+    redirectType: 'Legacy slug redirect',
+  },
+  {
     source: '/legalhub',
     destination: '/legal',
     permanent: true,
@@ -547,6 +555,7 @@ export function getLiveAuditRedirectPaths(): string[] {
     '/compare',
     '/store',
     '/privacy',
+    '/terms',
     '/legalhub',
     '/login',
     '/dashboard',

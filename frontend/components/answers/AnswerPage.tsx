@@ -178,9 +178,6 @@ export function AnswerPage({ page }: { page: AnswerPageContent }) {
                     </li>
                   ))}
                 </ul>
-                {page.sourceTodo ? (
-                  <p className="text-xs text-slate-500 mt-3">TODO: {page.sourceTodo}</p>
-                ) : null}
               </section>
             ) : null}
 

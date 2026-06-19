@@ -17,6 +17,8 @@ import {
   parseCompareCertIds,
 } from '@/lib/compare-certifications';
 import { useWebsiteData } from '@/services/WebsiteDataService';
+import { PageHeroWithImage } from '@/components/marketing/PageMarketingImage';
+import { MARKETING_PAGE_IMAGES } from '@/lib/marketing-stock-images';
 
 export function Compare() {
   const { get } = useWebsiteData();
@@ -76,19 +78,23 @@ export function Compare() {
         )}
       >
         <SectionAmbience tone="purple" />
-        <div className="container relative z-10 mx-auto text-center">
-          <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-            {get('compare_badge', 'Comparison matrix')}
-          </Badge>
-          <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
-            {get('compare_title', 'Compare project management certifications')}
-          </h1>
-          <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-            {get(
-              'compare_subtitle',
-              'Pick up to three pathways from any mix of PMI®, PRINCE2®, and Lean Six Sigma, then review tiers, prep time, and regional tuition in one matrix.',
-            )}
-          </p>
+        <div className="container relative z-10 mx-auto">
+          <PageHeroWithImage image={MARKETING_PAGE_IMAGES.compare}>
+            <div className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
+              <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+                {get('compare_badge', 'Comparison matrix')}
+              </Badge>
+              <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
+                {get('compare_title', 'Compare project management certifications')}
+              </h1>
+              <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                {get(
+                  'compare_subtitle',
+                  'Pick up to three pathways from any mix of PMI®, PRINCE2®, and Lean Six Sigma, then review tiers, prep time, and regional tuition in one matrix.',
+                )}
+              </p>
+            </div>
+          </PageHeroWithImage>
         </div>
       </section>
 

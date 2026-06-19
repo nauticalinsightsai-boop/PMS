@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { BarChart3, ExternalLink } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/GlassCard';
 import {
   GA4_MEASUREMENT_ID,
@@ -44,16 +44,15 @@ export function AnalyticsHub() {
           </p>
         </div>
 
-        <Button variant="brand" className="gap-2" asChild>
-          <a
-            href={GOOGLE_ANALYTICS_DASHBOARD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open Google Analytics
-            <ExternalLink className="h-4 w-4" aria-hidden />
-          </a>
-        </Button>
+        <a
+          href={GOOGLE_ANALYTICS_DASHBOARD_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={buttonVariants({ variant: 'brand', className: 'gap-2 inline-flex' })}
+        >
+          Open Google Analytics
+          <ExternalLink className="h-4 w-4" aria-hidden />
+        </a>
 
         <ul className="text-sm text-muted-foreground space-y-2 list-disc pl-5">
           <li>Use <strong className="text-foreground font-medium">Reports → Realtime</strong> to confirm live traffic after deploy.</li>

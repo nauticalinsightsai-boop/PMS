@@ -22,6 +22,8 @@ import {
 } from '@/content/faq';
 import type { FaqClusterId, FaqEntry } from '@/content/faq';
 import { FaqAccordionList } from '@/components/faq/FaqAccordionList';
+import { PageHeroWithImage } from '@/components/marketing/PageMarketingImage';
+import { MARKETING_PAGE_IMAGES } from '@/lib/marketing-stock-images';
 
 const DEFAULT_TAB = FAQ_HUB_SECTIONS[0]?.id ?? 'about-pathways';
 
@@ -67,46 +69,45 @@ export function FAQ() {
       >
         <SectionAmbience tone="cool" />
         <div className="container relative z-10 mx-auto">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="inline-flex p-3 rounded-2xl bg-brand-purple/10 text-brand-purple mb-6">
-              <HelpCircle className="h-8 w-8" />
-            </div>
-            {get('faq_badge', '') ? (
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-purple mb-4">
-                {get('faq_badge')}
+          <PageHeroWithImage image={MARKETING_PAGE_IMAGES.faq}>
+            <div className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
+              <div className="inline-flex p-3 rounded-2xl bg-brand-purple/10 text-brand-purple mb-6">
+                <HelpCircle className="h-8 w-8" />
+              </div>
+              {get('faq_badge', '') ? (
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-purple mb-4">
+                  {get('faq_badge')}
+                </p>
+              ) : null}
+              <h1 className="font-heading text-4xl font-bold text-slate-900 dark:text-white mb-6">
+                {get('faq_title', 'Frequently Asked Questions')}
+              </h1>
+              <p className="text-slate-500 dark:text-slate-400 mb-4 max-w-lg mx-auto lg:mx-0">
+                {get(
+                  'faq_subtitle',
+                  'PMP 2026 exam prep, certification pathways, regional pricing, membership, delivery, and policies.',
+                )}
               </p>
-            ) : null}
-            <p
-              className="font-heading text-4xl font-bold text-slate-900 dark:text-white mb-6"
-              aria-hidden="true"
-            >
-              {get('faq_title', 'Frequently Asked Questions')}
-            </p>
-            <p className="text-slate-500 dark:text-slate-400 mb-4 max-w-lg mx-auto">
-              {get(
-                'faq_subtitle',
-                'PMP 2026 exam prep, certification pathways, regional pricing, membership, delivery, and policies.',
-              )}
-            </p>
-            <p className="mb-8">
-              <Link
-                href="/pmp-faq"
-                className="text-brand-purple font-semibold hover:underline text-sm"
-              >
-                View all PMP FAQs →
-              </Link>
-            </p>
-            <div className="relative max-w-md mx-auto">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search questions..."
-                className="pl-10 h-12"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                aria-label="Search FAQ"
-              />
+              <p className="mb-8">
+                <Link
+                  href="/pmp-faq"
+                  className="text-brand-purple font-semibold hover:underline text-sm"
+                >
+                  View all PMP FAQs →
+                </Link>
+              </p>
+              <div className="relative max-w-md mx-auto lg:mx-0">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search questions..."
+                  className="pl-10 h-12"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  aria-label="Search FAQ"
+                />
+              </div>
             </div>
-          </div>
+          </PageHeroWithImage>
         </div>
       </section>
 

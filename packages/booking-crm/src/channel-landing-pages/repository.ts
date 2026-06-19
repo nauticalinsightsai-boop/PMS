@@ -22,7 +22,8 @@ import { assertPmsPortalTemplate } from '../pmsPortalTemplate'
 function loadPages(): Record<string, ChannelLandingPage> {
   const file = readChannelLandingPagesFile()
   const { pages, changed } = migratePagesToChannelLevel(file.pages)
-  if (changed) {
+  // Skip FS writes on serverless hosts (read-only filesystem during sitemap/API requests).
+  if (changed && process.env.VERCEL !== '1') {
     writeChannelLandingPagesFile({ pages })
   }
   return pages

@@ -53,6 +53,7 @@
     "audit:offer-trust": "node scripts/audit-offer-trust.mjs",
     "audit:reporting-qa": "node scripts/audit-reporting-qa.mjs",
     "audit:weekly-seo-health": "node scripts/audit-weekly-seo-health.mjs",
+    "audit:local-brand-seo": "node scripts/audit-local-brand-seo.mjs",
     "optimize:brand-icons": "node scripts/optimize-brand-icons.mjs",
     "generate:marketing-images": "node scripts/generate-marketing-images.mjs",
     "export:website-data": "node --import tsx scripts/export-website-data-snapshot.mjs",

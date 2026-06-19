@@ -18,6 +18,8 @@ import { useNewsletterHubConfig } from "@/hooks/useNewsletterHubConfig";
 import { useNewsletterCategories } from "@/hooks/useNewsletterCategories";
 import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
 import { NewsletterSubscribeForm } from "@/components/forms/NewsletterSubscribeForm";
+import { PageMarketingImage } from "@/components/marketing/PageMarketingImage";
+import { MARKETING_PAGE_IMAGES } from "@/lib/marketing-stock-images";
 
 import { T176_SOCIAL_PROOF_REGIONAL } from '@/content/t176-claims';
 
@@ -75,15 +77,15 @@ export function Newsletter() {
           <div className="absolute top-[30%] left-[35%] w-[22%] h-[28%] rounded-full blur-[100px] opacity-15 bg-pms-gradient-blue-cyan dark:opacity-25" />
         </div>
         <div className="container relative z-10 mx-auto">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-            <div className="max-w-3xl text-center md:text-left mx-auto md:mx-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            <div className="max-w-3xl text-center lg:text-left mx-auto lg:mx-0">
               <Badge variant="outline" className="mb-6 border-[#0859b3]/25 text-[#0859b3] dark:text-[#57d5e2] bg-[#0859b3]/5 dark:bg-[#57d5e2]/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
                 {hub.hero.badge}
               </Badge>
               <h1 className="font-heading text-hero font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-8">
                 {renderHeroTitle(hub.hero.title)}
               </h1>
-              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium max-w-2xl md:mx-0 mx-auto">
+              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium max-w-2xl lg:mx-0 mx-auto">
                 {hub.hero.subtitle} {T176_SOCIAL_PROOF_REGIONAL}
               </p>
               <p className="mt-6">
@@ -96,12 +98,16 @@ export function Newsletter() {
                 </Link>
               </p>
             </div>
-            <div className="w-full md:w-auto">
+            <div className="space-y-6 w-full max-w-md mx-auto lg:max-w-none">
+              <PageMarketingImage
+                image={MARKETING_PAGE_IMAGES.newsletter}
+                aspectClassName="aspect-square"
+              />
               <div className="relative group">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-brand-purple transition-colors" />
-                <Input 
-                  placeholder="Search articles..." 
-                  className="pl-12 h-14 w-full md:w-[350px] rounded-2xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:ring-brand-purple"
+                <Input
+                  placeholder="Search articles..."
+                  className="pl-12 h-14 w-full rounded-2xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:ring-brand-purple"
                 />
               </div>
             </div>

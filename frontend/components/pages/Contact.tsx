@@ -7,20 +7,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Mail, MapPin, MessageSquare, MessageCircle } from "lucide-react";
+import { Mail, Globe, MessageSquare, MessageCircle } from "lucide-react";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { useSimpleFormRecovery } from '@/components/conversion-recovery/useSimpleFormRecovery';
 import {
-  formatOfficeLocation,
   getPmsWhatsAppDisplay,
   getPmsWhatsAppUrl,
   isWhatsAppConfigured,
-  PMS_OFFICE_LOCATIONS,
+  PMS_REGIONAL_SUPPORT_NOTE,
   PMS_SUPPORT_EMAIL,
 } from '@/config/pms-site';
 import { TrackedContactLink } from '@/components/analytics/TrackedContactLink';
+import { PageHeroWithImage } from '@/components/marketing/PageMarketingImage';
+import { MARKETING_PAGE_IMAGES } from '@/lib/marketing-stock-images';
 
 export function Contact() {
   const { get } = useWebsiteData();
@@ -87,14 +88,16 @@ export function Contact() {
       <section className={sectionSurface('blend', 'py-16 md:py-24')}>
         <SectionAmbience tone="blend" />
         <div className="container relative z-10 mx-auto">
-          <div className="max-w-2xl mx-auto text-center">
-            <h1 className="font-heading text-4xl font-bold text-slate-900 mb-6">
-              {get('contact_title', 'Get in Touch')}
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              {get('contact_subtitle', 'Have questions about our certifications or membership? Our team is here to help you navigate your career path.')}
-            </p>
-          </div>
+          <PageHeroWithImage image={MARKETING_PAGE_IMAGES.contact} priority>
+            <div className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
+              <h1 className="font-heading text-4xl font-bold text-slate-900 dark:text-white mb-6">
+                {get('contact_title', 'Get in Touch')}
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                {get('contact_subtitle', 'Have questions about our certifications or membership? Our team is here to help you navigate your career path.')}
+              </p>
+            </div>
+          </PageHeroWithImage>
         </div>
       </section>
 
@@ -147,15 +150,11 @@ export function Contact() {
               ) : null}
               <div className="flex gap-4">
                 <div className="p-3 rounded-xl bg-indigo-600/10 text-indigo-600 h-fit">
-                  <MapPin className="h-6 w-6" />
+                  <Globe className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-bold">Locations</h3>
-                  {PMS_OFFICE_LOCATIONS.map((loc) => (
-                    <p key={loc.city} className="text-sm text-muted-foreground mt-1">
-                      {formatOfficeLocation(loc)}
-                    </p>
-                  ))}
+                  <h3 className="font-bold">Regional support</h3>
+                  <p className="text-sm text-muted-foreground mt-1">{PMS_REGIONAL_SUPPORT_NOTE}</p>
                 </div>
               </div>
               <Card className="bg-slate-900 text-white border-none overflow-hidden">

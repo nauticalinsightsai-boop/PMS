@@ -64,6 +64,97 @@ async function safeBlogArticles() {
   }
 }
 
+function safePathsToEntries(
+  paths: string[],
+  priority: number,
+  changeFrequency: SitemapFreq = 'monthly',
+): MetadataRoute.Sitemap {
+  try {
+    return paths
+      .map((path) => safeEntry(path, priority, changeFrequency))
+      .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
+  } catch {
+    return [];
+  }
+}
+
+function buildCertEntries(): MetadataRoute.Sitemap {
+  try {
+    return certifications
+      .map((c) => {
+        const isPmp = c.id === 'pmp';
+        return safeEntry(
+          `/certifications/${c.id}`,
+          isPmp ? 0.9 : 0.8,
+          isPmp ? 'weekly' : 'monthly',
+        );
+      })
+      .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
+  } catch {
+    return [];
+  }
+}
+
+function buildLegalEntries(): MetadataRoute.Sitemap {
+  try {
+    const legalPaths = [
+      '/legal',
+      '/legal/terms',
+      '/legal/privacy',
+      '/legal/cookies',
+      '/legal/services',
+      '/legal/pricing-disclaimers',
+      ...DYNAMIC_LEGAL_SLUGS.map((s) => `/legal/${s}`),
+      ...PRIVACY_REGION_OPTIONS.filter((r) => r.slug !== 'global').map((r) => r.href),
+      '/legal/privacy/gcc',
+      ...GCC_COUNTRY_SLUGS.map((c) => `/legal/privacy/gcc/${c}`),
+    ];
+    return safePathsToEntries(legalPaths, 0.3, 'yearly');
+  } catch {
+    return [];
+  }
+}
+
+function buildPmpClusterEntries(): MetadataRoute.Sitemap {
+  const PMP_PRIORITY_PATHS = new Set(['/pmp-exam-2026']);
+  try {
+    return PMP_CLUSTER_PATHS.map((p) =>
+      safeEntry(
+        p,
+        PMP_PRIORITY_PATHS.has(p) ? 0.9 : 0.85,
+        PMP_PRIORITY_PATHS.has(p) ? 'weekly' : 'monthly',
+      ),
+    ).filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
+  } catch {
+    return [];
+  }
+}
+
+function buildAnswerEntries(): MetadataRoute.Sitemap {
+  try {
+    return safePathsToEntries(getPublishedAnswerPaths(), 0.7, 'monthly');
+  } catch {
+    return [];
+  }
+}
+
+function buildTopicEntries(): MetadataRoute.Sitemap {
+  try {
+    return safePathsToEntries(getPublishedTopicPaths(), 0.7, 'monthly');
+  } catch {
+    return [];
+  }
+}
+
+function dedupeSitemap(entries: MetadataRoute.Sitemap): MetadataRoute.Sitemap {
+  const seen = new Set<string>();
+  return entries.filter((item) => {
+    if (seen.has(item.url)) return false;
+    seen.add(item.url);
+    return true;
+  });
+}
+
 const MARKETING_ROUTES: RouteSpec[] = [
   { path: '/', priority: 1, changeFrequency: 'weekly' },
   { path: '/certifications', priority: 0.8, changeFrequency: 'monthly' },
@@ -82,8 +173,6 @@ const MARKETING_ROUTES: RouteSpec[] = [
   { path: '/sitemap', priority: 0.3, changeFrequency: 'monthly' },
 ];
 
-const PMP_PRIORITY_PATHS = new Set(['/pmp-exam-2026']);
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     return await buildSitemap();
@@ -97,32 +186,6 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
   const newsletterArticles = await safeNewsletterArticles();
   const blogArticles = await safeBlogArticles();
 
-  const certs = certifications
-    .map((c) => {
-      const isPmp = c.id === 'pmp';
-      return safeEntry(
-        `/certifications/${c.id}`,
-        isPmp ? 0.9 : 0.8,
-        isPmp ? 'weekly' : 'monthly',
-      );
-    })
-    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
-
-  const legalPaths = [
-    '/legal',
-    '/legal/terms',
-    '/legal/privacy',
-    '/legal/cookies',
-    '/legal/services',
-    '/legal/pricing-disclaimers',
-    ...DYNAMIC_LEGAL_SLUGS.map((s) => `/legal/${s}`),
-    ...PRIVACY_REGION_OPTIONS.filter((r) => r.slug !== 'global').map((r) => r.href),
-    '/legal/privacy/gcc',
-    ...GCC_COUNTRY_SLUGS.map((c) => `/legal/privacy/gcc/${c}`),
-  ]
-    .map((p) => safeEntry(p, 0.3, 'yearly'))
-    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
-
   const newsletter = newsletterArticles
     .map((n) => safeEntry(`/newsletter/${n.slug}`, 0.6, 'monthly'))
     .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
@@ -131,42 +194,19 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     .map((b) => safeEntry(`/blog/${b.slug}`, 0.6, 'monthly'))
     .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
-  const portalEntries = portalPaths
-    .map((path) => safeEntry(path, 0.5, 'monthly'))
-    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
+  const portalEntries = safePathsToEntries(portalPaths, 0.5, 'monthly');
 
-  const pmpCluster = PMP_CLUSTER_PATHS.map((p) =>
-    safeEntry(
-      p,
-      PMP_PRIORITY_PATHS.has(p) ? 0.9 : 0.85,
-      PMP_PRIORITY_PATHS.has(p) ? 'weekly' : 'monthly',
-    ),
-  ).filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
-
-  const pmpCourses = PMP_COURSE_PATHS.map((p) => safeEntry(p, 0.85, 'monthly')).filter(
-    (e): e is MetadataRoute.Sitemap[0] => e !== null,
-  );
-  const pmpServices = PMP_SERVICE_PATHS.map((p) => safeEntry(p, 0.85, 'monthly')).filter(
-    (e): e is MetadataRoute.Sitemap[0] => e !== null,
-  );
-  const answers = getPublishedAnswerPaths()
-    .map((p) => safeEntry(p, 0.7, 'monthly'))
-    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
-  const topics = getPublishedTopicPaths()
-    .map((p) => safeEntry(p, 0.7, 'monthly'))
-    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
-
-  return [
+  return dedupeSitemap([
     ...entriesFromSpecs(MARKETING_ROUTES),
-    ...certs,
-    ...pmpCluster,
-    ...pmpCourses,
-    ...pmpServices,
-    ...answers,
-    ...topics,
-    ...legalPaths,
+    ...buildCertEntries(),
+    ...buildPmpClusterEntries(),
+    ...safePathsToEntries([...PMP_COURSE_PATHS], 0.85, 'monthly'),
+    ...safePathsToEntries([...PMP_SERVICE_PATHS], 0.85, 'monthly'),
+    ...buildAnswerEntries(),
+    ...buildTopicEntries(),
+    ...buildLegalEntries(),
     ...newsletter,
     ...blog,
     ...portalEntries,
-  ];
+  ]);
 }

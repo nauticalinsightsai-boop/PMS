@@ -5,6 +5,13 @@
 
 const m = (name: string) => `/images/marketing/${name}.webp`;
 
+export type MarketingImageSpec = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
+
 export const MARKETING_HERO_SOCIAL_AVATARS = [
   { src: m('hero-social-avatar-1'), alt: '', width: 40, height: 40 },
   { src: m('hero-social-avatar-2'), alt: '', width: 40, height: 40 },
@@ -68,3 +75,61 @@ export const MARKETING_STOCK_IMAGES = {
   articleCard: { src: m('community-collab-600'), width: 800, height: 600 },
   storeProduct: { src: m('membership-tools-500'), width: 400, height: 500 },
 } as const;
+
+/** Page-relevant hero / section imagery (reuse existing marketing WebP assets). */
+export const MARKETING_PAGE_IMAGES = {
+  contact: {
+    src: m('community-mentor-600'),
+    alt: 'Mentor-led certification support conversation',
+    width: 600,
+    height: 450,
+  },
+  faq: {
+    src: m('community-workshop-600'),
+    alt: 'Structured PMP readiness workshop Q&A',
+    width: 600,
+    height: 450,
+  },
+  certifications: {
+    src: m('community-collab-600'),
+    alt: 'Project professionals exploring certification pathways',
+    width: 600,
+    height: 600,
+  },
+  compare: {
+    src: m('membership-guides-500'),
+    alt: 'Certification pathway comparison study guides',
+    width: 500,
+    height: 500,
+  },
+  services: {
+    src: m('mentorship-circle-900'),
+    alt: 'PM Structure advisory and corporate cohort planning',
+    width: 900,
+    height: 900,
+  },
+  aboutHero: {
+    src: m('about-workshop-800'),
+    alt: 'Mentor-led certification workshop',
+    width: 800,
+    height: 1000,
+  },
+  blog: {
+    src: m('community-network-600'),
+    alt: 'Project management professional learning network',
+    width: 600,
+    height: 600,
+  },
+  newsletter: {
+    src: m('membership-webinars-500'),
+    alt: 'Expert webinar and newsletter insights',
+    width: 500,
+    height: 500,
+  },
+  support: {
+    src: m('community-mentor-600'),
+    alt: 'Online certification readiness support',
+    width: 600,
+    height: 450,
+  },
+} as const satisfies Record<string, MarketingImageSpec>;
