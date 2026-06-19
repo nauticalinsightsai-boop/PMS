@@ -185,6 +185,7 @@ export function buildArticleSchema(input: {
   path: string;
   headline: string;
   description: string;
+  dateModified?: string;
 }) {
   const url = `${PMS_SITE_URL}${input.path}`;
   return {
@@ -194,6 +195,7 @@ export function buildArticleSchema(input: {
     headline: input.headline,
     description: input.description,
     url,
+    ...(input.dateModified ? { dateModified: input.dateModified } : {}),
     publisher: { '@id': organizationId() },
     mainEntityOfPage: { '@id': `${url}#webpage` },
   };

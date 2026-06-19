@@ -110,9 +110,12 @@ Base analytics setup is not the same as conversion tracking.
 
 Conversion tracking is handled separately in:
 
-```
-T-013 — Conversion Tracking Online and Offline
-```
+- [`PMSTRUCTURE_CONVERSION_TRACKING_PLAN.md`](PMSTRUCTURE_CONVERSION_TRACKING_PLAN.md) — T-013 implementation map
+- [`PMSTRUCTURE_ANALYTICS_CONVERSION_SYSTEM.md`](PMSTRUCTURE_ANALYTICS_CONVERSION_SYSTEM.md) — B03 consolidated governance
+- [`PMSTRUCTURE_GA4_GSC_REPORTING_QA.md`](PMSTRUCTURE_GA4_GSC_REPORTING_QA.md) — B03 reporting QA
+- [`pmstructure-event-map.csv`](pmstructure-event-map.csv) — B03 event inventory
+
+Regenerate/check: `npm run check:ga`, `npm run seo:audit-analytics`.
 
 Owner: Sheikh M. Abdullah  
 Technical owner: Developer  

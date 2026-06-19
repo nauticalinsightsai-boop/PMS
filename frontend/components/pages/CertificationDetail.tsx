@@ -37,7 +37,6 @@ import {
   ExpandableLearningOutcomes,
 } from "@/components/CertDossierBlocks";
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
-import { TrackedConversionLink } from '@/components/analytics/TrackedConversionLink';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
 import { CertRoadmapCta } from '@/components/cert/CertProgramHighlightsSection';
@@ -50,8 +49,17 @@ import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnroll
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
 import { CertComplianceNote } from '@/components/cert/CertComplianceNote';
+import { Pmp2026ComplianceNote } from '@/components/pmp/Pmp2026ComplianceNote';
+import { PmpRelatedFaqs } from '@/components/pmp/PmpRelatedFaqs';
+import { PMP_PACKAGE_TIER_POSITIONING } from '@/content/pmp/program-offer';
+import { T176_SCHOLARSHIP_SAFE_BLOCK } from '@/content/t176-claims';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+import {
+  getCertBreadcrumbItems,
+  PMP_COMMERCIAL_LABEL,
+} from '@/content/site-architecture/routes';
 
 const CertProgramHighlightsContent = dynamic(
   () =>
@@ -110,6 +118,9 @@ export function CertificationDetail() {
       ),
     [cert.id, certName, regionId, gccCountry, cert.pathwayOutcomes, cert.learningOutcomes]
   );
+
+  const breadcrumbLabel = cert.id === 'pmp' ? PMP_COMMERCIAL_LABEL : cert.detailHeroTitle;
+  const breadcrumbs = getCertBreadcrumbItems(cert.id, breadcrumbLabel);
 
   return (
     <div
@@ -176,6 +187,7 @@ export function CertificationDetail() {
         </div>
 
         <div className="container relative z-10 mx-auto">
+          <Breadcrumbs items={breadcrumbs} className="mb-4" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -267,6 +279,25 @@ export function CertificationDetail() {
         </div>
       </section>
 
+      {cert.id === 'pmp' && (regionId === 'gcc' || regionId === 'india' || regionId === 'pakistan') ? (
+        <section className={sectionSurface('cool', 'py-16 border-b border-slate-100 dark:border-slate-800')}>
+          <SectionAmbience tone="cool" />
+          <div className="container relative z-10 mx-auto max-w-3xl text-center">
+            <h2 className="font-heading text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
+              {regionId === 'gcc' ? 'GCC readiness positioning' : 'Career mobility positioning'}
+            </h2>
+            <p className="text-base font-medium leading-relaxed text-slate-600 dark:text-slate-400">
+              {regionId === 'gcc'
+                ? 'For GCC-based project professionals, PMP 2026 preparation should be structured around exam readiness, project-delivery context, and career mobility. PM Structure helps candidates build a readiness roadmap before choosing a study path or exam date.'
+                : 'For South Asian project professionals targeting GCC or international opportunities, PMP 2026 readiness should be planned as a career-mobility step, not just a low-cost course purchase.'}
+            </p>
+            {regionId === 'india' || regionId === 'pakistan' ? (
+              <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">{T176_SCHOLARSHIP_SAFE_BLOCK}</p>
+            ) : null}
+          </div>
+        </section>
+      ) : null}
+
       {/* Pathway Component */}
       <section className={sectionSurface('soft', 'pt-10 pb-32')}>
         <SectionAmbience tone="soft" />
@@ -283,6 +314,30 @@ export function CertificationDetail() {
               <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-medium leading-relaxed">
                 Choose the tier that matches your current experience and career goals. Each step is designed for maximum impact.
               </p>
+              {cert.id === 'pmp' ? (
+                <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left">
+                  {(['foundation', 'professional', 'mastery'] as const).map((tierKey) => {
+                    const tier = PMP_PACKAGE_TIER_POSITIONING[tierKey];
+                    return (
+                      <div
+                        key={tierKey}
+                        className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 p-6"
+                      >
+                        <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-2">{tier.title}</h3>
+                        <p className="text-sm font-medium text-slate-600 dark:text-slate-400 leading-relaxed">{tier.positioning}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : null}
+              {cert.id === 'pmp' ? (
+                <p className="mt-8 text-sm text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+                  {PMP_PACKAGE_TIER_POSITIONING.fallback}{' '}
+                  <Link href="/faq" className="font-bold text-brand-orange hover:underline">
+                    Compare tiers in FAQ
+                  </Link>
+                </p>
+              ) : null}
             </motion.div>
           </div>
           <CertificationPathway 
@@ -312,6 +367,12 @@ export function CertificationDetail() {
             className="mb-16 pt-[40px] sm:mb-20 md:mb-24"
           />
           <CertComplianceNote certId={cert.id} familyId={cert.familyId} className="mx-auto mb-16 max-w-6xl" />
+          {cert.id === 'pmp' ? (
+            <div className="mx-auto mb-16 max-w-6xl space-y-8">
+              <Pmp2026ComplianceNote showSourceLinks />
+              <PmpRelatedFaqs relatedPage="/certifications/pmp" limit={6} heading="PMP 2026 frequently asked questions" />
+            </div>
+          ) : null}
           <div className="mx-auto max-w-6xl">
             <h2 className="sr-only">Certification details</h2>
             <div className="mb-10 border-t border-slate-200/80 pt-10 dark:border-slate-700/80 sm:mb-12 sm:pt-12">

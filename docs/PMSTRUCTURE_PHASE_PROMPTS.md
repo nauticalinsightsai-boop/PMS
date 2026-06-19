@@ -4,7 +4,7 @@ Use one prompt per implementation run. Do not combine phases unless explicitly n
 
 **Global constraints for every implementation run:**
 - PM Structure is an independent exam-prep platform: no PMI ATP, no guaranteed pass claims unless owner confirms.
-- Canonical domain: `https://www.pmstructure.com`
+- Canonical domain: `https://pmstructure.com`
 - Implement ONLY the phase named in the prompt.
 - Read listed docs first; inspect codebase if missing.
 - Deliver phase output report at end; stop after phase complete.
@@ -71,7 +71,7 @@ Read: docs/PMSTRUCTURE_INDEXING_MATRIX.md, docs/PMSTRUCTURE_SITEMAP_PLAN.md, doc
 
 PRIMARY GOAL: Sitemap includes ONLY indexable canonical public URLs. Exclude noindex, private, payment, checkout, success/cancel/thank-you, dashboard/login/admin, API, draft, placeholder, UTM/regional duplicates.
 
-CANONICAL: Use PMS_SITE_URL from frontend/config/pms-site.ts (currently https://www.pmstructure.com). Do not hardcode a second domain.
+CANONICAL: Use PMS_SITE_URL from frontend/config/pms-site.ts (https://pmstructure.com). Do not hardcode a second domain.
 
 SITEMAP ARCHITECTURE (prefer Option A, fallback Option B):
 - Option A: /sitemap.xml index + sitemap-pages.xml, sitemap-certifications.xml, sitemap-articles.xml, sitemap-legal.xml, optional sitemap-portals.xml; TODO stubs for pmp/answers/topics/courses until routes exist.
@@ -126,7 +126,7 @@ READ FIRST (if present):
 Prerequisites: Run 2 (SSR), Run 3 (index/noindex), Run 4 (sitemap).
 
 CANONICAL DOMAIN:
-- Single source of truth: PMS_SITE_URL from frontend/config/pms-site.ts (currently https://www.pmstructure.com).
+- Single source of truth: PMS_SITE_URL from frontend/config/pms-site.ts (https://pmstructure.com).
 - User spec may say apex pmstructure.com: use env, do not hardcode two domains in page files.
 - All canonicals: HTTPS, no UTM, no region/currency/session/checkout tokens.
 - Do not canonicalize private/dashboard/account/payment/checkout/success/cancel/thank-you/API/draft/preview/loading pages as authority pages.

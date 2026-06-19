@@ -37,7 +37,6 @@ export function defaultCommunityPageConfig(): CommunityPageConfig {
     network: {
       title: 'Join the Global PM Network',
       subtitle: "Don't study in isolation. Connect with professionals in our Skool community.",
-      memberCount: 1284,
       features: [
         { title: 'Skool Community', iconKey: 'message' },
         { title: 'Study Circles', iconKey: 'users' },

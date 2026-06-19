@@ -1,27 +1,26 @@
 import { PMS_SITE_URL } from '@/config/pms-site';
+import { breadcrumbItemsToSchema } from '@/components/navigation/breadcrumb-schema';
+import { getAnswerPageBreadcrumbs } from '@/content/site-architecture/routes';
+import type { AnswerPageContent } from '@/content/answers/types';
+import { getAnswerFaqsForPage } from '@/content/answers';
 import {
   buildArticleSchema,
-  buildBreadcrumbSchema,
   buildFaqPageSchema,
   buildWebPageSchema,
 } from '@/lib/schema';
-import type { AnswerPageContent } from '@/content/answers/types';
-import { getAnswerFaqsForPage } from '@/content/answers';
 
 export function AnswerJsonLd({ page }: { page: AnswerPageContent }) {
   const visibleFaqs = [...(page.faqs ?? []), ...getAnswerFaqsForPage(page)];
+  const breadcrumbItems = getAnswerPageBreadcrumbs(page);
   const graph = [
     buildWebPageSchema({ path: page.path, name: page.question, description: page.description }),
     buildArticleSchema({
       path: page.path,
       headline: page.question,
       description: page.description,
+      dateModified: page.dateModified,
     }),
-    buildBreadcrumbSchema([
-      { name: 'Home', path: '/' },
-      { name: 'Answers', path: '/answers' },
-      { name: page.question, path: page.path },
-    ]),
+    breadcrumbItemsToSchema(breadcrumbItems, page.path),
   ];
 
   if (visibleFaqs.length) {

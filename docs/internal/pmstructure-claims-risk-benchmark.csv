@@ -1,0 +1,20 @@
+Claim_or_Phrase,Seen_On_Competitor,Competitor_URL,Claim_Type,Risk_Level,Can_PMStructure_Use,Safer_PMStructure_Wording,Reason,Owner_Approval,Notes
+PMI approved,PMTraining; Simplilearn; KnowledgeHut,Multiple commercial pages,Official status,High,No,independent PMP readiness support,PM Structure is not PMI-approved unless verified,Not required,compliance.ts blocklist
+Premier Authorized Training Partner,PMTraining; Simplilearn; KnowledgeHut,Commercial pages,ATP claim,High,No,Independent exam-preparation platform,ATP requires formal PMI status,Not required,False claim risk log
+guaranteed pass,PMTraining; Simplilearn; KnowledgeHut,Commercial pages,Outcome guarantee,High,No,does not guarantee a PMP pass,FAQ and answers deny guarantee,Not required,compliance.ts blocklist
+100% Money Back Guarantee,PMTraining; Simplilearn; KnowledgeHut,Commercial pages,Refund guarantee,Medium,No,See refund policy at /legal/refunds,Do not copy competitor guarantee unless legally approved,Owner review,Marketing claim not verified for PM Structure
+100% pass,Competitor pattern,Commercial pages,Outcome guarantee,High,No,no guaranteed pass rates,Compliance disclaimer,Not required,
+35 PDUs,Some competitors,Commercial pages,Training hours,Medium,Conditional,35 hours of project management education/training where applicable,PMI uses contact hours for eligibility not PDUs for prep,Owner review,90-day schedule warns PDUs wording
+certified by PMI,Competitor pattern,Commercial pages,Official status,High,No,independent preparation support,PMP certification is from PMI not training provider,Not required,
+exam included,Competitor pattern,Commercial pages,Pricing,Medium,No,tuition only; official exam fees separate,Live PMP page states exam fees separate,Not required,Verified on PM Structure page
+job guarantee,Competitor pattern,TBD,Outcome guarantee,High,No,structured readiness support only,Never use without legal approval,Not required,
+salary guarantee,Competitor pattern,TBD,Outcome guarantee,High,No,career-mobility support framing,Unverifiable,Not required,
+188357 students trust us,PMTraining,https://www.pmtraining.com/,Social proof,High,No,verified testimonials when available,Unverified count for PM Structure,Owner review,Do not copy competitor numbers
+135000+ Enrolled,KnowledgeHut,https://www.knowledgehut.com/project-management/pmp-certification-training,Social proof,High,No,verified learner outcomes when documented,Unverified for PM Structure,Owner review,
+116.2K Learners,Simplilearn,https://www.simplilearn.com/project-management/pmp-certification-training,Social proof,High,No,verified testimonials when available,Unverified for PM Structure,Owner review,
+Crack PMP on First Attempt,Simplilearn,https://www.simplilearn.com/project-management/pmp-certification-training,Outcome claim,High,No,structured exam-preparation pathway,Implies pass guarantee,Not required,
+#1 PMP Live Online Class 2026,PMTraining,https://www.pmtraining.com/,Ranking claim,Medium,No,TBD,Unverified third-party award,Owner review,
+Leading PMI Partner Globally,Simplilearn,https://www.simplilearn.com/project-management/pmp-certification-training,Official status,High,No,independent PMP 2026 readiness support,Implies PMI partnership,Not required,
+official PMI course,Competitor pattern,Commercial pages,Official status,High,No,independent exam-preparation pathway,Not official unless ATP verified,Not required,
+limited-time discount,Competitor pattern,TBD,Urgency,Medium,Conditional,Regional pricing where applicable,Avoid fake urgency,Owner review,
+verified reviews unverified count,Competitor pattern,Commercial pages,Social proof,High,No,collect verified testimonials,Do not publish unverified ratings,Owner review,

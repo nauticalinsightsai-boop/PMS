@@ -5,7 +5,9 @@ import { Users, Target, Award, Heart } from "lucide-react";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import { FIELD_KEYS, defaultAboutPageConfig, parseAboutPageConfig } from "@pms/site-content";
-import { BRAND, BRAND_LINES } from "@/lib/brand-voice";
+import { BRAND, BRAND_LINES, CTAS } from "@/lib/brand-voice";
+import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
+import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { MARKETING_STOCK_IMAGES } from "@/lib/marketing-stock-images";
 
@@ -33,6 +35,19 @@ export function About() {
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
               {mission.subtitle || get('mission_subtitle', BRAND_LINES.positioning)}
             </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+              <PmpRoadmapCtaLink ctaLocation="hero" />
+              <WebsiteCalendlyButton
+                size="lg"
+                variant="outline"
+                className="h-14 px-8 rounded-2xl font-bold"
+                tier="discovery"
+                funnelLabel="about_hero_mentor"
+                utm={{ utm_source: 'pmstructure', utm_medium: 'about', utm_campaign: 'hero' }}
+              >
+                {CTAS.talkToAMentor}
+              </WebsiteCalendlyButton>
+            </div>
           </div>
         </div>
       </section>
@@ -108,8 +123,9 @@ export function About() {
                 </div>
               </div>
               <div className="absolute -bottom-6 -left-6 bg-brand-purple text-white p-8 rounded-2xl shadow-xl hidden md:block">
-                <div className="text-4xl font-bold mb-1">5+</div>
-                <div className="text-sm font-bold opacity-80 uppercase tracking-wider">Years of Excellence</div>
+                <div className="text-sm font-bold opacity-90 uppercase tracking-wider leading-relaxed max-w-[12rem]">
+                  Structured PMP 2026 readiness support
+                </div>
               </div>
             </div>
           </div>

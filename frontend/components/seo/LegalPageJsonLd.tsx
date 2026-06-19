@@ -1,4 +1,6 @@
-import { buildBreadcrumbSchema, buildWebPageSchema } from '@/lib/schema';
+import { breadcrumbItemsToSchema } from '@/components/navigation/breadcrumb-schema';
+import { getLegalPageBreadcrumbs } from '@/content/site-architecture/routes';
+import { buildWebPageSchema } from '@/lib/schema';
 
 export function LegalPageJsonLd({
   path,
@@ -11,11 +13,7 @@ export function LegalPageJsonLd({
 }) {
   const graph = [
     buildWebPageSchema({ path, name: title, description }),
-    buildBreadcrumbSchema([
-      { name: 'Home', path: '/' },
-      { name: 'Legal', path: '/legal' },
-      { name: title, path },
-    ]),
+    breadcrumbItemsToSchema(getLegalPageBreadcrumbs(title), path),
   ];
 
   return (

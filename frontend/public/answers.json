@@ -1,7 +1,7 @@
 {
   "site": "https://pmstructure.com",
   "version": "1.0.0",
-  "updatedAt": "2026-06-18",
+  "updatedAt": "2026-06-19",
   "count": 35,
   "indexUrl": "https://pmstructure.com/answers",
   "answers": [
@@ -12,7 +12,7 @@
       "title": "Is the PMP Exam Changing in 2026? | PM Structure",
       "question": "Is the PMP exam changing in 2026?",
       "description": "Yes. The PMP exam changes in July 2026. Learn what the change means, whether to prepare for the current or updated exam, and how to plan your PMP route.",
-      "shortAnswer": "Yes. PMI has communicated an updated PMP exam experience with a transition around 9 July 2026. Confirm dates and scope on PMI.org before scheduling.",
+      "shortAnswer": "Yes. The updated PMP exam launches on 9 July 2026. Candidates planning to take the current PMP exam version need to sit before 8 July 2026. Confirm dates and scope on PMI.org before scheduling.",
       "status": "live"
     },
     {
@@ -252,7 +252,7 @@
       "title": "What are the PMP 2026 domain weights?",
       "question": "What are the PMP 2026 domain weights?",
       "description": "Orientation on PMP domain weighting for 2026 exam planning.",
-      "shortAnswer": "PMP uses People, Process, and Business Environment domains. Verify current percentages on PMI.org: do not rely on outdated third-party figures.",
+      "shortAnswer": "Updated PMP exam (from 9 July 2026): People 33%, Process 41%, Business Environment 26%. Current exam: People 42%, Process 50%, Business Environment 8%. Verify on PMI.org before booking.",
       "status": "live"
     },
     {

@@ -1,6 +1,8 @@
 import { PMS_SITE_URL } from '@/config/pms-site';
 import { getFaqsForSchemaByPath } from '@/content/faq';
-import { buildBreadcrumbSchema, buildFaqPageSchema, buildWebPageSchema } from '@/lib/schema';
+import { breadcrumbItemsToSchema } from '@/components/navigation/breadcrumb-schema';
+import { getFaqBreadcrumbs } from '@/content/site-architecture/routes';
+import { buildFaqPageSchema, buildWebPageSchema } from '@/lib/schema';
 
 export function FaqPageJsonLd() {
   const items = getFaqsForSchemaByPath('/faq');
@@ -12,10 +14,7 @@ export function FaqPageJsonLd() {
         'PMP exam 2026 FAQs plus PRINCE2 pathways, regional scholarship pricing, membership, delivery, privacy, and exam preparation.',
     }),
     buildFaqPageSchema(items, `${PMS_SITE_URL}/faq`),
-    buildBreadcrumbSchema([
-      { name: 'Home', path: '/' },
-      { name: 'FAQ', path: '/faq' },
-    ]),
+    breadcrumbItemsToSchema(getFaqBreadcrumbs(), '/faq'),
   ];
 
   return (

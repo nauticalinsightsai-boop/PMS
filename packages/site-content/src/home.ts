@@ -228,7 +228,7 @@ export function defaultHomePageConfigV2(): HomePageConfigV2 {
       },
     ],
     stats: {
-      professionalsCount: 1284,
+      professionalsCount: 0,
       professionalsLabel: 'professionals in the network',
     },
     sections: { ...DEFAULT_HOME_SECTIONS },
@@ -258,7 +258,7 @@ export function defaultHomePageConfigV2(): HomePageConfigV2 {
           'The PM Structure PMP pathway gave me a structured study rhythm, weak-area tracking, and mentor-style review.',
         name: 'Sarah Jenkins',
         role: 'Senior PM at TechCorp',
-        visible: true,
+        visible: false,
       },
       {
         id: '2',
@@ -266,7 +266,7 @@ export function defaultHomePageConfigV2(): HomePageConfigV2 {
           'The PMI-ACP readiness support focused on scenarios and weak-area revision, not random videos.',
         name: 'Michael Chen',
         role: 'Agile Coach',
-        visible: true,
+        visible: false,
       },
     ],
     insightsBand: DEFAULT_HOME_INSIGHTS,

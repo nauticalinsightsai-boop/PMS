@@ -9,7 +9,7 @@ const pages: AnswerPageContent[] = [
     description:
       'Yes. The PMP exam changes in July 2026. Learn what the change means, whether to prepare for the current or updated exam, and how to plan your PMP route.',
     shortAnswer:
-      'Yes. PMI has communicated an updated PMP exam experience with a transition around 9 July 2026. Confirm dates and scope on PMI.org before scheduling.',
+      'Yes. The updated PMP exam launches on 9 July 2026. Candidates planning to take the current PMP exam version need to sit before 8 July 2026. Confirm dates and scope on PMI.org before scheduling.',
     detailedAnswer:
       'The PMP credential itself is not going away, but PMI has described a transition to an updated exam experience. Third-party summaries: including this page: are orientation only. Download the current PMP handbook and Exam Content Outline from PMI.org, then map your study plan to the format you will actually sit.',
     whoApplies: 'Anyone planning PMP readiness in 2026, especially candidates deciding whether to test before or after mid-2026.',
@@ -33,8 +33,21 @@ const pages: AnswerPageContent[] = [
       { href: '/answers/when-does-the-new-pmp-exam-start', label: 'When does the new PMP exam start?' },
       { href: '/answers/should-i-take-pmp-before-8-july-2026', label: 'Should I take PMP before 8 July 2026?' },
     ],
-    ctaHref: '/pmp-readiness-diagnostic',
-    ctaLabel: 'Take the readiness diagnostic',
+    dateModified: '2026-06-19',
+    references: [
+      {
+        label: 'PMI — PMP certification',
+        url: 'https://www.pmi.org/certifications/project-management-pmp',
+      },
+      {
+        label: 'PMI — updated PMP exam',
+        url: 'https://www.pmi.org/certifications/project-management-pmp/new-exam',
+      },
+    ],
+    sourceTodo:
+      'Verify PMP 2026 transition dates and exam scope on PMI.org before treating any third-party summary as final.',
+    ctaHref: '/certifications/pmp#cert-roadmap-form',
+    ctaLabel: 'Get My PMP 2026 Roadmap',
     faqs: [
       {
         question: 'Does PM Structure guarantee what will be on my exam?',
@@ -606,11 +619,11 @@ const pages: AnswerPageContent[] = [
     title: 'What are the PMP 2026 domain weights?',
     description: 'Orientation on PMP domain weighting for 2026 exam planning.',
     shortAnswer:
-      'PMP uses People, Process, and Business Environment domains. Verify current percentages on PMI.org: do not rely on outdated third-party figures.',
+      'Updated PMP exam (from 9 July 2026): People 33%, Process 41%, Business Environment 26%. Current exam: People 42%, Process 50%, Business Environment 8%. Verify on PMI.org before booking.',
     detailedAnswer:
-      'Domain weights guide study time allocation. PM Structure summarizes orientation at /pmp-new-exam-domain-weighting; always confirm against the latest Exam Content Outline.',
+      'Domain weights guide study time allocation. Per PMI’s 2026 Exam Content Outline, the updated exam shifts emphasis toward Business Environment. PM Structure summarizes orientation at /pmp-new-exam-domain-weighting; always confirm against the latest Exam Content Outline.',
     whoApplies: 'Candidates building a 2026 study plan.',
-    sourceTodo: 'Confirm domain weights from latest PMI ECO.',
+    dateModified: '2026-06-19',
     nextSteps: ['/pmp-new-exam-domain-weighting', '/pmp-exam-2026', 'Verify PMI.org ECO'],
     relatedCourses: [{ href: '/pmp-professional', label: 'PMP Professional' }],
     relatedPages: [{ href: '/pmp-new-exam-domain-weighting', label: 'Domain weighting guide' }],

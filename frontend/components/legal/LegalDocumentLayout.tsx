@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import type { LegalDocument } from '@/content/legal/types';
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+import { getLegalPageBreadcrumbs } from '@/content/site-architecture/routes';
 import { LegalSectionList } from './LegalSectionList';
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { cn } from '@/lib/utils';
@@ -23,6 +25,7 @@ export function LegalDocumentLayout({
   const tocSections = document.sections.filter(
     (s) => !s.id.endsWith('-divider') && s.heading.length > 0,
   );
+  const breadcrumbs = getLegalPageBreadcrumbs(document.title);
 
   return (
     <article className="flex flex-col min-h-screen">
@@ -34,6 +37,7 @@ export function LegalDocumentLayout({
       >
         <SectionAmbience tone="cool" />
         <div className="container relative z-10 mx-auto">
+          <Breadcrumbs items={breadcrumbs} />
           <Link
             href={backHref}
             className="text-sm font-bold text-brand-orange hover:text-brand-hover mb-6 inline-block"

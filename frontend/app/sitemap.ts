@@ -22,10 +22,46 @@ type RouteSpec = {
 
 const entry = buildSitemapEntry;
 
+function safeEntry(
+  path: string,
+  priority: number,
+  changeFrequency?: SitemapFreq,
+): MetadataRoute.Sitemap[0] | null {
+  try {
+    return entry(path, priority, changeFrequency);
+  } catch {
+    return null;
+  }
+}
+
 function entriesFromSpecs(specs: RouteSpec[]): MetadataRoute.Sitemap {
-  return specs.map(({ path, priority, changeFrequency }) =>
-    entry(path, priority, changeFrequency),
-  );
+  return specs
+    .map(({ path, priority, changeFrequency }) => safeEntry(path, priority, changeFrequency))
+    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
+}
+
+function safePortalPaths(): string[] {
+  try {
+    return getPublishedPortalSitemapPaths();
+  } catch {
+    return [];
+  }
+}
+
+async function safeNewsletterArticles() {
+  try {
+    return await getPublishedNewsletterArticles();
+  } catch {
+    return [];
+  }
+}
+
+async function safeBlogArticles() {
+  try {
+    return await getPublishedBlogArticles();
+  } catch {
+    return [];
+  }
 }
 
 const MARKETING_ROUTES: RouteSpec[] = [
@@ -43,23 +79,34 @@ const MARKETING_ROUTES: RouteSpec[] = [
   { path: '/contact', priority: 0.5, changeFrequency: 'monthly' },
   { path: '/newsletter', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/blog', priority: 0.6, changeFrequency: 'monthly' },
+  { path: '/sitemap', priority: 0.3, changeFrequency: 'monthly' },
 ];
 
 const PMP_PRIORITY_PATHS = new Set(['/pmp-exam-2026']);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const portalPaths = getPublishedPortalSitemapPaths();
-  const newsletterArticles = await getPublishedNewsletterArticles();
-  const blogArticles = await getPublishedBlogArticles();
+  try {
+    return await buildSitemap();
+  } catch {
+    return entriesFromSpecs(MARKETING_ROUTES);
+  }
+}
 
-  const certs = certifications.map((c) => {
-    const isPmp = c.id === 'pmp';
-    return entry(
-      `/certifications/${c.id}`,
-      isPmp ? 0.9 : 0.8,
-      isPmp ? 'weekly' : 'monthly',
-    );
-  });
+async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
+  const portalPaths = safePortalPaths();
+  const newsletterArticles = await safeNewsletterArticles();
+  const blogArticles = await safeBlogArticles();
+
+  const certs = certifications
+    .map((c) => {
+      const isPmp = c.id === 'pmp';
+      return safeEntry(
+        `/certifications/${c.id}`,
+        isPmp ? 0.9 : 0.8,
+        isPmp ? 'weekly' : 'monthly',
+      );
+    })
+    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
   const legalPaths = [
     '/legal',
@@ -72,24 +119,42 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...PRIVACY_REGION_OPTIONS.filter((r) => r.slug !== 'global').map((r) => r.href),
     '/legal/privacy/gcc',
     ...GCC_COUNTRY_SLUGS.map((c) => `/legal/privacy/gcc/${c}`),
-  ].map((p) => entry(p, 0.3, 'yearly'));
+  ]
+    .map((p) => safeEntry(p, 0.3, 'yearly'))
+    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
-  const newsletter = newsletterArticles.map((n) =>
-    entry(`/newsletter/${n.slug}`, 0.6, 'monthly'),
-  );
+  const newsletter = newsletterArticles
+    .map((n) => safeEntry(`/newsletter/${n.slug}`, 0.6, 'monthly'))
+    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
-  const blog = blogArticles.map((b) => entry(`/blog/${b.slug}`, 0.6, 'monthly'));
+  const blog = blogArticles
+    .map((b) => safeEntry(`/blog/${b.slug}`, 0.6, 'monthly'))
+    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
-  const portalEntries = portalPaths.map((path) => entry(path, 0.5, 'monthly'));
+  const portalEntries = portalPaths
+    .map((path) => safeEntry(path, 0.5, 'monthly'))
+    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
   const pmpCluster = PMP_CLUSTER_PATHS.map((p) =>
-    entry(p, PMP_PRIORITY_PATHS.has(p) ? 0.9 : 0.85, PMP_PRIORITY_PATHS.has(p) ? 'weekly' : 'monthly'),
-  );
+    safeEntry(
+      p,
+      PMP_PRIORITY_PATHS.has(p) ? 0.9 : 0.85,
+      PMP_PRIORITY_PATHS.has(p) ? 'weekly' : 'monthly',
+    ),
+  ).filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
-  const pmpCourses = PMP_COURSE_PATHS.map((p) => entry(p, 0.85, 'monthly'));
-  const pmpServices = PMP_SERVICE_PATHS.map((p) => entry(p, 0.85, 'monthly'));
-  const answers = getPublishedAnswerPaths().map((p) => entry(p, 0.7, 'monthly'));
-  const topics = getPublishedTopicPaths().map((p) => entry(p, 0.7, 'monthly'));
+  const pmpCourses = PMP_COURSE_PATHS.map((p) => safeEntry(p, 0.85, 'monthly')).filter(
+    (e): e is MetadataRoute.Sitemap[0] => e !== null,
+  );
+  const pmpServices = PMP_SERVICE_PATHS.map((p) => safeEntry(p, 0.85, 'monthly')).filter(
+    (e): e is MetadataRoute.Sitemap[0] => e !== null,
+  );
+  const answers = getPublishedAnswerPaths()
+    .map((p) => safeEntry(p, 0.7, 'monthly'))
+    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
+  const topics = getPublishedTopicPaths()
+    .map((p) => safeEntry(p, 0.7, 'monthly'))
+    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
   return [
     ...entriesFromSpecs(MARKETING_ROUTES),

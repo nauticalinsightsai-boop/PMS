@@ -30,7 +30,7 @@ import { CertFamilyMark } from '@/components/CertFamilyMark';
 import BrandIconMark from '@/components/BrandIconMark';
 import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { useFormPartialRecovery } from '@/components/conversion-recovery/useFormPartialRecovery';
-import type { LeadRecoveryVariant } from '@/lib/conversion-recovery/types';
+import { T169_CTAS } from '@/content/pmp/flagship-t169';
 
 export type PmpRoadmapFormPlacement =
   | 'home_hero_mobile'
@@ -137,7 +137,7 @@ export function PmpRoadmapLeadForm({
       formStartedRef.current = true;
       trackRoadmapFormStart({
         formPlacement: placement,
-        region: mapRegionIdToAnalyticsRegion(regionId),
+        regionGroup: mapRegionIdToAnalyticsRegion(regionId),
         certification: certId === 'pmp' || certName?.includes('PMP') ? 'PMP' : certName,
         buyerType: 'unknown',
         examRoute: 'unknown',
@@ -290,7 +290,7 @@ export function PmpRoadmapLeadForm({
     if (res.ok) {
       trackRoadmapLeadSubmit({
         formPlacement: placement,
-        region: mapRegionIdToAnalyticsRegion(regionId),
+        regionGroup: mapRegionIdToAnalyticsRegion(regionId),
         certification: certId === 'pmp' || certName?.includes('PMP') ? 'PMP' : certName,
         buyerType: role?.toLowerCase().includes('corporate') ? 'corporate' : 'individual',
         examRoute: 'unknown',
@@ -688,7 +688,7 @@ export function PmpRoadmapLeadForm({
                     : 'h-12 text-base',
             )}
           >
-            {submitting ? 'Submitting…' : 'Submit'}
+            {submitting ? 'Submitting…' : isHomeForm ? T169_CTAS.primary : 'Submit'}
           </Button>
         </div>
       </form>

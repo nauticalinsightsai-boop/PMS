@@ -1,0 +1,13 @@
+Tool_or_Plugin,Task_ID,Applies_To_Stack,Detected_Status,Recommended_Status,Conflict_Risk,Owner_Approval,Implementation_Status,Notes
+Yoast,T-071,WordPress only,Not detected — Next.js,N/A — do not install,Possible schema/SEO duplication with B06/B07,Required,N/A,Mark N/A if not WordPress. Use Next metadata + phase-2-page-seo.ts.
+WPSSO Core,T-072,WordPress only,Not detected,N/A — do not install,Possible OG/schema duplication with B07,Required,N/A,Next OG/Twitter + JSON-LD is source of truth.
+Broken Link Checker,T-074,WordPress only,Not detected,N/A — use scripts/crawler,May affect production performance if always-on,Required,N/A,npm run audit:links + seo:internal-links-check + smoke-urls.
+UpdraftPlus,T-077,WordPress only,Not detected,N/A — Git/Supabase/Vercel,Backup plugin conflict possible,Required,N/A,See PMSTRUCTURE_BACKUP_RESTORE_RUNBOOK.md.
+Smush,T-073,WordPress only,Not detected,N/A — B08 pipeline,Image plugin conflict possible,Required,N/A,generate-marketing-images + optimize-brand-icons + next/image.
+WP Fastest Cache,T-080,WordPress only,Not detected,N/A — Vercel/B08 headers,Cache plugin conflict possible,Required,N/A,Host-managed Brotli/Gzip + next.config cache headers.
+SOGO Header Footer,T-075,WordPress only,Not detected,N/A — B03/B06,Script duplication risk,Required,N/A,Consent-gated GA4 in GoogleAnalytics.tsx.
+Rank Math,T-070,WordPress only,Not detected,N/A — do not install,Conflict with Yoast/custom SEO,Required,N/A,Not WordPress.
+Generic SEO plugin,T-070,WordPress only,Not detected,N/A,Duplicate sitemap/schema risk,Required,N/A,
+Generic backup plugin,T-077,WordPress only,Not detected,N/A,Conflict with Git/Supabase strategy,Required,N/A,
+Generic cache plugin,T-080,WordPress only,Not detected,N/A,Conflict with Vercel edge cache,Required,N/A,
+Generic image plugin,T-073,WordPress only,Not detected,N/A,Conflict with B08 sharp pipeline,Required,N/A,

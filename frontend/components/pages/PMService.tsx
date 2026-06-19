@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { SERVICES_COPY, CTAS } from "@/lib/brand-voice";
+import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import {
@@ -55,6 +56,7 @@ export function PMService() {
               {hero.subtitle || SERVICES_COPY.heroSubtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <PmpRoadmapCtaLink ctaLocation="hero" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20" />
               <WebsiteCalendlyButton
                 size="lg"
                 variant="brand"
@@ -65,9 +67,9 @@ export function PMService() {
               >
                 {CTAS.talkToAdvisor}
               </WebsiteCalendlyButton>
-              <Link href="#services">
+              <Link href="#corporate-cohort">
                 <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white h-14 px-10 rounded-2xl font-bold text-lg">
-                  View Case Studies
+                  {CTAS.requestCorporateCohortBrief}
                 </Button>
               </Link>
             </div>
@@ -140,21 +142,43 @@ export function PMService() {
         </div>
       </section>
 
-      {/* Trust Quote Section */}
+      {/* Corporate cohort (proposed) */}
+      <section id="corporate-cohort" className={sectionSurface('blend', 'py-24 scroll-mt-24 border-y border-slate-100 dark:border-slate-800')}>
+        <SectionAmbience tone="blend" />
+        <div className="container relative z-10 mx-auto max-w-4xl">
+          <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+            Proposed package — owner approval required
+          </Badge>
+          <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
+            PMP 2026 Corporate Readiness Cohort
+          </h2>
+          <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-medium mb-4">
+            For teams preparing multiple professionals for PMP, PM Structure can support a structured corporate readiness cohort focused on exam-version alignment, readiness planning, accountability, and practical project-delivery context.
+          </p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-10">
+            This is a proposed B2B package. Capacity, pricing, and delivery require owner approval before public launch.
+          </p>
+          <Link href="/contact?topic=consultation&offering=corporate-cohort">
+            <Button size="lg" variant="brand" className="h-14 px-10 rounded-2xl font-bold">
+              {CTAS.requestCorporateCohortBrief} <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+        </div>
+      </section>
+
+      {/* Trust note */}
       <section className={sectionSurface('purple', 'py-24')}>
         <SectionAmbience tone="purple" />
         <div className="container relative z-10 mx-auto text-center max-w-4xl">
           <div className="flex justify-center mb-8">
             <ShieldCheck className="h-16 w-16 text-brand-orange opacity-50" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-slate-900 dark:text-white">&quot;PM Structure helped our team establish governance rhythm and reporting discipline: delivery became clearer within the first quarter.&quot;</h2>
-          <div className="flex items-center justify-center gap-4">
-            <div className="h-12 w-12 rounded-full bg-slate-200" />
-            <div className="text-left">
-              <div className="font-bold">Jonathan Vance</div>
-              <div className="text-sm text-slate-500">Director of Operations, Global Logistics</div>
-            </div>
-          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight text-slate-900 dark:text-white">
+            Advisory for delivery teams and PMOs
+          </h2>
+          <p className="text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+            PM Structure helps organizations establish governance rhythm, reporting discipline, and structured certification readiness planning. Client references are shared only with permission.
+          </p>
         </div>
       </section>
 

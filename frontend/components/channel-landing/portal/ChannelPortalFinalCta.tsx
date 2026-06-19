@@ -7,6 +7,7 @@ import { isConversionEnabledForChannel } from '@/lib/channel-landing-pages/porta
 import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing'
 import { CTAS } from '@/lib/brand-voice'
 import { PMS_SUPPORT_EMAIL } from '@/config/pms-site'
+import { trackContactClick } from '@/lib/analytics/track-contact-click'
 
 type Props = PortalSectionProps
 
@@ -37,7 +38,16 @@ export default function ChannelPortalFinalCta({ page, theme, sectionOrder }: Pro
           page={page}
           theme={theme}
           proFinalRow
-          mentorCta={{ label: emailLabel, href: SUPPORT_MAILTO }}
+          mentorCta={{
+            label: emailLabel,
+            href: SUPPORT_MAILTO,
+            onClick: () =>
+              trackContactClick({
+                contactMethod: 'email',
+                contactContext: 'support',
+                ctaText: emailLabel,
+              }),
+          }}
         />
       </div>
     </PortalSection>

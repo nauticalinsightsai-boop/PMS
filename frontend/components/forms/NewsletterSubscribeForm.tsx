@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
+import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 import { cn } from '@/lib/utils';
 
 type NewsletterSubscribeFormProps = {
@@ -38,6 +39,10 @@ export function NewsletterSubscribeForm({
       formContext: { pagePath, formId },
     });
     if (res.ok) {
+      pushAnalyticsEvent('sign_up', {
+        form_id: formId,
+        page_path: pagePath,
+      });
       setStatus('done');
       setEmail('');
     } else {

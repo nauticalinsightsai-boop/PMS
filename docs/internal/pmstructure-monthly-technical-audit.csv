@@ -1,0 +1,6 @@
+Audit_Month,Audit_Date,Area,Check,Result,Severity,Affected_URL,Evidence_Link,Recommended_Action,Owner,Due_Date,Status,Notes
+2026-06,TBD,Crawl,Full crawl completed,TBD,Monitor,TBD,TBD,"Run crawl after technical batches deploy.",Developer,TBD,Pending,"Do not mark complete without crawl."
+2026-06,TBD,Indexation,Priority pages indexable,TBD,High,TBD,TBD,"Verify priority pages in GSC.",Mahaa,TBD,Pending,"Requires GSC."
+2026-06,TBD,Analytics,Lead events firing,TBD,High,TBD,TBD,"Verify in GA4 DebugView.",Mahaa,TBD,Pending,"Requires GA4."
+2026-06,TBD,Performance,Priority pages PageSpeed tested,TBD,Medium,TBD,TBD,"Run mobile and desktop tests.",Developer,TBD,Pending,"Requires PageSpeed reports."
+2026-06,TBD,Schema,Schema validation completed,TBD,Medium,TBD,TBD,"Validate priority pages.",Developer,TBD,Pending,"Requires Rich Results Test."

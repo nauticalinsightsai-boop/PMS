@@ -4,6 +4,8 @@ import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PMP_ACCREDITATION_NOTE, PMP_INDEPENDENT_DISCLAIMER } from '@/content/pmp/disclaimer';
 import type { PmpPageContent } from '@/content/pmp/types';
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+import { getPmpPageBreadcrumbs } from '@/content/site-architecture/routes';
 import { PmpPageJsonLd } from '@/components/seo/PmpPageJsonLd';
 import { PmpRelatedFaqs } from '@/components/pmp/PmpRelatedFaqs';
 import { PmpPriorityAnswers } from '@/components/pmp/PmpPriorityAnswers';
@@ -46,6 +48,7 @@ function MarkdownBlock({ text }: { text: string }) {
 export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
   const viewEvent =
     page.slug === 'pmp-exam-2026' ? CONVERSION_EVENTS.VIEW_PMP_EXAM_2026 : null;
+  const breadcrumbs = getPmpPageBreadcrumbs(page);
 
   return (
     <>
@@ -54,17 +57,7 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
       <section className={cn(sectionSurface('purple', 'py-16 sm:py-20'))}>
         <SectionAmbience tone="purple" />
         <div className="container max-w-3xl mx-auto px-4 relative z-10">
-            <nav className="text-sm text-slate-500 mb-6" aria-label="Breadcrumb">
-              <Link href="/" className="hover:text-brand-purple">
-                Home
-              </Link>
-              <span className="mx-2">/</span>
-              <Link href="/pmp" className="hover:text-brand-purple">
-                PMP
-              </Link>
-              <span className="mx-2">/</span>
-              <span className="text-slate-700 dark:text-slate-300">{page.h1}</span>
-            </nav>
+            <Breadcrumbs items={breadcrumbs} />
 
             <h1 className="font-heading text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-6">
               {page.h1}

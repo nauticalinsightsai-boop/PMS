@@ -29,7 +29,7 @@ describe('home config', () => {
     };
     const v2 = normalizeHomeConfigV1ToV2(v1);
     expect(v2.version).toBe(2);
-    expect(v2.stats.professionalsCount).toBe(1284);
+    expect(v2.stats.professionalsCount).toBe(0);
     expect(v2.heroSlides[0].primaryAction).toBe('contact');
   });
 
@@ -51,10 +51,10 @@ describe('home config', () => {
     expect(v2.heroSlides[0].primaryAction).toBe('calendly');
   });
 
-  it('default hero opens register modal with mentor CTA', () => {
+  it('default hero uses roadmap CTA', () => {
     const cfg = defaultHomePageConfigV2();
-    expect(cfg.heroSlides[0].primaryAction).toBe('register_modal');
-    expect(cfg.heroSlides[0].primaryCta).toBe('Talk to Mentor');
+    expect(cfg.heroSlides[0].primaryAction).toBe('link');
+    expect(cfg.heroSlides[0].primaryCta).toBe('Get My PMP 2026 Roadmap');
   });
 
   it('preserves featured cert ids from legacy featuredItems', () => {

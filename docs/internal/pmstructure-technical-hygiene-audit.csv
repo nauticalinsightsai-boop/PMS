@@ -1,0 +1,19 @@
+Finding_ID,Area,File_Path,Issue_Type,Current_Value,Recommended_Value,Risk_Level,Owner_Approval,Implementation_Status,Notes
+B09-001,Mixed Content,frontend/content/redirects/inventory.ts,Mixed Content,sourceUrl http://pmstructure.com/,Allowlisted audit row,Low,Not required,Documented,Canonical redirect inventory — not a live link
+B09-002,Wrong Host,frontend/content/redirects/inventory.ts,Wrong Host,sourceUrl https://www.pmstructure.com/,Allowlisted audit row,Low,Not required,Documented,www→apex redirect audit metadata
+B09-003,Environment,.env.example,Environment Config,localhost http for dev,N/A for local; apex="https://pmstructure.com" in prod comments,Low,Not required,Verified,Production comment block correct
+B09-004,Metadata,frontend/config/pms-site.ts,Wrong Host,PMS_SITE_URL apex fallback,https://pmstructure.com,Low,Not required,Verified,Guards localhost in production builds
+B09-005,Metadata,frontend/app/robots.ts,Wrong Host,sitemap via PMS_SITE_URL,https://pmstructure.com/sitemap.xml,Low,Not required,Verified,Disallows /admin/ /api/
+B09-006,Forms,frontend/lib/interactions/submit-public.ts,Insecure Form/API,fetch /api/interactions,Relative same-origin,Low,Not required,Verified,HTTPS in production
+B09-007,Forms,frontend/components/SupportChatWidget.tsx,Insecure Form/API,fetch /api/support/chat,Relative same-origin,Low,Not required,Verified,
+B09-008,Third-party,frontend/lib/calendly/host-allowlist.ts,Insecure Form/API,http calendly normalized to https,Runtime https,Low,Not required,Verified,
+B09-009,Public Exposure,frontend/public/,Exposed Internal File,No internal docs in public,None in public/,Low,Not required,Verified,B09 scan
+B09-010,Public Exposure,docs/internal/,Exposed Internal File,Not deployed to public site,Keep out of frontend/public,Low,Not required,Verified,
+B09-011,Backup,docs/internal/PMSTRUCTURE_BACKUP_RESTORE_RUNBOOK.md,Backup Gap,Runbook created,Git+Vercel+Supabase,Medium,Not required,Implemented,B09
+B09-012,Editability,docs/internal/PMSTRUCTURE_EDITING_GUIDE.md,Editability Gap,Guide created,Admin + code paths documented,Medium,Not required,Implemented,B09
+B09-013,WordPress N/A,pmstructure-plugin-applicability-matrix.csv,WordPress N/A,No wp-content/wp-admin,All WP plugins N/A,Low,Not required,Implemented,
+B09-014,Broken Link Process,scripts/audit-links.mjs,Broken Link Process Gap,Internal href scan added,npm run audit:links,Low,Not required,Implemented,B09
+B09-015,Legacy Docs,docs/PMSTRUCTURE_SEO_AEO_GEO_AI_VISIBILITY_MASTER_PLAN.md,Wrong Host,References www.pmstructure.com,Align to apex when editing,Low,Owner review,Deferred,Legacy planning doc — code uses apex
+B09-016,Legacy Docs,docs/PRE_LAUNCH_LEGAL_SEO_AUDIT.md,Wrong Host,References www.pmstructure.com,Align to apex when editing,Low,Owner review,Deferred,Legacy audit doc
+B09-017,Live QA,pmstructure.com,Mixed Content,TBD post-deploy,No http assets in HTML,Medium,Owner required,TBD,Run seo:audit-insecure-content --base=https://pmstructure.com
+B09-018,Live QA,pmstructure.com,Wrong Host,TBD post-deploy,No www in rendered canonical/sitemap,Medium,Owner required,TBD,Post-deploy curl + browser QA

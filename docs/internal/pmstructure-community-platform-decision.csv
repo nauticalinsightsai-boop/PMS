@@ -1,0 +1,8 @@
+Platform,Detected_Mentions,Detected_URLs,Current_Status,Recommended_Status,Risk,Owner_Decision,Implementation_Status,Notes
+Skool,Community/Home/PMS config,PMS_SKOOL_COMMUNITY_JOIN_URL,Live on public site,Confirm live with owner,Medium,Sheikh M. Abdullah — Needs owner review,B12 complete,T176 note aligned to Skool where applicable
+Slack,booking-crm portals; stale CMS snapshot,Portal referral URLs,Internal portal only,Not public community,Low,Document only,B12 complete,Not public community platform
+Circle,Not detected,,Not used,N/A,Low,N/A,B12 complete,
+Discord,Not detected,,Not used,N/A,Low,N/A,B12 complete,
+Telegram,Not detected,,Not used,N/A,Low,N/A,B12 complete,
+WhatsApp,Support/contact links,getPmsWhatsAppUrl(),Support channel,Support only not community,Low,N/A,B12 complete,
+T176_COMMUNITY_NOTE,Pending vs Skool conflict,t176-claims.ts,Conservative interim copy,Owner confirms Skool live,Medium,Sheikh M. Abdullah,B12 complete,Updated to Skool-where-applicable wording

@@ -1,0 +1,21 @@
+Testimonial_ID,Current_Text,Display_Name,Role_or_Context,Source,Permission_Status,Verification_Status,Public_Display_Status,Recommended_Label,Risk_Level,Owner_Action,Notes
+home-1,PMP pathway structured study rhythm,Sarah Jenkins,Senior PM at TechCorp,siteData.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,Home carousel hidden B12
+home-2,PMI-ACP readiness support,Michael Chen,Agile Coach,siteData.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,Home carousel hidden B12
+home-3,Foundation pathway vocabulary,Elena Rodriguez,Project Coordinator,siteData.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,Home carousel hidden B12
+home-4,LSS Green Belt course,James Wilson,Operations Director,siteData.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,Home carousel hidden B12
+pmp-pq-1,Daily check-ins accountability,Amara Okafor,Programme Manager FinTech,program-offer.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,PMP participant quote
+pmp-pq-2,Customized roadmap,David Okonkwo,Senior Project Lead,program-offer.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,PMP participant quote
+pmp-pq-3,Mastermind group,Priya Sharma,IT Delivery Manager,program-offer.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,PMP participant quote
+pmp-pq-4,Last-day material,James Mitchell,PMO Analyst,program-offer.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,PMP participant quote
+pmp-sj-1,Structured study rhythm weak-area tracking,Sarah Jenkins,Senior PM Global Tech,program-offer.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,Success journey
+pmp-sj-2,Live training GCC infrastructure,Hassan Al-Rashid,Delivery Director GCC,program-offer.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,Success journey
+pmp-sj-3,Foundation to Professional pathway,Elena Rodriguez,Project Coordinator,program-offer.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,Success journey
+pmp-sj-4,Training-hour guidance agile background,Michael Chen,Agile Coach,program-offer.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,Success journey
+pmp-sj-5,Mastermind accountability,Fatima Noor,Transformation Lead Banking,program-offer.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,Success journey
+pmp-sj-6,WhatsApp coaching between live days,Robert Adeyemi,Operations Manager Logistics,program-offer.ts,Unknown,Needs owner review,Hidden placeholder,Permission pending,High,Sheikh M. Abdullah,Success journey
+store-rating,Default 4.5 star rating,N/A,Store catalog,Store.tsx,Unknown,Removed,Removed,N/A,High,Mahaa,Unverified proof removed B12
+home-stats,1284 professionals count,N/A,Home stats,Home.tsx,Unknown,Removed,Removed,N/A,High,Mahaa,Unverified count removed B12
+community-member-count,1284 memberCount default,N/A,Community CMS,community.ts,Unknown,Removed,Removed,N/A,High,Mahaa,Default removed B12
+community-inline-quote,Sarah J study circles quote,Sarah J.,Community mentorship overlay,Community.tsx,Unknown,Removed,Removed,N/A,High,Sheikh M. Abdullah,Removed B12
+pm-service-quote,Jonathan Vance governance quote,Jonathan Vance,Director Operations,PmService.tsx,Unknown,Removed,Removed,N/A,High,Sheikh M. Abdullah,Removed B12
+home-rating-4.9,4.9/5 Average Rating display,N/A,HomeTestimonialsSection,HomeTestimonialsSection.tsx,Unknown,Removed,Removed,N/A,High,Mahaa,Stars removed B12

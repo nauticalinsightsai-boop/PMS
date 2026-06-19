@@ -1,0 +1,3 @@
+URL,Path,Current_Status,Traffic_Status,Backlink_Status,Replacement_Target,Recommended_Action,Reason,Data_Source,Owner_Approval,Implementation_Status,Notes
+"TBD","TBD","404","Unknown","Unknown","","Needs Review","Fill after GSC Not found / crawl export","Pending GSC export","Required","Not implemented","Do not 410 without evidence and approval"
+"https://pmstructure.com/wp-content/uploads/example","/wp-content/uploads/example","N/A","N/A","N/A","","Needs Review","WordPress attachment pattern — project is not WordPress (T-076 N/A)","Example only","N/A","Not applicable","Mark T-076 N/A unless WordPress routes appear in crawl"

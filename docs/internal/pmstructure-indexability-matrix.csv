@@ -1,0 +1,25 @@
+URL,Page_Type,Should_Index,Should_Follow,Should_Be_In_Sitemap,Expected_Canonical,Expected_Status,Notes
+https://pmstructure.com/,Homepage,Yes,Yes,Yes,https://pmstructure.com/,200,Primary homepage.
+https://pmstructure.com/certifications,Certification hub,Yes,Yes,Yes,https://pmstructure.com/certifications,200,Commercial investigation page.
+https://pmstructure.com/certifications/pmp,PMP 2026 page,Yes,Yes,Yes,https://pmstructure.com/certifications/pmp,200,Primary commercial page.
+https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026,PMP answer page,Yes,Yes,Yes,https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026,200,Direct answer page.
+https://pmstructure.com/topics/pmp-exam-2026,PMP topic hub,Yes,Yes,Yes,https://pmstructure.com/topics/pmp-exam-2026,200,Topic hub.
+https://pmstructure.com/faq,FAQ,Yes,Yes,Yes,https://pmstructure.com/faq,200,Trust page.
+https://pmstructure.com/certifications/compare,Compare certifications,Yes,Yes,Yes,https://pmstructure.com/certifications/compare,200,Consideration page.
+https://pmstructure.com/community,Community,Yes,Yes,Yes,https://pmstructure.com/community,200,Public marketing page.
+https://pmstructure.com/membership,Membership,Yes,Yes,Yes,https://pmstructure.com/membership,200,Public marketing page.
+https://pmstructure.com/newsletter,Newsletter,Yes,Yes,Yes,https://pmstructure.com/newsletter,200,Content index.
+https://pmstructure.com/pm-service,PM service,Yes,Yes,Yes,https://pmstructure.com/pm-service,200,Service landing page.
+https://pmstructure.com/legal/terms,Terms,Yes,Yes,Yes,https://pmstructure.com/legal/terms,200,Legal trust page.
+https://pmstructure.com/legal/privacy,Privacy,Yes,Yes,Yes,https://pmstructure.com/legal/privacy,200,Legal trust page.
+https://pmstructure.com/checkout,Checkout,No,No,No,https://pmstructure.com/checkout,200,Noindex payment utility route.
+https://pmstructure.com/checkout/success,Checkout success,No,No,No,https://pmstructure.com/checkout/success,200,Noindex conversion confirmation.
+https://pmstructure.com/membership/checkout,Membership checkout,No,No,No,https://pmstructure.com/membership/checkout,200,Noindex membership payment route.
+https://pmstructure.com/membership/checkout/success,Membership checkout success,No,No,No,https://pmstructure.com/membership/checkout/success,200,Noindex membership confirmation.
+https://pmstructure.com/certifications/pmp/enroll,PMP enroll,No,No,No,https://pmstructure.com/certifications/pmp/enroll,200,Noindex enrollment flow (example cert).
+https://pmstructure.com/compare,Legacy compare redirect,No,No,No,,301,Redirects to /certifications/compare.
+https://pmstructure.com/store,Legacy store redirect,No,No,No,,301,Redirects to /community.
+https://pmstructure.com/admin,Admin,No,No,No,https://pmstructure.com/admin,Protected,robots.txt Disallow + layout noindex.
+https://pmstructure.com/api,API,No,No,No,https://pmstructure.com/api,API route,robots.txt Disallow; not in sitemap.
+https://pmstructure.com/robots.txt,Robots file,N/A,N/A,N/A,https://pmstructure.com/robots.txt,200,Allow /; sitemap line required.
+https://pmstructure.com/sitemap.xml,Sitemap,N/A,N/A,N/A,https://pmstructure.com/sitemap.xml,200,Must include priority public URLs.

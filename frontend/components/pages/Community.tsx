@@ -1,5 +1,6 @@
 'use client';
 import * as React from "react";
+import Image from 'next/image';
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,9 @@ import { useWebsiteData } from "@/services/WebsiteDataService";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import { FIELD_KEYS, defaultCommunityPageConfig, parseCommunityPageConfig } from "@pms/site-content";
 import { StoreContent } from "@/components/pages/Store";
-import { BRAND, COMMUNITY_COPY } from "@/lib/brand-voice";
+import { BRAND, COMMUNITY_COPY, CTAS } from "@/lib/brand-voice";
+import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
+import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { MARKETING_STOCK_IMAGES } from "@/lib/marketing-stock-images";
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
@@ -145,25 +148,17 @@ function CommunityNetworkContent() {
               transition={{ duration: 0.6 }}
               className="relative"
             >
-              <div className="aspect-square rounded-[3rem] bg-slate-100 dark:bg-slate-800 overflow-hidden relative shadow-2xl border-4 border-white dark:border-slate-900">
-                <img
+              <div className="relative aspect-square rounded-[3rem] bg-slate-100 dark:bg-slate-800 overflow-hidden shadow-2xl border-4 border-white dark:border-slate-900">
+                <Image
                   src={MARKETING_STOCK_IMAGES.mentorship.src}
                   alt={MARKETING_STOCK_IMAGES.mentorship.alt}
                   width={MARKETING_STOCK_IMAGES.mentorship.width}
                   height={MARKETING_STOCK_IMAGES.mentorship.height}
-                  className="w-full h-full object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover w-full h-full"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
-                <div className="absolute bottom-8 left-8 right-8 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm p-8 rounded-3xl border border-white/20 dark:border-slate-800 shadow-xl">
-                  <div className="flex items-start gap-4">
-                    <div className="h-10 w-10 rounded-full bg-brand-purple shrink-0 shadow-md" />
-                    <div>
-                      <div className="font-bold text-lg text-slate-900 dark:text-white leading-relaxed tracking-tight">&quot;The study circles were the reason I passed my PMP on the first try. The support is unmatched.&quot;</div>
-                      <div className="text-sm text-slate-500 dark:text-slate-400 mt-3 font-bold uppercase tracking-widest">. Sarah J., Senior PM</div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </motion.div>
           </div>
@@ -207,8 +202,7 @@ function CommunityNetworkContent() {
                       <span>Host: {event.host}</span>
                     </div>
                   </div>
-                  <div className="px-8 py-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">124 attending</span>
+                  <div className="px-8 py-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex justify-end items-center">
                     <Link href="/contact">
                       <Button size="sm" variant="brand" className="rounded-lg h-10 px-4 font-bold text-xs">Register Now</Button>
                     </Link>
@@ -319,6 +313,19 @@ export function Community({ initialTab = "community" }: { initialTab?: Community
             <p className="mt-4 text-sm font-medium text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
               {T176_SOCIAL_PROOF_REPLACEMENT}
             </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+              <PmpRoadmapCtaLink ctaLocation="hero" />
+              <WebsiteCalendlyButton
+                size="lg"
+                variant="outline"
+                className="h-14 px-8 rounded-2xl font-bold"
+                tier="discovery"
+                funnelLabel="community_hero_mentor"
+                utm={{ utm_source: 'pmstructure', utm_medium: 'community', utm_campaign: 'hero' }}
+              >
+                {CTAS.talkToAMentor}
+              </WebsiteCalendlyButton>
+            </div>
           </motion.div>
         </div>
       </section>

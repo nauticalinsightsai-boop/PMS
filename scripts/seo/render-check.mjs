@@ -35,6 +35,18 @@ const checks = [
     mustInclude: ['<h1', 'pmp'],
   },
   {
+    label: 'certifications-compare',
+    file: path.join('certifications', 'compare.html'),
+    mustInclude: ['compare project management certifications'],
+    navLinks: [
+      '/certifications/pmp',
+      '/certifications/prince2-practitioner',
+      '/certifications/pmi-rmp',
+      '/certifications/lss-yellow',
+      '/certifications/lss-black',
+    ],
+  },
+  {
     label: 'certifications-pmp',
     file: path.join('certifications', 'pmp.html'),
     mustInclude: ['<h1', 'pmp'],
@@ -52,6 +64,15 @@ const checks = [
   { label: 'answers-index', file: path.join('answers.html'), mustInclude: ['<h1'] },
   { label: 'topics-index', file: path.join('topics.html'), mustInclude: ['<h1'] },
 ];
+
+function htmlHasLink(html, href) {
+  return (
+    html.includes(`href="${href}"`) ||
+    html.includes(`href='${href}'`) ||
+    html.includes(`"href":"${href}"`) ||
+    html.includes(`\\"href\\":\\"${href}\\"`)
+  );
+}
 
 function visibleTextLen(html) {
   return html
@@ -100,8 +121,8 @@ for (const { label, file, mustInclude, minTextLen, navLinks } of checks) {
 
   if (navLinks) {
     for (const href of navLinks) {
-      if (!html.includes(`href="${href}"`) && !html.includes(`href='${href}'`)) {
-        console.error(`render-check FAIL ${label}: missing crawlable nav/footer link ${href}`);
+      if (!htmlHasLink(html, href)) {
+        console.error(`render-check FAIL ${label}: missing crawlable link ${href}`);
         failed = true;
         routeFailed = true;
       }

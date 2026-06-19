@@ -29,7 +29,7 @@ const homeLinks = home + homePage + (homeUsesPhase2Related ? homePhase2Block : '
 const footer = fs.readFileSync(path.join(frontend, 'components/Footer.tsx'), 'utf8');
 
 const hubLinks = ['/answers', '/topics', '/pmp-readiness-diagnostic', '/pmp-enrollment'];
-const siteWideLinks = ['/answers', '/topics', '/pmp-exam-2026'];
+const siteWideLinks = ['/answers', '/topics', '/pmp-exam-2026', '/topics/pmp-exam-2026'];
 
 let failed = false;
 

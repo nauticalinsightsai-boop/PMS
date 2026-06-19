@@ -36,8 +36,8 @@ import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { useRegion } from '@/contexts/RegionContext';
 
 function actionLabel(action: BottomBarAction, rotation: BottomBarRotation): string {
-  if (action.type === 'calendly_hero' || action.type === 'register_modal') return 'Talk to Mentor';
-  if (action.type === 'calendly') return action.label ?? 'Talk to Mentor';
+  if (action.type === 'calendly_hero' || action.type === 'register_modal') return 'Talk to a Mentor';
+  if (action.type === 'calendly') return action.label ?? 'Talk to a Mentor';
   if (action.type === 'micro_form') return 'Leave my details';
   if (action.type === 'link') return action.label;
   if (action.type === 'scroll') return action.label;

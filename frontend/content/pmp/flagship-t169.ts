@@ -122,7 +122,8 @@ export const T169_FAQS = [
       'No. No responsible exam-prep provider should guarantee a pass. PM Structure helps you prepare with structure, practice, review, and readiness tracking, but exam results depend on your eligibility, preparation quality, exam performance, and PMI\u2019s assessment process.',
   },
   {
-    question: 'Does PM Structure provide 35 PDUs for PMP eligibility?',
+    question:
+      'Does PM Structure provide 35 hours of project management education/training for PMP eligibility?',
     answer:
       'For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs. PDUs are generally used for maintaining an existing PMI certification after someone has already earned it. PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record, but candidates should verify current eligibility rules directly with PMI before applying.',
   },
@@ -175,7 +176,7 @@ export const T169_PMP_PAGE = {
   intro:
     'The PMP exam changes on 9 July 2026. This pathway helps you decide whether to prepare for the current exam or the updated exam, then gives you a structured plan to study, practice, and track readiness.',
   disclaimer:
-    'Last reviewed: 18 June 2026. PMP exam details, eligibility rules, and training requirements should always be verified with PMI. PM Structure is an independent exam-prep and readiness-support platform.',
+    'Last reviewed: 19 June 2026. PMP exam details, eligibility rules, and training requirements should always be verified with PMI. PM Structure is an independent exam-prep and readiness-support platform.',
   currentVsUpdatedHeading: 'Current PMP vs Updated PMP Exam',
   currentVsUpdatedTable: `| Candidate Situation | Exam Route | What to Prepare For | PM Structure Guidance |
 | --- | --- | --- | --- |

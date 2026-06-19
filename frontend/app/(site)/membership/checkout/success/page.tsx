@@ -9,6 +9,7 @@ import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { verifyCheckoutSession } from '@/services/checkout';
 import { cn } from '@/lib/utils';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
+import { trackPurchaseOnce } from '@/lib/analytics/track-purchase-once';
 
 function MembershipCheckoutSuccessContent() {
   const searchParams = useSearchParams();
@@ -27,6 +28,14 @@ function MembershipCheckoutSuccessContent() {
       cancelled = true;
     };
   }, [sessionId]);
+
+  useEffect(() => {
+    if (!sessionId?.startsWith('cs_') || paymentVerified !== true) return;
+    trackPurchaseOnce({
+      transactionId: sessionId,
+      packageType: 'membership',
+    });
+  }, [sessionId, paymentVerified]);
 
   const tierLabel =
     tier === 'professional' ? 'Professional' : tier === 'mastery' ? 'Mastery' : 'Membership';

@@ -1,17 +1,19 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
-import { Star, Quote } from 'lucide-react';
+import { Quote } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { BRAND } from '@/lib/brand-voice';
-import { MARKETING_HERO_SOCIAL_AVATARS } from '@/lib/marketing-stock-images';
+import { T176_TESTIMONIAL_PLACEHOLDER } from '@/content/t176-claims';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
+const PERMISSION_PENDING_LABEL = 'Learner feedback — permission pending';
 
 export type HomeTestimonial = {
   id: string;
@@ -23,9 +25,14 @@ export type HomeTestimonial = {
 
 type HomeTestimonialsSectionProps = {
   testimonials: HomeTestimonial[];
+  /** When true, show compliance placeholder instead of unverified quotes. */
+  usePlaceholder?: boolean;
 };
 
-export function HomeTestimonialsSection({ testimonials }: HomeTestimonialsSectionProps) {
+export function HomeTestimonialsSection({
+  testimonials,
+  usePlaceholder = false,
+}: HomeTestimonialsSectionProps) {
   const [reduceMotion, setReduceMotion] = React.useState(false);
   React.useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -53,7 +60,24 @@ export function HomeTestimonialsSection({ testimonials }: HomeTestimonialsSectio
     emblaApi.on('select', onSelect);
   }, [emblaApi, onSelect]);
 
-  if (testimonials.length === 0) return null;
+  if (usePlaceholder || testimonials.length === 0) {
+    return (
+      <section className={sectionSurface('cool', cn(SECTION_PY, 'overflow-hidden'))}>
+        <SectionAmbience tone="cool" />
+        <div className="container relative z-10 mx-auto max-w-3xl text-center">
+          <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+            Learner feedback
+          </Badge>
+          <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
+            Preparation stories
+          </h2>
+          <p className="text-lg text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+            {T176_TESTIMONIAL_PLACEHOLDER}
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className={sectionSurface('cool', cn(SECTION_PY, 'overflow-hidden'))}>
@@ -62,45 +86,17 @@ export function HomeTestimonialsSection({ testimonials }: HomeTestimonialsSectio
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-stretch lg:items-center">
           <div className="lg:w-1/3 min-w-0">
             <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              Our Impact
+              Learner feedback
             </Badge>
             <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-6 tracking-tight">
-              Student Success
+              Preparation stories
             </h2>
             <p className="text-lg text-slate-500 dark:text-slate-400 mb-8 leading-relaxed font-medium">
               Join professionals building structured project management capability with {BRAND.name}.
             </p>
-
-            <div className="flex items-center gap-4 mb-10">
-              <div className="flex -space-x-3">
-                {MARKETING_HERO_SOCIAL_AVATARS.map((avatar) => (
-                  <div
-                    key={avatar.src}
-                    className="h-12 w-12 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 overflow-hidden shadow-sm"
-                  >
-                    <img
-                      src={avatar.src}
-                      alt=""
-                      width={48}
-                      height={48}
-                      aria-hidden
-                      className="object-cover w-full h-full"
-                      loading="lazy"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div>
-                <div className="flex items-center text-yellow-500 mb-0.5">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="h-4 w-4 fill-current" />
-                  ))}
-                </div>
-                <div className="text-sm font-bold tracking-tight text-slate-900 dark:text-white">
-                  4.9/5 <span className="text-xs font-medium text-slate-400 ml-1">Average Rating</span>
-                </div>
-              </div>
-            </div>
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-6">
+              {PERMISSION_PENDING_LABEL}
+            </p>
 
             <div className="flex flex-wrap gap-2">
               {testimonials.map((_, idx) => (
@@ -133,21 +129,20 @@ export function HomeTestimonialsSection({ testimonials }: HomeTestimonialsSectio
                     <Card className="h-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] relative overflow-hidden group hover:shadow-xl transition-all duration-500">
                       <Quote className="absolute top-8 right-8 h-12 w-12 text-slate-50 dark:text-slate-800/50 -rotate-12 transition-transform group-hover:rotate-0" />
                       <div className="relative z-10">
-                        <div className="flex items-center text-yellow-500 mb-6">
-                          {[1, 2, 3, 4, 5].map((i) => (
-                            <Star key={i} className="h-3 w-3 fill-current" />
-                          ))}
-                        </div>
+                        <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
+                          {PERMISSION_PENDING_LABEL}
+                        </p>
                         <p className="text-lg italic text-slate-600 dark:text-slate-300 mb-8 leading-relaxed font-medium">
                           &ldquo;{testimonial.content}&rdquo;
                         </p>
                         <div className="flex items-center gap-4">
                           <div className="h-14 w-14 rounded-2xl bg-slate-100 overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800">
-                            <img
+                            <Image
                               src={testimonial.avatar}
-                              alt={testimonial.name}
+                              alt=""
                               width={56}
                               height={56}
+                              sizes="56px"
                               loading="lazy"
                               className="object-cover w-full h-full"
                             />

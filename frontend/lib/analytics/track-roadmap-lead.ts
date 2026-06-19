@@ -9,7 +9,7 @@ import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 export type RoadmapLeadSubmitParams = {
   pagePath?: string;
   formPlacement?: string;
-  region?: AnalyticsRegion;
+  regionGroup?: AnalyticsRegion;
   buyerType?: 'individual' | 'corporate' | 'unknown';
   examRoute?: 'current_pmp' | 'updated_pmp' | 'unknown';
   certification?: string;
@@ -21,7 +21,7 @@ function roadmapLeadParams(extra: RoadmapLeadSubmitParams = {}): Record<string, 
     ...PMP_2026_OFFER,
     page_path: extra.pagePath ?? (typeof window !== 'undefined' ? window.location.pathname : '/'),
     ...(extra.formPlacement ? { form_placement: extra.formPlacement } : {}),
-    ...(extra.region ? { region: extra.region } : {}),
+    ...(extra.regionGroup ? { region_group: extra.regionGroup } : {}),
     ...(extra.buyerType ? { buyer_type: extra.buyerType } : {}),
     ...(extra.examRoute ? { exam_route: extra.examRoute } : {}),
     ...(extra.certification ? { certification: extra.certification } : {}),

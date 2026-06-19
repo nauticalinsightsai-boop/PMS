@@ -1,4 +1,10 @@
-import { buildBreadcrumbSchema, buildCourseSchema } from '@/lib/schema';
+import { breadcrumbItemsToSchema } from '@/components/navigation/breadcrumb-schema';
+import {
+  getCertBreadcrumbItems,
+  PMP_COMMERCIAL_LABEL,
+  PMP_COMMERCIAL_PATH,
+} from '@/content/site-architecture/routes';
+import { buildCourseSchema } from '@/lib/schema';
 import * as siteData from '@/data/siteData';
 
 export function CertJsonLd({ certId }: { certId: string }) {
@@ -6,16 +12,17 @@ export function CertJsonLd({ certId }: { certId: string }) {
   if (!cert) return null;
 
   const path = `/certifications/${certId}`;
+  const breadcrumbLabel = certId === 'pmp' ? PMP_COMMERCIAL_LABEL : cert.name;
+  const breadcrumbItems = getCertBreadcrumbItems(certId, breadcrumbLabel);
   const course = buildCourseSchema({
     path,
     name: `${cert.name} exam preparation`,
     description: cert.desc,
   });
-  const breadcrumb = buildBreadcrumbSchema([
-    { name: 'Home', path: '/' },
-    { name: 'Certifications', path: '/certifications' },
-    { name: cert.name, path },
-  ]);
+  const breadcrumb = breadcrumbItemsToSchema(
+    breadcrumbItems,
+    certId === 'pmp' ? PMP_COMMERCIAL_PATH : path,
+  );
 
   return (
     <>

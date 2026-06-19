@@ -11,6 +11,7 @@ import { useWebsiteData } from '@/services/WebsiteDataService';
 import { CTAS } from '@/lib/brand-voice';
 import { PMS_SUPPORT_EMAIL, getPmsWhatsAppDisplay, getPmsWhatsAppUrl, isWhatsAppConfigured } from '@/config/pms-site';
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
+import { TrackedContactLink } from '@/components/analytics/TrackedContactLink';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PricingComplianceNote } from '@/components/PricingComplianceNote';
 import {
@@ -176,12 +177,15 @@ export function FAQ() {
           <h2 className="text-2xl font-bold mb-4">Still have questions?</h2>
           <p className="text-muted-foreground mb-4 max-w-lg mx-auto">
             Email{' '}
-            <a
+            <TrackedContactLink
               href={`mailto:${PMS_SUPPORT_EMAIL}`}
+              contactMethod="email"
+              contactContext="support"
+              ctaText={PMS_SUPPORT_EMAIL}
               className="text-brand-orange font-bold hover:underline"
             >
               {PMS_SUPPORT_EMAIL}
-            </a>{' '}
+            </TrackedContactLink>{' '}
             for billing, access, privacy, and policy questions: or message us on WhatsApp. Browse our{' '}
             <Link href="/legal" className="text-brand-orange font-bold hover:underline">
               legal hub
@@ -189,19 +193,31 @@ export function FAQ() {
             for full terms.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <a href={`mailto:${PMS_SUPPORT_EMAIL}`}>
-              <Button variant="brand" className="gap-2">
+            <Button variant="brand" className="gap-2" asChild>
+              <TrackedContactLink
+                href={`mailto:${PMS_SUPPORT_EMAIL}`}
+                contactMethod="email"
+                contactContext="support"
+                ctaText="Email support"
+              >
                 <Mail className="h-4 w-4" />
                 Email support
-              </Button>
-            </a>
+              </TrackedContactLink>
+            </Button>
             {isWhatsAppConfigured() ? (
-              <a href={getPmsWhatsAppUrl()} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="gap-2">
+              <Button variant="outline" className="gap-2" asChild>
+                <TrackedContactLink
+                  href={getPmsWhatsAppUrl()}
+                  contactMethod="whatsapp"
+                  contactContext="support"
+                  ctaText={`WhatsApp ${getPmsWhatsAppDisplay()}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <MessageCircle className="h-4 w-4" />
                   WhatsApp {getPmsWhatsAppDisplay()}
-                </Button>
-              </a>
+                </TrackedContactLink>
+              </Button>
             ) : null}
             <WebsiteCalendlyButton
               tier="discovery"
@@ -209,7 +225,7 @@ export function FAQ() {
               funnelLabel="faq_talk_to_mentor"
               utm={{ utm_source: 'pmstructure', utm_medium: 'faq', utm_campaign: 'hero_consultation' }}
             >
-              {CTAS.navConsultation}
+              {CTAS.talkToAMentor}
             </WebsiteCalendlyButton>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { PMS_SITE_URL } from '@/config/pms-site';
+import { breadcrumbItemsToSchema } from '@/components/navigation/breadcrumb-schema';
+import { getTopicHubBreadcrumbs } from '@/content/site-architecture/routes';
 import {
-  buildBreadcrumbSchema,
   buildCollectionPageSchema,
   buildFaqPageSchema,
   buildItemListSchema,
@@ -23,11 +24,7 @@ export function TopicHubJsonLd({
       resources.map((r) => ({ name: r.label, path: r.href })),
       `${url}#itemlist`,
     ),
-    buildBreadcrumbSchema([
-      { name: 'Home', path: '/' },
-      { name: 'Topics', path: '/topics' },
-      { name: hub.h1, path: hub.path },
-    ]),
+    breadcrumbItemsToSchema(getTopicHubBreadcrumbs(hub), hub.path),
   ];
 
   const faqSchema = [...(hub.faqs ?? []), ...relatedFaqs];

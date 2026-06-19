@@ -1,0 +1,8 @@
+Script_or_Service,File_Path_or_Page,Load_Strategy,Current_Risk,Needed_For,Recommended_Action,Owner_Approval,Implementation_Status,Notes
+GA4 (gtag.js),frontend/components/analytics/GoogleAnalytics.tsx,afterInteractive consent-gated,Low if single loader,Analytics B03,Keep; do not duplicate,None,Verified,send_page_view false; SPA page_view
+Calendly widget,frontend/lib/calendly/open-themed-popup.ts,On booking click only,Low,Booking CTAs,Keep on-demand load,None,Verified,CSS injected first open
+Stripe.js,Checkout / membership checkout pages,Checkout mount only,Low,Payments,Keep checkout-only,None,Verified,Not global
+Support chat,frontend/components/SupportChatWidget.tsx,Dynamic import ssr false in PublicShell,Medium on open,Support,Keep; document payload,None,Verified,User-opened
+Montserrat (next/font),packages/ui/src/fonts.ts,Self-hosted via next/font preload,Medium 5 weights,Typography,Keep 400-900; font-black/extrabold in UI,Owner confirmed keep,Documented,display swap
+Cookie consent,frontend/components/CookieConsent.tsx,Client mount fixed overlay,Low CLS on content,Legal/consent,Keep fixed bottom overlay,None,Verified,Dispatches cookie-consent-visible event
+Conversion recovery,frontend/components/conversion-recovery/*,Dynamic in PublicShell,Medium,Lead recovery,Keep P1; no remove in B08,None,Documented,BottomCtaRotator dynamic

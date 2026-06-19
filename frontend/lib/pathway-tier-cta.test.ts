@@ -56,8 +56,8 @@ describe('pathway-tier-cta', () => {
     );
     expect(cta.label).toBe('View pathway');
     expect(cta.showConsultationInModal).toBe(true);
-    expect(cta.proceedLabel).toBe('Talk to your mentor');
-    expect(cta.consultationLabel).toBe('Talk to your mentor');
+    expect(cta.proceedLabel).toBe('Talk to a Mentor');
+    expect(cta.consultationLabel).toBe('Talk to a Mentor');
     expect(cta.enrollHref).toContain('/certifications/pmp/professional/enroll');
     expect(cta.enrollLabel).toBe('Reserve your seat');
   });
@@ -72,8 +72,8 @@ describe('pathway-tier-cta', () => {
     );
     expect(cta.modalMode).toBe('consultation');
     expect(cta.showConsultationInModal).toBe(true);
-    expect(cta.proceedLabel).toBe('Talk to your mentor');
-    expect(cta.consultationLabel).toBe('Talk to your mentor');
+    expect(cta.proceedLabel).toBe('Talk to a Mentor');
+    expect(cta.consultationLabel).toBe('Talk to a Mentor');
     expect(cta.enrollHref).toContain('/certifications/pmp/mastery/enroll');
     expect(cta.enrollLabel).toBe('Reserve your seat');
   });

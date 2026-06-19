@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PMP_INDEPENDENT_DISCLAIMER } from '@/content/pmp/disclaimer';
+import { Pmp2026ComplianceNote } from '@/components/pmp/Pmp2026ComplianceNote';
 import type { AnswerPageContent } from '@/content/answers/types';
 import { getAnswerFaqsForPage } from '@/content/answers';
 import {
@@ -10,6 +11,8 @@ import {
   splitStepWithPaths,
   stepContainsInternalPath,
 } from '@/content/answers/next-step-labels';
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+import { getAnswerPageBreadcrumbs } from '@/content/site-architecture/routes';
 import { AnswerJsonLd } from '@/components/seo/AnswerJsonLd';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
@@ -49,9 +52,18 @@ function AnswerNextStep({ step }: { step: string }) {
   );
 }
 
+const PMP_2026_REVIEW_SLUGS = new Set([
+  'is-the-pmp-exam-changing-in-2026',
+  'when-does-the-new-pmp-exam-start',
+  'should-i-take-pmp-before-8-july-2026',
+  'should-i-prepare-for-new-pmp-after-9-july-2026',
+  'how-to-prepare-for-pmp-in-2026',
+]);
+
 export function AnswerPage({ page }: { page: AnswerPageContent }) {
   const linkedFaqs = [...(page.faqs ?? []), ...getAnswerFaqsForPage(page)];
   const phase2Related = getPhase2RelatedBlock(page.path);
+  const breadcrumbs = getAnswerPageBreadcrumbs(page);
   return (
     <>
       <ConversionViewTracker
@@ -62,17 +74,7 @@ export function AnswerPage({ page }: { page: AnswerPageContent }) {
       <section className={cn(sectionSurface('cool', 'py-16 sm:py-20'))}>
         <SectionAmbience tone="cool" />
         <div className="container max-w-3xl mx-auto px-4 relative z-10">
-            <nav className="text-sm text-slate-500 mb-6" aria-label="Breadcrumb">
-              <Link href="/" className="hover:text-brand-purple">
-                Home
-              </Link>
-              <span className="mx-2">/</span>
-              <Link href="/answers" className="hover:text-brand-purple">
-                Answers
-              </Link>
-              <span className="mx-2">/</span>
-              <span className="text-slate-700 dark:text-slate-300 line-clamp-1">{page.question}</span>
-            </nav>
+            <Breadcrumbs items={breadcrumbs} />
 
             <h1 className="font-heading text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-6">
               {page.question}
@@ -214,6 +216,10 @@ export function AnswerPage({ page }: { page: AnswerPageContent }) {
                 links={phase2Related.links}
                 currentPath={page.path}
               />
+            ) : null}
+
+            {PMP_2026_REVIEW_SLUGS.has(page.slug) ? (
+              <Pmp2026ComplianceNote className="mb-10" showSourceLinks />
             ) : null}
 
             <p className="text-sm text-slate-500 border-t pt-6 mt-10">

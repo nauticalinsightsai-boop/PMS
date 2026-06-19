@@ -1,0 +1,24 @@
+URL,Route,Page_Type,Current_Primary_CTA,Current_Secondary_CTA,Recommended_Primary_CTA,Recommended_Secondary_CTA,Above_Fold_Status,Issue,Recommended_Action,Implementation_Status,Notes
+/,Home,Marketing,Get My PMP 2026 Roadmap,Talk to a Mentor + Compare,Get My PMP 2026 Roadmap,Talk to a Mentor,Complete,B12 added mentor hero CTA,Done,B12 complete,High-traffic page
+/certifications/pmp,Cert commercial,Money page,Get My PMP 2026 Roadmap,Enroll now / Reserve your seat,Get My PMP 2026 Roadmap,Talk to a Mentor,Complete,Tier cards keep checkout labels,Document exception,B12 complete,PMP priority money page
+/topics/pmp-exam-2026,Topic hub,SEO/AEO,Get My PMP 2026 Roadmap,Talk to a Mentor,Get My PMP 2026 Roadmap,Talk to a Mentor,Complete,Aligned with T169,No change,B12 complete,B11 cluster
+/answers/is-the-pmp-exam-changing-in-2026,Answer,SEO/AEO,Get My PMP 2026 Roadmap,Talk to a Mentor,Get My PMP 2026 Roadmap,Talk to a Mentor,Complete,Flagship answer OK,No change,B12 complete,
+/certifications,Cert hub,Comparison,Explore pathways,Compare,Get My PMP 2026 Roadmap,Compare Certification Pathways,Complete,Secondary waitlists OK,Document only,B12 complete,
+/faq,Trust/FAQ,Support,Get My PMP 2026 Roadmap,Talk to a Mentor,Get My PMP 2026 Roadmap,Talk to a Mentor,Complete,Standardized mentor label,Done,B12 complete,
+/community,Community,Support,Get My PMP 2026 Roadmap,Join Skool Community,Get My PMP 2026 Roadmap,Join Skool Community,Complete,Roadmap added above fold,Owner Skool decision pending,B12 complete,See community-platform CSV
+/membership,Membership,Support,Get My PMP 2026 Roadmap,Join Membership Waitlist,Get My PMP 2026 Roadmap,Join Membership Waitlist,Complete,Support-layer framing added,Done,B12 complete,Not main product
+/pm-service,Corporate/advisory,Services,Get My PMP 2026 Roadmap,Request Corporate Cohort Brief,Get My PMP 2026 Roadmap,Request Corporate Cohort Brief,Complete,Corporate cohort section added,Proposed until approved,B12 complete,
+/about,About,Trust,Get My PMP 2026 Roadmap,Talk to a Mentor,Get My PMP 2026 Roadmap,Talk to a Mentor,Complete,Removed unverified 5+ years badge,Done,B12 complete,
+/store,Resource store,Preview,Join Waitlist,N/A,Join Waitlist,Preview Pathway,Complete,Removed default star ratings,Done,B12 complete,Embedded in /community tab
+/certifications/compare,Compare,SEO,Compare pathways,Roadmap,Get My PMP 2026 Roadmap,Compare Certification Pathways,Complete,No change needed,Document only,B12 complete,
+/certifications/prince2-practitioner,Secondary cert,Waitlist,Join Waitlist,N/A,Join Waitlist,N/A,Complete,B11 aligned,No change,B12 complete,
+/certifications/lss-yellow,Secondary cert,Waitlist,Join Waitlist,N/A,Join Waitlist,N/A,Complete,B11 aligned,No change,B12 complete,
+/certifications/lss-black,Secondary cert,Waitlist,Join Waitlist,N/A,Join Waitlist,N/A,Complete,B11 aligned,No change,B12 complete,
+/certifications/pmi-rmp,Secondary cert,Waitlist,Join Waitlist,N/A,Join Waitlist,N/A,Complete,Secondary funnel,No change,B12 complete,
+/certifications/pgmp,Secondary cert,Waitlist,Join Waitlist,N/A,Join Waitlist,N/A,Complete,Secondary funnel,No change,B12 complete,
+/pmp-exam-2026,PMP cluster,Pillar,Get My PMP 2026 Roadmap,Talk to a Mentor,Get My PMP 2026 Roadmap,Talk to a Mentor,Complete,PMP cluster OK,Document only,B12 complete,
+/newsletter,Newsletter,Content,Join newsletter,N/A,Get My PMP 2026 Roadmap,N/A,Partial,Not PMP-primary,Optional roadmap link,Planned,
+/contact,Contact,Support,Contact form,N/A,N/A,Talk to a Mentor,Complete,corporate-cohort via consultation topic,Done,B12 complete,
+Footer sitewide,Footer,Nav,Roadmap + nav CTAs,Various,Get My PMP 2026 Roadmap,Talk to a Mentor,Complete,Mentor labels standardized,Done,B12 complete,B03 events unchanged
+cta-router default,Internal,Routing,Enroll Now default,N/A,Document roadmap-first,PMP override in inventory,Complete,Checkout tier exception,Document only,B12 complete,frontend/lib/cta-router.ts
+pathway-tier-cta,Internal,Tiers,Enroll now / Reserve your seat,N/A,Keep for live checkout,N/A,Complete,Documented exception,No sitewide replace,B12 complete,frontend/lib/pathway-tier-cta.ts

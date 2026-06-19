@@ -1,0 +1,9 @@
+Validation_Item,Area,Current_Status,Required_Action,Owner,Due_Before,Public_Impact,Implementation_Status,Notes
+PMI PMP 2026 facts,PMP 2026 content,Verified 2026-06-19,"Recheck before next major publish",Sheikh M. Abdullah,Next publish,High,Documented,"Use fact lock and source-review CSV."
+July 2026 dates,PMP 2026 content,Verified 2026-06-19,"Use 9 July 2026 for updated exam and before 8 July 2026 for current exam",Sheikh M. Abdullah,Next publish,High,Documented,"Do not publish vague or conflicting July wording."
+Exam fee included FAQ,Pricing/FAQ,Verified excluded,"Keep FAQ: official exam fees and third-party fees are excluded unless a specific offer says otherwise",Sheikh M. Abdullah,Before pricing changes,High,Documented,"Do not imply PMI exam fee included."
+Trademark/disclaimer blocks,Legal,Pending legal review,"Owner/legal review of PMP/PMI mark wording and independent-platform disclaimer",Sheikh M. Abdullah,Before broad publish,High,Pending,"Cursor must not finalize legal wording."
+GSC validation,B03 analytics/reporting,Pending access/evidence,"Verify property, sitemap, indexation, and priority URL status in GSC",Mahaa,Post-deploy,High,Pending,"Do not claim submitted/indexed without proof."
+GA4 validation,B03 analytics/reporting,Pending access/evidence,"Verify events in GA4 Realtime/DebugView/Tag Assistant",Mahaa,Post-deploy,High,Pending,"Do not claim events work without testing."
+Regional landing pages,Regional SEO,Pending approval,"Approve region list, service-area wording, pricing rules, and route plan before creating routes",Sheikh M. Abdullah,Before regional route creation,Medium,Blocked,"No regional routes until approved."
+Author/reviewer assignment,E-E-A-T,Assigned with limitation,"Use Sheikh M. Abdullah as author/reviewer for content; legal claims require owner/legal approval",Sheikh M. Abdullah,Before publishing author metadata,Medium,Documented,"Add separate legal reviewer later if needed."

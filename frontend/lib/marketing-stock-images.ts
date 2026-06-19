@@ -33,14 +33,14 @@ export function marketingTestimonialAvatar(index: number): string {
 
 export const MARKETING_STOCK_IMAGES = {
   communityGrid: [
-    { src: m('community-collab-600'), alt: 'Project professionals collaborating', width: 600, height: 600 },
-    { src: m('community-workshop-600'), alt: 'Study workshop session', width: 600, height: 450 },
-    { src: m('community-mentor-600'), alt: 'Mentor-led discussion', width: 600, height: 450 },
-    { src: m('community-network-600'), alt: 'Professional networking', width: 600, height: 600 },
+    { src: m('community-collab-600'), alt: 'PM Structure learning community collaboration', width: 600, height: 600 },
+    { src: m('community-workshop-600'), alt: 'PMP certification readiness workshop session', width: 600, height: 450 },
+    { src: m('community-mentor-600'), alt: 'Mentor-led PMP study discussion', width: 600, height: 450 },
+    { src: m('community-network-600'), alt: 'Project management certification networking', width: 600, height: 600 },
   ],
   mentorship: {
     src: m('mentorship-circle-900'),
-    alt: 'Community study circle and mentorship',
+    alt: 'PM Structure learning community and mentorship circle',
     width: 900,
     height: 900,
   },

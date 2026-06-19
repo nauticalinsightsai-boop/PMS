@@ -1,0 +1,19 @@
+Keyword_or_Topic,Intent,Region,Current_PMStructure_Target_URL,Competitor_URLs_Covering_It,PMStructure_Status,Content_Gap,Commercial_Value,Priority,Recommended_Action,Notes
+PMP 2026 readiness,Commercial,Global,https://pmstructure.com/certifications/pmp,PMTraining; Simplilearn; KnowledgeHut,Implemented,Strong commercial page; roadmap CTA,P0,High,Keep; B11 nurture,Primary money page
+PMP exam 2026,Informational + commercial,Global,https://pmstructure.com/topics/pmp-exam-2026,Simplilearn; IPM guide; Coursera listings,Implemented,Topic hub + deep guide cluster,P0,High,Content calendar,Do not cannibalize commercial page
+PMP certification training,Commercial,Global,https://pmstructure.com/certifications/pmp,PMTraining; Simplilearn; KnowledgeHut,Partial,Competitors lead with ATP/guarantee trust bar,P0,High,Needs evidence,Collect verified proof; avoid ATP mimicry
+PMP preparation course,Commercial,Global,https://pmstructure.com/certifications/pmp,All commercial competitors,Implemented,Tiered pathways documented,P1,High,Keep positioning,Independent prep framing
+PMP exam change 2026,Informational,Global,https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026,TBD — owner SERP review,Implemented,Answer + topic hub,P0,High,Keep,Core differentiator
+PMP training hours vs PDUs,Trust / informational,Global,https://pmstructure.com/faq,TBD — owner SERP review,Partial,FAQ exists; terminology sensitivity,P1,Medium,Content calendar,Avoid 35 PDUs wording unless accurate
+PMI authorized training partner,Trust / compliance,Global,https://pmstructure.com/faq,TBD — PMI ATP page,Implemented,FAQ denies ATP unless confirmed,P0,High,Do not do,Never commercialize ATP language
+PMP for GCC professionals,Commercial regional,GCC,https://pmstructure.com/certifications/pmp,TBD — owner SERP review,Planned,Dedicated landing not live,P1,High,Content calendar,90-day schedule Week 6+
+PMP for engineers,Commercial niche,Global,https://pmstructure.com/certifications/pmp,TBD — owner SERP review,Planned,Article planned not dedicated URL,P1,Medium,Content calendar,90-day schedule Week 5
+PMP corporate training GCC,B2B,GCC,https://pmstructure.com/pm-service,TBD — owner SERP review,Partial,Advisory page exists; cohort clarity,P1,High,Owner decision,Corporate readiness cohort offer
+PMP vs PRINCE2,Comparison,Global,https://pmstructure.com/certifications/compare,IPM guide; PRINCE2.com,Implemented,Compare page exists,P1,Medium,Enhance via calendar,No competitor copy
+PMP vs PMI-RMP,Comparison,Global,https://pmstructure.com/certifications/compare,IPM guide,Implemented,Compare + PMI-RMP cert page,P2,Medium,Keep,Secondary cert
+project management certifications,Hub / exploratory,Global,https://pmstructure.com/certifications,IPM guide; Coursera,Implemented,Cert hub,P1,Medium,Keep,Do not outrank PMP for PMP intent
+PRINCE2 practitioner,Secondary commercial,Global,https://pmstructure.com/certifications/prince2-practitioner,PRINCE2.com,TBD secondary,Secondary cert page,P2,Low,Defer,PMP focus first
+Lean Six Sigma Yellow Belt,Secondary commercial,Global,https://pmstructure.com/certifications/lss-yellow,TBD,Implemented,Secondary cert page,P2,Low,Defer,Not primary funnel
+Lean Six Sigma Black Belt,Secondary commercial,Global,https://pmstructure.com/certifications/lss-black,TBD,Implemented,Secondary cert page,P2,Low,Defer,Not primary funnel
+PMI-RMP,Secondary commercial,Global,https://pmstructure.com/certifications/pmi-rmp,TBD,Implemented,Secondary cert page,P2,Low,Defer,Not primary funnel
+PgMP,Secondary commercial,Global,https://pmstructure.com/certifications/pgmp,TBD,Implemented,Secondary cert page,P3,Low,Defer,Not primary funnel

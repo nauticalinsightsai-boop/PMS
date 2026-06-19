@@ -2,8 +2,11 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PMP_INDEPENDENT_DISCLAIMER } from '@/content/pmp/disclaimer';
+import { Pmp2026ComplianceNote } from '@/components/pmp/Pmp2026ComplianceNote';
 import type { TopicHubContent } from '@/content/topics/types';
 import { getTopicFaqsForHub } from '@/content/topics';
+import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
+import { getTopicHubBreadcrumbs } from '@/content/site-architecture/routes';
 import { TopicHubJsonLd } from '@/components/seo/TopicHubJsonLd';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
@@ -20,6 +23,7 @@ export function TopicHubPage({ hub }: { hub: TopicHubContent }) {
   const relatedFaqs = getTopicFaqsForHub(hub);
   const prepPages = [...hub.resources, ...(hub.relatedCourses ?? [])];
   const phase2Related = getPhase2RelatedBlock(hub.path);
+  const breadcrumbs = getTopicHubBreadcrumbs(hub);
 
   return (
     <>
@@ -28,17 +32,7 @@ export function TopicHubPage({ hub }: { hub: TopicHubContent }) {
       <section className={cn(sectionSurface('purple', 'py-16 sm:py-20'))}>
         <SectionAmbience tone="purple" />
         <div className="container max-w-3xl mx-auto px-4 relative z-10">
-          <nav className="text-sm text-slate-500 mb-6" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-brand-purple">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <Link href="/topics" className="hover:text-brand-purple">
-              Topics
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-slate-700 dark:text-slate-300">{hub.h1}</span>
-          </nav>
+          <Breadcrumbs items={breadcrumbs} />
 
           <h1 className="font-heading text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-10">
             {hub.h1}
@@ -169,6 +163,10 @@ export function TopicHubPage({ hub }: { hub: TopicHubContent }) {
               links={phase2Related.links}
               currentPath={hub.path}
             />
+          ) : null}
+
+          {hub.slug === 'pmp-exam-2026' ? (
+            <Pmp2026ComplianceNote className="mb-10" showSourceLinks />
           ) : null}
 
           <p className="text-sm text-slate-500 border-t pt-6">{PMP_INDEPENDENT_DISCLAIMER}</p>

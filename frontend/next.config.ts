@@ -95,6 +95,11 @@ const nextConfig: NextConfig = {
         destination: '/answers/does-pm-structure-guarantee-pmp-success',
         permanent: true,
       },
+      {
+        source: '/go',
+        destination: '/go/website',
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
@@ -151,6 +156,28 @@ const nextConfig: NextConfig = {
     }
 
     return rules;
+  },
+  async headers() {
+    return [
+      {
+        source: '/brand/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/images/marketing/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
   },
   webpack: (config, { webpack }) => {
     config.plugins.push(

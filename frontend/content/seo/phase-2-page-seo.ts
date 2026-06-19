@@ -35,7 +35,17 @@ const pmpCommercial: RelatedLink = {
 
 const compareCerts: RelatedLink = {
   href: '/certifications/compare',
-  label: 'compare project management certifications',
+  label: 'Compare Project Management Certifications',
+};
+
+const topicHub: RelatedLink = {
+  href: '/topics/pmp-exam-2026',
+  label: 'PMP Exam 2026 Guide',
+};
+
+const faqLink: RelatedLink = {
+  href: '/faq',
+  label: 'PM Structure FAQ',
 };
 
 export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
@@ -59,11 +69,16 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     regionFocus: ['Global'],
     relatedLinks: [
       pmpCommercial,
-      { href: '/certifications/compare', label: 'compare certification pathways' },
-      { href: '/faq', label: 'PM Structure FAQ' },
+      { href: '/certifications', label: 'Project Management Certification Pathways' },
+      compareCerts,
+      faqLink,
+      { href: '/community', label: 'PM Structure Learning Community' },
+      { href: '/membership', label: 'PM Structure Membership' },
+      { href: '/pm-service', label: 'Project Management Advisory Services' },
       { href: '/answers', label: 'PMP and certification answers' },
-      { href: '/topics', label: 'project management topic guides' },
-      { href: '/pmp-exam-2026', label: 'PMP exam 2026 guide' },
+      { href: '/topics', label: 'Project management topic guides' },
+      { href: '/topics/pmp-exam-2026', label: 'PMP Exam 2026 Guide' },
+      { href: '/pmp-exam-2026', label: 'PMP exam 2026 deep guide' },
     ],
   },
   '/certifications': {
@@ -102,7 +117,7 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     funnelStage: 'Conversion',
     title: 'PMP 2026 Readiness Pathway | PM Structure',
     description:
-      'Decide whether to prepare for the current or updated PMP exam. Build a structured PMP 2026 roadmap with eligibility guidance, study planning, mock tracking, and readiness support.',
+      'Prepare for the PMP 2026 exam transition with a structured readiness pathway, roadmap support, and practical project-management guidance.',
     h1: 'PMP 2026 Readiness Pathway',
     canonicalPath: '/certifications/pmp',
     regionFocus: ['GCC', 'South Asia'],
@@ -128,9 +143,9 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     secondaryKeywords: ['PMP 2026 changes', 'updated PMP domains', 'PMP 2026 preparation'],
     searchIntent: 'Informational / hub',
     funnelStage: 'Awareness + consideration',
-    title: 'PMP Exam 2026 Guide | Changes, Timeline & Preparation',
+    title: 'PMP Exam 2026 Guide | PM Structure',
     description:
-      'Understand the PMP exam 2026 change, updated exam route, domain weighting, timeline decisions, and preparation structure with PM Structure.',
+      'Explore PMP exam 2026 updates, readiness guidance, answer pages, and practical next steps for planning your PMP pathway.',
     h1: 'PMP Exam 2026 Guide',
     canonicalPath: '/topics/pmp-exam-2026',
     regionFocus: ['Global'],
@@ -153,7 +168,7 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     h1: 'PM Structure FAQ',
     canonicalPath: '/faq',
     regionFocus: ['Global'],
-    relatedLinks: [pmpCommercial],
+    relatedLinks: [pmpCommercial, compareCerts, { href: '/legal/terms', label: 'Terms & Conditions' }],
   },
   '/certifications/compare': {
     route: '/certifications/compare',
@@ -349,8 +364,8 @@ export const PHASE_2_RELATED_BLOCKS: Record<string, RelatedLinkBlock> = {
     title: 'Next steps for PMP 2026 candidates',
     links: [
       pmpCommercial,
-      { href: '/topics/pmp-exam-2026', label: 'PMP exam 2026 guide' },
-      { href: '/faq', label: 'PM Structure FAQ' },
+      topicHub,
+      faqLink,
     ],
   },
   '/topics/pmp-exam-2026': {
@@ -359,9 +374,10 @@ export const PHASE_2_RELATED_BLOCKS: Record<string, RelatedLinkBlock> = {
       pmpCommercial,
       {
         href: '/answers/is-the-pmp-exam-changing-in-2026',
-        label: 'is the PMP exam changing in 2026?',
+        label: 'Is the PMP Exam Changing in 2026?',
       },
       compareCerts,
+      faqLink,
     ],
   },
   '/certifications/compare': {
@@ -376,7 +392,15 @@ export const PHASE_2_RELATED_BLOCKS: Record<string, RelatedLinkBlock> = {
   },
   '/certifications': {
     title: 'Start with a certification pathway',
-    links: [pmpCommercial, compareCerts],
+    links: [
+      pmpCommercial,
+      compareCerts,
+      { href: '/certifications/pmi-rmp', label: 'PMI-RMP Risk Management Pathway' },
+      { href: '/certifications/pgmp', label: 'PgMP Program Management Pathway' },
+      { href: '/certifications/prince2-practitioner', label: 'PRINCE2 Practitioner Pathway' },
+      { href: '/certifications/lss-yellow', label: 'Lean Six Sigma Yellow Belt Pathway' },
+      { href: '/certifications/lss-black', label: 'Lean Six Sigma Black Belt Pathway' },
+    ],
   },
 };
 
@@ -392,6 +416,9 @@ export function getPhase2RelatedBlock(path: string): RelatedLinkBlock | undefine
   return PHASE_2_RELATED_BLOCKS[normalized];
 }
 
+/** Skip appending `| PM Structure` when the title already carries the brand. */
 export function titleNeedsNoSuffix(title: string): boolean {
-  return title.includes('| PM Structure');
+  if (title.includes('| PM Structure')) return true;
+  if (title.startsWith('PM Structure')) return true;
+  return false;
 }

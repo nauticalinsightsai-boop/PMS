@@ -1,0 +1,40 @@
+Source_URL,Source_Page_Type,Current_Link_Text,Current_Target,Recommended_Link_Text,Recommended_Target,Reason,Priority,Implementation_Status,Notes
+https://pmstructure.com/,Homepage navbar,Certifications,/certifications,Certifications,/certifications,Header spec match,High,Implemented,Navbar.tsx
+https://pmstructure.com/,Homepage navbar,PMP 2026,/certifications/pmp,PMP 2026,/certifications/pmp,Primary commercial route,High,Implemented,
+https://pmstructure.com/,Homepage navbar,Compare Pathways,/certifications/compare,Compare Pathways,/certifications/compare,Header spec match,High,Implemented,
+https://pmstructure.com/,Homepage navbar,FAQ,/faq,FAQ,/faq,Header spec match,High,Implemented,
+https://pmstructure.com/,Homepage navbar,Community,/community,Community,/community,Header spec match,High,Implemented,
+https://pmstructure.com/,Homepage navbar,Get Roadmap,/certifications/pmp#roadmap,Get My PMP 2026 Roadmap,/certifications/pmp,CTA to money page,High,Implemented,PmpRoadmapCtaLink
+https://pmstructure.com/,Homepage relatedLinks,PMP 2026 Readiness Pathway,/certifications/pmp,PMP 2026 Readiness Pathway,/certifications/pmp,Minimum link set,High,Implemented,phase-2-page-seo.ts
+https://pmstructure.com/,Homepage relatedLinks,compare certification pathways,/certifications/compare,Compare Project Management Certifications,/certifications/compare,Descriptive anchor,High,Implemented,Updated anchor text
+https://pmstructure.com/,Homepage relatedLinks,PM Structure FAQ,/faq,PM Structure FAQ,/faq,Minimum link set,High,Implemented,
+https://pmstructure.com/,Homepage relatedLinks,PMP and certification answers,/answers,PMP and certification answers,/answers,Support cluster,Medium,Implemented,
+https://pmstructure.com/,Homepage relatedLinks,project management topic guides,/topics,PMP Exam 2026 Guide,/topics/pmp-exam-2026,Hub link added,High,Implemented,
+https://pmstructure.com/,Homepage relatedLinks,PMP exam 2026 guide,/pmp-exam-2026,PMP exam 2026 deep guide,/pmp-exam-2026,Deep guide retained,Medium,Implemented,
+https://pmstructure.com/,Homepage relatedLinks,Certifications,/certifications,Certifications,/certifications,Minimum link set,High,Implemented,Added B06
+https://pmstructure.com/,Homepage relatedLinks,Community,/community,Community,/community,Minimum link set,High,Implemented,Added B06
+https://pmstructure.com/,Homepage relatedLinks,Membership,/membership,Membership,/membership,Minimum link set,High,Implemented,Added B06
+https://pmstructure.com/,Homepage relatedLinks,PM Service,/pm-service,PM Service,/pm-service,Minimum link set,High,Implemented,Added B06
+https://pmstructure.com/,Homepage overlinking audit,learn more → /,N/A,Use deep links,N/A,No generic homepage overlinking found,Low,Implemented,RelatedGuidesLinks use deep routes
+https://pmstructure.com/certifications/pmp,PMP commercial related,PMP exam change in 2026,/answers/is-the-pmp-exam-changing-in-2026,PMP exam change in 2026,/answers/is-the-pmp-exam-changing-in-2026,Minimum link set,High,Implemented,PHASE_2_RELATED_BLOCKS
+https://pmstructure.com/certifications/pmp,PMP commercial related,PMP exam 2026 topic hub,/topics/pmp-exam-2026,PMP Exam 2026 Guide,/topics/pmp-exam-2026,Minimum link set,High,Implemented,
+https://pmstructure.com/certifications/pmp,PMP commercial related,PMP eligibility FAQ,/faq,PM Structure FAQ,/faq,Minimum link set,High,Implemented,
+https://pmstructure.com/certifications/pmp,PMP commercial related,compare project management certifications,/certifications/compare,Compare Project Management Certifications,/certifications/compare,Descriptive anchor,High,Implemented,Updated anchor
+https://pmstructure.com/topics/pmp-exam-2026,Topic hub related,PMP 2026 Readiness Pathway,/certifications/pmp,PMP 2026 Readiness Pathway,/certifications/pmp,Minimum link set,High,Implemented,
+https://pmstructure.com/topics/pmp-exam-2026,Topic hub related,is the PMP exam changing in 2026?,/answers/is-the-pmp-exam-changing-in-2026,Is the PMP Exam Changing in 2026?,/answers/is-the-pmp-exam-changing-in-2026,Minimum link set,High,Implemented,
+https://pmstructure.com/topics/pmp-exam-2026,Topic hub related,compare certs,/certifications/compare,Compare Project Management Certifications,/certifications/compare,Minimum link set,High,Implemented,
+https://pmstructure.com/topics/pmp-exam-2026,Topic hub related,PM Structure FAQ,/faq,PM Structure FAQ,/faq,Minimum link set,High,Implemented,Added B06
+https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026,Answer related,PMP 2026 Readiness Pathway,/certifications/pmp,PMP 2026 Readiness Pathway,/certifications/pmp,Minimum link set,High,Implemented,
+https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026,Answer related,PMP exam 2026 guide,/topics/pmp-exam-2026,PMP Exam 2026 Guide,/topics/pmp-exam-2026,Minimum link set,High,Implemented,
+https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026,Answer related,PM Structure FAQ,/faq,PM Structure FAQ,/faq,Minimum link set,High,Implemented,
+https://pmstructure.com/certifications,Cert hub related,PMP 2026 Readiness Pathway,/certifications/pmp,PMP 2026 Readiness Pathway,/certifications/pmp,Minimum link set,High,Implemented,
+https://pmstructure.com/certifications,Cert hub related,Compare certifications,/certifications/compare,Compare Project Management Certifications,/certifications/compare,Minimum link set,High,Implemented,
+https://pmstructure.com/certifications,Cert hub related,PMI-RMP pathway,/certifications/pmi-rmp,PMI-RMP pathway,/certifications/pmi-rmp,Secondary cert link,Medium,Implemented,Added B06
+https://pmstructure.com/certifications,Cert hub related,PRINCE2 Practitioner,/certifications/prince2-practitioner,PRINCE2 Practitioner,/certifications/prince2-practitioner,Secondary cert link,Medium,Implemented,Added B06
+https://pmstructure.com/certifications,Cert hub related,LSS Yellow Belt,/certifications/lss-yellow,LSS Yellow Belt,/certifications/lss-yellow,Secondary cert link,Medium,Implemented,Added B06
+https://pmstructure.com/certifications,Cert hub related,LSS Black Belt,/certifications/lss-black,LSS Black Belt,/certifications/lss-black,Secondary cert link,Medium,Implemented,Added B06
+https://pmstructure.com/,Footer resources,PMP 2026 Readiness,/certifications/pmp,PMP 2026 Readiness,/certifications/pmp,Footer primary,High,Implemented,
+https://pmstructure.com/,Footer resources,PMP exam guide,/pmp-exam-2026,PMP exam deep guide,/pmp-exam-2026,Deep guide retained,High,Implemented,
+https://pmstructure.com/,Footer resources,PMP Exam 2026 Topics,/topics/pmp-exam-2026,PMP Exam 2026 Guide,/topics/pmp-exam-2026,Topic hub added B06,High,Implemented,Footer.tsx
+https://pmstructure.com/,Footer resources,Answers,/answers,Answers,/answers,Footer resources,Medium,Implemented,
+https://pmstructure.com/,Footer resources,Topics,/topics,Topics,/topics,Footer resources,Medium,Implemented,

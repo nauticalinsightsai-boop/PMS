@@ -1,5 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { motion } from "motion/react";
 import * as React from "react";
 import Link from "next/link";
@@ -36,6 +37,7 @@ import { useHomePageConfig } from '@/lib/home-config';
 import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 import { PmpRoadmapCtaLink, ComparePathwaysCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
+import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { T169_SUPPORT_COPY } from '@/content/pmp/flagship-t169';
 import { COMPARE_PATHWAYS_HREF, PMP_ROADMAP_CTA_HREF } from '@/lib/pmp-roadmap-cta';
@@ -111,8 +113,14 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
     featuredFromCms.length > 0 ? featuredFromCms.slice(0, 6) : featuredPathways;
   const finalCta = homeCms.activeCta;
   const sections = homeCms.sections;
-  const statsCount = homeCms.stats?.professionalsCount ?? initialHomeConfig?.stats?.professionalsCount ?? 1284;
   const statsLabel = homeCms.stats?.professionalsLabel ?? initialHomeConfig?.stats?.professionalsLabel ?? 'professionals in the network';
+  const showVerifiedMemberCount =
+    typeof homeCms.stats?.professionalsCount === 'number' &&
+    homeCms.stats.professionalsCount > 0 &&
+    homeCms.stats.professionalsCount !== 1284;
+  const statsCount = showVerifiedMemberCount
+    ? (homeCms.stats?.professionalsCount ?? initialHomeConfig?.stats?.professionalsCount ?? 0)
+    : null;
   const heroTitle =
     homeCms.heroTitle || serverSlide?.heading || get('hero_title', HOME_COPY.heroTitle);
   const heroSubtitle =
@@ -127,7 +135,8 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
           avatar: t.avatarUrl ?? marketingTestimonialAvatar(Number(t.id) || 0),
           company: '',
         }))
-      : siteData.testimonials;
+      : [];
+  const showTestimonialPlaceholder = true;
   const insightsItems = homeCms.insightsBand?.items ?? [
     { title: "AI in Project Management", desc: "How to leverage generative AI for planning and risk assessment.", href: "/newsletter/ai-augmented-project-manager" },
     { title: "2026 Salary Trends", desc: "The latest data on certification ROI across global markets.", href: "/newsletter/2026-pmp-exam-changes" },
@@ -219,6 +228,16 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <div className="w-full sm:w-auto">{renderPrimaryCta()}</div>
+                <WebsiteCalendlyButton
+                  size="lg"
+                  variant="outline"
+                  className={HERO_BTN_OUTLINE}
+                  tier="discovery"
+                  funnelLabel="home_hero_mentor"
+                  utm={{ utm_source: 'pmstructure', utm_medium: 'home', utm_campaign: 'hero_mentor' }}
+                >
+                  {CTAS.talkToAMentor}
+                </WebsiteCalendlyButton>
                 <ComparePathwaysCtaLink buttonClassName={HERO_BTN_OUTLINE} />
               </div>
 
@@ -242,8 +261,15 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                     </div>
                   ))}
                 </div>
-                <div className="text-sm font-medium text-slate-500">
-                  <span className="text-slate-900 dark:text-white font-bold">{statsCount.toLocaleString()}</span> {statsLabel}
+                <div className="text-sm font-medium text-slate-500 max-w-md">
+                  {statsCount != null ? (
+                    <>
+                      <span className="text-slate-900 dark:text-white font-bold">{statsCount.toLocaleString()}</span>{' '}
+                      {statsLabel}
+                    </>
+                  ) : (
+                    T176_SOCIAL_PROOF_REPLACEMENT
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -615,45 +641,49 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               </div>
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-6">
-                  <div className="rounded-3xl overflow-hidden shadow-lg aspect-square">
-                    <img
+                  <div className="relative rounded-3xl overflow-hidden shadow-lg aspect-square">
+                    <Image
                       src={MARKETING_STOCK_IMAGES.communityGrid[0].src}
                       alt={MARKETING_STOCK_IMAGES.communityGrid[0].alt}
                       width={MARKETING_STOCK_IMAGES.communityGrid[0].width}
                       height={MARKETING_STOCK_IMAGES.communityGrid[0].height}
-                      className="w-full h-full object-cover"
+                      sizes="(max-width: 1024px) 50vw, 25vw"
+                      className="object-cover w-full h-full"
                       loading="lazy"
                     />
                   </div>
-                  <div className="rounded-3xl overflow-hidden shadow-lg aspect-[4/3]">
-                    <img
+                  <div className="relative rounded-3xl overflow-hidden shadow-lg aspect-[4/3]">
+                    <Image
                       src={MARKETING_STOCK_IMAGES.communityGrid[1].src}
                       alt={MARKETING_STOCK_IMAGES.communityGrid[1].alt}
                       width={MARKETING_STOCK_IMAGES.communityGrid[1].width}
                       height={MARKETING_STOCK_IMAGES.communityGrid[1].height}
-                      className="w-full h-full object-cover"
+                      sizes="(max-width: 1024px) 50vw, 25vw"
+                      className="object-cover w-full h-full"
                       loading="lazy"
                     />
                   </div>
                 </div>
                 <div className="space-y-6 mt-0 lg:mt-12">
-                  <div className="rounded-3xl overflow-hidden shadow-lg aspect-[4/3]">
-                    <img
+                  <div className="relative rounded-3xl overflow-hidden shadow-lg aspect-[4/3]">
+                    <Image
                       src={MARKETING_STOCK_IMAGES.communityGrid[2].src}
                       alt={MARKETING_STOCK_IMAGES.communityGrid[2].alt}
                       width={MARKETING_STOCK_IMAGES.communityGrid[2].width}
                       height={MARKETING_STOCK_IMAGES.communityGrid[2].height}
-                      className="w-full h-full object-cover"
+                      sizes="(max-width: 1024px) 50vw, 25vw"
+                      className="object-cover w-full h-full"
                       loading="lazy"
                     />
                   </div>
-                  <div className="rounded-3xl overflow-hidden shadow-lg aspect-square">
-                    <img
+                  <div className="relative rounded-3xl overflow-hidden shadow-lg aspect-square">
+                    <Image
                       src={MARKETING_STOCK_IMAGES.communityGrid[3].src}
                       alt={MARKETING_STOCK_IMAGES.communityGrid[3].alt}
                       width={MARKETING_STOCK_IMAGES.communityGrid[3].width}
                       height={MARKETING_STOCK_IMAGES.communityGrid[3].height}
-                      className="w-full h-full object-cover"
+                      sizes="(max-width: 1024px) 50vw, 25vw"
+                      className="object-cover w-full h-full"
                       loading="lazy"
                     />
                   </div>
@@ -818,7 +848,10 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
       </section>
 
       {(sections?.testimonials !== false) && (
-        <HomeTestimonialsSection testimonials={testimonials} />
+        <HomeTestimonialsSection
+          testimonials={testimonials}
+          usePlaceholder={showTestimonialPlaceholder}
+        />
       )}
 
       {(sections?.globalFootprint !== false) && homeCms.activeFootprint.length > 0 && (

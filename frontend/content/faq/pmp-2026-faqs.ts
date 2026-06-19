@@ -390,9 +390,18 @@ export const PMP_2026_FAQS: FaqEntry[] = [
   pmp({
     id: 'pmp26-elig-04',
     pmpCategory: 'eligibility-application-contact-hours',
-    question: 'Does PM Structure provide 35 PDUs for PMP eligibility?',
+    question:
+      'Does PM Structure provide 35 hours of project management education/training for PMP eligibility?',
     answer:
       'For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs. PDUs are generally used for maintaining an existing PMI certification after someone has already earned it. PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record, but candidates should verify current eligibility rules directly with PMI before applying.',
+    complianceRisk: 'medium',
+  }),
+  pmp({
+    id: 'pmp26-elig-04c',
+    pmpCategory: 'eligibility-application-contact-hours',
+    question: 'Are PMP training hours the same as PDUs?',
+    answer:
+      'No. PMP eligibility language refers to project management education/training or commercial training hours, depending on the applicable PMI requirement. PDUs are normally used after certification for maintaining PMI credentials. PM Structure should not describe PMP eligibility as "35 PDUs."',
     complianceRisk: 'medium',
   }),
   pmp({
@@ -610,7 +619,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'regional-pricing',
     question: 'Are PMI exam fees included in PM Structure tuition?',
     answer:
-      'No. Official PMP exam fees are paid to PMI/Pearson VUE separately.',
+      'No. PM Structure tuition excludes official exam fees, certification-body fees, taxes, vouchers, membership fees, and third-party charges unless a specific offer clearly states otherwise.',
     complianceRisk: 'medium',
   }),
   pmp({
@@ -618,7 +627,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'independent-platform-disclaimer',
     question: 'Is PM Structure a PMI Authorized Training Partner (ATP)?',
     answer:
-      'No: unless formally confirmed on a live page, we are an independent exam-preparation platform.',
+      'PM Structure is an independent exam-prep and project management learning platform. It is not a PMI Authorized Training Partner, official PMI partner, or guaranteed-pass provider unless formally confirmed on a live page.',
     complianceRisk: 'high',
   }),
   pmp({

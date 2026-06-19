@@ -5,8 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
-  ShoppingCart, 
-  Star, 
   Search, 
   Download, 
   BookOpen, 
@@ -22,6 +20,12 @@ import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import { T176_STORE_WAITLIST_NOTE } from '@/content/t176-claims';
 import { MARKETING_STOCK_IMAGES } from '@/lib/marketing-stock-images';
+import {
+  defaultStoreCatalog,
+  parseStoreCatalog,
+  FIELD_KEYS,
+} from '@pms/site-content';
+import { CTAS } from '@/lib/brand-voice';
 
 const categoryIcons: Record<string, typeof Package> = {
   'All Resources': Package,
@@ -46,8 +50,8 @@ export function StoreContent() {
       title: p.title,
       price: p.displayPrice,
       category: catalog?.categories.find((c) => c.id === p.categoryId)?.name ?? p.categoryId,
-      rating: p.rating ?? 4.5,
-      reviews: p.reviewCount ?? 0,
+      rating: p.rating,
+      reviews: p.reviewCount,
       image: p.image?.url ?? p.imageUrl ?? MARKETING_STOCK_IMAGES.storeProduct.src,
       description: p.description,
       badge: p.badge ?? '',
@@ -165,10 +169,11 @@ export function StoreContent() {
                   <CardHeader className="p-8 pb-4">
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-[10px] font-bold text-brand-purple uppercase tracking-[0.2em]">{product.category}</span>
-                      <div className="flex items-center gap-1.5 text-yellow-500">
-                        <Star className="h-3.5 w-3.5 fill-current" />
-                        <span className="text-xs font-bold text-slate-600 dark:text-slate-300">{product.rating}</span>
-                      </div>
+                      {typeof product.rating === 'number' ? (
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                          Preview
+                        </span>
+                      ) : null}
                     </div>
                     <h3 className="text-xl font-bold leading-tight tracking-tight dark:text-white mb-3">
                       {product.title}

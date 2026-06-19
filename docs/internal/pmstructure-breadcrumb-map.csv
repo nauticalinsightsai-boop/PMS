@@ -1,0 +1,20 @@
+URL,Route,Page_Type,Breadcrumb_1,Breadcrumb_1_URL,Breadcrumb_2,Breadcrumb_2_URL,Breadcrumb_3,Breadcrumb_3_URL,Breadcrumb_4,Breadcrumb_4_URL,Visible_Breadcrumb_Status,Schema_Status,Implementation_Status,Notes
+https://pmstructure.com/,/,Homepage,Home,,,,,,,,N/A on homepage,N/A,Implemented,Home only crumb
+https://pmstructure.com/certifications,/certifications,Certification hub,Home,/,Certifications,,,,,,Visible,JSON-LD via MarketingPageJsonLd,Implemented,
+https://pmstructure.com/certifications/pmp,/certifications/pmp,Commercial PMP,Home,/,Certifications,/certifications,PMP 2026 Readiness Pathway,,,,Visible,JSON-LD via cert detail,Implemented,Money page
+https://pmstructure.com/certifications/compare,/certifications/compare,Comparison,Home,/,Certifications,/certifications,Compare Project Management Certifications,,,,Visible,JSON-LD,Implemented,
+https://pmstructure.com/certifications/pmi-rmp,/certifications/pmi-rmp,Secondary cert,Home,/,Certifications,/certifications,PMI-RMP Risk Management Pathway,,,,Visible,JSON-LD,Implemented,Dynamic cert detail
+https://pmstructure.com/certifications/pgmp,/certifications/pgmp,Secondary cert,Home,/,Certifications,/certifications,PgMP Pathway,,,,Visible,JSON-LD,Implemented,
+https://pmstructure.com/certifications/prince2-practitioner,/certifications/prince2-practitioner,Secondary cert,Home,/,Certifications,/certifications,PRINCE2 Practitioner Pathway,,,,Visible,JSON-LD,Implemented,
+https://pmstructure.com/certifications/lss-yellow,/certifications/lss-yellow,Secondary cert,Home,/,Certifications,/certifications,Lean Six Sigma Yellow Belt Pathway,,,,Visible,JSON-LD,Implemented,
+https://pmstructure.com/certifications/lss-black,/certifications/lss-black,Secondary cert,Home,/,Certifications,/certifications,Lean Six Sigma Black Belt Pathway,,,,Visible,JSON-LD,Implemented,
+https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026,/answers/is-the-pmp-exam-changing-in-2026,Answer,Home,/,Answers,/answers,Is the PMP exam changing in 2026?,,,,Visible,BreadcrumbJsonLd,Implemented,
+https://pmstructure.com/topics/pmp-exam-2026,/topics/pmp-exam-2026,Topic hub,Home,/,Topics,/topics,PMP Exam 2026 Guide,,,,Visible,BreadcrumbJsonLd,Implemented,
+https://pmstructure.com/faq,/faq,FAQ,Home,/,FAQ,,,,,,Visible,JSON-LD,Implemented,
+https://pmstructure.com/community,/community,Support,Home,/,Community,,,,,,Partial,JSON-LD yes,Implemented,architecture CSV partial
+https://pmstructure.com/membership,/membership,Support,Home,/,Membership,,,,,,Partial,JSON-LD yes,Implemented,architecture CSV partial
+https://pmstructure.com/pmp-exam-2026,/pmp-exam-2026,Deep guide,Home,/,PMP,/pmp,PMP Exam 2026 Guide,,,,Visible,BreadcrumbJsonLd,Implemented,Points to /pmp hub intentionally
+https://pmstructure.com/legal/terms,/legal/terms,Legal,Home,/,Legal,/legal,Terms & Conditions,,,,Visible,BreadcrumbJsonLd,Implemented,
+https://pmstructure.com/legal/privacy,/legal/privacy,Legal,Home,/,Legal,/legal,Privacy Policy,,,,Visible,BreadcrumbJsonLd,Implemented,
+https://pmstructure.com/legal/cookies,/legal/cookies,Legal,Home,/,Legal,/legal,Cookie Policy,,,,Visible,BreadcrumbJsonLd,Implemented,
+https://pmstructure.com/legal/refunds,/legal/refunds,Legal,Home,/,Legal,/legal,Refund Policy,,,,Visible,BreadcrumbJsonLd,Implemented,Route /legal/refunds not /legal/refund

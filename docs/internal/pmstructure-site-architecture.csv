@@ -1,0 +1,31 @@
+path,label,role,parent,visible_breadcrumb,json_ld_breadcrumb,nav_priority,status,notes
+/,Home,homepage,,yes,yes,primary,Published,Commercial entry point
+/certifications,Certifications,hub,/,yes,yes,primary,Published,Certification directory hub
+/certifications/pmp,PMP 2026 Readiness Pathway,commercial,/certifications,yes,yes,primary,Published,Primary PMP conversion page
+/certifications/compare,Compare Project Management Certifications,comparison,/certifications,yes,yes,primary,Published,Certification comparison
+/certifications/pmi-rmp,PMI-RMP Pathway,secondary,/certifications,yes,yes,secondary,Published,Dynamic cert detail
+/certifications/pgmp,PgMP Pathway,secondary,/certifications,yes,yes,secondary,Published,Dynamic cert detail
+/certifications/prince2-practitioner,PRINCE2 Practitioner Pathway,secondary,/certifications,yes,yes,secondary,Published,Dynamic cert detail
+/certifications/lss-yellow,LSS Yellow Belt Pathway,secondary,/certifications,yes,yes,secondary,Published,Dynamic cert detail
+/certifications/lss-black,LSS Black Belt Pathway,secondary,/certifications,yes,yes,secondary,Published,Dynamic cert detail
+/answers,Answers,hub,/,yes,yes,secondary,Published,Direct answer index
+/answers/is-the-pmp-exam-changing-in-2026,Is the PMP exam changing in 2026?,answer,/answers,yes,yes,secondary,Published,Priority direct answer
+/topics,Topics,hub,/,yes,yes,secondary,Published,Topic hub index
+/topics/pmp-exam-2026,PMP Exam 2026 Guide,topic,/topics,yes,yes,secondary,Published,Commercial CTA routes to /certifications/pmp
+/faq,FAQ,trust,/,yes,yes,primary,Published,Trust and objection handling
+/community,Community,support,/,partial,yes,secondary,Published,Community and store
+/membership,Membership,support,/,partial,yes,footer,Published,Membership hub
+/newsletter,Newsletter,support,/,partial,yes,footer,Published,Newsletter signup
+/pm-service,PM Service,support,/,partial,yes,footer,Published,Consultation service
+/contact,Contact,support,/,partial,no,footer,Published,Contact page
+/legal,Legal,hub,/,partial,yes,footer,Published,Legal index
+/legal/terms,Terms of Service,legal,/legal,yes,yes,footer,Published,Legal document
+/legal/privacy,Privacy Policy,legal,/legal,yes,yes,footer,Published,Legal document
+/legal/cookies,Cookie Policy,legal,/legal,yes,yes,footer,Published,Legal document
+/legal/refunds,Refund Policy,legal,/legal,yes,yes,footer,Published,Route is /legal/refunds not /legal/refund
+/pmp-exam-2026,PMP Exam 2026 Guide,deep-guide,/,yes,yes,supporting,Published,Supporting deep guide; not primary nav target
+/pmp-readiness-diagnostic,PMP Readiness Diagnostic,deep-guide,/pmp-exam-2026,partial,yes,supporting,Published,PMP cluster page
+/answers/pmp-training-hours-vs-pdus,PMP training hours vs PDUs,answer,/answers,no,no,planned,Planned - do not publish yet,Spec route not in repo
+/answers/should-i-take-pmp-before-july-2026,Should I take PMP before July 2026?,answer,/answers,no,no,planned,Planned - do not publish yet,Similar answer exists at /answers/should-i-take-pmp-before-8-july-2026
+/corporate/pmp-2026-readiness,Corporate PMP 2026 Readiness,commercial,/,no,no,planned,Planned - do not publish yet,Corporate landing not in repo
+/compare/pmp-vs-prince2,PMP vs PRINCE2,comparison,/,no,no,planned,Planned - do not publish yet,Use /certifications/compare instead

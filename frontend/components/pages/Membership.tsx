@@ -10,8 +10,10 @@ import { useWebsiteData } from "@/services/WebsiteDataService";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import { FIELD_KEYS, defaultMembershipPageConfig, parseMembershipPageConfig } from "@pms/site-content";
 import Link from "next/link";
-import { BRAND, HOME_COPY } from "@/lib/brand-voice";
+import { BRAND, CTAS, HOME_COPY } from "@/lib/brand-voice";
 import { T176_MEMBERSHIP_NOTE } from '@/content/t176-claims';
+import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
+import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { MembershipDualPrice } from '@/components/MembershipDualPrice';
 import { useRegion } from '@/contexts/RegionContext';
@@ -182,12 +184,33 @@ export function Membership() {
             <p className="text-sm text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
               {T176_MEMBERSHIP_NOTE}
             </p>
+            <p className="text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium mt-4">
+              Membership supports learners who want ongoing structure, resources, and community. The first step for PMP 2026 candidates is still to request a readiness roadmap.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+              <PmpRoadmapCtaLink ctaLocation="hero" />
+              <WebsiteCalendlyButton
+                size="lg"
+                variant="outline"
+                className="h-14 px-8 rounded-2xl font-bold"
+                tier="discovery"
+                funnelLabel="membership_hero_mentor"
+                utm={{ utm_source: 'pmstructure', utm_medium: 'membership', utm_campaign: 'hero' }}
+              >
+                {CTAS.talkToAMentor}
+              </WebsiteCalendlyButton>
+              <Link href="/membership#plans">
+                <Button size="lg" variant="ghost" className="h-14 px-8 rounded-2xl font-bold">
+                  {CTAS.joinMembershipWaitlist}
+                </Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* Pricing Tiers */}
-      <section className="py-20 -mt-12 relative z-20">
+      <section id="plans" className="py-20 -mt-12 relative z-20">
         <div className="container mx-auto">
           <h2 className="text-2xl font-bold tracking-tight text-center mb-8 dark:text-white">Membership plans</h2>
           <MembershipBillingToggle

@@ -1,0 +1,4 @@
+Person_Name,Role,Public_Title,Can_Be_Author,Can_Be_Reviewer,Review_Areas,Credential_Display_Status,Approval_Status,Notes
+Sheikh M. Abdullah,Founder / author,"Founder, PM Structure",Yes,Yes,"PMP 2026 readiness; project management; certification pathway guidance; project governance",Approved by owner,Approved,"Use as author and reviewer unless a separate reviewer is appointed."
+Legal reviewer TBD,Legal reviewer,TBD,No,Yes,"Trademark; PMI/PRINCE2/Six Sigma disclaimers; legal claims; refund/payment wording",Pending,Required,"Needed before final legal/trademark wording is treated as legally reviewed."
+Mahaa,TBD / SEO reviewer,TBD,No,Yes,"SEO/GSC/GA4 validation; content publishing QA; competitor tracking",Pending,Pending,"Use only if owner confirms role/title."

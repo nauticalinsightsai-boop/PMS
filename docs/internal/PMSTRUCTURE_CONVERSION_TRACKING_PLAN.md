@@ -14,6 +14,11 @@ The goal is to measure qualified leads, roadmap requests, booking intent, checko
 
 This is an internal technical and marketing document. Do not publish it as a public page.
 
+**B03 consolidated governance:** [`PMSTRUCTURE_ANALYTICS_CONVERSION_SYSTEM.md`](PMSTRUCTURE_ANALYTICS_CONVERSION_SYSTEM.md)  
+**Event inventory:** [`pmstructure-event-map.csv`](pmstructure-event-map.csv)  
+**Reporting QA:** [`PMSTRUCTURE_GA4_GSC_REPORTING_QA.md`](PMSTRUCTURE_GA4_GSC_REPORTING_QA.md)  
+**Base GA4 setup:** [`PMSTRUCTURE_ANALYTICS_SETUP.md`](PMSTRUCTURE_ANALYTICS_SETUP.md)
+
 ---
 
 ## Primary Conversion Events
@@ -55,8 +60,9 @@ This is an internal technical and marketing document. Do not publish it as a pub
 | Booking | `track-booking-click.ts`, `open-themed-popup.ts` |
 | Contact | `TrackedContactLink`, `track-contact-click.ts` |
 | Waitlist | `WaitlistForm` |
-| Checkout | `begin_checkout` on live Stripe/checkout flows |
-| Purchase | `track-purchase-once.ts` on verified success pages |
+| Checkout | `begin_checkout` on live Stripe/checkout flows (cert, membership, store) |
+| Purchase | `track-purchase-once.ts` on verified success pages (enrollment, store, membership) |
+| Newsletter | `NewsletterSubscribeForm` — `sign_up` on success |
 
 Lead events fire in the **form submit handler** when `res.ok` — not on thank-you UI render (inline success only).
 

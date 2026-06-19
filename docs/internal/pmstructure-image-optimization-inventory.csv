@@ -1,0 +1,15 @@
+File_Path,Used_On_Page,Current_Format,Current_Size_KB,Dimensions,Recommended_Format,Recommended_Dimensions,LCP_Candidate,Lazy_Load,Alt_Text_Status,Optimization_Action,Implementation_Status,Notes
+frontend/public/brand/pms-icon.webp,Home; cert forms; BrandIconMark,webp,6,128x128 max,webp,128x128,yes,no,decorative empty,B08 compress + WebP,Implemented,Was 237KB PNG; backup pms-icon.source.png
+frontend/public/brand/pms-icon-dark.webp,Home dark; cert forms,webp,6,128x128 max,webp,128x128,yes,no,decorative empty,B08 compress + WebP,Implemented,Was 274KB PNG; backup pms-icon-dark.source.png
+frontend/public/brand/pms-icon.png,Fallback PNG,webp/png,5,128x128,png,128x128,yes,no,decorative empty,Optimized PNG retained,Implemented,Fallback if WebP unsupported
+frontend/public/brand/pms-icon-dark.png,Fallback dark,png,5,128x128,png,128x128,yes,no,decorative empty,Optimized PNG retained,Implemented,
+frontend/public/brand/pms-logo-light.png,Navbar; Footer,png,7,332x80,png,332x80,no,yes light priority,brand alt,Keep,Implemented,Already small
+frontend/public/brand/pms-logo-dark.png,Navbar dark,png,7,332x80,png,332x80,no,lazy,brand alt,Keep,Implemented,
+frontend/public/images/marketing/community-collab-600.webp,Home community grid,webp,2,600x600,webp,600x600,no,yes,B06 descriptive alt,Keep,Implemented,generate-marketing-images pipeline
+frontend/public/images/marketing/community-workshop-600.webp,Home community grid,webp,2,600x450,webp,600x450,no,yes,B06 alt,Keep,Implemented,
+frontend/public/images/marketing/community-mentor-600.webp,Home; Community,webp,2,600x450,webp,600x450,no,yes,B06 alt,Keep,Implemented,
+frontend/public/images/marketing/community-network-600.webp,Home community grid,webp,2,600x600,webp,600x600,no,yes,B06 alt,Keep,Implemented,
+frontend/public/images/marketing/mentorship-circle-900.webp,Community mentorship,webp,3,900x900,webp,900x900,no,yes,B06 alt,next/image B08,Implemented,
+frontend/public/images/marketing/pmp-avatar-*.webp,Testimonials,webp,1-2,96x96,webp,96x96,no,yes,role-based alt,Keep,Implemented,
+frontend/public/images/logo/*.png,/go/* portal pages,png,250-580,varies,webp,display size,no,yes,varies,Document future batch,Planned,Portal-only not priority funnel
+frontend/public/programme/pmp-foundation-roadmap.png,Programme pages,png,158,varies,webp,display size,no,yes,varies,Compress if on priority pages,Planned,Not primary funnel

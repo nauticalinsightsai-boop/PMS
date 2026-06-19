@@ -61,7 +61,10 @@ export const DISCLAIMERS = {
 
 export const CTAS = {
 
-  pathwayConsultation: 'Talk to Mentor',
+  /** Canonical secondary CTA (B12). */
+  talkToAMentor: 'Talk to a Mentor',
+
+  pathwayConsultation: 'Talk to a Mentor',
 
   pmpConsultation: 'Book PMP consultation',
 
@@ -91,21 +94,22 @@ export const CTAS = {
 
   browseResources: 'Browse resources',
 
-  navConsultation: 'Talk to Mentor',
+  navConsultation: 'Talk to a Mentor',
 
-  talkToMentor: 'Talk to Mentor',
+  /** @deprecated Prefer talkToAMentor */
+  talkToMentor: 'Talk to a Mentor',
 
   /** PM advisory / corporate services hero (distinct from exam-prep mentor CTAs). */
   talkToAdvisor: 'Talk to Advisor',
 
   /** Professional & Mastery pathway modal: mentor scheduling (≤5 words). */
-  pathwayMentorCta: 'Talk to your mentor',
+  pathwayMentorCta: 'Talk to a Mentor',
 
   /** Professional & Mastery enrollment CTA (≤5 words). */
   pathwayReserveSeat: 'Reserve your seat',
 
   /** Home hero Calendly consultation (≤5 words). */
-  websiteHeroConsultation: 'Talk to Mentor',
+  websiteHeroConsultation: 'Talk to a Mentor',
 
   /** T-169 flagship primary CTA (task copy; 6 words). */
   pmp2026Roadmap: 'Get My PMP 2026 Roadmap',
@@ -113,6 +117,14 @@ export const CTAS = {
   comparePathways: 'Compare Certification Pathways',
 
   joinWaitlist: 'Join Waitlist',
+
+  joinMembershipWaitlist: 'Join Membership Waitlist',
+
+  previewPathway: 'Preview Pathway',
+
+  requestCorporateCohortBrief: 'Request Corporate Cohort Brief',
+
+  requestMasteryReview: 'Request Mastery Review',
 
 } as const;
 

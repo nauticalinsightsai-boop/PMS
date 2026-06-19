@@ -17,6 +17,9 @@ export function assertCalendlySchedulingUrl(raw: string): string | null {
     const u = new URL(s);
     if (u.protocol !== 'https:' && u.protocol !== 'http:') return null;
     if (!isCalendlySchedulingHost(u.hostname)) return null;
+    if (u.protocol === 'http:') {
+      u.protocol = 'https:';
+    }
     return u.toString();
   } catch {
     return null;

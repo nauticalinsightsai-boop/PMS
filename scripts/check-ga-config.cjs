@@ -18,7 +18,8 @@ console.log(
   '○ Analytics loads after cookie consent (frontend/components/analytics/GoogleAnalytics.tsx)',
 );
 console.log(
-  '○ See docs/internal/PMSTRUCTURE_ANALYTICS_SETUP.md for verification steps',
+  '○ See docs/internal/PMSTRUCTURE_ANALYTICS_CONVERSION_SYSTEM.md and PMSTRUCTURE_GA4_GSC_REPORTING_QA.md',
 );
+console.log('○ Run: npm run seo:audit-analytics');
 
 if (!ok) process.exit(1);

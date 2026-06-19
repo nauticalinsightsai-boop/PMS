@@ -159,6 +159,29 @@ export const PMP_SUCCESS_JOURNEYS: readonly PmpSuccessJourney[] = [
   },
 ] as const;
 
+export const PMP_PACKAGE_TIER_POSITIONING = {
+  foundation: {
+    title: 'Foundation',
+    positioning:
+      'For candidates who need structure before committing to a full preparation path.',
+    cta: PMP_PROGRAM_CTA_LABEL,
+  },
+  professional: {
+    title: 'Professional',
+    positioning:
+      'For candidates who want guided preparation structure, review checkpoints, and accountability.',
+    cta: 'Talk to a Mentor',
+  },
+  mastery: {
+    title: 'Mastery',
+    positioning:
+      'For serious candidates or professionals who need deeper readiness support before exam booking.',
+    cta: 'Request Mastery Review',
+  },
+  fallback:
+    'Package details are being finalized. Request a roadmap first so we can recommend the right level of support.',
+} as const;
+
 /** @deprecated Import from @/config/pms-site instead. */
 export {
   PMS_WHATSAPP_DISPLAY as PMP_PROGRAM_WHATSAPP_DISPLAY,

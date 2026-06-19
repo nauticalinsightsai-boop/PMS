@@ -39,11 +39,11 @@ const hubs: TopicHubContent[] = [
       'Understand the PMP exam 2026 change, updated exam route, domain weighting, timeline decisions, and preparation structure with PM Structure.',
     h1: 'PMP Exam 2026 Guide',
     whatIs:
-      'The 2026 PMP narrative centers on a transition to an updated exam experience, commonly anchored around 9 July 2026. Verify all dates on PMI.org.',
+      'Direct summary: the PMP exam is going through a 2026 update. For candidates, the real question is not only what changed, but how to plan preparation. PM Structure orients you to the transition commonly anchored around 9 July 2026 — verify all dates on PMI.org before scheduling. What is changing should be reviewed against PMI’s official exam content outline and candidate guidance, not third-party summaries alone.',
     whyMatters:
-      'Timing your exam before or after the transition affects study emphasis, mock selection, and scheduling risk.',
+      'What the changes mean for candidates: you may need to review the correct exam content outline, avoid outdated study plans, align mocks with the correct exam version, and decide whether your target exam date falls before or after the transition. Should you take the exam before or after the update? There is no one-size-fits-all answer — it depends on preparation level, study time, and application readiness.',
     viewpoint:
-      'Our cluster pages explain before/after July decisions without inventing official domain weights. Cross-check PMI publications.',
+      'How PM Structure helps: we help candidates build a structured PMP 2026 readiness roadmap — where you are now, which exam version you target, what gaps remain, and how to sequence study, mocks, review, and exam booking. We do not guarantee outcomes and we are not PMI or an ATP unless formally stated.',
     resources: [
       { href: '/certifications/pmp', label: 'PMP 2026 Readiness Pathway' },
       { href: '/pmp-exam-2026', label: 'Main 2026 guide' },
@@ -51,22 +51,32 @@ const hubs: TopicHubContent[] = [
       { href: '/pmp-exam-timeline-2026', label: 'Timeline' },
       { href: '/pmp-before-8-july-2026', label: 'Before 8 July' },
       { href: '/pmp-after-9-july-2026', label: 'After 9 July' },
+      { href: '/faq', label: 'PM Structure FAQ' },
+      { href: '/certifications/compare', label: 'Compare certification pathways' },
     ],
     relatedAnswers: [
       { href: '/answers/is-the-pmp-exam-changing-in-2026', label: 'Is the exam changing?' },
       { href: '/answers/when-does-the-new-pmp-exam-start', label: 'When does the new exam start?' },
+      { href: '/answers/should-i-take-pmp-before-8-july-2026', label: 'Should I take PMP before 8 July 2026?' },
       { href: '/answers/should-i-rush-pmp-before-july-2026', label: 'Should I rush before July?' },
     ],
     howExamReadiness:
-      '2026 transition planning shows up in timing decisions, mock selection, and domain emphasis: verify every date on PMI.org before you schedule.',
+      'Study planning implications: key dates, domain emphasis, and mock selection must match the exam version you will sit. Key dates to verify include the effective date of the updated exam, final exam content outline, and eligibility language — all on PMI.org. Domain / ECO overview: do not rely on invented domain weights; verify the latest PMI Exam Content Outline before publishing percentages.',
     sourceTodo: 'Confirm PMP transition dates and ECO updates on PMI.org before treating any third-party summary as final.',
-    references: [{ label: 'PMI.org. PMP certification', href: 'https://www.pmi.org/certifications/project-management-pmp' }],
+    references: [
+      { label: 'PMI.org — PMP certification', href: 'https://www.pmi.org/certifications/project-management-pmp' },
+      {
+        label: 'PMI.org — updated PMP exam',
+        href: 'https://www.pmi.org/certifications/project-management-pmp/new-exam',
+      },
+    ],
     relatedCourses: [
       { href: '/pmp-foundation', label: 'PMP Foundation pathway' },
       { href: '/pmp-professional', label: 'PMP Professional pathway' },
     ],
-    ctaHref: '/pmp-exam-2026',
-    ctaLabel: 'Read the 2026 guide',
+    dateModified: '2026-06-19',
+    ctaHref: '/certifications/pmp#cert-roadmap-form',
+    ctaLabel: 'Get My PMP 2026 Roadmap',
   },
   {
     slug: 'pmp-readiness',
@@ -310,14 +320,14 @@ const hubs: TopicHubContent[] = [
     whyMatters:
       'Risk specialists and senior PMs use RMP to signal depth beyond general PMP coverage.',
     viewpoint:
-      'Confirm PMI eligibility and handbook requirements before enrolling in any prep pathway.',
+      'Secondary pathway: PMP 2026 remains the flagship offer. PMI-RMP support is waitlist and comparison interest only — confirm PMI eligibility and handbook requirements before enrolling.',
     resources: [
       { href: '/certifications/pmi-rmp', label: 'PMI-RMP certification page' },
       { href: '/topics/risk-management', label: 'Risk management hub' },
     ],
     relatedAnswers: [],
     ctaHref: '/certifications/pmi-rmp',
-    ctaLabel: 'PMI-RMP pathway',
+    ctaLabel: 'Join Waitlist',
   },
   {
     slug: 'prince2-preparation',
@@ -332,14 +342,16 @@ const hubs: TopicHubContent[] = [
     viewpoint:
       'Independent prep only: official exams and fees are booked through authorized channels.',
     resources: [
-      { href: '/certifications/prince2', label: 'PRINCE2 pathway' },
+      { href: '/certifications/pmp', label: 'PMP 2026 Readiness Pathway' },
+      { href: '/certifications/prince2-practitioner', label: 'PRINCE2 Practitioner (secondary)' },
+      { href: '/certifications/compare', label: 'Compare with PMP' },
       { href: '/answers/what-is-prince2-certification', label: 'What is PRINCE2?' },
     ],
     relatedAnswers: [
       { href: '/answers/what-is-prince2-certification', label: 'What is PRINCE2 certification?' },
     ],
-    ctaHref: '/certifications/prince2',
-    ctaLabel: 'PRINCE2 pathway',
+    ctaHref: '/certifications/prince2-practitioner',
+    ctaLabel: 'Join Waitlist',
   },
   {
     slug: 'six-sigma-preparation',
@@ -352,16 +364,18 @@ const hubs: TopicHubContent[] = [
     whyMatters:
       'Operations, quality, and engineering roles often require Green Belt or higher.',
     viewpoint:
-      'Start with Green Belt unless your employer specifies otherwise; verify exam body for your belt.',
+      'PM Structure is prioritizing PMP 2026 readiness. Lean Six Sigma pathways are secondary — waitlist and comparison support only. Verify exam body and belt requirements before enrolling.',
     resources: [
-      { href: '/certifications/lss-green', label: 'Green Belt pathway' },
+      { href: '/certifications/pmp', label: 'PMP 2026 Readiness Pathway' },
+      { href: '/certifications/lss-yellow', label: 'Lean Six Sigma Yellow (secondary)' },
+      { href: '/certifications/compare', label: 'Compare with PMP' },
       { href: '/answers/what-is-lean-six-sigma-green-belt', label: 'What is Green Belt?' },
     ],
     relatedAnswers: [
       { href: '/answers/what-is-lean-six-sigma-green-belt', label: 'Green Belt answer' },
     ],
-    ctaHref: '/certifications/lss-green',
-    ctaLabel: 'Green Belt pathway',
+    ctaHref: '/certifications/lss-yellow',
+    ctaLabel: 'Join Waitlist',
   },
   {
     slug: 'exam-readiness',

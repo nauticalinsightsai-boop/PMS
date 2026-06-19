@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useCallback } from 'react';
+import { Suspense, useCallback, useRef } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { StripeEmbeddedCheckoutPanel } from '@/components/checkout/StripeEmbeddedCheckoutPanel';
@@ -13,6 +13,8 @@ import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { getRegionalMembershipAmounts } from '@/lib/membership-regional-pricing';
 import { createMembershipEmbeddedCheckout } from '@/services/checkout';
 import { cn } from '@/lib/utils';
+import { PMS_EVENTS } from '@/lib/analytics/pms-events';
+import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 
 function isValidTier(tier: string | null): tier is MembershipCheckoutTier {
   return tier === 'professional' || tier === 'mastery';
@@ -31,6 +33,16 @@ function MembershipCheckoutContent() {
 
   const tier = isValidTier(tierParam) ? tierParam : null;
   const billing = isValidBilling(billingParam) ? billingParam : 'monthly';
+  const beginCheckoutFired = useRef(false);
+
+  const handleCheckoutReady = useCallback(() => {
+    if (beginCheckoutFired.current) return;
+    beginCheckoutFired.current = true;
+    pushAnalyticsEvent(PMS_EVENTS.BEGIN_CHECKOUT, {
+      package_type: 'membership',
+      page_path: typeof window !== 'undefined' ? window.location.pathname : '/membership/checkout',
+    });
+  }, []);
 
   const loadClientSecret = useCallback(async () => {
     if (!tier) return null;
@@ -95,6 +107,7 @@ function MembershipCheckoutContent() {
           <StripeEmbeddedCheckoutPanel
             loadClientSecret={loadClientSecret}
             deps={[tier, billing, regionId, gccCountry, colorScheme]}
+            onReady={handleCheckoutReady}
           />
         </div>
 

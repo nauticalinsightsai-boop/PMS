@@ -2,7 +2,7 @@
 
 > Independent exam preparation and structured readiness across PMI, PRINCE2, and Lean Six Sigma.
 
-lastUpdated: 2026-06-18
+lastUpdated: 2026-06-19
 version: 1.0.0
 
 ## Canonical site

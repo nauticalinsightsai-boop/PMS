@@ -1,6 +1,6 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 /** Legacy URL: canonical route is /certifications/compare */
 export default function CompareRedirectPage() {
-  redirect('/certifications/compare');
+  permanentRedirect('/certifications/compare');
 }

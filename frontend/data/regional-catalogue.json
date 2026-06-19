@@ -130,37 +130,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -226,37 +226,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Enroll Now",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -322,37 +322,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -418,37 +418,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -514,37 +514,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -610,37 +610,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -706,37 +706,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -802,37 +802,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -898,37 +898,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -994,37 +994,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1090,37 +1090,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -1186,37 +1186,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1282,37 +1282,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1378,37 +1378,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -1474,37 +1474,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1570,37 +1570,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -1666,37 +1666,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1762,37 +1762,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -1858,37 +1858,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -1954,37 +1954,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2050,37 +2050,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -2146,37 +2146,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2242,37 +2242,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -2338,37 +2338,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2434,37 +2434,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2530,37 +2530,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -2626,37 +2626,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2722,37 +2722,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -2818,37 +2818,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -2914,37 +2914,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3010,37 +3010,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3106,37 +3106,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -3202,37 +3202,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3298,37 +3298,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3394,37 +3394,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -3490,37 +3490,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3586,37 +3586,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3682,37 +3682,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -3778,37 +3778,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3874,37 +3874,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -3970,37 +3970,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -4066,37 +4066,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4162,37 +4162,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4258,37 +4258,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -4354,37 +4354,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4450,37 +4450,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -4546,37 +4546,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4642,37 +4642,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4738,37 +4738,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4834,37 +4834,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -4930,37 +4930,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -5026,37 +5026,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -5122,37 +5122,37 @@
         "global": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "direct_checkout",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         },
         "pakistan": {
           "status": "scholarship_verify",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Regional scholarship pricing applies only when residence and billing country match this region."
         }
       },
@@ -5218,37 +5218,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },
@@ -5314,37 +5314,37 @@
         "global": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "europe": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "uk": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "gcc": {
           "status": "consultation_required",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": null
         },
         "india": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "India Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         },
         "pakistan": {
           "status": "scholarship_unavailable",
           "primaryCta": "Reserve your seat",
-          "secondaryCta": "Talk to your mentor",
+          "secondaryCta": "Talk to a Mentor",
           "regionMessage": "Pakistan Regional Scholarship Pricing is not available for this mentor-led tier. You may request a scholarship review, join the waitlist, or enroll at the Global price."
         }
       },

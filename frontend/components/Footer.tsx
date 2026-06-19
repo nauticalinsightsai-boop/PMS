@@ -46,12 +46,16 @@ const FOOTER_SOCIAL_ICONS: Record<(typeof FOOTER_SOCIAL_LINKS)[number]['id'], Lu
 const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
   { label: 'Certifications', href: '/certifications' },
   { label: 'Compare pathways', href: '/certifications/compare', highlight: true },
+  { label: 'FAQ', href: '/faq' },
+  { label: 'PM Service', href: '/pm-service' },
   { label: 'Resource store', href: '/community?view=store' },
   { label: 'Membership', href: '/membership' },
 ];
 
 const RESOURCES_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
-  { label: 'PMP 2026 Readiness', href: '/pmp-exam-2026', highlight: true },
+  { label: 'PMP 2026 Readiness', href: '/certifications/pmp', highlight: true },
+  { label: 'PMP exam guide', href: '/pmp-exam-2026' },
+  { label: 'PMP Exam 2026 Topics', href: '/topics/pmp-exam-2026' },
   { label: 'Answers', href: '/answers' },
   { label: 'Topics', href: '/topics' },
   { label: 'Newsletter', href: '/newsletter' },
@@ -202,6 +206,9 @@ export function Footer() {
               {item.shortLabel}
             </Link>
           ))}
+          <Link href="/sitemap" className="hover:text-brand-orange transition-colors">
+            Sitemap
+          </Link>
         </nav>
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-carbon dark:text-slate-500 font-medium">
           <span>© {new Date().getFullYear()} {BRAND.name}. All rights reserved.</span>

@@ -53,7 +53,7 @@ export const PMS_ONBOARDING_CALENDLY_URL =
   process.env.NEXT_PUBLIC_ONBOARDING_CALENDLY_URL?.trim() ||
   'https://calendly.com/pm-structure/talk-to-mentor';
 
-/** Primary “Talk to Mentor” scheduling link (live Calendly event). */
+/** Primary “Talk to a Mentor” scheduling link (live Calendly event). */
 export const PMS_TALK_TO_MENTOR_CALENDLY_URL =
   process.env.NEXT_PUBLIC_TALK_TO_MENTOR_CALENDLY_URL?.trim() ||
   'https://calendly.com/pm-structure/talk-to-mentor';

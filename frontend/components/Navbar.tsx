@@ -11,9 +11,9 @@ import { cn } from "@/lib/utils";
 
 const MAIN_NAV_LINKS = [
   { label: "Certifications", href: "/certifications" },
-  { label: "PMP 2026", href: "/pmp-exam-2026" },
+  { label: "PMP 2026", href: "/certifications/pmp" },
   { label: "Compare Pathways", href: "/certifications/compare" },
-  { label: "Resources", href: "/answers" },
+  { label: "FAQ", href: "/faq" },
   { label: "Community", href: "/community" },
 ] as const;
 
@@ -31,8 +31,8 @@ function isNavLinkActive(pathname: string, href: string) {
   if (href === "/certifications/compare") {
     return pathname === "/certifications/compare";
   }
-  if (href === "/pmp-exam-2026") {
-    return pathname === "/pmp-exam-2026";
+  if (href === "/certifications/pmp") {
+    return pathname === "/certifications/pmp";
   }
   return pathname === href || pathname.startsWith(`${href}/`);
 }

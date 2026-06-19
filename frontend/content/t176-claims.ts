@@ -41,7 +41,7 @@ export const T176_MEMBERSHIP_NOTE =
   'Membership is a support layer for preparation resources, community access where available, and structured learning support. It does not replace official certification-body requirements, exam applications, or exam fees.';
 
 export const T176_COMMUNITY_NOTE =
-  'The PM Structure community is being organized as a support space for structured preparation, accountability, and discussion. Final access details will be confirmed before launch.';
+  'Community access for structured PMP 2026 preparation is managed through Skool where applicable. Access details are shared after roadmap review or cohort confirmation.';
 
 export const T176_STORE_WAITLIST_NOTE =
   'This resource is being prepared and is not yet available for purchase. Join the waitlist to be notified when access opens.';
@@ -57,6 +57,9 @@ export const T176_SOCIAL_PROOF_REGIONAL =
 
 export const T176_TESTIMONIAL_PLACEHOLDER =
   'Verified learner stories are being collected and will be added after permission is confirmed.';
+
+export const T176_SCHOLARSHIP_SAFE_BLOCK =
+  'Limited scholarship seats may be available for selected candidates or early cohorts. Scholarship access is reviewed based on readiness fit, region, cohort capacity, and PM Structure\u2019s current delivery schedule.';
 
 export const T176_SEO = {
   homeDescription:
@@ -97,7 +100,8 @@ export const T176_FAQS = [
   },
   {
     id: 't176-faq-35-pdu',
-    question: 'Does PM Structure provide 35 PDUs for PMP eligibility?',
+    question:
+      'Does PM Structure provide 35 hours of project management education/training for PMP eligibility?',
     answer:
       'For PMP exam eligibility, the safer wording is project management education/training hours, not PDUs. PDUs are generally used for maintaining an existing PMI certification after someone has already earned it. PM Structure can help candidates understand the PMP training-hour requirement and organize their preparation record, but candidates should verify current eligibility rules directly with PMI before applying.',
   },

@@ -75,7 +75,7 @@ export function RegisterModal({ trigger, recoveryVariant = 'register_modal_parti
         email,
         formContext: {
           formId: 'register_modal',
-          formLabel: 'Talk to Mentor modal',
+          formLabel: 'Talk to a Mentor modal',
           pagePath,
           siteCertId: certId,
           certName: certLabel,

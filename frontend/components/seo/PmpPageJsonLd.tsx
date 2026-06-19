@@ -1,7 +1,8 @@
 import { PMS_SITE_URL } from '@/config/pms-site';
+import { breadcrumbItemsToSchema } from '@/components/navigation/breadcrumb-schema';
+import { getPmpPageBreadcrumbs } from '@/content/site-architecture/routes';
 import {
   buildArticleSchema,
-  buildBreadcrumbSchema,
   buildFaqPageSchema,
   buildWebPageSchema,
 } from '@/lib/schema';
@@ -31,11 +32,7 @@ export function PmpPageJsonLd({ page }: { page: PmpPageContent }) {
       headline: page.h1,
       description: page.description,
     }),
-    buildBreadcrumbSchema([
-      { name: 'Home', path: '/' },
-      { name: 'PMP', path: '/pmp' },
-      { name: page.h1, path: page.path },
-    ]),
+    breadcrumbItemsToSchema(getPmpPageBreadcrumbs(page), page.path),
   ];
 
   if (faqSchemaItems.length) {

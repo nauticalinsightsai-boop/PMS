@@ -19,7 +19,7 @@ type Props = {
   includeCompare?: boolean;
   /** Pro final CTA row: email + certificates only. */
   proFinalRow?: boolean;
-  mentorCta?: { label: string; href: string };
+  mentorCta?: { label: string; href: string; onClick?: () => void };
 };
 
 type ChipId = 'store' | 'certificates' | 'compare' | 'membership';
@@ -152,6 +152,7 @@ export default function PortalSiteChips({
         {mentorCta ? (
           <a
             href={mentorCta.href}
+            onClick={() => mentorCta.onClick?.()}
             className={cn(
               'flex min-w-0 flex-1 items-center justify-center gap-1.5 text-meta font-semibold px-3 py-1.5 transition-opacity hover:opacity-90',
             )}

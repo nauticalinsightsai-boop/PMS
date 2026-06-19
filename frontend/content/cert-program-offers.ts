@@ -174,10 +174,13 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
     ),
   ),
 
-  'pmi-rmp': offer(
-    'PMI-RMP®',
-    'Risk specialist pathway: structured coaching through 40 hours of risk education, qualitative/quantitative practice, and exam day.',
-    [
+  'pmi-rmp': {
+    differentiatorHeadline: PREPARATION_WINDOW_HEADLINE,
+    differentiatorSubline:
+      'Secondary pathway: PMI-RMP® support for waitlist interest. PMP 2026 remains the flagship offer — compare pathways before committing.',
+    ctaLabel: 'Join Waitlist',
+    finalCtaSubtitle: FINAL_CTA_SUBTITLE,
+    highlights: [
       ...pmiPack('PMI-RMP®', 'risk planning and response strategies', '40 hours of project risk education').slice(
         0,
         3,
@@ -200,7 +203,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
         description: 'Risk formula and scenario rapid-review pack before your PMI-RMP sitting.',
       },
     ],
-  ),
+  },
 
   'pmi-pba': offer(
     'PMI-PBA®',
@@ -262,15 +265,18 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
     ),
   ),
 
-  pgmp: offer(
-    'PgMP®',
-    'Program management leadership: panel-review preparation, benefits governance coaching, and PgMP exam readiness.',
-    pmiPack(
+  pgmp: {
+    differentiatorHeadline: PREPARATION_WINDOW_HEADLINE,
+    differentiatorSubline:
+      'Secondary pathway: PgMP® support for waitlist interest. PMP 2026 remains the flagship offer — compare pathways before committing.',
+    ctaLabel: 'Join Waitlist',
+    finalCtaSubtitle: FINAL_CTA_SUBTITLE,
+    highlights: pmiPack(
       'PgMP®',
       'program strategy alignment, benefits management, and governance structures',
       'program experience documentation and panel review',
     ),
-  ),
+  },
 
   pfmp: offer(
     'PfMP®',
@@ -291,14 +297,17 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
     ),
   ),
 
-  'prince2-practitioner': offer(
-    'PRINCE2® 7 Practitioner',
-    'Practitioner-level governance: scenario coaching, tailoring practice, and open-book exam preparation.',
-    prince2Pack(
+  'prince2-practitioner': {
+    differentiatorHeadline: PREPARATION_WINDOW_HEADLINE,
+    differentiatorSubline:
+      'Secondary pathway: PM Structure is prioritizing PMP 2026 readiness. PRINCE2 Practitioner prep is available for waitlist and comparison interest.',
+    ctaLabel: 'Join Waitlist',
+    finalCtaSubtitle: FINAL_CTA_SUBTITLE,
+    highlights: prince2Pack(
       'PRINCE2® 7 Practitioner',
       'Practitioner Scenario & Open-Book Drills',
     ),
-  ),
+  },
 
   'prince2-agile': offer(
     'PRINCE2 Agile® Foundation',
@@ -351,14 +360,17 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
     ),
   ),
 
-  'lss-yellow': offer(
-    'Six Sigma Yellow Belt (CSSYB)',
-    'Foundational belt: build DMAIC support skills, root-cause tools, and CSSYB exam readiness with ASQ-aligned practice.',
-    sixSigmaPack(
+  'lss-yellow': {
+    differentiatorHeadline: PREPARATION_WINDOW_HEADLINE,
+    differentiatorSubline:
+      'Secondary pathway: Lean Six Sigma Yellow Belt support for waitlist interest. PMP 2026 remains the flagship offer.',
+    ctaLabel: 'Join Waitlist',
+    finalCtaSubtitle: FINAL_CTA_SUBTITLE,
+    highlights: sixSigmaPack(
       'Six Sigma Yellow Belt',
       'fundamentals, data collection, and team support roles',
     ),
-  ),
+  },
 
   'lss-green': offer(
     'Six Sigma Green Belt (CSSGB)',
@@ -369,14 +381,17 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
     ),
   ),
 
-  'lss-black': offer(
-    'Six Sigma Black Belt (CSSBB)',
-    'Advanced improvement leadership. DOE, enterprise deployment, and CSSBB exam prep with affidavit project coaching.',
-    sixSigmaPack(
+  'lss-black': {
+    differentiatorHeadline: PREPARATION_WINDOW_HEADLINE,
+    differentiatorSubline:
+      'Secondary pathway: Lean Six Sigma Black Belt support for waitlist interest. Verify belt requirements with your target certifying body.',
+    ctaLabel: 'Join Waitlist',
+    finalCtaSubtitle: FINAL_CTA_SUBTITLE,
+    highlights: sixSigmaPack(
       'Six Sigma Black Belt',
       'advanced stats, enterprise deployment, and cross-functional leadership',
     ),
-  ),
+  },
 
   'lss-master': offer(
     'Master Black Belt (CMBB)',

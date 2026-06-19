@@ -12,7 +12,8 @@ export const ROBOTS_NOINDEX_NOFOLLOW: NonNullable<Metadata['robots']> = {
   follow: false,
 };
 
-/** Path prefixes that must never appear in sitemaps or organic index. */
+/** Path prefixes that must never appear in sitemaps or organic index.
+ *  Governance matrix: frontend/content/indexation/strategy.ts (T-038) */
 export const NOINDEX_PATH_PREFIXES = [
   '/admin',
   '/checkout',
