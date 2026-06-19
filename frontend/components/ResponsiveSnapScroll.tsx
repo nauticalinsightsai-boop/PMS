@@ -157,7 +157,6 @@ export function ResponsiveSnapScroll({
           className={cn(
             'hidden w-full md:grid',
             gapClassName,
-            'md:mx-0 md:px-0',
             desktopLayoutClassName,
             className,
           )}

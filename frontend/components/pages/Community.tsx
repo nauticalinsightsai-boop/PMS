@@ -108,18 +108,6 @@ function CommunityNetworkContent({
     setRegisterOpen(true);
   };
 
-  const openEventsCalendarRegistration = () => {
-    setRegisterContext({
-      headline: 'Live sessions & events',
-      subject: 'Event calendar interest',
-      eventType: 'Calendar',
-      formId: 'community_events_calendar',
-      formLabel: 'Community events calendar',
-      placement: 'Community events: View Full Calendar',
-    });
-    setRegisterOpen(true);
-  };
-
   return (
     <>
       {/* Community Channels */}
@@ -239,19 +227,9 @@ function CommunityNetworkContent({
       <section className={sectionSurface('cool', 'py-32')}>
         <SectionAmbience tone="cool" />
         <div className="container relative z-10 mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">Live Sessions & Events</h2>
-              <p className="text-lg text-slate-500 dark:text-slate-400 mt-4 font-medium">Join our upcoming interactive workshops and networking mixers.</p>
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              className="rounded-xl border-slate-200 dark:border-slate-800 h-12 px-6 font-bold text-base"
-              onClick={openEventsCalendarRegistration}
-            >
-              View Full Calendar
-            </Button>
+          <div className="mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">Live Sessions & Events</h2>
+            <p className="text-lg text-slate-500 dark:text-slate-400 mt-4 font-medium">Join our upcoming interactive workshops and networking mixers.</p>
           </div>
           
           <ResponsiveSnapScroll
@@ -282,12 +260,12 @@ function CommunityNetworkContent({
                       <span>Host: {event.host}</span>
                     </div>
                   </div>
-                  <div className="px-8 py-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex justify-end items-center">
+                  <div className="px-8 py-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
                     <Button
                       type="button"
                       size="sm"
                       variant="brand"
-                      className="rounded-lg h-10 px-4 font-bold text-xs"
+                      className="w-full rounded-lg h-10 px-4 font-bold text-xs"
                       onClick={() => openEventRegistration(event)}
                     >
                       Register Now

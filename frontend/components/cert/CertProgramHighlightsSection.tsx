@@ -24,6 +24,7 @@ import {
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { trackRoadmapCtaClick } from '@/lib/analytics/track-roadmap-cta';
+import { REGION_COPY } from '@/lib/brand-voice';
 
 const HIGHLIGHT_ICONS: Record<string, typeof Video> = {
   'live-training': Video,
@@ -50,6 +51,16 @@ type CertProgramHighlightsProps = {
 const certRoadmapCtaClassName =
   'inline-flex min-h-14 h-auto w-full items-center justify-center whitespace-normal px-5 py-3 text-center text-base font-bold leading-snug shadow-lg shadow-brand-orange/25 sm:w-auto sm:px-8 sm:py-0 sm:whitespace-nowrap sm:text-base';
 
+function resolveCertRoadmapCtaLabels(label: string, mobileLabel: string) {
+  if (label === REGION_COPY.joinWaitlist) {
+    return {
+      desktop: REGION_COPY.talkToAMentor,
+      mobile: REGION_COPY.talkToAMentor,
+    };
+  }
+  return { desktop: label, mobile: mobileLabel };
+}
+
 export function CertRoadmapCta({
   anchor: _anchor,
   label,
@@ -67,6 +78,8 @@ export function CertRoadmapCta({
   ctaLocation?: 'pricing' | 'body' | 'hero';
   siteCertId?: string;
 }) {
+  const display = resolveCertRoadmapCtaLabels(label, mobileLabel);
+
   return (
     <WebsiteCalendlyButton
       tier="discovery"
@@ -76,7 +89,7 @@ export function CertRoadmapCta({
         utm_medium: 'cert_detail',
         utm_campaign: siteCertId,
       }}
-      onBeforeOpen={() => trackRoadmapCtaClick({ ctaText: label, ctaLocation })}
+      onBeforeOpen={() => trackRoadmapCtaClick({ ctaText: display.desktop, ctaLocation })}
       className={cn(
         buttonVariants({ size: 'lg', variant: 'brand' }),
         certRoadmapCtaClassName,
@@ -84,8 +97,8 @@ export function CertRoadmapCta({
         className,
       )}
     >
-      <span className="sm:hidden">{mobileLabel}</span>
-      <span className="hidden sm:inline">{label}</span>
+      <span className="sm:hidden">{display.mobile}</span>
+      <span className="hidden sm:inline">{display.desktop}</span>
     </WebsiteCalendlyButton>
   );
 }
