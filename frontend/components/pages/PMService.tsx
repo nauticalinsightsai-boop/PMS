@@ -151,7 +151,7 @@ export function PMService() {
         <SectionAmbience tone="blend" />
         <div className="container relative z-10 mx-auto max-w-4xl">
           <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-            Proposed package — owner approval required
+            Proposed package: owner approval required
           </Badge>
           <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
             PMP 2026 Corporate Readiness Cohort

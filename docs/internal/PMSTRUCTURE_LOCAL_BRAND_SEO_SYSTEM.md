@@ -46,7 +46,7 @@ Previously `PMS_OFFICE_LOCATIONS` (Dubai, London) rendered with MapPin in Footer
 | Theme favicon sync | OK | No change |
 | `favicon.ico` | Missing | Owner optional |
 | `site.webmanifest` | Missing | Defer unless PWA needed |
-| `/og/default.png` | Missing | Fallback to `/brand/pms-icon.png` via `PMS_OG_IMAGE_PATH` |
+| `/og/default.png` | OK | Generated via `npm run generate:marketing-images` (1200×630) |
 
 ## Social-link plan
 

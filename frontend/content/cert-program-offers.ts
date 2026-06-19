@@ -177,7 +177,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
   'pmi-rmp': {
     differentiatorHeadline: PREPARATION_WINDOW_HEADLINE,
     differentiatorSubline:
-      'Secondary pathway: PMI-RMP® support for waitlist interest. PMP 2026 remains the flagship offer — compare pathways before committing.',
+      'Secondary pathway: PMI-RMP® support for waitlist interest. PMP 2026 remains the flagship offer; compare pathways before committing.',
     ctaLabel: 'Join Waitlist',
     finalCtaSubtitle: FINAL_CTA_SUBTITLE,
     highlights: [
@@ -268,7 +268,7 @@ export const CERT_PROGRAM_OFFERS: Record<string, CertProgramOffer> = {
   pgmp: {
     differentiatorHeadline: PREPARATION_WINDOW_HEADLINE,
     differentiatorSubline:
-      'Secondary pathway: PgMP® support for waitlist interest. PMP 2026 remains the flagship offer — compare pathways before committing.',
+      'Secondary pathway: PgMP® support for waitlist interest. PMP 2026 remains the flagship offer; compare pathways before committing.',
     ctaLabel: 'Join Waitlist',
     finalCtaSubtitle: FINAL_CTA_SUBTITLE,
     highlights: pmiPack(

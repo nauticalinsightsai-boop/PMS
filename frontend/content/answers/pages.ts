@@ -36,11 +36,11 @@ const pages: AnswerPageContent[] = [
     dateModified: '2026-06-19',
     references: [
       {
-        label: 'PMI — PMP certification',
+        label: 'PMI: PMP certification',
         url: 'https://www.pmi.org/certifications/project-management-pmp',
       },
       {
-        label: 'PMI — updated PMP exam',
+        label: 'PMI: updated PMP exam',
         url: 'https://www.pmi.org/certifications/project-management-pmp/new-exam',
       },
     ],

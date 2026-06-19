@@ -159,20 +159,20 @@ export function isWhatsAppConfigured(): boolean {
   }
 }
 
-/** Online-first regional support note (B12/B14 — no physical office location pins). */
+/** Online-first regional support note (B12/B14 - no physical office location pins). */
 export const PMS_REGIONAL_SUPPORT_NOTE =
   'PM Structure supports GCC-based, South Asian, and global project professionals through online readiness support, roadmap guidance, and corporate cohort planning.';
 
-/** @deprecated B14 — removed misleading city pins; use {@link PMS_REGIONAL_SUPPORT_NOTE}. */
+/** @deprecated B14 - removed misleading city pins; use {@link PMS_REGIONAL_SUPPORT_NOTE}. */
 export type PmsOfficeLocation = {
   city: string;
   region: string;
 };
 
-/** @deprecated B14 — empty; do not render MapPin location lists. */
+/** @deprecated B14 - empty; do not render MapPin location lists. */
 export const PMS_OFFICE_LOCATIONS: readonly PmsOfficeLocation[] = [] as const;
 
-/** @deprecated B14 — use {@link PMS_REGIONAL_SUPPORT_NOTE} instead. */
+/** @deprecated B14 - use {@link PMS_REGIONAL_SUPPORT_NOTE} instead. */
 export function formatOfficeLocation(loc: PmsOfficeLocation): string {
   return `${loc.city}, ${loc.region}`;
 }

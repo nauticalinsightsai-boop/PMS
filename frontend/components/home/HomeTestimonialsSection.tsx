@@ -13,7 +13,7 @@ import { T176_TESTIMONIAL_PLACEHOLDER } from '@/content/t176-claims';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
-const PERMISSION_PENDING_LABEL = 'Learner feedback — permission pending';
+const PERMISSION_PENDING_LABEL = 'Learner feedback: permission pending';
 
 export type HomeTestimonial = {
   id: string;

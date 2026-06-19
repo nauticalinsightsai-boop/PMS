@@ -232,19 +232,19 @@ function configForPublicPath(path: string, pageType: string, notes?: string): Pa
 
   if (['/community', '/membership', '/pm-service'].includes(normalized)) {
     decision = 'needs_review';
-    reason = 'Public marketing page — index if content quality confirmed';
+    reason = 'Public marketing page: index if content quality confirmed';
     ownerApproval = 'Owner review';
   }
 
   if (normalized.startsWith('/go/')) {
     decision = 'needs_review';
-    reason = 'Published portal page — index if published; review crawl budget';
+    reason = 'Published portal page: index if published; review crawl budget';
     ownerApproval = 'Owner review';
     notes = notes ?? '41+ portal routes; see PMSTRUCTURE_IMPLEMENTATION_RISK_REGISTER R05';
   }
 
   if (normalized === '/pmp') {
-    notes = notes ?? 'Supporting PMP hub — distinct from /certifications/pmp commercial page (T-032)';
+    notes = notes ?? 'Supporting PMP hub: distinct from /certifications/pmp commercial page (T-032)';
   }
 
   if (normalized === '/certifications/pmp') {
@@ -275,7 +275,7 @@ function configForUtilityPath(path: string, pageType: string): PageIndexationCon
     follow: false,
     includeInSitemap: false,
     priority: 'P0',
-    reason: 'Utility, payment, or private surface — must not rank',
+    reason: 'Utility, payment, or private surface: must not rank',
     dataSource: 'Route inventory + indexing-metadata.ts',
     ownerApproval: 'Not required',
     implementationStatus: 'Implemented',
@@ -285,13 +285,13 @@ function configForUtilityPath(path: string, pageType: string): PageIndexationCon
 function configForNotInRepo(path: string): PageIndexationConfig {
   return baseRow({
     path,
-    pageType: 'Spec example — not in repo',
+    pageType: 'Spec example: not in repo',
     decision: 'needs_review',
     index: false,
     follow: false,
     includeInSitemap: false,
     priority: 'Owner',
-    reason: 'Route not found in codebase — owner decision if GSC/crawl shows traffic',
+    reason: 'Route not found in codebase: owner decision if GSC/crawl shows traffic',
     dataSource: 'T-038 spec example',
     ownerApproval: 'Required',
     implementationStatus: 'Not in repo',
@@ -353,7 +353,7 @@ export function getAllIndexationStrategyRows(): IndexationStrategyRow[] {
       configForPublicPath(
         path,
         path === '/pmp' ? 'PMP hub' : 'PMP cluster guide',
-        path === '/pmp-exam-2026' ? 'Supporting deep guide — not primary nav target (T-032)' : undefined,
+        path === '/pmp-exam-2026' ? 'Supporting deep guide: not primary nav target (T-032)' : undefined,
       ),
     );
   }

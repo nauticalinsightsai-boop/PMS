@@ -8,7 +8,7 @@ export type HtmlSitemapSection = {
   links: HtmlSitemapLink[];
 };
 
-/** Curated public indexable pages for /sitemap — not an auto-dump of all routes. */
+/** Curated public indexable pages for /sitemap - not an auto-dump of all routes. */
 export const HTML_SITEMAP_SECTIONS: HtmlSitemapSection[] = [
   {
     title: 'PMP 2026 readiness',

@@ -107,7 +107,7 @@ const pages: PmpPageContent[] = [
         id: 'roadmap-steps',
         heading: T169_ROADMAP_STEPS.heading,
         body: T169_ROADMAP_STEPS.steps
-          .map((step, index) => `**${index + 1}. ${step.title}** — ${step.body}`)
+          .map((step, index) => `**${index + 1}. ${step.title}**: ${step.body}`)
           .join('\n\n'),
       },
       {

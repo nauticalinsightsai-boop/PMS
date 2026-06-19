@@ -59,7 +59,7 @@ export function PmpProgramSocialProofSection({
             Learner feedback
           </h2>
           <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-6">
-            Permission pending — not verified testimonials
+            Permission pending: not verified testimonials
           </p>
           <p className="text-base font-medium leading-relaxed text-slate-600 dark:text-slate-400 mb-10">
             {T176_TESTIMONIAL_PLACEHOLDER}

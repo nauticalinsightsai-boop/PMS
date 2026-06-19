@@ -171,6 +171,7 @@ for (const asset of [
   'app/apple-icon.png',
   'public/brand/pms-icon.png',
   'public/brand/pms-icon-dark.png',
+  'public/og/default.png',
 ]) {
   const p = path.join(frontend, asset);
   if (!fs.existsSync(p)) {

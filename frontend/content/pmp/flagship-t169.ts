@@ -1,4 +1,4 @@
-/** T-169 flagship copy — use exactly as provided unless a component has a hard limit. */
+/** T-169 flagship copy - use exactly as provided unless a component has a hard limit. */
 
 import { T176_LSS_CARD_BODY, T176_PRINCE2_CARD_BODY } from '@/content/t176-claims';
 
@@ -10,15 +10,15 @@ export const PMP_2026_SOURCE_NOTE =
 export const PMP_2026_PMI_SOURCE_LINKS = [
   {
     href: 'https://www.pmi.org/certifications/project-management-pmp/new-exam',
-    label: 'PMI — updated PMP exam',
+    label: 'PMI: updated PMP exam',
   },
   {
     href: 'https://www.pmi.org/certifications/project-management-pmp',
-    label: 'PMI — PMP certification',
+    label: 'PMI: PMP certification',
   },
   {
     href: 'https://www.pmi.org/certifications/project-management-pmp/pmp-exam-preparation',
-    label: 'PMI — PMP exam preparation',
+    label: 'PMI: PMP exam preparation',
   },
 ] as const;
 

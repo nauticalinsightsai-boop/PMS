@@ -1,4 +1,4 @@
-/** T-176 compliance copy — use exactly as provided unless a component has a hard limit. */
+/** T-176 compliance copy - use exactly as provided unless a component has a hard limit. */
 
 export const T176_LAST_REVIEWED = '18 June 2026';
 
