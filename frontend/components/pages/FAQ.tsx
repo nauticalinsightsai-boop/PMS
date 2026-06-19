@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Search, HelpCircle, Mail, MessageCircle } from 'lucide-react';
-import { useWebsiteData } from '@/services/WebsiteDataService';
+import { globalContentString, type GlobalContentMap } from '@/lib/cms/global-content';
 import { CTAS } from '@/lib/brand-voice';
 import { PMS_SUPPORT_EMAIL, getPmsWhatsAppDisplay, getPmsWhatsAppUrl, isWhatsAppConfigured } from '@/config/pms-site';
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
@@ -27,8 +27,7 @@ import { MARKETING_PAGE_IMAGES } from '@/lib/marketing-stock-images';
 
 const DEFAULT_TAB = FAQ_HUB_SECTIONS[0]?.id ?? 'about-pathways';
 
-export function FAQ() {
-  const { get } = useWebsiteData();
+export function FAQ({ globalContent }: { globalContent?: GlobalContentMap }) {
   const searchParams = useSearchParams();
   const tabFromUrl = searchParams.get('tab');
   const [activeTab, setActiveTab] = React.useState(
@@ -74,16 +73,17 @@ export function FAQ() {
               <div className="inline-flex p-3 rounded-2xl bg-brand-purple/10 text-brand-purple mb-6">
                 <HelpCircle className="h-8 w-8" />
               </div>
-              {get('faq_badge', '') ? (
+              {globalContentString(globalContent, 'faq_badge', '') ? (
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-purple mb-4">
-                  {get('faq_badge')}
+                  {globalContentString(globalContent, 'faq_badge', '')}
                 </p>
               ) : null}
               <h1 className="font-heading text-4xl font-bold text-slate-900 dark:text-white mb-6">
-                {get('faq_title', 'Frequently Asked Questions')}
+                {globalContentString(globalContent, 'faq_title', 'Frequently Asked Questions')}
               </h1>
               <p className="text-slate-500 dark:text-slate-400 mb-4 max-w-lg mx-auto lg:mx-0">
-                {get(
+                {globalContentString(
+                  globalContent,
                   'faq_subtitle',
                   'PMP 2026 exam prep, certification pathways, regional pricing, membership, delivery, and policies.',
                 )}

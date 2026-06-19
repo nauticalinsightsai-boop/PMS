@@ -56,7 +56,7 @@ export function MembershipDualPrice({
         <span className={cn('text-2xl font-bold tracking-tight', primary)}>{amounts.yearly}</span>
         <span className={cn('text-sm font-bold uppercase tracking-widest', muted)}>/ year</span>
         {savingsLabel ? (
-          <span className="rounded-full bg-brand-purple/15 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-brand-purple dark:bg-brand-purple/25 dark:text-brand-purple">
+          <span className="rounded-full bg-brand-purple/15 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-brand-purple dark:bg-brand-purple/25 dark:text-brand-purple">
             {savingsLabel}
           </span>
         ) : null}

@@ -14,7 +14,7 @@ import {
   getPhase2Seo,
   titleNeedsNoSuffix,
 } from '@/content/seo/phase-2-page-seo';
-import * as siteData from '@/data/siteData';
+import { certifications } from '@/data/certification-index';
 
 export { PMS_SITE_URL as SITE_URL };
 
@@ -76,7 +76,7 @@ export function buildCertMetadata(certId: string): Metadata {
       ogImage: PMS_OG_IMAGE_PATH,
     });
   }
-  const cert = siteData.certifications.find((c) => c.id === certId);
+  const cert = certifications.find((c) => c.id === certId);
   if (!cert) {
     return buildPageMetadata({
       title: 'Certification pathway',

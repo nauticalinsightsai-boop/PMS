@@ -1,7 +1,8 @@
 'use client';
 import * as React from "react";
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { motion } from "motion/react";
+import { LazyMotion, domAnimation, m } from "motion/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -16,10 +17,15 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useWebsiteData } from "@/services/WebsiteDataService";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
-import { FIELD_KEYS, defaultCommunityPageConfig, parseCommunityPageConfig } from "@pms/site-content";
-import { StoreContent } from "@/components/pages/Store";
+import { globalContentString, type GlobalContentMap } from '@/lib/cms/global-content';
+import {
+  FIELD_KEYS,
+  defaultCommunityPageConfig,
+  parseCommunityPageConfig,
+  type CommunityPageConfig,
+  type StoreCatalog,
+} from "@pms/site-content";
 import { BRAND, COMMUNITY_COPY, CTAS } from "@/lib/brand-voice";
 import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
@@ -27,6 +33,11 @@ import { MARKETING_STOCK_IMAGES } from "@/lib/marketing-stock-images";
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
 import { T176_COMMUNITY_NOTE, T176_SOCIAL_PROOF_REPLACEMENT } from '@/content/t176-claims';
+
+const StoreContent = dynamic(
+  () => import('@/components/pages/Store').then((m) => ({ default: m.StoreContent })),
+  { loading: () => null },
+);
 
 const communityChannels = [
   {
@@ -65,9 +76,13 @@ const mentorshipFeatures = [
   }
 ];
 
-function CommunityNetworkContent() {
-  const { get } = useWebsiteData();
-
+function CommunityNetworkContent({
+  mentorshipTitle,
+  mentorshipSubtitle,
+}: {
+  mentorshipTitle: string;
+  mentorshipSubtitle: string;
+}) {
   return (
     <>
       {/* Community Channels */}
@@ -76,7 +91,7 @@ function CommunityNetworkContent() {
           <h2 className="text-2xl font-bold tracking-tight text-center mb-10 dark:text-white">Community channels</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
             {communityChannels.map((channel, index) => (
-              <motion.div
+              <m.div
                 key={channel.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -104,7 +119,7 @@ function CommunityNetworkContent() {
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -115,17 +130,17 @@ function CommunityNetworkContent() {
         <SectionAmbience tone="purple" />
         <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
               <h2 className="font-heading text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
-                {get('community_mentorship_title', 'A Culture of Mentorship')}
+                {mentorshipTitle}
               </h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 mb-10 leading-relaxed font-medium">
-                {get('community_mentorship_subtitle', 'We believe the best way to master project management is to learn from those who have already walked the path. Our community is built on a foundation of mutual support and professional generosity.')}
+                {mentorshipSubtitle}
               </p>
               <div className="space-y-8">
                 {mentorshipFeatures.map((feature) => (
@@ -140,8 +155,8 @@ function CommunityNetworkContent() {
                   </div>
                 ))}
               </div>
-            </motion.div>
-            <motion.div 
+            </m.div>
+            <m.div 
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -160,7 +175,7 @@ function CommunityNetworkContent() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
               </div>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -254,13 +269,33 @@ function CommunityNetworkContent() {
 
 type CommunityTab = "community" | "store";
 
-export function Community({ initialTab = "community" }: { initialTab?: CommunityTab }) {
-  const { get } = useWebsiteData();
+export function Community({
+  initialTab = "community",
+  initialPageConfig,
+  globalContent,
+  initialStoreCatalog,
+}: {
+  initialTab?: CommunityTab;
+  initialPageConfig?: CommunityPageConfig;
+  globalContent?: GlobalContentMap;
+  initialStoreCatalog?: StoreCatalog;
+}) {
   const fallback = defaultCommunityPageConfig();
   const { data: pageConfig } = usePublishedSiteDocument(FIELD_KEYS.COMMUNITY_PAGE_CONFIG, {
     parse: (raw) => (raw ? parseCommunityPageConfig(raw) : null),
+    initialData: initialPageConfig ?? fallback,
   });
   const hero = pageConfig?.hero ?? fallback.hero;
+  const mentorshipTitle = globalContentString(
+    globalContent,
+    'community_mentorship_title',
+    'A Culture of Mentorship',
+  );
+  const mentorshipSubtitle = globalContentString(
+    globalContent,
+    'community_mentorship_subtitle',
+    'We believe the best way to master project management is to learn from those who have already walked the path. Our community is built on a foundation of mutual support and professional generosity.',
+  );
   const router = useRouter();
   const contentRef = React.useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = React.useState<CommunityTab>(initialTab);
@@ -287,25 +322,26 @@ export function Community({ initialTab = "community" }: { initialTab?: Community
     );
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className={pageHeroSection('blend', 'text-center')}>
         <SectionAmbience tone="blend" />
         
         <div className="container relative z-10 mx-auto">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
             <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              {hero.badge || get('community_badge', COMMUNITY_COPY.heroBadge)}
+              {hero.badge || globalContentString(globalContent, 'community_badge', COMMUNITY_COPY.heroBadge)}
             </Badge>
             <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
-              {hero.title || get('community_title', COMMUNITY_COPY.heroTitle)}
+              {hero.title || globalContentString(globalContent, 'community_title', COMMUNITY_COPY.heroTitle)}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-              {hero.subtitle || get('community_subtitle', COMMUNITY_COPY.heroSubtitle)}
+              {hero.subtitle || globalContentString(globalContent, 'community_subtitle', COMMUNITY_COPY.heroSubtitle)}
             </p>
             <p className="mt-4 text-sm text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
               {T176_COMMUNITY_NOTE}
@@ -326,7 +362,7 @@ export function Community({ initialTab = "community" }: { initialTab?: Community
                 {CTAS.talkToAMentor}
               </WebsiteCalendlyButton>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -364,8 +400,16 @@ export function Community({ initialTab = "community" }: { initialTab?: Community
       </section>
 
       <div ref={contentRef} className="scroll-mt-24">
-        {activeTab === "community" ? <CommunityNetworkContent /> : <StoreContent />}
+        {activeTab === "community" ? (
+          <CommunityNetworkContent
+            mentorshipTitle={mentorshipTitle}
+            mentorshipSubtitle={mentorshipSubtitle}
+          />
+        ) : (
+          <StoreContent initialCatalog={initialStoreCatalog} />
+        )}
       </div>
     </div>
+    </LazyMotion>
   );
 }

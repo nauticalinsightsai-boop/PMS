@@ -7,13 +7,16 @@ import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getCompareBreadcrumbs } from '@/content/site-architecture/routes';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
 import { buildPhase2PageMetadata } from '@/lib/site-metadata';
+import { fetchPublishedGlobalContent } from '@/lib/cms/fetch-published-document';
 
 export const metadata = buildPhase2PageMetadata('/certifications/compare')!;
 
 const compareRelated = getPhase2RelatedBlock('/certifications/compare');
 const compareBreadcrumbs = getCompareBreadcrumbs();
 
-export default function Page() {
+export default async function Page() {
+  const globalContent = await fetchPublishedGlobalContent();
+
   return (
     <>
       <BreadcrumbJsonLd items={compareBreadcrumbs} currentPath="/certifications/compare" />
@@ -22,7 +25,7 @@ export default function Page() {
       </div>
       <Suspense fallback={<div className="min-h-screen bg-white dark:bg-slate-950" />}>
         <CompareServerHeading />
-        <Compare />
+        <Compare globalContent={globalContent} />
       </Suspense>
       {compareRelated ? (
         <div className="container relative z-10 mx-auto max-w-3xl px-4 pb-16">

@@ -1,5 +1,5 @@
 import { BRAND, BRAND_LINES, DISCLAIMERS, REGION_COPY } from '@/lib/brand-voice';
-import * as siteData from '@/data/siteData';
+import { certifications } from '@/data/certification-index';
 import { getCertDurationLabel } from '@/lib/regional-catalogue';
 import type { FaqCluster, FaqEntry } from './types';
 import { PMP_2026_FAQS } from './pmp-2026-faqs';
@@ -34,7 +34,7 @@ const P = (clusterId: FaqEntry['clusterId'], question: string, answer: string, i
 function certFaqs(): FaqEntry[] {
   const featured = ['pmp', 'capm', 'prince2', 'lss-green'] as const;
   return featured.flatMap((id) => {
-    const cert = siteData.certifications.find((c) => c.id === id);
+    const cert = certifications.find((c) => c.id === id);
     if (!cert) return [];
     const duration = getCertDurationLabel(id);
     return [

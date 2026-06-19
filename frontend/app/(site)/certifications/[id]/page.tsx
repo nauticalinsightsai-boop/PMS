@@ -1,12 +1,20 @@
 import { CertificationDetail } from '@/components/pages/CertificationDetail';
 import { CertJsonLd } from '@/components/seo/CertJsonLd';
 import { buildCertMetadata } from '@/lib/site-metadata';
-import * as siteData from '@/data/siteData';
+import { fetchPublishedDocument } from '@/lib/cms/fetch-published-document';
+import {
+  parseCertificationsRegistry,
+  type CertificationsRegistry,
+} from '@pms/site-content';
+import { FIELD_KEYS } from '@pms/site-content/keys';
+import { certifications } from '@/data/certification-index';
 
 type Props = { params: Promise<{ id: string }> };
 
+const emptyRegistry: CertificationsRegistry = { version: 1, entries: [] };
+
 export function generateStaticParams() {
-  return siteData.certifications.map((c) => ({ id: c.id }));
+  return certifications.map((c) => ({ id: c.id }));
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -16,10 +24,16 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function Page({ params }: Props) {
   const { id } = await params;
+  const initialRegistry = await fetchPublishedDocument(
+    FIELD_KEYS.CERTIFICATIONS_REGISTRY,
+    (raw) => (raw ? parseCertificationsRegistry(raw) : null),
+    emptyRegistry,
+  );
+
   return (
     <>
       <CertJsonLd certId={id} />
-      <CertificationDetail />
+      <CertificationDetail certId={id} initialRegistry={initialRegistry} />
     </>
   );
 }

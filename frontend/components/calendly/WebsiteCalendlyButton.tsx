@@ -2,12 +2,12 @@
 
 import * as React from 'react';
 import { buttonVariants, type ButtonProps } from '@/components/ui/button';
-import type { CalendlyUtmParams } from '@/lib/calendly/embed-url';
+import type { CalendlyUtmParams } from '@/lib/calendly/embed-types';
 import {
   buildWebsiteCalendlySchedulingHref,
-  openWebsiteCalendly,
   type WebsiteCalendlyTier,
-} from '@/lib/calendly/website-events';
+} from '@/lib/calendly/scheduling-href';
+import { openWebsiteCalendly } from '@/lib/calendly/website-events';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 import { cn } from '@/lib/utils';
 

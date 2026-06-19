@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import {
   Card,
   CardContent,
@@ -166,7 +166,7 @@ export const PathwayCard: React.FC<{
   );
 
   return (
-    <motion.div
+    <m.div
       whileHover={{ y: -4, transition: { duration: 0.25 } }}
       className="h-full motion-reduce:transform-none max-md:[&]:transform-none"
     >
@@ -283,7 +283,7 @@ export const PathwayCard: React.FC<{
           </p>
         </CardFooter>
       </Card>
-    </motion.div>
+    </m.div>
   );
 };
 
@@ -309,7 +309,7 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
         mobileItemClassName="w-[min(92vw,19rem)]"
       >
         {tiers.map((tier, index) => (
-          <motion.div
+          <m.div
             key={tier.offeringId ?? tier.level}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -324,7 +324,7 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
               color={color}
               gradient={gradient}
             />
-          </motion.div>
+          </m.div>
         ))}
       </ResponsiveSnapScroll>
     </div>

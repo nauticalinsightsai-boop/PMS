@@ -2,15 +2,14 @@
 import dynamic from 'next/dynamic';
 import * as React from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { CertificationPathway } from "@/components/CertificationPathway";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, Clock, Award, ShieldCheck, TrendingUp, Target, Zap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { motion } from "motion/react";
+import { LazyMotion, domAnimation, m } from "motion/react";
 import { cn } from "@/lib/utils";
 import { PathwayTier } from "@/types/site";
-import * as siteData from "@/data/siteData";
+import { certifications, familyConfigs } from "@/data/certification-index";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
 import { useRegion } from "@/contexts/RegionContext";
@@ -27,8 +26,10 @@ import {
   PUBLIC_NAVBAR_TOP_CLASS,
   PUBLIC_SUBNAV_SPACER_CLASS,
 } from "@/components/PublicShell";
+import { useIsLgUp } from '@/hooks/useIsLgUp';
+import { LazyWhenVisible } from '@/components/LazyWhenVisible';
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
-import { FIELD_KEYS, parseCertificationsRegistry } from "@pms/site-content";
+import { FIELD_KEYS, parseCertificationsRegistry, type CertificationsRegistry } from "@pms/site-content";
 import { resolveCertMarketing } from "@/lib/cert-detail";
 import {
   DossierBulletList,
@@ -84,17 +85,26 @@ function certHasOpenEnrollment(siteId: string, regionId: string): boolean {
   });
 }
 
-export function CertificationDetail() {
-  const { id } = useParams();
+const emptyRegistry: CertificationsRegistry = { entries: [] };
+
+export function CertificationDetail({
+  certId,
+  initialRegistry,
+}: {
+  certId: string;
+  initialRegistry?: CertificationsRegistry;
+}) {
+  const isLgUp = useIsLgUp();
   const { regionId, gccCountry } = useRegion();
   const { data: registry } = usePublishedSiteDocument(FIELD_KEYS.CERTIFICATIONS_REGISTRY, {
     parse: (raw) => (raw ? parseCertificationsRegistry(raw) : null),
+    initialData: initialRegistry ?? emptyRegistry,
   });
-  const siteCert = siteData.certifications.find((c) => c.id === id) || siteData.certifications[0];
+  const siteCert = certifications.find((c) => c.id === certId) || certifications[0];
   const registryEntry = registry?.entries.find((e) => e.id === siteCert.id && !e.archived);
   const cert = resolveCertMarketing(siteCert, registryEntry);
   const certName = cert.name;
-  const family = siteData.familyConfigs[cert.familyId] || siteData.familyConfigs["PMI"];
+  const family = familyConfigs[cert.familyId] || familyConfigs["PMI"];
   const enrollmentOpen = certHasOpenEnrollment(cert.id, regionId);
 
   const foundationOffering = React.useMemo(
@@ -131,6 +141,7 @@ export function CertificationDetail() {
   const breadcrumbs = getCertBreadcrumbItems(cert.id, breadcrumbLabel);
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div
       className={cn(
         'flex flex-col min-h-screen selection:bg-brand-orange selection:text-white',
@@ -197,7 +208,7 @@ export function CertificationDetail() {
         <div className="container relative z-10 mx-auto">
           <Breadcrumbs items={breadcrumbs} className="mb-4" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -265,34 +276,23 @@ export function CertificationDetail() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               id={CERT_ROADMAP_FORM_ANCHOR}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
               className="relative scroll-mt-40 lg:scroll-mt-48"
             >
-              <div className="lg:hidden">
-                <PmpRoadmapLeadForm
-                  placement="cert_mobile"
-                  variant="cert"
-                  certId={cert.id}
-                  certName={certName}
-                  familyId={cert.familyId}
-                />
-              </div>
-              <div className="hidden lg:block">
-                <PmpRoadmapLeadForm
-                  placement="cert_hero"
-                  variant="cert"
-                  certId={cert.id}
-                  certName={certName}
-                  familyId={cert.familyId}
-                />
-              </div>
-            </motion.div>
+              <PmpRoadmapLeadForm
+                placement={isLgUp ? 'cert_hero' : 'cert_mobile'}
+                variant="cert"
+                certId={cert.id}
+                certName={certName}
+                familyId={cert.familyId}
+              />
+            </m.div>
           </div>
         </div>
       </section>
@@ -321,7 +321,7 @@ export function CertificationDetail() {
         <SectionAmbience tone="soft" />
         <div className="container mx-auto">
           <div className="mb-20 pt-[40px] text-center">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -356,7 +356,7 @@ export function CertificationDetail() {
                   </Link>
                 </p>
               ) : null}
-            </motion.div>
+            </m.div>
           </div>
           <CertificationPathway 
             certificationName={certName}
@@ -370,6 +370,7 @@ export function CertificationDetail() {
       </section>
 
       {/* Programme highlights + certification dossier */}
+      <LazyWhenVisible minHeightClassName="min-h-[32rem]">
       <section
         className={sectionSurface(
           'purple',
@@ -492,12 +493,13 @@ export function CertificationDetail() {
           </div>
         </div>
       </section>
+      </LazyWhenVisible>
 
       {/* Final CTA */}
       <section className={sectionSurface('soft', 'py-32')}>
         <SectionAmbience tone="soft" />
         <div className="container mx-auto">
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -553,7 +555,7 @@ export function CertificationDetail() {
                 ) : null}
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -568,5 +570,6 @@ export function CertificationDetail() {
         </div>
       </section>
     </div>
+    </LazyMotion>
   );
 }

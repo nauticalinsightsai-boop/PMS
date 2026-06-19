@@ -1,14 +1,14 @@
 'use client';
 import { useState } from 'react';
-import { motion } from "motion/react";
+import { LazyMotion, domAnimation, m } from "motion/react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Users, Sparkles, FileText, Gift } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useWebsiteData } from "@/services/WebsiteDataService";
-import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
-import { FIELD_KEYS, defaultMembershipPageConfig, parseMembershipPageConfig } from "@pms/site-content";
+import { globalContentString, type GlobalContentMap } from '@/lib/cms/global-content';
+import { usePublishedSiteDocument } from '@/lib/usePublishedSiteDocument';
+import { FIELD_KEYS, defaultMembershipPageConfig, parseMembershipPageConfig, type MembershipPageConfig } from "@pms/site-content";
 import Link from "next/link";
 import { BRAND, CTAS, HOME_COPY } from "@/lib/brand-voice";
 import { T176_MEMBERSHIP_NOTE } from '@/content/t176-claims';
@@ -28,7 +28,8 @@ import { getRegionalMembershipAmounts } from '@/lib/membership-regional-pricing'
 import { membershipCheckoutHref, type MembershipCheckoutTier } from '@/lib/membership-checkout';
 import { MARKETING_STOCK_IMAGES } from '@/lib/marketing-stock-images';
 
-import * as siteData from "@/data/siteData";
+import { membershipTiers } from "@/data/certification-index";
+import { LazyWhenVisible } from '@/components/LazyWhenVisible';
 import { PricingComplianceNote } from '@/components/PricingComplianceNote';
 
 function useMaxAnnualSavingsPercent() {
@@ -120,7 +121,7 @@ function MembershipBillingToggle({
         >
           Yearly
           {maxAnnualSavingsPercent > 0 ? (
-            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-purple/15 text-brand-purple">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-purple/15 text-brand-purple">
               Save up to {maxAnnualSavingsPercent}%
             </span>
           ) : null}
@@ -130,16 +131,22 @@ function MembershipBillingToggle({
   );
 }
 
-export function Membership() {
-  const { get } = useWebsiteData();
+export function Membership({
+  initialPageConfig,
+  globalContent,
+}: {
+  initialPageConfig?: MembershipPageConfig;
+  globalContent?: GlobalContentMap;
+}) {
   const fallback = defaultMembershipPageConfig();
   const { data: pageConfig } = usePublishedSiteDocument(FIELD_KEYS.MEMBERSHIP_PAGE_CONFIG, {
     parse: (raw) => (raw ? parseMembershipPageConfig(raw) : null),
+    initialData: initialPageConfig ?? fallback,
   });
   const hero = pageConfig?.hero ?? fallback.hero;
   const tierVisibility = pageConfig?.tiers ?? fallback.tiers;
   const { regionId, gccCountry, regionLabel } = useRegion();
-  const tiers = siteData.membershipTiers.filter((tier) => {
+  const tiers = membershipTiers.filter((tier) => {
     const cfg = tierVisibility.find(
       (t) => t.id === (tier.name === 'Free Tier' ? 'starter' : tier.name === 'Professional' ? 'professional' : 'mastery'),
     );
@@ -161,25 +168,26 @@ export function Membership() {
   );
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className={sectionSurface('blend', cn('relative', PAGE_HERO_PADDING))}>
         <SectionAmbience tone="blend" />
         
         <div className="container relative z-10 mx-auto text-center">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
             <Badge className="mb-6 bg-brand-purple/10 text-brand-purple border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-              {hero.badge || get('membership_hero_badge', 'Membership Plans')}
+              {hero.badge || globalContentString(globalContent, 'membership_hero_badge', 'Membership Plans')}
             </Badge>
             <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
-              {hero.title || get('membership_hero_title', 'Invest in Your Future Self')}
+              {hero.title || globalContentString(globalContent, 'membership_hero_title', 'Invest in Your Future Self')}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-              {hero.subtitle || get('membership_hero_subtitle', HOME_COPY.membershipSubtitle)}
+              {hero.subtitle || globalContentString(globalContent, 'membership_hero_subtitle', HOME_COPY.membershipSubtitle)}
             </p>
             <p className="text-sm text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
               {T176_MEMBERSHIP_NOTE}
@@ -205,11 +213,12 @@ export function Membership() {
                 </Button>
               </Link>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* Pricing Tiers */}
+      <LazyWhenVisible minHeightClassName="min-h-[28rem]">
       <section id="plans" className="py-20 -mt-12 relative z-20">
         <div className="container mx-auto">
           <h2 className="text-2xl font-bold tracking-tight text-center mb-8 dark:text-white">Membership plans</h2>
@@ -236,7 +245,7 @@ export function Membership() {
                 gccCountry,
               );
               return (
-              <motion.div
+              <m.div
                 key={tier.name}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -275,7 +284,7 @@ export function Membership() {
                               </span>
                             ) : null}
                             {display.savingsLabel ? (
-                              <span className="rounded-full bg-brand-purple/15 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-brand-purple">
+                              <span className="rounded-full bg-brand-purple/15 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-brand-purple">
                                 {display.savingsLabel}
                               </span>
                             ) : null}
@@ -348,7 +357,7 @@ export function Membership() {
                     })()}
                   </CardFooter>
                 </Card>
-              </motion.div>
+              </m.div>
               );
             })}
           </div>
@@ -361,16 +370,16 @@ export function Membership() {
         <div className="container relative z-10 mx-auto">
           <div className="max-w-3xl mx-auto text-center mb-20">
             <h2 className="font-heading text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
-              {get('membership_benefits_title', `Why join ${BRAND.name}?`)}
+              {globalContentString(globalContent, 'membership_benefits_title', `Why join ${BRAND.name}?`)}
             </h2>
             <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-              {get('membership_benefits_subtitle', 'Beyond certifications, we provide the infrastructure for your entire professional journey.')}
+              {globalContentString(globalContent, 'membership_benefits_subtitle', 'Beyond certifications, we provide the infrastructure for your entire professional journey.')}
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {benefits.map((benefit, index) => (
-              <motion.div
+              <m.div
                 key={benefit.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -385,13 +394,15 @@ export function Membership() {
                 <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
                   {benefit.desc}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
       </section>
+      </LazyWhenVisible>
 
       {/* Member Resources Preview */}
+      <LazyWhenVisible minHeightClassName="min-h-[20rem]">
       <section className={sectionSurface('warm', 'py-32')}>
         <SectionAmbience tone="warm" />
         <div className="container relative z-10 mx-auto">
@@ -450,6 +461,7 @@ export function Membership() {
           </div>
         </div>
       </section>
+      </LazyWhenVisible>
 
       <section className="py-16 border-t border-slate-100 dark:border-slate-800">
         <div className="container mx-auto max-w-3xl px-4">
@@ -466,5 +478,6 @@ export function Membership() {
         </div>
       </section>
     </div>
+    </LazyMotion>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
@@ -23,7 +23,7 @@ export function Pmp2026FlagshipSections() {
       <section className={sectionSurface('purple', SECTION_PY)}>
         <SectionAmbience tone="purple" />
         <div className="container relative z-10 mx-auto px-4">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -55,7 +55,7 @@ export function Pmp2026FlagshipSections() {
               className="w-full sm:w-auto bg-brand-purple hover:bg-brand-purple/90 text-white h-12 sm:h-14 px-6 sm:px-8 rounded-full font-bold text-base shadow-lg"
             />
             <Pmp2026ComplianceNote className="mt-8" showSourceLinks />
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -66,7 +66,7 @@ export function Pmp2026FlagshipSections() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
             {T169_ROADMAP_STEPS.steps.map((step, index) => (
-              <motion.div
+              <m.div
                 key={step.title}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -83,7 +83,7 @@ export function Pmp2026FlagshipSections() {
                 <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
                   {step.body}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
           <Pmp2026ComplianceNote />

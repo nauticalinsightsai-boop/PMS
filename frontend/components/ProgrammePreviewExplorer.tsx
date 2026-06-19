@@ -301,7 +301,7 @@ function InfographicHero({ hero }: { hero: ProgrammeInfographicHero }) {
             key={step.label}
             className="flex gap-3 rounded-xl border border-slate-100 bg-white/90 p-3 dark:border-slate-800 dark:bg-slate-950/60"
           >
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-orange text-xs font-black text-white">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-orange text-xs font-extrabold text-white">
               {index + 1}
             </span>
             <div className="min-w-0 text-left">

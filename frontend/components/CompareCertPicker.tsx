@@ -137,7 +137,7 @@ export function CompareCertPicker({
                 className="inline-flex items-center justify-center gap-2 pl-3 pr-2 py-2 rounded-2xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-brand-orange/30 text-sm font-bold text-center hover:border-brand-orange/60 shadow-sm transition-colors"
                 aria-label={`Remove ${cert.name} from comparison`}
               >
-                <span className="text-[9px] font-black uppercase tracking-wider text-brand-orange">
+                <span className="text-[9px] font-extrabold uppercase tracking-wider text-brand-orange">
                   {FAMILY_LABEL[cert.familyId as PathwayFamilyTab] ?? cert.familyId}
                 </span>
                 <span>{cert.name}</span>
@@ -188,7 +188,7 @@ export function CompareCertPicker({
                   disabled && 'opacity-40 cursor-not-allowed',
                 )}
               >
-                <p className="text-[9px] font-black uppercase tracking-wider text-brand-orange mb-1">
+                <p className="text-[9px] font-extrabold uppercase tracking-wider text-brand-orange mb-1">
                   {FAMILY_LABEL[cert.familyId as PathwayFamilyTab] ?? cert.familyId}
                 </p>
                 <p className="font-bold text-slate-900 dark:text-white leading-tight">{cert.name}</p>

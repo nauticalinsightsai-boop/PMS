@@ -1,4 +1,5 @@
 'use client';
+import dynamic from 'next/dynamic';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -6,9 +7,23 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Moon, Sun } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
 import { RegionChip } from "@/components/RegionChip";
-import { WebsiteCalendlyButton } from "@/components/calendly/WebsiteCalendlyButton";
 import { CTAS } from "@/lib/brand-voice";
 import { cn } from "@/lib/utils";
+
+const WebsiteCalendlyButton = dynamic(
+  () =>
+    import('@/components/calendly/WebsiteCalendlyButton').then((mod) => ({
+      default: mod.WebsiteCalendlyButton,
+    })),
+  {
+    ssr: false,
+    loading: () => (
+      <span className="inline-flex h-10 items-center rounded-full bg-brand-orange/80 px-5 text-sm font-semibold text-white">
+        {CTAS.talkToAMentor}
+      </span>
+    ),
+  },
+);
 
 const MAIN_NAV_LINKS = [
   { label: "PMP 2026", href: "/certifications/pmp", featured: true },

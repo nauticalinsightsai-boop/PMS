@@ -1,6 +1,6 @@
 'use client';
 import * as React from "react";
-import { motion } from "motion/react";
+import { LazyMotion, domAnimation, m } from "motion/react";
 import Link from "next/link";
 import { ArrowRight, Calendar, Bookmark, Share2, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -44,7 +44,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
 
   if (variant === "horizontal") {
     return (
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -72,12 +72,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
           </div>
         </div>
         </Link>
-      </motion.div>
+      </m.div>
     );
   }
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -128,7 +128,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
         </CardContent>
       </Card>
       </Link>
-    </motion.div>
+    </m.div>
   );
 };
 
@@ -142,7 +142,7 @@ export const FeaturedPost: React.FC<{ article: NewsletterArticle; storyHref?: st
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-7">
           <Link href={href} className="block">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -157,7 +157,7 @@ export const FeaturedPost: React.FC<{ article: NewsletterArticle; storyHref?: st
             <div className="absolute top-8 left-8">
               <Badge className="bg-brand-purple text-white border-none px-6 py-1.5 text-sm font-bold shadow-lg">Featured Story</Badge>
             </div>
-          </motion.div>
+          </m.div>
           </Link>
         </div>
         <div className="lg:col-span-5">

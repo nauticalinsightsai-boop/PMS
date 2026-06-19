@@ -1,12 +1,12 @@
 'use client';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { motion } from "motion/react";
-import * as React from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { LazyMotion, domAnimation, m } from 'motion/react';
+import * as React from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { 
   ArrowRight, 
   Users, 
@@ -19,11 +19,10 @@ import {
   LayoutDashboard, 
   Map, 
   MessageSquare,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useWebsiteData } from "@/services/WebsiteDataService";
-import { BRAND, CTAS, HOME_COPY } from "@/lib/brand-voice";
-import { MARKETING_STOCK_IMAGES, MARKETING_HERO_SOCIAL_AVATARS, marketingTestimonialAvatar } from "@/lib/marketing-stock-images";
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { BRAND, CTAS, HOME_COPY } from '@/lib/brand-voice';
+import { MARKETING_STOCK_IMAGES, MARKETING_HERO_SOCIAL_AVATARS, marketingTestimonialAvatar } from '@/lib/marketing-stock-images';
 import {
   resolveHomeHeroHeading,
   parseHomeHeroHeadingLines,
@@ -31,16 +30,12 @@ import {
   type HomePageConfigV2,
 } from '@pms/site-content';
 import { HomeHeroAccentRotator } from '@/components/home/HomeHeroAccentRotator';
-import { HomePmp2026GuideBand } from '@/components/home/HomePmp2026GuideBand';
-import { HomeStudentSuccessSection } from '@/components/home/HomeStudentSuccessSection';
-import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
-import { FamilyExploreCard } from "@/components/FamilyExploreCard";
-import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { PathwayFeaturedCard } from '@/components/PathwayFeaturedCard';
+import { FamilyExploreCard } from '@/components/FamilyExploreCard';
+import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { MembershipDualPrice } from '@/components/MembershipDualPrice';
 import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { useHomePageConfig } from '@/lib/home-config';
-import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
-import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
@@ -50,19 +45,64 @@ import { getT169FeaturedCardOverrides } from '@/lib/t169-featured-cards';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2Seo } from '@/content/seo/phase-2-page-seo';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
+import { LazyWhenVisible } from '@/components/LazyWhenVisible';
+import { useIsLgUp } from '@/hooks/useIsLgUp';
+import { featuredCertifications, certifications, familyConfigs } from '@/data/certification-index';
 
 const HomeTestimonialsSection = dynamic(
   () =>
-    import('@/components/home/HomeTestimonialsSection').then((m) => ({
-      default: m.HomeTestimonialsSection,
+    import('@/components/home/HomeTestimonialsSection').then((mod) => ({
+      default: mod.HomeTestimonialsSection,
     })),
   { loading: () => null },
 );
 
-import * as siteData from "@/data/siteData";
+const HomeStudentSuccessSection = dynamic(
+  () =>
+    import('@/components/home/HomeStudentSuccessSection').then((mod) => ({
+      default: mod.HomeStudentSuccessSection,
+    })),
+  { loading: () => null },
+);
 
-/** Featured Pathways: exactly 6 cards in 2 rows × 3 columns on lg+ */
-const featuredPathways = siteData.featuredCertifications;
+const HomePmp2026GuideBand = dynamic(
+  () =>
+    import('@/components/home/HomePmp2026GuideBand').then((mod) => ({
+      default: mod.HomePmp2026GuideBand,
+    })),
+  { loading: () => null },
+);
+
+const ResponsiveSnapScroll = dynamic(
+  () =>
+    import('@/components/ResponsiveSnapScroll').then((mod) => ({
+      default: mod.ResponsiveSnapScroll,
+    })),
+  { ssr: false, loading: () => null },
+);
+
+const PmpRoadmapLeadFormHero = dynamic(
+  () =>
+    import('@/components/forms/PmpRoadmapLeadForm').then((mod) => ({
+      default: mod.PmpRoadmapLeadForm,
+    })),
+  {
+    loading: () => (
+      <div
+        className="min-h-[420px] w-full rounded-2xl border border-slate-200/80 bg-white/60 dark:border-slate-800 dark:bg-slate-900/40 animate-pulse"
+        aria-hidden
+      />
+    ),
+  },
+);
+
+const PmpRoadmapLeadFormInsights = dynamic(
+  () =>
+    import('@/components/forms/PmpRoadmapLeadForm').then((mod) => ({
+      default: mod.PmpRoadmapLeadForm,
+    })),
+  { loading: () => <div className="min-h-[320px] rounded-2xl border border-slate-200 dark:border-slate-800" aria-hidden /> },
+);
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
 const SECTION_HEADING_MB = 'mb-10 md:mb-16 lg:mb-20';
@@ -73,9 +113,14 @@ const HERO_BTN_OUTLINE =
 
 const HOME_RELATED_LINKS = getPhase2Seo('/')?.relatedLinks;
 
+type FeaturedPathway = (typeof featuredCertifications)[number];
+
+/** Featured Pathways: exactly 6 cards in 2 rows × 3 columns on lg+ */
+const featuredPathways = featuredCertifications;
 export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfigV2 }) {
-  const { get } = useWebsiteData();
-  const homeCms = useHomePageConfig();
+  const homeCms = useHomePageConfig(initialHomeConfig);
+  const isLgUp = useIsLgUp();
+  const heroFormPlacement = isLgUp ? 'home_hero_desktop' : 'home_hero_mobile';
   const serverSlide =
     initialHomeConfig?.heroSlides.find((slide) => slide.visible) ??
     initialHomeConfig?.heroSlides[0];
@@ -90,9 +135,9 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
 
   const featuredFromCms = homeCms.featuredCertIds
     .map((id) => {
-      const featured = siteData.featuredCertifications.find((item) => item.id === id);
+      const featured = featuredCertifications.find((item) => item.id === id);
       if (featured) return featured;
-      const cert = siteData.certifications.find((item) => item.id === id);
+      const cert = certifications.find((item) => item.id === id);
       if (!cert) return null;
       return {
         id: cert.id,
@@ -102,7 +147,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
         color: cert.color,
       };
     })
-    .filter((item): item is (typeof siteData.featuredCertifications)[number] => Boolean(item));
+    .filter((item): item is FeaturedPathway => Boolean(item));
   const featuredPathwaysResolved =
     featuredFromCms.length > 0 ? featuredFromCms.slice(0, 6) : featuredPathways;
   const finalCta = homeCms.activeCta;
@@ -115,10 +160,10 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
   const heroTitleRaw =
     homeCms.heroTitle ||
     serverSlide?.heading ||
-    get('hero_title', HOME_COPY.heroTitle);
+    HOME_COPY.heroTitle;
   const heroTitleResolved = resolveHomeHeroHeading(heroTitleRaw);
   const heroSubtitleRaw =
-    homeCms.heroSubtitle || serverSlide?.description || get('hero_subtitle', HOME_COPY.heroSubtitle);
+    homeCms.heroSubtitle || serverSlide?.description || HOME_COPY.heroSubtitle;
   const heroSubtitleResolved = resolveHomeHeroSubtitle(heroSubtitleRaw);
   const testimonials =
     homeCms.visibleTestimonials.length > 0
@@ -145,7 +190,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
     const primaryLink = homeCms.ctaPrimaryLink || PMP_ROADMAP_CTA_HREF;
     const label =
       homeCms.ctaPrimary ||
-      get('cta_primary', HOME_COPY.ctaPrimary);
+      HOME_COPY.ctaPrimary;
     const btnClass = HERO_BTN;
 
     if (
@@ -175,6 +220,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
   };
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="flex flex-col min-h-screen overflow-x-clip selection:bg-brand-orange selection:text-white">
       {/* Hero Section */}
       <section className="relative min-h-0 md:min-h-[85vh] lg:min-h-[90vh] flex items-center pt-8 pb-12 sm:pt-12 sm:pb-16 md:pt-16 md:pb-20 lg:pt-20 lg:pb-24 overflow-x-hidden max-lg:overflow-y-visible lg:overflow-hidden bg-gradient-to-br from-violet-50/70 via-background to-orange-50/30 dark:from-[#0f0e38] dark:via-[#07071c] dark:to-[#12081a]">
@@ -188,14 +234,14 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
 
         <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center">
-            <motion.div
+            <m.div
               initial={reduceMotion ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={reduceMotion ? { duration: 0 } : { duration: 0.6 }}
               className="relative z-10 min-w-0"
             >
               <Badge className="mb-4 sm:mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-                {get('hero_badge', HOME_COPY.heroBadge)}
+                {HOME_COPY.heroBadge}
               </Badge>
               
               <h1 className="font-heading text-[1.924rem] sm:text-[2.565rem] md:text-[3.206rem] lg:text-[3.848rem] font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-[1.1]">
@@ -235,7 +281,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                         height={avatar.height}
                         aria-hidden
                         className="h-full w-full object-cover"
-                        loading="lazy"
+                        fetchPriority="low"
                       />
                     </div>
                   ))}
@@ -245,33 +291,25 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                   {statsLabel}
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
-            <div id={PMP_ROADMAP_FORM_ANCHOR} className="scroll-mt-24 contents">
-              {/* Hero lead form: tablet/mobile */}
-              <motion.div
+            <div id={PMP_ROADMAP_FORM_ANCHOR} className="scroll-mt-24">
+              <m.div
                 initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={reduceMotion ? { duration: 0 } : { duration: 0.7 }}
-                className="relative z-20 lg:hidden"
+                className="relative z-20"
               >
-                <PmpRoadmapLeadForm placement="home_hero_mobile" variant="hero" />
-              </motion.div>
-
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={reduceMotion ? { duration: 0 } : { duration: 0.8 }}
-                className="relative z-30 isolate hidden lg:block"
-              >
-                <PmpRoadmapLeadForm placement="home_hero_desktop" variant="hero" />
-              </motion.div>
+                <PmpRoadmapLeadFormHero placement={heroFormPlacement} variant="hero" />
+              </m.div>
             </div>
           </div>
         </div>
       </section>
 
-      <HomePmp2026GuideBand />
+      <LazyWhenVisible minHeightClassName="min-h-[12rem]">
+        <HomePmp2026GuideBand />
+      </LazyWhenVisible>
 
       {(sections?.latestNews !== false) && homeCms.latestNews.length > 0 && (
         <section className={`${SECTION_PY} bg-white dark:bg-slate-950`}>
@@ -324,7 +362,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-4 md:mb-6">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -338,9 +376,9 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 )}
               </h2>
               <p className="hidden md:block text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed whitespace-nowrap">
-                {homeCms.featuredPathways?.subtitle ?? get('featured_subtitle', HOME_COPY.featuredSubtitle)}
+                {homeCms.featuredPathways?.subtitle ?? HOME_COPY.featuredSubtitle}
               </p>
-            </motion.div>
+            </m.div>
             <Link href="/certifications" className="hidden md:inline-flex">
               <Button variant="ghost" className="text-brand-orange font-bold text-lg hover:bg-brand-orange/5 rounded-full px-6">
                 View All Certifications
@@ -357,11 +395,11 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             mobileItemClassName="w-[min(92vw,19rem)]"
           >
             {featuredPathwaysResolved.map((featured, index) => {
-              const cert = siteData.certifications.find(c => c.id === featured.id) || siteData.certifications[0];
+              const cert = certifications.find(c => c.id === featured.id) || certifications[0];
               const t169 = getT169FeaturedCardOverrides(featured.id);
               
               return (
-                <motion.div
+                <m.div
                   key={featured.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -380,7 +418,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                     ctaHref={t169?.ctaHref}
                     visualSubtitle={t169?.title ?? featured.title}
                   />
-                </motion.div>
+                </m.div>
               );
             })}
           </ResponsiveSnapScroll>
@@ -393,18 +431,18 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
         <SectionAmbience tone="purple" />
         <div className="container relative z-10 mx-auto">
           <div className={`text-center max-w-3xl mx-auto ${SECTION_HEADING_MB}`}>
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
               <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-6 tracking-tight leading-none">
-                {get('frameworks_title', HOME_COPY.frameworksTitle)}
+                {HOME_COPY.frameworksTitle}
               </h2>
               <p className="text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
-                {get('frameworks_subtitle', HOME_COPY.frameworksSubtitle)}
+                {HOME_COPY.frameworksSubtitle}
               </p>
-            </motion.div>
+            </m.div>
           </div>
 
           <ResponsiveSnapScroll
@@ -420,7 +458,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               .map((familyId, index) => (
               <FamilyExploreCard
                 key={familyId}
-                family={siteData.familyConfigs[familyId]}
+                family={familyConfigs[familyId]}
                 index={index}
               />
             ))}
@@ -437,7 +475,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
         </div>
         <div className="container mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 lg:gap-20 items-center">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -470,15 +508,17 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                   View all insights <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-            </motion.div>
-            <motion.div
+            </m.div>
+            <LazyWhenVisible minHeightClassName="min-h-[320px]">
+            <m.div
               className="relative"
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
             >
-              <PmpRoadmapLeadForm placement="home_insights" variant="insights" />
-            </motion.div>
+              <PmpRoadmapLeadFormInsights placement="home_insights" variant="insights" />
+            </m.div>
+            </LazyWhenVisible>
           </div>
         </div>
       </section>
@@ -489,18 +529,18 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
         <SectionAmbience tone="warm" />
         <div className="container relative z-10 mx-auto">
           <div className={`max-w-3xl mx-auto text-center ${SECTION_HEADING_MB}`}>
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
               <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-6 tracking-tight leading-none">
-                {homeCms.membership?.sectionTitle ?? get('membership_title', 'Membership Plans')}
+                {homeCms.membership?.sectionTitle ?? 'Membership Plans'}
               </h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                {homeCms.membership?.sectionSubtitle ?? get('membership_subtitle', HOME_COPY.membershipSubtitle)}
+                {homeCms.membership?.sectionSubtitle ?? HOME_COPY.membershipSubtitle}
               </p>
-            </motion.div>
+            </m.div>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
@@ -522,7 +562,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 const iconMap: Record<string, typeof Trophy> = { trophy: Trophy, book: BookOpen, file: FileText, layout: LayoutDashboard, users: Users, zap: Zap };
                 const Icon = iconMap[benefit.iconKey] ?? Trophy;
                 return (
-                <motion.div 
+                <m.div 
                   key={benefit.title} 
                   className="flex h-full flex-col sm:flex-row gap-4 sm:gap-6 p-5 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-all group"
                   initial={{ opacity: 0, y: 10 }}
@@ -537,11 +577,11 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                     <h4 className="text-xl font-bold mb-2 tracking-tight">{benefit.title}</h4>
                     <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">{benefit.desc}</p>
                   </div>
-                </motion.div>
+                </m.div>
               );})}
               </ResponsiveSnapScroll>
             </div>
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -574,7 +614,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                   </Button>
                 </Link>
               </Card>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -584,7 +624,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
       <section className={sectionSurface('blend', SECTION_PY)}>
         <SectionAmbience tone="blend" />
         <div className="container relative z-10 mx-auto">
-          <motion.div 
+          <m.div 
             className="bg-slate-50 dark:bg-slate-900 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-10 md:p-16 lg:p-20 border border-slate-100 dark:border-slate-800 overflow-hidden relative"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -679,19 +719,21 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
       )}
 
-      <HomeStudentSuccessSection />
+      <LazyWhenVisible minHeightClassName="min-h-[24rem]">
+        <HomeStudentSuccessSection />
+      </LazyWhenVisible>
 
       {/* Career Tools Section */}
       <section className={sectionSurface('soft', SECTION_PY)}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
           <div className={`text-center ${SECTION_HEADING_MB}`}>
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -702,7 +744,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
                 {T169_SUPPORT_COPY.resourceStore}
               </p>
-            </motion.div>
+            </m.div>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
@@ -743,7 +785,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 ctaLabel: 'Get my roadmap',
               },
             ].map((tool, index) => (
-              <motion.div
+              <m.div
                 key={tool.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -784,17 +826,19 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                     )}
                   </CardFooter>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
       </section>
 
       {(sections?.testimonials !== false) && testimonials.length > 0 && (
+        <LazyWhenVisible minHeightClassName="min-h-[16rem]">
         <HomeTestimonialsSection
           testimonials={testimonials}
           usePlaceholder={showTestimonialPlaceholder}
         />
+        </LazyWhenVisible>
       )}
 
       {(sections?.globalFootprint !== false) && homeCms.activeFootprint.length > 0 && (
@@ -838,7 +882,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
       <section className={sectionSurface('warm', SECTION_PY)}>
         <SectionAmbience tone="warm" />
         <div className="container relative z-10 mx-auto">
-          <motion.div 
+          <m.div 
             className="relative rounded-[2rem] sm:rounded-[3rem] bg-slate-900 overflow-hidden px-5 py-14 sm:px-8 sm:py-20 md:px-16 md:py-24 lg:px-20 lg:py-32 text-center shadow-2xl [&_h2]:text-white"
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -881,10 +925,11 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 />
               ) : null}
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
       )}
     </div>
+    </LazyMotion>
   );
 }

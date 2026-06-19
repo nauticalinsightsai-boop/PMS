@@ -1,6 +1,8 @@
 import { Blog } from '@/components/pages/Blog';
 import { MarketingPageJsonLd } from '@/components/seo/MarketingPageJsonLd';
 import { buildPageMetadata } from '@/lib/site-metadata';
+import { getPublishedBlogArticles } from '@/lib/blog/posts';
+import { fetchPublishedGlobalContent } from '@/lib/cms/fetch-published-document';
 
 export const metadata = buildPageMetadata({
   title: 'Blog',
@@ -8,7 +10,12 @@ export const metadata = buildPageMetadata({
   path: '/blog',
 });
 
-export default function Page() {
+export default async function Page() {
+  const [initialArticles, globalContent] = await Promise.all([
+    getPublishedBlogArticles(),
+    fetchPublishedGlobalContent(),
+  ]);
+
   return (
     <>
       <MarketingPageJsonLd
@@ -21,7 +28,7 @@ export default function Page() {
           { name: 'Blog', path: '/blog' },
         ]}
       />
-      <Blog />
+      <Blog initialArticles={initialArticles} globalContent={globalContent} />
     </>
   );
 }

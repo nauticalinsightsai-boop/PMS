@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
 import {
   FIELD_KEYS,
   normalizeHomeConfigV1ToV2,
   type HomePageConfigV2,
 } from '@pms/site-content';
+import { useWebsiteDataRealtime } from '@/hooks/useWebsiteDataRealtime';
 
 const HOME_CONFIG_KEY = FIELD_KEYS.HOME_PAGE_CONFIG;
 export const HOME_PREVIEW_KEY = 'home_page_preview_config_v1';
@@ -30,9 +31,19 @@ function isPreviewRequest() {
   return new URLSearchParams(window.location.search).get('homePreview') === '1';
 }
 
-export function useHomePageConfig() {
-  const [config, setConfig] = useState<HomePageConfigV2 | null>(null);
+export function useHomePageConfig(initialConfig?: HomePageConfigV2 | null) {
+  const [config, setConfig] = useState<HomePageConfigV2 | null>(initialConfig ?? null);
   const [isPreview, setIsPreview] = useState(false);
+
+  const refresh = useCallback(async () => {
+    try {
+      WebsiteDataService.invalidatePublishedCache([HOME_CONFIG_KEY]);
+      const row = await WebsiteDataService.getPublishedByFieldKey(HOME_CONFIG_KEY);
+      setConfig(normalizeHomeConfigV1ToV2(row?.content));
+    } catch (err) {
+      console.error('Failed to load home page config', err);
+    }
+  }, []);
 
   useEffect(() => {
     const preview = readPreviewConfig();
@@ -42,17 +53,14 @@ export function useHomePageConfig() {
       return;
     }
 
-    const load = async () => {
-      try {
-        const rows = await WebsiteDataService.getData('published');
-        const row = rows.find((item) => item.field_key === HOME_CONFIG_KEY);
-        setConfig(normalizeHomeConfigV1ToV2(row?.content));
-      } catch (err) {
-        console.error('Failed to load home page config', err);
-      }
-    };
-    load();
-  }, []);
+    if (initialConfig) {
+      setConfig(initialConfig);
+    }
+
+    void refresh();
+  }, [initialConfig, refresh]);
+
+  useWebsiteDataRealtime(HOME_CONFIG_KEY, refresh);
 
   useEffect(() => {
     if (!isPreviewRequest()) return;

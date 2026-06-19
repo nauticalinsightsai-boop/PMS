@@ -8,13 +8,16 @@ import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getFaqBreadcrumbs } from '@/content/site-architecture/routes';
 import { getPhase2Seo } from '@/content/seo/phase-2-page-seo';
 import { buildPhase2PageMetadata } from '@/lib/site-metadata';
+import { fetchPublishedGlobalContent } from '@/lib/cms/fetch-published-document';
 
 const faqSeo = getPhase2Seo('/faq')!;
 const faqBreadcrumbs = getFaqBreadcrumbs();
 
 export const metadata = buildPhase2PageMetadata('/faq')!;
 
-export default function Page() {
+export default async function Page() {
+  const globalContent = await fetchPublishedGlobalContent();
+
   return (
     <>
       <FaqPageJsonLd />
@@ -24,7 +27,7 @@ export default function Page() {
       </div>
       <FaqCrawlableContent />
       <Suspense fallback={null}>
-        <FAQ />
+        <FAQ globalContent={globalContent} />
       </Suspense>
       {faqSeo.relatedLinks?.length ? (
         <div className="container mx-auto max-w-3xl px-4 pb-16">

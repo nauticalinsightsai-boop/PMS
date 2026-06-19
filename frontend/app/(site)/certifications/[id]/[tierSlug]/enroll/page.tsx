@@ -2,14 +2,14 @@ import { notFound } from 'next/navigation';
 import { ProgramEnrollmentPage } from '@/components/pages/ProgramEnrollment';
 import { resolveOfferingForEnrollment } from '@/lib/enrollment-routes';
 import { buildPageMetadata } from '@/lib/site-metadata';
-import * as siteData from '@/data/siteData';
+import { certifications } from '@/data/certification-index';
 
 type Props = { params: Promise<{ id: string; tierSlug: string }> };
 
 export async function generateMetadata({ params }: Props) {
   const { id, tierSlug } = await params;
   const offering = resolveOfferingForEnrollment(id, tierSlug);
-  const certRecord = siteData.certifications.find((c) => c.id === id);
+  const certRecord = certifications.find((c) => c.id === id);
   const title = offering
     ? `Reserve your seat · ${certRecord?.name ?? id} · ${offering.tier}`
     : 'Reserve your seat';
@@ -26,7 +26,7 @@ export default async function Page({ params }: Props) {
   const offering = resolveOfferingForEnrollment(id, tierSlug);
   if (!offering) notFound();
 
-  const certRecord = siteData.certifications.find((c) => c.id === id);
+  const certRecord = certifications.find((c) => c.id === id);
   const certName = certRecord?.name ?? id.toUpperCase();
 
   return (

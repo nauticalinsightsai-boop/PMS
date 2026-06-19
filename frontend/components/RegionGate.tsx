@@ -1,6 +1,14 @@
 'use client';
 
-import { RegionSelectorModal } from '@/components/RegionSelectorModal';
+import dynamic from 'next/dynamic';
+
+const RegionSelectorModal = dynamic(
+  () =>
+    import('@/components/RegionSelectorModal').then((mod) => ({
+      default: mod.RegionSelectorModal,
+    })),
+  { ssr: false },
+);
 
 /**
  * Renders public page content immediately for crawlers and first paint.

@@ -1,4 +1,4 @@
-import * as siteData from '@/data/siteData';
+import { certifications } from '@/data/certification-index';
 import type { CertificationSummary, FamilyId } from '@/types/site';
 import { getOfferingsForSiteCert } from '@/lib/regional-catalogue';
 import {
@@ -14,7 +14,7 @@ export const DEFAULT_COMPARE_CERT_IDS = ['pmp', 'capm', 'pmi-acp'] as const;
 /** Certifications that have at least one visible matrix pathway tier. */
 export function getCompareableCertifications(): CertificationSummary[] {
   return sortCompareableCertifications(
-    siteData.certifications.filter((c) => getOfferingsForSiteCert(c.id).length > 0),
+    certifications.filter((c) => getOfferingsForSiteCert(c.id).length > 0),
   );
 }
 

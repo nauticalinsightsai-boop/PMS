@@ -4,13 +4,38 @@ import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { MarketingPageJsonLd } from '@/components/seo/MarketingPageJsonLd';
 import { getPhase2RelatedBlock, getPhase2Seo } from '@/content/seo/phase-2-page-seo';
 import { buildPhase2PageMetadata } from '@/lib/site-metadata';
+import { fetchPublishedDocuments } from '@/lib/cms/fetch-published-document';
+import {
+  defaultCertificationsHubConfig,
+  parseCertificationsHubConfig,
+  parseCertificationsRegistry,
+  type CertificationsRegistry,
+} from '@pms/site-content';
+import { FIELD_KEYS } from '@pms/site-content/keys';
 
 const seo = getPhase2Seo('/certifications')!;
 const related = getPhase2RelatedBlock('/certifications');
 
 export const metadata = buildPhase2PageMetadata('/certifications')!;
 
-export default function Page() {
+const emptyRegistry: CertificationsRegistry = { version: 1, entries: [] };
+
+export default async function Page() {
+  const rows = await fetchPublishedDocuments([
+    FIELD_KEYS.CERTIFICATIONS_HUB_CONFIG,
+    FIELD_KEYS.CERTIFICATIONS_REGISTRY,
+  ]);
+
+  const hubRow = rows.find((row) => row.field_key === FIELD_KEYS.CERTIFICATIONS_HUB_CONFIG);
+  const registryRow = rows.find((row) => row.field_key === FIELD_KEYS.CERTIFICATIONS_REGISTRY);
+
+  const initialHubConfig = hubRow?.content
+    ? parseCertificationsHubConfig(hubRow.content)
+    : defaultCertificationsHubConfig();
+  const initialRegistry = registryRow?.content
+    ? parseCertificationsRegistry(registryRow.content)
+    : emptyRegistry;
+
   return (
     <>
       <MarketingPageJsonLd
@@ -24,7 +49,7 @@ export default function Page() {
         ]}
       />
       <CertificationsServerHeading />
-      <Certifications />
+      <Certifications initialHubConfig={initialHubConfig} initialRegistry={initialRegistry} />
       {related ? (
         <div className="container mx-auto max-w-3xl px-4 pb-16">
           <RelatedGuidesLinks

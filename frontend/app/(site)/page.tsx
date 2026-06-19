@@ -3,7 +3,7 @@ import { HomeServerHeading } from '@/components/home/HomeServerHeading';
 import { HomePageJsonLd } from '@/components/seo/HomePageJsonLd';
 import { buildPageMetadata } from '@/lib/site-metadata';
 import { T169_SEO } from '@/content/pmp/flagship-t169';
-import { defaultHomePageConfigV2 } from '@pms/site-content';
+import { fetchPublishedHomeConfig } from '@/lib/cms/fetch-published-document';
 
 export const metadata = buildPageMetadata({
   title: T169_SEO.homeTitle,
@@ -12,12 +12,13 @@ export const metadata = buildPageMetadata({
   noSuffix: true,
 });
 
-export default function Page() {
+export default async function Page() {
+  const initialHomeConfig = await fetchPublishedHomeConfig();
   return (
     <>
       <HomePageJsonLd />
-      <HomeServerHeading />
-      <Home initialHomeConfig={defaultHomePageConfigV2()} />
+      <HomeServerHeading config={initialHomeConfig} />
+      <Home initialHomeConfig={initialHomeConfig} />
     </>
   );
 }

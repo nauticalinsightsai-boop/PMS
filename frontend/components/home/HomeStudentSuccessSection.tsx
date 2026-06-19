@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'motion/react';
+import { LazyMotion, domAnimation, m, AnimatePresence } from 'motion/react';
 import { Quote, Star } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { BRAND } from '@/lib/brand-voice';
@@ -120,6 +120,7 @@ export function HomeStudentSuccessSection() {
   }, [activeIndex, storyCount]);
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <section className={cn(STUDENT_SUCCESS_SHELL, SECTION_PY)}>
       <div
         className="pointer-events-none absolute inset-0 overflow-hidden"
@@ -131,7 +132,7 @@ export function HomeStudentSuccessSection() {
 
       <div className="container relative z-10 mx-auto">
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-16">
-          <motion.div
+          <m.div
             className="lg:col-span-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -190,13 +191,13 @@ export function HomeStudentSuccessSection() {
                 />
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
           <div className="lg:col-span-8">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
               <AnimatePresence mode="popLayout" initial={false}>
                 {visibleStories.map((story) => (
-                  <motion.div
+                  <m.div
                     key={`${activeIndex}-${story.id}`}
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -205,7 +206,7 @@ export function HomeStudentSuccessSection() {
                     className="h-full"
                   >
                     <TestimonialCard story={story} />
-                  </motion.div>
+                  </m.div>
                 ))}
               </AnimatePresence>
             </div>
@@ -213,5 +214,6 @@ export function HomeStudentSuccessSection() {
         </div>
       </div>
     </section>
+    </LazyMotion>
   );
 }

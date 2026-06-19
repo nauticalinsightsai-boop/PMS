@@ -1,5 +1,5 @@
 'use client';
-import { motion } from "motion/react";
+import { LazyMotion, domAnimation, m } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +16,7 @@ import {
   FIELD_KEYS,
   defaultServicesPageConfig,
   parseServicesPageConfig,
+  type ServicesPageConfig,
 } from "@pms/site-content";
 import { serviceIcon } from "@/lib/service-icons";
 import {
@@ -30,10 +31,11 @@ const SERVICE_COLORS = [
   { color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-900/10" },
 ];
 
-export function PMService() {
+export function PMService({ initialPageConfig }: { initialPageConfig?: ServicesPageConfig }) {
   const fallback = defaultServicesPageConfig();
   const { data: pageConfig } = usePublishedSiteDocument(FIELD_KEYS.SERVICES_PAGE_CONFIG, {
     parse: (raw) => (raw ? parseServicesPageConfig(raw) : null),
+    initialData: initialPageConfig ?? fallback,
   });
   const hero = pageConfig?.hero ?? fallback.hero;
   const services = (pageConfig?.services ?? fallback.services)
@@ -41,13 +43,14 @@ export function PMService() {
     .sort((a, b) => a.sortOrder - b.sortOrder);
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className={cn(pageHeroSection('warm'), 'relative overflow-hidden')}>
         <SectionAmbience tone="warm" />
         <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -88,25 +91,25 @@ export function PMService() {
                   {CTAS.requestCorporateCohortBrief}
                 </WebsiteCalendlyButton>
               </div>
-            </motion.div>
+            </m.div>
 
             <div id={PM_SERVICE_ADVISORY_FORM_ANCHOR} className="scroll-mt-24 w-full min-w-0">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.7 }}
                 className="relative z-20 lg:hidden"
               >
                 <PmServiceAdvisoryLeadForm placement="pm_service_hero_mobile" />
-              </motion.div>
-              <motion.div
+              </m.div>
+              <m.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
                 className="relative z-30 isolate hidden lg:block"
               >
                 <PmServiceAdvisoryLeadForm placement="pm_service_hero_desktop" />
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -122,7 +125,7 @@ export function PMService() {
               const Icon = serviceIcon(service.iconKey);
               const palette = SERVICE_COLORS[index % SERVICE_COLORS.length];
               return (
-              <motion.div
+              <m.div
                 key={service.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -134,7 +137,7 @@ export function PMService() {
                     <div className={cn("p-5 rounded-3xl", palette.bg, palette.color)}>
                       <Icon className="h-8 w-8" />
                     </div>
-                    <Badge variant="outline" className="text-[10px] uppercase font-black tracking-widest text-slate-400 px-3 py-1">
+                    <Badge variant="outline" className="text-[10px] uppercase font-extrabold tracking-widest text-slate-400 px-3 py-1">
                       Service {index + 1}
                     </Badge>
                   </div>
@@ -171,7 +174,7 @@ export function PMService() {
                     {service.title} <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </WebsiteCalendlyButton>
                 </Card>
-              </motion.div>
+              </m.div>
             );})}
           </div>
         </div>
@@ -218,5 +221,6 @@ export function PMService() {
         </div>
       </section>
     </div>
+    </LazyMotion>
   );
 }

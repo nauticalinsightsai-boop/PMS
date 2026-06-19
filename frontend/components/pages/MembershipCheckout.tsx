@@ -1,11 +1,11 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useCallback, useRef } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
-import { StripeEmbeddedCheckoutPanel } from '@/components/checkout/StripeEmbeddedCheckoutPanel';
 import { useRegion } from '@/contexts/RegionContext';
 import { useSiteColorScheme } from '@/hooks/useSiteColorScheme';
 import { membershipCheckoutHref, type MembershipCheckoutBilling, type MembershipCheckoutTier } from '@/lib/membership-checkout';
@@ -13,6 +13,14 @@ import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { getRegionalMembershipAmounts } from '@/lib/membership-regional-pricing';
 import { createMembershipEmbeddedCheckout } from '@/services/checkout';
 import { cn } from '@/lib/utils';
+
+const StripeEmbeddedCheckoutPanel = dynamic(
+  () =>
+    import('@/components/checkout/StripeEmbeddedCheckoutPanel').then((mod) => ({
+      default: mod.StripeEmbeddedCheckoutPanel,
+    })),
+  { ssr: false, loading: () => <div className="min-h-[320px] animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800" /> },
+);
 import { PMS_EVENTS } from '@/lib/analytics/pms-events';
 import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 

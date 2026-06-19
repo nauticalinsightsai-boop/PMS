@@ -46,9 +46,19 @@ export const PUBLIC_SUBNAV_SPACER_CLASS = 'h-14';
 
 export function PublicShell({ children }: { children: React.ReactNode }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [deferWidgets, setDeferWidgets] = useState(false);
 
   useEffect(() => {
     initAttributionCapture();
+  }, []);
+
+  useEffect(() => {
+    const run = () => setDeferWidgets(true);
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(run, { timeout: 2500 });
+    } else {
+      setTimeout(run, 1500);
+    }
   }, []);
 
   useEffect(() => {
@@ -81,9 +91,13 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
             <Footer />
             <ScrollToTop />
             <CookieConsent />
-            <BottomCtaRotator />
-            <SupportChatWidget />
-            <LeadRecoveryDialog />
+            {deferWidgets ? (
+              <>
+                <BottomCtaRotator />
+                <SupportChatWidget />
+                <LeadRecoveryDialog />
+              </>
+            ) : null}
           </div>
         </LeadRecoveryProvider>
       </RegionGate>

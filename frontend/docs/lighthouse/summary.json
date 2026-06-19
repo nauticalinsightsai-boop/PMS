@@ -1,0 +1,34 @@
+{
+  "capturedAt": "2026-06-19T13:19:44.993Z",
+  "base": "http://localhost:3051",
+  "summary": [
+    {
+      "route": "/",
+      "performanceScore": 69,
+      "lcpMs": 5340.7901,
+      "tbtMs": 258.5,
+      "totalJsKb": 716
+    },
+    {
+      "route": "/certifications",
+      "performanceScore": 69,
+      "lcpMs": 6284.330399999999,
+      "tbtMs": 371.0000000000009,
+      "totalJsKb": 701
+    },
+    {
+      "route": "/certifications/pmp",
+      "performanceScore": 71,
+      "lcpMs": 6221.639299999997,
+      "tbtMs": 302.5,
+      "totalJsKb": 752
+    },
+    {
+      "route": "/newsletter",
+      "performanceScore": 68,
+      "lcpMs": 5425.096499999999,
+      "tbtMs": 184,
+      "totalJsKb": 890
+    }
+  ]
+}

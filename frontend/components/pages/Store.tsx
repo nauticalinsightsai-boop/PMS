@@ -1,6 +1,6 @@
 'use client';
 import * as React from "react";
-import { motion } from "motion/react";
+import { LazyMotion, domAnimation, m } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +24,7 @@ import {
   defaultStoreCatalog,
   parseStoreCatalog,
   FIELD_KEYS,
+  type StoreCatalog,
 } from '@pms/site-content';
 import { CTAS } from '@/lib/brand-voice';
 
@@ -37,10 +38,11 @@ const categoryIcons: Record<string, typeof Package> = {
 };
 
 /** Store sections used on /community (Resource Store tab) and legacy /store redirect target */
-export function StoreContent() {
+export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog }) {
   const fallback = defaultStoreCatalog();
   const { data: catalog } = usePublishedSiteDocument(FIELD_KEYS.STORE_CATALOG, {
     parse: (raw) => (raw ? parseStoreCatalog(raw) : null),
+    initialData: initialCatalog ?? fallback,
   });
   const products = (catalog?.products ?? fallback.products)
     .filter((p) => p.visible)
@@ -143,7 +145,7 @@ export function StoreContent() {
           ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product, index) => (
-              <motion.div
+              <m.div
                 key={product.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -197,7 +199,7 @@ export function StoreContent() {
                     </Button>
                   </CardFooter>
                 </Card>
-              </motion.div>
+              </m.div>
             ))}
           </div>
           )}
@@ -265,8 +267,10 @@ export function StoreContent() {
 /** @deprecated Use Community page with Resource Store tab; /store redirects to /community */
 export function Store() {
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="flex flex-col min-h-screen">
       <StoreContent />
     </div>
+    </LazyMotion>
   );
 }

@@ -1,15 +1,17 @@
 import { HOME_COPY } from '@/lib/brand-voice';
 import { T169_SEO } from '@/content/pmp/flagship-t169';
-import { defaultHomePageConfigV2, parseHomeHeroHeadingLines } from '@pms/site-content';
-
-const defaultSlide =
-  defaultHomePageConfigV2().heroSlides.find((s) => s.visible) ??
-  defaultHomePageConfigV2().heroSlides[0];
+import { defaultHomePageConfigV2, parseHomeHeroHeadingLines, type HomePageConfigV2 } from '@pms/site-content';
 
 /** Server-rendered crawlable copy before client hydration. */
-export function HomeServerHeading() {
-  const title = defaultSlide.heading || HOME_COPY.heroTitle;
-  const subtitle = defaultSlide.description || HOME_COPY.heroSubtitle;
+export function HomeServerHeading({ config }: { config?: HomePageConfigV2 }) {
+  const slide =
+    config?.heroSlides.find((s) => s.visible) ??
+    config?.heroSlides[0] ??
+    defaultHomePageConfigV2().heroSlides.find((s) => s.visible) ??
+    defaultHomePageConfigV2().heroSlides[0];
+
+  const title = slide.heading || HOME_COPY.heroTitle;
+  const subtitle = slide.description || HOME_COPY.heroSubtitle;
   const accents = HOME_COPY.heroTitleAccents.join(', ');
 
   return (

@@ -11,7 +11,11 @@
     "start": "next start -H 0.0.0.0 -p ${PORT:-3000}",
     "lint": "next lint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:performance": "vitest run lib/cms/cms-performance.test.ts lib/cms/marketing-performance-smoke.test.ts",
+    "start:perf": "next start -H localhost -p 3051",
+    "smoke:routes": "node scripts/performance-route-smoke.mjs",
+    "lighthouse:sample": "node scripts/lighthouse-sample.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",

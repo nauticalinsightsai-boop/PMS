@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import type { RealtimeChannel } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
+import { subscribePublishedWebsiteData } from '@/lib/cms/realtime-multiplex';
 
 /**
  * Subscribes to published `website_data` changes and triggers a refresh callback.
@@ -21,41 +20,8 @@ export function useWebsiteDataRealtime(
   useEffect(() => {
     if (!enabled || keyList.length === 0 || typeof window === 'undefined') return;
 
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (!url || !key) return;
-
-    let channel: RealtimeChannel | null = null;
-    let warned = false;
-
-    const ch = supabase
-      .channel(`website-data-public:${keySignature}`)
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'website_data' },
-        (payload) => {
-          const row = (payload.new ?? payload.old) as
-            | { field_key?: string; is_published?: boolean }
-            | null;
-          const fieldKey = row?.field_key;
-          if (!fieldKey || !keyList.includes(fieldKey)) return;
-          if (payload.eventType !== 'DELETE' && row?.is_published === false) return;
-          cbRef.current();
-        },
-      )
-      .subscribe((status, err) => {
-        if ((status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') && !warned) {
-          warned = true;
-          console.warn('[website-data:realtime]', err?.message ?? status);
-        }
-      });
-    channel = ch;
-
-    return () => {
-      if (channel) {
-        supabase.removeChannel(channel);
-        channel = null;
-      }
-    };
+    return subscribePublishedWebsiteData(keyList, () => {
+      cbRef.current();
+    });
   }, [enabled, keySignature]);
 }

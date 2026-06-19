@@ -1,5 +1,6 @@
 'use client';
 import * as React from "react";
+import { LazyMotion, domAnimation } from "motion/react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,9 +14,9 @@ import {
   CTABanner 
 } from "@/components/NewsletterComponents";
 import { PAGE_HERO_PADDING } from "@/components/SectionAmbience";
-import { useNewsletterArticles } from "@/hooks/useNewsletterArticles";
-import { useNewsletterHubConfig } from "@/hooks/useNewsletterHubConfig";
-import { useNewsletterCategories } from "@/hooks/useNewsletterCategories";
+import { useNewsletterPageData } from '@/hooks/useNewsletterPageData';
+import type { NewsletterHubConfig } from '@pms/site-content/newsletter';
+import type { NewsletterArticle } from '@pms/site-content/newsletter-posts';
 import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
 import { NewsletterSubscribeForm } from "@/components/forms/NewsletterSubscribeForm";
 import { NewsletterHeroSubscribeForm } from "@/components/forms/NewsletterHeroSubscribeForm";
@@ -35,10 +36,20 @@ function renderHeroTitle(title: string) {
   );
 }
 
-export function Newsletter() {
-  const { articles, isLoading } = useNewsletterArticles();
-  const { config: hub } = useNewsletterHubConfig();
-  const categories = useNewsletterCategories(articles);
+export function Newsletter({
+  initialHub,
+  initialArticles,
+  initialTopicNames,
+}: {
+  initialHub?: NewsletterHubConfig;
+  initialArticles?: NewsletterArticle[];
+  initialTopicNames?: string[];
+}) {
+  const { hub, articles, categories, isLoading } = useNewsletterPageData({
+    hub: initialHub,
+    articles: initialArticles,
+    topicNames: initialTopicNames,
+  });
   const [activeCategory, setActiveCategory] = React.useState("All");
   const [visibleCount, setVisibleCount] = React.useState(4);
 
@@ -70,6 +81,7 @@ export function Newsletter() {
   }
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="flex flex-col min-h-screen">
       {/* 1. Newsletter Hero / Title Section */}
       <section
@@ -200,7 +212,7 @@ export function Newsletter() {
                     className="flex gap-4 group"
                   >
                     <span
-                      className="text-4xl font-heading font-black tabular-nums leading-none text-slate-300 dark:text-slate-600 group-hover:text-brand-orange transition-colors duration-300 shrink-0"
+                      className="text-4xl font-heading font-extrabold tabular-nums leading-none text-slate-300 dark:text-slate-600 group-hover:text-brand-orange transition-colors duration-300 shrink-0"
                       aria-hidden
                     >
                       0{index + 1}
@@ -266,5 +278,6 @@ export function Newsletter() {
         />
       </div>
     </div>
+    </LazyMotion>
   );
 }

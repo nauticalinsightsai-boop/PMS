@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import {
   Award,
   BookOpen,
@@ -88,7 +88,7 @@ export function CertProgramHighlightsContent({
 }: CertProgramHighlightsProps) {
   return (
     <div className={cn('relative z-10', className)}>
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -119,7 +119,7 @@ export function CertProgramHighlightsContent({
             />
           ) : null}
         </div>
-      </motion.div>
+      </m.div>
 
       <ResponsiveSnapScroll
         desktopLayoutClassName="md:grid md:grid-cols-2 lg:grid-cols-3"
@@ -129,7 +129,7 @@ export function CertProgramHighlightsContent({
         {offer.highlights.map((item, index) => {
           const Icon = HIGHLIGHT_ICONS[item.id] ?? Sparkles;
           return (
-            <motion.div
+            <m.div
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -146,7 +146,7 @@ export function CertProgramHighlightsContent({
               <p className="min-h-0 text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-400 max-md:line-clamp-5">
                 {item.description}
               </p>
-            </motion.div>
+            </m.div>
           );
         })}
       </ResponsiveSnapScroll>

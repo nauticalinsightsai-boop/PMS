@@ -5,10 +5,10 @@ import {
   PMP_COMMERCIAL_PATH,
 } from '@/content/site-architecture/routes';
 import { buildCourseSchema } from '@/lib/schema';
-import * as siteData from '@/data/siteData';
+import { certifications } from '@/data/certification-index';
 
 export function CertJsonLd({ certId }: { certId: string }) {
-  const cert = siteData.certifications.find((c) => c.id === certId);
+  const cert = certifications.find((c) => c.id === certId);
   if (!cert) return null;
 
   const path = `/certifications/${certId}`;

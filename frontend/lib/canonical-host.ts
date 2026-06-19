@@ -7,6 +7,7 @@ export const PREFERRED_CANONICAL_HOST = 'pmstructure.com';
 function isRedirectExemptHost(host: string): boolean {
   return (
     host === 'localhost' ||
+    host === '127.0.0.1' ||
     host.endsWith('.localhost') ||
     host.endsWith('.vercel.app') ||
     host.endsWith('.railway.app')

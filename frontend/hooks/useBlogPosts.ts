@@ -7,9 +7,9 @@ import { loadBlogArticlesClient } from '@/lib/blog/posts';
 import { blogArticles as fileFallback } from '@/data/blogArticles';
 import { useWebsiteDataRealtime } from '@/hooks/useWebsiteDataRealtime';
 
-export function useBlogPosts() {
-  const [articles, setArticles] = useState<BlogArticle[]>(fileFallback);
-  const [isLoading, setIsLoading] = useState(true);
+export function useBlogPosts(initialArticles?: BlogArticle[]) {
+  const [articles, setArticles] = useState<BlogArticle[]>(initialArticles ?? fileFallback);
+  const [isLoading, setIsLoading] = useState(initialArticles === undefined);
 
   const refresh = useCallback(async () => {
     try {
@@ -21,8 +21,12 @@ export function useBlogPosts() {
   }, []);
 
   useEffect(() => {
+    if (initialArticles !== undefined) {
+      setArticles(initialArticles);
+      setIsLoading(false);
+    }
     void refresh();
-  }, [refresh]);
+  }, [initialArticles, refresh]);
 
   useWebsiteDataRealtime([CMS_POSTS_FIELD_KEY, CMS_TOPICS_FIELD_KEY], refresh);
 

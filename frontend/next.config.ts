@@ -20,6 +20,9 @@ const dashBeRoot = path.join(__dirname, '../dashboard/backend');
 const publicApiRoot = path.join(__dirname, '../backend');
 
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'motion'],
+  },
   env: {
     NEXT_PUBLIC_AUTH_USE_API_LOGIN: process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN ?? 'true',
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:

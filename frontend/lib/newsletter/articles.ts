@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import {
   mergeNewsletterArticles,
   NEWSLETTER_POSTS_FIELD_KEY,
@@ -35,10 +36,10 @@ async function fetchCmsArticles(): Promise<NewsletterArticle[]> {
 }
 
 /** Server: published CMS posts merged with file seed (CMS wins on slug conflict). */
-export async function getPublishedNewsletterArticles(): Promise<NewsletterArticle[]> {
+export const getPublishedNewsletterArticles = cache(async (): Promise<NewsletterArticle[]> => {
   const cmsArticles = await fetchCmsArticles();
   return mergeNewsletterArticles(fileArticles, cmsArticles);
-}
+});
 
 export async function getNewsletterArticle(slug: string): Promise<NewsletterArticle | undefined> {
   const articles = await getPublishedNewsletterArticles();

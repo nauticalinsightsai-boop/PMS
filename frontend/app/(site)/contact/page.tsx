@@ -1,5 +1,6 @@
 import { Contact } from '@/components/pages/Contact';
 import { buildPageMetadata } from '@/lib/site-metadata';
+import { fetchPublishedGlobalContent } from '@/lib/cms/fetch-published-document';
 
 export const metadata = buildPageMetadata({
   title: 'Contact & consultation',
@@ -7,6 +8,8 @@ export const metadata = buildPageMetadata({
   path: '/contact',
 });
 
-export default function Page() {
-  return <Contact />;
+export default async function Page() {
+  const globalContent = await fetchPublishedGlobalContent();
+
+  return <Contact globalContent={globalContent} />;
 }

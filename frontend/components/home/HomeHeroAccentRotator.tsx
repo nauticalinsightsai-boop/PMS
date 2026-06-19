@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion } from 'motion/react';
 import { HOME_COPY } from '@/lib/brand-voice';
 import { cn } from '@/lib/utils';
 
@@ -31,6 +31,7 @@ export function HomeHeroAccentRotator({
   const current = list[index] ?? list[0];
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <p
       className={cn(
         'font-heading text-2xl sm:text-3xl md:text-[2rem] font-semibold text-brand-orange mb-6 sm:mb-8 tracking-tight leading-[1.15] text-balance min-h-[1.15em] sm:min-h-[1.2em]',
@@ -43,7 +44,7 @@ export function HomeHeroAccentRotator({
         current
       ) : (
         <AnimatePresence mode="wait" initial={false}>
-          <motion.span
+          <m.span
             key={current}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -52,9 +53,10 @@ export function HomeHeroAccentRotator({
             className="inline-block"
           >
             {current}
-          </motion.span>
+          </m.span>
         </AnimatePresence>
       )}
     </p>
+    </LazyMotion>
   );
 }

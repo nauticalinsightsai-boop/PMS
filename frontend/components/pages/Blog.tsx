@@ -9,13 +9,19 @@ import { ArticleCard, FeaturedPost } from '@/components/NewsletterComponents';
 import { PAGE_HERO_PADDING } from '@/components/SectionAmbience';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
 import { getBlogArticleHref } from '@/lib/blog/posts';
-import { useWebsiteData } from '@/services/WebsiteDataService';
+import type { BlogArticle } from '@pms/site-content/cms-posts';
+import { globalContentString, type GlobalContentMap } from '@/lib/cms/global-content';
 import { PageHeroWithImage } from '@/components/marketing/PageMarketingImage';
 import { MARKETING_PAGE_IMAGES } from '@/lib/marketing-stock-images';
 
-export function Blog() {
-  const { get } = useWebsiteData();
-  const { articles, isLoading } = useBlogPosts();
+export function Blog({
+  initialArticles,
+  globalContent,
+}: {
+  initialArticles?: BlogArticle[];
+  globalContent?: GlobalContentMap;
+}) {
+  const { articles, isLoading } = useBlogPosts(initialArticles);
   const [query, setQuery] = React.useState('');
   const [visibleCount, setVisibleCount] = React.useState(6);
 
@@ -53,13 +59,14 @@ export function Blog() {
                 variant="outline"
                 className="mb-6 border-brand-purple/25 text-brand-purple bg-brand-purple/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]"
               >
-                {get('blog_badge', 'Blog & insights')}
+                {globalContentString(globalContent, 'blog_badge', 'Blog & insights')}
               </Badge>
               <h1 className="font-heading text-hero font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-6">
-                {get('blog_title', 'PM Structure Blog')}
+                {globalContentString(globalContent, 'blog_title', 'PM Structure Blog')}
               </h1>
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                {get(
+                {globalContentString(
+                  globalContent,
                   'blog_subtitle',
                   'Practical guidance on certification pathways, safety leadership, and professional development.',
                 )}

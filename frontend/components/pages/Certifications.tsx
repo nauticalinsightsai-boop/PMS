@@ -1,8 +1,8 @@
 'use client';
-import { motion, AnimatePresence } from "motion/react";
+import dynamic from 'next/dynamic';
+import { LazyMotion, domAnimation, m, AnimatePresence } from "motion/react";
 import * as React from "react";
 import Link from "next/link";
-import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
@@ -15,11 +15,11 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import * as siteData from "@/data/siteData";
+import { certifications, familyConfigs } from "@/data/certification-index";
 import type { CertificationSummary } from "@/types/site";
 import { CERTIFICATIONS_COPY, CTAS } from "@/lib/brand-voice";
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
-import { ResponsiveSnapScroll } from "@/components/ResponsiveSnapScroll";
+import { LazyWhenVisible } from '@/components/LazyWhenVisible';
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
@@ -32,12 +32,37 @@ import {
   type PathwayFamilyTab,
 } from "@/lib/certification-enrollment";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
+import { useIsLgUp } from '@/hooks/useIsLgUp';
 import {
   FIELD_KEYS,
   defaultCertificationsHubConfig,
   parseCertificationsHubConfig,
   parseCertificationsRegistry,
+  type CertificationsHubConfig,
+  type CertificationsRegistry,
 } from "@pms/site-content";
+
+const ResponsiveSnapScroll = dynamic(
+  () =>
+    import('@/components/ResponsiveSnapScroll').then((mod) => ({
+      default: mod.ResponsiveSnapScroll,
+    })),
+  { loading: () => <div className="min-h-[12rem]" aria-hidden /> },
+);
+
+const WebsiteCalendlyButton = dynamic(
+  () =>
+    import('@/components/calendly/WebsiteCalendlyButton').then((mod) => ({
+      default: mod.WebsiteCalendlyButton,
+    })),
+  {
+    loading: () => (
+      <span className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-brand-orange/80 px-6 text-sm font-bold text-white sm:h-14 sm:w-auto">
+        {CTAS.pathwayConsultation}
+      </span>
+    ),
+  },
+);
 
 const FAMILY_TAB_LABEL: Record<PathwayFamilyTab, string> = {
   PMI: "PMI®",
@@ -96,17 +121,29 @@ function CertificationFamilyTabs({
     </div>
   );
 }
-const certificationsBase = siteData.certifications.filter((c) =>
+const certificationsBase = certifications.filter((c) =>
   PATHWAY_FAMILY_TABS.includes(c.familyId as PathwayFamilyTab),
 );
 
-export function Certifications() {
+const emptyRegistry: CertificationsRegistry = { entries: [] };
+
+export function Certifications({
+  initialHubConfig,
+  initialRegistry,
+}: {
+  initialHubConfig?: CertificationsHubConfig;
+  initialRegistry?: CertificationsRegistry;
+}) {
+  const isLgUp = useIsLgUp();
   const { regionId } = useRegion();
+  const hubFallback = defaultCertificationsHubConfig();
   const { data: hubConfig } = usePublishedSiteDocument(FIELD_KEYS.CERTIFICATIONS_HUB_CONFIG, {
     parse: (raw) => (raw ? parseCertificationsHubConfig(raw) : null),
+    initialData: initialHubConfig ?? hubFallback,
   });
   const { data: registry } = usePublishedSiteDocument(FIELD_KEYS.CERTIFICATIONS_REGISTRY, {
     parse: (raw) => (raw ? parseCertificationsRegistry(raw) : null),
+    initialData: initialRegistry ?? emptyRegistry,
   });
   const hub = hubConfig ?? defaultCertificationsHubConfig();
   const hiddenIds = new Set(
@@ -131,6 +168,7 @@ export function Certifications() {
   };
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white">
       {/* Hero Section */}
       <section
@@ -147,7 +185,7 @@ export function Certifications() {
         
         <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -162,24 +200,19 @@ export function Certifications() {
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
                 {hub.hero.subtitle || CERTIFICATIONS_COPY.heroSubtitle}
               </p>
-            </motion.div>
+            </m.div>
             <div id={PMP_ROADMAP_FORM_ANCHOR} className="scroll-mt-24 w-full min-w-0">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.98 }}
+              <m.div
+                initial={{ opacity: 0, scale: isLgUp ? 0.95 : 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7 }}
-                className="relative z-20 lg:hidden"
+                transition={{ duration: isLgUp ? 0.8 : 0.7 }}
+                className={cn('relative w-full min-w-0', isLgUp ? 'z-30 isolate' : 'z-20')}
               >
-                <PmpRoadmapLeadForm placement="certifications_hub_mobile" variant="hero" />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-                className="relative z-30 isolate hidden lg:block"
-              >
-                <PmpRoadmapLeadForm placement="certifications_hub_desktop" variant="hero" />
-              </motion.div>
+                <PmpRoadmapLeadForm
+                  placement={isLgUp ? 'certifications_hub_desktop' : 'certifications_hub_mobile'}
+                  variant="hero"
+                />
+              </m.div>
             </div>
           </div>
         </div>
@@ -189,7 +222,7 @@ export function Certifications() {
       <section className={sectionSurface('soft', 'py-32 relative')}>
         <SectionAmbience tone="soft" />
         <h2 className="sr-only">Browse certification pathways</h2>
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
@@ -241,7 +274,7 @@ export function Certifications() {
                               mobileItemClassName="w-[min(92vw,19rem)]"
                             >
                               {featuredTop.map((cert) => (
-                                <motion.div
+                                <m.div
                                   key={cert.id}
                                   initial={{ opacity: 0, y: 12 }}
                                   whileInView={{ opacity: 1, y: 0 }}
@@ -253,7 +286,7 @@ export function Certifications() {
                                     cert={cert}
                                     familyLabel={cert.familyId}
                                   />
-                                </motion.div>
+                                </m.div>
                               ))}
                             </ResponsiveSnapScroll>
                           </div>
@@ -295,14 +328,15 @@ export function Certifications() {
                 );
               })}
             </Tabs>
-        </motion.div>
+        </m.div>
       </section>
 
       {/* Pathway consultation */}
+      <LazyWhenVisible minHeightClassName="min-h-[24rem]">
       <section className={sectionSurface('cool', 'py-24 overflow-hidden')}>
         <SectionAmbience tone="cool" />
         <div className="container mx-auto relative z-10">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -320,12 +354,12 @@ export function Certifications() {
               <div className="grid grid-cols-2 gap-6">
                 <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
                   <Clock className="h-6 w-6 text-brand-orange mb-3" />
-                  <div className="text-xs font-black uppercase text-slate-400 mb-1">Start with</div>
+                  <div className="text-xs font-extrabold uppercase text-slate-400 mb-1">Start with</div>
                   <div className="text-xl font-bold text-slate-900 dark:text-white">Your timeline</div>
                 </div>
                 <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
                   <Tag className="h-6 w-6 text-brand-orange mb-3" />
-                  <div className="text-xs font-black uppercase text-slate-400 mb-1">Then assess</div>
+                  <div className="text-xs font-extrabold uppercase text-slate-400 mb-1">Then assess</div>
                   <div className="text-xl font-bold text-slate-900 dark:text-white">Readiness gap</div>
                 </div>
               </div>
@@ -369,15 +403,17 @@ export function Certifications() {
                 </ul>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
+      </LazyWhenVisible>
 
       {/* Unified High-Impact CTA Section */}
+      <LazyWhenVisible minHeightClassName="min-h-[20rem]">
       <section className={sectionSurface('warm', 'py-32')}>
         <SectionAmbience tone="warm" />
         <div className="container relative z-10 mx-auto">
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -387,7 +423,7 @@ export function Certifications() {
             <div className="absolute top-0 right-0 w-96 h-96 bg-brand-orange/20 blur-[120px] -mr-48 -mt-48 transition-all group-hover:bg-brand-orange/30 duration-700" />
             
             <div className="relative z-10 max-w-4xl mx-auto">
-              <Badge className="mb-8 bg-brand-orange text-white border-none px-6 py-2 text-xs font-black uppercase tracking-[0.3em] rounded-full">Personalized Roadmap</Badge>
+              <Badge className="mb-8 bg-brand-orange text-white border-none px-6 py-2 text-xs font-extrabold uppercase tracking-[0.3em] rounded-full">Personalized Roadmap</Badge>
               <h2 className="text-4xl md:text-7xl font-bold text-white dark:text-slate-900 mb-8 tracking-tight leading-[1.1] md:px-12">
                 Not sure which path <span className="text-brand-orange">is right for you?</span>
               </h2>
@@ -414,10 +450,12 @@ export function Certifications() {
                 </WebsiteCalendlyButton>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </section>
+      </LazyWhenVisible>
     </div>
+    </LazyMotion>
   );
 }
 

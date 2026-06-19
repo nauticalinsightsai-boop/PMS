@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
 import type { FieldKey } from '@pms/site-content';
 import { getSchemaForFieldKey } from '@pms/site-content';
+import { useWebsiteDataRealtime } from '@/hooks/useWebsiteDataRealtime';
 
 const PREVIEW_PREFIX = 'pms:site-preview:';
 
@@ -17,10 +18,11 @@ export function usePublishedSiteDocument<T>(
     parse?: (raw: unknown) => T | null;
     previewParam?: string;
     previewMessageType?: string;
+    initialData?: T | null;
   },
 ) {
-  const [data, setData] = useState<T | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState<T | null>(options?.initialData ?? null);
+  const [isLoading, setIsLoading] = useState(options?.initialData === undefined);
   const [isPreview, setIsPreview] = useState(false);
 
   const parse =
@@ -32,6 +34,21 @@ export function usePublishedSiteDocument<T>(
       return result.success ? (result.data as T) : null;
     });
 
+  const parseRef = useRef(parse);
+  parseRef.current = parse;
+
+  const refresh = useCallback(async () => {
+    try {
+      WebsiteDataService.invalidatePublishedCache([fieldKey]);
+      const row = await WebsiteDataService.getPublishedByFieldKey(fieldKey);
+      setData(parseRef.current(row?.content));
+    } catch (err) {
+      console.error(`Failed to load site document ${fieldKey}`, err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [fieldKey]);
+
   useEffect(() => {
     const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
     const previewKey = params?.get('previewKey');
@@ -40,7 +57,7 @@ export function usePublishedSiteDocument<T>(
       try {
         const raw = localStorage.getItem(previewStorageKey(fieldKey));
         if (raw) {
-          setData(parse(JSON.parse(raw)));
+          setData(parseRef.current(JSON.parse(raw)));
           setIsPreview(true);
           setIsLoading(false);
           return;
@@ -50,26 +67,22 @@ export function usePublishedSiteDocument<T>(
       }
     }
 
-    const load = async () => {
-      try {
-        const rows = await WebsiteDataService.getData('published');
-        const row = rows.find((item) => item.field_key === fieldKey);
-        setData(parse(row?.content));
-      } catch (err) {
-        console.error(`Failed to load site document ${fieldKey}`, err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    load();
-  }, [fieldKey, options?.previewParam, options?.parse]);
+    if (options?.initialData !== undefined) {
+      setData(options.initialData);
+      setIsLoading(false);
+    }
+
+    void refresh();
+  }, [fieldKey, options?.previewParam, options?.initialData, refresh]);
+
+  useWebsiteDataRealtime(fieldKey, refresh);
 
   useEffect(() => {
     const messageType = options?.previewMessageType ?? `pms:site-preview:${fieldKey}`;
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type !== messageType) return;
       if (event.data.fieldKey && event.data.fieldKey !== fieldKey) return;
-      const next = parse(event.data.content);
+      const next = parseRef.current(event.data.content);
       if (next) {
         setData(next);
         setIsPreview(true);
@@ -82,7 +95,7 @@ export function usePublishedSiteDocument<T>(
     };
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [fieldKey, options?.previewMessageType, parse]);
+  }, [fieldKey, options?.previewMessageType]);
 
   return { data, isLoading, isPreview };
 }

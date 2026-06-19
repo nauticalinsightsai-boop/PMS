@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import {
   CMS_POSTS_FIELD_KEY,
   CMS_TOPICS_FIELD_KEY,
@@ -56,10 +57,10 @@ async function fetchCmsArticles(): Promise<BlogArticle[]> {
 }
 
 /** Server: published CMS posts merged with file seed (CMS wins on slug conflict). */
-export async function getPublishedBlogArticles(): Promise<BlogArticle[]> {
+export const getPublishedBlogArticles = cache(async (): Promise<BlogArticle[]> => {
   const cmsArticles = await fetchCmsArticles();
   return mergeBlogArticles(fileArticles, cmsArticles);
-}
+});
 
 export async function getBlogArticle(slug: string): Promise<BlogArticle | undefined> {
   const articles = await getPublishedBlogArticles();

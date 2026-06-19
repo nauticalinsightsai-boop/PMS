@@ -1,16 +1,24 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useCallback } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
-import { StripeEmbeddedCheckoutPanel } from '@/components/checkout/StripeEmbeddedCheckoutPanel';
 import { useRegion } from '@/contexts/RegionContext';
 import { useSiteColorScheme } from '@/hooks/useSiteColorScheme';
 import { defaultStoreCatalog } from '@pms/site-content/store';
 import { createStoreEmbeddedCheckout } from '@/services/checkout';
 import { cn } from '@/lib/utils';
+
+const StripeEmbeddedCheckoutPanel = dynamic(
+  () =>
+    import('@/components/checkout/StripeEmbeddedCheckoutPanel').then((mod) => ({
+      default: mod.StripeEmbeddedCheckoutPanel,
+    })),
+  { ssr: false, loading: () => <div className="min-h-[320px] animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800" /> },
+);
 
 function StoreCheckoutContent() {
   const searchParams = useSearchParams();

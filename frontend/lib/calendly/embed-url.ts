@@ -1307,12 +1307,8 @@ export function buildCalendlyInlineWidgetUrl(
  * Calendly `initPopupWidget({ url })`: same theme tokens as inline embed, no `embed_type=Inline`
  * (popup uses its own chrome; colors still apply to the scheduler inside).
  */
-export type CalendlyUtmParams = {
- utm_source?: string;
- utm_medium?: string;
- utm_campaign?: string;
- utm_content?: string;
-};
+export type { CalendlyUtmParams } from '@/lib/calendly/embed-types';
+import type { CalendlyUtmParams } from '@/lib/calendly/embed-types';
 
 function applyCalendlyUtm(u: URL, utm?: CalendlyUtmParams): void {
  if (!utm) return;

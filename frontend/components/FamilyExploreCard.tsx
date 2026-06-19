@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { CertFamilyMark } from '@/components/CertFamilyMark';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ export function FamilyExploreCard({
   const wash = FAMILY_WASH[family.id] ?? FAMILY_WASH.PMI;
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -112,6 +112,6 @@ export function FamilyExploreCard({
           </Link>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
