@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState, type ReactNode } from 'react';
+import Image from 'next/image';
 import { LazyMotion, domAnimation, m } from "motion/react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -23,10 +24,51 @@ import {
 } from '@/lib/membership-plans';
 import { getRegionalMembershipAmounts } from '@/lib/membership-regional-pricing';
 import { membershipCheckoutHref, type MembershipCheckoutTier } from '@/lib/membership-checkout';
-import { MARKETING_STOCK_IMAGES } from '@/lib/marketing-stock-images';
+import { MARKETING_STOCK_IMAGES, type MarketingImageSpec } from '@/lib/marketing-stock-images';
 
 import { LazyWhenVisible } from '@/components/LazyWhenVisible';
+import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 import { membershipTiers } from '@/data/certification-index';
+
+const MEMBERSHIP_VAULT_IMAGES = MARKETING_STOCK_IMAGES.membershipResources;
+
+function MembershipVaultImage({ image }: { image: MarketingImageSpec }) {
+  return (
+    <figure className="group relative aspect-square overflow-hidden rounded-3xl border border-slate-700 shadow-lg transition-transform hover:scale-105">
+      <Image
+        src={image.src}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
+        sizes="(max-width: 1024px) 45vw, 280px"
+        className="h-full w-full object-cover"
+        loading="lazy"
+      />
+    </figure>
+  );
+}
+
+function MembershipVaultImageGrid() {
+  const columns: ReadonlyArray<ReadonlyArray<number>> = [
+    [0, 2],
+    [1, 3],
+  ];
+
+  return (
+    <div className="grid grid-cols-2 gap-4 sm:gap-6">
+      {columns.map((indices, columnIndex) => (
+        <div
+          key={columnIndex}
+          className={cn('space-y-4 sm:space-y-6', columnIndex === 1 && 'lg:mt-12')}
+        >
+          {indices.map((imageIndex) => (
+            <MembershipVaultImage key={MEMBERSHIP_VAULT_IMAGES[imageIndex].src} image={MEMBERSHIP_VAULT_IMAGES[imageIndex]} />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const MEMBERSHIP_FEATURES_PREVIEW = 4;
 const MEMBERSHIP_TIER_DESCRIPTION_MIN_H = 'min-h-[6.5rem]';
@@ -328,7 +370,13 @@ export function Membership({
       <LazyWhenVisible minHeightClassName="min-h-[28rem]">
       <section id="plans" className="pb-20 pt-16 md:pt-20 relative z-20">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+          <ResponsiveSnapScroll
+            mobileLoop
+            desktopLayoutClassName="md:grid-cols-3 items-stretch"
+            gapClassName="gap-8"
+            mobileItemClassName="w-[min(88vw,19rem)]"
+            className="max-w-6xl mx-auto"
+          >
             {tiers.map((tier, index) => {
               const display = getMembershipDisplayPrice(
                 tier.monthlyPriceUsd,
@@ -448,7 +496,7 @@ export function Membership({
               </m.div>
               );
             })}
-          </div>
+          </ResponsiveSnapScroll>
         </div>
       </section>
 
@@ -509,10 +557,10 @@ export function Membership({
       <section className={sectionSurface('warm', 'py-32')}>
         <SectionAmbience tone="warm" />
         <div className="container relative z-10 mx-auto">
-          <div className="bg-slate-900 rounded-[3rem] p-12 md:p-20 relative overflow-hidden shadow-2xl">
+          <div className="bg-slate-900 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 md:p-20 relative overflow-hidden shadow-2xl">
             <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-brand-orange/10 to-brand-purple/10 pointer-events-none" />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
-              <div>
+              <div className="min-w-0">
                 <Badge className="mb-6 bg-brand-orange text-white border-none px-4 py-1 text-[10px] font-bold uppercase tracking-widest">Member Only</Badge>
                 <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">
                   Access the Vault of PM Resources
@@ -521,12 +569,12 @@ export function Membership({
                   Membership resources and templates are organized for structured preparation support. Availability varies by plan and release status.
                 </p>
                 <div className="space-y-4 mb-12">
-                  {["Exclusive Exam Simulators", "Career Coaching Sessions", "Industry Salary Reports"].map(item => (
-                    <div key={item} className="flex items-center gap-3 text-slate-300 text-base font-semibold">
-                      <div className="h-5 w-5 rounded-full bg-brand-orange/20 flex items-center justify-center">
-                        <Check className="h-3 w-3 text-brand-orange" />
-                      </div>
-                      {item}
+                  {MEMBERSHIP_VAULT_IMAGES.map((item) => (
+                    <div key={item.src} className="flex items-center gap-3 text-slate-300 text-base font-semibold">
+                      <span className="shrink-0 text-brand-orange" aria-hidden>
+                        —
+                      </span>
+                      {item.alt}
                     </div>
                   ))}
                 </div>
@@ -534,32 +582,13 @@ export function Membership({
                   href="/community?view=store"
                   className={cn(
                     buttonVariants({ size: 'lg', variant: 'brand' }),
-                    'inline-flex h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all',
+                    'inline-flex min-h-14 h-auto w-full items-center justify-center whitespace-normal rounded-2xl px-6 py-3 text-center text-base font-bold leading-snug shadow-xl transition-all sm:w-auto sm:px-10 sm:py-0 sm:text-lg',
                   )}
                 >
                   Explore Resource Library
                 </Link>
               </div>
-              <div className="grid grid-cols-2 gap-6">
-                {MARKETING_STOCK_IMAGES.membershipResources.map((image, i) => (
-                  <div
-                    key={image.alt}
-                    className={cn(
-                      'aspect-square rounded-3xl overflow-hidden border border-slate-700 shadow-lg transition-transform hover:scale-105',
-                      i % 2 === 1 ? 'mt-8' : '',
-                    )}
-                  >
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      width={image.width}
-                      height={image.height}
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                ))}
-              </div>
+              <MembershipVaultImageGrid />
             </div>
           </div>
         </div>

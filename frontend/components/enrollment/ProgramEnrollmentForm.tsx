@@ -20,9 +20,15 @@ type ProgramEnrollmentFormProps = {
   offeringId: string;
   siteCertId: string;
   tierSlug: string;
+  publishableKeyHint?: string | null;
 };
 
-export function ProgramEnrollmentForm({ offeringId, siteCertId, tierSlug }: ProgramEnrollmentFormProps) {
+export function ProgramEnrollmentForm({
+  offeringId,
+  siteCertId,
+  tierSlug,
+  publishableKeyHint = null,
+}: ProgramEnrollmentFormProps) {
   const data = useRegionalOffering(offeringId);
   const [paymentMode, setPaymentMode] = React.useState<EnrollmentPaymentMode>('seat_deposit');
 
@@ -140,6 +146,7 @@ export function ProgramEnrollmentForm({ offeringId, siteCertId, tierSlug }: Prog
               siteCertId={siteCertId}
               tierSlug={tierSlug}
               paymentMode={paymentMode}
+              publishableKeyHint={publishableKeyHint}
             />
           </div>
         </div>

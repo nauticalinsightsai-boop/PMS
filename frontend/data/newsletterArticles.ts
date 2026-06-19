@@ -61,7 +61,7 @@ export const newsletterArticles: NewsletterArticle[] = [
       'How generative AI is transforming risk assessment, resource allocation, and stakeholder communication.',
     category: 'Career Growth',
     date: 'Oct 05, 2025',
-    author: 'Elena Rodriguez',
+    author: 'Sheikh M. Abdullah',
     readTime: '15 min read',
     image: '/images/marketing/community-network-600.webp',
     body: [

@@ -14,7 +14,9 @@ export const PM_SERVICE_INDUSTRY_OPTIONS = [
   { value: 'oil_gas', label: 'Oil & Gas' },
 ] as const;
 
-export type PmServiceIndustryValue = (typeof PM_SERVICE_INDUSTRY_OPTIONS)[number]['value'];
+export type PmServiceIndustryValue =
+  | (typeof PM_SERVICE_INDUSTRY_OPTIONS)[number]['value']
+  | 'other';
 
 export function resolvePmServiceInterestLabel(
   interest: PmServiceInterestValue | '',
@@ -25,7 +27,11 @@ export function resolvePmServiceInterestLabel(
   return PM_SERVICE_INTEREST_OPTIONS.find((o) => o.value === interest)?.label ?? '';
 }
 
-export function resolvePmServiceIndustryLabel(industry: PmServiceIndustryValue | ''): string {
+export function resolvePmServiceIndustryLabel(
+  industry: PmServiceIndustryValue | '',
+  otherText: string,
+): string {
   if (!industry) return '';
+  if (industry === 'other') return otherText.trim();
   return PM_SERVICE_INDUSTRY_OPTIONS.find((o) => o.value === industry)?.label ?? '';
 }

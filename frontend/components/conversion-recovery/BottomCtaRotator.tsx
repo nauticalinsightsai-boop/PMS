@@ -50,8 +50,8 @@ const BOTTOM_BAR_CTA_BTN =
 const BOTTOM_BAR_CTA_ROW = 'flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end sm:shrink-0 lg:w-auto';
 const BOTTOM_BAR_SHELL =
   'fixed inset-x-0 bottom-0 z-[85] pointer-events-auto border-t backdrop-blur-md text-foreground ' +
-  'bg-white/98 border-slate-200/90 shadow-[0_-12px_40px_rgba(15,23,42,0.08)] supports-[backdrop-filter]:bg-white/92 ' +
-  'dark:bg-[#07071c]/98 dark:border-slate-800/90 dark:shadow-[0_-12px_40px_rgba(0,0,0,0.45)] dark:supports-[backdrop-filter]:bg-[#07071c]/92';
+  'bg-white/88 border-slate-200/75 shadow-[0_-12px_40px_rgba(15,23,42,0.06)] supports-[backdrop-filter]:bg-white/82 ' +
+  'dark:bg-[#07071c]/88 dark:border-slate-800/75 dark:shadow-[0_-12px_40px_rgba(0,0,0,0.35)] dark:supports-[backdrop-filter]:bg-[#07071c]/82';
 const BOTTOM_BAR_OUTLINE_BTN =
   'font-bold border-slate-300 bg-white text-slate-900 hover:bg-slate-50 ' +
   'dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800';

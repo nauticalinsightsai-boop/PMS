@@ -5,7 +5,7 @@ import {
 /** Anchor for roadmap lead-form CTAs (hero / cert page). */
 export const PMP_ROADMAP_FORM_ANCHOR = 'pmp-roadmap-form';
 
-export const PMP_PROGRAM_CTA_LABEL = 'Get My PMP 2026 Roadmap';
+export const PMP_PROGRAM_CTA_LABEL = 'Get My PMP Roadmap';
 
 export const PMP_UNTIL_YOU_PASS_HEADLINE = 'Support through your planned exam-preparation window';
 export const PMP_UNTIL_YOU_PASS_SUBLINE =

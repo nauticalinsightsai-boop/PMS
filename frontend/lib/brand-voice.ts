@@ -112,7 +112,7 @@ export const CTAS = {
   websiteHeroConsultation: 'Talk to a Mentor',
 
   /** T-169 flagship primary CTA (task copy; 6 words). */
-  pmp2026Roadmap: 'Get My PMP 2026 Roadmap',
+  pmp2026Roadmap: 'Get My PMP Roadmap',
 
   comparePathways: 'Compare certifications',
 
@@ -163,7 +163,7 @@ export const HOME_COPY = {
   heroMicrocopy:
     'Independent exam-prep and readiness support. Certifications are issued by their respective certification bodies, not PM Structure.',
 
-  ctaPrimary: 'Get My PMP 2026 Roadmap',
+  ctaPrimary: 'Get My PMP Roadmap',
 
   ctaSecondary: 'Compare certifications',
 

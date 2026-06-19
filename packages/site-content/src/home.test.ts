@@ -60,7 +60,7 @@ describe('home config', () => {
   it('default hero uses roadmap CTA', () => {
     const cfg = defaultHomePageConfigV2();
     expect(cfg.heroSlides[0].primaryAction).toBe('link');
-    expect(cfg.heroSlides[0].primaryCta).toBe('Get My PMP 2026 Roadmap');
+    expect(cfg.heroSlides[0].primaryCta).toBe('Get My PMP Roadmap');
     expect(cfg.heroSlides[0].heading).toBe(DEFAULT_HOME_HERO_HEADING_LINES.join('\n'));
     expect(cfg.heroSlides[0].description).toBe(DEFAULT_HOME_HERO_SUBTITLE);
     expect(cfg.stats.professionalsCount).toBe(1284);
@@ -104,7 +104,7 @@ describe('home config', () => {
           heading: 'Prepare for the PMP exam change with a clear route, not random study noise.',
           description:
             'The PMP exam changes on 9 July 2026. PM Structure helps working professionals decide whether they are preparing for the current or updated exam, map their eligibility, organize study effort, and track readiness with mentor-led structure.',
-          primaryCta: 'Get My PMP 2026 Roadmap',
+          primaryCta: 'Get My PMP Roadmap',
           primaryAction: 'link',
           primaryLink: '/#pmp-roadmap-form',
           secondaryCta: 'Compare Certification Pathways',

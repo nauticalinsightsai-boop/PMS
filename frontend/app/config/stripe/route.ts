@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getStripePublishableKey } from '@/lib/stripe-publishable-key.server';
+import { readMonorepoPublishableKey } from '../../../../backend/lib/ensure-monorepo-env';
 
 /** Marketing-site Stripe publishable key (frontend route: not proxied to backend). */
 export async function GET() {
-  return NextResponse.json({ publishableKey: getStripePublishableKey() });
+  return NextResponse.json({ publishableKey: readMonorepoPublishableKey() });
 }

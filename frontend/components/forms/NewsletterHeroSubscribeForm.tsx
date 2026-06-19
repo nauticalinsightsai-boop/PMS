@@ -29,6 +29,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
 
   const [fullName, setFullName] = React.useState('');
   const [email, setEmail] = React.useState('');
+  const [linkedinUrl, setLinkedinUrl] = React.useState('');
   const [selectedTopics, setSelectedTopics] = React.useState<string[]>([]);
   const [honeypot, setHoneypot] = React.useState('');
   const [submitting, setSubmitting] = React.useState(false);
@@ -61,6 +62,10 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!fullName.trim()) {
+      setError('Please enter your full name.');
+      return;
+    }
     if (selectedTopics.length === 0) {
       setError('Please select at least one topic you are interested in.');
       return;
@@ -84,6 +89,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
       },
       payload: {
         fullName: fullName.trim(),
+        linkedinUrl: linkedinUrl.trim() || undefined,
         topics: selectedTopics,
         topicsLabel,
         placement,
@@ -99,6 +105,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
       setSubmitted(true);
       setFullName('');
       setEmail('');
+      setLinkedinUrl('');
       setSelectedTopics([]);
     } else {
       setError(res.error ?? 'Could not subscribe. Please try again.');
@@ -147,6 +154,54 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
         </div>
 
         <div className="space-y-5 px-5 py-6 sm:space-y-6 sm:px-6 sm:py-7">
+          <div className="space-y-2.5">
+            <Label htmlFor={`${idPrefix}-name`} className={labelClass}>
+              Full Name
+            </Label>
+            <Input
+              id={`${idPrefix}-name`}
+              type="text"
+              required
+              autoComplete="name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder="John Smith"
+              className={fieldClass}
+            />
+          </div>
+
+          <div className="space-y-2.5">
+            <Label htmlFor={`${idPrefix}-email`} className={labelClass}>
+              Email Address
+            </Label>
+            <Input
+              id={`${idPrefix}-email`}
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@company.com"
+              className={fieldClass}
+            />
+          </div>
+
+          <div className="space-y-2.5">
+            <Label htmlFor={`${idPrefix}-linkedin`} className={labelClass}>
+              LinkedIn profile{' '}
+              <span className="font-semibold normal-case tracking-normal text-slate-400">(Optional)</span>
+            </Label>
+            <Input
+              id={`${idPrefix}-linkedin`}
+              type="url"
+              autoComplete="url"
+              value={linkedinUrl}
+              onChange={(e) => setLinkedinUrl(e.target.value)}
+              placeholder="https://linkedin.com/in/your-profile"
+              className={fieldClass}
+            />
+          </div>
+
           <fieldset className="space-y-3">
             <legend className={cn(labelClass, 'mb-2.5')}>
               What topics are you interested in? <span className="text-brand-orange">*</span>
@@ -169,37 +224,6 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
             </div>
           </fieldset>
 
-          <div className="space-y-2.5">
-            <Label htmlFor={`${idPrefix}-name`} className={labelClass}>
-              Full name
-            </Label>
-            <Input
-              id={`${idPrefix}-name`}
-              type="text"
-              required
-              autoComplete="name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="John Smith"
-              className={fieldClass}
-            />
-          </div>
-
-          <div className="space-y-2.5">
-            <Label htmlFor={`${idPrefix}-email`} className={labelClass}>
-              Email address
-            </Label>
-            <Input
-              id={`${idPrefix}-email`}
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@company.com"
-              className={fieldClass}
-            />
-          </div>
-
           <input
             id={`${idPrefix}-hp`}
             type="text"
@@ -213,17 +237,16 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
           />
 
           {error ? <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p> : null}
+        </div>
 
-          <p className="!mt-0 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
+        <div className="shrink-0 space-y-3 border-t border-slate-100 px-5 py-5 sm:px-6 dark:border-slate-800">
+          <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
             By subscribing, you agree to our{' '}
             <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
               Privacy Policy
             </Link>
             . Unsubscribe anytime.
           </p>
-        </div>
-
-        <div className="shrink-0 border-t border-slate-100 px-5 py-5 sm:px-6 dark:border-slate-800">
           <Button
             type="submit"
             disabled={submitting}

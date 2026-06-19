@@ -12,12 +12,7 @@ import {
   getNewsletterArticleHref,
   resolveNewsletterArticleImage,
 } from "@pms/site-content/newsletter-posts";
-import { marketingTestimonialAvatar } from '@/lib/marketing-stock-images';
-
-function newsletterAuthorAvatar(author: string): string {
-  const index = author.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  return marketingTestimonialAvatar(index);
-}
+import { resolveNewsletterAuthorAvatar } from '@/lib/marketing-stock-images';
 
 interface CategoryChipProps {
   label: string;
@@ -127,7 +122,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
             <div className="flex items-center gap-2">
               <div className="h-6 w-6 shrink-0 overflow-hidden rounded-full border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
                 <img
-                  src={newsletterAuthorAvatar(article.author)}
+                  src={resolveNewsletterAuthorAvatar(article.author)}
                   alt={article.author}
                   width={24}
                   height={24}
@@ -195,7 +190,7 @@ export const FeaturedPost: React.FC<{ article: NewsletterArticle; storyHref?: st
             <div className="flex items-center gap-3">
               <div className="h-12 w-12 rounded-full bg-slate-100 border border-slate-200 overflow-hidden">
                 <img
-                  src={newsletterAuthorAvatar(article.author)}
+                  src={resolveNewsletterAuthorAvatar(article.author)}
                   alt={article.author}
                   width={48}
                   height={48}
@@ -233,19 +228,19 @@ export const CTABanner: React.FC<{
     <section className="py-12">
       <div
         className={cn(
-          "rounded-[3rem] p-8 md:p-16 text-center relative overflow-hidden",
+          "rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 md:p-16 text-center relative overflow-hidden",
           variants[variant],
         )}
       >
         <div className="absolute inset-0 bg-white/5 pointer-events-none" />
         <div className="absolute top-[-20%] right-[-10%] w-64 h-64 rounded-full blur-[80px] bg-white/10 pointer-events-none" />
-        <div className="relative z-10 max-w-3xl mx-auto">
-          <h3 className="font-heading text-3xl md:text-5xl font-bold text-white mb-6">{title}</h3>
-          <p className="text-white/90 text-lg md:text-xl mb-10 leading-relaxed">{description}</p>
-          <Link href={buttonHref}>
+        <div className="relative z-10 max-w-3xl mx-auto min-w-0">
+          <h3 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-6 text-balance">{title}</h3>
+          <p className="text-base sm:text-lg md:text-xl text-white/90 mb-10 leading-relaxed">{description}</p>
+          <Link href={buttonHref} className="inline-flex w-full sm:w-auto justify-center">
             <Button
               size="lg"
-              className="bg-white text-slate-900 hover:bg-slate-100 h-14 px-10 text-lg font-bold rounded-2xl shadow-xl"
+              className="w-full min-h-14 h-auto whitespace-normal rounded-2xl bg-white px-6 py-3 text-base font-bold text-slate-900 shadow-xl hover:bg-slate-100 sm:w-auto sm:px-10 sm:py-0 sm:text-lg"
             >
               {buttonText}
             </Button>

@@ -31,6 +31,11 @@ import { MARKETING_STOCK_IMAGES } from "@/lib/marketing-stock-images";
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
 import { CommunityWaitlistForm } from '@/components/forms/CommunityWaitlistForm';
+import {
+  RegisterNowDialog,
+  type RegisterNowContext,
+} from '@/components/forms/RegisterNowDialog';
+import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 
 const StoreContent = dynamic(
   () => import('@/components/pages/Store').then((m) => ({ default: m.StoreContent })),
@@ -81,12 +86,52 @@ function CommunityNetworkContent({
   mentorshipTitle: string;
   mentorshipSubtitle: string;
 }) {
+  const [registerOpen, setRegisterOpen] = React.useState(false);
+  const [registerContext, setRegisterContext] = React.useState<RegisterNowContext | null>(null);
+
+  const openEventRegistration = (event: {
+    date: string;
+    title: string;
+    host: string;
+    type: string;
+  }) => {
+    setRegisterContext({
+      headline: event.title,
+      subject: `Event registration: ${event.title}`,
+      eventType: event.type,
+      eventDate: event.date,
+      host: event.host,
+      formId: 'community_event_register',
+      formLabel: 'Community event registration',
+      placement: `Community event: ${event.title}`,
+    });
+    setRegisterOpen(true);
+  };
+
+  const openEventsCalendarRegistration = () => {
+    setRegisterContext({
+      headline: 'Live sessions & events',
+      subject: 'Event calendar interest',
+      eventType: 'Calendar',
+      formId: 'community_events_calendar',
+      formLabel: 'Community events calendar',
+      placement: 'Community events: View Full Calendar',
+    });
+    setRegisterOpen(true);
+  };
+
   return (
     <>
       {/* Community Channels */}
       <section className="relative z-20 pt-14 pb-20 md:pt-16">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
+          <ResponsiveSnapScroll
+            mobileLoop
+            desktopLayoutClassName="md:grid-cols-2 items-stretch"
+            gapClassName="gap-8"
+            mobileItemClassName="w-[min(88vw,19rem)]"
+            className="max-w-4xl mx-auto"
+          >
             {communityChannels.map((channel, index) => (
               <m.div
                 key={channel.title}
@@ -121,7 +166,7 @@ function CommunityNetworkContent({
                 </Card>
               </m.div>
             ))}
-          </div>
+          </ResponsiveSnapScroll>
         </div>
       </section>
 
@@ -142,19 +187,27 @@ function CommunityNetworkContent({
               <p className="text-lg text-slate-500 dark:text-slate-400 mb-10 leading-relaxed font-medium">
                 {mentorshipSubtitle}
               </p>
-              <div className="space-y-8">
+              <ResponsiveSnapScroll
+                mobileLoop
+                desktopLayoutClassName="md:grid-cols-1"
+                gapClassName="gap-8"
+                mobileItemClassName="w-[min(88vw,19rem)]"
+              >
                 {mentorshipFeatures.map((feature) => (
-                  <div key={feature.title} className="flex gap-6 group">
-                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 text-brand-purple h-fit transition-transform group-hover:scale-110 shadow-sm border border-slate-100 dark:border-slate-800">
+                  <div
+                    key={feature.title}
+                    className="flex h-full gap-6 group rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none"
+                  >
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 text-brand-purple h-fit transition-transform group-hover:scale-110 shadow-sm border border-slate-100 dark:border-slate-800 shrink-0">
                       <feature.icon className="h-6 w-6" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">{feature.title}</h3>
                       <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{feature.desc}</p>
                     </div>
                   </div>
                 ))}
-              </div>
+              </ResponsiveSnapScroll>
             </m.div>
             <m.div 
               initial={{ opacity: 0, scale: 0.9 }}
@@ -191,18 +244,28 @@ function CommunityNetworkContent({
               <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">Live Sessions & Events</h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 mt-4 font-medium">Join our upcoming interactive workshops and networking mixers.</p>
             </div>
-            <Link href="/contact">
-              <Button variant="outline" className="rounded-xl border-slate-200 dark:border-slate-800 h-12 px-6 font-bold text-base">View Full Calendar</Button>
-            </Link>
+            <Button
+              type="button"
+              variant="outline"
+              className="rounded-xl border-slate-200 dark:border-slate-800 h-12 px-6 font-bold text-base"
+              onClick={openEventsCalendarRegistration}
+            >
+              View Full Calendar
+            </Button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <ResponsiveSnapScroll
+            mobileLoop
+            desktopLayoutClassName="md:grid-cols-2 lg:grid-cols-3"
+            gapClassName="gap-8"
+            mobileItemClassName="w-[min(88vw,19rem)]"
+          >
             {[
               { date: "Oct 24", title: "PMP Exam Strategy Workshop", host: "Robert Vance, PMP", type: "Study Circle" },
               { date: "Oct 26", title: "Agile Leadership in Tech", host: "Elena Gilbert", type: "Expert Session" },
               { date: "Oct 29", title: "Global PM Networking Mixer", host: `${BRAND.name} Team`, type: "Networking" },
             ].map((event) => (
-              <Card key={event.title} className="border-none shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] overflow-hidden group bg-white dark:bg-slate-900">
+              <Card key={event.title} className="flex h-full flex-col border-none shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] overflow-hidden group bg-white dark:bg-slate-900">
                 <CardContent className="p-0">
                   <div className="p-8">
                     <div className="flex items-center justify-between mb-6">
@@ -220,14 +283,20 @@ function CommunityNetworkContent({
                     </div>
                   </div>
                   <div className="px-8 py-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex justify-end items-center">
-                    <Link href="/contact">
-                      <Button size="sm" variant="brand" className="rounded-lg h-10 px-4 font-bold text-xs">Register Now</Button>
-                    </Link>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="brand"
+                      className="rounded-lg h-10 px-4 font-bold text-xs"
+                      onClick={() => openEventRegistration(event)}
+                    >
+                      Register Now
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
             ))}
-          </div>
+          </ResponsiveSnapScroll>
         </div>
       </section>
 
@@ -235,27 +304,32 @@ function CommunityNetworkContent({
       <section className={sectionSurface('warm', 'py-32')}>
         <SectionAmbience tone="warm" />
         <div className="container relative z-10 mx-auto">
-          <div className="bg-slate-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
+          <div className="bg-slate-900 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
             <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/10 to-brand-orange/10 pointer-events-none" />
-            <div className="relative z-10 max-w-2xl mx-auto">
+            <div className="relative z-10 max-w-2xl mx-auto min-w-0">
               <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">Ready to join the structure?</h2>
               <p className="text-slate-400 text-lg md:text-xl mb-12 font-medium leading-relaxed">
                 Your professional network supports readiness and delivery judgment. Start building it with {BRAND.name}.
               </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-4 w-full">
                 <Link
                   href={PMS_SKOOL_COMMUNITY_JOIN_URL}
                   {...externalHrefLinkProps(PMS_SKOOL_COMMUNITY_JOIN_URL)}
+                  className="w-full sm:w-auto"
                 >
-                  <Button size="lg" variant="brand" className="h-14 px-8 rounded-2xl font-bold text-lg shadow-xl transition-all">
+                  <Button
+                    size="lg"
+                    variant="brand"
+                    className="w-full min-h-14 h-auto whitespace-normal rounded-2xl px-6 py-3 text-base font-bold shadow-xl transition-all sm:w-auto sm:px-8 sm:py-0 sm:text-lg"
+                  >
                     Join the Community
                   </Button>
                 </Link>
-                <Link href="/membership">
+                <Link href="/membership" className="w-full sm:w-auto">
                   <Button
                     size="lg"
                     variant="outline"
-                    className="h-14 border-white/30 bg-transparent px-8 text-lg font-bold text-white shadow-none transition-all hover:bg-white/10 hover:text-white rounded-2xl"
+                    className="w-full min-h-14 h-auto whitespace-normal rounded-2xl border-white/30 bg-transparent px-6 py-3 text-base font-bold text-white shadow-none transition-all hover:bg-white/10 hover:text-white sm:w-auto sm:px-8 sm:py-0 sm:text-lg"
                   >
                     Explore Membership
                   </Button>
@@ -265,6 +339,12 @@ function CommunityNetworkContent({
           </div>
         </div>
       </section>
+
+      <RegisterNowDialog
+        open={registerOpen}
+        onOpenChange={setRegisterOpen}
+        context={registerContext}
+      />
     </>
   );
 }

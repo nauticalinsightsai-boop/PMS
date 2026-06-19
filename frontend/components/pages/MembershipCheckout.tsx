@@ -32,7 +32,7 @@ function isValidBilling(billing: string | null): billing is MembershipCheckoutBi
   return billing === 'monthly' || billing === 'yearly';
 }
 
-function MembershipCheckoutContent() {
+function MembershipCheckoutContent({ publishableKeyHint = null }: { publishableKeyHint?: string | null }) {
   const searchParams = useSearchParams();
   const tierParam = searchParams.get('tier');
   const billingParam = searchParams.get('billing') ?? 'monthly';
@@ -116,6 +116,7 @@ function MembershipCheckoutContent() {
             loadClientSecret={loadClientSecret}
             deps={[tier, billing, regionId, gccCountry, colorScheme]}
             onReady={handleCheckoutReady}
+            publishableKeyHint={publishableKeyHint}
           />
         </div>
 
@@ -135,10 +136,10 @@ function MembershipCheckoutContent() {
   );
 }
 
-export function MembershipCheckoutPage() {
+export function MembershipCheckoutPage({ publishableKeyHint = null }: { publishableKeyHint?: string | null }) {
   return (
     <Suspense fallback={<div className="container mx-auto max-w-lg py-24 text-center">Loading checkout…</div>}>
-      <MembershipCheckoutContent />
+      <MembershipCheckoutContent publishableKeyHint={publishableKeyHint} />
     </Suspense>
   );
 }

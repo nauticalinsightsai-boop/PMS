@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { ProgramEnrollmentPage } from '@/components/pages/ProgramEnrollment';
 import { resolveOfferingForEnrollment } from '@/lib/enrollment-routes';
 import { buildPageMetadata } from '@/lib/site-metadata';
+import { getStripePublishableKey } from '@/lib/stripe-publishable-key.server';
 import { certifications } from '@/data/certification-index';
 
 type Props = { params: Promise<{ id: string; tierSlug: string }> };
@@ -28,6 +29,7 @@ export default async function Page({ params }: Props) {
 
   const certRecord = certifications.find((c) => c.id === id);
   const certName = certRecord?.name ?? id.toUpperCase();
+  const publishableKeyHint = getStripePublishableKey();
 
   return (
     <ProgramEnrollmentPage
@@ -35,6 +37,7 @@ export default async function Page({ params }: Props) {
       tierSlug={tierSlug}
       offeringId={offering.offeringId}
       certName={certName}
+      publishableKeyHint={publishableKeyHint || null}
     />
   );
 }

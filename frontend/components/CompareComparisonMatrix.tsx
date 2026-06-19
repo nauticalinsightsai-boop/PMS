@@ -45,11 +45,14 @@ export function CompareComparisonMatrix({ certs }: { certs: CertificationSummary
 
   return (
     <div className="rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 overflow-hidden">
-      <div className="overflow-x-auto scrollbar-thin">
+      <div className="max-h-[min(70vh,56rem)] overflow-auto scrollbar-thin">
         <div className={cn('w-full', minWidthClass)}>
-          {/* Header */}
+          {/* Header — sticky while scrolling the matrix */}
           <div
-            className={cn('grid border-b border-slate-800 bg-slate-900 dark:bg-slate-950', gridClass)}
+            className={cn(
+              'sticky top-0 z-20 grid border-b border-slate-800 bg-slate-900 shadow-md shadow-black/20 dark:bg-slate-950 dark:shadow-black/40',
+              gridClass,
+            )}
           >
             <div className="px-6 py-8 font-bold text-lg text-white border-r border-slate-800">
               Compare

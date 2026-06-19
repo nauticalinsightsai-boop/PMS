@@ -4,7 +4,6 @@ import { m } from 'motion/react';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
-import { Pmp2026ComplianceNote } from '@/components/pmp/Pmp2026ComplianceNote';
 import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import {
   T169_FAQS,
@@ -54,7 +53,6 @@ export function Pmp2026FlagshipSections() {
             <PmpRoadmapCtaLink
               className="w-full sm:w-auto bg-brand-purple hover:bg-brand-purple/90 text-white h-12 sm:h-14 px-6 sm:px-8 rounded-full font-bold text-base shadow-lg"
             />
-            <Pmp2026ComplianceNote className="mt-8" showSourceLinks />
           </m.div>
         </div>
       </section>
@@ -86,7 +84,6 @@ export function Pmp2026FlagshipSections() {
               </m.div>
             ))}
           </div>
-          <Pmp2026ComplianceNote />
         </div>
       </section>
 
@@ -121,28 +118,25 @@ export function Pmp2026FlagshipSections() {
               </ul>
             </div>
           </div>
-          <Pmp2026ComplianceNote />
         </div>
       </section>
 
-      <section id="pmp-readiness-faqs" className={`${SECTION_PY} bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900`}>
-        <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="font-heading text-section font-bold mb-8 tracking-tight">
+      <section id="pmp-readiness-faqs" className={sectionSurface('purple', SECTION_PY)}>
+        <SectionAmbience tone="purple" />
+        <div className="container relative z-10 mx-auto px-4 max-w-3xl">
+          <h2 className="font-heading text-section font-bold mb-8 tracking-tight text-slate-900 dark:text-white">
             PMP 2026 readiness: common questions
           </h2>
-          <div className="space-y-8 mb-8">
+          <div className="space-y-8">
             {T169_FAQS.map((faq) => (
               <article key={faq.question}>
-                <h3 className="font-semibold text-lg mb-2">{faq.question}</h3>
-                <div className="text-slate-300 dark:text-slate-600 font-medium leading-relaxed">
+                <h3 className="font-semibold text-lg mb-2 text-slate-900 dark:text-white">{faq.question}</h3>
+                <div className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
                   <FaqAnswer text={faq.answer} />
                 </div>
               </article>
             ))}
           </div>
-          <Pmp2026ComplianceNote
-            className="border-slate-700 bg-slate-800/60 text-slate-300 dark:border-slate-200 dark:bg-white dark:text-slate-600"
-          />
         </div>
       </section>
     </>

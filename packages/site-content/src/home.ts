@@ -384,7 +384,7 @@ export function defaultHomePageConfigV2(): HomePageConfigV2 {
         visible: true,
         heading: DEFAULT_HOME_HERO_HEADING_MULTILINE,
         description: DEFAULT_HOME_HERO_SUBTITLE,
-        primaryCta: 'Get My PMP 2026 Roadmap',
+        primaryCta: 'Get My PMP Roadmap',
         primaryAction: 'link',
         primaryLink: '/#pmp-roadmap-form',
         secondaryCta: 'Compare certifications',

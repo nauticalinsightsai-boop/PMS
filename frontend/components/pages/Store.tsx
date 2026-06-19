@@ -27,6 +27,11 @@ import {
   type StoreCatalog,
 } from '@pms/site-content';
 import { CTAS } from '@/lib/brand-voice';
+import {
+  JoinWaitlistDialog,
+  type JoinWaitlistContext,
+} from '@/components/forms/JoinWaitlistDialog';
+import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 
 const categoryIcons: Record<string, typeof Package> = {
   'All Resources': Package,
@@ -36,6 +41,30 @@ const categoryIcons: Record<string, typeof Package> = {
   Bundles: Package,
   'Study Packs': BookOpen,
 };
+
+const resourcePreviewItems = [
+  {
+    title: 'Project Charter Template',
+    desc: 'Professional Word & PDF formats',
+    icon: FileText,
+    color: 'text-brand-purple',
+    bg: 'bg-brand-purple/10',
+  },
+  {
+    title: 'Agile Sprint Planner',
+    desc: 'Excel & Google Sheets compatible',
+    icon: Layout,
+    color: 'text-brand-orange',
+    bg: 'bg-brand-orange/10',
+  },
+  {
+    title: 'PMP Formula Cheat Sheet',
+    desc: 'High-resolution printable PDF',
+    icon: BookOpen,
+    color: 'text-blue-400',
+    bg: 'bg-blue-500/10',
+  },
+] as const;
 
 /** Store sections used on /community (Resource Store tab) and legacy /store redirect target */
 export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog }) {
@@ -68,6 +97,42 @@ export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog
 
   const [searchQuery, setSearchQuery] = React.useState("");
   const [activeCategory, setActiveCategory] = React.useState("All Resources");
+  const [waitlistOpen, setWaitlistOpen] = React.useState(false);
+  const [waitlistContext, setWaitlistContext] = React.useState<JoinWaitlistContext | null>(null);
+
+  const openStoreWaitlist = (product: (typeof products)[number]) => {
+    setWaitlistContext({
+      headline: product.title,
+      subject: `Store waitlist: ${product.title}`,
+      offeringId: product.id,
+      formId: 'store_product_waitlist',
+      formLabel: 'Resource store waitlist',
+      placement: `Store: ${product.title}`,
+    });
+    setWaitlistOpen(true);
+  };
+
+  const openResourcePreviewWaitlist = (resourceTitle: string) => {
+    setWaitlistContext({
+      headline: resourceTitle,
+      subject: `Store waitlist: ${resourceTitle}`,
+      formId: 'store_product_waitlist',
+      formLabel: 'Resource store waitlist',
+      placement: `Store preview: ${resourceTitle}`,
+    });
+    setWaitlistOpen(true);
+  };
+
+  const openGeneralStoreWaitlist = () => {
+    setWaitlistContext({
+      headline: 'Resource store',
+      subject: 'Store waitlist: general interest',
+      formId: 'store_product_waitlist',
+      formLabel: 'Resource store waitlist',
+      placement: 'Store: general interest',
+    });
+    setWaitlistOpen(true);
+  };
 
   const filteredProducts = React.useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -143,10 +208,16 @@ export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog
               No resources match your search. Try another category or clear the search.
             </p>
           ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <ResponsiveSnapScroll
+            mobileLoop
+            desktopLayoutClassName="md:grid-cols-2 lg:grid-cols-3"
+            gapClassName="gap-8"
+            mobileItemClassName="w-[min(88vw,19rem)]"
+          >
             {filteredProducts.map((product, index) => (
               <m.div
                 key={product.title}
+                className="h-full"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -187,13 +258,12 @@ export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog
                   <CardContent className="px-8 pb-6 mt-auto">
                     <div className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">{product.price}</div>
                   </CardContent>
-                  <CardFooter className="px-8 pb-8 pt-0">
+                  <CardFooter className="mt-auto flex items-center justify-center border-0 bg-transparent px-8 py-6">
                     <Button
                       type="button"
                       variant="outline"
-                      disabled
-                      aria-disabled="true"
-                      className="w-full h-12 rounded-xl font-bold text-sm flex items-center justify-center gap-2"
+                      className="w-full h-12 rounded-xl font-bold text-sm flex items-center justify-center gap-2 border-brand-orange/30 text-brand-orange hover:bg-brand-orange/5"
+                      onClick={() => openStoreWaitlist(product)}
                     >
                       {CTAS.joinWaitlist}
                     </Button>
@@ -201,7 +271,7 @@ export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog
                 </Card>
               </m.div>
             ))}
-          </div>
+          </ResponsiveSnapScroll>
           )}
         </div>
       </section>
@@ -233,33 +303,57 @@ export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog
                   </div>
                 ))}
               </div>
-              <Button size="lg" disabled aria-disabled className="bg-brand-orange/80 text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all cursor-not-allowed">
+              <Button
+                type="button"
+                size="lg"
+                variant="brand"
+                className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20 transition-all"
+                onClick={openGeneralStoreWaitlist}
+              >
                 {CTAS.joinWaitlist} <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-12 backdrop-blur-sm shadow-2xl">
-              <div className="space-y-6">
-                {[
-                  { title: "Project Charter Template", desc: "Professional Word & PDF formats", icon: FileText, color: "text-brand-purple", bg: "bg-brand-purple/10" },
-                  { title: "Agile Sprint Planner", desc: "Excel & Google Sheets compatible", icon: Layout, color: "text-brand-orange", bg: "bg-brand-orange/10" },
-                  { title: "PMP Formula Cheat Sheet", desc: "High-resolution printable PDF", icon: BookOpen, color: "text-blue-400", bg: "bg-blue-500/10" }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all cursor-pointer group">
-                    <div className={cn("p-4 rounded-xl shrink-0 transition-transform group-hover:scale-110", item.bg, item.color)}>
+            <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-12 backdrop-blur-sm shadow-2xl min-w-0">
+              <ResponsiveSnapScroll
+                mobileLoop
+                desktopLayoutClassName="md:grid-cols-1"
+                gapClassName="gap-6"
+                mobileItemClassName="w-[min(88vw,19rem)]"
+              >
+                {resourcePreviewItems.map((item) => (
+                  <button
+                    key={item.title}
+                    type="button"
+                    onClick={() => openResourcePreviewWaitlist(item.title)}
+                    className="flex h-full w-full items-center gap-6 rounded-2xl border border-white/5 bg-white/5 p-6 text-left transition-all hover:border-brand-orange/30 hover:bg-white/10 group"
+                  >
+                    <div
+                      className={cn(
+                        'shrink-0 rounded-xl p-4 transition-transform group-hover:scale-110',
+                        item.bg,
+                        item.color,
+                      )}
+                    >
                       <item.icon className="h-8 w-8" />
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-white font-bold text-lg tracking-tight">{item.title}</h3>
-                      <p className="text-slate-500 text-sm font-medium mt-0.5">{item.desc}</p>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-lg font-bold tracking-tight text-white">{item.title}</h3>
+                      <p className="mt-0.5 text-sm font-medium text-slate-500">{item.desc}</p>
                     </div>
-                    <Download className="h-6 w-6 text-slate-600 group-hover:text-white transition-all" />
-                  </div>
+                    <Download className="h-6 w-6 shrink-0 text-slate-600 transition-all group-hover:text-brand-orange" />
+                  </button>
                 ))}
-              </div>
+              </ResponsiveSnapScroll>
             </div>
           </div>
         </div>
       </section>
+
+      <JoinWaitlistDialog
+        open={waitlistOpen}
+        onOpenChange={setWaitlistOpen}
+        context={waitlistContext}
+      />
     </>
   );
 }

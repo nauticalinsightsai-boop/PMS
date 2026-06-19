@@ -19,6 +19,10 @@ import {
 import { globalContentString, type GlobalContentMap } from '@/lib/cms/global-content';
 import { PageHeroWithImage } from '@/components/marketing/PageMarketingImage';
 import { MARKETING_PAGE_IMAGES } from '@/lib/marketing-stock-images';
+import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
+import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
+
+const COMPARE_RELATED = getPhase2RelatedBlock('/certifications/compare');
 
 export function Compare({ globalContent }: { globalContent?: GlobalContentMap }) {
   const router = useRouter();
@@ -145,31 +149,44 @@ export function Compare({ globalContent }: { globalContent?: GlobalContentMap })
       >
         <SectionAmbience tone="warm" />
         <div className="container relative z-10 mx-auto">
-          <div className="max-w-4xl mx-auto bg-white dark:bg-slate-900 p-12 md:p-16 rounded-[3rem] shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden">
+          <div className="max-w-4xl mx-auto bg-white dark:bg-slate-900 p-6 sm:p-12 md:p-16 rounded-[2rem] sm:rounded-[3rem] shadow-sm border border-slate-100 dark:border-slate-800 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/5 rounded-full blur-3xl -mr-32 -mt-32" />
-            <div className="flex flex-col md:flex-row items-center gap-12 relative z-10">
-              <div className="h-24 w-24 rounded-[2rem] bg-brand-orange/10 text-brand-orange flex items-center justify-center shrink-0">
-                <Info className="h-12 w-12" />
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 relative z-10">
+              <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-[2rem] bg-brand-orange/10 text-brand-orange flex items-center justify-center shrink-0">
+                <Info className="h-10 w-10 sm:h-12 sm:w-12" />
               </div>
-              <div className="text-center md:text-left">
-                <h2 className="text-3xl font-bold mb-4 tracking-tight">Not sure which one to choose?</h2>
-                <p className="text-slate-500 dark:text-slate-400 mb-6 leading-relaxed font-medium text-lg">
+              <div className="min-w-0 w-full text-center md:text-left">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-4 tracking-tight text-balance">
+                  Not sure which one to choose?
+                </h2>
+                <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 mb-6 leading-relaxed font-medium">
                   Our certification experts can help you map out a personalized professional
                   development plan based on your experience and career aspirations.
                 </p>
-                <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center md:justify-start gap-4 mb-2">
-                  <PmpRoadmapCtaLink
-                    className="inline-flex h-14 items-center justify-center rounded-2xl bg-brand-orange px-10 text-lg font-bold text-white shadow-md shadow-brand-orange/20 hover:bg-brand-hover"
-                    ctaLocation="body"
-                  />
-                  <WebsiteCalendlyButton
-                  tier="advisor"
-                  className="bg-brand-orange hover:bg-brand-hover text-white h-14 px-10 rounded-2xl font-bold text-lg shadow-md shadow-brand-orange/20"
-                  funnelLabel="compare_talk_to_advisor"
-                  utm={{ utm_source: 'pmstructure', utm_medium: 'compare', utm_campaign: 'advisor' }}
-                >
-                  Talk to an advisor
-                </WebsiteCalendlyButton>
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 w-full">
+                  <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center md:justify-start gap-4 shrink-0 w-full sm:w-auto">
+                    <PmpRoadmapCtaLink
+                      className="inline-flex h-14 w-full sm:w-auto items-center justify-center whitespace-normal rounded-2xl bg-brand-orange px-6 sm:px-10 text-base sm:text-lg font-bold text-white shadow-md shadow-brand-orange/20 hover:bg-brand-hover"
+                      ctaLocation="body"
+                    />
+                    <WebsiteCalendlyButton
+                      tier="advisor"
+                      className="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-14 px-6 sm:px-10 rounded-2xl text-base sm:text-lg font-bold shadow-md shadow-brand-orange/20"
+                      funnelLabel="compare_talk_to_advisor"
+                      utm={{ utm_source: 'pmstructure', utm_medium: 'compare', utm_campaign: 'advisor' }}
+                    >
+                      Talk to an advisor
+                    </WebsiteCalendlyButton>
+                  </div>
+                  {COMPARE_RELATED ? (
+                    <RelatedGuidesLinks
+                      title={COMPARE_RELATED.title}
+                      links={COMPARE_RELATED.links}
+                      currentPath="/certifications/compare"
+                      collapsible
+                      className="w-full lg:w-auto lg:min-w-[18rem] lg:max-w-sm text-left"
+                    />
+                  ) : null}
                 </div>
               </div>
             </div>

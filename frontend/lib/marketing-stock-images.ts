@@ -18,10 +18,18 @@ export type MarketingImageSpec = {
 
 export const MARKETING_HERO_SOCIAL_AVATARS = [
   { src: m('hero-social-avatar-1'), alt: 'PM Structure learner', width: 40, height: 40 },
+  {
+    src: m('hero-social-avatar-founder'),
+    alt: 'Sheikh M. Abdullah',
+    width: 40,
+    height: 40,
+  },
   { src: m('hero-social-avatar-2'), alt: 'PM Structure learner', width: 40, height: 40 },
   { src: m('hero-social-avatar-3'), alt: 'PM Structure learner', width: 40, height: 40 },
   { src: m('hero-social-avatar-4'), alt: 'PM Structure learner', width: 40, height: 40 },
 ] as const;
+
+export const MARKETING_FOUNDER_AVATAR = m('hero-social-avatar-founder');
 
 export const MARKETING_PMP_AVATARS = {
   amara: m('pmp-avatar-amara'),
@@ -40,6 +48,37 @@ export const MARKETING_PMP_AVATARS = {
 export function marketingTestimonialAvatar(index: number): string {
   const keys = Object.keys(MARKETING_PMP_AVATARS) as (keyof typeof MARKETING_PMP_AVATARS)[];
   return MARKETING_PMP_AVATARS[keys[index % keys.length]];
+}
+
+type NewsletterAuthorAvatarKey = keyof typeof MARKETING_PMP_AVATARS | 'founder';
+
+const NEWSLETTER_AUTHOR_AVATAR_BY_NAME: Record<string, NewsletterAuthorAvatarKey> = {
+  'Dr. Robert Chen': 'robert',
+  'Sarah Jenkins': 'sarah',
+  'Marcus Thorne': 'michael',
+  'Elena Rodriguez': 'elena',
+  'James Wilson': 'james',
+  'Linda Wu': 'fatima',
+  'Sheikh M. Abdullah': 'founder',
+  'Sheikh M Abdullah': 'founder',
+  'Sheikh Abdullah': 'founder',
+};
+
+const NEWSLETTER_AUTHOR_AVATAR_SRC: Record<NewsletterAuthorAvatarKey, string> = {
+  ...MARKETING_PMP_AVATARS,
+  founder: MARKETING_FOUNDER_AVATAR,
+};
+
+/** Newsletter byline avatar — explicit author map, then deterministic fallback. */
+export function resolveNewsletterAuthorAvatar(author: string): string {
+  const trimmed = author.trim();
+  const mapped = NEWSLETTER_AUTHOR_AVATAR_BY_NAME[trimmed];
+  if (mapped) return NEWSLETTER_AUTHOR_AVATAR_SRC[mapped];
+  if (/sheikh/i.test(trimmed) && /abdullah/i.test(trimmed)) {
+    return MARKETING_FOUNDER_AVATAR;
+  }
+  const index = trimmed.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return marketingTestimonialAvatar(index);
 }
 
 export const MARKETING_STOCK_IMAGES = {

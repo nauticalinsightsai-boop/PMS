@@ -58,6 +58,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   const [serviceInterest, setServiceInterest] = React.useState<PmServiceInterestValue | ''>('');
   const [serviceInterestOther, setServiceInterestOther] = React.useState('');
   const [industry, setIndustry] = React.useState<PmServiceIndustryValue | ''>('');
+  const [industryOther, setIndustryOther] = React.useState('');
   const [question, setQuestion] = React.useState('');
   const [profileUrl, setProfileUrl] = React.useState('');
   const [honeypot, setHoneypot] = React.useState('');
@@ -75,12 +76,12 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     'font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide text-[11px] sm:text-xs';
   const fieldClass = 'h-10 w-full text-sm focus-visible:ring-brand-orange/40';
   const legendClass = cn(labelClass, 'mb-2.5');
-  const radioOptionClass = (selected: boolean) =>
+  const choiceButtonClass = (selected: boolean) =>
     cn(
-      'flex cursor-pointer items-center gap-2.5 rounded-lg border px-3 py-2.5 text-sm transition-colors',
+      'flex w-full cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-bold transition-colors',
       selected
-        ? 'border-brand-orange bg-brand-orange text-white font-bold shadow-sm [&_input]:accent-white'
-        : 'border-input bg-white font-medium text-slate-700 hover:border-brand-orange/40 dark:bg-slate-900 dark:text-slate-300',
+        ? 'border-brand-orange bg-brand-orange text-white shadow-sm'
+        : 'border-input bg-white text-slate-700 hover:border-brand-orange/40 dark:bg-slate-900 dark:text-slate-300',
     );
 
   const resolvedInterest = resolvePmServiceInterestLabel(serviceInterest, serviceInterestOther);
@@ -97,6 +98,49 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   const revealInnerClass = (show: boolean) =>
     cn('min-h-0 overflow-hidden', !show && 'pointer-events-none');
 
+  const clearIndustrySelection = () => {
+    setIndustry('');
+    setIndustryOther('');
+  };
+
+  const toggleServiceInterest = (value: Exclude<PmServiceInterestValue, 'other'>) => {
+    if (serviceInterest === value) {
+      setServiceInterest('');
+      setServiceInterestOther('');
+      clearIndustrySelection();
+      return;
+    }
+    setServiceInterest(value);
+    setServiceInterestOther('');
+  };
+
+  const toggleServiceInterestOther = () => {
+    if (serviceInterest === 'other') {
+      setServiceInterest('');
+      setServiceInterestOther('');
+      clearIndustrySelection();
+      return;
+    }
+    setServiceInterest('other');
+  };
+
+  const toggleIndustry = (value: Exclude<PmServiceIndustryValue, 'other'>) => {
+    if (industry === value) {
+      clearIndustrySelection();
+      return;
+    }
+    setIndustry(value);
+    setIndustryOther('');
+  };
+
+  const toggleIndustryOther = () => {
+    if (industry === 'other') {
+      clearIndustrySelection();
+      return;
+    }
+    setIndustry('other');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!serviceInterest) {
@@ -109,6 +153,10 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     }
     if (!industry) {
       setError('Please select the industry that best describes your background.');
+      return;
+    }
+    if (industry === 'other' && !industryOther.trim()) {
+      setError('Please specify your industry under Other.');
       return;
     }
     setError(null);
@@ -140,8 +188,9 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
         serviceInterest: resolvedInterest,
         serviceInterestType: serviceInterest,
         serviceInterestOther: serviceInterest === 'other' ? serviceInterestOther.trim() : undefined,
-        industry: resolvePmServiceIndustryLabel(industry),
+        industry: resolvePmServiceIndustryLabel(industry, industryOther),
         industryType: industry,
+        industryOther: industry === 'other' ? industryOther.trim() : undefined,
         question: question.trim() || undefined,
         profileUrl: profileUrl.trim() || undefined,
         placement,
@@ -202,8 +251,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
 
         <div
           className={cn(
-            'space-y-5 px-5 py-6 sm:space-y-6 sm:px-6 sm:py-7 lg:min-h-0 lg:flex-1 lg:overflow-y-auto',
-            'lg:[scrollbar-width:none] lg:[-ms-overflow-style:none] lg:[&::-webkit-scrollbar]:hidden',
+            'scrollbar-none space-y-5 px-5 py-6 sm:space-y-6 sm:px-6 sm:py-7 lg:min-h-0 lg:flex-1 lg:overflow-y-auto',
           )}
         >
           <div className="space-y-2.5">
@@ -272,44 +320,42 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
             <legend className={legendClass}>
               You are interested in. <span className="text-brand-orange">*</span>
             </legend>
-            <div className="space-y-2.5" role="radiogroup" aria-required>
+            <div className="space-y-2.5" role="group" aria-label="You are interested in">
               {PM_SERVICE_INTEREST_OPTIONS.map((o) => (
-                <label key={o.value} className={radioOptionClass(serviceInterest === o.value)}>
-                  <input
-                    type="radio"
-                    name={`${idPrefix}-interest`}
-                    value={o.value}
-                    checked={serviceInterest === o.value}
-                    onChange={() => {
-                      setServiceInterest(o.value);
-                      setServiceInterestOther('');
-                    }}
-                    className="h-4 w-4 shrink-0 accent-brand-orange"
-                  />
+                <button
+                  key={o.value}
+                  type="button"
+                  className={choiceButtonClass(serviceInterest === o.value)}
+                  aria-pressed={serviceInterest === o.value}
+                  onClick={() => toggleServiceInterest(o.value)}
+                >
                   {o.label}
-                </label>
+                </button>
               ))}
-              <label className={radioOptionClass(serviceInterest === 'other')}>
-                <input
-                  type="radio"
-                  name={`${idPrefix}-interest`}
-                  value="other"
-                  checked={serviceInterest === 'other'}
-                  onChange={() => setServiceInterest('other')}
-                  className="h-4 w-4 shrink-0 accent-brand-orange"
-                />
-                <span className="shrink-0">Other</span>
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  className={cn(choiceButtonClass(serviceInterest === 'other'), 'w-auto shrink-0 px-4')}
+                  aria-pressed={serviceInterest === 'other'}
+                  onClick={toggleServiceInterestOther}
+                >
+                  Other
+                </button>
                 <Input
                   value={serviceInterestOther}
                   onChange={(e) => {
                     setServiceInterestOther(e.target.value);
                     if (serviceInterest !== 'other') setServiceInterest('other');
                   }}
+                  onFocus={() => {
+                    if (serviceInterest !== 'other') setServiceInterest('other');
+                  }}
                   placeholder="Specify"
-                  className="h-9 min-w-0 flex-1 border-input text-sm"
+                  className="h-10 min-w-0 flex-1 border-input text-sm"
                   required={serviceInterest === 'other'}
+                  aria-label="Specify other interest"
                 />
-              </label>
+              </div>
             </div>
           </fieldset>
 
@@ -320,20 +366,42 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                   Industry or professional field best describes your background.{' '}
                   <span className="text-brand-orange">*</span>
                 </legend>
-                <div className="space-y-2.5" role="radiogroup" aria-required>
+                <div className="space-y-2.5" role="group" aria-label="Industry or professional field">
                   {PM_SERVICE_INDUSTRY_OPTIONS.map((o) => (
-                    <label key={o.value} className={radioOptionClass(industry === o.value)}>
-                      <input
-                        type="radio"
-                        name={`${idPrefix}-industry`}
-                        value={o.value}
-                        checked={industry === o.value}
-                        onChange={() => setIndustry(o.value)}
-                        className="h-4 w-4 shrink-0 accent-brand-orange"
-                      />
+                    <button
+                      key={o.value}
+                      type="button"
+                      className={choiceButtonClass(industry === o.value)}
+                      aria-pressed={industry === o.value}
+                      onClick={() => toggleIndustry(o.value)}
+                    >
                       {o.label}
-                    </label>
+                    </button>
                   ))}
+                  <div className="flex items-center gap-2.5">
+                    <button
+                      type="button"
+                      className={cn(choiceButtonClass(industry === 'other'), 'w-auto shrink-0 px-4')}
+                      aria-pressed={industry === 'other'}
+                      onClick={toggleIndustryOther}
+                    >
+                      Other
+                    </button>
+                    <Input
+                      value={industryOther}
+                      onChange={(e) => {
+                        setIndustryOther(e.target.value);
+                        if (industry !== 'other') setIndustry('other');
+                      }}
+                      onFocus={() => {
+                        if (industry !== 'other') setIndustry('other');
+                      }}
+                      placeholder="Specify"
+                      className="h-10 min-w-0 flex-1 border-input text-sm"
+                      required={industry === 'other'}
+                      aria-label="Specify other industry"
+                    />
+                  </div>
                 </div>
               </fieldset>
             </div>

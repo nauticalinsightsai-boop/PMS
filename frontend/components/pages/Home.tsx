@@ -41,6 +41,11 @@ import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { T169_SUPPORT_COPY } from '@/content/pmp/flagship-t169';
 import { COMPARE_PATHWAYS_HREF, PMP_ROADMAP_CTA_HREF } from '@/lib/pmp-roadmap-cta';
 import { getT169FeaturedCardOverrides } from '@/lib/t169-featured-cards';
+import {
+  JoinWaitlistDialog,
+  type JoinWaitlistContext,
+} from '@/components/forms/JoinWaitlistDialog';
+import { buildGeneralWaitlistContext } from '@/lib/waitlist-contact-href';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2Seo } from '@/content/seo/phase-2-page-seo';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
@@ -100,7 +105,14 @@ const PmpRoadmapLeadFormInsights = dynamic(
     import('@/components/forms/PmpRoadmapLeadForm').then((mod) => ({
       default: mod.PmpRoadmapLeadForm,
     })),
-  { loading: () => <div className="min-h-[320px] rounded-2xl border border-slate-200 dark:border-slate-800" aria-hidden /> },
+  {
+    loading: () => (
+      <div
+        className="min-h-[420px] w-full rounded-2xl border border-slate-200/80 bg-white/60 dark:border-slate-800 dark:bg-slate-900/40 animate-pulse"
+        aria-hidden
+      />
+    ),
+  },
 );
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
@@ -111,6 +123,83 @@ const HERO_BTN_OUTLINE =
   'w-full sm:w-auto border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-900 h-12 sm:h-14 px-6 sm:px-8 rounded-full font-bold text-base sm:text-lg transition-all';
 
 const HOME_RELATED_LINKS = getPhase2Seo('/')?.relatedLinks;
+
+type CareerAcceleratorTool =
+  | {
+      title: string;
+      desc: string;
+      icon: typeof FileText;
+      color: string;
+      action: 'external';
+      href: string;
+      ctaLabel: string;
+    }
+  | {
+      title: string;
+      desc: string;
+      icon: typeof LayoutDashboard;
+      color: string;
+      action: 'link';
+      href: string;
+      ctaLabel: string;
+    }
+  | {
+      title: string;
+      desc: string;
+      icon: typeof Map;
+      color: string;
+      action: 'calendly';
+      funnelLabel: string;
+      ctaLabel: string;
+    }
+  | {
+      title: string;
+      desc: string;
+      icon: typeof Calendar;
+      color: string;
+      action: 'waitlist';
+      ctaLabel: string;
+      waitlistHeadline: string;
+    };
+
+const CAREER_ACCELERATOR_TOOLS: CareerAcceleratorTool[] = [
+  {
+    title: 'CV Maker',
+    desc: 'Build a PM-specific resume that gets noticed.',
+    icon: FileText,
+    color: 'text-brand-purple',
+    action: 'external',
+    href: 'https://thecvmaker.com/',
+    ctaLabel: 'Build My CV',
+  },
+  {
+    title: 'Study Planner',
+    desc: 'Custom schedules based on your exam date.',
+    icon: Calendar,
+    color: 'text-brand-orange',
+    action: 'waitlist',
+    ctaLabel: CTAS.joinWaitlist,
+    waitlistHeadline: 'Study Planner',
+  },
+  {
+    title: 'Cert Comparison',
+    desc: 'Find the right certification for your goals.',
+    icon: LayoutDashboard,
+    color: 'text-indigo-600',
+    action: 'link',
+    href: COMPARE_PATHWAYS_HREF,
+    ctaLabel: 'Compare cert.',
+  },
+  {
+    title: 'Roadmap Guidance',
+    desc: 'Step-by-step career progression maps.',
+    icon: Map,
+    color: 'text-emerald-600',
+    action: 'calendly',
+    funnelLabel: 'home_career_roadmap',
+    ctaLabel: 'Get my roadmap',
+  },
+];
 
 type FeaturedPathway = (typeof featuredCertifications)[number];
 
@@ -124,6 +213,8 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
     initialHomeConfig?.heroSlides.find((slide) => slide.visible) ??
     initialHomeConfig?.heroSlides[0];
   const [reduceMotion, setReduceMotion] = React.useState(false);
+  const [waitlistOpen, setWaitlistOpen] = React.useState(false);
+  const [waitlistContext, setWaitlistContext] = React.useState<JoinWaitlistContext | null>(null);
   React.useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReduceMotion(mq.matches);
@@ -294,12 +385,12 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               </div>
             </m.div>
 
-            <div id={PMP_ROADMAP_FORM_ANCHOR} className="relative z-10 scroll-mt-24 min-w-0">
+            <div id={PMP_ROADMAP_FORM_ANCHOR} className="relative z-10 scroll-mt-24 w-full min-w-0">
               <m.div
                 initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={reduceMotion ? { duration: 0 } : { duration: 0.7 }}
-                className="relative"
+                className="relative z-30 isolate w-full min-w-0"
               >
                 <PmpRoadmapLeadFormHero placement={heroFormPlacement} variant="hero" />
               </m.div>
@@ -507,10 +598,10 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 </Button>
               </Link>
             </m.div>
-            <LazyWhenVisible minHeightClassName="min-h-[320px]">
-            <div className="scroll-mt-24">
+            <LazyWhenVisible minHeightClassName="min-h-[420px]">
+            <div className="relative z-10 scroll-mt-24 w-full min-w-0">
             <m.div
-              className="relative z-20"
+              className="relative z-30 isolate w-full min-w-0"
               initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -754,44 +845,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             gapClassName="gap-6 md:gap-8"
             mobileItemClassName="w-[min(88vw,19rem)]"
           >
-            {[
-              {
-                title: "CV Maker",
-                desc: "Build a PM-specific resume that gets noticed.",
-                icon: FileText,
-                color: "text-brand-purple",
-                action: "external" as const,
-                href: "https://thecvmaker.com/",
-                ctaLabel: 'Build My CV',
-              },
-              {
-                title: "Study Planner",
-                desc: "Custom schedules based on your exam date.",
-                icon: Calendar,
-                color: "text-brand-orange",
-                action: "calendly" as const,
-                funnelLabel: "home_career_study_planner",
-                ctaLabel: CTAS.joinWaitlist,
-              },
-              {
-                title: "Cert Comparison",
-                desc: "Find the right certification for your goals.",
-                icon: LayoutDashboard,
-                color: "text-indigo-600",
-                action: "link" as const,
-                href: COMPARE_PATHWAYS_HREF,
-                ctaLabel: 'Compare cert.',
-              },
-              {
-                title: "Roadmap Guidance",
-                desc: "Step-by-step career progression maps.",
-                icon: Map,
-                color: "text-emerald-600",
-                action: "calendly" as const,
-                funnelLabel: "home_career_roadmap",
-                ctaLabel: 'Get my roadmap',
-              },
-            ].map((tool, index) => (
+            {CAREER_ACCELERATOR_TOOLS.map((tool, index) => (
               <m.div
                 key={tool.title}
                 initial={{ opacity: 0, y: 20 }}
@@ -812,7 +866,23 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                     </CardDescription>
                   </CardHeader>
                   <CardFooter className="mt-auto border-0 bg-transparent p-6 pt-0">
-                    {tool.action === 'calendly' ? (
+                    {tool.action === 'waitlist' ? (
+                      <Button
+                        type="button"
+                        className="w-full h-12 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base shadow-md shadow-brand-orange/20 dark:bg-brand-orange dark:hover:bg-brand-hover dark:text-white"
+                        onClick={() => {
+                          setWaitlistContext(
+                            buildGeneralWaitlistContext(
+                              tool.waitlistHeadline ?? tool.title,
+                              `Home career accelerator: ${tool.title}`,
+                            ),
+                          );
+                          setWaitlistOpen(true);
+                        }}
+                      >
+                        {tool.ctaLabel}
+                      </Button>
+                    ) : tool.action === 'calendly' ? (
                       <WebsiteCalendlyButton
                         tier="mentor"
                         funnelLabel={tool.funnelLabel}
@@ -956,6 +1026,11 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
       </section>
       )}
     </div>
+    <JoinWaitlistDialog
+      open={waitlistOpen}
+      onOpenChange={setWaitlistOpen}
+      context={waitlistContext}
+    />
     </LazyMotion>
   );
 }

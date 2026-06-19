@@ -33,6 +33,12 @@ const AVATARS = [
     url: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&w=256&h=256&fit=crop&crop=faces',
     alt: 'Professional learner portrait',
   },
+  /** Owner-provided portrait — source only (no remote fetch). */
+  {
+    name: 'hero-social-avatar-founder',
+    localOnly: true,
+    alt: 'Sheikh M. Abdullah',
+  },
 ];
 
 const OUT_SIZE = 96;
@@ -47,12 +53,20 @@ async function main() {
   fs.mkdirSync(outDir, { recursive: true });
   fs.mkdirSync(sourceDir, { recursive: true });
 
-  for (const { name, url } of AVATARS) {
-    const sourcePath = path.join(sourceDir, `${name}.jpg`);
+  for (const entry of AVATARS) {
+    const { name } = entry;
+    const sourcePath = path.join(
+      sourceDir,
+      `${name}${fs.existsSync(path.join(sourceDir, `${name}.png`)) ? '.png' : '.jpg'}`,
+    );
     const outPath = path.join(outDir, `${name}.webp`);
 
     if (!fs.existsSync(sourcePath)) {
-      const buf = await fetchBuffer(url);
+      if (entry.localOnly) {
+        console.warn(`Skip ${name}: add source at ${path.relative(root, path.join(sourceDir, `${name}.png`))}`);
+        continue;
+      }
+      const buf = await fetchBuffer(entry.url);
       fs.writeFileSync(sourcePath, buf);
       console.log(`Downloaded ${path.relative(root, sourcePath)}`);
     }

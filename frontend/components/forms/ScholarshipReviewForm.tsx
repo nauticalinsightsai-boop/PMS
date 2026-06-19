@@ -15,6 +15,8 @@ export function ScholarshipReviewForm({ offeringId }: { offeringId?: string }) {
   const [email, setEmail] = React.useState('');
   const [notes, setNotes] = React.useState('');
   const [done, setDone] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const [submitting, setSubmitting] = React.useState(false);
   const { touch, onSuccess } = useSimpleFormRecovery({
     variant: 'scholarship_partial',
     isDone: done,
@@ -25,14 +27,21 @@ export function ScholarshipReviewForm({ offeringId }: { offeringId?: string }) {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    setSubmitting(true);
     const ctx = offeringFormContext('scholarship_review', 'Scholarship review', offeringId, regionId);
-    await submitPublicInteraction({
+    const res = await submitPublicInteraction({
       source: 'scholarship_review',
       subject: `Scholarship review: ${ctx.certName ?? offeringId ?? 'general'}`,
       email,
       formContext: ctx,
       payload: { notes, offeringId, regionId },
     });
+    setSubmitting(false);
+    if (!res.ok) {
+      setError(res.error ?? 'Could not submit your request. Please try again.');
+      return;
+    }
     onSuccess();
     setDone(true);
   };
@@ -49,7 +58,10 @@ export function ScholarshipReviewForm({ offeringId }: { offeringId?: string }) {
         <Label htmlFor="sr-notes">Notes</Label>
         <Textarea id="sr-notes" value={notes} onChange={(e) => { setNotes(e.target.value); touch(); }} />
       </div>
-      <Button type="submit" className="rounded-full bg-brand-orange">Request review</Button>
+      <Button type="submit" disabled={submitting} className="rounded-full bg-brand-orange">
+        {submitting ? 'Submitting…' : 'Request review'}
+      </Button>
+      {error ? <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p> : null}
     </form>
   );
 }

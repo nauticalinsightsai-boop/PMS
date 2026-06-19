@@ -20,7 +20,7 @@ const StripeEmbeddedCheckoutPanel = dynamic(
   { ssr: false, loading: () => <div className="min-h-[320px] animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800" /> },
 );
 
-function StoreCheckoutContent() {
+function StoreCheckoutContent({ publishableKeyHint = null }: { publishableKeyHint?: string | null }) {
   const searchParams = useSearchParams();
   const productId = searchParams.get('product');
   const { regionId, gccCountry } = useRegion();
@@ -72,6 +72,7 @@ function StoreCheckoutContent() {
           <StripeEmbeddedCheckoutPanel
             loadClientSecret={loadClientSecret}
             deps={[productId, regionId, gccCountry, colorScheme]}
+            publishableKeyHint={publishableKeyHint}
           />
         </div>
 
@@ -85,10 +86,10 @@ function StoreCheckoutContent() {
   );
 }
 
-export function StoreCheckoutPage() {
+export function StoreCheckoutPage({ publishableKeyHint = null }: { publishableKeyHint?: string | null }) {
   return (
     <Suspense fallback={<div className="container mx-auto max-w-lg py-24 text-center">Loading checkout…</div>}>
-      <StoreCheckoutContent />
+      <StoreCheckoutContent publishableKeyHint={publishableKeyHint} />
     </Suspense>
   );
 }

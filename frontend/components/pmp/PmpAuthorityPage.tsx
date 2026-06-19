@@ -14,7 +14,6 @@ import { PMP_EXAM_2026_PRIORITY_ANSWERS } from '@/content/answers/priority-answe
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { FaqAnswer } from '@/components/faq/FaqAccordionList';
-import { Pmp2026ComplianceNote } from '@/components/pmp/Pmp2026ComplianceNote';
 import { PmpPackageTierPositioning } from '@/components/pmp/PmpPackageTierPositioning';
 import { ComparePathwaysCtaLink, PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { CTAS } from '@/lib/brand-voice';
@@ -133,13 +132,9 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
             </div>
 
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-10">
-              <PmpRoadmapCtaLink size="lg" />
-              <ComparePathwaysCtaLink size="lg" />
+            <PmpRoadmapCtaLink size="lg" />
+            <ComparePathwaysCtaLink size="lg" />
             </div>
-
-            {page.path === '/pmp-exam-2026' ? (
-              <Pmp2026ComplianceNote className="mb-10" showSourceLinks showAlert />
-            ) : null}
 
             {page.sections.map((section) => (
               <section key={section.id} id={section.id} className="mb-10">
@@ -182,7 +177,9 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
               />
             ) : null}
 
-            <PmpRelatedFaqs relatedPage={page.path} />
+            {page.path !== '/pmp-exam-2026' ? (
+              <PmpRelatedFaqs relatedPage={page.path} />
+            ) : null}
 
             <section className="mb-10">
               <h2 className="font-heading text-xl font-bold mb-4">Explore next</h2>

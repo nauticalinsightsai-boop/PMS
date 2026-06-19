@@ -76,7 +76,7 @@ const hubs: TopicHubContent[] = [
     ],
     dateModified: '2026-06-19',
     ctaHref: '/certifications/pmp#cert-roadmap-form',
-    ctaLabel: 'Get My PMP 2026 Roadmap',
+    ctaLabel: 'Get My PMP Roadmap',
   },
   {
     slug: 'pmp-readiness',

@@ -52,10 +52,6 @@ const RESOURCES_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: 
 ];
 
 const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string }> = [
-  { label: 'Answer guides', href: '/answers' },
-  { label: 'Topic guides', href: '/topics' },
-  { label: 'PMP Exam 2026 guide', href: '/pmp-exam-2026' },
-  { label: 'PMP Exam 2026 topic hub', href: '/topics/pmp-exam-2026' },
   { label: 'Community', href: '/community' },
   { label: 'Compare pathways', href: '/certifications/compare' },
   { label: 'Resource store', href: '/community?view=store' },

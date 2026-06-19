@@ -16,6 +16,8 @@ export function MasteryConsultationForm({ offeringId }: { offeringId: string }) 
   const [name, setName] = React.useState('');
   const [notes, setNotes] = React.useState('');
   const [done, setDone] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const [submitting, setSubmitting] = React.useState(false);
   const { touch, onSuccess } = useSimpleFormRecovery({
     variant: 'mastery_form_partial',
     isDone: done,
@@ -26,14 +28,21 @@ export function MasteryConsultationForm({ offeringId }: { offeringId: string }) 
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    setSubmitting(true);
     const ctx = offeringFormContext('mastery_consultation', 'Mastery consultation', offeringId, regionId);
-    await submitPublicInteraction({
+    const res = await submitPublicInteraction({
       source: 'consultation',
       subject: `Mastery consultation: ${ctx.certName ?? offeringId}`,
       email,
       formContext: ctx,
       payload: { name, notes, offeringId, regionId, topic: 'mastery_consultation' },
     });
+    setSubmitting(false);
+    if (!res.ok) {
+      setError(res.error ?? 'Could not submit your request. Please try again.');
+      return;
+    }
     onSuccess();
     setDone(true);
   };
@@ -60,9 +69,10 @@ export function MasteryConsultationForm({ offeringId }: { offeringId: string }) 
         <Label htmlFor="mc-notes">Goals & timeline</Label>
         <Textarea id="mc-notes" value={notes} onChange={(e) => setNotes(e.target.value)} rows={4} />
       </div>
-      <Button type="submit" className="bg-brand-orange rounded-full">
-        Request Mastery consultation
+      <Button type="submit" disabled={submitting} className="bg-brand-orange rounded-full">
+        {submitting ? 'Submitting…' : 'Request Mastery consultation'}
       </Button>
+      {error ? <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p> : null}
     </form>
   );
 }

@@ -52,12 +52,6 @@ import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
 import { T176_SCHOLARSHIP_SAFE_BLOCK } from '@/content/t176-claims';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
-import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
-import {
-  getCertBreadcrumbItems,
-  PMP_COMMERCIAL_LABEL,
-} from '@/content/site-architecture/routes';
-
 const CertProgramHighlightsContent = dynamic(
   () =>
     import('@/components/cert/CertProgramHighlightsSection').then((m) => ({
@@ -125,9 +119,6 @@ export function CertificationDetail({
     [cert.id, certName, regionId, gccCountry, cert.pathwayOutcomes, cert.learningOutcomes]
   );
 
-  const breadcrumbLabel = cert.id === 'pmp' ? PMP_COMMERCIAL_LABEL : cert.detailHeroTitle;
-  const breadcrumbs = getCertBreadcrumbItems(cert.id, breadcrumbLabel);
-
   return (
     <LazyMotion features={domAnimation} strict>
     <div
@@ -194,7 +185,6 @@ export function CertificationDetail({
         </div>
 
         <div className="container relative z-10 mx-auto">
-          <Breadcrumbs items={breadcrumbs} className="mb-4" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <m.div
               initial={{ opacity: 0, y: 20 }}
@@ -211,7 +201,7 @@ export function CertificationDetail({
               <h1
                 className={cn(
                   MARKETING_HERO_H1_CLASS,
-                  'mb-8 leading-tight',
+                  'mb-8 max-w-full text-balance lg:text-6xl xl:text-7xl',
                   cert.id === 'pmp' && 'whitespace-nowrap',
                 )}
               >

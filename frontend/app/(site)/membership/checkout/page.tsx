@@ -1,5 +1,6 @@
 import { MembershipCheckoutPage } from '@/components/pages/MembershipCheckout';
 import { buildPageMetadata } from '@/lib/site-metadata';
+import { getStripePublishableKey } from '@/lib/stripe-publishable-key.server';
 
 export const metadata = buildPageMetadata({
   title: 'Membership checkout',
@@ -9,5 +10,6 @@ export const metadata = buildPageMetadata({
 });
 
 export default function Page() {
-  return <MembershipCheckoutPage />;
+  const publishableKeyHint = getStripePublishableKey();
+  return <MembershipCheckoutPage publishableKeyHint={publishableKeyHint || null} />;
 }

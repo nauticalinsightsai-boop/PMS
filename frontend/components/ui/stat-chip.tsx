@@ -24,7 +24,7 @@ export function StatChip({
         className,
       )}
     >
-      <div className="flex w-full flex-col items-center gap-0.5">
+      <div className="flex min-h-[1.75rem] w-full flex-col items-center justify-center gap-0.5 sm:min-h-[2rem]">
         <span className="w-full text-label leading-none">{label}</span>
         {subtitle ? (
           <span className="w-full text-[9px] font-semibold leading-tight text-brand-orange/90 dark:text-brand-orange">

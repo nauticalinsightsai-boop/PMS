@@ -45,7 +45,7 @@ const pages: AnswerPageContent[] = [
       },
     ],
     ctaHref: '/certifications/pmp#cert-roadmap-form',
-    ctaLabel: 'Get My PMP 2026 Roadmap',
+    ctaLabel: 'Get My PMP Roadmap',
     faqs: [
       {
         question: 'Does PM Structure guarantee what will be on my exam?',
@@ -365,7 +365,7 @@ const pages: AnswerPageContent[] = [
       },
     ],
     ctaHref: '/certifications/pmp#cert-roadmap-form',
-    ctaLabel: 'Get My PMP 2026 Roadmap',
+    ctaLabel: 'Get My PMP Roadmap',
     faqs: [
       {
         question: 'Does PM Structure provide 35 hours of project management education for PMP eligibility?',

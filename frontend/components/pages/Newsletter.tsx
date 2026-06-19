@@ -51,6 +51,7 @@ export function Newsletter({
     topicNames: initialTopicNames,
   });
   const [activeCategory, setActiveCategory] = React.useState("All");
+  const [searchQuery, setSearchQuery] = React.useState("");
   const [visibleCount, setVisibleCount] = React.useState(4);
 
   React.useEffect(() => {
@@ -59,15 +60,29 @@ export function Newsletter({
     }
   }, [activeCategory, categories]);
 
+  React.useEffect(() => {
+    setVisibleCount(4);
+  }, [activeCategory, searchQuery]);
+
   const topicOptions = React.useMemo(
     () => categories.filter((cat) => cat !== "All"),
     [categories],
   );
 
   const filteredArticles = React.useMemo(() => {
-    if (activeCategory === "All") return articles;
-    return articles.filter((a) => a.category === activeCategory);
-  }, [activeCategory, articles]);
+    const byCategory =
+      activeCategory === "All"
+        ? articles
+        : articles.filter((a) => a.category === activeCategory);
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return byCategory;
+    return byCategory.filter(
+      (a) =>
+        a.title.toLowerCase().includes(query) ||
+        a.excerpt.toLowerCase().includes(query) ||
+        a.category.toLowerCase().includes(query),
+    );
+  }, [activeCategory, articles, searchQuery]);
 
   const featuredArticle = filteredArticles[0] ?? articles[0];
   const visibleArticles = filteredArticles.slice(0, visibleCount);
@@ -135,22 +150,26 @@ export function Newsletter({
       {/* 3. Topics / Categories Grid */}
       <section className="py-8 bg-slate-50/50 dark:bg-slate-900/20 sticky top-16 z-40 backdrop-blur-md border-b border-slate-100 dark:border-slate-900">
         <div className="container mx-auto">
-          <div className="flex items-center gap-3 overflow-x-auto pb-2 no-scrollbar">
-            <span className="text-sm font-bold text-slate-400 uppercase tracking-widest shrink-0 mr-2">Topics:</span>
-            {categories.map((cat) => (
-              <CategoryChip 
-                key={cat} 
-                label={cat} 
-                active={activeCategory === cat} 
-                onClick={() => setActiveCategory(cat)}
-              />
-            ))}
-            <div className="relative group ml-auto shrink-0 w-full min-w-[12rem] max-w-xs sm:max-w-sm">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <div className="flex min-w-0 flex-1 items-center gap-3 overflow-x-auto pb-1 no-scrollbar">
+              <span className="text-sm font-bold text-slate-400 uppercase tracking-widest shrink-0 mr-2">Topics:</span>
+              {categories.map((cat) => (
+                <CategoryChip 
+                  key={cat} 
+                  label={cat} 
+                  active={activeCategory === cat} 
+                  onClick={() => setActiveCategory(cat)}
+                />
+              ))}
+            </div>
+            <div className="relative group w-full shrink-0 sm:w-56 md:w-64 lg:w-72">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-brand-purple transition-colors" />
               <Input
                 placeholder="Search articles..."
                 className="pl-10 h-10 w-full rounded-xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 focus:ring-brand-purple"
                 aria-label="Search articles"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>

@@ -14,6 +14,7 @@ type Props = {
   className?: string;
   onReady?: () => void;
   minHeightClass?: string;
+  publishableKeyHint?: string | null;
 };
 
 export function StripeEmbeddedCheckoutPanel({
@@ -22,6 +23,7 @@ export function StripeEmbeddedCheckoutPanel({
   className = '',
   onReady,
   minHeightClass = 'min-h-[420px]',
+  publishableKeyHint = null,
 }: Props) {
   const colorScheme = useSiteColorScheme();
   const mountRef = React.useRef<HTMLDivElement>(null);
@@ -36,7 +38,7 @@ export function StripeEmbeddedCheckoutPanel({
     let cancelled = false;
 
     async function initEmbeddedCheckout() {
-      const publishableKey = await fetchStripePublishableKey();
+      const publishableKey = await fetchStripePublishableKey(publishableKeyHint);
       const keyError = assertPublishableKeyAllowedOnHost(publishableKey);
       if (!publishableKey || keyError) {
         setStatus('error');
@@ -82,7 +84,7 @@ export function StripeEmbeddedCheckoutPanel({
       checkoutRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- deps passed explicitly
-  }, [colorScheme, ...deps]);
+  }, [colorScheme, publishableKeyHint, ...deps]);
 
   return (
     <div

@@ -18,6 +18,7 @@ type Props = {
   tierSlug: string;
   paymentMode: EnrollmentPaymentMode;
   className?: string;
+  publishableKeyHint?: string | null;
 };
 
 export function StripeEmbeddedSeatCheckout({
@@ -26,6 +27,7 @@ export function StripeEmbeddedSeatCheckout({
   tierSlug,
   paymentMode,
   className = '',
+  publishableKeyHint = null,
 }: Props) {
   const { regionId, gccCountry } = useRegion();
   const colorScheme = useSiteColorScheme();
@@ -45,7 +47,7 @@ export function StripeEmbeddedSeatCheckout({
       setErrorMessage(null);
 
       try {
-        const publishableKey = await fetchStripePublishableKey();
+        const publishableKey = await fetchStripePublishableKey(publishableKeyHint);
         if (cancelled) return;
 
         const keyError = assertPublishableKeyAllowedOnHost(publishableKey);
@@ -127,7 +129,7 @@ export function StripeEmbeddedSeatCheckout({
       checkoutRef.current?.destroy();
       checkoutRef.current = null;
     };
-  }, [offeringId, siteCertId, tierSlug, regionId, gccCountry, colorScheme, paymentMode]);
+  }, [offeringId, siteCertId, tierSlug, regionId, gccCountry, colorScheme, paymentMode, publishableKeyHint]);
 
   return (
     <div

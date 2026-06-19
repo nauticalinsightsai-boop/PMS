@@ -1,7 +1,5 @@
 import { T169_FEATURED_CARDS } from '@/content/pmp/flagship-t169';
-import { PMP_ROADMAP_CTA_HREF, PMP_ROADMAP_CTA_LABEL } from '@/lib/pmp-roadmap-cta';
 import type { PathwayFeaturedCardProps } from '@/components/PathwayFeaturedCard';
-
 function waitlistHref(certId: string): string {
   return `/contact?topic=waitlist&offering=${encodeURIComponent(certId)}`;
 }
@@ -16,22 +14,22 @@ const CARD_MAP: Record<string, FeaturedOverride> = {
     badgeLabel: T169_FEATURED_CARDS.pmp.badge,
     title: T169_FEATURED_CARDS.pmp.title,
     description: T169_FEATURED_CARDS.pmp.description,
-    ctaLabel: PMP_ROADMAP_CTA_LABEL,
-    ctaHref: PMP_ROADMAP_CTA_HREF,
+    ctaLabel: 'Get my PMP Road Map',
+    ctaHref: '/certifications/pmp',
   },
   prince2: {
     badgeLabel: T169_FEATURED_CARDS.prince2.badge,
     title: T169_FEATURED_CARDS.prince2.title,
     description: T169_FEATURED_CARDS.prince2.description,
     ctaLabel: T169_FEATURED_CARDS.prince2.cta,
-    ctaHref: waitlistHref('prince2'),
+    ctaHref: '/certifications/prince2-practitioner',
   },
   'lss-green': {
     badgeLabel: T169_FEATURED_CARDS.lssGreen.badge,
     title: T169_FEATURED_CARDS.lssGreen.title,
     description: T169_FEATURED_CARDS.lssGreen.description,
     ctaLabel: T169_FEATURED_CARDS.lssGreen.cta,
-    ctaHref: waitlistHref('lss-green'),
+    ctaHref: '/certifications/lss-green',
   },
   'pmi-rmp': {
     badgeLabel: T169_FEATURED_CARDS.pmiRmp.badge,

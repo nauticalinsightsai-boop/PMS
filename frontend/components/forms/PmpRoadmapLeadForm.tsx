@@ -73,6 +73,23 @@ function PmsFormHeaderMark({ compact }: { compact: boolean }) {
   return <BrandIconMark size={compact ? 48 : 56} priority />;
 }
 
+function FormPrivacyNotice({ compact }: { compact: boolean }) {
+  return (
+    <p
+      className={cn(
+        '!mt-0 text-slate-500 dark:text-slate-400',
+        compact ? 'text-[10px] leading-snug' : 'text-[11px] leading-relaxed',
+      )}
+    >
+      By submitting, you agree to our{' '}
+      <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
+        Privacy Policy
+      </Link>
+      .
+    </p>
+  );
+}
+
 export function PmpRoadmapLeadForm({
   placement,
   variant = 'hero',
@@ -152,17 +169,14 @@ export function PmpRoadmapLeadForm({
 
   const shellClass = cn(
     'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
-    variant === 'insights'
-      ? 'bg-white text-slate-900 border-slate-200 shadow-slate-900/10 dark:bg-[#0f0e38] dark:text-white dark:border-slate-700 dark:shadow-black/30'
-      : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800',
+    variant === 'cert'
+      ? 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800'
+      : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 shadow-slate-900/10 dark:shadow-black/30',
     className,
   );
 
   const formHeaderClass = cn(
-    'shrink-0 border-b',
-    variant === 'insights'
-      ? 'border-slate-200 bg-gradient-to-br from-brand-purple/5 via-white to-brand-orange/5 dark:border-slate-800 dark:from-[#0f0e38] dark:via-[#0c1224] dark:to-slate-900'
-      : 'border-slate-100 bg-gradient-to-br from-brand-purple/5 via-white to-brand-orange/5 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800',
+    'shrink-0 border-b border-slate-100 bg-gradient-to-br from-brand-purple/5 via-white to-brand-orange/5 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800',
   );
 
   const isCompact = variant === 'cert';
@@ -194,22 +208,20 @@ export function PmpRoadmapLeadForm({
     isCertHeroDesktop || isCertMobileForm ? 'h-[40px]' : isCompact ? 'h-9' : 'h-10',
   );
   const certHeroControlHeight = 'h-[40px]';
-  const radioGridClass = cn(
+  const choiceGridClass = cn(
     'grid grid-cols-2',
     isCertHeroDesktop || isCertMobileForm ? 'gap-2.5' : cn('gap-2', !isCompact && 'grid-cols-1 sm:grid-cols-2 sm:gap-2'),
   );
-  const radioOptionClass = (selected: boolean) =>
+  const certChoiceButtonClass = (selected: boolean) =>
     cn(
-      'flex cursor-pointer items-center gap-2 rounded-lg border px-2.5 font-medium transition-colors sm:gap-2.5 sm:px-3',
+      'flex w-full cursor-pointer items-center justify-center rounded-lg border font-bold transition-colors',
       isCertHeroDesktop
-        ? cn(certHeroControlHeight, 'items-center py-0 text-xs sm:text-sm')
+        ? cn(certHeroControlHeight, 'px-2.5 text-xs sm:px-3 sm:text-sm')
         : isCertMobileForm
-          ? cn(certHeroControlHeight, 'items-center py-0 text-sm')
-          : isCompact
-            ? 'py-1.5 text-xs sm:py-2 sm:text-sm'
-            : 'py-2.5 text-sm',
+          ? cn(certHeroControlHeight, 'px-3 text-sm')
+          : cn('px-3 py-2.5 text-sm'),
       selected
-        ? 'border-brand-orange bg-brand-orange text-white font-bold shadow-sm [&_input]:accent-white'
+        ? 'border-brand-orange bg-brand-orange text-white shadow-sm'
         : 'border-input bg-white text-slate-700 hover:border-brand-orange/40 dark:bg-slate-900 dark:text-slate-300',
     );
   const choiceFieldsetClass = cn(
@@ -223,6 +235,7 @@ export function PmpRoadmapLeadForm({
             ? 'space-y-3.5'
             : 'space-y-3',
   );
+  const experienceFieldsetPad = 'px-0 pt-1 pb-1';
   const certMobileSectionPad = isCertMobileForm ? 'pt-[10px]' : '';
   const legendClass = cn(
     labelClass,
@@ -267,14 +280,19 @@ export function PmpRoadmapLeadForm({
       setJobExperience('');
       setDailyStudyTime('');
       touchField();
+      return;
     }
+    setJobExperience(value);
+    touchField();
   };
 
   const toggleDailyStudyTime = (value: string) => {
     if (dailyStudyTime === value) {
       setDailyStudyTime('');
-      touchField();
+    } else {
+      setDailyStudyTime(value);
     }
+    touchField();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -393,9 +411,7 @@ export function PmpRoadmapLeadForm({
           <div className="flex items-start gap-3 sm:gap-4">
             {!isMobilePlacement ? (
               isHomeForm || !familyId ? (
-                <div className={cn(placement === 'home_insights' && 'hidden sm:block')}>
-                  <PmsFormHeaderMark compact={isCompact} />
-                </div>
+                <PmsFormHeaderMark compact={isCompact} />
               ) : (
                 <div
                   className={cn(
@@ -430,9 +446,7 @@ export function PmpRoadmapLeadForm({
                 className={cn(
                   'mt-0.5 font-medium text-slate-500 dark:text-slate-400',
                   isCompact ? 'text-xs sm:text-sm' : 'text-sm',
-                  placement === 'home_hero_mobile' || placement === 'home_insights'
-                    ? 'hidden sm:block'
-                    : undefined,
+                  placement === 'home_hero_mobile' ? 'hidden sm:block' : undefined,
                 )}
               >
                 {formSubtitle}
@@ -454,7 +468,6 @@ export function PmpRoadmapLeadForm({
                   ? 'space-y-2.5 px-5 py-4 sm:px-6'
                   : cn(
                     'px-5 py-6 sm:px-6 sm:py-7 space-y-5 sm:space-y-6',
-                    isExpandedForm && isHomeForm && 'pb-0 sm:pb-0',
                     'lg:min-h-0 lg:flex-1 lg:overflow-y-auto',
                   ),
           )}
@@ -615,27 +628,21 @@ export function PmpRoadmapLeadForm({
               </fieldset>
 
               {certInterest ? (
-                <fieldset className="m-0 mb-0 min-w-0 space-y-0 border-0 p-0 mt-6 sm:mt-8">
+                <fieldset className={cn('m-0 mb-0 min-w-0 space-y-0 border-0 mt-6 sm:mt-8', experienceFieldsetPad)}>
                   <legend className={cn(labelClass, 'mb-2.5')}>
                     Years of Total Job Experience <span className="text-brand-orange">*</span>
                   </legend>
-                  <div className={radioGridClass} role="radiogroup" aria-required>
+                  <div className="flex flex-wrap gap-2.5 sm:gap-3" role="group" aria-label="Years of total job experience">
                     {PMP_JOB_EXPERIENCE_OPTIONS.map((o) => (
-                      <label key={o.value} className={radioOptionClass(jobExperience === o.value)}>
-                        <input
-                          type="radio"
-                          name={`${idPrefix}-experience`}
-                          value={o.value}
-                          checked={jobExperience === o.value}
-                          onClick={() => toggleJobExperience(o.value)}
-                          onChange={() => {
-                            setJobExperience(o.value);
-                            touchField();
-                          }}
-                          className="h-4 w-4 shrink-0 accent-brand-orange"
-                        />
+                      <button
+                        key={o.value}
+                        type="button"
+                        className={toggleOptionClass(jobExperience === o.value)}
+                        aria-pressed={jobExperience === o.value}
+                        onClick={() => toggleJobExperience(o.value)}
+                      >
                         {o.label}
-                      </label>
+                      </button>
                     ))}
                   </div>
                 </fieldset>
@@ -648,27 +655,21 @@ export function PmpRoadmapLeadForm({
                 !isCertHeroDesktop && 'contents',
               )}
             >
-              <fieldset className={cn(choiceFieldsetClass, certMobileSectionPad, isCertHeroDesktop && 'w-full')}>
+              <fieldset className={cn(choiceFieldsetClass, experienceFieldsetPad, certMobileSectionPad, isCertHeroDesktop && 'w-full')}>
                 <legend className={legendClass}>
                   Years of Total Job Experience <span className="text-brand-orange">*</span>
                 </legend>
-                <div className={radioGridClass} role="radiogroup" aria-required>
+                <div className={choiceGridClass} role="group" aria-label="Years of total job experience">
                   {PMP_JOB_EXPERIENCE_OPTIONS.map((o) => (
-                    <label key={o.value} className={radioOptionClass(jobExperience === o.value)}>
-                      <input
-                        type="radio"
-                        name={`${idPrefix}-experience`}
-                        value={o.value}
-                        checked={jobExperience === o.value}
-                        onClick={() => toggleJobExperience(o.value)}
-                        onChange={() => {
-                          setJobExperience(o.value);
-                          touchField();
-                        }}
-                        className="h-4 w-4 shrink-0 accent-brand-orange"
-                      />
+                    <button
+                      key={o.value}
+                      type="button"
+                      className={certChoiceButtonClass(jobExperience === o.value)}
+                      aria-pressed={jobExperience === o.value}
+                      onClick={() => toggleJobExperience(o.value)}
+                    >
                       {o.label}
-                    </label>
+                    </button>
                   ))}
                 </div>
               </fieldset>
@@ -677,23 +678,17 @@ export function PmpRoadmapLeadForm({
                 <legend className={legendClass}>
                   What is your daily study time?
                 </legend>
-                <div className={radioGridClass} role="radiogroup">
+                <div className={choiceGridClass} role="group" aria-label="Daily study time">
                   {PMP_DAILY_STUDY_OPTIONS.map((o) => (
-                    <label key={o.value} className={radioOptionClass(dailyStudyTime === o.value)}>
-                      <input
-                        type="radio"
-                        name={`${idPrefix}-daily`}
-                        value={o.value}
-                        checked={dailyStudyTime === o.value}
-                        onClick={() => toggleDailyStudyTime(o.value)}
-                        onChange={() => {
-                          setDailyStudyTime(o.value);
-                          touchField();
-                        }}
-                        className="h-4 w-4 shrink-0 accent-brand-orange"
-                      />
+                    <button
+                      key={o.value}
+                      type="button"
+                      className={certChoiceButtonClass(dailyStudyTime === o.value)}
+                      aria-pressed={dailyStudyTime === o.value}
+                      onClick={() => toggleDailyStudyTime(o.value)}
+                    >
                       {o.label}
-                    </label>
+                    </button>
                   ))}
                 </div>
               </fieldset>
@@ -716,37 +711,22 @@ export function PmpRoadmapLeadForm({
           </div>
 
           {error ? <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p> : null}
+
+          <FormPrivacyNotice compact={isCompact} />
         </div>
 
         <div
           className={cn(
             'shrink-0 border-t border-slate-100 dark:border-slate-800 sm:px-6',
             isCertHeroDesktop
-              ? 'mt-auto space-y-2 px-5 py-4 sm:py-5'
+              ? 'mt-auto px-5 py-4 sm:py-5'
               : isCertMobileForm
-                ? 'space-y-3 px-5 py-5'
+                ? 'px-5 py-5'
                 : isCompact
-                  ? 'space-y-2 px-5 py-3'
-                  : 'space-y-3 px-5 py-5 sm:px-6',
+                  ? 'px-5 py-3'
+                  : 'px-5 py-5 sm:px-6',
           )}
         >
-          {isCompact ? (
-            <p className="text-[10px] leading-snug text-slate-500 dark:text-slate-400">
-              By submitting, you agree to our{' '}
-              <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
-                Privacy Policy
-              </Link>
-              .
-            </p>
-          ) : (
-            <p className="text-[10px] sm:text-[11px] leading-snug text-slate-500 dark:text-slate-400">
-              By submitting, you agree to our{' '}
-              <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
-                Privacy Policy
-              </Link>
-              .
-            </p>
-          )}
           <Button
             type="submit"
             disabled={submitting}

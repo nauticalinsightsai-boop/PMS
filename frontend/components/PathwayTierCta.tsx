@@ -8,6 +8,10 @@ import type { PathwayTier } from '@/types/site';
 import type { TierPathwayCta } from '@/lib/pathway-tier-cta';
 import { tierDeliveryLine } from '@/lib/pathway-tier-cta';
 import { PathwayOfferingModal } from '@/components/PathwayOfferingModal';
+import {
+  JoinWaitlistDialog,
+  type JoinWaitlistContext,
+} from '@/components/forms/JoinWaitlistDialog';
 import { getOfferingById } from '@/lib/regional-catalogue';
 
 export function PathwayTierCta({
@@ -31,6 +35,18 @@ export function PathwayTierCta({
   const offeringId = tier.offeringId ?? 'pathway';
   const offering = getOfferingById(offeringId);
   const tierId = offering?.tierId ?? 'foundation';
+  const isWaitlist = pathwayCta.modalMode === 'waitlist';
+
+  const waitlistContext: JoinWaitlistContext = {
+    headline: tier.title,
+    subject: `Waitlist: ${tier.title}`,
+    offeringId,
+    siteCertId,
+    tierId,
+    formId: 'pathway_waitlist',
+    formLabel: 'Pathway waitlist',
+    placement: `Pathway: ${tier.title}`,
+  };
 
   const buttonClassName = cn(
     'w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md transition-all hover:opacity-90 inline-flex items-center justify-center group/btn',
@@ -54,7 +70,7 @@ export function PathwayTierCta({
       </Button>
 
       <PathwayOfferingModal
-        open={open}
+        open={open && !isWaitlist}
         onOpenChange={setOpen}
         programmeTitle={tier.title}
         offeringId={offeringId}
@@ -64,6 +80,12 @@ export function PathwayTierCta({
         deliveryLine={tierDeliveryLine(tier.tierDelivery ?? tier.deliveryMode)}
         pathwayCta={pathwayCta}
         outcomes={tier.outcomes}
+      />
+
+      <JoinWaitlistDialog
+        open={open && isWaitlist}
+        onOpenChange={setOpen}
+        context={waitlistContext}
       />
     </>
   );

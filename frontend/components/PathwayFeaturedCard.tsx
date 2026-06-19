@@ -13,6 +13,14 @@ import { PathwayEnrollmentBadge } from '@/components/PathwayEnrollmentBadge';
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { isRoadmapSchedulingHref } from '@/lib/pmp-roadmap-cta';
 import { trackRoadmapCtaClick } from '@/lib/analytics/track-roadmap-cta';
+import {
+  buildFeaturedCardWaitlistContext,
+  isWaitlistContactHref,
+} from '@/lib/waitlist-contact-href';
+import {
+  JoinWaitlistDialog,
+  type JoinWaitlistContext,
+} from '@/components/forms/JoinWaitlistDialog';
 import { cn } from '@/lib/utils';
 import { useRegion } from '@/contexts/RegionContext';
 import { isEnrollmentOpen } from '@/lib/certification-enrollment';
@@ -86,11 +94,11 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
     Boolean(presentation?.showGlobalReference && listing.original);
 
   return (
-    <div className="mb-5 space-y-2">
-      <div className="grid grid-cols-2 gap-1.5 items-stretch overflow-visible sm:grid-cols-3 sm:gap-2">
+    <div className={cn('mb-5 space-y-2', PATHWAY_FEATURED_PRICING_MIN_H, 'flex flex-col')}>
+      <div className="grid flex-1 grid-cols-2 gap-1.5 items-stretch overflow-visible sm:grid-cols-3 sm:gap-2">
         <StatChip
           label="Prep time"
-          className="min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
+          className="h-full min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
         >
           <p className="text-xs font-extrabold leading-tight tracking-tight text-slate-900 dark:text-white sm:text-sm">
             {duration ?? 'Flexible'}
@@ -102,7 +110,7 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
           subtitle={
             presentation?.kind === 'scholarship' ? REGION_COPY.scholarshipChipSubtitle : undefined
           }
-          className="min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
+          className="h-full min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
         >
           {listing.active ? (
             <p
@@ -122,11 +130,11 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
 
         <MembershipPriceChip
           price={listing.membership}
-          className="hidden min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[4.5rem] sm:px-2.5"
+          className="hidden h-full min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[5rem] sm:px-2.5"
         />
       </div>
 
-      {showGlobalReference && listing.original && (
+      {showGlobalReference && listing.original ? (
         <div
           className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 rounded-xl border border-slate-200/80 bg-white px-3 py-2 text-center dark:border-slate-700 dark:bg-slate-950/40"
           aria-label={`${presentation!.globalReferenceLabel} ${listing.original}`}
@@ -138,6 +146,8 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
             {listing.original}
           </span>
         </div>
+      ) : (
+        <div className="hidden min-h-[2.25rem] sm:block" aria-hidden />
       )}
     </div>
   );
@@ -165,6 +175,13 @@ export interface PathwayFeaturedCardProps {
 const featuredCardShell =
   'group/pathway h-full flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden';
 
+/** Keeps pricing chips + membership row aligned across cards in a grid row. */
+const PATHWAY_FEATURED_PRICING_MIN_H = 'min-h-[8rem] sm:min-h-[8.25rem]';
+/** Reserves space for description + optional meta line so chip rows line up. */
+const PATHWAY_FEATURED_SUMMARY_MIN_H = 'min-h-[6.5rem] sm:min-h-[7rem]';
+/** Three outcome rows at equal height across cards. */
+const PATHWAY_FEATURED_OUTCOMES_MIN_H = 'min-h-[4.5rem]';
+
 function certAccentColor(cert: CertificationSummary): string | undefined {
   return cert.color?.trim() || undefined;
 }
@@ -187,6 +204,11 @@ function PathwayCardCta({
   const href = ctaHref ?? `/certifications/${certId}`;
   const btnClass =
     'w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md hover:opacity-90';
+  const [waitlistOpen, setWaitlistOpen] = React.useState(false);
+  const waitlistContext = React.useMemo<JoinWaitlistContext | null>(() => {
+    if (!isWaitlistContactHref(href)) return null;
+    return buildFeaturedCardWaitlistContext(certId, label, href);
+  }, [certId, href, label]);
 
   if (isRoadmapSchedulingHref(href)) {
     return (
@@ -207,6 +229,27 @@ function PathwayCardCta({
       >
         {label}
       </WebsiteCalendlyButton>
+    );
+  }
+
+  if (waitlistContext) {
+    return (
+      <>
+        <Button
+          type="button"
+          onClick={() => setWaitlistOpen(true)}
+          variant={accentColor ? 'default' : 'brand'}
+          className={btnClass}
+          style={accentColor ? { backgroundColor: accentColor } : undefined}
+        >
+          {label}
+        </Button>
+        <JoinWaitlistDialog
+          open={waitlistOpen}
+          onOpenChange={setWaitlistOpen}
+          context={waitlistContext}
+        />
+      </>
     );
   }
 
@@ -265,23 +308,28 @@ function PathwayFeaturedVisualCard({
             {cert.outputValue}
           </span>
         </div>
-        <ClampedText
-          text={displayDesc}
-          className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed"
-        />
-        {metaLine ? (
+        <div className={cn('flex flex-col', PATHWAY_FEATURED_SUMMARY_MIN_H)}>
           <ClampedText
-            text={metaLine}
-            className="mt-3 text-xs font-semibold text-brand-purple dark:text-brand-purple/90 leading-snug"
-            clampClassName="line-clamp-2"
+            text={displayDesc}
+            className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed"
           />
-        ) : null}
+          {metaLine ? (
+            <ClampedText
+              text={metaLine}
+              className="mt-3 text-xs font-semibold text-brand-purple dark:text-brand-purple/90 leading-snug"
+              clampClassName="line-clamp-2"
+            />
+          ) : null}
+        </div>
       </CardHeader>
-      <CardContent className="px-5 pb-5 flex-1">
+      <CardContent className="flex flex-1 flex-col px-5 pb-5">
         <PathwayFeaturedPricingChips certId={cert.id} />
-        <ul className="space-y-3">
+        <ul className={cn(PATHWAY_FEATURED_OUTCOMES_MIN_H, 'space-y-3')}>
           {outcomes.map((item) => (
-            <li key={item} className="flex items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
+            <li
+              key={item}
+              className="flex min-h-5 items-center text-xs font-semibold text-slate-600 dark:text-slate-400"
+            >
               <CheckCircle2 className="h-3 w-3 mr-2 text-brand-orange shrink-0" />
               <span className="line-clamp-1">{item}</span>
             </li>
@@ -357,20 +405,25 @@ function PathwayFeaturedCatalogCard({
             {cert.outputValue}
           </span>
         </div>
-        <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-          {displayDesc}
-        </CardDescription>
+        <div className={cn('flex flex-col', PATHWAY_FEATURED_SUMMARY_MIN_H)}>
+          <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
+            {displayDesc}
+          </CardDescription>
+        </div>
       </CardHeader>
-      <CardContent className="px-5 pb-5 flex-1">
+      <CardContent className="flex flex-1 flex-col px-5 pb-5">
         <PathwayFeaturedPricingChips certId={cert.id} />
-        <ul className="space-y-3">
+        <ul className={cn(PATHWAY_FEATURED_OUTCOMES_MIN_H, 'space-y-3')}>
           {outcomes.map((item) => (
-            <li key={item} className="flex items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
+            <li
+              key={item}
+              className="flex min-h-5 items-center text-xs font-semibold text-slate-600 dark:text-slate-400"
+            >
               <CheckCircle2
                 className={cn('h-3 w-3 mr-2 shrink-0', !accent && 'text-brand-orange')}
                 style={accent ? { color: accent } : undefined}
               />
-              <span className="line-clamp-2">{item}</span>
+              <span className="line-clamp-1">{item}</span>
             </li>
           ))}
         </ul>

@@ -21,3 +21,31 @@ export function assertPublishableKeyAllowedOnHost(key: string, hostname?: string
   }
   return null;
 }
+
+/** Choose the best publishable key from server hint, client bundle, and /config/stripe. */
+export function pickStripePublishableKey(options: {
+  hint?: string | null;
+  env?: string;
+  api?: string;
+  hostname?: string;
+}): string {
+  const hint = options.hint?.trim() ?? '';
+  const env = options.env?.trim() ?? '';
+  const api = options.api?.trim() ?? '';
+  const onLiveSite = isProductionMarketingHost(options.hostname);
+
+  if (onLiveSite) {
+    if (hint.startsWith('pk_live_')) return hint;
+    if (api.startsWith('pk_live_')) return api;
+    if (env.startsWith('pk_live_')) return env;
+    if (api.startsWith('pk_')) return api;
+    if (env.startsWith('pk_')) return env;
+    if (hint.startsWith('pk_')) return hint;
+    return '';
+  }
+
+  if (hint.startsWith('pk_')) return hint;
+  if (api.startsWith('pk_')) return api;
+  if (env.startsWith('pk_')) return env;
+  return '';
+}

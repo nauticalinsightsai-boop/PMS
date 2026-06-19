@@ -1,5 +1,6 @@
 import { StoreCheckoutPage } from '@/components/pages/StoreCheckout';
 import { buildPageMetadata } from '@/lib/site-metadata';
+import { getStripePublishableKey } from '@/lib/stripe-publishable-key.server';
 
 export const metadata = buildPageMetadata({
   title: 'Store checkout',
@@ -9,5 +10,6 @@ export const metadata = buildPageMetadata({
 });
 
 export default function Page() {
-  return <StoreCheckoutPage />;
+  const publishableKeyHint = getStripePublishableKey();
+  return <StoreCheckoutPage publishableKeyHint={publishableKeyHint || null} />;
 }

@@ -12,7 +12,7 @@ const pillBase =
   'inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold whitespace-nowrap transition-colors';
 
 const GUIDE_BAND_SHELL =
-  'mx-auto w-full max-w-5xl rounded-2xl border px-5 py-6 sm:rounded-3xl sm:px-8 sm:py-8 ' +
+  'mx-auto w-full max-w-7xl rounded-2xl border px-5 py-6 sm:rounded-3xl sm:px-8 sm:py-8 ' +
   'border-slate-200 bg-white shadow-lg shadow-slate-900/5 ' +
   'dark:border-slate-700/50 dark:bg-[#0c1224] dark:shadow-xl dark:shadow-black/30';
 
@@ -26,15 +26,15 @@ export function HomePmp2026GuideBand() {
       <div className="container mx-auto">
         <div className={GUIDE_BAND_SHELL}>
           <div className="flex flex-col items-center gap-6 text-center lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:text-left">
-            <div className="min-w-0 max-w-xl">
+            <div className="min-w-0 lg:flex-1">
               <h2
                 id="home-pmp-2026-guide-heading"
-                className="font-heading text-xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white sm:text-2xl md:text-[1.75rem]"
+                className="font-heading text-xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white sm:text-2xl md:text-[1.75rem] lg:whitespace-nowrap"
               >
                 PMP exam 2026: what&apos;s changing?
               </h2>
               <p className="mt-2 text-sm font-medium leading-relaxed text-slate-600 dark:text-slate-400 sm:mt-3 sm:text-base">
-                Independent guides for the 2026 transition, study plans, and domain focus areas.
+                Guides for the 2026 transition, study plans, and domain focus areas.
               </p>
             </div>
             <nav

@@ -13,6 +13,7 @@ type ProgramEnrollmentPageProps = {
   tierSlug: string;
   offeringId: string;
   certName: string;
+  publishableKeyHint?: string | null;
 };
 
 export function ProgramEnrollmentPage({
@@ -20,6 +21,7 @@ export function ProgramEnrollmentPage({
   tierSlug,
   offeringId,
   certName,
+  publishableKeyHint = null,
 }: ProgramEnrollmentPageProps) {
   return (
     <section className={sectionSurface('blend', 'py-12 md:py-24')}>
@@ -33,7 +35,12 @@ export function ProgramEnrollmentPage({
             below: choose the option that works best for you.
           </p>
         </div>
-        <ProgramEnrollmentForm offeringId={offeringId} siteCertId={siteCertId} tierSlug={tierSlug} />
+        <ProgramEnrollmentForm
+          offeringId={offeringId}
+          siteCertId={siteCertId}
+          tierSlug={tierSlug}
+          publishableKeyHint={publishableKeyHint}
+        />
         <p className="mt-6 text-xs leading-relaxed text-slate-500 dark:text-slate-400 lg:max-w-3xl">
           {T176_PAYMENT_DISCLAIMER}
         </p>

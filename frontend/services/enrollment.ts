@@ -1,9 +1,9 @@
 import type { EnrollmentPaymentMode } from '@/lib/enrollment/seat-reservation';
 import { apiUrl } from '@/lib/api-url';
 import {
-  isProductionMarketingHost,
-  isStripeTestPublishableKey,
+  pickStripePublishableKey,
 } from '@/lib/stripe-key-mode';
+import { readStripePublishableKeyFromEnv } from '@/lib/stripe-publishable-key';
 
 async function fetchPublishableKeyFromApi(): Promise<string> {
   const urls = ['/config/stripe', '/api/config/public'];
@@ -53,22 +53,13 @@ type EnrollmentCheckoutResponse = {
   paymentMode: EnrollmentPaymentMode;
 };
 
-export async function fetchStripePublishableKey(): Promise<string> {
-  const fromEnv = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() ?? '';
-  const onLiveSite = isProductionMarketingHost();
-
-  // On pmstructure.com, prefer server env so a stale pk_test build cannot override live keys.
-  if (onLiveSite) {
-    const fromApi = await fetchPublishableKeyFromApi();
-    if (fromApi && !isStripeTestPublishableKey(fromApi)) return fromApi;
-    if (fromEnv.startsWith('pk_live_')) return fromEnv;
-    if (fromApi.startsWith('pk_')) return fromApi;
-    if (fromEnv.startsWith('pk_')) return fromEnv;
-    return '';
-  }
-
-  if (fromEnv.startsWith('pk_')) return fromEnv;
-  return fetchPublishableKeyFromApi();
+export async function fetchStripePublishableKey(hint?: string | null): Promise<string> {
+  const fromApi = await fetchPublishableKeyFromApi();
+  return pickStripePublishableKey({
+    hint: hint?.trim() ?? '',
+    env: readStripePublishableKeyFromEnv(),
+    api: fromApi,
+  });
 }
 
 export async function createEnrollmentEmbeddedCheckout(payload: EnrollmentCheckoutPayload) {
