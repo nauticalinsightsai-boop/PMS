@@ -11,6 +11,10 @@ import { cn } from '@/lib/utils';
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
 
+const STUDENT_SUCCESS_SHELL =
+  'relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-orange-50/30 ' +
+  'dark:from-slate-950 dark:via-[#0a0f24] dark:to-[#07071c]';
+
 const STUDENT_SUCCESS_STORIES = [
   {
     id: 'sarah-jenkins',
@@ -67,16 +71,16 @@ function StarRow({ className }: { className?: string }) {
 
 function TestimonialCard({ story }: { story: (typeof STUDENT_SUCCESS_STORIES)[number] }) {
   return (
-    <article className="flex h-full flex-col rounded-[2rem] border border-slate-700/50 bg-[#0c1224]/90 p-6 shadow-lg shadow-black/20 sm:p-8">
+    <article className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-lg shadow-slate-900/5 sm:p-8 dark:border-slate-700/50 dark:bg-[#0c1224]/90 dark:shadow-black/20">
       <div className="mb-6 flex items-start justify-between gap-4">
         <StarRow />
-        <Quote className="h-10 w-10 shrink-0 text-slate-600/80 sm:h-12 sm:w-12" aria-hidden />
+        <Quote className="h-10 w-10 shrink-0 text-slate-300 dark:text-slate-600/80 sm:h-12 sm:w-12" aria-hidden />
       </div>
-      <p className="mb-8 flex-1 text-base leading-relaxed font-medium text-white sm:text-[1.05rem]">
+      <p className="mb-8 flex-1 text-base leading-relaxed font-medium text-slate-800 sm:text-[1.05rem] dark:text-white">
         &ldquo;{story.quote}&rdquo;
       </p>
       <div className="flex items-center gap-4">
-        <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-slate-700/80 bg-slate-800">
+        <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-slate-200 bg-slate-100 dark:border-slate-700/80 dark:bg-slate-800">
           <Image
             src={story.avatar}
             alt={story.name}
@@ -88,8 +92,8 @@ function TestimonialCard({ story }: { story: (typeof STUDENT_SUCCESS_STORIES)[nu
           />
         </div>
         <div className="min-w-0">
-          <p className="text-lg font-bold leading-tight text-white">{story.name}</p>
-          <p className="text-sm font-medium text-slate-400">{story.role}</p>
+          <p className="text-lg font-bold leading-tight text-slate-900 dark:text-white">{story.name}</p>
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{story.role}</p>
         </div>
       </div>
     </article>
@@ -116,18 +120,12 @@ export function HomeStudentSuccessSection() {
   }, [activeIndex, storyCount]);
 
   return (
-    <section
-      className={cn(
-        'relative overflow-hidden',
-        'bg-gradient-to-b from-slate-950 via-[#0a0f24] to-[#07071c]',
-        SECTION_PY,
-      )}
-    >
+    <section className={cn(STUDENT_SUCCESS_SHELL, SECTION_PY)}>
       <div
         className="pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden
       >
-        <div className="absolute top-[-10%] right-[-5%] h-[36%] w-[36%] rounded-full bg-brand-purple/20 blur-[120px]" />
+        <div className="absolute top-[-10%] right-[-5%] h-[36%] w-[36%] rounded-full bg-brand-purple/10 blur-[120px] dark:bg-brand-purple/20" />
         <div className="absolute bottom-[-12%] left-[-8%] h-[30%] w-[30%] rounded-full bg-brand-orange/10 blur-[120px]" />
       </div>
 
@@ -139,13 +137,13 @@ export function HomeStudentSuccessSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Badge className="mb-6 border border-white/10 bg-white/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-orange">
+            <Badge className="mb-6 border border-slate-200 bg-white/80 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-orange dark:border-white/10 dark:bg-white/5">
               Our Impact
             </Badge>
-            <h2 className="font-heading text-section mb-4 font-bold tracking-tight leading-tight text-white sm:mb-6">
+            <h2 className="font-heading text-section mb-4 font-bold tracking-tight leading-tight text-slate-900 dark:text-white sm:mb-6 whitespace-nowrap">
               Student Success
             </h2>
-            <p className="mb-8 text-lg font-medium leading-relaxed text-slate-400">
+            <p className="mb-8 text-lg font-medium leading-relaxed text-slate-600 dark:text-slate-400">
               Join professionals building structured project management capability with {BRAND.name}.
             </p>
 
@@ -154,7 +152,7 @@ export function HomeStudentSuccessSection() {
                 {SOCIAL_PROOF_AVATARS.map((avatar) => (
                   <div
                     key={avatar.src}
-                    className="h-10 w-10 overflow-hidden rounded-full border-2 border-slate-950 ring-1 ring-slate-700/50"
+                    className="h-10 w-10 overflow-hidden rounded-full border-2 border-white ring-1 ring-slate-200 dark:border-slate-950 dark:ring-slate-700/50"
                   >
                     <Image
                       src={avatar.src}
@@ -170,7 +168,7 @@ export function HomeStudentSuccessSection() {
               </div>
               <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
                 <StarRow />
-                <p className="text-sm font-bold text-slate-300 sm:text-base">4.9/5 Average Rating</p>
+                <p className="text-sm font-bold text-slate-700 dark:text-slate-300 sm:text-base">4.9/5 Average Rating</p>
               </div>
             </div>
 
@@ -187,7 +185,7 @@ export function HomeStudentSuccessSection() {
                     'h-2 rounded-full transition-all duration-300',
                     activeIndex === index
                       ? 'w-8 bg-brand-orange'
-                      : 'w-2 bg-slate-600 hover:bg-slate-500',
+                      : 'w-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-500',
                   )}
                 />
               ))}

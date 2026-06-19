@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { 
   ArrowRight, 
-  CheckCircle2, 
   Users, 
   Trophy, 
   BookOpen, 
@@ -51,12 +50,6 @@ import { getT169FeaturedCardOverrides } from '@/lib/t169-featured-cards';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2Seo } from '@/content/seo/phase-2-page-seo';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
-import { newsletterArticles } from '@/data/newsletterArticles';
-
-function resolveInsightArticleImage(href: string): string {
-  const article = newsletterArticles.find((a) => href.includes(a.slug));
-  return article?.image ?? MARKETING_STOCK_IMAGES.articleCard.src;
-}
 
 const HomeTestimonialsSection = dynamic(
   () =>
@@ -70,14 +63,6 @@ import * as siteData from "@/data/siteData";
 
 /** Featured Pathways: exactly 6 cards in 2 rows × 3 columns on lg+ */
 const featuredPathways = siteData.featuredCertifications;
-
-const PROFESSIONAL_MEMBERSHIP_TIER = siteData.membershipTiers.find((t) => t.name === 'Professional');
-const PRO_MEMBERSHIP_PREVIEW = [
-  'Full platform access',
-  'Direct mentor access each month',
-  '20% off regional certification tuition',
-] as const;
-const PRO_MEMBERSHIP_EXTRA = PROFESSIONAL_MEMBERSHIP_TIER?.features.slice(3) ?? [];
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
 const SECTION_HEADING_MB = 'mb-10 md:mb-16 lg:mb-20';
@@ -213,7 +198,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 {get('hero_badge', HOME_COPY.heroBadge)}
               </Badge>
               
-              <h1 className="font-heading text-[2.1375rem] sm:text-[2.85rem] md:text-[3.5625rem] lg:text-[4.275rem] font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-[1.1]">
+              <h1 className="font-heading text-[1.924rem] sm:text-[2.565rem] md:text-[3.206rem] lg:text-[3.848rem] font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-[1.1]">
                 {parseHomeHeroHeadingLines(heroTitleResolved).map((line, index) => (
                   <span
                     key={line}
@@ -445,10 +430,10 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
       )}
 
       {(sections?.insightsBand !== false) && (
-      <section className={`${SECTION_PY} bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 relative overflow-x-hidden max-lg:overflow-y-visible lg:overflow-hidden [&_h2]:!text-white dark:[&_h2]:!text-slate-900 [&_h4]:!text-white dark:[&_h4]:!text-pms-navy`}>
+      <section className={`${SECTION_PY} bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-white relative overflow-x-hidden max-lg:overflow-y-visible lg:overflow-hidden`}>
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-10%] right-[-5%] w-[35%] h-[35%] rounded-full blur-[100px] opacity-30 dark:opacity-50 bg-pms-gradient-blue-purple" />
-          <div className="absolute bottom-[-10%] left-[-5%] w-[30%] h-[30%] rounded-full blur-[100px] opacity-25 dark:opacity-40 bg-pms-gradient-orange" />
+          <div className="absolute top-[-10%] right-[-5%] w-[35%] h-[35%] rounded-full blur-[100px] opacity-20 dark:opacity-30 bg-pms-gradient-blue-purple" />
+          <div className="absolute bottom-[-10%] left-[-5%] w-[30%] h-[30%] rounded-full blur-[100px] opacity-15 dark:opacity-25 bg-pms-gradient-orange" />
         </div>
         <div className="container mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 lg:gap-20 items-center">
@@ -457,7 +442,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="font-heading text-section font-bold text-white dark:text-slate-900 mb-6 sm:mb-8 tracking-tight leading-tight">
+              <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-6 sm:mb-8 tracking-tight leading-tight">
                 {homeCms.insightsBand?.title ?? (
                   <>
                     Insights for the Future of{' '}
@@ -465,26 +450,17 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                   </>
                 )}
               </h2>
-              <p className="text-lg text-slate-300 dark:text-slate-600 mb-8 leading-relaxed font-medium">
+              <p className="text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed font-medium">
                 {homeCms.insightsBand?.subtitle ??
                   'The project management landscape is evolving. We provide the guidance you need to navigate AI integration and hybrid methodologies.'}
               </p>
               <div className="space-y-8">
                 {insightsItems.map((item) => (
-                  <Link key={item.title} href={item.href} className="flex gap-4 sm:gap-6 group">
-                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/15 bg-white/5 dark:border-slate-200 dark:bg-slate-100 sm:h-[4.5rem] sm:w-[4.5rem]">
-                      <Image
-                        src={resolveInsightArticleImage(item.href)}
-                        alt=""
-                        fill
-                        sizes="72px"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-xl font-bold text-white dark:text-pms-navy group-hover:text-brand-orange transition-colors tracking-tight">{item.title}</h4>
-                      <p className="text-base text-slate-300 dark:text-slate-600 mt-1 font-medium">{item.desc}</p>
+                  <Link key={item.title} href={item.href} className="flex gap-6 group">
+                    <div className="h-1 w-12 bg-brand-orange mt-4 group-hover:w-16 transition-all duration-500 rounded-full shrink-0" />
+                    <div>
+                      <h4 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-orange transition-colors tracking-tight">{item.title}</h4>
+                      <p className="text-base text-slate-600 dark:text-slate-400 mt-1 font-medium">{item.desc}</p>
                     </div>
                   </Link>
                 ))}
@@ -572,12 +548,13 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             >
               <Card className="bg-slate-900 text-white border-none shadow-xl p-6 sm:p-10 h-full flex flex-col justify-between rounded-[2rem] sm:rounded-[2.5rem] relative overflow-hidden group/card transition-shadow duration-300 hover:shadow-2xl [&_h3]:text-white">
                 <div className="relative z-10">
-                  <div className="mb-6 flex flex-wrap items-center gap-3">
+                  <div className="mb-6 flex flex-wrap items-start gap-3">
                     <Badge className="bg-brand-orange text-white border-none px-4 py-1 text-[10px] font-bold uppercase tracking-widest shrink-0">
                       Best Value
                     </Badge>
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight whitespace-nowrap">
-                      Professional Membership
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight">
+                      <span className="block">Professional</span>
+                      <span className="block">Membership</span>
                     </h3>
                   </div>
                   <p className="text-slate-300 text-base mb-8 font-medium leading-relaxed">The complete toolkit for the ambitious project professional.</p>
@@ -587,39 +564,6 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                       yearlyUsd={MEMBERSHIP_PRICING.professional.yearlyUsd}
                       variant="dark"
                     />
-                  </div>
-                  <div className="mb-10">
-                    <ul className="space-y-4">
-                      {PRO_MEMBERSHIP_PREVIEW.map((item) => (
-                        <li key={item} className="flex items-center gap-4 text-base font-bold">
-                          <CheckCircle2 className="h-5 w-5 shrink-0 text-brand-orange" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                    {PRO_MEMBERSHIP_EXTRA.length > 0 ? (
-                      <div
-                        className={cn(
-                          'grid transition-all duration-300 ease-out motion-reduce:transition-none',
-                          'max-lg:grid-rows-[1fr] max-lg:opacity-100',
-                          'lg:grid-rows-[0fr] lg:opacity-0 lg:group-hover/card:grid-rows-[1fr] lg:group-hover/card:opacity-100',
-                        )}
-                      >
-                        <ul className="min-h-0 space-y-4 overflow-hidden pt-0 lg:group-hover/card:pt-4">
-                          {PRO_MEMBERSHIP_EXTRA.map((item) => (
-                            <li key={item} className="flex items-center gap-4 text-base font-bold">
-                              <CheckCircle2 className="h-5 w-5 shrink-0 text-brand-orange" />
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ) : null}
-                    {PRO_MEMBERSHIP_EXTRA.length > 0 ? (
-                      <p className="mt-3 hidden text-xs font-semibold uppercase tracking-wider text-slate-400 lg:block lg:transition-opacity lg:duration-200 lg:group-hover/card:opacity-0">
-                        +{PRO_MEMBERSHIP_EXTRA.length} more on hover
-                      </p>
-                    ) : null}
                   </div>
                 </div>
                 <Link href="/membership" className="relative z-10 block w-full">
@@ -808,10 +752,12 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               >
                 <Card className="h-full flex flex-col border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] p-4 bg-slate-50/50 dark:bg-slate-900/50">
                   <CardHeader className="p-6 pb-4">
-                    <div className={cn("p-4 rounded-xl bg-white dark:bg-slate-800 w-fit mb-6 shadow-sm", tool.color)}>
-                      <tool.icon className="h-8 w-8" />
+                    <div className="mb-4 flex items-center gap-4">
+                      <div className={cn('shrink-0 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800', tool.color)}>
+                        <tool.icon className="h-8 w-8" />
+                      </div>
+                      <CardTitle className="mb-0 text-2xl font-bold tracking-tight">{tool.title}</CardTitle>
                     </div>
-                    <CardTitle className="text-2xl font-bold mb-4 tracking-tight">{tool.title}</CardTitle>
                     <CardDescription className="text-base leading-relaxed font-medium text-slate-500 dark:text-slate-400">
                       {tool.desc}
                     </CardDescription>

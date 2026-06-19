@@ -23,7 +23,7 @@ export const PMP_2026_PMI_SOURCE_LINKS = [
 export const T169_CTAS = {
   primary: 'Get My PMP 2026 Roadmap',
   secondary: 'Compare certifications',
-  waitlist: 'Join Waitlist',
+  waitlist: 'Choose pathway',
   mentor: 'Talk to a Mentor',
 } as const;
 

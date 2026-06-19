@@ -38,6 +38,88 @@ type BrandLogoSize = keyof typeof SIZE_MAP;
 
 const BRAND_ALT = 'PM Structure. Project Management Structure';
 
+function ShellWordmark({
+  width,
+  height,
+  shellClassName,
+  imageClassName,
+  priority,
+}: {
+  width: number;
+  height: number;
+  shellClassName: string;
+  imageClassName?: string;
+  priority?: boolean;
+}) {
+  return (
+    <span className={cn('relative inline-block shrink-0', shellClassName)} aria-hidden>
+      <Image
+        src={BRAND_LOGO_LIGHT}
+        alt=""
+        width={width}
+        height={height}
+        className={cn(
+          'absolute inset-0 h-full w-full object-contain object-left dark:hidden',
+          imageClassName,
+        )}
+        priority={priority}
+      />
+      <Image
+        src={BRAND_LOGO_DARK}
+        alt=""
+        width={width}
+        height={height}
+        className={cn(
+          'absolute inset-0 h-full w-full object-contain object-left hidden dark:block',
+          imageClassName,
+        )}
+        priority={priority}
+        loading={priority ? undefined : 'lazy'}
+      />
+    </span>
+  );
+}
+
+function ShellMark({
+  markSize,
+  shellClassName,
+  imageClassName,
+  priority,
+}: {
+  markSize: number;
+  shellClassName: string;
+  imageClassName?: string;
+  priority?: boolean;
+}) {
+  return (
+    <span className={cn('relative inline-block shrink-0', shellClassName)} aria-hidden>
+      <Image
+        src={BRAND_MARK_LIGHT}
+        alt=""
+        width={markSize}
+        height={markSize}
+        className={cn(
+          'absolute inset-0 h-full w-full object-contain dark:hidden',
+          imageClassName,
+        )}
+        priority={priority}
+      />
+      <Image
+        src={BRAND_MARK_DARK}
+        alt=""
+        width={markSize}
+        height={markSize}
+        className={cn(
+          'absolute inset-0 h-full w-full object-contain hidden dark:block',
+          imageClassName,
+        )}
+        priority={priority}
+        loading={priority ? undefined : 'lazy'}
+      />
+    </span>
+  );
+}
+
 /** Wordmark for light backgrounds (card pills, family tiles). */
 export function BrandLogoOnLight({ size = 'card', className }: { size?: 'card' | 'mark'; className?: string }) {
   const config = SIZE_MAP[size];
@@ -77,47 +159,49 @@ export function BrandLogo({
   const images = (
     <>
       {usesShellMark && markSize != null && markClassName != null ? (
+        <ShellMark
+          markSize={markSize}
+          shellClassName={cn(markClassName, 'xl:hidden')}
+          imageClassName={imageClassName}
+          priority={size === 'nav'}
+        />
+      ) : null}
+      {usesShellMark ? (
+        <ShellWordmark
+          width={width}
+          height={height}
+          shellClassName={cn(
+            'hidden xl:block',
+            size === 'nav' ? 'h-9 w-[166px] md:h-10' : 'h-8 w-[200px] sm:h-10 md:h-12',
+          )}
+          imageClassName={imageClassName}
+          priority={size === 'nav'}
+        />
+      ) : (
         <>
           <Image
-            src={BRAND_MARK_LIGHT}
+            src={BRAND_LOGO_LIGHT}
             alt={BRAND_ALT}
-            width={markSize}
-            height={markSize}
-            className={cn(
-              markClassName,
-              'hidden max-xl:block max-xl:dark:hidden',
-              imageClassName,
-            )}
+            width={width}
+            height={height}
+            className={cn(wordmarkClassName, 'object-contain object-left dark:hidden', imageClassName)}
             priority={size === 'nav'}
           />
           <Image
-            src={BRAND_MARK_DARK}
+            src={BRAND_LOGO_DARK}
             alt={BRAND_ALT}
-            width={markSize}
-            height={markSize}
-            className={cn(markClassName, 'hidden max-xl:dark:block', imageClassName)}
+            width={width}
+            height={height}
+            className={cn(
+              wordmarkClassName,
+              'hidden object-contain object-left dark:block',
+              imageClassName,
+            )}
             priority={size === 'nav'}
             loading={size === 'nav' ? undefined : 'lazy'}
           />
         </>
-      ) : null}
-      <Image
-        src={BRAND_LOGO_LIGHT}
-        alt={BRAND_ALT}
-        width={width}
-        height={height}
-        className={cn(wordmarkClassName, 'hidden xl:block dark:xl:hidden', imageClassName)}
-        priority={size === 'nav'}
-      />
-      <Image
-        src={BRAND_LOGO_DARK}
-        alt={BRAND_ALT}
-        width={width}
-        height={height}
-        className={cn(wordmarkClassName, 'hidden xl:dark:block', imageClassName)}
-        priority={size === 'nav'}
-        loading={size === 'nav' ? undefined : 'lazy'}
-      />
+      )}
     </>
   );
 

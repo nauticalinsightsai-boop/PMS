@@ -11,14 +11,19 @@ import { CTAS } from "@/lib/brand-voice";
 import { cn } from "@/lib/utils";
 
 const MAIN_NAV_LINKS = [
-  { label: "Certifications", href: "/certifications" },
   { label: "PMP 2026", href: "/certifications/pmp", featured: true },
+  { label: "Certifications", href: "/certifications" },
   { label: "Services", href: "/pm-service" },
   { label: "Newsletter", href: "/newsletter" },
 ] as const;
 
 const NAV_MENTOR_BTN =
   'bg-brand-orange hover:bg-brand-hover text-white font-semibold px-5 h-10 rounded-full shadow-lg shadow-brand-orange/20 transition-all';
+
+const NAVBAR_SHELL =
+  'fixed inset-x-0 top-0 z-[100] w-full border-b backdrop-blur-md text-foreground ' +
+  'bg-white/98 border-slate-200/90 supports-[backdrop-filter]:bg-white/92 ' +
+  'dark:bg-[#07071c]/98 dark:border-slate-800/90 dark:supports-[backdrop-filter]:bg-[#07071c]/92';
 
 const MOBILE_NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -53,7 +58,7 @@ function navLinkClassName(
       ? "text-brand-orange border-brand-orange font-semibold"
       : featured
         ? "text-brand-orange font-semibold hover:text-brand-hover border-transparent"
-        : "text-slate-600 dark:text-slate-400 hover:text-brand-orange border-transparent",
+        : "text-slate-700 dark:text-slate-300 hover:text-brand-orange border-transparent",
   );
 }
 
@@ -66,7 +71,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
   const pathname = usePathname();
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[100] w-full bg-background/95 backdrop-blur-md border-b border-border supports-[backdrop-filter]:bg-background/80">
+    <header className={NAVBAR_SHELL}>
       <div className="container mx-auto flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <BrandLogo size="nav" className="group-hover:opacity-90 transition-opacity" />
@@ -92,7 +97,13 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
           
           <div className="flex items-center gap-2 ml-2">
             <RegionChip />
-            <Button variant="ghost" size="icon" onClick={toggleTheme} className="min-h-11 min-w-11 rounded-full" aria-label="Toggle theme">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="min-h-11 min-w-11 rounded-full text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800/80"
+              aria-label="Toggle theme"
+            >
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
             <WebsiteCalendlyButton
@@ -109,12 +120,23 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
 
         <div className="flex lg:hidden items-center gap-1">
           <RegionChip className="md:hidden" iconOnly />
-          <Button variant="ghost" size="icon" onClick={toggleTheme} className="min-h-11 min-w-11 rounded-full" aria-label="Toggle theme">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="min-h-11 min-w-11 rounded-full text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800/80"
+            aria-label="Toggle theme"
+          >
             {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
           <Sheet>
             <SheetTrigger render={
-              <Button variant="ghost" size="icon" className="min-h-11 min-w-11 rounded-full" aria-label="Open menu">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="min-h-11 min-w-11 rounded-full text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800/80"
+                aria-label="Open menu"
+              >
                 <Menu className="h-6 w-6" />
               </Button>
             } />

@@ -48,6 +48,13 @@ function actionLabel(action: BottomBarAction, rotation: BottomBarRotation): stri
 const BOTTOM_BAR_CTA_BTN =
   'h-10 min-h-10 w-full shrink-0 px-4 sm:w-auto sm:px-5 whitespace-nowrap';
 const BOTTOM_BAR_CTA_ROW = 'flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end sm:shrink-0 lg:w-auto';
+const BOTTOM_BAR_SHELL =
+  'fixed inset-x-0 bottom-0 z-[85] pointer-events-auto border-t backdrop-blur-md text-foreground ' +
+  'bg-white/98 border-slate-200/90 shadow-[0_-12px_40px_rgba(15,23,42,0.08)] supports-[backdrop-filter]:bg-white/92 ' +
+  'dark:bg-[#07071c]/98 dark:border-slate-800/90 dark:shadow-[0_-12px_40px_rgba(0,0,0,0.45)] dark:supports-[backdrop-filter]:bg-[#07071c]/92';
+const BOTTOM_BAR_OUTLINE_BTN =
+  'font-bold border-slate-300 bg-white text-slate-900 hover:bg-slate-50 ' +
+  'dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800';
 
 function openBottomBarCalendly(action: BottomBarAction): void {
   if (action.type === 'calendly') {
@@ -229,11 +236,7 @@ export function BottomCtaRotator() {
       role="complementary"
       aria-label="Get started with exam prep"
       className={cn(
-        'fixed inset-x-0 bottom-0 z-[85] pointer-events-auto',
-        'border-t border-white/40 dark:border-white/10',
-        'bg-white/55 dark:bg-slate-950/55',
-        'backdrop-blur-2xl backdrop-saturate-150',
-        'shadow-[0_-12px_40px_rgba(15,23,42,0.12)] dark:shadow-[0_-12px_40px_rgba(0,0,0,0.45)]',
+        BOTTOM_BAR_SHELL,
         'pb-[max(0.75rem,env(safe-area-inset-bottom))]',
         'animate-in slide-in-from-bottom-4 fade-in duration-300',
       )}
@@ -242,7 +245,7 @@ export function BottomCtaRotator() {
         <button
           type="button"
           onClick={() => dismiss(false)}
-          className="absolute top-3 right-3 sm:top-4 sm:right-6 rounded-md p-1.5 text-slate-500 hover:bg-white/40 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
+          className="absolute top-3 right-3 sm:top-4 sm:right-6 rounded-md p-1.5 text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/80 dark:hover:text-white"
           aria-label="Dismiss"
         >
           <X className="h-4 w-4" />
@@ -253,7 +256,7 @@ export function BottomCtaRotator() {
             <p className="font-heading text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-1">
               {rotation.headline}
             </p>
-            <p className="text-sm text-slate-600 dark:text-slate-300/90 leading-relaxed">{rotation.body}</p>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{rotation.body}</p>
           </div>
 
           {showInlineForm || primary.type === 'micro_form' ? (
@@ -320,10 +323,7 @@ export function BottomCtaRotator() {
                   <Button
                     type="button"
                     variant="outline"
-                    className={cn(
-                      BOTTOM_BAR_CTA_BTN,
-                      'font-bold border-slate-300/80 bg-white/50 dark:border-slate-600 dark:bg-slate-900/40',
-                    )}
+                    className={cn(BOTTOM_BAR_CTA_BTN, BOTTOM_BAR_OUTLINE_BTN)}
                     onClick={() => {
                       markIntent();
                       dismiss(false);
@@ -336,10 +336,7 @@ export function BottomCtaRotator() {
                   <Link href={secondary.href} className="w-full sm:w-auto" onClick={() => dismiss(false)}>
                     <Button
                       variant="outline"
-                      className={cn(
-                        BOTTOM_BAR_CTA_BTN,
-                        'font-bold border-slate-300/80 bg-white/50 dark:border-slate-600 dark:bg-slate-900/40',
-                      )}
+                      className={cn(BOTTOM_BAR_CTA_BTN, BOTTOM_BAR_OUTLINE_BTN)}
                     >
                       {actionLabel(secondary, rotation)}
                     </Button>
@@ -362,7 +359,7 @@ export function BottomCtaRotator() {
         <div className="mt-3 flex justify-end pr-10">
           <button
             type="button"
-            className="text-xs font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+            className="text-xs font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
             onClick={() => dismiss(isLastRotation)}
           >
             {rotation.dismissLabel}

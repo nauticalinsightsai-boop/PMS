@@ -153,9 +153,16 @@ export function PmpRoadmapLeadForm({
   const shellClass = cn(
     'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
     variant === 'insights'
-      ? 'bg-white text-slate-900 border-slate-200 dark:bg-slate-900 dark:text-white dark:border-slate-700'
+      ? 'bg-white text-slate-900 border-slate-200 shadow-slate-900/10 dark:bg-[#0f0e38] dark:text-white dark:border-slate-700 dark:shadow-black/30'
       : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800',
     className,
+  );
+
+  const formHeaderClass = cn(
+    'shrink-0 border-b',
+    variant === 'insights'
+      ? 'border-slate-200 bg-gradient-to-br from-brand-purple/5 via-white to-brand-orange/5 dark:border-slate-800 dark:from-[#0f0e38] dark:via-[#0c1224] dark:to-slate-900'
+      : 'border-slate-100 bg-gradient-to-br from-brand-purple/5 via-white to-brand-orange/5 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800',
   );
 
   const isCompact = variant === 'cert';
@@ -358,7 +365,7 @@ export function PmpRoadmapLeadForm({
       >
         <div
           className={cn(
-            'shrink-0 border-b border-slate-100 bg-gradient-to-br from-brand-purple/5 via-white to-brand-orange/5 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800',
+            formHeaderClass,
             isCertHeroDesktop
               ? 'px-5 py-4 sm:px-6'
               : isCertMobileForm
