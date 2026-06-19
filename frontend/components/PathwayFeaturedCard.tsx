@@ -302,7 +302,7 @@ function PathwayFeaturedVisualCard({
             {cert.outputValue}
           </span>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col pb-4">
           <ClampedText
             text={displayDesc}
             className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed"
@@ -399,7 +399,7 @@ function PathwayFeaturedCatalogCard({
             {cert.outputValue}
           </span>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col pb-4">
           <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
             {displayDesc}
           </CardDescription>
