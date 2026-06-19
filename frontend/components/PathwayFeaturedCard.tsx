@@ -94,8 +94,8 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
     Boolean(presentation?.showGlobalReference && listing.original);
 
   return (
-    <div className={cn('mb-5 space-y-2', PATHWAY_FEATURED_PRICING_MIN_H, 'flex flex-col')}>
-      <div className="grid flex-1 grid-cols-2 gap-1.5 items-stretch overflow-visible sm:grid-cols-3 sm:gap-2">
+    <div className="mb-0 flex flex-col space-y-2">
+      <div className="grid grid-cols-2 items-stretch gap-1.5 overflow-visible sm:grid-cols-3 sm:gap-2">
         <StatChip
           label="Prep time"
           className="h-full min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
@@ -146,9 +146,7 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
             {listing.original}
           </span>
         </div>
-      ) : (
-        <div className="hidden min-h-[2.25rem] sm:block" aria-hidden />
-      )}
+      ) : null}
     </div>
   );
 }
@@ -175,10 +173,6 @@ export interface PathwayFeaturedCardProps {
 const featuredCardShell =
   'group/pathway h-full flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden';
 
-/** Keeps pricing chips + membership row aligned across cards in a grid row. */
-const PATHWAY_FEATURED_PRICING_MIN_H = 'min-h-[8rem] sm:min-h-[8.25rem]';
-/** Reserves space for description + optional meta line so chip rows line up. */
-const PATHWAY_FEATURED_SUMMARY_MIN_H = 'min-h-[6.5rem] sm:min-h-[7rem]';
 /** Three outcome rows at equal height across cards. */
 const PATHWAY_FEATURED_OUTCOMES_MIN_H = 'min-h-[4.5rem]';
 
@@ -294,7 +288,7 @@ function PathwayFeaturedVisualCard({
   return (
     <Card className={cn(featuredCardShell, className)}>
       <CertificationPathwayVisual cert={cert} subtitle={subtitle} />
-      <CardHeader className="p-5 pb-2">
+      <CardHeader className="p-5 pb-0">
         <div className="flex flex-wrap items-center justify-start gap-2 mb-3">
           <Badge className="inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1 text-center">
             {familyBadge}
@@ -308,7 +302,7 @@ function PathwayFeaturedVisualCard({
             {cert.outputValue}
           </span>
         </div>
-        <div className={cn('flex flex-col', PATHWAY_FEATURED_SUMMARY_MIN_H)}>
+        <div className="flex flex-col">
           <ClampedText
             text={displayDesc}
             className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed"
@@ -322,7 +316,7 @@ function PathwayFeaturedVisualCard({
           ) : null}
         </div>
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col px-5 pb-5">
+      <CardContent className="flex flex-1 flex-col gap-4 px-5 pb-5 pt-0">
         <PathwayFeaturedPricingChips certId={cert.id} />
         <ul className={cn(PATHWAY_FEATURED_OUTCOMES_MIN_H, 'space-y-3')}>
           {outcomes.map((item) => (
@@ -378,7 +372,7 @@ function PathwayFeaturedCatalogCard({
       ) : accent ? (
         <div className="h-1.5 w-full shrink-0" style={{ backgroundColor: accent }} aria-hidden />
       ) : null}
-      <CardHeader className="p-5 pb-2">
+      <CardHeader className="p-5 pb-0">
         <div className="flex flex-wrap items-center justify-start gap-2 mb-3">
           <Badge className="inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1 text-center">
             {badgeLabel}
@@ -405,13 +399,13 @@ function PathwayFeaturedCatalogCard({
             {cert.outputValue}
           </span>
         </div>
-        <div className={cn('flex flex-col', PATHWAY_FEATURED_SUMMARY_MIN_H)}>
+        <div className="flex flex-col">
           <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
             {displayDesc}
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col px-5 pb-5">
+      <CardContent className="flex flex-1 flex-col gap-4 px-5 pb-5 pt-0">
         <PathwayFeaturedPricingChips certId={cert.id} />
         <ul className={cn(PATHWAY_FEATURED_OUTCOMES_MIN_H, 'space-y-3')}>
           {outcomes.map((item) => (
