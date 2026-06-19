@@ -44,6 +44,24 @@ export function getWebsiteCalendlyUrl(tier: WebsiteCalendlyTier): string {
   return DEFAULT_BY_TIER[tier];
 }
 
+/** Direct scheduling URL (with optional UTM) for href fallbacks and middle-click. */
+export function buildWebsiteCalendlySchedulingHref(
+  tier: WebsiteCalendlyTier,
+  utm?: CalendlyUtmParams,
+): string {
+  const base = getWebsiteCalendlyUrl(tier);
+  try {
+    const u = new URL(base);
+    if (utm?.utm_source?.trim()) u.searchParams.set('utm_source', utm.utm_source.trim());
+    if (utm?.utm_medium?.trim()) u.searchParams.set('utm_medium', utm.utm_medium.trim());
+    if (utm?.utm_campaign?.trim()) u.searchParams.set('utm_campaign', utm.utm_campaign.trim());
+    if (utm?.utm_content?.trim()) u.searchParams.set('utm_content', utm.utm_content.trim());
+    return u.toString();
+  } catch {
+    return base;
+  }
+}
+
 /** @deprecated Site CTAs no longer use manifest slugs; kept for imports that read live defaults. */
 export const WEBSITE_CALENDLY_LIVE_URLS = { ...DEFAULT_BY_TIER };
 

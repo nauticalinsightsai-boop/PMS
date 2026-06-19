@@ -21,10 +21,9 @@ import { CERTIFICATIONS_COPY, CTAS } from "@/lib/brand-voice";
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
 import { ResponsiveSnapScroll } from "@/components/ResponsiveSnapScroll";
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
-import { PageMarketingImage } from "@/components/marketing/PageMarketingImage";
-import { MARKETING_PAGE_IMAGES } from "@/lib/marketing-stock-images";
+import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
+import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
-import { CertificationHubActions } from "@/components/CertificationHubActions";
 import { useRegion } from "@/contexts/RegionContext";
 import {
   isEnrollmentOpen,
@@ -124,18 +123,10 @@ export function Certifications() {
     [regionId],
   );
   const [activeTab, setActiveTab] = React.useState<PathwayFamilyTab>("PMI");
-  const [searchQuery, setSearchQuery] = React.useState("");
 
   const familyCerts = (familyId: PathwayFamilyTab) => {
-    const q = searchQuery.trim().toLowerCase();
     return certifications
       .filter((cert) => cert.familyId === familyId)
-      .filter(
-        (cert) =>
-          !q ||
-          cert.name.toLowerCase().includes(q) ||
-          cert.desc.toLowerCase().includes(q),
-      )
       .sort(sortByEnrollmentThenName);
   };
 
@@ -155,7 +146,7 @@ export function Certifications() {
         </div>
         
         <div className="container relative z-10 mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center mb-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -172,38 +163,25 @@ export function Certifications() {
                 {hub.hero.subtitle || CERTIFICATIONS_COPY.heroSubtitle}
               </p>
             </motion.div>
-            <PageMarketingImage
-              image={MARKETING_PAGE_IMAGES.certifications}
-              aspectClassName="aspect-square max-w-md mx-auto lg:max-w-none w-full"
-              priority
-            />
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-center max-w-3xl mx-auto space-y-4 mt-10"
-          >
-            <div className="relative w-full group">
-              <Search
-                className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-brand-orange transition-colors pointer-events-none"
-                aria-hidden
-              />
-              <label htmlFor="cert-family-search" className="sr-only">
-                Search certifications in the active family
-              </label>
-              <input
-                id="cert-family-search"
-                type="search"
-                placeholder={`Search ${FAMILY_TAB_LABEL[activeTab]} pathways…`}
-                className="w-full h-14 pl-14 pr-6 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-700 shadow-lg shadow-slate-900/5 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-brand-orange/30 font-bold text-base transition-all dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+            <div id={PMP_ROADMAP_FORM_ANCHOR} className="scroll-mt-24 w-full min-w-0">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7 }}
+                className="relative z-20 lg:hidden"
+              >
+                <PmpRoadmapLeadForm placement="certifications_hub_mobile" variant="hero" />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                className="relative z-30 isolate hidden lg:block"
+              >
+                <PmpRoadmapLeadForm placement="certifications_hub_desktop" variant="hero" />
+              </motion.div>
             </div>
-            <CertificationHubActions className="justify-center" />
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -230,7 +208,6 @@ export function Certifications() {
             </div>
 
               {PATHWAY_FAMILY_TABS.filter((familyId) => hub.families[familyId]?.visible !== false).map((familyId) => {
-                const family = siteData.familyConfigs[familyId];
                 const certs = familyCerts(familyId);
                 const openCerts = certs.filter((c) => isEnrollmentOpen(c.id, regionId));
                 const closedCerts = certs.filter((c) => !isEnrollmentOpen(c.id, regionId));
@@ -246,21 +223,10 @@ export function Certifications() {
 
                 return (
                   <TabsContent key={familyId} value={familyId} className="mt-0 data-[hidden]:hidden">
-                    <p className="text-slate-600 dark:text-slate-400 font-medium text-base md:text-lg leading-relaxed mb-10 max-w-3xl mx-auto text-center md:text-left md:mx-0">
-                      {family.description}
-                    </p>
-
                     {certs.length === 0 ? (
                       <div className="py-24 text-center">
                         <Search className="h-12 w-12 text-slate-300 mx-auto mb-6" />
-                        <h3 className="text-2xl font-bold mb-3 dark:text-white">No pathways match your search</h3>
-                        <Button
-                          variant="link"
-                          className="text-brand-orange font-bold"
-                          onClick={() => setSearchQuery("")}
-                        >
-                          Clear search
-                        </Button>
+                        <h3 className="text-2xl font-bold mb-3 dark:text-white">No pathways in this family yet</h3>
                       </div>
                     ) : (
                       <div className="space-y-10">
@@ -335,13 +301,12 @@ export function Certifications() {
       {/* Pathway consultation */}
       <section className={sectionSurface('cool', 'py-24 overflow-hidden')}>
         <SectionAmbience tone="cool" />
-        <div className="absolute top-1/2 left-0 w-full h-px bg-slate-100/80 dark:bg-slate-800 z-[1]" />
         <div className="container mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col lg:flex-row gap-12 items-center"
+            className="flex flex-col lg:flex-row gap-12 items-start"
           >
             <div className="lg:w-1/2">
               <Badge className="mb-6 bg-pms-gradient-orange text-white border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">Pathway advisory</Badge>
@@ -352,7 +317,7 @@ export function Certifications() {
               <p className="text-slate-600 dark:text-slate-400 font-medium text-lg leading-relaxed mb-8 max-w-xl">
                 We map your experience, timeline, and study capacity to the right PMI, PRINCE2, or Six Sigma route.
               </p>
-              <div className="grid grid-cols-2 gap-6 mb-10">
+              <div className="grid grid-cols-2 gap-6">
                 <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
                   <Clock className="h-6 w-6 text-brand-orange mb-3" />
                   <div className="text-xs font-black uppercase text-slate-400 mb-1">Start with</div>
@@ -364,25 +329,26 @@ export function Certifications() {
                   <div className="text-xl font-bold text-slate-900 dark:text-white">Readiness gap</div>
                 </div>
               </div>
-              <WebsiteCalendlyButton
-                size="lg"
-                tier="discovery"
-                className="h-14 px-8 rounded-2xl bg-brand-orange hover:bg-brand-hover text-white font-bold text-base transition-all"
-                funnelLabel="certifications_pathway_advisory"
-                utm={{ utm_source: 'pmstructure', utm_medium: 'certifications', utm_campaign: 'pathway_advisory' }}
-              >
-                {CTAS.pathwayConsultation}
-              </WebsiteCalendlyButton>
             </div>
 
             <div className="lg:w-1/2 w-full">
               <div className="bg-pms-navy rounded-[3rem] p-8 md:p-12 relative overflow-hidden shadow-2xl border border-slate-800 group">
                 <div className="absolute top-0 right-0 w-64 h-64 opacity-40 bg-pms-gradient-blue-purple blur-[100px] -mr-32 -mt-32" />
                 
-                <h3 className="text-2xl font-bold text-white mb-8 relative z-10 flex items-center gap-3">
+                <h3 className="text-2xl font-bold text-white mb-6 relative z-10 flex items-center gap-3">
                   <ShieldCheck className="h-6 w-6 text-brand-orange" />
                   How we guide your decision
                 </h3>
+
+                <WebsiteCalendlyButton
+                  size="lg"
+                  tier="discovery"
+                  className="relative z-10 mb-8 h-12 w-full rounded-2xl bg-brand-orange px-6 font-bold text-white transition-all hover:bg-brand-hover sm:h-14 sm:w-auto sm:px-8"
+                  funnelLabel="certifications_pathway_advisory"
+                  utm={{ utm_source: 'pmstructure', utm_medium: 'certifications', utm_campaign: 'pathway_advisory' }}
+                >
+                  {CTAS.pathwayConsultation}
+                </WebsiteCalendlyButton>
                 
                 <ul className="space-y-6 relative z-10">
                   {[

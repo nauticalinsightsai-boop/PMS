@@ -6,7 +6,7 @@ import { buildWebPageSchema } from '@/lib/schema';
 export function HomePageJsonLd() {
   const schema = buildWebPageSchema({
     path: '/',
-    name: HOME_COPY.heroTitle,
+    name: HOME_COPY.heroTitle.replace(/\n/g, ' '),
     description: T169_SEO.homeDescription,
   });
 

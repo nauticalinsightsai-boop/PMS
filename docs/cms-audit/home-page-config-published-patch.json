@@ -1,0 +1,63 @@
+{
+  "field_key": "home_page_config",
+  "description": "Patch published Supabase website_data row so live homepage matches lean-down defaults. Merge into existing content JSON; do not replace the full document unless resetting CMS.",
+  "patch": {
+    "heroSlides": [
+      {
+        "id": 1,
+        "visible": true,
+        "heading": "Project management\nguidance",
+        "description": "Choose the right pathway. Prepare with structure. Build judgment for real projects.",
+        "primaryCta": "Get My PMP 2026 Roadmap",
+        "primaryAction": "link",
+        "primaryLink": "/#pmp-roadmap-form",
+        "secondaryCta": "Compare certifications",
+        "secondaryLink": "/certifications/compare"
+      }
+    ],
+    "stats": {
+      "professionalsCount": 1284,
+      "professionalsLabel": "professionals in the network"
+    },
+    "instituteSection": {
+      "type": "institute",
+      "institute": {
+        "title": "Ready to Start Your Journey?",
+        "subtitle": "",
+        "description": "Start with eligibility, timeline, and weekly study capacity.",
+        "ctaText": "",
+        "ctaLink": ""
+      }
+    },
+    "sections": {
+      "testimonials": false
+    },
+    "featuredPathways": {
+      "subtitle": "PMP 2026 is the flagship pathway; compare other certifications when you are ready."
+    },
+    "membership": {
+      "sectionSubtitle": "Unlock tools, community access, and certification discounts while you prepare."
+    },
+    "insightsBand": {
+      "title": "Insights for the Future of Project Leadership",
+      "subtitle": "The project management landscape is evolving. We provide the guidance you need to navigate AI integration and hybrid methodologies.",
+      "items": [
+        {
+          "title": "AI in Project Management",
+          "desc": "Use generative AI for planning and risk assessment.",
+          "href": "/newsletter/ai-augmented-project-manager"
+        },
+        {
+          "title": "2026 Salary Trends",
+          "desc": "Certification ROI data across global markets.",
+          "href": "/newsletter/2026-pmp-exam-changes"
+        },
+        {
+          "title": "Hybrid Leadership",
+          "desc": "Balance predictive and agile frameworks at scale.",
+          "href": "/newsletter/hybrid-methodologies-enterprise"
+        }
+      ]
+    }
+  }
+}

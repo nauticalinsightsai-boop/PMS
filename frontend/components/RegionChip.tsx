@@ -5,7 +5,7 @@ import { Loader2, MapPin } from 'lucide-react';
 import { useRegion } from '@/contexts/RegionContext';
 import { cn } from '@/lib/utils';
 
-export function RegionChip({ className }: { className?: string }) {
+export function RegionChip({ className, iconOnly }: { className?: string; iconOnly?: boolean }) {
   const { regionId, regionLabel, isDetectingRegion, refreshRegionDetection } = useRegion();
   const [locationError, setLocationError] = React.useState(false);
 
@@ -36,7 +36,8 @@ export function RegionChip({ className }: { className?: string }) {
       aria-label={ariaLabel}
       title={title}
       className={cn(
-        'flex min-h-11 items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1.5 text-xs font-semibold text-muted-foreground cursor-pointer hover:border-border hover:text-muted-foreground',
+        'flex min-h-11 items-center rounded-full border border-border bg-card/80 text-xs font-semibold text-muted-foreground cursor-pointer hover:border-border hover:text-muted-foreground',
+        iconOnly ? 'min-w-11 justify-center gap-0 px-0' : 'gap-2 px-3 py-1.5',
         isDetectingRegion && 'opacity-70',
         className,
       )}
@@ -44,12 +45,14 @@ export function RegionChip({ className }: { className?: string }) {
       {isDetectingRegion ? (
         <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" aria-hidden />
       ) : (
-        <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden />
+        <MapPin className={cn('shrink-0', iconOnly ? 'h-4 w-4' : 'h-3.5 w-3.5')} aria-hidden />
       )}
-      <span className="max-w-[140px] truncate sm:max-w-none">
-        {regionLabel}
-        {suffix}
-      </span>
+      {!iconOnly ? (
+        <span className="max-w-[140px] truncate sm:max-w-none">
+          {regionLabel}
+          {suffix}
+        </span>
+      ) : null}
     </button>
   );
 }

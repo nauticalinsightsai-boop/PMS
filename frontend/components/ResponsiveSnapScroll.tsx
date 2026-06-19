@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { cn } from '@/lib/utils';
 
 type ResponsiveSnapScrollProps = {
@@ -11,6 +12,8 @@ type ResponsiveSnapScrollProps = {
   gapClassName?: string;
   /** Fixed slide width below `md` */
   mobileItemClassName?: string;
+  /** Infinite swipe loop on mobile (`md` and below only). */
+  mobileLoop?: boolean;
 };
 
 const DEFAULT_MOBILE_ITEM = 'w-[min(92vw,19rem)]';
@@ -20,8 +23,12 @@ const AXIS_THRESHOLD_PX = 8;
  * On mobile, decide horizontal (carousel) vs vertical (page) intent early so
  * vertical swipes on cards are not trapped by overflow-x-auto.
  */
-function useMobileScrollAxis(ref: React.RefObject<HTMLDivElement | null>) {
+function useMobileScrollAxis(
+  ref: React.RefObject<HTMLDivElement | null>,
+  enabled: boolean,
+) {
   React.useEffect(() => {
+    if (!enabled) return;
     const root = ref.current;
     if (!root) return;
 
@@ -74,7 +81,51 @@ function useMobileScrollAxis(ref: React.RefObject<HTMLDivElement | null>) {
       root.removeEventListener('touchcancel', reset);
       reset();
     };
-  }, [ref]);
+  }, [ref, enabled]);
+}
+
+function MobileLoopCarousel({
+  items,
+  mobileItemClassName,
+  className,
+  gapClassName,
+}: {
+  items: React.ReactNode[];
+  mobileItemClassName: string;
+  className?: string;
+  gapClassName: string;
+}) {
+  const [emblaRef] = useEmblaCarousel({
+    loop: true,
+    align: 'start',
+    containScroll: false,
+  });
+
+  const slideGap = gapClassName.includes('gap-8') ? 'pr-6' : 'pr-4';
+
+  return (
+    <div className={cn('md:hidden -mx-4 px-4', className)}>
+      <div
+        ref={emblaRef}
+        className="overflow-hidden cursor-grab touch-pan-y active:cursor-grabbing [-webkit-overflow-scrolling:touch]"
+      >
+        <div className="flex">
+          {items.map((child, index) => (
+            <div
+              key={React.isValidElement(child) && child.key != null ? `loop-${child.key}` : `loop-${index}`}
+              className={cn(
+                mobileItemClassName,
+                'min-w-0 shrink-0 grow-0',
+                slideGap,
+              )}
+            >
+              {child}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 /**
@@ -87,17 +138,50 @@ export function ResponsiveSnapScroll({
   desktopLayoutClassName,
   gapClassName = 'gap-6 md:gap-8',
   mobileItemClassName = DEFAULT_MOBILE_ITEM,
+  mobileLoop = false,
 }: ResponsiveSnapScrollProps) {
   const scrollerRef = React.useRef<HTMLDivElement>(null);
-  useMobileScrollAxis(scrollerRef);
+  useMobileScrollAxis(scrollerRef, !mobileLoop);
   const items = React.Children.toArray(children);
+
+  if (mobileLoop) {
+    return (
+      <>
+        <MobileLoopCarousel
+          items={items}
+          mobileItemClassName={mobileItemClassName}
+          className={className}
+          gapClassName={gapClassName}
+        />
+        <div
+          className={cn(
+            'hidden w-full md:grid',
+            gapClassName,
+            'md:mx-0 md:px-0',
+            desktopLayoutClassName,
+            className,
+          )}
+        >
+          {items.map((child, index) => (
+            <div
+              key={React.isValidElement(child) && child.key != null ? child.key : index}
+              className="min-w-0 h-full"
+            >
+              {child}
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
 
   return (
     <div
       ref={scrollerRef}
       className={cn(
-        'flex w-full flex-nowrap snap-x snap-proximity overflow-x-auto overflow-y-hidden scroll-px-4 pb-3',
-        '-mx-4 px-4 [scrollbar-width:thin] [-webkit-overflow-scrolling:touch]',
+        'flex w-full flex-nowrap snap-x snap-proximity overflow-x-auto overflow-y-hidden scroll-px-4',
+        '-mx-4 px-4 [-webkit-overflow-scrolling:touch]',
+        'max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden',
         'max-md:overscroll-x-contain max-md:items-start',
         'max-md:touch-pan-y max-md:data-[scroll-axis=horizontal]:touch-pan-x',
         'max-md:data-[scroll-axis=vertical]:overflow-x-hidden',

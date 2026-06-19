@@ -72,8 +72,8 @@ export function PmpRoadmapCtaLink({
   }
 
   return (
-    <Link href={PMP_ROADMAP_CTA_HREF} className={cn('inline-flex', className)} onClick={handleLinkClick}>
-      <Button size={size} variant={variant} className="w-full sm:w-auto">
+    <Link href={PMP_ROADMAP_CTA_HREF} className="inline-flex" onClick={handleLinkClick}>
+      <Button size={size} variant={variant} className={cn('w-full sm:w-auto', className)}>
         {label}
       </Button>
     </Link>

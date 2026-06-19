@@ -6,16 +6,19 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Moon, Sun } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
 import { RegionChip } from "@/components/RegionChip";
-import { PmpRoadmapCtaLink } from "@/components/pmp/PmpRoadmapCtaLink";
+import { WebsiteCalendlyButton } from "@/components/calendly/WebsiteCalendlyButton";
+import { CTAS } from "@/lib/brand-voice";
 import { cn } from "@/lib/utils";
 
 const MAIN_NAV_LINKS = [
   { label: "Certifications", href: "/certifications" },
-  { label: "PMP 2026", href: "/certifications/pmp" },
-  { label: "Compare Pathways", href: "/certifications/compare" },
-  { label: "FAQ", href: "/faq" },
-  { label: "Community", href: "/community" },
+  { label: "PMP 2026", href: "/certifications/pmp", featured: true },
+  { label: "Services", href: "/pm-service" },
+  { label: "Newsletter", href: "/newsletter" },
 ] as const;
+
+const NAV_MENTOR_BTN =
+  'bg-brand-orange hover:bg-brand-hover text-white font-semibold px-5 h-10 rounded-full shadow-lg shadow-brand-orange/20 transition-all';
 
 const MOBILE_NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -26,25 +29,31 @@ const MOBILE_NAV_LINKS = [
 function isNavLinkActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
   if (href === "/certifications") {
+    if (pathname === "/certifications/pmp" || pathname.startsWith("/certifications/pmp/")) {
+      return false;
+    }
     return pathname === "/certifications" || pathname.startsWith("/certifications/");
   }
-  if (href === "/certifications/compare") {
-    return pathname === "/certifications/compare";
-  }
   if (href === "/certifications/pmp") {
-    return pathname === "/certifications/pmp";
+    return pathname === "/certifications/pmp" || pathname.startsWith("/certifications/pmp/");
   }
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function navLinkClassName(active: boolean, variant: "desktop" | "mobile" = "desktop") {
+function navLinkClassName(
+  active: boolean,
+  variant: "desktop" | "mobile" = "desktop",
+  featured = false,
+) {
   return cn(
     variant === "desktop"
       ? "inline-flex min-h-11 items-center px-3 py-2 text-sm font-medium transition-colors rounded-lg border-b-2 border-transparent"
       : "inline-flex min-h-11 items-center text-lg font-medium transition-colors",
     active
       ? "text-brand-orange border-brand-orange font-semibold"
-      : "text-slate-600 dark:text-slate-400 hover:text-brand-orange border-transparent",
+      : featured
+        ? "text-brand-orange font-semibold hover:text-brand-hover border-transparent"
+        : "text-slate-600 dark:text-slate-400 hover:text-brand-orange border-transparent",
   );
 }
 
@@ -67,11 +76,12 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
           <nav className="flex items-center gap-0.5" aria-label="Main">
             {MAIN_NAV_LINKS.map((link) => {
               const active = isNavLinkActive(pathname, link.href);
+              const featured = "featured" in link && link.featured === true;
               return (
                 <Link
                   key={link.label}
                   href={link.href}
-                  className={navLinkClassName(active, "desktop")}
+                  className={navLinkClassName(active, "desktop", featured)}
                   aria-current={active ? "page" : undefined}
                 >
                   {link.label}
@@ -85,16 +95,20 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
             <Button variant="ghost" size="icon" onClick={toggleTheme} className="min-h-11 min-w-11 rounded-full" aria-label="Toggle theme">
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
-            <PmpRoadmapCtaLink
+            <WebsiteCalendlyButton
               size="default"
-              className="font-semibold px-5 h-10 rounded-full"
-              ctaLocation="nav"
-            />
+              className={NAV_MENTOR_BTN}
+              tier="mentor"
+              funnelLabel="nav_mentor"
+              utm={{ utm_source: 'pmstructure', utm_medium: 'nav', utm_campaign: 'mentor' }}
+            >
+              {CTAS.talkToAMentor}
+            </WebsiteCalendlyButton>
           </div>
         </div>
 
         <div className="flex lg:hidden items-center gap-1">
-          <RegionChip className="md:hidden" />
+          <RegionChip className="md:hidden" iconOnly />
           <Button variant="ghost" size="icon" onClick={toggleTheme} className="min-h-11 min-w-11 rounded-full" aria-label="Toggle theme">
             {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
@@ -112,11 +126,12 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
               <nav className="mt-6 flex flex-col gap-1 pl-4 sm:pl-5" aria-label="Main">
                 {MOBILE_NAV_LINKS.map((link) => {
                   const active = isNavLinkActive(pathname, link.href);
+                  const featured = "featured" in link && link.featured === true;
                   return (
                     <Link
                       key={link.label}
                       href={link.href}
-                      className={navLinkClassName(active, "mobile")}
+                      className={navLinkClassName(active, "mobile", featured)}
                       aria-current={active ? "page" : undefined}
                     >
                       {link.label}
@@ -124,7 +139,14 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
                   );
                 })}
                 <div className="mt-4 pt-4 border-t border-border">
-                  <PmpRoadmapCtaLink className="w-full min-h-11 rounded-full" ctaLocation="nav" />
+                  <WebsiteCalendlyButton
+                    className={cn(NAV_MENTOR_BTN, 'w-full min-h-11 h-11')}
+                    tier="mentor"
+                    funnelLabel="nav_mentor_mobile"
+                    utm={{ utm_source: 'pmstructure', utm_medium: 'nav', utm_campaign: 'mentor_mobile' }}
+                  >
+                    {CTAS.talkToAMentor}
+                  </WebsiteCalendlyButton>
                 </div>
               </nav>
             </SheetContent>

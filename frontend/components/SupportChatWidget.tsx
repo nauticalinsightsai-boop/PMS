@@ -227,15 +227,17 @@ export function SupportChatWidget() {
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? 'Close assistant chat' : 'Open assistant chat'}
-        aria-expanded={open}
-        className={CHAT_FAB_CLASS}
-      >
-        {open ? <X className="h-5 w-5" aria-hidden /> : <MessageCircle className="h-5 w-5" aria-hidden />}
-      </button>
+      {!open ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label="Open assistant chat"
+          aria-expanded={false}
+          className={CHAT_FAB_CLASS}
+        >
+          <MessageCircle className="h-5 w-5" aria-hidden />
+        </button>
+      ) : null}
     </div>
   );
 }

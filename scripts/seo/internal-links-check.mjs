@@ -24,7 +24,8 @@ if (fs.existsSync(phase2Path)) {
   }
 }
 const homeUsesPhase2Related =
-  homePage.includes('RelatedGuidesLinks') && homePage.includes('getPhase2Seo');
+  (homePage.includes('RelatedGuidesLinks') && homePage.includes('getPhase2Seo')) ||
+  (home.includes('RelatedGuidesLinks') && home.includes('getPhase2Seo'));
 const homeLinks = home + homePage + (homeUsesPhase2Related ? homePhase2Block : '');
 const footer = fs.readFileSync(path.join(frontend, 'components/Footer.tsx'), 'utf8');
 

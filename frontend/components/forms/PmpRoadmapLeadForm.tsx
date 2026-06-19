@@ -30,12 +30,13 @@ import { CertFamilyMark } from '@/components/CertFamilyMark';
 import BrandIconMark from '@/components/BrandIconMark';
 import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { useFormPartialRecovery } from '@/components/conversion-recovery/useFormPartialRecovery';
-import { T169_CTAS } from '@/content/pmp/flagship-t169';
 
 export type PmpRoadmapFormPlacement =
   | 'home_hero_mobile'
   | 'home_hero_desktop'
   | 'home_insights'
+  | 'certifications_hub_mobile'
+  | 'certifications_hub_desktop'
   | 'cert_pmp_hero'
   | 'cert_pmp_mobile'
   | 'cert_hero'
@@ -55,6 +56,8 @@ const PLACEMENT_LABELS: Record<PmpRoadmapFormPlacement, string> = {
   home_hero_mobile: 'Home hero (mobile)',
   home_hero_desktop: 'Home hero (desktop)',
   home_insights: 'Home insights band',
+  certifications_hub_mobile: 'Certifications hub hero (mobile)',
+  certifications_hub_desktop: 'Certifications hub hero (desktop)',
   cert_pmp_hero: 'PMP certification hero',
   cert_pmp_mobile: 'PMP certification hero (mobile)',
   cert_hero: 'Certification hero',
@@ -83,7 +86,9 @@ export function PmpRoadmapLeadForm({
   const isHomeForm =
     placement === 'home_hero_mobile' ||
     placement === 'home_hero_desktop' ||
-    placement === 'home_insights';
+    placement === 'home_insights' ||
+    placement === 'certifications_hub_mobile' ||
+    placement === 'certifications_hub_desktop';
   const roadmapLabel = isHomeForm ? 'PM certification' : (certName ?? 'PMP®');
   const formTitle = isHomeForm
     ? 'Build your PM certification roadmap'
@@ -156,6 +161,11 @@ export function PmpRoadmapLeadForm({
   const isCompact = variant === 'cert';
   const isCertHeroDesktop = placement === 'cert_hero';
   const isCertMobileForm = isCompact && !isCertHeroDesktop;
+  const isMobilePlacement =
+    placement === 'home_hero_mobile' ||
+    placement === 'certifications_hub_mobile' ||
+    placement === 'cert_pmp_mobile' ||
+    placement === 'cert_mobile';
   const isExpandedForm = !isCompact && !isCertHeroDesktop;
   const labelClass = cn(
     'font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide',
@@ -227,6 +237,23 @@ export function PmpRoadmapLeadForm({
     certInterest === 'other'
       ? certInterestOther.trim()
       : HOME_CERT_INTEREST_OPTIONS.find((o) => o.value === certInterest)?.label ?? '';
+
+  const toggleCertInterest = (value: HomeCertInterestValue) => {
+    if (certInterest === value) {
+      setCertInterest('');
+      setCertInterestOther('');
+      setJobExperience('');
+      return;
+    }
+    setCertInterest(value);
+    if (value !== 'other') {
+      setCertInterestOther('');
+    } else {
+      requestAnimationFrame(() => {
+        document.getElementById(`${idPrefix}-cert-other`)?.focus();
+      });
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -342,27 +369,31 @@ export function PmpRoadmapLeadForm({
           )}
         >
           <div className="flex items-start gap-3 sm:gap-4">
-            {isHomeForm || !familyId ? (
-              <PmsFormHeaderMark compact={isCompact} />
-            ) : (
-              <div
-                className={cn(
-                  'flex shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-white/90 px-2.5 shadow-sm dark:border-slate-700 dark:bg-slate-800/90',
-                  isCompact ? 'h-12' : 'h-14',
-                  familyId === 'PRINCE2' ? 'min-w-[5rem] sm:min-w-[5.5rem]' : 'w-12 sm:w-14',
-                )}
-                aria-hidden
-              >
-                <CertFamilyMark
-                  familyId={familyId}
-                  imageClassName={
-                    familyId === 'PRINCE2'
-                      ? 'h-7 w-auto max-w-[5.25rem] object-contain'
-                      : 'h-9 w-9 object-contain'
-                  }
-                />
-              </div>
-            )}
+            {!isMobilePlacement ? (
+              isHomeForm || !familyId ? (
+                <div className={cn(placement === 'home_insights' && 'hidden sm:block')}>
+                  <PmsFormHeaderMark compact={isCompact} />
+                </div>
+              ) : (
+                <div
+                  className={cn(
+                    'flex shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-white/90 px-2.5 shadow-sm dark:border-slate-700 dark:bg-slate-800/90',
+                    isCompact ? 'h-12' : 'h-14',
+                    familyId === 'PRINCE2' ? 'min-w-[5rem] sm:min-w-[5.5rem]' : 'w-12 sm:w-14',
+                  )}
+                  aria-hidden
+                >
+                  <CertFamilyMark
+                    familyId={familyId}
+                    imageClassName={
+                      familyId === 'PRINCE2'
+                        ? 'h-7 w-auto max-w-[5.25rem] object-contain'
+                        : 'h-9 w-9 object-contain'
+                    }
+                  />
+                </div>
+              )
+            ) : null}
             <div className="min-w-0 flex-1">
               <p
                 id={`${idPrefix}-title`}
@@ -377,6 +408,9 @@ export function PmpRoadmapLeadForm({
                 className={cn(
                   'mt-0.5 font-medium text-slate-500 dark:text-slate-400',
                   isCompact ? 'text-xs sm:text-sm' : 'text-sm',
+                  placement === 'home_hero_mobile' || placement === 'home_insights'
+                    ? 'hidden sm:block'
+                    : undefined,
                 )}
               >
                 {formSubtitle}
@@ -513,95 +547,111 @@ export function PmpRoadmapLeadForm({
           </div>
 
           {isHomeForm ? (
-            <fieldset className={cn(isCompact ? 'space-y-2' : isExpandedForm ? 'space-y-3.5' : 'space-y-3')}>
-              <legend className={legendClass}>
-                Which certification are you interested in?{' '}
-                <span className="text-brand-orange">*</span>
-              </legend>
-              <div className="flex flex-wrap gap-2.5 sm:gap-3" role="group" aria-label="Certification interest">
-                {HOME_CERT_INTEREST_OPTIONS.map((o) => (
+            <div className={cn(isExpandedForm ? 'space-y-3.5' : 'space-y-3')}>
+              <fieldset className={cn(isCompact ? 'space-y-2' : isExpandedForm ? 'space-y-3.5' : 'space-y-3')}>
+                <legend className={legendClass}>
+                  Which certification are you interested in?{' '}
+                  <span className="text-brand-orange">*</span>
+                </legend>
+                <div className="flex flex-wrap gap-2.5 sm:gap-3" role="group" aria-label="Certification interest">
+                  {HOME_CERT_INTEREST_OPTIONS.map((o) => (
+                    <button
+                      key={o.value}
+                      type="button"
+                      className={toggleOptionClass(certInterest === o.value)}
+                      aria-pressed={certInterest === o.value}
+                      onClick={() => toggleCertInterest(o.value)}
+                    >
+                      {o.label}
+                    </button>
+                  ))}
                   <button
-                    key={o.value}
                     type="button"
-                    className={toggleOptionClass(certInterest === o.value)}
-                    aria-pressed={certInterest === o.value}
-                    onClick={() => {
-                      setCertInterest(o.value);
-                      setCertInterestOther('');
-                    }}
+                    className={toggleOptionClass(certInterest === 'other')}
+                    aria-pressed={certInterest === 'other'}
+                    aria-expanded={certInterest === 'other'}
+                    onClick={() => toggleCertInterest('other')}
                   >
-                    {o.label}
+                    Other
                   </button>
-                ))}
-                <button
-                  type="button"
-                  className={toggleOptionClass(certInterest === 'other')}
-                  aria-pressed={certInterest === 'other'}
-                  aria-expanded={certInterest === 'other'}
-                  onClick={() => {
-                    setCertInterest('other');
-                    requestAnimationFrame(() => {
-                      document.getElementById(`${idPrefix}-cert-other`)?.focus();
-                    });
-                  }}
-                >
-                  Other
-                </button>
-              </div>
-              <div
-                className={cn(
-                  'grid transition-all duration-300 ease-out',
-                  certInterest === 'other'
-                    ? 'mt-3 grid-rows-[1fr] opacity-100'
-                    : 'grid-rows-[0fr] opacity-0',
-                )}
-              >
-                <div className="min-h-0 overflow-hidden">
-                  <Label htmlFor={`${idPrefix}-cert-other`} className="sr-only">
-                    Specify other certification
-                  </Label>
-                  <Input
-                    id={`${idPrefix}-cert-other`}
-                    value={certInterestOther}
-                    onChange={(e) => setCertInterestOther(e.target.value)}
-                    placeholder="Specify another certification"
-                    className={fieldClass}
-                    required={certInterest === 'other'}
-                  />
                 </div>
-              </div>
-            </fieldset>
-          ) : null}
-
-          <div
-            className={cn(
-              isCertHeroDesktop && !isHomeForm && cn('flex w-full flex-col', certHeroChoicesGap),
-              !isCertHeroDesktop && 'contents',
-            )}
-          >
-            <fieldset className={cn(choiceFieldsetClass, certMobileSectionPad, isCertHeroDesktop && 'w-full')}>
-              <legend className={legendClass}>
-                Years of Total Job Experience <span className="text-brand-orange">*</span>
-              </legend>
-              <div className={radioGridClass} role="radiogroup" aria-required>
-                {PMP_JOB_EXPERIENCE_OPTIONS.map((o, index) => (
-                  <label key={o.value} className={radioOptionClass(jobExperience === o.value)}>
-                    <input
-                      type="radio"
-                      name={`${idPrefix}-experience`}
-                      value={o.value}
-                      checked={jobExperience === o.value}
-                      onChange={() => setJobExperience(o.value)}
-                      required={index === 0}
-                      className="h-4 w-4 shrink-0 accent-brand-orange"
+                <div
+                  className={cn(
+                    'grid transition-all duration-300 ease-out',
+                    certInterest === 'other'
+                      ? 'mt-3 grid-rows-[1fr] opacity-100'
+                      : 'grid-rows-[0fr] opacity-0',
+                  )}
+                >
+                  <div className="min-h-0 overflow-hidden">
+                    <Label htmlFor={`${idPrefix}-cert-other`} className="sr-only">
+                      Specify other certification
+                    </Label>
+                    <Input
+                      id={`${idPrefix}-cert-other`}
+                      value={certInterestOther}
+                      onChange={(e) => setCertInterestOther(e.target.value)}
+                      placeholder="Specify another certification"
+                      className={fieldClass}
+                      required={certInterest === 'other'}
                     />
-                    {o.label}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
+                  </div>
+                </div>
+              </fieldset>
 
-            {!isHomeForm ? (
+              {certInterest ? (
+                <fieldset className={cn(choiceFieldsetClass, 'pt-0')}>
+                  <legend className={cn(legendClass, 'pt-0')}>
+                    Years of Total Job Experience <span className="text-brand-orange">*</span>
+                  </legend>
+                  <div className={radioGridClass} role="radiogroup" aria-required>
+                    {PMP_JOB_EXPERIENCE_OPTIONS.map((o, index) => (
+                      <label key={o.value} className={radioOptionClass(jobExperience === o.value)}>
+                        <input
+                          type="radio"
+                          name={`${idPrefix}-experience`}
+                          value={o.value}
+                          checked={jobExperience === o.value}
+                          onChange={() => setJobExperience(o.value)}
+                          required={index === 0}
+                          className="h-4 w-4 shrink-0 accent-brand-orange"
+                        />
+                        {o.label}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+              ) : null}
+            </div>
+          ) : (
+            <div
+              className={cn(
+                isCertHeroDesktop && cn('flex w-full flex-col', certHeroChoicesGap),
+                !isCertHeroDesktop && 'contents',
+              )}
+            >
+              <fieldset className={cn(choiceFieldsetClass, certMobileSectionPad, isCertHeroDesktop && 'w-full')}>
+                <legend className={legendClass}>
+                  Years of Total Job Experience <span className="text-brand-orange">*</span>
+                </legend>
+                <div className={radioGridClass} role="radiogroup" aria-required>
+                  {PMP_JOB_EXPERIENCE_OPTIONS.map((o, index) => (
+                    <label key={o.value} className={radioOptionClass(jobExperience === o.value)}>
+                      <input
+                        type="radio"
+                        name={`${idPrefix}-experience`}
+                        value={o.value}
+                        checked={jobExperience === o.value}
+                        onChange={() => setJobExperience(o.value)}
+                        required={index === 0}
+                        className="h-4 w-4 shrink-0 accent-brand-orange"
+                      />
+                      {o.label}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+
               <fieldset className={cn(choiceFieldsetClass, certMobileSectionPad, isCertHeroDesktop && 'w-full')}>
                 <legend className={legendClass}>
                   What is your daily study time?
@@ -622,8 +672,8 @@ export function PmpRoadmapLeadForm({
                   ))}
                 </div>
               </fieldset>
-            ) : null}
-          </div>
+            </div>
+          )}
 
           <label htmlFor={`${idPrefix}-hp`} className="sr-only">
             Leave blank
@@ -643,7 +693,7 @@ export function PmpRoadmapLeadForm({
           {error ? <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p> : null}
 
           {!isCompact ? (
-            <p className="pt-0.5 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
+            <p className="!mt-0 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
               By submitting, you agree to our{' '}
               <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
                 Privacy Policy
@@ -688,7 +738,7 @@ export function PmpRoadmapLeadForm({
                     : 'h-12 text-base',
             )}
           >
-            {submitting ? 'Submitting…' : isHomeForm ? T169_CTAS.primary : 'Submit'}
+            {submitting ? 'Submitting…' : isHomeForm ? 'Get My PM Roadmap' : 'Submit'}
           </Button>
         </div>
       </form>

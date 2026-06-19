@@ -14,20 +14,26 @@ import {
   Trophy, 
   BookOpen, 
   Zap, 
-  TrendingUp, 
   LayoutGrid, 
   Calendar, 
   FileText, 
   LayoutDashboard, 
   Map, 
   MessageSquare,
-  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useWebsiteData } from "@/services/WebsiteDataService";
 import { BRAND, CTAS, HOME_COPY } from "@/lib/brand-voice";
 import { MARKETING_STOCK_IMAGES, MARKETING_HERO_SOCIAL_AVATARS, marketingTestimonialAvatar } from "@/lib/marketing-stock-images";
-import type { HomePageConfigV2 } from '@pms/site-content';
+import {
+  resolveHomeHeroHeading,
+  parseHomeHeroHeadingLines,
+  resolveHomeHeroSubtitle,
+  type HomePageConfigV2,
+} from '@pms/site-content';
+import { HomeHeroAccentRotator } from '@/components/home/HomeHeroAccentRotator';
+import { HomePmp2026GuideBand } from '@/components/home/HomePmp2026GuideBand';
+import { HomeStudentSuccessSection } from '@/components/home/HomeStudentSuccessSection';
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
 import { FamilyExploreCard } from "@/components/FamilyExploreCard";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
@@ -36,28 +42,21 @@ import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { useHomePageConfig } from '@/lib/home-config';
 import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
-import { PmpRoadmapCtaLink, ComparePathwaysCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
+import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { T169_SUPPORT_COPY } from '@/content/pmp/flagship-t169';
 import { COMPARE_PATHWAYS_HREF, PMP_ROADMAP_CTA_HREF } from '@/lib/pmp-roadmap-cta';
 import { getT169FeaturedCardOverrides } from '@/lib/t169-featured-cards';
+import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
+import { getPhase2Seo } from '@/content/seo/phase-2-page-seo';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
-import {
-  T176_COMMUNITY_NOTE,
-  T176_HOMEPAGE_CERT_DISCLAIMER,
-  T176_SOCIAL_PROOF_REPLACEMENT,
-  T176_SOCIAL_PROOF_REGIONAL,
-} from '@/content/t176-claims';
-import { NewsletterSubscribeForm } from '@/components/forms/NewsletterSubscribeForm';
+import { newsletterArticles } from '@/data/newsletterArticles';
 
-const Pmp2026FlagshipSections = dynamic(
-  () =>
-    import('@/components/home/Pmp2026FlagshipSections').then((m) => ({
-      default: m.Pmp2026FlagshipSections,
-    })),
-  { loading: () => null },
-);
+function resolveInsightArticleImage(href: string): string {
+  const article = newsletterArticles.find((a) => href.includes(a.slug));
+  return article?.image ?? MARKETING_STOCK_IMAGES.articleCard.src;
+}
 
 const HomeTestimonialsSection = dynamic(
   () =>
@@ -72,12 +71,22 @@ import * as siteData from "@/data/siteData";
 /** Featured Pathways: exactly 6 cards in 2 rows × 3 columns on lg+ */
 const featuredPathways = siteData.featuredCertifications;
 
+const PROFESSIONAL_MEMBERSHIP_TIER = siteData.membershipTiers.find((t) => t.name === 'Professional');
+const PRO_MEMBERSHIP_PREVIEW = [
+  'Full platform access',
+  'Direct mentor access each month',
+  '20% off regional certification tuition',
+] as const;
+const PRO_MEMBERSHIP_EXTRA = PROFESSIONAL_MEMBERSHIP_TIER?.features.slice(3) ?? [];
+
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
 const SECTION_HEADING_MB = 'mb-10 md:mb-16 lg:mb-20';
 const HERO_BTN =
   'w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-12 sm:h-14 px-6 sm:px-8 rounded-full font-bold text-base sm:text-lg shadow-lg shadow-brand-orange/20 transition-all';
 const HERO_BTN_OUTLINE =
   'w-full sm:w-auto border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-900 h-12 sm:h-14 px-6 sm:px-8 rounded-full font-bold text-base sm:text-lg transition-all';
+
+const HOME_RELATED_LINKS = getPhase2Seo('/')?.relatedLinks;
 
 export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfigV2 }) {
   const { get } = useWebsiteData();
@@ -114,17 +123,18 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
   const finalCta = homeCms.activeCta;
   const sections = homeCms.sections;
   const statsLabel = homeCms.stats?.professionalsLabel ?? initialHomeConfig?.stats?.professionalsLabel ?? 'professionals in the network';
-  const showVerifiedMemberCount =
-    typeof homeCms.stats?.professionalsCount === 'number' &&
-    homeCms.stats.professionalsCount > 0 &&
-    homeCms.stats.professionalsCount !== 1284;
-  const statsCount = showVerifiedMemberCount
-    ? (homeCms.stats?.professionalsCount ?? initialHomeConfig?.stats?.professionalsCount ?? 0)
-    : null;
-  const heroTitle =
-    homeCms.heroTitle || serverSlide?.heading || get('hero_title', HOME_COPY.heroTitle);
-  const heroSubtitle =
+  const professionalsCount =
+    homeCms.stats?.professionalsCount ??
+    initialHomeConfig?.stats?.professionalsCount ??
+    1284;
+  const heroTitleRaw =
+    homeCms.heroTitle ||
+    serverSlide?.heading ||
+    get('hero_title', HOME_COPY.heroTitle);
+  const heroTitleResolved = resolveHomeHeroHeading(heroTitleRaw);
+  const heroSubtitleRaw =
     homeCms.heroSubtitle || serverSlide?.description || get('hero_subtitle', HOME_COPY.heroSubtitle);
+  const heroSubtitleResolved = resolveHomeHeroSubtitle(heroSubtitleRaw);
   const testimonials =
     homeCms.visibleTestimonials.length > 0
       ? homeCms.visibleTestimonials.map((t) => ({
@@ -136,12 +146,14 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
           company: '',
         }))
       : [];
-  const showTestimonialPlaceholder = true;
+  const showTestimonialPlaceholder = false;
   const insightsItems = homeCms.insightsBand?.items ?? [
-    { title: "AI in Project Management", desc: "How to leverage generative AI for planning and risk assessment.", href: "/newsletter/ai-augmented-project-manager" },
-    { title: "2026 Salary Trends", desc: "The latest data on certification ROI across global markets.", href: "/newsletter/2026-pmp-exam-changes" },
-    { title: "Hybrid Leadership", desc: "Mastering the balance between predictive and agile frameworks.", href: "/newsletter/hybrid-methodologies-enterprise" },
+    { title: "AI in Project Management", desc: "Use generative AI for planning and risk assessment.", href: "/newsletter/ai-augmented-project-manager" },
+    { title: "2026 Salary Trends", desc: "Certification ROI data across global markets.", href: "/newsletter/2026-pmp-exam-changes" },
+    { title: "Hybrid Leadership", desc: "Balance predictive and agile frameworks at scale.", href: "/newsletter/hybrid-methodologies-enterprise" },
   ];
+  const finalCtaTitle =
+    finalCta?.title && finalCta.title !== 'Institute' ? finalCta.title : null;
 
   const renderPrimaryCta = () => {
     const action = homeCms.primaryAction;
@@ -153,44 +165,27 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
 
     if (
       action === 'link' &&
-      (primaryLink.includes(PMP_ROADMAP_FORM_ANCHOR) || primaryLink === PMP_ROADMAP_CTA_HREF)
+      primaryLink &&
+      !primaryLink.includes(PMP_ROADMAP_FORM_ANCHOR) &&
+      primaryLink !== PMP_ROADMAP_CTA_HREF
     ) {
       return (
-        <PmpRoadmapCtaLink
-          label={label}
-          className={cn(btnClass, 'w-full sm:w-auto')}
-        />
-      );
-    }
-
-    if (action === 'link') {
-      const href = homeCms.ctaPrimaryLink || '/membership';
-      return (
-        <Link href={href} className="block w-full sm:w-auto">
+        <Link href={primaryLink} className="block w-full sm:w-auto">
           <Button size="lg" className={btnClass}>{label}</Button>
         </Link>
       );
     }
 
-    const useHeroConsultationCalendly =
-      action === 'calendly' ||
-      action === 'register_modal' ||
-      (action === 'contact' && primaryLink.includes('topic=consultation'));
-
-    if (useHeroConsultationCalendly) {
-      return (
-        <PmpRoadmapCtaLink
-          label={label || CTAS.pmp2026Roadmap}
-          className={cn(btnClass, 'w-full sm:w-auto')}
-        />
-      );
-    }
-
     return (
-      <PmpRoadmapCtaLink
-        label={label || CTAS.pmp2026Roadmap}
+      <WebsiteCalendlyButton
+        size="lg"
         className={cn(btnClass, 'w-full sm:w-auto')}
-      />
+        tier="mentor"
+        funnelLabel="home_hero_mentor"
+        utm={{ utm_source: 'pmstructure', utm_medium: 'home', utm_campaign: 'hero_mentor' }}
+      >
+        {label}
+      </WebsiteCalendlyButton>
     );
   };
 
@@ -218,32 +213,31 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 {get('hero_badge', HOME_COPY.heroBadge)}
               </Badge>
               
-              <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-[1.1] text-balance">
-                {heroTitle}
+              <h1 className="font-heading text-[2.1375rem] sm:text-[2.85rem] md:text-[3.5625rem] lg:text-[4.275rem] font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-[1.1]">
+                {parseHomeHeroHeadingLines(heroTitleResolved).map((line, index) => (
+                  <span
+                    key={line}
+                    className={index === 0 ? 'block whitespace-nowrap' : 'block'}
+                  >
+                    {line}
+                  </span>
+                ))}
               </h1>
-              
+
+              <HomeHeroAccentRotator />
+
               <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 sm:mb-10 max-w-lg leading-relaxed font-medium">
-                {heroSubtitle}
+                {heroSubtitleResolved}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <div className="w-full sm:w-auto">{renderPrimaryCta()}</div>
-                <WebsiteCalendlyButton
-                  size="lg"
-                  variant="outline"
-                  className={HERO_BTN_OUTLINE}
-                  tier="discovery"
-                  funnelLabel="home_hero_mentor"
-                  utm={{ utm_source: 'pmstructure', utm_medium: 'home', utm_campaign: 'hero_mentor' }}
-                >
-                  {CTAS.talkToAMentor}
-                </WebsiteCalendlyButton>
-                <ComparePathwaysCtaLink buttonClassName={HERO_BTN_OUTLINE} />
+                <Link href="/certifications" className="w-full sm:w-auto">
+                  <Button size="lg" variant="outline" className={HERO_BTN_OUTLINE}>
+                    {CTAS.findPathway}
+                  </Button>
+                </Link>
               </div>
-
-              <p className="mt-6 text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-lg leading-relaxed font-medium">
-                {HOME_COPY.heroMicrocopy}
-              </p>
               
               <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                 <div className="flex -space-x-3">
@@ -262,14 +256,8 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                   ))}
                 </div>
                 <div className="text-sm font-medium text-slate-500 max-w-md">
-                  {statsCount != null ? (
-                    <>
-                      <span className="text-slate-900 dark:text-white font-bold">{statsCount.toLocaleString()}</span>{' '}
-                      {statsLabel}
-                    </>
-                  ) : (
-                    T176_SOCIAL_PROOF_REPLACEMENT
-                  )}
+                  <span className="text-slate-900 dark:text-white font-bold">{professionalsCount.toLocaleString()}</span>{' '}
+                  {statsLabel}
                 </div>
               </div>
             </motion.div>
@@ -298,7 +286,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
         </div>
       </section>
 
-      <Pmp2026FlagshipSections />
+      <HomePmp2026GuideBand />
 
       {(sections?.latestNews !== false) && homeCms.latestNews.length > 0 && (
         <section className={`${SECTION_PY} bg-white dark:bg-slate-950`}>
@@ -350,7 +338,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
       <section className={sectionSurface('soft', SECTION_PY)}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
-          <div className={`flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 ${SECTION_HEADING_MB}`}>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-4 md:mb-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -358,14 +346,17 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             >
               <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-4 sm:mb-6">
                 {homeCms.featuredPathways?.title ?? (
-                  <>Featured <span className="text-pms-gradient-orange">Pathways</span></>
+                  <>
+                    <span className="hidden md:inline">Featured </span>
+                    <span className="text-pms-gradient-orange">Pathways</span>
+                  </>
                 )}
               </h2>
-              <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 max-w-lg font-medium leading-relaxed">
+              <p className="hidden md:block text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed whitespace-nowrap">
                 {homeCms.featuredPathways?.subtitle ?? get('featured_subtitle', HOME_COPY.featuredSubtitle)}
               </p>
             </motion.div>
-            <Link href="/certifications">
+            <Link href="/certifications" className="hidden md:inline-flex">
               <Button variant="ghost" className="text-brand-orange font-bold text-lg hover:bg-brand-orange/5 rounded-full px-6">
                 View All Certifications
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -374,6 +365,8 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
           </div>
 
           <ResponsiveSnapScroll
+            className="pt-4 md:pt-6"
+            mobileLoop
             desktopLayoutClassName="md:grid md:grid-cols-2 lg:grid-cols-3"
             gapClassName="gap-6 md:gap-8"
             mobileItemClassName="w-[min(92vw,19rem)]"
@@ -406,9 +399,6 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               );
             })}
           </ResponsiveSnapScroll>
-          <p className="mt-10 max-w-3xl text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-400">
-            {T176_HOMEPAGE_CERT_DISCLAIMER}
-          </p>
         </div>
       </section>
       )}
@@ -432,7 +422,11 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <ResponsiveSnapScroll
+            desktopLayoutClassName="md:grid md:grid-cols-2 lg:grid-cols-3"
+            gapClassName="gap-6 md:gap-8"
+            mobileItemClassName="w-[min(88vw,19rem)]"
+          >
             {(["PMI", "PRINCE2", "SixSigma"] as const)
               .filter((familyId) => {
                 const cfg = homeCms.programFamilies.find((f) => f.familyId === familyId);
@@ -445,7 +439,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 index={index}
               />
             ))}
-          </div>
+          </ResponsiveSnapScroll>
         </div>
       </section>
       )}
@@ -464,22 +458,42 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               viewport={{ once: true }}
             >
               <h2 className="font-heading text-section font-bold text-white dark:text-slate-900 mb-6 sm:mb-8 tracking-tight leading-tight">
-                {homeCms.insightsBand?.title ?? (<>Insights for the Future of <span className="text-pms-gradient-orange">Project Leadership</span></>)}
+                {homeCms.insightsBand?.title ?? (
+                  <>
+                    Insights for the Future of{' '}
+                    <span className="text-pms-gradient-orange">Project Leadership</span>
+                  </>
+                )}
               </h2>
-              <p className="text-lg text-slate-300 dark:text-slate-600 mb-12 leading-relaxed font-medium">
-                {homeCms.insightsBand?.subtitle ?? 'The project management landscape is evolving. We provide the guidance you need to navigate AI integration and hybrid methodologies.'}
+              <p className="text-lg text-slate-300 dark:text-slate-600 mb-8 leading-relaxed font-medium">
+                {homeCms.insightsBand?.subtitle ??
+                  'The project management landscape is evolving. We provide the guidance you need to navigate AI integration and hybrid methodologies.'}
               </p>
               <div className="space-y-8">
                 {insightsItems.map((item) => (
-                  <Link key={item.title} href={item.href} className="flex gap-6 group">
-                    <div className="h-1 w-12 bg-brand-orange mt-4 group-hover:w-16 transition-all duration-500 rounded-full shrink-0" />
-                    <div>
+                  <Link key={item.title} href={item.href} className="flex gap-4 sm:gap-6 group">
+                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/15 bg-white/5 dark:border-slate-200 dark:bg-slate-100 sm:h-[4.5rem] sm:w-[4.5rem]">
+                      <Image
+                        src={resolveInsightArticleImage(item.href)}
+                        alt=""
+                        fill
+                        sizes="72px"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="min-w-0">
                       <h4 className="text-xl font-bold text-white dark:text-pms-navy group-hover:text-brand-orange transition-colors tracking-tight">{item.title}</h4>
                       <p className="text-base text-slate-300 dark:text-slate-600 mt-1 font-medium">{item.desc}</p>
                     </div>
                   </Link>
                 ))}
               </div>
+              <Link href="/newsletter" className="mt-10 hidden sm:inline-block">
+                <Button variant="ghost" className="text-brand-orange font-bold rounded-full px-0 hover:bg-transparent hover:text-brand-hover">
+                  View all insights <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
             </motion.div>
             <motion.div
               className="relative"
@@ -508,14 +522,19 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 {homeCms.membership?.sectionTitle ?? get('membership_title', 'Membership Plans')}
               </h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                {T169_SUPPORT_COPY.membership}{' '}
                 {homeCms.membership?.sectionSubtitle ?? get('membership_subtitle', HOME_COPY.membershipSubtitle)}
               </p>
             </motion.div>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="lg:col-span-2">
+              <ResponsiveSnapScroll
+                mobileLoop
+                desktopLayoutClassName="md:grid md:grid-cols-2"
+                gapClassName="gap-6"
+                mobileItemClassName="w-[min(88vw,19rem)]"
+              >
               {(homeCms.membership?.benefits ?? [
                 { title: "Course Discounts", desc: "Up to 30% off all certification prep courses.", iconKey: "trophy" },
                 { title: "Premium Resources", desc: "Access to 500+ templates and study guides.", iconKey: "book" },
@@ -529,7 +548,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 return (
                 <motion.div 
                   key={benefit.title} 
-                  className="flex flex-col sm:flex-row gap-4 sm:gap-6 p-5 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-all group"
+                  className="flex h-full flex-col sm:flex-row gap-4 sm:gap-6 p-5 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-all group"
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -544,39 +563,69 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                   </div>
                 </motion.div>
               );})}
+              </ResponsiveSnapScroll>
             </div>
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
             >
-              <Card className="bg-slate-900 text-white border-none shadow-xl p-6 sm:p-10 h-full flex flex-col justify-between rounded-[2rem] sm:rounded-[2.5rem] relative overflow-hidden group [&_h3]:text-white">
+              <Card className="bg-slate-900 text-white border-none shadow-xl p-6 sm:p-10 h-full flex flex-col justify-between rounded-[2rem] sm:rounded-[2.5rem] relative overflow-hidden group/card transition-shadow duration-300 hover:shadow-2xl [&_h3]:text-white">
                 <div className="relative z-10">
-                  <Badge className="bg-brand-orange text-white border-none mb-8 px-4 py-1 text-[10px] font-bold uppercase tracking-widest">Best Value</Badge>
-                  <h3 className="text-3xl font-bold text-white mb-4 tracking-tight">Professional Membership</h3>
+                  <div className="mb-6 flex flex-wrap items-center gap-3">
+                    <Badge className="bg-brand-orange text-white border-none px-4 py-1 text-[10px] font-bold uppercase tracking-widest shrink-0">
+                      Best Value
+                    </Badge>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight whitespace-nowrap">
+                      Professional Membership
+                    </h3>
+                  </div>
                   <p className="text-slate-300 text-base mb-8 font-medium leading-relaxed">The complete toolkit for the ambitious project professional.</p>
-                  <div className="mb-8">
+                  <div className="mb-8 transition-transform duration-300 group-hover/card:scale-[1.02] motion-reduce:transform-none">
                     <MembershipDualPrice
                       monthlyUsd={MEMBERSHIP_PRICING.professional.monthlyUsd}
                       yearlyUsd={MEMBERSHIP_PRICING.professional.yearlyUsd}
                       variant="dark"
                     />
                   </div>
-                  <ul className="space-y-4 mb-10">
-                    {[
-                      "Full platform access",
-                      "Direct mentor access each month",
-                      "20% off regional certification tuition",
-                    ].map((item) => (
-                      <li key={item} className="flex items-center gap-4 text-base font-bold">
-                        <CheckCircle2 className="h-5 w-5 text-brand-orange" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="mb-10">
+                    <ul className="space-y-4">
+                      {PRO_MEMBERSHIP_PREVIEW.map((item) => (
+                        <li key={item} className="flex items-center gap-4 text-base font-bold">
+                          <CheckCircle2 className="h-5 w-5 shrink-0 text-brand-orange" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    {PRO_MEMBERSHIP_EXTRA.length > 0 ? (
+                      <div
+                        className={cn(
+                          'grid transition-all duration-300 ease-out motion-reduce:transition-none',
+                          'max-lg:grid-rows-[1fr] max-lg:opacity-100',
+                          'lg:grid-rows-[0fr] lg:opacity-0 lg:group-hover/card:grid-rows-[1fr] lg:group-hover/card:opacity-100',
+                        )}
+                      >
+                        <ul className="min-h-0 space-y-4 overflow-hidden pt-0 lg:group-hover/card:pt-4">
+                          {PRO_MEMBERSHIP_EXTRA.map((item) => (
+                            <li key={item} className="flex items-center gap-4 text-base font-bold">
+                              <CheckCircle2 className="h-5 w-5 shrink-0 text-brand-orange" />
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
+                    {PRO_MEMBERSHIP_EXTRA.length > 0 ? (
+                      <p className="mt-3 hidden text-xs font-semibold uppercase tracking-wider text-slate-400 lg:block lg:transition-opacity lg:duration-200 lg:group-hover/card:opacity-0">
+                        +{PRO_MEMBERSHIP_EXTRA.length} more on hover
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
-                <Link href="/membership" className="relative z-10 block">
-                  <Button variant="outline" className="w-full h-14 font-bold text-lg rounded-2xl transition-all">
+                <Link href="/membership" className="relative z-10 block w-full">
+                  <Button
+                    className={cn(HERO_BTN, 'w-full sm:w-full h-14 rounded-full')}
+                  >
                     View membership
                   </Button>
                 </Link>
@@ -597,34 +646,30 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 lg:gap-20 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-12 lg:gap-16 items-start">
               <div>
-                <div className="flex items-center gap-3 text-brand-orange mb-8">
+                <div className="flex items-center gap-3 text-brand-orange mb-6">
                   <LayoutGrid className="h-6 w-6" />
                   <span className="font-bold uppercase tracking-widest text-[10px]">{BRAND.name} Network</span>
                 </div>
-                <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-6 tracking-tight leading-tight">Join the Global <span className="text-brand-orange">PM Network</span></h2>
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-4 leading-relaxed font-medium">
+                <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-5 tracking-tight leading-tight">Join the Global <span className="text-brand-orange">PM Network</span></h2>
+                <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed font-medium">
                   {T169_SUPPORT_COPY.community}
                 </p>
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed font-medium">
-                  {T176_SOCIAL_PROOF_REPLACEMENT}
-                </p>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-10 leading-relaxed">
-                  {T176_COMMUNITY_NOTE}
-                </p>
-                <div className="grid grid-cols-2 gap-6 mb-10">
+                <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
                   {[
                     { title: "Skool Community", icon: MessageSquare },
                     { title: "Study Circles", icon: Users },
                     { title: "Peer Discussions", icon: MessageSquare },
                     { title: "Live Sessions", icon: Calendar },
                   ].map((item) => (
-                    <div key={item.title} className="flex items-center gap-4 group">
-                      <div className="p-3 rounded-xl bg-white dark:bg-slate-800 text-brand-orange shadow-sm group-hover:scale-110 transition-transform duration-300">
+                    <div key={item.title} className="flex min-w-0 items-center gap-3 sm:gap-4 group">
+                      <div className="shrink-0 rounded-xl bg-white p-2.5 text-brand-orange shadow-sm transition-transform duration-300 group-hover:scale-110 dark:bg-slate-800 sm:p-3">
                         <item.icon className="h-5 w-5" />
                       </div>
-                      <span className="text-base font-bold text-slate-900 dark:text-slate-300 tracking-tight">{item.title}</span>
+                      <span className="min-w-0 text-sm font-bold leading-snug tracking-tight text-slate-900 dark:text-slate-300 sm:text-base">
+                        {item.title}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -695,55 +740,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
       </section>
       )}
 
-      {/* Newsletter Section */}
-      <section className={sectionSurface('cool', SECTION_PY)}>
-        <SectionAmbience tone="cool" />
-        <div className="container relative z-10 mx-auto">
-          <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-10 md:p-16 lg:p-20 relative overflow-hidden shadow-xl border border-slate-100 dark:border-slate-800">
-            <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-slate-500/5 to-transparent pointer-events-none" />
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center relative z-10">
-              <div className="min-w-0">
-                <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-                  Weekly Insights
-                </Badge>
-                <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-6 tracking-tight leading-tight">
-                  The <span className="text-brand-orange">Structure</span> Report
-                </h2>
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed font-medium max-w-lg">
-                  {T176_SOCIAL_PROOF_REGIONAL}
-                </p>
-                <NewsletterSubscribeForm
-                  formId="home-newsletter"
-                  pagePath="/"
-                  className="max-w-md"
-                  inputClassName="h-14 rounded-2xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-brand-orange/30"
-                  buttonClassName="h-14 px-8 rounded-2xl font-bold text-lg shadow-xl transition-all"
-                />
-                <p className="mt-4 text-xs text-slate-400 font-medium">
-                  We respect your privacy.{' '}
-                  <Link href="/legal/privacy" className="text-brand-orange font-semibold hover:underline">
-                    Privacy Policy
-                  </Link>
-                  . Unsubscribe at any time.
-                </p>
-              </div>
-              <div className="hidden md:grid grid-cols-2 gap-4 sm:gap-6">
-                {[
-                  { title: "Exam Strategies", icon: Sparkles },
-                  { title: "AI in PM", icon: Zap },
-                  { title: "Salary Trends", icon: TrendingUp },
-                  { title: "Case Studies", icon: BookOpen },
-                ].map((topic) => (
-                  <div key={topic.title} className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
-                    <topic.icon className="h-6 w-6 text-brand-orange mb-4" />
-                    <h4 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">{topic.title}</h4>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HomeStudentSuccessSection />
 
       {/* Career Tools Section */}
       <section className={sectionSurface('soft', SECTION_PY)}>
@@ -791,7 +788,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 color: "text-indigo-600",
                 action: "link" as const,
                 href: COMPARE_PATHWAYS_HREF,
-                ctaLabel: CTAS.comparePathways,
+                ctaLabel: 'Compare cert.',
               },
               {
                 title: "Roadmap Guidance",
@@ -799,7 +796,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 icon: Map,
                 color: "text-emerald-600",
                 action: "scroll" as const,
-                ctaLabel: CTAS.pmp2026Roadmap,
+                ctaLabel: 'Get my roadmap',
               },
             ].map((tool, index) => (
               <motion.div
@@ -847,7 +844,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
         </div>
       </section>
 
-      {(sections?.testimonials !== false) && (
+      {(sections?.testimonials !== false) && testimonials.length > 0 && (
         <HomeTestimonialsSection
           testimonials={testimonials}
           usePlaceholder={showTestimonialPlaceholder}
@@ -905,7 +902,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             
             <div className="relative z-10 max-w-4xl mx-auto">
               <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 sm:mb-8 tracking-tight leading-tight text-balance">
-                {finalCta?.title || <>Ready to Start Your <span className="text-brand-orange">Journey?</span></>}
+                {finalCtaTitle ?? <>Ready to Start Your <span className="text-brand-orange">Journey?</span></>}
               </h2>
               <p className="text-slate-400 text-base sm:text-lg md:text-xl mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
                 {finalCta?.description ||
@@ -913,12 +910,30 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
                 <PmpRoadmapCtaLink
+                  label="Get My Roadmap"
                   className="w-full sm:w-auto bg-brand-orange hover:bg-brand-hover text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl shadow-xl"
                 />
-                <ComparePathwaysCtaLink
-                  buttonClassName="w-full sm:w-auto border-white/20 bg-white text-black hover:bg-slate-100 hover:text-black dark:bg-transparent dark:text-white dark:border-white/30 dark:hover:bg-white/10 dark:hover:text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl transition-all"
-                />
+                <WebsiteCalendlyButton
+                  size="lg"
+                  variant="outline"
+                  className="w-full sm:w-auto border-white/20 bg-white text-black hover:bg-slate-100 hover:text-black dark:bg-transparent dark:text-white dark:border-white/30 dark:hover:bg-white/10 dark:hover:text-white h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg font-bold rounded-2xl transition-all"
+                  tier="discovery"
+                  funnelLabel="home_final_mentor"
+                  utm={{ utm_source: 'pmstructure', utm_medium: 'home', utm_campaign: 'final_mentor' }}
+                >
+                  {CTAS.talkToAMentor}
+                </WebsiteCalendlyButton>
               </div>
+              {HOME_RELATED_LINKS?.length ? (
+                <RelatedGuidesLinks
+                  title="Explore PM Structure guides"
+                  links={HOME_RELATED_LINKS}
+                  currentPath="/"
+                  collapsible
+                  variant="dark"
+                  className="mx-auto mt-8 max-w-xl text-left sm:mt-10"
+                />
+              ) : null}
             </div>
           </motion.div>
         </div>

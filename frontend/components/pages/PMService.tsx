@@ -2,17 +2,14 @@
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   CheckCircle2, 
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";
-import Link from "next/link";
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { SERVICES_COPY, CTAS } from "@/lib/brand-voice";
-import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import {
@@ -21,8 +18,10 @@ import {
   parseServicesPageConfig,
 } from "@pms/site-content";
 import { serviceIcon } from "@/lib/service-icons";
-import { PageHeroWithImage } from "@/components/marketing/PageMarketingImage";
-import { MARKETING_PAGE_IMAGES } from "@/lib/marketing-stock-images";
+import {
+  PM_SERVICE_ADVISORY_FORM_ANCHOR,
+  PmServiceAdvisoryLeadForm,
+} from '@/components/forms/PmServiceAdvisoryLeadForm';
 
 const SERVICE_COLORS = [
   { color: "text-brand-orange", bg: "bg-brand-orange/10" },
@@ -44,11 +43,16 @@ export function PMService() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className={pageHeroSection('warm')}>
+      <section className={cn(pageHeroSection('warm'), 'relative overflow-hidden')}>
         <SectionAmbience tone="warm" />
         <div className="container relative z-10 mx-auto">
-          <PageHeroWithImage image={MARKETING_PAGE_IMAGES.services} imageAspectClassName="aspect-square" priority>
-            <div className="max-w-4xl mx-auto md:mx-0 text-center md:text-left">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-4xl mx-auto md:mx-0 text-center md:text-left"
+            >
               <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
                 {hero.badge || SERVICES_COPY.heroBadge}
               </Badge>
@@ -59,7 +63,6 @@ export function PMService() {
                 {hero.subtitle || SERVICES_COPY.heroSubtitle}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <PmpRoadmapCtaLink ctaLocation="hero" className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20" />
                 <WebsiteCalendlyButton
                   size="lg"
                   variant="brand"
@@ -70,14 +73,42 @@ export function PMService() {
                 >
                   {CTAS.talkToAdvisor}
                 </WebsiteCalendlyButton>
-                <Link href="#corporate-cohort">
-                  <Button variant="outline" size="lg" className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white h-14 px-10 rounded-2xl font-bold text-lg">
-                    {CTAS.requestCorporateCohortBrief}
-                  </Button>
-                </Link>
+                <WebsiteCalendlyButton
+                  size="lg"
+                  variant="outline"
+                  className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white h-14 px-10 rounded-2xl font-bold text-lg"
+                  tier="advisor"
+                  funnelLabel="pm_service_corporate_cohort"
+                  utm={{
+                    utm_source: 'pmstructure',
+                    utm_medium: 'pm_service',
+                    utm_campaign: 'corporate-cohort',
+                  }}
+                >
+                  {CTAS.requestCorporateCohortBrief}
+                </WebsiteCalendlyButton>
               </div>
+            </motion.div>
+
+            <div id={PM_SERVICE_ADVISORY_FORM_ANCHOR} className="scroll-mt-24 w-full min-w-0">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7 }}
+                className="relative z-20 lg:hidden"
+              >
+                <PmServiceAdvisoryLeadForm placement="pm_service_hero_mobile" />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                className="relative z-30 isolate hidden lg:block"
+              >
+                <PmServiceAdvisoryLeadForm placement="pm_service_hero_desktop" />
+              </motion.div>
             </div>
-          </PageHeroWithImage>
+          </div>
         </div>
       </section>
 
@@ -137,36 +168,12 @@ export function PMService() {
                       utm_campaign: service.id,
                     }}
                   >
-                    Book advisory call: {service.title} <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    {service.title} <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </WebsiteCalendlyButton>
                 </Card>
               </motion.div>
             );})}
           </div>
-        </div>
-      </section>
-
-      {/* Corporate cohort (proposed) */}
-      <section id="corporate-cohort" className={sectionSurface('blend', 'py-24 scroll-mt-24 border-y border-slate-100 dark:border-slate-800')}>
-        <SectionAmbience tone="blend" />
-        <div className="container relative z-10 mx-auto max-w-4xl">
-          <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-            Proposed package: owner approval required
-          </Badge>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
-            PMP 2026 Corporate Readiness Cohort
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-medium mb-4">
-            For teams preparing multiple professionals for PMP, PM Structure can support a structured corporate readiness cohort focused on exam-version alignment, readiness planning, accountability, and practical project-delivery context.
-          </p>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-10">
-            This is a proposed B2B package. Capacity, pricing, and delivery require owner approval before public launch.
-          </p>
-          <Link href="/contact?topic=consultation&offering=corporate-cohort">
-            <Button size="lg" variant="brand" className="h-14 px-10 rounded-2xl font-bold">
-              {CTAS.requestCorporateCohortBrief} <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
         </div>
       </section>
 

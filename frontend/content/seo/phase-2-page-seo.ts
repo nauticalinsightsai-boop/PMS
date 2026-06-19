@@ -64,7 +64,7 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     title: 'PM Structure | PMP 2026 Readiness & Project Certification Pathways',
     description:
       'Prepare for the PMP 2026 exam change with structured roadmap support, eligibility guidance, study planning, mock tracking, and independent certification pathway guidance.',
-    h1: 'Prepare for the PMP exam change with a clear route, not random study noise.',
+    h1: 'Project management guidance',
     canonicalPath: '/',
     regionFocus: ['Global'],
     relatedLinks: [

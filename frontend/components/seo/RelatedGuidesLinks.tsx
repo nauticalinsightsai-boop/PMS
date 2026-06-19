@@ -1,37 +1,126 @@
+'use client';
+
+import * as React from 'react';
 import Link from 'next/link';
+import { ChevronDown } from 'lucide-react';
 import type { RelatedLink } from '@/content/seo/phase-2-page-seo';
+import { cn } from '@/lib/utils';
 
 type Props = {
   title?: string;
   links: RelatedLink[];
   currentPath?: string;
   className?: string;
+  collapsible?: boolean;
+  variant?: 'default' | 'dark';
 };
+
+function useMinLgViewport() {
+  const [isLg, setIsLg] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const sync = () => setIsLg(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+  return isLg;
+}
 
 export function RelatedGuidesLinks({
   title = 'Related PM Structure guides',
   links,
   currentPath,
   className,
+  collapsible = false,
+  variant = 'default',
 }: Props) {
+  const [toggled, setToggled] = React.useState(false);
+  const [hovering, setHovering] = React.useState(false);
+  const isLg = useMinLgViewport();
+  const expanded = isLg ? hovering || toggled : toggled;
   const visible = links.filter((l) => l.href !== currentPath);
   if (!visible.length) return null;
 
+  const isDark = variant === 'dark';
+
+  const asideClass = cn(
+    'rounded-2xl border p-6',
+    !collapsible && 'mt-12',
+    isDark
+      ? 'border-white/10 bg-white/5'
+      : 'border-slate-200 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-900/50',
+    className,
+  );
+
+  const titleClass = cn(
+    'font-heading text-lg font-bold',
+    isDark ? 'text-white' : 'text-slate-900 dark:text-white',
+  );
+
+  const linkClass = isDark
+    ? 'font-medium text-slate-300 hover:text-brand-orange hover:underline'
+    : 'font-medium text-brand-purple hover:underline';
+
+  const linkList = (
+    <ul className="space-y-2">
+      {visible.map((link) => (
+        <li key={link.href}>
+          <Link href={link.href} className={linkClass}>
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+
+  if (!collapsible) {
+    return (
+      <aside className={asideClass} aria-label={title}>
+        <h2 className={cn(titleClass, 'mb-4')}>{title}</h2>
+        {linkList}
+      </aside>
+    );
+  }
+
   return (
     <aside
-      className={`mt-12 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-6 ${className ?? ''}`}
+      className={asideClass}
       aria-label={title}
+      onMouseEnter={() => {
+        if (isLg) setHovering(true);
+      }}
+      onMouseLeave={() => {
+        if (isLg) setHovering(false);
+      }}
     >
-      <h2 className="font-heading text-lg font-bold text-slate-900 dark:text-white mb-4">{title}</h2>
-      <ul className="space-y-2">
-        {visible.map((link) => (
-          <li key={link.href}>
-            <Link href={link.href} className="text-brand-purple hover:underline font-medium">
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <button
+        type="button"
+        className="flex w-full cursor-pointer items-center justify-between gap-3 border-0 bg-transparent p-0 text-left outline-none focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-brand-orange/50"
+        onClick={() => setToggled((open) => !open)}
+        aria-expanded={expanded}
+      >
+        <h2 className={titleClass}>{title}</h2>
+        <ChevronDown
+          className={cn(
+            'h-5 w-5 shrink-0 transition-transform duration-300',
+            isDark ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400',
+            expanded && 'rotate-180',
+          )}
+          aria-hidden
+        />
+      </button>
+
+      <div
+        className={cn(
+          'grid transition-all duration-300 ease-out',
+          expanded ? 'mt-4 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
+        )}
+      >
+        <div className={cn('min-h-0 overflow-hidden', !expanded && 'pointer-events-none')}>
+          {linkList}
+        </div>
+      </div>
     </aside>
   );
 }

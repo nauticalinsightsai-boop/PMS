@@ -1,20 +1,37 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { BRAND_LOGO } from '@/lib/brand-visual';
 import { cn } from '@/lib/utils';
 
 /** Light header/footer backgrounds */
-export const BRAND_LOGO_LIGHT = '/brand/pms-logo-light.png';
+export const BRAND_LOGO_LIGHT = BRAND_LOGO.light;
 /** Dark header/footer backgrounds */
-export const BRAND_LOGO_DARK = '/brand/pms-logo-dark.png';
+export const BRAND_LOGO_DARK = BRAND_LOGO.dark;
+/** Square PMS mark — below xl (mobile, tablet, laptop) */
+export const BRAND_MARK_LIGHT = '/brand/pms-mark-light.png';
+/** Square PMS mark — below xl (mobile, tablet, laptop) */
+export const BRAND_MARK_DARK = '/brand/pms-mark-dark.png';
 
-/** Wordmark source is 1024×247 (~4.15:1) */
+/** Processed wordmark is 640×154 (~4.16:1) — see `scripts/process-pms-wordmarks.mjs` */
 const SIZE_MAP = {
-  nav: { height: 40, width: 166, className: 'h-9 md:h-10 max-w-[min(280px,58vw)]' },
-  footer: { height: 48, width: 199, className: 'h-8 sm:h-10 md:h-12 max-w-[min(260px,90vw)]' },
+  nav: {
+    height: 40,
+    width: 166,
+    wordmarkClassName: 'h-9 md:h-10 max-w-[min(300px,62vw)] w-auto object-contain object-left',
+    markSize: 36,
+    markClassName: 'h-9 w-9 shrink-0 object-contain',
+  },
+  footer: {
+    height: 48,
+    width: 200,
+    wordmarkClassName: 'h-8 sm:h-10 md:h-12 max-w-[min(300px,92vw)] w-auto object-contain object-left',
+    markSize: 40,
+    markClassName: 'h-8 w-8 sm:h-10 sm:w-10 shrink-0 object-contain',
+  },
   /** Card headers & family tiles (on light panels) */
-  card: { height: 28, width: 160, className: 'h-7 w-auto max-w-[160px]' },
+  card: { height: 28, width: 104, className: 'h-7 w-auto max-w-[180px]' },
   /** Compact inline mark */
-  mark: { height: 22, width: 120, className: 'h-5 w-auto max-w-[120px]' },
+  mark: { height: 22, width: 81, className: 'h-5 w-auto max-w-[140px]' },
 } as const;
 
 type BrandLogoSize = keyof typeof SIZE_MAP;
@@ -23,13 +40,14 @@ const BRAND_ALT = 'PM Structure. Project Management Structure';
 
 /** Wordmark for light backgrounds (card pills, family tiles). */
 export function BrandLogoOnLight({ size = 'card', className }: { size?: 'card' | 'mark'; className?: string }) {
-  const { height, width, className: sizeClass } = SIZE_MAP[size];
+  const config = SIZE_MAP[size];
+  const sizeClass = 'className' in config ? config.className : config.wordmarkClassName;
   return (
     <Image
       src={BRAND_LOGO_LIGHT}
       alt={BRAND_ALT}
-      width={width}
-      height={height}
+      width={config.width}
+      height={config.height}
       className={cn(sizeClass, 'object-contain object-left', className)}
     />
   );
@@ -48,24 +66,57 @@ export function BrandLogo({
   className,
   imageClassName,
 }: BrandLogoProps) {
-  const { height, width, className: sizeClass } = SIZE_MAP[size];
+  const sizeConfig = SIZE_MAP[size];
+  const { height, width } = sizeConfig;
+  const usesShellMark = size === 'nav' || size === 'footer';
+  const wordmarkClassName =
+    'wordmarkClassName' in sizeConfig ? sizeConfig.wordmarkClassName : sizeConfig.className;
+  const markSize = usesShellMark ? sizeConfig.markSize : null;
+  const markClassName = usesShellMark ? sizeConfig.markClassName : null;
+
   const images = (
     <>
+      {usesShellMark && markSize != null && markClassName != null ? (
+        <>
+          <Image
+            src={BRAND_MARK_LIGHT}
+            alt={BRAND_ALT}
+            width={markSize}
+            height={markSize}
+            className={cn(
+              markClassName,
+              'hidden max-xl:block max-xl:dark:hidden',
+              imageClassName,
+            )}
+            priority={size === 'nav'}
+          />
+          <Image
+            src={BRAND_MARK_DARK}
+            alt={BRAND_ALT}
+            width={markSize}
+            height={markSize}
+            className={cn(markClassName, 'hidden max-xl:dark:block', imageClassName)}
+            priority={size === 'nav'}
+            loading={size === 'nav' ? undefined : 'lazy'}
+          />
+        </>
+      ) : null}
       <Image
         src={BRAND_LOGO_LIGHT}
         alt={BRAND_ALT}
         width={width}
         height={height}
-        className={cn(sizeClass, 'w-auto object-contain object-left dark:hidden', imageClassName)}
-        priority
+        className={cn(wordmarkClassName, 'hidden xl:block dark:xl:hidden', imageClassName)}
+        priority={size === 'nav'}
       />
       <Image
         src={BRAND_LOGO_DARK}
         alt={BRAND_ALT}
         width={width}
         height={height}
-        className={cn(sizeClass, 'w-auto object-contain object-left hidden dark:block', imageClassName)}
-        loading="lazy"
+        className={cn(wordmarkClassName, 'hidden xl:dark:block', imageClassName)}
+        priority={size === 'nav'}
+        loading={size === 'nav' ? undefined : 'lazy'}
       />
     </>
   );

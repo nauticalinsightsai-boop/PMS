@@ -44,6 +44,11 @@ function actionLabel(action: BottomBarAction, rotation: BottomBarRotation): stri
   return 'Continue';
 }
 
+/** Sized to long CTA copy (e.g. Get My PMP 2026 Roadmap) without flex squeeze. */
+const BOTTOM_BAR_CTA_BTN =
+  'h-10 min-h-10 w-full shrink-0 px-4 sm:w-auto sm:px-5 whitespace-nowrap';
+const BOTTOM_BAR_CTA_ROW = 'flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end sm:shrink-0 lg:w-auto';
+
 function openBottomBarCalendly(action: BottomBarAction): void {
   if (action.type === 'calendly') {
     void openCalendlyThemedPopup(getWebsiteCalendlyUrl(action.tier), {
@@ -261,7 +266,7 @@ export function BottomCtaRotator() {
               </Button>
             </div>
           ) : (
-            <div className="flex w-full flex-col gap-2 sm:flex-row sm:shrink-0 lg:w-auto lg:min-w-[22rem]">
+            <div className={BOTTOM_BAR_CTA_ROW}>
               {primary.type === 'link' ? (
                 <TrackedConversionLink
                   href={primary.href}
@@ -270,13 +275,16 @@ export function BottomCtaRotator() {
                       ? CONVERSION_EVENTS.CLICK_PMP_DIAGNOSTIC
                       : CONVERSION_EVENTS.CONSULTATION_BOOK
                   }
-                  className="flex-1 sm:min-w-[11rem]"
+                  className="w-full sm:w-auto"
                   onClick={() => {
                     markIntent();
                     dismiss(false);
                   }}
                 >
-                  <Button variant="brand" className="w-full font-bold shadow-md shadow-brand-orange/20">
+                  <Button
+                    variant="brand"
+                    className={cn(BOTTOM_BAR_CTA_BTN, 'font-bold shadow-md shadow-brand-orange/20')}
+                  >
                     {actionLabel(primary, rotation)}
                   </Button>
                 </TrackedConversionLink>
@@ -286,7 +294,7 @@ export function BottomCtaRotator() {
                 <Button
                   type="button"
                   variant="brand"
-                  className="w-full flex-1 font-bold sm:min-w-[11rem]"
+                  className={cn(BOTTOM_BAR_CTA_BTN, 'font-bold')}
                   onClick={() => {
                     markIntent();
                     dismiss(false);
@@ -299,7 +307,7 @@ export function BottomCtaRotator() {
                 <Button
                   type="button"
                   variant="brand"
-                  className="w-full flex-1 font-bold sm:min-w-[11rem]"
+                  className={cn(BOTTOM_BAR_CTA_BTN, 'font-bold')}
                   onClick={() => void runPrimaryAction(primary)}
                 >
                   {actionLabel(primary, rotation)}
@@ -312,7 +320,10 @@ export function BottomCtaRotator() {
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-full flex-1 font-bold border-slate-300/80 bg-white/50 dark:border-slate-600 dark:bg-slate-900/40 sm:min-w-[11rem]"
+                    className={cn(
+                      BOTTOM_BAR_CTA_BTN,
+                      'font-bold border-slate-300/80 bg-white/50 dark:border-slate-600 dark:bg-slate-900/40',
+                    )}
                     onClick={() => {
                       markIntent();
                       dismiss(false);
@@ -322,10 +333,13 @@ export function BottomCtaRotator() {
                     {actionLabel(secondary, rotation)}
                   </Button>
                 ) : secondary.type === 'link' ? (
-                  <Link href={secondary.href} className="flex-1 sm:min-w-[11rem]" onClick={() => dismiss(false)}>
+                  <Link href={secondary.href} className="w-full sm:w-auto" onClick={() => dismiss(false)}>
                     <Button
                       variant="outline"
-                      className="w-full font-bold border-slate-300/80 bg-white/50 dark:border-slate-600 dark:bg-slate-900/40"
+                      className={cn(
+                        BOTTOM_BAR_CTA_BTN,
+                        'font-bold border-slate-300/80 bg-white/50 dark:border-slate-600 dark:bg-slate-900/40',
+                      )}
                     >
                       {actionLabel(secondary, rotation)}
                     </Button>
@@ -334,7 +348,7 @@ export function BottomCtaRotator() {
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-full flex-1 font-bold"
+                    className={cn(BOTTOM_BAR_CTA_BTN, 'font-bold')}
                     onClick={() => void runPrimaryAction(secondary)}
                   >
                     {actionLabel(secondary, rotation)}

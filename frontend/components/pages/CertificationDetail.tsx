@@ -53,6 +53,14 @@ import { Pmp2026ComplianceNote } from '@/components/pmp/Pmp2026ComplianceNote';
 import { PmpRelatedFaqs } from '@/components/pmp/PmpRelatedFaqs';
 import { PMP_PACKAGE_TIER_POSITIONING } from '@/content/pmp/program-offer';
 import { T176_SCHOLARSHIP_SAFE_BLOCK } from '@/content/t176-claims';
+
+const Pmp2026FlagshipSections = dynamic(
+  () =>
+    import('@/components/home/Pmp2026FlagshipSections').then((m) => ({
+      default: m.Pmp2026FlagshipSections,
+    })),
+  { loading: () => null },
+);
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
@@ -201,8 +209,17 @@ export function CertificationDetail() {
                 <PathwayEnrollmentBadge certId={cert.id} />
               </div>
 
-              <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight">
-                {cert.detailHeroTitle.includes('Pathway') ? (
+              <h1
+                className={cn(
+                  'font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight leading-tight',
+                  cert.id === 'pmp' && 'whitespace-nowrap',
+                )}
+              >
+                {cert.id === 'pmp' ? (
+                  <>
+                    PMP <span className="text-brand-orange">Pathway</span>
+                  </>
+                ) : cert.detailHeroTitle.includes('Pathway') ? (
                   cert.detailHeroTitle
                 ) : (
                   <>
@@ -221,6 +238,7 @@ export function CertificationDetail() {
                   title={getPhase2RelatedBlock('/certifications/pmp')?.title ?? 'Plan your PMP 2026 route'}
                   links={getPhase2RelatedBlock('/certifications/pmp')?.links ?? []}
                   currentPath="/certifications/pmp"
+                  collapsible
                   className="mb-8"
                 />
               ) : null}
@@ -373,6 +391,7 @@ export function CertificationDetail() {
               <PmpRelatedFaqs relatedPage="/certifications/pmp" limit={6} heading="PMP 2026 frequently asked questions" />
             </div>
           ) : null}
+          {cert.id === 'pmp' ? <Pmp2026FlagshipSections /> : null}
           <div className="mx-auto max-w-6xl">
             <h2 className="sr-only">Certification details</h2>
             <div className="mb-10 border-t border-slate-200/80 pt-10 dark:border-slate-700/80 sm:mb-12 sm:pt-12">

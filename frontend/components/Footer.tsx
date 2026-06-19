@@ -24,11 +24,13 @@ import {
   isWhatsAppConfigured,
   PMS_CONTACT_PHONE,
   PMS_LEGAL_ENTITY_ADDRESS,
-  PMS_REGIONAL_SUPPORT_NOTE,
+  PMS_REGIONAL_OFFICES,
+  formatRegionalOffice,
   PMS_SUPPORT_EMAIL,
 } from '@/config/pms-site';
 import { SectionAmbience } from '@/components/SectionAmbience';
-import { FOOTER_LEGAL_LINKS } from '@/constants/legal';
+import { FAQ_HUB_PATH } from '@/constants/faq';
+import { FOOTER_LEGAL_LINKS, LEGAL_HUB_PATH } from '@/constants/legal';
 import { FOOTER_SOCIAL_LINKS } from '@/constants/socialProfiles';
 import { TrackedContactLink } from '@/components/analytics/TrackedContactLink';
 
@@ -42,29 +44,25 @@ const FOOTER_SOCIAL_ICONS: Record<(typeof FOOTER_SOCIAL_LINKS)[number]['id'], Lu
   pinterest: Pin,
 };
 
-const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
-  { label: 'Certifications', href: '/certifications' },
-  { label: 'Compare pathways', href: '/certifications/compare', highlight: true },
-  { label: 'FAQ', href: '/faq' },
-  { label: 'PM Service', href: '/pm-service' },
-  { label: 'Resource store', href: '/community?view=store' },
-  { label: 'Membership', href: '/membership' },
+const RESOURCES_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
+  { label: 'PMP Exam 2026', href: '/pmp-exam-2026', highlight: true },
+  { label: 'Newsletter', href: '/newsletter' },
+  { label: 'FAQ Hub', href: FAQ_HUB_PATH },
+  { label: 'Legal Hub', href: LEGAL_HUB_PATH },
 ];
 
-const RESOURCES_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
-  { label: 'PMP 2026 Readiness', href: '/certifications/pmp', highlight: true },
-  { label: 'PMP exam guide', href: '/pmp-exam-2026' },
-  { label: 'PMP Exam 2026 Topics', href: '/topics/pmp-exam-2026' },
-  { label: 'Answers', href: '/answers' },
-  { label: 'Topics', href: '/topics' },
-  { label: 'Newsletter', href: '/newsletter' },
+const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string }> = [
+  { label: 'Community', href: '/community' },
+  { label: 'Compare pathways', href: '/certifications/compare' },
+  { label: 'Resource store', href: '/community?view=store' },
+  { label: 'Membership', href: '/membership' },
 ];
 
 export function Footer() {
   return (
     <footer className="relative w-full overflow-hidden border-t border-sandstone dark:border-slate-800 bg-gradient-to-b from-ivory via-porcelain to-orange-50/35 dark:from-obsidian dark:via-[#0a0f24] dark:to-[#120e28]">
       <SectionAmbience tone="blend" />
-      <div className="container relative z-10 mx-auto py-10 md:py-12">
+      <div className="container relative z-10 mx-auto pt-10 md:pt-12 pb-0">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
           <div className="flex flex-col gap-4">
             <BrandLogo size="footer" />
@@ -92,28 +90,6 @@ export function Footer() {
 
           <div>
             <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-obsidian dark:text-white">
-              Explore
-            </h3>
-            <ul className="flex flex-col gap-2.5 text-sm text-carbon dark:text-slate-400 font-medium">
-              {EXPLORE_LINKS.map(({ label, href, highlight }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    className={
-                      highlight
-                        ? 'hover:text-brand-orange font-bold text-brand-orange/80'
-                        : 'hover:text-brand-orange transition-colors'
-                    }
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-obsidian dark:text-white">
               Resources
             </h3>
             <ul className="flex flex-col gap-2.5 text-sm text-carbon dark:text-slate-400 font-medium">
@@ -127,6 +103,21 @@ export function Footer() {
                         : 'hover:text-brand-orange transition-colors'
                     }
                   >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-obsidian dark:text-white">
+              Explore
+            </h3>
+            <ul className="flex flex-col gap-2.5 text-sm text-carbon dark:text-slate-400 font-medium">
+              {EXPLORE_LINKS.map(({ label, href }) => (
+                <li key={href}>
+                  <Link href={href} className="hover:text-brand-orange transition-colors">
                     {label}
                   </Link>
                 </li>
@@ -163,7 +154,7 @@ export function Footer() {
                     rel="noopener noreferrer"
                     className="hover:text-brand-orange transition-colors"
                   >
-                    WhatsApp: {getPmsWhatsAppDisplay()}
+                    {getPmsWhatsAppDisplay()}
                   </TrackedContactLink>
                 </li>
               ) : null}
@@ -174,12 +165,11 @@ export function Footer() {
                 </li>
               ) : null}
               <li className="flex items-start gap-2.5">
-                <span className="text-brand-orange shrink-0 mt-0.5 font-semibold" aria-hidden>
-                  •
-                </span>
+                <MapPin className="h-4 w-4 text-brand-orange shrink-0 mt-0.5" aria-hidden />
                 <div className="flex flex-col gap-1">
-                  <span className="font-semibold text-obsidian dark:text-white">Regional support</span>
-                  <span>{PMS_REGIONAL_SUPPORT_NOTE}</span>
+                  {PMS_REGIONAL_OFFICES.map((office) => (
+                    <span key={office.city}>{formatRegionalOffice(office)}</span>
+                  ))}
                 </div>
               </li>
               {isLegalEntityConfigured() ? (
@@ -195,22 +185,22 @@ export function Footer() {
           </div>
         </div>
 
-        <Separator className="my-8 bg-sandstone dark:bg-slate-800" />
+        <Separator className="mt-8 mb-0 bg-sandstone dark:bg-slate-800" />
 
-        <nav
-          className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-carbon dark:text-slate-500 font-medium mb-4"
-          aria-label="Legal"
-        >
-          {FOOTER_LEGAL_LINKS.map((item) => (
-            <Link key={item.href} href={item.href} className="hover:text-brand-orange transition-colors">
-              {item.shortLabel}
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 pt-2.5 pb-2.5 text-xs text-carbon dark:text-slate-500 font-medium sm:gap-x-4">
+          <nav className="flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-4" aria-label="Legal">
+            {FOOTER_LEGAL_LINKS.map((item) => (
+              <Link key={item.href} href={item.href} className="hover:text-brand-orange transition-colors">
+                {item.shortLabel}
+              </Link>
+            ))}
+            <Link href="/sitemap" className="hover:text-brand-orange transition-colors">
+              Sitemap
             </Link>
-          ))}
-          <Link href="/sitemap" className="hover:text-brand-orange transition-colors">
-            Sitemap
-          </Link>
-        </nav>
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-carbon dark:text-slate-500 font-medium">
+          </nav>
+          <span className="hidden text-slate-300 sm:inline dark:text-slate-600" aria-hidden>
+            ·
+          </span>
           <span>© {new Date().getFullYear()} {BRAND.name}. All rights reserved.</span>
         </div>
       </div>

@@ -1,5 +1,3 @@
-import { FAQ_HUB_PATH } from '@/constants/faq';
-
 export const LEGAL_SLUGS = [
   'terms',
   'privacy',
@@ -79,7 +77,6 @@ export const LEGAL_POLICY_CARDS: LegalPolicyCard[] = [
 
 /** Footer / portal / email: keep short; full policy index lives on /legal */
 export const FOOTER_LEGAL_LINKS = [
-  { href: FAQ_HUB_PATH, label: 'FAQ', shortLabel: 'FAQ' },
   { href: LEGAL_HUB_PATH, label: 'Legal hub', shortLabel: 'Legal' },
   { href: getLegalDocumentPath('privacy'), label: 'Privacy Policy', shortLabel: 'Privacy' },
   { href: getLegalDocumentPath('terms'), label: 'Terms & Conditions', shortLabel: 'Terms' },

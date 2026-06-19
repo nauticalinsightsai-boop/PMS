@@ -1,6 +1,10 @@
 /**
  * Self-hosted marketing imagery (WebP under /images/marketing/).
- * Regenerate assets: node scripts/generate-marketing-images.mjs
+ * Regenerate assets:
+ *   node scripts/process-hero-social-avatars.mjs
+ *   node scripts/process-pmp-avatars.mjs
+ *   node scripts/process-community-images.mjs
+ *   node scripts/process-section-images.mjs
  */
 
 const m = (name: string) => `/images/marketing/${name}.webp`;
@@ -13,10 +17,10 @@ export type MarketingImageSpec = {
 };
 
 export const MARKETING_HERO_SOCIAL_AVATARS = [
-  { src: m('hero-social-avatar-1'), alt: '', width: 40, height: 40 },
-  { src: m('hero-social-avatar-2'), alt: '', width: 40, height: 40 },
-  { src: m('hero-social-avatar-3'), alt: '', width: 40, height: 40 },
-  { src: m('hero-social-avatar-4'), alt: '', width: 40, height: 40 },
+  { src: m('hero-social-avatar-1'), alt: 'PM Structure learner', width: 40, height: 40 },
+  { src: m('hero-social-avatar-2'), alt: 'PM Structure learner', width: 40, height: 40 },
+  { src: m('hero-social-avatar-3'), alt: 'PM Structure learner', width: 40, height: 40 },
+  { src: m('hero-social-avatar-4'), alt: 'PM Structure learner', width: 40, height: 40 },
 ] as const;
 
 export const MARKETING_PMP_AVATARS = {
@@ -40,10 +44,30 @@ export function marketingTestimonialAvatar(index: number): string {
 
 export const MARKETING_STOCK_IMAGES = {
   communityGrid: [
-    { src: m('community-collab-600'), alt: 'PM Structure learning community collaboration', width: 600, height: 600 },
-    { src: m('community-workshop-600'), alt: 'PMP certification readiness workshop session', width: 600, height: 450 },
-    { src: m('community-mentor-600'), alt: 'Mentor-led PMP study discussion', width: 600, height: 450 },
-    { src: m('community-network-600'), alt: 'Project management certification networking', width: 600, height: 600 },
+    {
+      src: m('community-collab-600'),
+      alt: 'Project professionals collaborating in a study circle',
+      width: 600,
+      height: 600,
+    },
+    {
+      src: m('community-workshop-600'),
+      alt: 'Live PMP readiness workshop with mentor-led discussion',
+      width: 600,
+      height: 450,
+    },
+    {
+      src: m('community-mentor-600'),
+      alt: 'Mentor guiding certification candidates through study planning',
+      width: 600,
+      height: 450,
+    },
+    {
+      src: m('community-network-600'),
+      alt: 'Global PM network peers connecting in a structured session',
+      width: 600,
+      height: 600,
+    },
   ],
   mentorship: {
     src: m('mentorship-circle-900'),

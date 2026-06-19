@@ -113,20 +113,49 @@ async function main() {
   const avatars = Object.keys(GRADIENTS).filter((k) => k.startsWith('hero-social') || k.startsWith('pmp-avatar'));
   for (const name of avatars) {
     const size = name.startsWith('pmp-avatar') ? 96 : 80;
+    const dest = path.join(outDir, `${name}.webp`);
+    if (name.startsWith('hero-social') && fs.existsSync(dest) && fs.statSync(dest).size > 500) {
+      console.log('Skip', path.relative(root, dest), '(curated photo; use process-hero-social-avatars.mjs)');
+      continue;
+    }
+    if (name.startsWith('pmp-avatar') && fs.existsSync(dest) && fs.statSync(dest).size > 500) {
+      console.log('Skip', path.relative(root, dest), '(curated photo; use process-pmp-avatars.mjs)');
+      continue;
+    }
     await writeWebp(name, size, size, GRADIENTS[name]);
   }
 
-  await writeWebp('community-collab-600', 600, 600, GRADIENTS['community-collab-600']);
-  await writeWebp('community-workshop-600', 600, 450, GRADIENTS['community-workshop-600']);
-  await writeWebp('community-mentor-600', 600, 450, GRADIENTS['community-mentor-600']);
-  await writeWebp('community-network-600', 600, 600, GRADIENTS['community-network-600']);
-  await writeWebp('mentorship-circle-900', 900, 900, GRADIENTS['mentorship-circle-900']);
-  await writeWebp('membership-templates-500', 500, 500, GRADIENTS['membership-templates-500']);
-  await writeWebp('membership-guides-500', 500, 500, GRADIENTS['membership-guides-500']);
-  await writeWebp('membership-tools-500', 500, 500, GRADIENTS['membership-tools-500']);
-  await writeWebp('membership-webinars-500', 500, 500, GRADIENTS['membership-webinars-500']);
-  await writeWebp('about-workshop-800', 800, 1000, GRADIENTS['about-workshop-800']);
-  await writeWebp('about-session-800', 800, 800, GRADIENTS['about-session-800']);
+  const communitySpecs = [
+    ['community-collab-600', 600, 600],
+    ['community-workshop-600', 600, 450],
+    ['community-mentor-600', 600, 450],
+    ['community-network-600', 600, 600],
+  ];
+  for (const [name, w, h] of communitySpecs) {
+    const dest = path.join(outDir, `${name}.webp`);
+    if (fs.existsSync(dest) && fs.statSync(dest).size > 8000) {
+      console.log('Skip', path.relative(root, dest), '(curated photo; use process-community-images.mjs)');
+      continue;
+    }
+    await writeWebp(name, w, h, GRADIENTS[name]);
+  }
+  const sectionSpecs = [
+    ['mentorship-circle-900', 900, 900],
+    ['membership-templates-500', 500, 500],
+    ['membership-guides-500', 500, 500],
+    ['membership-tools-500', 500, 500],
+    ['membership-webinars-500', 500, 500],
+    ['about-workshop-800', 800, 1000],
+    ['about-session-800', 800, 800],
+  ];
+  for (const [name, w, h] of sectionSpecs) {
+    const dest = path.join(outDir, `${name}.webp`);
+    if (fs.existsSync(dest) && fs.statSync(dest).size > 8000) {
+      console.log('Skip', path.relative(root, dest), '(curated photo; use process-section-images.mjs)');
+      continue;
+    }
+    await writeWebp(name, w, h, GRADIENTS[name]);
+  }
 
   const iconLight = path.join(brandDir, 'pms-icon.png');
   const iconDark = path.join(brandDir, 'pms-icon-dark.png');

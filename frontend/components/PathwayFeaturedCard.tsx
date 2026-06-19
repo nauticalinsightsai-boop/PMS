@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import * as React from 'react';
 import { CheckCircle2, Zap } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -18,6 +19,46 @@ import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import { getCertDurationLabel, getListingPriceForCert } from '@/lib/regional-catalogue';
 import type { CertificationSummary } from '@/types/site';
 import type { RegionId } from '@/types/regional-catalogue';
+
+function ClampedText({
+  text,
+  className,
+  clampClassName = 'line-clamp-3',
+}: {
+  text: string;
+  className?: string;
+  clampClassName?: string;
+}) {
+  const ref = React.useRef<HTMLParagraphElement>(null);
+  const [expanded, setExpanded] = React.useState(false);
+  const [overflows, setOverflows] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el || expanded) return;
+    setOverflows(el.scrollHeight > el.clientHeight + 1);
+  }, [text, expanded, clampClassName]);
+
+  return (
+    <div>
+      <p
+        ref={ref}
+        className={cn(className, !expanded && clampClassName)}
+      >
+        {text}
+      </p>
+      {overflows && !expanded ? (
+        <button
+          type="button"
+          onClick={() => setExpanded(true)}
+          className="mt-1 text-xs font-bold text-brand-orange hover:underline"
+        >
+          Show more
+        </button>
+      ) : null}
+    </div>
+  );
+}
 
 /** Prep time, tuition, and membership: three aligned chips from the same listing tier. */
 function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
@@ -197,13 +238,16 @@ function PathwayFeaturedVisualCard({
             {cert.outputValue}
           </span>
         </div>
-        <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-          {displayDesc}
-        </CardDescription>
+        <ClampedText
+          text={displayDesc}
+          className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed"
+        />
         {metaLine ? (
-          <p className="mt-3 text-xs font-semibold text-brand-purple dark:text-brand-purple/90 leading-snug">
-            {metaLine}
-          </p>
+          <ClampedText
+            text={metaLine}
+            className="mt-3 text-xs font-semibold text-brand-purple dark:text-brand-purple/90 leading-snug"
+            clampClassName="line-clamp-2"
+          />
         ) : null}
       </CardHeader>
       <CardContent className="px-5 pb-5 flex-1">

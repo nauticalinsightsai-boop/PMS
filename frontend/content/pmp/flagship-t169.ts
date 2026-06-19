@@ -1,7 +1,5 @@
 /** T-169 flagship copy - use exactly as provided unless a component has a hard limit. */
 
-import { T176_LSS_CARD_BODY, T176_PRINCE2_CARD_BODY } from '@/content/t176-claims';
-
 export const PMP_2026_LAST_REVIEWED = '19 June 2026';
 
 export const PMP_2026_SOURCE_NOTE =
@@ -24,7 +22,7 @@ export const PMP_2026_PMI_SOURCE_LINKS = [
 
 export const T169_CTAS = {
   primary: 'Get My PMP 2026 Roadmap',
-  secondary: 'Compare Certification Pathways',
+  secondary: 'Compare certifications',
   waitlist: 'Join Waitlist',
   mentor: 'Talk to a Mentor',
 } as const;
@@ -146,27 +144,28 @@ export const T169_FEATURED_CARDS = {
     badge: 'Featured Pathway',
     title: 'PMP 2026 Readiness Pathway',
     description:
-      'For working professionals preparing around the July 2026 PMP exam change. Get a structured roadmap, eligibility guidance, study plan, mock tracking, and mentor-led readiness support.',
-    meta: 'Current exam before 8 July 2026. Updated exam from 9 July 2026.',
+      'Structured PMP 2026 roadmap, eligibility guidance, and mentor-led readiness support.',
     cta: T169_CTAS.primary,
   },
   prince2: {
     badge: 'Secondary Pathway',
     title: 'PRINCE2 Practitioner Pathway',
-    description: T176_PRINCE2_CARD_BODY,
+    description:
+      'Process-based project management for structured governance and formal project boards.',
     cta: T169_CTAS.waitlist,
   },
   lssGreen: {
     badge: 'Secondary Pathway',
     title: 'Lean Six Sigma Pathway',
-    description: T176_LSS_CARD_BODY,
+    description:
+      'Process improvement, waste reduction, and measurable operational performance gains.',
     cta: T169_CTAS.waitlist,
   },
   pmiRmp: {
     badge: 'Secondary Pathway',
     title: 'PMI-RMP Risk Management Pathway',
     description:
-      'For project professionals who want to specialize in risk identification, risk response planning, uncertainty management, and risk-based project decision-making.',
+      'Risk identification, response planning, and uncertainty management for project leaders.',
     cta: T169_CTAS.waitlist,
   },
 } as const;
@@ -197,11 +196,11 @@ export const T169_PMP_PAGE = {
 
 export const T169_SUPPORT_COPY = {
   membership:
-    'Membership is a support layer, not the main pathway. For now, PM Structure is prioritizing PMP 2026 readiness. Membership benefits should support active learners with resources, review sessions, and community access where available.',
+    'Unlock tools, community access, and certification discounts while you prepare.',
   community:
-    'The community supports structured preparation, accountability, and discussion. It should not replace the PMP 2026 roadmap or official PMI guidance.',
+    'Join structured study circles, peer discussions, and live sessions on Skool.',
   resourceStore:
-    'Resources and templates are being organized around the PMP 2026 pathway. Any resource that is not live should use "Join Waitlist" or "Preview Coming Soon," not "Buy Now."',
+    'Professional utilities designed to streamline your certification journey and career advancement.',
 } as const;
 
 export const T169_SEO = {
@@ -216,5 +215,5 @@ export const T169_SEO = {
 export const T169_FEATURED_PATHWAYS = {
   title: 'Featured Pathways',
   subtitle:
-    'PMP 2026 readiness is the flagship pathway. Other certifications remain available for comparison and waitlist interest.',
+    'PMP 2026 is the flagship pathway; compare other certifications when you are ready.',
 } as const;

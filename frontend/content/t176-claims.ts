@@ -41,7 +41,7 @@ export const T176_MEMBERSHIP_NOTE =
   'Membership is a support layer for preparation resources, community access where available, and structured learning support. It does not replace official certification-body requirements, exam applications, or exam fees.';
 
 export const T176_COMMUNITY_NOTE =
-  'Community access for structured PMP 2026 preparation is managed through Skool where applicable. Access details are shared after roadmap review or cohort confirmation.';
+  'Community access is shared after roadmap review or cohort confirmation.';
 
 export const T176_STORE_WAITLIST_NOTE =
   'This resource is being prepared and is not yet available for purchase. Join the waitlist to be notified when access opens.';

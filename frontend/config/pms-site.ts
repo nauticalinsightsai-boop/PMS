@@ -159,22 +159,33 @@ export function isWhatsAppConfigured(): boolean {
   }
 }
 
-/** Online-first regional support note (B12/B14 - no physical office location pins). */
+/** Online-first regional support note (used on Contact and supporting copy). */
 export const PMS_REGIONAL_SUPPORT_NOTE =
   'PM Structure supports GCC-based, South Asian, and global project professionals through online readiness support, roadmap guidance, and corporate cohort planning.';
 
-/** @deprecated B14 - removed misleading city pins; use {@link PMS_REGIONAL_SUPPORT_NOTE}. */
-export type PmsOfficeLocation = {
+export type PmsRegionalOffice = {
   city: string;
   region: string;
 };
 
-/** @deprecated B14 - empty; do not render MapPin location lists. */
-export const PMS_OFFICE_LOCATIONS: readonly PmsOfficeLocation[] = [] as const;
+export const PMS_REGIONAL_OFFICES: readonly PmsRegionalOffice[] = [
+  { city: 'Dubai', region: 'United Arab Emirates' },
+  { city: 'London', region: 'United Kingdom' },
+] as const;
 
-/** @deprecated B14 - use {@link PMS_REGIONAL_SUPPORT_NOTE} instead. */
-export function formatOfficeLocation(loc: PmsOfficeLocation): string {
+export function formatRegionalOffice(loc: PmsRegionalOffice): string {
   return `${loc.city}, ${loc.region}`;
+}
+
+/** @deprecated B14 - use {@link PMS_REGIONAL_OFFICES}. */
+export type PmsOfficeLocation = PmsRegionalOffice;
+
+/** @deprecated B14 - use {@link PMS_REGIONAL_OFFICES}. */
+export const PMS_OFFICE_LOCATIONS: readonly PmsOfficeLocation[] = PMS_REGIONAL_OFFICES;
+
+/** @deprecated B14 - use {@link formatRegionalOffice}. */
+export function formatOfficeLocation(loc: PmsOfficeLocation): string {
+  return formatRegionalOffice(loc);
 }
 
 const PLACEHOLDER_NAME = '[Legal entity name';

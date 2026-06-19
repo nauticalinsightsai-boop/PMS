@@ -114,7 +114,7 @@ export const CTAS = {
   /** T-169 flagship primary CTA (task copy; 6 words). */
   pmp2026Roadmap: 'Get My PMP 2026 Roadmap',
 
-  comparePathways: 'Compare Certification Pathways',
+  comparePathways: 'Compare certifications',
 
   joinWaitlist: 'Join Waitlist',
 
@@ -144,26 +144,28 @@ export function tierDisplayName(tier: 'Foundation' | 'Professional' | 'Elite'): 
 
 export const HOME_COPY = {
 
-  heroBadge: 'PMP 2026 Readiness Pathway',
+  heroBadge: 'PMP 2026 readiness',
 
-  heroTitle: 'Prepare for the PMP exam change with a clear route, not random study noise.',
+  heroTitle: 'Project management\nguidance',
 
   heroTitleAccents: [
-    'PMP 2026 readiness',
+    'PM membership',
+    'PMS network',
+    'Certification readiness',
+    'PMP 2026 Changes',
   ] as const,
 
   /** @deprecated Use heroTitleAccents; kept for CMS default string */
-  heroTitleAccent: 'PMP 2026 readiness',
+  heroTitleAccent: 'PM membership',
 
-  heroSubtitle:
-    'The PMP exam changes on 9 July 2026. PM Structure helps working professionals decide whether they are preparing for the current or updated exam, map their eligibility, organize study effort, and track readiness with mentor-led structure.',
+  heroSubtitle: BRAND_LINES.promise,
 
   heroMicrocopy:
-    'Independent exam-prep and readiness support. PM Structure is not PMI and does not issue PMI certifications. Always verify exam rules and eligibility with PMI before applying or booking.',
+    'Independent exam-prep and readiness support. Certifications are issued by their respective certification bodies, not PM Structure.',
 
   ctaPrimary: 'Get My PMP 2026 Roadmap',
 
-  ctaSecondary: 'Compare Certification Pathways',
+  ctaSecondary: 'Compare certifications',
 
   frameworksTitle: 'Programme families',
 
@@ -173,11 +175,11 @@ export const HOME_COPY = {
 
   featuredSubtitle:
 
-    'PMP 2026 readiness is the flagship pathway. Other certifications remain available for comparison and waitlist interest.',
+    'PMP 2026 is the flagship pathway; compare other certifications when you are ready.',
 
   membershipSubtitle:
 
-    'Tools and support for measurable progress: not passive access.',
+    'Unlock tools, community access, and certification discounts while you prepare.',
 
 } as const;
 

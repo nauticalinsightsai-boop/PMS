@@ -18,8 +18,7 @@ import { useNewsletterHubConfig } from "@/hooks/useNewsletterHubConfig";
 import { useNewsletterCategories } from "@/hooks/useNewsletterCategories";
 import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
 import { NewsletterSubscribeForm } from "@/components/forms/NewsletterSubscribeForm";
-import { PageMarketingImage } from "@/components/marketing/PageMarketingImage";
-import { MARKETING_PAGE_IMAGES } from "@/lib/marketing-stock-images";
+import { NewsletterHeroSubscribeForm } from "@/components/forms/NewsletterHeroSubscribeForm";
 
 import { T176_SOCIAL_PROOF_REGIONAL } from '@/content/t176-claims';
 
@@ -48,6 +47,11 @@ export function Newsletter() {
       setActiveCategory("All");
     }
   }, [activeCategory, categories]);
+
+  const topicOptions = React.useMemo(
+    () => categories.filter((cat) => cat !== "All"),
+    [categories],
+  );
 
   const filteredArticles = React.useMemo(() => {
     if (activeCategory === "All") return articles;
@@ -99,10 +103,18 @@ export function Newsletter() {
               </p>
             </div>
             <div className="space-y-6 w-full max-w-md mx-auto lg:max-w-none">
-              <PageMarketingImage
-                image={MARKETING_PAGE_IMAGES.newsletter}
-                aspectClassName="aspect-square"
-              />
+              <div className="lg:hidden">
+                <NewsletterHeroSubscribeForm
+                  placement="newsletter_hero_mobile"
+                  topicOptions={topicOptions}
+                />
+              </div>
+              <div className="hidden lg:block">
+                <NewsletterHeroSubscribeForm
+                  placement="newsletter_hero_desktop"
+                  topicOptions={topicOptions}
+                />
+              </div>
               <div className="relative group">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-brand-purple transition-colors" />
                 <Input

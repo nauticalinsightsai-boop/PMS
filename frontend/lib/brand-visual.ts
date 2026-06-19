@@ -14,9 +14,11 @@ const FAMILY_GRADIENT_CLASSES: Record<string, string> = {
 };
 
 /** Full wordmark PNGs: `frontend/public/brand/` */
+export const BRAND_LOGO_ASSET_VERSION = '2';
+
 export const BRAND_LOGO = {
-  light: '/brand/pms-logo-light.png',
-  dark: '/brand/pms-logo-dark.png',
+  light: `/brand/pms-logo-light.png?v=${BRAND_LOGO_ASSET_VERSION}`,
+  dark: `/brand/pms-logo-dark.png?v=${BRAND_LOGO_ASSET_VERSION}`,
 } as const;
 
 /** Bump when replacing brand icon assets so Next/Image cache busts. */

@@ -16,7 +16,6 @@ const CARD_MAP: Record<string, FeaturedOverride> = {
     badgeLabel: T169_FEATURED_CARDS.pmp.badge,
     title: T169_FEATURED_CARDS.pmp.title,
     description: T169_FEATURED_CARDS.pmp.description,
-    metaLine: T169_FEATURED_CARDS.pmp.meta,
     ctaLabel: PMP_ROADMAP_CTA_LABEL,
     ctaHref: PMP_ROADMAP_CTA_HREF,
   },
