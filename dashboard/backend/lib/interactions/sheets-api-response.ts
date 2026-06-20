@@ -10,6 +10,66 @@ import {
   sheetHeadersFromValues,
   type SheetRecord,
 } from '@/lib/interactions/sheets-records';
+import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
+
+export type InteractionRecordsDataSource = 'google_sheets' | 'supabase';
+
+function rowsFromSupabase(
+  data: Array<{
+    id: string;
+    created_at: string;
+    source: string;
+    subject: string | null;
+    email: string | null;
+    payload: Record<string, unknown> | null;
+    metadata: Record<string, unknown> | null;
+  }>,
+): SheetRecord[] {
+  return data.map((row, index) => ({
+    rowIndex: index + 1,
+    createdAt: row.created_at,
+    source: row.source,
+    subject: row.subject ?? '',
+    email: row.email ?? '',
+    payload: row.payload ?? {},
+    metadata: row.metadata ?? {},
+    submissionId: row.id,
+    raw: [
+      row.created_at,
+      row.source,
+      row.subject ?? '',
+      row.email ?? '',
+      JSON.stringify(row.payload ?? {}),
+      JSON.stringify(row.metadata ?? {}),
+      row.id,
+    ],
+  }));
+}
+
+export async function fetchSupabaseFormSubmissionRecords(): Promise<
+  | { ok: true; records: SheetRecord[]; fetchedAt: string }
+  | { ok: false; error: string }
+> {
+  if (!isSupabaseConfigured) {
+    return { ok: false, error: 'Database not configured' };
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from('form_submissions')
+    .select('id, created_at, source, subject, email, payload, metadata')
+    .order('created_at', { ascending: false })
+    .limit(500);
+
+  if (error) {
+    return { ok: false, error: error.message };
+  }
+
+  return {
+    ok: true,
+    records: rowsFromSupabase(data ?? []),
+    fetchedAt: new Date().toISOString(),
+  };
+}
 
 export type SheetsFetchResult =
   | {

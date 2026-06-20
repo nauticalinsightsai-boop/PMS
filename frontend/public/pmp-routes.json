@@ -2,7 +2,7 @@
   "site": "https://pmstructure.com",
   "version": "1.0.0",
   "status": "live",
-  "updatedAt": "2026-06-19",
+  "updatedAt": "2026-06-20",
   "indexing": "index,follow",
   "groups": {
     "cluster": [

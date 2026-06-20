@@ -265,7 +265,7 @@ export function getClientSheetsEnvMeta(): ClientSheetsEnvMeta {
 
   if (s.credentialSource === 'none' || !s.hasServiceAccountJson) {
     hint =
-      'Local: GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH=.secrets/google-sheets-sa.json. Production (Railway): GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64 + GOOGLE_SHEETS_SPREADSHEET_ID. See docs/guides/GOOGLE_SHEETS_SETUP.md.';
+      'Local: GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH=.secrets/google-sheets-sa.json. Production: GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64 + GOOGLE_SHEETS_SPREADSHEET_ID. See docs/guides/GOOGLE_SHEETS_SETUP.md and the Sheets Records setup panel in the dashboard.';
   } else if (s.parseError) {
     hint = s.parseError;
   } else if (!s.spreadsheetId) {

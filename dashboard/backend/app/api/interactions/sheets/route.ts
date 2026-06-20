@@ -1,95 +1,77 @@
 import { NextResponse } from 'next/server';
-import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 import {
-  DEFAULT_SHEET_HEADERS,
-  type SheetRecord,
-} from '@/lib/interactions/sheets-records';
+  fetchInteractionSheetRecords,
+  fetchSupabaseFormSubmissionRecords,
+} from '@/lib/interactions/sheets-api-response';
+import { DEFAULT_SHEET_HEADERS } from '@/lib/interactions/sheets-records';
+import { isGoogleSheetsConfigured } from '@/lib/interactions/google-sheets';
+import { getClientSheetsEnvMeta } from '@/lib/google/sheets-env';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-function rowsFromSupabase(
-  data: Array<{
-    id: string;
-    created_at: string;
-    source: string;
-    subject: string | null;
-    email: string | null;
-    payload: Record<string, unknown> | null;
-    metadata: Record<string, unknown> | null;
-  }>,
-): SheetRecord[] {
-  return data.map((row, index) => ({
-    rowIndex: index + 1,
-    createdAt: row.created_at,
-    source: row.source,
-    subject: row.subject ?? '',
-    email: row.email ?? '',
-    payload: row.payload ?? {},
-    metadata: row.metadata ?? {},
-    submissionId: row.id,
-    raw: [
-      row.created_at,
-      row.source,
-      row.subject ?? '',
-      row.email ?? '',
-      JSON.stringify(row.payload ?? {}),
-      JSON.stringify(row.metadata ?? {}),
-      row.id,
-    ],
-  }));
-}
-
-/** Dual-source sheets API: Google Sheets when configured on backend; Supabase fallback. */
+/** Google Sheets when configured; otherwise Supabase form_submissions fallback. */
 export async function GET() {
-  if (!isSupabaseConfigured) {
-    return NextResponse.json(
-      {
-        error: 'Database not configured',
-        configured: false,
-        sheetsEnv: { source: 'supabase', configured: false },
-        range: 'form_submissions',
-        spreadsheetUrl: null,
-        headers: [...DEFAULT_SHEET_HEADERS],
-        records: [],
-        rowCount: 0,
-      },
-      { status: 503 },
-    );
-  }
+  const sheetsEnv = getClientSheetsEnvMeta();
 
-  const { data, error } = await supabaseAdmin
-    .from('form_submissions')
-    .select('id, created_at, source, subject, email, payload, metadata')
-    .order('created_at', { ascending: false })
-    .limit(500);
-
-  if (error) {
-    return NextResponse.json(
-      {
-        error: error.message,
+  if (isGoogleSheetsConfigured()) {
+    const sheet = await fetchInteractionSheetRecords();
+    if (sheet.ok) {
+      return NextResponse.json({
         configured: true,
-        sheetsEnv: { source: 'supabase', configured: true },
+        dataSource: 'google_sheets',
+        sheetsEnv,
+        range: sheet.range,
+        spreadsheetUrl: sheet.spreadsheetUrl,
+        headers: sheet.headers,
+        records: sheet.records,
+        rowCount: sheet.rowCount,
+        fetchedAt: sheet.fetchedAt,
+      });
+    }
+    return NextResponse.json(
+      {
+        error: sheet.error,
+        configured: false,
+        dataSource: 'google_sheets',
+        sheetsEnv,
+        range: sheet.range,
+        spreadsheetUrl: null,
+        headers: sheet.headers,
+        records: [],
+        rowCount: 0,
+      },
+      { status: sheet.configured ? 502 : 503 },
+    );
+  }
+
+  const fallback = await fetchSupabaseFormSubmissionRecords();
+  if (!fallback.ok) {
+    return NextResponse.json(
+      {
+        error: fallback.error,
+        configured: false,
+        dataSource: 'supabase',
+        sheetsEnv,
         range: 'form_submissions',
         spreadsheetUrl: null,
         headers: [...DEFAULT_SHEET_HEADERS],
         records: [],
         rowCount: 0,
       },
-      { status: 500 },
+      { status: fallback.error === 'Database not configured' ? 503 : 500 },
     );
   }
-
-  const records = rowsFromSupabase(data ?? []);
 
   return NextResponse.json({
     configured: true,
-    sheetsEnv: { source: 'supabase', configured: true },
-    range: 'form_submissions',
+    dataSource: 'supabase',
+    sheetsEnv,
+    range: 'form_submissions (Supabase — configure Google Sheets env to mirror rows live)',
     spreadsheetUrl: null,
     headers: [...DEFAULT_SHEET_HEADERS],
-    records,
-    rowCount: records.length,
-    fetchedAt: new Date().toISOString(),
+    records: fallback.records,
+    rowCount: fallback.records.length,
+    fetchedAt: fallback.fetchedAt,
   });
 }

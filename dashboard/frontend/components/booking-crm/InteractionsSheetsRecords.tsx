@@ -6,7 +6,6 @@ import {
   FileSpreadsheet,
   RefreshCw,
   Search,
-  ExternalLink,
   Download,
   ArrowUpDown,
   ChevronLeft,
@@ -22,6 +21,7 @@ import { CTAButton } from '@/components/ui/CTAButton';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { SkeletonBar } from '@/components/shared/PageSkeleton';
 import EmptyState from '@/components/shared/EmptyState';
+import { SheetsRecordsSetupPanel } from '@/components/booking-crm/SheetsRecordsSetupPanel';
 import {
   Sheet,
   SheetContent,
@@ -48,6 +48,7 @@ import {
 
 type SheetsResponse = {
   configured: boolean;
+  dataSource?: 'google_sheets' | 'supabase';
   sheetsEnv?: ClientSheetsEnvMeta;
   range: string;
   spreadsheetUrl: string | null;
@@ -192,6 +193,8 @@ export default function InteractionsSheetsRecords() {
   const [spreadsheetUrl, setSpreadsheetUrl] = useState<string | null>(null);
   const [fetchedAt, setFetchedAt] = useState<string | null>(null);
   const [configured, setConfigured] = useState(false);
+  const [dataSource, setDataSource] = useState<'google_sheets' | 'supabase' | null>(null);
+  const [sheetsEnv, setSheetsEnv] = useState<ClientSheetsEnvMeta | null>(null);
   const [sheetsStatusKnown, setSheetsStatusKnown] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -225,11 +228,15 @@ export default function InteractionsSheetsRecords() {
           setError(data.error || 'Could not load Google Sheet data.');
           setRecords([]);
           setConfigured(Boolean(data.configured));
+          setDataSource(data.dataSource ?? null);
+          setSheetsEnv(data.sheetsEnv ?? null);
           setRange(data.range ?? '');
           setSpreadsheetUrl(data.spreadsheetUrl ?? null);
           return;
         }
         setConfigured(Boolean(data.configured));
+        setDataSource(data.dataSource ?? null);
+        setSheetsEnv(data.sheetsEnv ?? null);
         setRange(data.range ?? '');
         setSpreadsheetUrl(data.spreadsheetUrl ?? null);
         setRecords(data.records ?? []);
@@ -340,21 +347,36 @@ export default function InteractionsSheetsRecords() {
 
   return (
     <div className="max-w-[1600px] mx-auto pb-16">
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
-        <div className="flex flex-wrap gap-2 shrink-0">
-          {spreadsheetUrl && (
-            <a
-              href={spreadsheetUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border text-body-sm text-foreground hover:bg-muted transition-colors"
-            >
-              <ExternalLink size={16} />
-              Open sheet
-            </a>
-          )}
-        </div>
-      </div>
+      <header className="mb-6">
+        <h1 className="text-h3 text-foreground flex items-center gap-2">
+          <FileSpreadsheet size={24} className="text-brand-orange" />
+          Sheets records
+        </h1>
+        <p className="text-body-sm text-muted-foreground mt-2 max-w-3xl">
+          Central view for all website lead submissions — contact forms, newsletters, roadmap popups,
+          waitlist modals, and channel forms. Rows sync from the live Google Sheet when configured;
+          until then, Supabase submissions appear here as a preview.
+        </p>
+        {range && dataSource === 'google_sheets' ? (
+          <p className="text-meta text-muted-foreground mt-1 font-mono">{range}</p>
+        ) : null}
+        {fetchedAt && !loading ? (
+          <p className="text-meta text-muted-foreground mt-1">
+            Last fetched {formatDate(fetchedAt)}
+          </p>
+        ) : null}
+      </header>
+
+      {sheetsStatusKnown ? (
+        <SheetsRecordsSetupPanel
+          sheetsEnv={sheetsEnv}
+          dataSource={dataSource}
+          range={range}
+          spreadsheetUrl={spreadsheetUrl}
+          rowCount={records.length}
+          hasRealtimeChannel={Boolean(process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL?.trim())}
+        />
+      ) : null}
 
       {configured && records.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 mb-6">
@@ -461,26 +483,16 @@ export default function InteractionsSheetsRecords() {
             {filtered.length} shown · page {page + 1} of {totalPages}
           </span>
         )}
-        {!process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL && (
+        {!process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL && sheetsEnv?.configured ? (
           <span className="text-amber-700 dark:text-amber-300">
-            Set NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL for instant refresh on new submissions
+            Set NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL for instant refresh (see setup panel)
           </span>
-        )}
-        {process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL && (
+        ) : null}
+        {process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL ? (
           <span className="inline-flex items-center gap-1 text-green-700 dark:text-green-400">
-            <Radio size={12} /> Live channel active
+            <Radio size={12} /> Live refresh active
           </span>
-        )}
-        {!configured && sheetsStatusKnown && (
-          <button
-            type="button"
-            onClick={() => void load()}
-            className="inline-flex items-center gap-1 px-2 py-1 rounded border border-amber-300/70 bg-amber-50/70 dark:bg-amber-950/20 text-amber-800 dark:text-amber-200 text-meta"
-            title="Google Sheets sync is not configured"
-          >
-            Google Sheets not configured
-          </button>
-        )}
+        ) : null}
         {error && (
           <button
             type="button"
@@ -563,7 +575,9 @@ export default function InteractionsSheetsRecords() {
                     title={records.length === 0 ? 'No sheet rows yet' : 'No matches'}
                     description={
                       records.length === 0
-                        ? 'Submit a contact form or newsletter signup on the public site to populate the sheet.'
+                        ? dataSource === 'google_sheets'
+                          ? 'Submit a form on the public site — a new row will appear here and in your Google Sheet.'
+                          : 'Submit a contact form or newsletter on the public site. Rows appear here immediately; connect Google Sheets in the setup panel above to mirror them live.'
                         : 'Clear filters or search.'
                     }
                   />

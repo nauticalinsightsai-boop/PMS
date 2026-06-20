@@ -41,7 +41,7 @@ Realtime Broadcast → Interaction Inbox + Sheets Records refetch
 | Page | URL |
 |------|-----|
 | Interaction Inbox | `/admin/dashboard/booking-crm/interactions/inbox` |
-| Sheets Records | `/admin/dashboard/booking-crm/interactions/sheets` |
+| Sheets Records | `/admin/dashboard/booking-crm/interactions/sheets` — **configure Google Sheets here** (setup panel + live mirror) |
 
 Legacy: `/admin/dashboard/members-revenue/interactions` → inbox.
 
@@ -86,11 +86,14 @@ INTERACTIONS_ADMIN_EMAIL=admin@example.com
 
 ### Google Sheets (optional)
 
+**Setup guide:** [docs/guides/GOOGLE_SHEETS_SETUP.md](../guides/GOOGLE_SHEETS_SETUP.md)  
+**Dashboard:** Sheets Records page shows a setup checklist until connected, then mirrors the live sheet.
+
 Create a spreadsheet in Google Drive titled **PMS structure Website** (name is for your team; the API uses `GOOGLE_SHEETS_SPREADSHEET_ID`). Add a tab named `Submissions` with row 1 headers from the table below, then share the file with the service account email as **Editor**.
 
 ```env
 # Local dev — path to service account JSON
-GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH=/path/to/sa.json
+GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH=.secrets/google-sheets-sa.json
 
 # Production — base64-encoded JSON
 GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64=

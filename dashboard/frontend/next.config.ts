@@ -14,6 +14,8 @@ const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? '/admin').replace(/\/$/, 
 const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_AUTH_USE_API_LOGIN: process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN ?? 'true',
+    NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL:
+      process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL ?? '',
   },
   basePath: basePath || undefined,
   eslint: { ignoreDuringBuilds: true },
