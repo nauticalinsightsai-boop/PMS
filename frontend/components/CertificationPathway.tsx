@@ -24,6 +24,7 @@ import { REGION_COPY } from '@/lib/brand-voice';
 import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import type { OfferingStatus } from '@/types/regional-catalogue';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
+import { PATHWAY_CARD_RADIUS_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
 
 export interface CertificationPathwayProps {
   certificationName: string;
@@ -55,8 +56,10 @@ const tierLevelLabel: Record<PathwayTier['level'], string> = {
   Mastery: 'Tier 3 · Mastery',
 };
 
-const pathwayCardShell =
-  'group/pathway relative h-full flex min-h-full flex-1 flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden';
+const pathwayCardShell = cn(
+  'group/pathway relative h-full flex min-h-full flex-1 flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-slate-900 overflow-hidden',
+  PATHWAY_CARD_RADIUS_CLASS,
+);
 
 function tierAccentColor(color: string | undefined, family: FamilyId): string {
   if (color) return color;
@@ -246,7 +249,7 @@ export const PathwayCard: React.FC<{
     : { backgroundColor: accent };
 
   const ctaButtonClass = cn(
-    'w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md transition-all hover:opacity-90',
+    'w-full h-11 rounded-xl font-bold text-sm text-white border-transparent shadow-md transition-all hover:opacity-90 md:h-12 md:rounded-2xl md:text-base',
     gradient && cn('bg-gradient-to-r', gradient),
   );
 
@@ -287,42 +290,42 @@ export const PathwayCard: React.FC<{
           </div>
         )}
 
-        <CardHeader className="p-5 pb-2 relative">
-          <div className="flex flex-wrap items-center gap-2 mb-3">
+        <CardHeader className="relative p-4 pb-2 md:p-5">
+          <div className="mb-2 flex flex-wrap items-center gap-2 md:mb-3">
             <Badge
               variant="outline"
-              className="text-[10px] font-bold uppercase tracking-widest border-slate-200 dark:border-slate-700"
+              className="border-slate-200 text-[10px] font-bold uppercase tracking-widest dark:border-slate-700"
               style={{ color: accent, borderColor: `${accent}40` }}
             >
               {tierLevelLabel[tier.level]}
             </Badge>
           </div>
-          <CardTitle className="text-2xl font-bold tracking-tight leading-tight text-slate-900 dark:text-white pr-16">
+          <CardTitle className="pr-12 text-xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white md:pr-16 md:text-2xl">
             {tier.title}
           </CardTitle>
           <div
-            className="flex items-center justify-center gap-2 mb-4 mt-3 p-2.5 rounded-xl border text-center"
+            className="mb-3 mt-2 flex items-center justify-center gap-2 rounded-lg border p-2 text-center md:mb-4 md:mt-3 md:rounded-xl md:p-2.5"
             style={{
               backgroundColor: `${accent}12`,
               borderColor: `${accent}28`,
             }}
           >
             <Zap className="h-3 w-3 shrink-0" style={{ color: accent }} />
-            <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight leading-snug">
+            <span className="text-[10px] font-bold uppercase leading-snug tracking-tight text-slate-700 dark:text-slate-300">
               {tier.level} pathway
             </span>
           </div>
-          <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-3">
+          <CardDescription className="line-clamp-2 text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-400 md:line-clamp-3">
             {tier.details}
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="flex flex-1 flex-col px-5 pb-5">
+        <CardContent className="flex flex-1 flex-col px-4 pb-4 md:px-5 md:pb-5">
           <PathwayTierPricingChips tier={tier} accentColor={accent} />
           <PathwayTierOutcomes outcomes={tier.outcomes} accentColor={accent} />
         </CardContent>
 
-        <CardFooter className="mt-auto border-t border-border bg-muted/50 px-5 pb-5 pt-6 flex flex-col gap-3">
+        <CardFooter className="mt-auto flex flex-col gap-3 border-t border-border bg-muted/50 px-4 pb-4 pt-4 md:px-5 md:pb-5 md:pt-6">
           {tier.regionMessage && tier.status && (
             <RegionalStatusBanner
               status={tier.status as OfferingStatus}
@@ -376,7 +379,7 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
       <ResponsiveSnapScroll
         desktopLayoutClassName={desktopLayout}
         gapClassName="gap-6 md:gap-8"
-        mobileItemClassName="w-[min(92vw,19rem)]"
+        mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
       >
         {tiers.map((tier, index) => (
           <m.div

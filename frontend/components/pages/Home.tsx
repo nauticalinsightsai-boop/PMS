@@ -21,7 +21,7 @@ import {
   MessageSquare,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { MARKETING_HERO_H1_CLASS } from '@/lib/brand-visual';
+import { MARKETING_HERO_H1_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
 import { BRAND, CTAS, HOME_COPY } from '@/lib/brand-voice';
 import { MARKETING_STOCK_IMAGES, MARKETING_HERO_SOCIAL_AVATARS, marketingTestimonialAvatar } from '@/lib/marketing-stock-images';
 import {
@@ -478,7 +478,8 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             className="pt-4 md:pt-6"
             desktopLayoutClassName="md:grid md:grid-cols-2 lg:grid-cols-3"
             gapClassName="gap-6 md:gap-8"
-            mobileItemClassName="w-[min(92vw,19rem)]"
+            mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
+            mobileNaturalHeight
           >
             {featuredPathwaysResolved.map((featured, index) => {
               const cert = certifications.find(c => c.id === featured.id) || certifications[0];
@@ -534,7 +535,8 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
           <ResponsiveSnapScroll
             desktopLayoutClassName="md:grid md:grid-cols-2 lg:grid-cols-3"
             gapClassName="gap-6 md:gap-8"
-            mobileItemClassName="w-[min(88vw,19rem)]"
+            mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
+            mobileNaturalHeight
           >
             {(["PMI", "PRINCE2", "SixSigma"] as const)
               .filter((familyId) => {

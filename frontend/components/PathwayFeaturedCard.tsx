@@ -25,7 +25,7 @@ import { cn } from '@/lib/utils';
 import { useRegion } from '@/contexts/RegionContext';
 import { isEnrollmentOpen } from '@/lib/certification-enrollment';
 import { REGION_COPY } from '@/lib/brand-voice';
-import { getCertGradientClassName } from '@/lib/brand-visual';
+import { getCertGradientClassName, PATHWAY_CARD_RADIUS_CLASS } from '@/lib/brand-visual';
 import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import { getCertDurationLabel, getListingPriceForCert } from '@/lib/regional-catalogue';
 import type { CertificationSummary } from '@/types/site';
@@ -170,11 +170,18 @@ export interface PathwayFeaturedCardProps {
   className?: string;
 }
 
-const featuredCardShell =
-  'group/pathway h-full flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden';
+const featuredCardShell = cn(
+  'group/pathway h-full flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-slate-900 overflow-hidden',
+  PATHWAY_CARD_RADIUS_CLASS,
+);
 
-/** Three outcome rows at equal height across cards. */
-const PATHWAY_FEATURED_OUTCOMES_MIN_H = 'min-h-[4.5rem]';
+const featuredCardHeaderClass = 'p-4 pb-0 md:p-5';
+const featuredCardBodyClass = 'flex flex-1 flex-col gap-3 px-4 pb-4 pt-0 md:gap-4 md:px-5 md:pb-5';
+const featuredCardFooterClass =
+  'border-t border-border bg-muted/50 px-4 pb-4 pt-4 md:px-5 md:pb-5 md:pt-6';
+const featuredCardTitleClass = 'text-xl font-bold tracking-tight mb-2 leading-tight md:mb-3 md:text-2xl';
+const featuredCardCtaClass =
+  'w-full h-11 rounded-xl font-bold text-sm text-white border-transparent shadow-md hover:opacity-90 md:h-12 md:rounded-2xl md:text-base';
 
 function certAccentColor(cert: CertificationSummary): string | undefined {
   return cert.color?.trim() || undefined;
@@ -196,8 +203,7 @@ function PathwayCardCta({
   const label =
     ctaLabel ?? (isEnrollmentOpen(certId, regionId) ? 'View pathway' : 'View overview');
   const href = ctaHref ?? `/certifications/${certId}`;
-  const btnClass =
-    'w-full h-12 rounded-2xl font-bold text-base text-white border-transparent shadow-md hover:opacity-90';
+  const btnClass = featuredCardCtaClass;
   const [waitlistOpen, setWaitlistOpen] = React.useState(false);
   const waitlistContext = React.useMemo<JoinWaitlistContext | null>(() => {
     if (!isWaitlistContactHref(href)) return null;
@@ -288,24 +294,24 @@ function PathwayFeaturedVisualCard({
   return (
     <Card className={cn(featuredCardShell, className)}>
       <CertificationPathwayVisual cert={cert} subtitle={subtitle} />
-      <CardHeader className="p-5 pb-0">
-        <div className="flex flex-wrap items-center justify-start gap-2 mb-3">
+      <CardHeader className={featuredCardHeaderClass}>
+        <div className="mb-2 flex flex-wrap items-center justify-start gap-2 md:mb-3">
           <Badge className="inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1 text-center">
             {familyBadge}
           </Badge>
           <PathwayEnrollmentBadge certId={cert.id} />
         </div>
-        <CardTitle className="text-2xl font-bold tracking-tight mb-3 leading-tight">{displayTitle}</CardTitle>
-        <div className="flex items-center justify-center gap-2 mb-4 p-2.5 rounded-xl bg-brand-orange/5 border border-brand-orange/10 text-center">
-          <Zap className="h-3 w-3 text-brand-orange shrink-0" />
-          <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight leading-snug">
+        <CardTitle className={featuredCardTitleClass}>{displayTitle}</CardTitle>
+        <div className="mb-3 flex items-center justify-center gap-2 rounded-lg border border-brand-orange/10 bg-brand-orange/5 p-2 text-center md:mb-4 md:rounded-xl md:p-2.5">
+          <Zap className="h-3 w-3 shrink-0 text-brand-orange" />
+          <span className="text-[10px] font-bold uppercase leading-snug tracking-tight text-slate-700 dark:text-slate-300">
             {cert.outputValue}
           </span>
         </div>
-        <div className="flex flex-col pb-4">
+        <div className="flex flex-col pb-3 md:pb-4">
           <ClampedText
             text={displayDesc}
-            className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed"
+            className="text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-400 max-md:line-clamp-2"
           />
           {metaLine ? (
             <ClampedText
@@ -316,21 +322,21 @@ function PathwayFeaturedVisualCard({
           ) : null}
         </div>
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col gap-4 px-5 pb-5 pt-0">
+      <CardContent className={featuredCardBodyClass}>
         <PathwayFeaturedPricingChips certId={cert.id} />
-        <ul className={cn(PATHWAY_FEATURED_OUTCOMES_MIN_H, 'space-y-3')}>
+        <ul className="space-y-2 md:min-h-[4.5rem] md:space-y-3">
           {outcomes.map((item) => (
             <li
               key={item}
               className="flex min-h-5 items-center text-xs font-semibold text-slate-600 dark:text-slate-400"
             >
-              <CheckCircle2 className="h-3 w-3 mr-2 text-brand-orange shrink-0" />
+              <CheckCircle2 className="mr-2 h-3 w-3 shrink-0 text-brand-orange" />
               <span className="line-clamp-1">{item}</span>
             </li>
           ))}
         </ul>
       </CardContent>
-      <CardFooter className="border-t border-border bg-muted/50 px-5 pb-5 pt-6">
+      <CardFooter className={featuredCardFooterClass}>
         <PathwayCardCta
           certId={cert.id}
           regionId={regionId}
@@ -372,18 +378,18 @@ function PathwayFeaturedCatalogCard({
       ) : accent ? (
         <div className="h-1.5 w-full shrink-0" style={{ backgroundColor: accent }} aria-hidden />
       ) : null}
-      <CardHeader className="p-5 pb-0">
-        <div className="flex flex-wrap items-center justify-start gap-2 mb-3">
+      <CardHeader className={featuredCardHeaderClass}>
+        <div className="mb-2 flex flex-wrap items-center justify-start gap-2 md:mb-3">
           <Badge className="inline-flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none text-[10px] font-bold px-3 py-1 text-center">
             {badgeLabel}
           </Badge>
           <PathwayEnrollmentBadge certId={cert.id} />
         </div>
-        <CardTitle className="text-2xl font-bold tracking-tight mb-3 leading-tight">{displayTitle}</CardTitle>
+        <CardTitle className={featuredCardTitleClass}>{displayTitle}</CardTitle>
         <div
           className={cn(
-            'flex items-center justify-center gap-2 mb-4 p-2.5 rounded-xl border text-center',
-            !accent && 'bg-brand-orange/5 border-brand-orange/10',
+            'mb-3 flex items-center justify-center gap-2 rounded-lg border p-2 text-center md:mb-4 md:rounded-xl md:p-2.5',
+            !accent && 'border-brand-orange/10 bg-brand-orange/5',
           )}
           style={
             accent
@@ -395,19 +401,19 @@ function PathwayFeaturedCatalogCard({
             className={cn('h-3 w-3 shrink-0', !accent && 'text-brand-orange')}
             style={accent ? { color: accent } : undefined}
           />
-          <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight leading-snug">
+          <span className="text-[10px] font-bold uppercase leading-snug tracking-tight text-slate-700 dark:text-slate-300">
             {cert.outputValue}
           </span>
         </div>
-        <div className="flex flex-col pb-4">
-          <CardDescription className="text-sm font-medium text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
+        <div className="flex flex-col pb-3 md:pb-4">
+          <CardDescription className="line-clamp-2 text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-400">
             {displayDesc}
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col gap-4 px-5 pb-5 pt-0">
+      <CardContent className={featuredCardBodyClass}>
         <PathwayFeaturedPricingChips certId={cert.id} />
-        <ul className={cn(PATHWAY_FEATURED_OUTCOMES_MIN_H, 'space-y-3')}>
+        <ul className="space-y-2 md:min-h-[4.5rem] md:space-y-3">
           {outcomes.map((item) => (
             <li
               key={item}
@@ -422,7 +428,7 @@ function PathwayFeaturedCatalogCard({
           ))}
         </ul>
       </CardContent>
-      <CardFooter className="border-t border-border bg-muted/50 px-5 pb-5 pt-6">
+      <CardFooter className={featuredCardFooterClass}>
         <PathwayCardCta certId={cert.id} regionId={regionId} accentColor={accent} />
       </CardFooter>
     </Card>

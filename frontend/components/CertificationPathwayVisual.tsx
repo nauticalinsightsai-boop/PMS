@@ -26,7 +26,7 @@ export function CertificationPathwayVisual({
   const showSubtitle = Boolean(subtitle) && !isPrince2;
 
   return (
-    <div className={cn('relative h-36 w-full shrink-0 overflow-hidden', className)}>
+    <div className={cn('relative h-28 w-full shrink-0 overflow-hidden md:h-36', className)}>
       <div className={cn('absolute inset-0', headerBg.className)} style={headerBg.style} />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-900/10 to-white/10" />
       <div className="relative flex h-full flex-col items-center justify-center gap-2.5 px-4">

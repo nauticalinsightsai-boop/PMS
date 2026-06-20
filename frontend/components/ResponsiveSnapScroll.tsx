@@ -11,6 +11,8 @@ type ResponsiveSnapScrollProps = {
   gapClassName?: string;
   /** Fixed slide width below `md` */
   mobileItemClassName?: string;
+  /** When true, slides size to their content on mobile instead of stretching to the tallest card. */
+  mobileNaturalHeight?: boolean;
 };
 
 const DEFAULT_MOBILE_ITEM = 'w-[min(92vw,19rem)]';
@@ -41,6 +43,7 @@ export function ResponsiveSnapScroll({
   desktopLayoutClassName,
   gapClassName = 'gap-6 md:gap-8',
   mobileItemClassName = DEFAULT_MOBILE_ITEM,
+  mobileNaturalHeight = false,
 }: ResponsiveSnapScrollProps) {
   const items = React.Children.toArray(children);
 
@@ -54,7 +57,8 @@ export function ResponsiveSnapScroll({
         mobileAutoCols,
         '-mx-4 px-4 [-webkit-overflow-scrolling:touch]',
         'max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden',
-        'max-md:items-stretch max-md:overscroll-x-contain',
+        mobileNaturalHeight ? 'max-md:items-start' : 'max-md:items-stretch',
+        'max-md:overscroll-x-contain',
         MOBILE_CAROUSEL_TOUCH_CLASS,
         gapClassName,
         'md:mx-0 md:px-0 md:auto-cols-auto md:grid-flow-row md:snap-none md:overflow-visible md:overflow-y-visible md:pb-0 md:touch-auto',
@@ -66,7 +70,8 @@ export function ResponsiveSnapScroll({
         <div
           key={React.isValidElement(child) && child.key != null ? child.key : index}
           className={cn(
-            'flex min-h-full snap-start flex-col max-md:min-w-0 md:w-auto md:min-w-0',
+            'flex snap-start flex-col max-md:min-w-0 md:w-auto md:min-w-0',
+            mobileNaturalHeight ? 'max-md:h-auto' : 'min-h-full',
           )}
         >
           {child}

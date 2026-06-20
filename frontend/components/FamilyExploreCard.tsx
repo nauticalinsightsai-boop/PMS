@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { CertFamilyMark } from '@/components/CertFamilyMark';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { PATHWAY_CARD_RADIUS_CLASS } from '@/lib/brand-visual';
 import type { FamilyConfig } from '@/types/site';
 
 const FAMILY_WASH: Record<string, string> = {
@@ -35,7 +36,8 @@ export function FamilyExploreCard({
     >
       <div
         className={cn(
-          'relative flex h-full min-h-[18rem] flex-col overflow-hidden rounded-[2.5rem]',
+          'relative flex h-full min-h-[14rem] flex-col overflow-hidden md:min-h-[18rem]',
+          PATHWAY_CARD_RADIUS_CLASS,
           'border border-slate-200/90 dark:border-slate-700/80',
           'bg-gradient-to-br',
           wash,
@@ -63,10 +65,10 @@ export function FamilyExploreCard({
           aria-hidden
         />
 
-        <div className="relative z-10 flex flex-1 flex-col p-10 md:p-11">
+        <div className="relative z-10 flex flex-1 flex-col p-6 md:p-11">
           <div
             className={cn(
-              'mb-8 flex h-16 items-center justify-center rounded-2xl',
+              'mb-5 flex h-14 items-center justify-center rounded-xl md:mb-8 md:h-16 md:rounded-2xl',
               family.id === 'PRINCE2' ? 'w-[5.75rem]' : 'w-16',
               'shadow-[0_12px_28px_-8px_rgba(11,11,42,0.35)]',
               'ring-2 ring-white/40 dark:ring-slate-600/50',
@@ -90,10 +92,10 @@ export function FamilyExploreCard({
             />
           </div>
 
-          <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
+          <h3 className="mb-3 text-xl font-bold tracking-tight text-slate-900 dark:text-white md:mb-4 md:text-2xl">
             {family.name}
           </h3>
-          <p className="text-base text-slate-600 dark:text-slate-400 mb-8 leading-relaxed font-medium flex-1">
+          <p className="mb-6 flex-1 text-sm font-medium leading-relaxed text-slate-600 dark:text-slate-400 md:mb-8 md:text-base">
             {family.description}
           </p>
 

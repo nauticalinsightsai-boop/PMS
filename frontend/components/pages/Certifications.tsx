@@ -14,7 +14,7 @@ import {
   Search,
   ShieldCheck,
 } from "lucide-react";
-import { MARKETING_HERO_H1_CLASS } from '@/lib/brand-visual';
+import { MARKETING_HERO_H1_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
 import { cn } from '@/lib/utils';
 import { certifications, familyConfigs } from "@/data/certification-index";
 import type { CertificationSummary } from "@/types/site";
@@ -278,7 +278,8 @@ export function Certifications({
                             <ResponsiveSnapScroll
                               desktopLayoutClassName="md:grid md:grid-cols-3"
                               gapClassName="gap-6 md:gap-8"
-                              mobileItemClassName="w-[min(92vw,19rem)]"
+                              mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
+                              mobileNaturalHeight
                             >
                               {featuredTop.map((cert) => (
                                 <m.div
