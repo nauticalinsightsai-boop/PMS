@@ -9,7 +9,7 @@ import { BRAND } from '@/lib/brand-voice';
 import { MARKETING_PMP_AVATARS } from '@/lib/marketing-stock-images';
 import { cn } from '@/lib/utils';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
-import { PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
+import { PATHWAY_MOBILE_CARD_SHELL_CLASS, PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS, TESTIMONIAL_SNAP_CARD_CLASS } from '@/lib/brand-visual';
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
 
@@ -73,15 +73,21 @@ function StarRow({ className }: { className?: string }) {
 
 function TestimonialCard({ story }: { story: (typeof STUDENT_SUCCESS_STORIES)[number] }) {
   return (
-    <article className="flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-lg shadow-slate-900/5 sm:p-8 dark:border-slate-700/50 dark:bg-[#0c1224]/90 dark:shadow-black/20">
-      <div className="mb-6 flex items-start justify-between gap-4">
+    <article
+      className={cn(
+        TESTIMONIAL_SNAP_CARD_CLASS,
+        PATHWAY_MOBILE_CARD_SHELL_CLASS,
+        'flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-6 shadow-lg shadow-slate-900/5 sm:p-8 dark:border-slate-700/50 dark:bg-[#0c1224]/90 dark:shadow-black/20',
+      )}
+    >
+      <div className="mb-6 flex shrink-0 items-start justify-between gap-4">
         <StarRow />
         <Quote className="h-10 w-10 shrink-0 text-slate-300 dark:text-slate-600/80 sm:h-12 sm:w-12" aria-hidden />
       </div>
-      <p className="mb-8 flex-1 text-base leading-relaxed font-medium text-slate-800 sm:text-[1.05rem] dark:text-white">
+      <p className="mb-8 min-h-0 flex-1 text-base leading-relaxed font-medium text-slate-800 max-md:line-clamp-6 max-md:min-h-[9.75rem] sm:text-[1.05rem] dark:text-white">
         &ldquo;{story.quote}&rdquo;
       </p>
-      <div className="flex items-center gap-4">
+      <div className="mt-auto flex shrink-0 items-center gap-4">
         <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-slate-200 bg-slate-100 dark:border-slate-700/80 dark:bg-slate-800">
           <Image
             src={story.avatar}

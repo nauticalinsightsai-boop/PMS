@@ -149,6 +149,9 @@ export const PATHWAY_MOBILE_CARD_SHELL_CLASS =
 /** Featured pathway card root (carousel equal-height + aligned sections). */
 export const PATHWAY_FEATURED_CARD_CLASS = 'pathway-featured-card';
 
+/** Student success / testimonial snap cards (310px track, equal height). */
+export const TESTIMONIAL_SNAP_CARD_CLASS = 'testimonial-snap-card';
+
 /** PM Service carousel cards (same 310px snap track as pathways). */
 export const SERVICE_SNAP_CARD_CLASS = 'service-snap-card';
 

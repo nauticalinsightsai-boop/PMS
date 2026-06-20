@@ -59,19 +59,22 @@ export function ResponsiveSnapScroll({
   return (
     <div
       className={cn(
-        // Mobile: flex row + explicit slide widths; md+: grid from desktopLayoutClassName
-        'flex w-full max-md:flex-nowrap md:grid md:grid-flow-row snap-x max-md:snap-mandatory snap-proximity overflow-x-auto overflow-y-hidden',
+        // Mobile: horizontal grid columns share one row height; md+: grid from desktopLayoutClassName
+        'w-full snap-x max-md:snap-mandatory snap-proximity overflow-x-auto overflow-y-hidden',
+        pathwayMobileSlides
+          ? 'max-md:grid max-md:grid-flow-col max-md:auto-cols-[310px] max-md:items-stretch max-md:content-stretch'
+          : 'flex max-md:flex-nowrap max-md:items-stretch',
         pathwayMobileSlides
           ? 'max-md:-mx-[var(--site-gutter)] max-md:px-[var(--site-gutter)] max-md:scroll-px-[var(--site-gutter)]'
           : 'max-md:-mx-[var(--site-gutter)] max-md:px-[var(--site-gutter)] max-md:scroll-px-[var(--site-gutter)]',
         '[-webkit-overflow-scrolling:touch]',
         'max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden',
-        mobileNaturalHeight ? 'max-md:items-start' : 'max-md:items-stretch',
+        mobileNaturalHeight ? 'max-md:items-start' : null,
         'max-md:overscroll-x-contain',
         MOBILE_CAROUSEL_TOUCH_CLASS,
         gapClassName,
         pathwayMobileSlides && PATHWAY_MOBILE_CAROUSEL_GAP_CLASS,
-        'md:mx-0 md:px-0 md:auto-cols-auto md:grid-flow-row md:snap-none md:overflow-visible md:overflow-y-visible md:pb-0 md:touch-auto',
+        'md:mx-0 md:px-0 md:grid md:grid-flow-row md:snap-none md:overflow-visible md:overflow-y-visible md:pb-0 md:touch-auto',
         desktopLayoutClassName,
         pathwayMobileSlides && 'pathway-snap-scroll',
         className,
@@ -81,9 +84,10 @@ export function ResponsiveSnapScroll({
         <div
           key={React.isValidElement(child) && child.key != null ? child.key : index}
           className={cn(
-            'flex shrink-0 snap-start flex-col max-md:min-w-0 md:w-auto md:min-w-0 md:shrink',
-            mobileSlideWidth,
-            mobileNaturalHeight ? 'max-md:h-auto' : 'max-md:h-full max-md:min-h-full max-md:self-stretch',
+            'flex min-h-0 snap-start flex-col max-md:min-w-0 max-md:h-full max-md:w-full md:w-auto md:min-w-0 md:shrink',
+            !pathwayMobileSlides && cn('shrink-0', mobileSlideWidth),
+            pathwayMobileSlides && mobileSlideWidth,
+            mobileNaturalHeight && 'max-md:h-auto',
           )}
         >
           {child}

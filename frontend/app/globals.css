@@ -135,7 +135,8 @@
       width: var(--pathway-mobile-slide-width);
       min-width: var(--pathway-mobile-slide-width);
       max-width: var(--pathway-mobile-slide-width);
-      height: auto;
+      height: 100%;
+      min-height: 100%;
     }
 
     .pathway-snap-scroll > * > * {
@@ -148,6 +149,7 @@
 
     .pathway-snap-scroll .pathway-featured-card,
     .pathway-snap-scroll .service-snap-card,
+    .pathway-snap-scroll .testimonial-snap-card,
     .pathway-snap-scroll article {
       width: 100%;
       max-width: var(--pathway-mobile-slide-width);
