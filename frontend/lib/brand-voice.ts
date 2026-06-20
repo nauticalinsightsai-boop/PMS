@@ -122,7 +122,7 @@ export const CTAS = {
 
   previewPathway: 'Preview Pathway',
 
-  requestCorporateCohortBrief: 'Request Corporate Cohort Brief',
+  requestCorporateCohortBrief: 'Corporate Cohort Brief',
 
   requestMasteryReview: 'Request Mastery Review',
 

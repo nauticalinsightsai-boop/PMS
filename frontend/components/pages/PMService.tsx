@@ -72,11 +72,11 @@ export function PMService({ initialPageConfig }: { initialPageConfig?: ServicesP
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-2xl font-medium md:mx-0 mx-auto">
                 {hero.subtitle || SERVICES_COPY.heroSubtitle}
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <div className="flex flex-col lg:flex-row gap-4 justify-center md:justify-start">
                 <WebsiteCalendlyButton
                   size="lg"
                   variant="brand"
-                  className="h-14 px-10 rounded-2xl font-bold text-lg shadow-xl shadow-brand-orange/20"
+                  className="h-14 w-full lg:w-auto px-8 rounded-2xl font-bold text-base sm:text-lg shadow-xl shadow-brand-orange/20"
                   tier="advisor"
                   funnelLabel="pm_service_hero_consultation"
                   utm={{ utm_source: 'pmstructure', utm_medium: 'pm_service', utm_campaign: 'hero' }}
@@ -86,7 +86,7 @@ export function PMService({ initialPageConfig }: { initialPageConfig?: ServicesP
                 <WebsiteCalendlyButton
                   size="lg"
                   variant="outline"
-                  className="border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white h-14 px-10 rounded-2xl font-bold text-lg"
+                  className="h-14 w-full lg:w-auto px-8 rounded-2xl font-bold text-base sm:text-lg border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white"
                   tier="advisor"
                   funnelLabel="pm_service_corporate_cohort"
                   utm={{

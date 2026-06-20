@@ -148,7 +148,7 @@ export function Newsletter({
       </section>
 
       {/* 3. Topics / Categories Grid */}
-      <section className="py-8 bg-slate-50/50 dark:bg-slate-900/20 sticky top-16 z-40 backdrop-blur-md border-b border-slate-100 dark:border-slate-900">
+      <section className="hidden md:block py-8 bg-slate-50/50 dark:bg-slate-900/20 sticky top-16 z-40 backdrop-blur-md border-b border-slate-100 dark:border-slate-900">
         <div className="container mx-auto">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <div className="flex min-w-0 flex-1 items-center gap-3 overflow-x-auto pb-1 no-scrollbar">

@@ -33,7 +33,10 @@ export function About({
       <section className={sectionSurface('blend', 'py-24 md:py-32')}>
         <SectionAmbience tone="blend" />
         <div className="container relative z-10 mx-auto">
-          <PageHeroWithImage image={MARKETING_PAGE_IMAGES.aboutHero} imageAspectClassName="aspect-[4/5] max-h-[28rem]">
+          <PageHeroWithImage
+            image={MARKETING_PAGE_IMAGES.aboutHero}
+            imageAspectClassName="h-[min(28rem,80vw)] w-full sm:h-[28rem]"
+          >
             <div className="max-w-3xl mx-auto lg:mx-0 text-center lg:text-left">
               <Badge className="mb-6 bg-brand-purple/10 text-brand-purple border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
                 {hero.badge || globalContentString(globalContent, 'mission_badge', 'Our Mission')}
@@ -45,11 +48,15 @@ export function About({
                 {mission.subtitle || globalContentString(globalContent, 'mission_subtitle', BRAND_LINES.positioning)}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
-                <PmpRoadmapCtaLink ctaLocation="hero" />
+                <PmpRoadmapCtaLink
+                  ctaLocation="hero"
+                  size="default"
+                  className="bg-brand-orange hover:bg-brand-hover text-white font-semibold px-5 h-10 rounded-full shadow-lg shadow-brand-orange/20 transition-all"
+                />
                 <WebsiteCalendlyButton
-                  size="lg"
+                  size="default"
                   variant="outline"
-                  className="h-14 px-8 rounded-2xl font-bold"
+                  className="h-10 px-5 rounded-full font-semibold border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white"
                   tier="discovery"
                   funnelLabel="about_hero_mentor"
                   utm={{ utm_source: 'pmstructure', utm_medium: 'about', utm_campaign: 'hero' }}

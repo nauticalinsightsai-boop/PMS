@@ -19,7 +19,7 @@ export function PageMarketingImage({
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-xl',
+        'relative w-full overflow-hidden rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-xl',
         aspectClassName,
         className,
       )}
