@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { PATHWAY_MOBILE_CAROUSEL_GAP_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
 
 type ResponsiveSnapScrollProps = {
   children: React.ReactNode;
@@ -19,6 +20,10 @@ const DEFAULT_MOBILE_ITEM = 'w-[min(92vw,19rem)]';
 
 /** Width class applied directly to each slide below `md` (flex row). */
 function mobileItemWidthOnSlide(mobileItemClassName: string): string {
+  // Pathway carousels pass fully-qualified static `max-md:` utilities for Tailwind JIT.
+  if (mobileItemClassName.includes('max-md:')) {
+    return mobileItemClassName;
+  }
   if (mobileItemClassName.match(/^w-\[/)) {
     return mobileItemClassName.replace(/^w-/, 'max-md:w-');
   }
@@ -49,20 +54,26 @@ export function ResponsiveSnapScroll({
   const items = React.Children.toArray(children);
 
   const mobileSlideWidth = mobileItemWidthOnSlide(mobileItemClassName);
+  const pathwayMobileSlides = mobileItemClassName === PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS;
 
   return (
     <div
       className={cn(
         // Mobile: flex row + explicit slide widths; md+: grid from desktopLayoutClassName
-        'flex w-full max-md:flex-nowrap md:grid md:grid-flow-row snap-x max-md:snap-mandatory snap-proximity overflow-x-auto overflow-y-hidden scroll-px-4',
-        '-mx-4 px-4 [-webkit-overflow-scrolling:touch]',
+        'flex w-full max-md:flex-nowrap md:grid md:grid-flow-row snap-x max-md:snap-mandatory snap-proximity overflow-x-auto overflow-y-hidden',
+        pathwayMobileSlides
+          ? 'max-md:-mx-[var(--site-gutter)] max-md:px-[var(--site-gutter)] max-md:scroll-px-[var(--site-gutter)]'
+          : 'max-md:-mx-[var(--site-gutter)] max-md:px-[var(--site-gutter)] max-md:scroll-px-[var(--site-gutter)]',
+        '[-webkit-overflow-scrolling:touch]',
         'max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden',
         mobileNaturalHeight ? 'max-md:items-start' : 'max-md:items-stretch',
         'max-md:overscroll-x-contain',
         MOBILE_CAROUSEL_TOUCH_CLASS,
         gapClassName,
+        pathwayMobileSlides && PATHWAY_MOBILE_CAROUSEL_GAP_CLASS,
         'md:mx-0 md:px-0 md:auto-cols-auto md:grid-flow-row md:snap-none md:overflow-visible md:overflow-y-visible md:pb-0 md:touch-auto',
         desktopLayoutClassName,
+        pathwayMobileSlides && 'pathway-snap-scroll',
         className,
       )}
     >
@@ -72,7 +83,7 @@ export function ResponsiveSnapScroll({
           className={cn(
             'flex shrink-0 snap-start flex-col max-md:min-w-0 md:w-auto md:min-w-0 md:shrink',
             mobileSlideWidth,
-            mobileNaturalHeight ? 'max-md:h-auto' : 'min-h-full max-md:self-stretch',
+            mobileNaturalHeight ? 'max-md:h-auto' : 'max-md:h-full max-md:min-h-full max-md:self-stretch',
           )}
         >
           {child}

@@ -25,51 +25,13 @@ import { cn } from '@/lib/utils';
 import { useRegion } from '@/contexts/RegionContext';
 import { isEnrollmentOpen } from '@/lib/certification-enrollment';
 import { REGION_COPY } from '@/lib/brand-voice';
-import { getCertGradientClassName, PATHWAY_CARD_RADIUS_CLASS } from '@/lib/brand-visual';
+import { getCertGradientClassName, PATHWAY_CARD_RADIUS_CLASS, PATHWAY_FEATURED_CARD_CLASS, PATHWAY_FEATURED_MOBILE_HEADER_CLASS, PATHWAY_MOBILE_CARD_SHELL_CLASS } from '@/lib/brand-visual';
 import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import { getCertDurationLabel, getListingPriceForCert } from '@/lib/regional-catalogue';
 import type { CertificationSummary } from '@/types/site';
 import type { RegionId } from '@/types/regional-catalogue';
 
-function ClampedText({
-  text,
-  className,
-  clampClassName = 'line-clamp-3',
-}: {
-  text: string;
-  className?: string;
-  clampClassName?: string;
-}) {
-  const ref = React.useRef<HTMLParagraphElement>(null);
-  const [expanded, setExpanded] = React.useState(false);
-  const [overflows, setOverflows] = React.useState(false);
-
-  React.useEffect(() => {
-    const el = ref.current;
-    if (!el || expanded) return;
-    setOverflows(el.scrollHeight > el.clientHeight + 1);
-  }, [text, expanded, clampClassName]);
-
-  return (
-    <div>
-      <p
-        ref={ref}
-        className={cn(className, !expanded && clampClassName)}
-      >
-        {text}
-      </p>
-      {overflows && !expanded ? (
-        <button
-          type="button"
-          onClick={() => setExpanded(true)}
-          className="mt-1 text-xs font-bold text-brand-orange hover:underline"
-        >
-          Show more
-        </button>
-      ) : null}
-    </div>
-  );
-}
+import type { RegionId } from '@/types/regional-catalogue';
 
 /** Prep time, tuition, and membership: three aligned chips from the same listing tier. */
 function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
@@ -94,8 +56,8 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
     Boolean(presentation?.showGlobalReference && listing.original);
 
   return (
-    <div className="mb-0 flex flex-col space-y-2">
-      <div className="grid grid-cols-2 items-stretch gap-1.5 overflow-visible sm:grid-cols-3 sm:gap-2">
+    <div className="mb-0 flex shrink-0 flex-col space-y-2">
+      <div className="grid grid-cols-2 items-stretch gap-1.5 overflow-visible max-md:min-h-[4.25rem] sm:grid-cols-3 sm:gap-2 sm:min-h-[5rem]">
         <StatChip
           label="Prep time"
           className="h-full min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
@@ -171,15 +133,27 @@ export interface PathwayFeaturedCardProps {
 }
 
 const featuredCardShell = cn(
-  'group/pathway h-full flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-slate-900 overflow-hidden',
+  'group/pathway flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-slate-900 overflow-hidden',
   PATHWAY_CARD_RADIUS_CLASS,
+  PATHWAY_MOBILE_CARD_SHELL_CLASS,
+  PATHWAY_FEATURED_CARD_CLASS,
 );
 
-const featuredCardHeaderClass = 'p-4 pb-0 md:p-5';
-const featuredCardBodyClass = 'flex flex-1 flex-col gap-3 px-4 pb-4 pt-0 md:gap-4 md:px-5 md:pb-5';
+const featuredCardHeaderClass = cn('p-4 pb-0 md:p-5', PATHWAY_FEATURED_MOBILE_HEADER_CLASS);
+const featuredCardBodyClass =
+  'flex min-h-0 flex-1 flex-col gap-3 px-4 pb-4 pt-0 md:gap-4 md:px-5 md:pb-5';
 const featuredCardFooterClass =
-  'border-t border-border bg-muted/50 px-4 pb-4 pt-4 md:px-5 md:pb-5 md:pt-6';
-const featuredCardTitleClass = 'text-xl font-bold tracking-tight mb-2 leading-tight md:mb-3 md:text-2xl';
+  'mt-auto shrink-0 border-t border-border bg-muted/50 px-4 pb-4 pt-4 md:px-5 md:pb-5 md:pt-6';
+const featuredCardTitleClass =
+  'mb-2 text-xl font-bold leading-tight tracking-tight max-md:line-clamp-2 max-md:min-h-[3.25rem] md:mb-3 md:min-h-0 md:text-2xl';
+const featuredCardOutputClass =
+  'mb-3 flex items-center justify-center gap-2 rounded-lg border border-brand-orange/10 bg-brand-orange/5 p-2 text-center max-md:min-h-[2.75rem] md:mb-4 md:min-h-0 md:rounded-xl md:p-2.5';
+const featuredCardDescClass =
+  'text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-400 max-md:line-clamp-3 max-md:min-h-[4.5rem] md:min-h-0';
+const featuredCardMetaClass =
+  'mt-3 text-xs font-semibold leading-snug text-brand-purple dark:text-brand-purple/90 max-md:min-h-[1.25rem] md:min-h-0';
+const featuredCardOutcomesClass =
+  'space-y-2 max-md:min-h-[4.25rem] md:min-h-[4.5rem] md:space-y-3';
 const featuredCardCtaClass =
   'w-full h-11 rounded-xl font-bold text-sm text-white border-transparent shadow-md hover:opacity-90 md:h-12 md:rounded-2xl md:text-base';
 
@@ -302,29 +276,20 @@ function PathwayFeaturedVisualCard({
           <PathwayEnrollmentBadge certId={cert.id} />
         </div>
         <CardTitle className={featuredCardTitleClass}>{displayTitle}</CardTitle>
-        <div className="mb-3 flex items-center justify-center gap-2 rounded-lg border border-brand-orange/10 bg-brand-orange/5 p-2 text-center md:mb-4 md:rounded-xl md:p-2.5">
+        <div className={featuredCardOutputClass}>
           <Zap className="h-3 w-3 shrink-0 text-brand-orange" />
-          <span className="text-[10px] font-bold uppercase leading-snug tracking-tight text-slate-700 dark:text-slate-300">
+          <span className="line-clamp-2 text-[10px] font-bold uppercase leading-snug tracking-tight text-slate-700 dark:text-slate-300">
             {cert.outputValue}
           </span>
         </div>
         <div className="flex flex-col pb-3 md:pb-4">
-          <ClampedText
-            text={displayDesc}
-            className="text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-400 max-md:line-clamp-2"
-          />
-          {metaLine ? (
-            <ClampedText
-              text={metaLine}
-              className="mt-3 text-xs font-semibold text-brand-purple dark:text-brand-purple/90 leading-snug"
-              clampClassName="line-clamp-2"
-            />
-          ) : null}
+          <p className={featuredCardDescClass}>{displayDesc}</p>
+          <p className={cn(featuredCardMetaClass, !metaLine && 'md:hidden')}>{metaLine ?? '\u00A0'}</p>
         </div>
       </CardHeader>
       <CardContent className={featuredCardBodyClass}>
         <PathwayFeaturedPricingChips certId={cert.id} />
-        <ul className="space-y-2 md:min-h-[4.5rem] md:space-y-3">
+        <ul className={featuredCardOutcomesClass}>
           {outcomes.map((item) => (
             <li
               key={item}
@@ -388,7 +353,7 @@ function PathwayFeaturedCatalogCard({
         <CardTitle className={featuredCardTitleClass}>{displayTitle}</CardTitle>
         <div
           className={cn(
-            'mb-3 flex items-center justify-center gap-2 rounded-lg border p-2 text-center md:mb-4 md:rounded-xl md:p-2.5',
+            featuredCardOutputClass,
             !accent && 'border-brand-orange/10 bg-brand-orange/5',
           )}
           style={
@@ -401,19 +366,20 @@ function PathwayFeaturedCatalogCard({
             className={cn('h-3 w-3 shrink-0', !accent && 'text-brand-orange')}
             style={accent ? { color: accent } : undefined}
           />
-          <span className="text-[10px] font-bold uppercase leading-snug tracking-tight text-slate-700 dark:text-slate-300">
+          <span className="line-clamp-2 text-[10px] font-bold uppercase leading-snug tracking-tight text-slate-700 dark:text-slate-300">
             {cert.outputValue}
           </span>
         </div>
         <div className="flex flex-col pb-3 md:pb-4">
-          <CardDescription className="line-clamp-2 text-sm font-medium leading-relaxed text-slate-500 dark:text-slate-400">
-            {displayDesc}
-          </CardDescription>
+          <CardDescription className={featuredCardDescClass}>{displayDesc}</CardDescription>
+          <p className={cn(featuredCardMetaClass, 'max-md:opacity-0 md:hidden')} aria-hidden>
+            {'\u00A0'}
+          </p>
         </div>
       </CardHeader>
       <CardContent className={featuredCardBodyClass}>
         <PathwayFeaturedPricingChips certId={cert.id} />
-        <ul className="space-y-2 md:min-h-[4.5rem] md:space-y-3">
+        <ul className={featuredCardOutcomesClass}>
           {outcomes.map((item) => (
             <li
               key={item}

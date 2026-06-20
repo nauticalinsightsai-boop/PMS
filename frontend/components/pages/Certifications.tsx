@@ -14,7 +14,7 @@ import {
   Search,
   ShieldCheck,
 } from "lucide-react";
-import { MARKETING_HERO_H1_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
+import { MARKETING_HERO_H1_CLASS, PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
 import { cn } from '@/lib/utils';
 import { certifications, familyConfigs } from "@/data/certification-index";
 import type { CertificationSummary } from "@/types/site";
@@ -279,7 +279,6 @@ export function Certifications({
                               desktopLayoutClassName="md:grid md:grid-cols-3"
                               gapClassName="gap-6 md:gap-8"
                               mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
-                              mobileNaturalHeight
                             >
                               {featuredTop.map((cert) => (
                                 <m.div
@@ -288,7 +287,7 @@ export function Certifications({
                                   whileInView={{ opacity: 1, y: 0 }}
                                   viewport={{ once: true }}
                                   transition={{ duration: 0.35 }}
-                                  className="w-full max-md:h-auto md:h-full motion-reduce:transform-none"
+                                  className={cn(PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, 'motion-reduce:transform-none')}
                                 >
                                   <PathwayFeaturedCard
                                     cert={cert}

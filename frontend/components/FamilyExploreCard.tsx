@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { CertFamilyMark } from '@/components/CertFamilyMark';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { PATHWAY_CARD_RADIUS_CLASS } from '@/lib/brand-visual';
+import { PATHWAY_CARD_RADIUS_CLASS, PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CARD_SHELL_CLASS } from '@/lib/brand-visual';
 import type { FamilyConfig } from '@/types/site';
 
 const FAMILY_WASH: Record<string, string> = {
@@ -32,11 +32,13 @@ export function FamilyExploreCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      className="group w-full max-md:h-auto md:h-full"
+      className={cn('group', PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS)}
     >
       <div
         className={cn(
-          'relative flex h-full min-h-[14rem] flex-col overflow-hidden md:min-h-[18rem]',
+          'relative flex flex-col overflow-hidden',
+          PATHWAY_MOBILE_CARD_SHELL_CLASS,
+          'md:min-h-[18rem]',
           PATHWAY_CARD_RADIUS_CLASS,
           'border border-slate-200/90 dark:border-slate-700/80',
           'bg-gradient-to-br',

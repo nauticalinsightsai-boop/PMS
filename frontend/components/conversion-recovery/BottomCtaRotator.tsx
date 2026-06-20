@@ -85,6 +85,7 @@ export function BottomCtaRotator() {
   const [inlinePhone, setInlinePhone] = React.useState('');
   const [inlineName, setInlineName] = React.useState('');
   const timerRef = React.useRef<number | null>(null);
+  const barRef = React.useRef<HTMLDivElement>(null);
 
   const rotations = React.useMemo(() => getRotationsForPath(pathname), [pathname]);
   const rotation = rotations[rotationIndex] ?? null;
@@ -133,6 +134,31 @@ export function BottomCtaRotator() {
       if (timerRef.current) window.clearTimeout(timerRef.current);
     };
   }, [enabled, pathname, rotations.length, scheduleShow]);
+
+  React.useEffect(() => {
+    const root = document.documentElement;
+    if (!open) {
+      root.style.setProperty('--bottom-cta-bar-height', '0px');
+      return;
+    }
+    const el = barRef.current;
+    if (!el) return;
+
+    const syncHeight = () => {
+      root.style.setProperty('--bottom-cta-bar-height', `${el.offsetHeight}px`);
+    };
+
+    syncHeight();
+    const observer = new ResizeObserver(syncHeight);
+    observer.observe(el);
+    window.addEventListener('resize', syncHeight);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', syncHeight);
+      root.style.setProperty('--bottom-cta-bar-height', '0px');
+    };
+  }, [open]);
 
   const dismiss = React.useCallback(
     (optOut = false) => {
@@ -244,6 +270,7 @@ export function BottomCtaRotator() {
 
   return (
     <div
+      ref={barRef}
       role="complementary"
       aria-label="Get started with exam prep"
       className={cn(

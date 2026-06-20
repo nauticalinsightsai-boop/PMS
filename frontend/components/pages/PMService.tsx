@@ -23,6 +23,14 @@ import {
   PM_SERVICE_ADVISORY_FORM_ANCHOR,
   PmServiceAdvisoryLeadForm,
 } from '@/components/forms/PmServiceAdvisoryLeadForm';
+import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
+import {
+  PATHWAY_CARD_RADIUS_CLASS,
+  PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS,
+  PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS,
+  PATHWAY_MOBILE_CARD_SHELL_CLASS,
+  SERVICE_SNAP_CARD_CLASS,
+} from '@/lib/brand-visual';
 
 const SERVICE_COLORS = [
   { color: "text-brand-orange", bg: "bg-brand-orange/10" },
@@ -118,64 +126,80 @@ export function PMService({ initialPageConfig }: { initialPageConfig?: ServicesP
       <section id="services" className={sectionSurface('soft', 'py-24 scroll-mt-24')}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
-          <h2 className="text-3xl font-bold tracking-tight mb-10 dark:text-white">Our services</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <h2 className="mb-10 text-3xl font-bold tracking-tight dark:text-white">Our services</h2>
+          <ResponsiveSnapScroll
+            desktopLayoutClassName="md:grid md:grid-cols-2 md:items-stretch"
+            gapClassName="gap-8"
+            mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
+          >
             {services.map((service, index) => {
               const Icon = serviceIcon(service.iconKey);
               const palette = SERVICE_COLORS[index % SERVICE_COLORS.length];
               return (
-              <m.div
-                key={service.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Card className="h-full border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden flex flex-col p-8">
-                  <div className="flex items-start justify-between mb-8">
-                    <div className={cn("p-5 rounded-3xl", palette.bg, palette.color)}>
-                      <Icon className="h-8 w-8" />
-                    </div>
-                    <Badge variant="outline" className="text-[10px] uppercase font-extrabold tracking-widest text-slate-400 px-3 py-1">
-                      Service {index + 1}
-                    </Badge>
-                  </div>
-                  
-                  <CardHeader className="p-0 mb-6">
-                    <CardTitle className="text-3xl font-bold tracking-tight mb-4 text-slate-900 dark:text-white">{service.title}</CardTitle>
-                    <CardDescription className="text-base text-slate-900 dark:text-slate-300 font-medium leading-relaxed">
-                      {service.description}
-                    </CardDescription>
-                  </CardHeader>
-                  
-                  <CardContent className="p-0 flex-1">
-                    <ul className="space-y-4 mb-8">
-                      {service.benefits.map((benefit) => (
-                        <li key={benefit} className="flex items-center gap-3 text-sm font-bold text-slate-900 dark:text-slate-200">
-                          <CheckCircle2 className={cn("h-5 w-5 shrink-0", palette.color)} />
-                          {benefit}
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                  
-                  <WebsiteCalendlyButton
-                    variant="brand"
-                    tier="advisor"
-                    className="w-full h-14 rounded-2xl font-bold group"
-                    funnelLabel={`pm_service_card_${service.id}`}
-                    utm={{
-                      utm_source: 'pmstructure',
-                      utm_medium: 'pm_service',
-                      utm_campaign: service.id,
-                    }}
+                <m.div
+                  key={service.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className={PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS}
+                >
+                  <Card
+                    className={cn(
+                      SERVICE_SNAP_CARD_CLASS,
+                      PATHWAY_MOBILE_CARD_SHELL_CLASS,
+                      PATHWAY_CARD_RADIUS_CLASS,
+                      'flex flex-col border border-slate-100 bg-white p-5 shadow-sm transition-all duration-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 md:rounded-[2.5rem] md:p-8',
+                    )}
                   >
-                    {service.title} <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                  </WebsiteCalendlyButton>
-                </Card>
-              </m.div>
-            );})}
-          </div>
+                    <div className="mb-4 flex shrink-0 items-start justify-between md:mb-8">
+                      <div className={cn('rounded-2xl p-4 md:rounded-3xl md:p-5', palette.bg, palette.color)}>
+                        <Icon className="h-7 w-7 md:h-8 md:w-8" />
+                      </div>
+                      <Badge variant="outline" className="px-3 py-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+                        Service {index + 1}
+                      </Badge>
+                    </div>
+
+                    <CardHeader className="max-md:min-h-[8.5rem] shrink-0 space-y-0 p-0 md:min-h-0">
+                      <CardTitle className="mb-3 line-clamp-2 text-xl font-bold tracking-tight text-slate-900 dark:text-white max-md:min-h-[3.25rem] md:mb-4 md:min-h-0 md:text-3xl">
+                        {service.title}
+                      </CardTitle>
+                      <CardDescription className="line-clamp-3 text-sm font-medium leading-relaxed text-slate-900 dark:text-slate-300 max-md:min-h-[4.5rem] md:min-h-0 md:text-base">
+                        {service.description}
+                      </CardDescription>
+                    </CardHeader>
+
+                    <CardContent className="min-h-0 flex-1 p-0">
+                      <ul className="mb-6 space-y-2 max-md:min-h-[5.5rem] md:mb-8 md:space-y-4">
+                        {service.benefits.map((benefit) => (
+                          <li key={benefit} className="flex items-center gap-2 text-xs font-bold text-slate-900 dark:text-slate-200 md:gap-3 md:text-sm">
+                            <CheckCircle2 className={cn('h-4 w-4 shrink-0 md:h-5 md:w-5', palette.color)} />
+                            <span className="line-clamp-1">{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+
+                    <WebsiteCalendlyButton
+                      variant="brand"
+                      tier="advisor"
+                      className="mt-auto h-11 w-full shrink-0 rounded-xl font-bold group md:h-14 md:rounded-2xl"
+                      funnelLabel={`pm_service_card_${service.id}`}
+                      utm={{
+                        utm_source: 'pmstructure',
+                        utm_medium: 'pm_service',
+                        utm_campaign: service.id,
+                      }}
+                    >
+                      <span className="line-clamp-1">{service.title}</span>
+                      <ArrowRight className="ml-2 h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1 md:h-5 md:w-5" />
+                    </WebsiteCalendlyButton>
+                  </Card>
+                </m.div>
+              );
+            })}
+          </ResponsiveSnapScroll>
         </div>
       </section>
 

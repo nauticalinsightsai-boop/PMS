@@ -126,5 +126,32 @@ export function getCertHeaderBackground(cert: {
 /** Pathway cards: moderate radius on narrow mobile slides; full pill on md+. */
 export const PATHWAY_CARD_RADIUS_CLASS = 'rounded-xl md:rounded-[2.5rem]';
 
-/** One full-width card per mobile viewport (matches ResponsiveSnapScroll -mx-4 px-4 inset). */
-export const PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS = 'w-[calc(100vw-2rem)]';
+/** Gap between fixed-width pathway slides on mobile. */
+export const PATHWAY_MOBILE_CAROUSEL_GAP_CLASS = 'max-md:gap-4';
+
+/** Fixed mobile slide width for pathway carousels (px). */
+export const PATHWAY_MOBILE_CAROUSEL_SLIDE_WIDTH_PX = 310;
+
+/**
+ * Fixed-width pathway slide below md. Static `max-md:` utilities for Tailwind JIT.
+ */
+export const PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS =
+  'max-md:w-[310px] max-md:min-w-[310px] max-md:max-w-[310px] max-md:flex-[0_0_310px] max-md:box-border';
+
+/** Carousel item wrapper: fill the 310px slide; width comes from the slide shell. */
+export const PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS =
+  'flex h-full min-h-0 w-full max-md:max-w-full max-md:h-full max-md:min-h-full md:h-full';
+
+/** Card shell in carousels: stretch to slide height on mobile and in desktop grids. */
+export const PATHWAY_MOBILE_CARD_SHELL_CLASS =
+  'max-md:h-full max-md:min-h-full max-md:flex max-md:flex-col md:h-full md:min-h-full md:flex-1';
+
+/** Featured pathway card root (carousel equal-height + aligned sections). */
+export const PATHWAY_FEATURED_CARD_CLASS = 'pathway-featured-card';
+
+/** PM Service carousel cards (same 310px snap track as pathways). */
+export const SERVICE_SNAP_CARD_CLASS = 'service-snap-card';
+
+/** Mobile header block: fixed min height so pricing chips line up across slides. */
+export const PATHWAY_FEATURED_MOBILE_HEADER_CLASS =
+  'max-md:min-h-[13.5rem] max-md:shrink-0 max-md:flex max-md:flex-col';

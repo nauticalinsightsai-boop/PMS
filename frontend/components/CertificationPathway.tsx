@@ -24,7 +24,7 @@ import { REGION_COPY } from '@/lib/brand-voice';
 import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import type { OfferingStatus } from '@/types/regional-catalogue';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
-import { PATHWAY_CARD_RADIUS_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
+import { PATHWAY_CARD_RADIUS_CLASS, PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS, PATHWAY_MOBILE_CARD_SHELL_CLASS } from '@/lib/brand-visual';
 
 export interface CertificationPathwayProps {
   certificationName: string;
@@ -57,8 +57,9 @@ const tierLevelLabel: Record<PathwayTier['level'], string> = {
 };
 
 const pathwayCardShell = cn(
-  'group/pathway relative h-full flex min-h-full flex-1 flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-slate-900 overflow-hidden',
+  'group/pathway relative flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 bg-white dark:bg-slate-900 overflow-hidden',
   PATHWAY_CARD_RADIUS_CLASS,
+  PATHWAY_MOBILE_CARD_SHELL_CLASS,
 );
 
 function tierAccentColor(color: string | undefined, family: FamilyId): string {
@@ -177,6 +178,9 @@ function PathwayOutcomeList({
   );
 }
 
+const MOBILE_OUTCOMES_COLLAPSED_COUNT = 2;
+const MOBILE_OUTCOMES_EXPANDED_COUNT = 4;
+
 function PathwayTierOutcomes({
   outcomes,
   accentColor,
@@ -188,48 +192,49 @@ function PathwayTierOutcomes({
 
   if (outcomes.length === 0) return null;
 
+  const mobileVisibleCount = expanded
+    ? Math.min(outcomes.length, MOBILE_OUTCOMES_EXPANDED_COUNT)
+    : Math.min(outcomes.length, MOBILE_OUTCOMES_COLLAPSED_COUNT);
+  const mobileHiddenCount = Math.max(
+    0,
+    Math.min(outcomes.length, MOBILE_OUTCOMES_EXPANDED_COUNT) - MOBILE_OUTCOMES_COLLAPSED_COUNT,
+  );
+  const showMobileToggle = outcomes.length > MOBILE_OUTCOMES_COLLAPSED_COUNT;
+
   return (
     <div>
-      <button
-        type="button"
-        className="flex w-full items-center justify-between gap-2 py-1 text-left md:hidden"
-        onClick={(event) => {
-          event.stopPropagation();
-          setExpanded((open) => !open);
-        }}
-        aria-expanded={expanded}
-      >
-        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-          {expanded ? 'Hide outcomes' : `What's included (${outcomes.length})`}
-        </span>
-        <ChevronDown
-          className={cn(
-            'h-4 w-4 shrink-0 text-slate-400 transition-transform duration-300',
-            expanded && 'rotate-180',
-          )}
-          aria-hidden
+      <div className="md:hidden">
+        <PathwayOutcomeList
+          outcomes={outcomes.slice(0, mobileVisibleCount)}
+          accentColor={accentColor}
         />
-      </button>
-      <div
-        className={cn(
-          'max-md:grid max-md:transition-[grid-template-rows,opacity] max-md:duration-300 max-md:ease-out',
-          expanded
-            ? 'max-md:grid-rows-[1fr] max-md:opacity-100'
-            : 'max-md:grid-rows-[0fr] max-md:opacity-0',
-        )}
-      >
-        <div
-          className={cn(
-            'min-h-0 overflow-hidden',
-            !expanded && 'max-md:pointer-events-none',
-          )}
-        >
-          <PathwayOutcomeList
-            outcomes={outcomes}
-            accentColor={accentColor}
-            className="max-md:pt-2"
-          />
-        </div>
+        {showMobileToggle ? (
+          <button
+            type="button"
+            className="mt-2 flex w-full items-center justify-between gap-2 py-1 text-left"
+            onClick={(event) => {
+              event.stopPropagation();
+              setExpanded((open) => !open);
+            }}
+            aria-expanded={expanded}
+          >
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-orange">
+              {expanded
+                ? 'Show less'
+                : `+${mobileHiddenCount} more`}
+            </span>
+            <ChevronDown
+              className={cn(
+                'h-4 w-4 shrink-0 text-brand-orange transition-transform duration-300',
+                expanded && 'rotate-180',
+              )}
+              aria-hidden
+            />
+          </button>
+        ) : null}
+      </div>
+      <div className="hidden md:block">
+        <PathwayOutcomeList outcomes={outcomes} accentColor={accentColor} />
       </div>
     </div>
   );
@@ -254,11 +259,10 @@ export const PathwayCard: React.FC<{
   );
 
   return (
-    <div className="flex min-h-full flex-1 flex-col motion-reduce:transform-none md:transition-transform md:duration-300 md:hover:-translate-y-1">
+    <div className="flex h-full min-h-0 flex-col motion-reduce:transform-none md:transition-transform md:duration-300 md:hover:-translate-y-1">
       <Card
         className={cn(
           pathwayCardShell,
-          'min-h-full flex-1',
           tier.isPopular && 'ring-2 ring-offset-2 dark:ring-offset-slate-950',
         )}
         style={
@@ -388,7 +392,7 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.6 }}
-            className="flex min-h-full flex-1 flex-col max-md:h-auto"
+            className={PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS}
           >
             <PathwayCard
               tier={tier}
