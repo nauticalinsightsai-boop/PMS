@@ -115,11 +115,12 @@ export default async function SitemapPage() {
             <Link href="/go/website" className="font-semibold text-brand-purple hover:underline">
               /go/*
             </Link>{' '}
-            and checkout flows are intentionally omitted from this human sitemap. They remain in{' '}
+            and checkout flows are intentionally omitted from this human sitemap and the{' '}
             <a href={xmlSitemapUrl} className="font-semibold text-brand-purple hover:underline">
-              sitemap.xml
-            </a>{' '}
-            where indexable.
+              XML sitemap
+            </a>
+            . Portals carry <span className="font-semibold">noindex</span> and are for lead-gen via
+            direct links only, not organic search.
           </p>
         </div>
       </section>

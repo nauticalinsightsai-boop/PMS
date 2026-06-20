@@ -16,6 +16,7 @@ const NOINDEX_PREFIXES = [
   '/api',
   '/compare',
   '/store',
+  '/go',
 ];
 const NOINDEX_PATTERN = /\/certifications\/[^/]+\/[^/]+\/enroll/;
 

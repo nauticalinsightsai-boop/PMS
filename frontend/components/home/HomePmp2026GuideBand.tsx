@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 
 const GUIDE_LINKS: { href: string; label: string; primary?: boolean }[] = [
   { href: '/pmp-exam-2026', label: 'PMP 2026 guide', primary: true },
+  { href: '/certifications/pmp', label: 'PMP pathway' },
   { href: '/pmp', label: 'PMP hub' },
   { href: '/answers', label: 'Direct answers' },
   { href: '/topics', label: 'Topic hubs' },

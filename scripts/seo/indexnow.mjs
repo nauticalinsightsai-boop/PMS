@@ -35,16 +35,18 @@ if (!fs.existsSync(keyFile)) {
 
 const priorityPaths = [
   '/',
+  '/certifications/pmp',
   '/pmp-exam-2026',
   '/pmp',
   '/faq',
-  '/certifications/pmp',
+  '/certifications/compare',
   '/answers/is-the-pmp-exam-changing-in-2026',
   '/topics/pmp-exam-2026',
+  '/newsletter',
   '/sitemap.xml',
 ];
 
-const forbidden = /checkout|payment|success|cancel|thank-you|login|account|dashboard|admin/i;
+const forbidden = /checkout|payment|success|cancel|thank-you|login|account|dashboard|admin|\/go\//i;
 const urlList = priorityPaths
   .map((p) => `${base}${p}`)
   .filter((u) => !forbidden.test(u));

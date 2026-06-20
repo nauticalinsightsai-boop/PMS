@@ -1,5 +1,4 @@
 import type { MetadataRoute } from 'next';
-import { getPublishedPortalSitemapPaths } from '@pms/booking-crm';
 import { certifications } from '@/data/siteData';
 import { getPublishedNewsletterArticles } from '@/lib/newsletter/articles';
 import { getPublishedBlogArticles } from '@/lib/blog/posts';
@@ -38,14 +37,6 @@ function entriesFromSpecs(specs: RouteSpec[]): MetadataRoute.Sitemap {
   return specs
     .map(({ path, priority, changeFrequency }) => safeEntry(path, priority, changeFrequency))
     .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
-}
-
-function safePortalPaths(): string[] {
-  try {
-    return getPublishedPortalSitemapPaths();
-  } catch {
-    return [];
-  }
 }
 
 async function safeNewsletterArticles() {
@@ -181,7 +172,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 }
 
 async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
-  const portalPaths = safePortalPaths();
   const newsletterArticles = await safeNewsletterArticles();
 
   const newsletter = newsletterArticles
@@ -191,8 +181,7 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
   // Blog hub is noindex until substantive content ships (G4 default).
   const blog: MetadataRoute.Sitemap = [];
 
-  const portalEntries = safePathsToEntries(portalPaths, 0.5, 'monthly');
-
+  // /go/* channel portals are noindex and omitted from the XML sitemap (GSC crawl budget).
   return dedupeSitemap([
     ...entriesFromSpecs(MARKETING_ROUTES),
     ...buildCertEntries(),
@@ -204,6 +193,5 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     ...buildLegalEntries(),
     ...newsletter,
     ...blog,
-    ...portalEntries,
   ]);
 }

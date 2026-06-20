@@ -21,6 +21,7 @@ export const NOINDEX_PATH_PREFIXES = [
   '/api',
   '/compare',
   '/store',
+  '/go',
 ] as const;
 
 /** Regex patterns for noindex routes (enrollment flows, etc.). */

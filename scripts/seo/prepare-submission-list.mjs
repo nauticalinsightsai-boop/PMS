@@ -6,26 +6,20 @@ import { ensureReportsDir, REPORTS_DIR } from './lib/report-writer.mjs';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const base = 'https://pmstructure.com';
 
-const priority = [
+const P0_SUBMISSION_PATHS = [
   '/',
-  '/pmp',
+  '/certifications/pmp',
   '/pmp-exam-2026',
-  '/pmp-current-vs-new-exam',
-  '/pmp-before-8-july-2026',
-  '/pmp-after-9-july-2026',
-  '/pmp-foundation',
-  '/pmp-professional',
-  '/pmp-mastery',
-  '/pmp-readiness-diagnostic',
-  '/pmp-scenario-practice',
-  '/pmp-faq',
+  '/pmp',
   '/faq',
-  '/topics',
-  '/legal',
+  '/certifications/compare',
+  '/answers/is-the-pmp-exam-changing-in-2026',
+  '/topics/pmp-exam-2026',
+  '/newsletter',
 ];
 
-const forbidden = /checkout|payment|success|cancel|thank-you|login|account|dashboard|admin|utm_|currency=|region=/i;
-const urls = priority.map((p) => `${base}${p}`).filter((u) => !forbidden.test(u));
+const forbidden = /checkout|payment|success|cancel|thank-you|login|account|dashboard|admin|\/go\/|utm_|currency=|region=/i;
+const urls = P0_SUBMISSION_PATHS.map((p) => `${base}${p}`).filter((u) => !forbidden.test(u));
 
 ensureReportsDir();
 fs.writeFileSync(path.join(REPORTS_DIR, 'google-priority-urls.txt'), urls.join('\n') + '\n');

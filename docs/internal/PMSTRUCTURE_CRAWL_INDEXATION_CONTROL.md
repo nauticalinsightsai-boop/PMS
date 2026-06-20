@@ -162,16 +162,26 @@ Verification file in repo: `frontend/public/google5780310dc725cd18.html` (owner-
 
 ## Owner Actions (post-deploy)
 
-1. Re-check GSC sitemap status until **Success**; investigate discovered vs sitemap URL count gap
+1. Re-check GSC sitemap status until **Success**; expect discovered count ~140 after `/go/*` removal (was ~184)
 2. URL Inspection on 5 P0 URLs above; export Pages report into `pmstructure-indexation-control-matrix.csv`
 3. Manual Actions check in GSC → Security & Manual Actions → log evidence in checklist
-4. Review `/go/*` crawl budget (R05 in risk register)
+4. ~~Review `/go/*` crawl budget (R05 in risk register)~~ **Closed 2026-06-20:** `/go/*` = noindex, omitted from XML sitemap (lead-gen via direct links only)
 5. Review pages marked **needs_review** in indexation matrix (community, membership, pm-service, secondary certs)
 6. If public PDFs added: apply X-Robots-Tag policy per section above
+
+---
+
+## `/go/*` Portal Indexation (R05 closed)
+
+**Decision (2026-06-20):** Channel portals under `/go/*` are **noindex, nofollow** and **excluded from sitemap.xml**.
+
+- Implementation: `frontend/app/go/[channel]/page.tsx` robots meta, `frontend/app/sitemap.ts` (no portal entries), `frontend/content/indexation/strategy.ts`
+- Robots.txt does **not** disallow `/go/` — Google should crawl once, see noindex, and drop from index
+- Portals remain reachable via social and direct links for lead-gen
 
 ---
 
 Owner: Sheikh M. Abdullah  
 Technical owner: Developer  
 Marketing owner: Mahaa  
-Last updated: 18 June 2026
+Last updated: 20 June 2026

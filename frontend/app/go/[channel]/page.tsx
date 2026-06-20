@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getPublishedGoChannelSlugs } from '@pms/booking-crm';
 import { resolveChannelLandingPageForGo } from '@pms/booking-crm/repository';
 import ChannelConsultationPortalView from '@/components/channel-landing/ChannelConsultationPortalView';
+import { ROBOTS_NOINDEX_NOFOLLOW } from '@/lib/indexing-metadata';
 
 type Props = {
   params: Promise<{ channel: string }>;
@@ -20,11 +21,10 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const page = resolveChannelLandingPageForGo(channel, { preview: isPreview });
   if (!page) return { title: 'Not found' };
 
-  const published = page.status === 'published' && !isPreview;
   return {
     title: `${page.headline} | PM Structure`,
     description: page.subheadline || page.headline,
-    robots: published ? { index: true, follow: true } : { index: false, follow: false },
+    robots: ROBOTS_NOINDEX_NOFOLLOW,
     alternates: { canonical: `/go/${channel}` },
   };
 }

@@ -28,6 +28,11 @@ const homeUsesPhase2Related =
   (home.includes('RelatedGuidesLinks') && home.includes('getPhase2Seo'));
 const homeLinks = home + homePage + (homeUsesPhase2Related ? homePhase2Block : '');
 const footer = fs.readFileSync(path.join(frontend, 'components/Footer.tsx'), 'utf8');
+const footerPmpNav = fs.readFileSync(
+  path.join(frontend, 'components/footer/FooterPmpExam2026Nav.tsx'),
+  'utf8',
+);
+const footerLinks = footer + footerPmpNav;
 
 const hubLinks = ['/answers', '/topics', '/pmp-readiness-diagnostic', '/pmp-enrollment'];
 const siteWideLinks = ['/answers', '/topics', '/pmp-exam-2026', '/topics/pmp-exam-2026'];
@@ -47,7 +52,7 @@ if (!pages.includes('/answers')) {
 }
 
 for (const href of siteWideLinks) {
-  if (!footer.includes(href)) {
+  if (!footerLinks.includes(href)) {
     console.error(`internal-links-check FAIL: Footer missing link to ${href}`);
     failed = true;
   }

@@ -235,13 +235,6 @@ function configForPublicPath(path: string, pageType: string, notes?: string): Pa
     ownerApproval = 'Owner review';
   }
 
-  if (normalized.startsWith('/go/')) {
-    decision = 'needs_review';
-    reason = 'Published portal page: index if published; review crawl budget';
-    ownerApproval = 'Owner review';
-    notes = notes ?? '41+ portal routes; see PMSTRUCTURE_IMPLEMENTATION_RISK_REGISTER R05';
-  }
-
   if (normalized === '/pmp') {
     notes = notes ?? 'Supporting PMP hub: distinct from /certifications/pmp commercial page (T-032)';
   }
@@ -262,6 +255,23 @@ function configForPublicPath(path: string, pageType: string, notes?: string): Pa
     ownerApproval,
     implementationStatus,
     notes,
+  });
+}
+
+function configForPortalPath(slug: string): PageIndexationConfig {
+  return baseRow({
+    path: `/go/${slug}`,
+    pageType: 'Portal page',
+    decision: 'noindex',
+    index: false,
+    follow: false,
+    includeInSitemap: false,
+    priority: 'P2',
+    reason: 'Channel portal: lead-gen only, not an organic landing page (GSC crawl budget)',
+    dataSource: 'Route inventory + owner decision R05 closed',
+    ownerApproval: 'Owner approved noindex 2026-06-20',
+    implementationStatus: 'Implemented',
+    notes: 'Omitted from XML sitemap; reachable via social/direct links only',
   });
 }
 
@@ -303,7 +313,7 @@ export function getIndexationDecisionForPath(path: string): IndexationDecision {
   if (REDIRECT_PATHS[normalized]) return 'redirect';
   if (!isIndexablePath(normalized)) return 'noindex';
   if (NOT_IN_REPO_SPEC_PATHS.includes(normalized)) return 'needs_review';
-  if (normalized.startsWith('/go/')) return 'needs_review';
+  if (normalized.startsWith('/go/') || normalized === '/go') return 'noindex';
   if (['/community', '/membership', '/pm-service'].includes(normalized)) return 'needs_review';
   return 'index';
 }
@@ -378,7 +388,7 @@ export function getAllIndexationStrategyRows(): IndexationStrategyRow[] {
   }
 
   for (const slug of getPublishedGoChannelSlugs()) {
-    add(configForPublicPath(`/go/${slug}`, 'Portal page'));
+    add(configForPortalPath(slug));
   }
 
   add(

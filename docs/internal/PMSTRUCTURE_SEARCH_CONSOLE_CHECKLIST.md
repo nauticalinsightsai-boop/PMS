@@ -86,21 +86,39 @@ unless Search Console confirms it.
 | 2026-06-18 | Manual Actions checked | Pending owner confirmation | Requires GSC Security & Manual Actions | Sheikh / Mahaa |
 | 2026-06-18 | Priority URL inspections | Pending owner confirmation | See manual steps above | Sheikh / Mahaa |
 | 2026-06-18 | Pages report exported to CSV | Pending owner confirmation | Import into control matrix | Sheikh / Mahaa |
+| 2026-06-20 | `/go/*` deindexed + removed from sitemap | Implemented in repo | sitemap.ts, go page metadata, strategy.ts; resubmit sitemap after deploy | Developer |
+| 2026-06-20 | Sitemap resubmit after deploy | Pending owner confirmation | GSC → Sitemaps → submit `sitemap.xml`; expect ~41 fewer discovered URLs | Sheikh / Mahaa |
+| 2026-06-20 | Live SEO audits post-deploy | Pass | `docs/reports/GSC_INDEXATION_DEPLOY_VERIFY_2026-06-20.md`; sitemap 161 URLs, no /go/ | Developer |
+| 2026-06-20 | Railway deploy (GSC indexation) | SUCCESS | Deployment `82e54d29-6d8c-4feb-a5d2-547fb7b3eecf` | Developer |
 
 ---
 
 ## Remaining Owner Actions
 
-1. Re-check sitemap until **Success**; investigate discovered URL gap
+1. Re-check sitemap until **Success** after deploy; expect ~140 discovered URLs (down from ~184)
 2. URL Inspection on 5 P0 URLs
 3. Manual Actions review with screenshot
 4. Export Pages report → update matrix CSV
-5. Review `/go/*` crawl budget and needs_review content pages
+5. Request indexing for P0 URLs only (`npm run seo:prepare-submission-list` → `reports/google-priority-urls.txt`)
 6. Bing Webmaster Tools: import from GSC if not already done
+
+---
+
+## GSC URL classification (184 discovered URLs)
+
+After exporting the Pages report, bucket URLs into:
+
+| Bucket | Examples | Expected GSC status after recrawl |
+|--------|----------|-----------------------------------|
+| P0 commercial | `/`, `/certifications/pmp`, `/faq` | Indexed or Crawled |
+| P1 cluster | `/pmp-exam-2026`, `/answers/*`, `/topics/*` | Indexed or Discovered |
+| Utility/noindex | `/checkout/*`, `/admin/*`, enroll flows | Excluded by noindex |
+| `/go/*` portals | `/go/website`, `/go/tiktok`, … | Excluded by noindex |
+| Blog hub | `/blog` | Excluded by noindex |
 
 ---
 
 Owner: Sheikh M. Abdullah  
 Technical owner: Developer  
 Marketing owner: Mahaa  
-Last updated: 18 June 2026
+Last updated: 20 June 2026
