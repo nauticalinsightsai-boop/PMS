@@ -45,9 +45,6 @@ const FOOTER_SOCIAL_ICONS: Record<(typeof FOOTER_SOCIAL_LINKS)[number]['id'], Lu
 };
 
 const RESOURCES_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
-  { label: 'PMP and certification answers', href: '/answers' },
-  { label: 'Project management topic guides', href: '/topics' },
-  { label: 'PMP Exam 2026 Guide', href: '/topics/pmp-exam-2026' },
   { label: 'Newsletter', href: '/newsletter' },
   { label: 'FAQ Hub', href: FAQ_HUB_PATH },
   { label: 'Legal Hub', href: LEGAL_HUB_PATH },

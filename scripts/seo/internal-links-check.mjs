@@ -35,7 +35,8 @@ const footerPmpNav = fs.readFileSync(
 const footerLinks = footer + footerPmpNav;
 
 const hubLinks = ['/answers', '/topics', '/pmp-readiness-diagnostic', '/pmp-enrollment'];
-const siteWideLinks = ['/answers', '/topics', '/pmp-exam-2026', '/topics/pmp-exam-2026'];
+const homeRequiredLinks = ['/answers', '/topics', '/pmp-exam-2026', '/topics/pmp-exam-2026'];
+const footerRequiredLinks = ['/pmp-exam-2026'];
 
 let failed = false;
 
@@ -51,13 +52,16 @@ if (!pages.includes('/answers')) {
   failed = true;
 }
 
-for (const href of siteWideLinks) {
-  if (!footerLinks.includes(href)) {
-    console.error(`internal-links-check FAIL: Footer missing link to ${href}`);
-    failed = true;
-  }
+for (const href of homeRequiredLinks) {
   if (!homeLinks.includes(href)) {
     console.error(`internal-links-check FAIL: Home missing link to ${href}`);
+    failed = true;
+  }
+}
+
+for (const href of footerRequiredLinks) {
+  if (!footerLinks.includes(href)) {
+    console.error(`internal-links-check FAIL: Footer missing link to ${href}`);
     failed = true;
   }
 }
