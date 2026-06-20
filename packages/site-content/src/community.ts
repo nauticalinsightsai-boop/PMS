@@ -32,13 +32,13 @@ export function defaultCommunityPageConfig(): CommunityPageConfig {
     hero: {
       badge: 'Community',
       title: 'Join the Global PM Network',
-      subtitle: 'Connect with professionals in our Skool community.',
+      subtitle: 'Connect with professionals in our Circle community.',
     },
     network: {
       title: 'Join the Global PM Network',
-      subtitle: "Don't study in isolation. Connect with professionals in our Skool community.",
+      subtitle: "Don't study in isolation. Connect with professionals in our Circle community.",
       features: [
-        { title: 'Skool Community', iconKey: 'message' },
+        { title: 'Circle Community', iconKey: 'message' },
         { title: 'Study Circles', iconKey: 'users' },
         { title: 'Peer Discussions', iconKey: 'message' },
         { title: 'Live Sessions', iconKey: 'calendar' },

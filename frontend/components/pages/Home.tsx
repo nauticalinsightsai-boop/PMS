@@ -49,6 +49,7 @@ import { buildGeneralWaitlistContext } from '@/lib/waitlist-contact-href';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2Seo } from '@/content/seo/phase-2-page-seo';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
+import { COMMUNITY_PLATFORM_LABEL } from '@/config/community';
 import { LazyWhenVisible } from '@/components/LazyWhenVisible';
 import { useIsLgUp } from '@/hooks/useIsLgUp';
 import { featuredCertifications, certifications, familyConfigs } from '@/data/certification-index';
@@ -734,7 +735,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 </p>
                 <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
                   {[
-                    { title: "Skool Community", icon: MessageSquare },
+                    { title: `${COMMUNITY_PLATFORM_LABEL} Community`, icon: MessageSquare },
                     { title: "Study Circles", icon: Users },
                     { title: "Peer Discussions", icon: MessageSquare },
                     { title: "Live Sessions", icon: Calendar },

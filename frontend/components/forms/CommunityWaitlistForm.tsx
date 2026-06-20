@@ -24,9 +24,10 @@ import {
 import { PMS_EVENTS } from '@/lib/analytics/pms-events';
 import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 import { CTAS } from '@/lib/brand-voice';
+import { Users } from 'lucide-react';
 
 const COMMUNITY_INTERESTS = [
-  'Skool community',
+  'Circle community',
   'Study circles',
   'Mentorship',
   'Live events',
@@ -69,7 +70,7 @@ export function CommunityWaitlistForm({ className }: Props) {
   const labelClass =
     'text-[10px] font-bold uppercase tracking-wide text-white/85 sm:text-[11px]';
   const fieldClass =
-    'h-9 w-full border-white/30 bg-slate-950/50 text-sm text-white placeholder:text-white/55 focus-visible:ring-brand-orange/50 sm:h-10';
+    'h-8 w-full border-white/30 bg-slate-950/50 text-sm text-white placeholder:text-white/55 focus-visible:ring-brand-orange/50 sm:h-9';
 
   const toggleInterest = (interest: string) => {
     setSelectedInterests((prev) =>
@@ -153,19 +154,27 @@ export function CommunityWaitlistForm({ className }: Props) {
   }
 
   return (
-    <div className={cn('flex h-full min-h-0 flex-col', className)}>
+    <div className={cn('flex flex-col', className)}>
       <form onSubmit={onSubmit} aria-labelledby="community-waitlist-title" className="flex min-h-0 flex-1 flex-col">
-        <div className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-0.5 sm:space-y-3.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          <div>
-            <p
-              id="community-waitlist-title"
-              className="font-heading text-lg font-bold tracking-tight text-white sm:text-xl"
+        <div className="space-y-2.5 sm:space-y-3">
+          <div className="flex gap-3 sm:gap-4">
+            <div
+              className="shrink-0 self-start rounded-xl border border-white/20 bg-slate-950/40 p-2.5 text-brand-orange shadow-sm sm:p-3"
+              aria-hidden
             >
-              Join the community waitlist
-            </p>
-            <p className="mt-1 text-xs font-medium text-white/85 sm:text-sm">
-              Share your details and interests. We&apos;ll notify you when access opens.
-            </p>
+              <Users className="h-5 w-5 sm:h-6 sm:w-6" />
+            </div>
+            <div className="min-w-0">
+              <p
+                id="community-waitlist-title"
+                className="font-heading text-lg font-bold tracking-tight text-white sm:text-xl"
+              >
+                Join the community waitlist
+              </p>
+              <p className="mt-1 text-xs font-medium text-white/85 sm:text-sm">
+                Share your details and interests. We&apos;ll notify you when access opens.
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -192,7 +201,7 @@ export function CommunityWaitlistForm({ className }: Props) {
               <Label htmlFor="community-waitlist-phone" className={labelClass}>
                 Phone / WhatsApp <span className="text-brand-orange">*</span>
               </Label>
-              <div className="flex h-9 items-stretch overflow-hidden rounded-lg border border-white/30 bg-slate-950/50 focus-within:border-brand-orange/60 focus-within:ring-3 focus-within:ring-brand-orange/30 sm:h-10">
+              <div className="flex h-8 items-stretch overflow-hidden rounded-lg border border-white/30 bg-slate-950/50 focus-within:border-brand-orange/60 focus-within:ring-3 focus-within:ring-brand-orange/30 sm:h-9">
                 <Select
                   value={dialValue}
                   onValueChange={(value) => {
@@ -325,7 +334,9 @@ export function CommunityWaitlistForm({ className }: Props) {
           />
 
           {error ? <p className="text-sm font-medium text-red-300">{error}</p> : null}
+        </div>
 
+        <div className="mt-auto shrink-0 space-y-2 border-t border-white/10 pt-3 pb-0">
           <p className="text-[10px] leading-relaxed text-white/55 sm:text-[11px]">
             By joining, you agree to our{' '}
             <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
@@ -333,13 +344,10 @@ export function CommunityWaitlistForm({ className }: Props) {
             </Link>
             .
           </p>
-        </div>
-
-        <div className="shrink-0 pt-3">
           <Button
             type="submit"
             disabled={submitting}
-            className="h-10 w-full rounded-full bg-brand-orange text-sm font-bold text-white shadow-lg hover:bg-brand-hover sm:h-11 sm:text-base"
+            className="h-9 w-full rounded-full bg-brand-orange text-sm font-bold text-white shadow-lg hover:bg-brand-hover sm:h-10 sm:text-base"
           >
             {submitting ? 'Joining…' : CTAS.joinWaitlist}
           </Button>

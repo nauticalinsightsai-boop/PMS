@@ -11,7 +11,14 @@ Project Management certification platform: **Next.js** monorepo (TypeScript + Ja
 | `backend/` | Next.js 15 API routes | 3001 |
 | `dashboard/frontend/` | Next.js 15 admin UI | 5174 |
 | `dashboard/backend/` | Next.js 15 dashboard API | 3002 |
-| `supabase/migrations/` | Postgres schema | - |
+| `packages/site-content/` | Shared CMS content types | — |
+| `packages/booking-crm/` | Channel landing / portal UI | — |
+| `packages/ui/` | Shared UI primitives | — |
+| `supabase/migrations/` | Postgres schema | — |
+
+### Config (public site)
+
+See `frontend/config/README.md` — `pms-site.ts` (SEO/legal), `community.ts` (Skool join URL), `site.ts` (social profiles).
 
 ## Tech
 

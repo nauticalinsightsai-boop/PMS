@@ -5,7 +5,6 @@ import {
   Linkedin,
   Youtube,
   Instagram,
-  Video,
   Pin,
   Mail,
   Phone,
@@ -41,7 +40,7 @@ const FOOTER_SOCIAL_ICONS: Record<(typeof FOOTER_SOCIAL_LINKS)[number]['id'], Lu
   youtube: Youtube,
   instagram: Instagram,
   facebook: Facebook,
-  tiktok: Video,
+  substack: Mail,
   pinterest: Pin,
 };
 

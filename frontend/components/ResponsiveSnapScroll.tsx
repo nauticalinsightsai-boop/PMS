@@ -17,13 +17,17 @@ type ResponsiveSnapScrollProps = {
 };
 
 const DEFAULT_MOBILE_ITEM = 'w-[min(92vw,19rem)]';
-const AXIS_THRESHOLD_PX = 8;
+const AXIS_THRESHOLD_PX = 4;
+
+/** Touch classes for mobile Embla viewports: allow drag immediately; lock axis once intent is clear. */
+export const MOBILE_EMLA_VIEWPORT_TOUCH_CLASS =
+  'touch-manipulation data-[scroll-axis=horizontal]:touch-pan-x data-[scroll-axis=vertical]:touch-pan-y';
 
 /**
  * On mobile, decide horizontal (carousel) vs vertical (page) intent early so
- * vertical swipes on cards are not trapped by overflow-x-auto.
+ * vertical swipes on cards are not trapped by overflow-x-auto / Embla drag.
  */
-function useMobileScrollAxis(
+export function useMobileScrollAxis(
   ref: React.RefObject<HTMLDivElement | null>,
   enabled: boolean,
 ) {
@@ -84,6 +88,21 @@ function useMobileScrollAxis(
   }, [ref, enabled]);
 }
 
+export function useMergedEmblaViewportRef(
+  emblaRef: (node: HTMLElement | null) => void,
+) {
+  const axisRef = React.useRef<HTMLDivElement | null>(null);
+  useMobileScrollAxis(axisRef, true);
+
+  return React.useCallback(
+    (node: HTMLDivElement | null) => {
+      axisRef.current = node;
+      emblaRef(node);
+    },
+    [emblaRef],
+  );
+}
+
 export function MobileLoopCarousel({
   items,
   mobileItemClassName,
@@ -99,15 +118,20 @@ export function MobileLoopCarousel({
     loop: true,
     align: 'start',
     containScroll: false,
+    watchDrag: true,
   });
+  const viewportRef = useMergedEmblaViewportRef(emblaRef);
 
   const slideGap = gapClassName.includes('gap-8') ? 'pr-6' : 'pr-4';
 
   return (
     <div className={cn('md:hidden -mx-4 px-4', className)}>
       <div
-        ref={emblaRef}
-        className="overflow-hidden cursor-grab touch-pan-y active:cursor-grabbing [-webkit-overflow-scrolling:touch]"
+        ref={viewportRef}
+        className={cn(
+          'overflow-hidden cursor-grab overscroll-x-contain active:cursor-grabbing',
+          MOBILE_EMLA_VIEWPORT_TOUCH_CLASS,
+        )}
       >
         <div className="flex">
           {items.map((child, index) => (

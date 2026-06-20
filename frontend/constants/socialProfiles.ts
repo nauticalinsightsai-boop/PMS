@@ -9,7 +9,6 @@ import {
   SITE_DISPLAY_NAME,
   SITE_EMAIL_DOMAIN,
   SITE_HANDLE,
-  SITE_LEGACY_BRAND_ORIGIN,
   SITE_ORGANIZATION_SAME_AS,
   SITE_SOCIAL_PROFILE_URLS,
   SITE_USERNAME,
@@ -46,11 +45,11 @@ export type MediaSocialGridItem =
 /** @deprecated Prefer SITE_USERNAME from @/config/site */
 export const SOCIAL_HANDLE = SITE_USERNAME;
 
-/** Canonical site origin (SEO, sitemap, redirects). */
+/** Canonical site origin (SEO, sitemap, channel portal fallbacks). */
 export const SITE_ORIGIN = SITE_CANONICAL_ORIGIN;
 
-/** Legacy public brand domain (redirects to canonical). */
-export const PUBLIC_BRAND_ORIGIN = SITE_LEGACY_BRAND_ORIGIN;
+/** @deprecated Use SITE_ORIGIN — kept for legacy imports. */
+export const PUBLIC_BRAND_ORIGIN = SITE_CANONICAL_ORIGIN;
 
 export const BRAND_EMAIL_DOMAIN = SITE_EMAIL_DOMAIN;
 
@@ -67,8 +66,8 @@ export const SOCIAL_PROFILE_URLS = SITE_SOCIAL_PROFILE_URLS;
 
 /** Accessible labels for primary public profiles. */
 export const SOCIAL_ARIA_LABELS = {
-  linkedin: 'LinkedIn profile of Sheikh M. Abdullah',
-  x: 'X profile of Sheikh M. Abdullah',
+  linkedin: 'LinkedIn company page for PM Structure',
+  x: 'X profile for PM Structure',
 } as const;
 
 /** Primary verified profiles surfaced in contact and profile sections. */
@@ -77,14 +76,14 @@ export const PRIMARY_SOCIAL_PROFILES = [
     id: 'linkedin' as const,
     label: 'LinkedIn',
     url: SOCIAL_PROFILE_URLS.linkedin,
-    displayHandle: `/in/${SITE_USERNAME}`,
+    displayHandle: '/company/pmstructure',
     ariaLabel: SOCIAL_ARIA_LABELS.linkedin,
   },
   {
     id: 'x' as const,
     label: 'X',
     url: SOCIAL_PROFILE_URLS.x,
-    displayHandle: SITE_HANDLE,
+    displayHandle: '@PMStructure',
     ariaLabel: SOCIAL_ARIA_LABELS.x,
   },
 ] as const;
@@ -102,9 +101,8 @@ export function getMediaSocialAriaLabel(name: string): string | undefined {
 export const MEDIA_SOCIAL_GRID: MediaSocialGridItem[] = [
   { name: 'LinkedIn', url: SOCIAL_PROFILE_URLS.linkedin, iconFamily: 'lucide', lucideIcon: 'linkedin', ariaLabel: SOCIAL_ARIA_LABELS.linkedin },
   { name: 'Medium', url: SOCIAL_PROFILE_URLS.medium, iconFamily: 'lucide', lucideIcon: 'file-text' },
-  { name: 'Substack', url: SOCIAL_PROFILE_URLS.substack, iconFamily: 'lucide', lucideIcon: 'mail' },
+  { name: 'Substack', url: SOCIAL_PROFILE_URLS.substack, iconFamily: 'lucide', lucideIcon: 'mail', ariaLabel: 'Substack newsletter for PM Structure' },
   { name: 'YouTube', url: SOCIAL_PROFILE_URLS.youtube, iconFamily: 'lucide', lucideIcon: 'youtube' },
-  { name: 'TikTok', url: SOCIAL_PROFILE_URLS.tiktok, iconFamily: 'lucide', lucideIcon: 'video' },
   { name: 'Facebook', url: SOCIAL_PROFILE_URLS.facebook, iconFamily: 'fa', faIcon: 'facebook' },
   { name: 'X', url: SOCIAL_PROFILE_URLS.x, iconFamily: 'fa', faIcon: 'x', ariaLabel: SOCIAL_ARIA_LABELS.x },
   { name: 'Instagram', url: SOCIAL_PROFILE_URLS.instagram, iconFamily: 'fa', faIcon: 'instagram' },
@@ -115,11 +113,11 @@ export const MEDIA_SOCIAL_GRID: MediaSocialGridItem[] = [
 export const FOOTER_SOCIAL_LINKS = [
   { id: 'linkedin' as const, url: SOCIAL_PROFILE_URLS.linkedin, ariaLabel: SOCIAL_ARIA_LABELS.linkedin },
   { id: 'x' as const, url: SOCIAL_PROFILE_URLS.x, ariaLabel: SOCIAL_ARIA_LABELS.x },
-  { id: 'youtube' as const, url: SOCIAL_PROFILE_URLS.youtube, ariaLabel: 'YouTube channel of Sheikh M. Abdullah' },
-  { id: 'instagram' as const, url: SOCIAL_PROFILE_URLS.instagram, ariaLabel: 'Instagram profile of Sheikh M. Abdullah' },
-  { id: 'facebook' as const, url: SOCIAL_PROFILE_URLS.facebook, ariaLabel: 'Facebook profile of Sheikh M. Abdullah' },
-  { id: 'tiktok' as const, url: SOCIAL_PROFILE_URLS.tiktok, ariaLabel: 'TikTok profile of Sheikh M. Abdullah' },
-  { id: 'pinterest' as const, url: SOCIAL_PROFILE_URLS.pinterest, ariaLabel: 'Pinterest profile of Sheikh M. Abdullah' },
+  { id: 'youtube' as const, url: SOCIAL_PROFILE_URLS.youtube, ariaLabel: 'YouTube channel for PM Structure' },
+  { id: 'instagram' as const, url: SOCIAL_PROFILE_URLS.instagram, ariaLabel: 'Instagram profile for PM Structure' },
+  { id: 'facebook' as const, url: SOCIAL_PROFILE_URLS.facebook, ariaLabel: 'Facebook page for Project Management Structure' },
+  { id: 'substack' as const, url: SOCIAL_PROFILE_URLS.substack, ariaLabel: 'Substack newsletter for PM Structure' },
+  { id: 'pinterest' as const, url: SOCIAL_PROFILE_URLS.pinterest, ariaLabel: 'Pinterest board for PM Structure' },
 ] as const;
 
 /** SEO schema.org sameAs */

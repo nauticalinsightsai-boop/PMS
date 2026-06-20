@@ -30,6 +30,7 @@ import { BRAND, COMMUNITY_COPY } from "@/lib/brand-voice";
 import { MARKETING_STOCK_IMAGES } from "@/lib/marketing-stock-images";
 import { pageHeroSection, SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
+import { COMMUNITY_PRODUCT_LABEL } from '@/config/community';
 import { CommunityWaitlistForm } from '@/components/forms/CommunityWaitlistForm';
 import {
   RegisterNowDialog,
@@ -44,12 +45,14 @@ const StoreContent = dynamic(
 
 const communityChannels = [
   {
-    title: `${BRAND.name} on Skool`,
+    title: `${BRAND.name} ${COMMUNITY_PRODUCT_LABEL}`,
     desc: "Our primary hub for structured cohort learning, live sessions, and certification prep discussions.",
     icon: LayoutGrid,
     color: "text-amber-500",
     bg: "bg-amber-500/5 dark:bg-amber-500/10",
     joinHref: PMS_SKOOL_COMMUNITY_JOIN_URL,
+    cta: 'Join Community',
+    ctaVariant: 'brand' as const,
   },
   {
     title: "Study Circles",
@@ -58,6 +61,8 @@ const communityChannels = [
     color: "text-brand-purple",
     bg: "bg-brand-purple/5 dark:bg-brand-purple/10",
     joinHref: PMS_SKOOL_COMMUNITY_JOIN_URL,
+    cta: 'Sign in',
+    ctaVariant: 'outline' as const,
   },
 ];
 
@@ -129,7 +134,7 @@ function CommunityNetworkContent({
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
               >
-                <Card className="flex h-full flex-col border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 group rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-900">
+                <Card className="flex h-full flex-col border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 group rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-900 pb-0">
                   <CardHeader className={cn("flex flex-1 flex-col p-8", channel.bg)}>
                     <div className={cn("p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm mb-6 w-fit transition-transform group-hover:scale-110", channel.color)}>
                       <channel.icon className="h-6 w-6" />
@@ -139,17 +144,25 @@ function CommunityNetworkContent({
                       {channel.desc}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="mt-auto shrink-0 p-8 pt-0">
-                    <div className="flex items-center justify-end">
-                      <Link
-                        href={channel.joinHref}
-                        {...externalHrefLinkProps(channel.joinHref)}
+                  <CardContent className="mt-auto shrink-0 px-8 pt-0 pb-5">
+                    <Link
+                      href={channel.joinHref}
+                      className="block w-full"
+                      {...externalHrefLinkProps(channel.joinHref)}
+                    >
+                      <Button
+                        variant={channel.ctaVariant}
+                        className={cn(
+                          'h-auto w-full justify-center gap-2 rounded-xl py-5 font-bold',
+                          channel.ctaVariant === 'brand'
+                            ? 'border-transparent shadow-xl'
+                            : 'border-slate-200 dark:border-slate-700',
+                        )}
                       >
-                        <Button variant="ghost" size="sm" className="text-brand-orange font-bold text-base group-hover:translate-x-1 transition-transform">
-                          Join <ArrowRight className="ml-1.5 h-4 w-4" />
-                        </Button>
-                      </Link>
-                    </div>
+                        {channel.cta}
+                        <ArrowRight className="h-4 w-4" />
+                      </Button>
+                    </Link>
                   </CardContent>
                 </Card>
               </m.div>
@@ -162,7 +175,7 @@ function CommunityNetworkContent({
       <section className={sectionSurface('purple', 'py-32')}>
         <SectionAmbience tone="purple" />
         <div className="container relative z-10 mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-stretch">
             <m.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -184,9 +197,9 @@ function CommunityNetworkContent({
                 {mentorshipFeatures.map((feature) => (
                   <div
                     key={feature.title}
-                    className="flex h-full gap-6 group rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none"
+                    className="flex h-full items-center gap-6 group rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pl-2.5 md:shadow-none"
                   >
-                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900 text-brand-purple h-fit transition-transform group-hover:scale-110 shadow-sm border border-slate-100 dark:border-slate-800 shrink-0">
+                    <div className="shrink-0 rounded-xl border border-slate-100 bg-slate-50 p-2.5 text-brand-purple shadow-sm transition-transform group-hover:scale-110 dark:border-slate-800 dark:bg-slate-900">
                       <feature.icon className="h-6 w-6" />
                     </div>
                     <div className="min-w-0">
@@ -202,20 +215,20 @@ function CommunityNetworkContent({
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="relative"
+              className="relative flex min-h-[28rem] flex-col lg:min-h-0"
             >
-              <div className="relative aspect-square rounded-[3rem] bg-slate-100 dark:bg-slate-800 overflow-hidden shadow-2xl border-4 border-white dark:border-slate-900">
+              <div className="relative flex h-full min-h-0 flex-1 flex-col overflow-hidden aspect-[2/3] lg:aspect-auto rounded-[3rem] bg-slate-100 dark:bg-slate-800 shadow-2xl border-4 border-white dark:border-slate-900">
                 <Image
                   src={MARKETING_STOCK_IMAGES.mentorship.src}
                   alt={MARKETING_STOCK_IMAGES.mentorship.alt}
                   width={MARKETING_STOCK_IMAGES.mentorship.width}
                   height={MARKETING_STOCK_IMAGES.mentorship.height}
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover w-full h-full"
+                  className="absolute inset-0 h-full w-full object-cover"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 flex flex-col bg-gradient-to-t from-slate-950/98 via-slate-950/94 to-slate-950/88 p-5 sm:p-6 lg:p-8">
-                  <CommunityWaitlistForm className="h-full" />
+                <div className="absolute inset-0 flex min-h-0 flex-col overflow-hidden bg-gradient-to-t from-slate-950/98 via-slate-950/94 to-slate-950/88 px-4 pt-4 pb-4 sm:px-5 sm:pt-5 sm:pb-5">
+                  <CommunityWaitlistForm className="flex min-h-0 flex-1 flex-col" />
                 </div>
               </div>
             </m.div>
@@ -418,7 +431,7 @@ export function Community({
                   className={heroTabButtonClass("community")}
                   onClick={() => handleTabChange("community")}
                 >
-                  Join Skool Community
+                  Join {COMMUNITY_PRODUCT_LABEL}
                 </Button>
                 <Button
                   type="button"
