@@ -21,7 +21,7 @@ Set on Vercel/Railway for the marketing deployment:
 
 ```bash
 NEXT_PUBLIC_SITE_URL=https://pmstructure.com
-NEXT_PUBLIC_CIRCLE_COMMUNITY_JOIN_URL=https://pmstructure.circle.so
+NEXT_PUBLIC_CIRCLE_COMMUNITY_JOIN_URL=https://www.pmstructure.com/join?invitation_token=…
 ```
 
-On-site sign-in at `/community/sign-in` supports **Google OAuth** (Gmail accounts) and email/password (e.g. support@pmstructure.com).
+Community CTAs use `resolveCommunityJoinUrl()` → Circle custom domain (`www.pmstructure.com/join`). Apex `/join` redirects to www with params preserved. Legacy `/community/sign-in` redirects to `/join`.

@@ -1,13 +1,13 @@
 /**
- * Community platform links (Circle — on-site sign-in + custom domain when DNS is ready).
+ * Community platform links (Circle — custom domain join + invitation token).
  */
 
-/** Circle invitation join URL (custom domain). Normalized to on-site sign-in with token preserved. */
+/** Circle invitation join URL (custom domain). */
 export const CIRCLE_COMMUNITY_INVITATION_JOIN_URL =
   'https://www.pmstructure.com/join?invitation_token=fc889aa3995f03e8d4923034079eb19a07d3599a-0caba3de-aabe-4309-9177-73c221df358a';
 
-/** Internal fallback when no external invite URL is configured. */
-export const COMMUNITY_JOIN_FALLBACK_PATH = '/community/sign-in';
+/** Apex join handler — redirects to Circle custom domain with params preserved. */
+export const COMMUNITY_JOIN_FALLBACK_PATH = '/join';
 
 export type CommunityPlatform = 'circle';
 
@@ -15,21 +15,11 @@ export const COMMUNITY_PLATFORM: CommunityPlatform = 'circle';
 
 export const COMMUNITY_PLATFORM_LABEL = 'Circle';
 
-/** User-facing community product name shown on sign-in and membership surfaces. */
+/** User-facing community product name shown on membership surfaces. */
 export const COMMUNITY_PRODUCT_LABEL = 'Inner Circle';
 
 /** Circle custom domain (requires www CNAME in Namecheap). */
 export const CIRCLE_CUSTOM_DOMAIN_URL = 'https://www.pmstructure.com';
-
-/** On-site sign-in bridge (works in Cursor browser and while www DNS is missing). */
-export const CIRCLE_SIGN_IN_PATH = '/community/sign-in';
-
-/** Circle hosted email/password sign-in (form POST target). */
-export const CIRCLE_EMAIL_SIGN_IN_URL = 'https://login.circle.so/sign_in';
-
-/** Circle Google OAuth (form POST target — use for Gmail-linked accounts). */
-export const CIRCLE_GOOGLE_AUTH_URL =
-  'https://login.circle.so/users/auth/google?community_id=undefined';
 
 const PRODUCTION_HOST = 'pmstructure.com';
 
@@ -45,33 +35,46 @@ function siteHostname(): string {
   return PRODUCTION_HOST;
 }
 
-function appendQueryParams(base: string, source: URL): string {
-  const target = new URL(base, 'https://pmstructure.com');
-  source.searchParams.forEach((value, key) => {
-    target.searchParams.set(key, value);
-  });
-  return `${target.pathname}${target.search}`;
+function withDefaultInvitationToken(target: URL): URL {
+  if (!target.searchParams.has('invitation_token')) {
+    const defaults = new URL(CIRCLE_COMMUNITY_INVITATION_JOIN_URL);
+    const token = defaults.searchParams.get('invitation_token');
+    if (token) target.searchParams.set('invitation_token', token);
+  }
+  return target;
 }
 
-/** Rewrite legacy custom-domain /join links to on-site sign-in. */
+/** Normalize join URLs to Circle custom-domain /join (www) with invitation token. */
 function normalizeJoinUrl(url: string): string {
-  try {
-    const parsed = new URL(url);
-    const host = parsed.hostname.toLowerCase();
-    const isCustomJoin =
-      (host === 'pmstructure.com' || host === 'www.pmstructure.com') &&
-      parsed.pathname.replace(/\/$/, '') === '/join';
+  if (url === '/community/sign-in' || url.startsWith('/community/sign-in?')) {
+    return normalizeJoinUrl(CIRCLE_COMMUNITY_INVITATION_JOIN_URL);
+  }
 
-    if (isCustomJoin) {
-      return appendQueryParams(CIRCLE_SIGN_IN_PATH, parsed);
+  try {
+    const parsed = new URL(url, 'https://pmstructure.com');
+    const host = parsed.hostname.toLowerCase();
+    const isJoinPath = parsed.pathname.replace(/\/$/, '') === '/join';
+
+    if (isJoinPath && (host === 'pmstructure.com' || host === 'www.pmstructure.com')) {
+      const wwwJoin = withDefaultInvitationToken(
+        new URL(`${parsed.pathname}${parsed.search}`, CIRCLE_CUSTOM_DOMAIN_URL),
+      );
+      return wwwJoin.toString();
+    }
+
+    if (url.startsWith('/join') || url.startsWith('/join?')) {
+      const apexJoin = withDefaultInvitationToken(new URL(url, 'https://pmstructure.com'));
+      return withDefaultInvitationToken(
+        new URL(`${apexJoin.pathname}${apexJoin.search}`, CIRCLE_CUSTOM_DOMAIN_URL),
+      ).toString();
     }
 
     // Invalid native slug — pmstructure.circle.so is not a live community URL.
     if (host.endsWith('.circle.so') && host !== 'login.circle.so') {
-      return appendQueryParams(CIRCLE_SIGN_IN_PATH, parsed);
+      return CIRCLE_COMMUNITY_INVITATION_JOIN_URL;
     }
 
-    return url;
+    return url.startsWith('http') ? url : `${parsed.pathname}${parsed.search}`;
   } catch {
     return url;
   }
@@ -80,8 +83,7 @@ function normalizeJoinUrl(url: string): string {
 /**
  * Resolved community join URL.
  * - Prefers NEXT_PUBLIC_CIRCLE_COMMUNITY_JOIN_URL when set.
- * - Legacy pmstructure.com/join → /community/sign-in (on-site).
- * - Default: Circle invitation link with token.
+ * - Default: Circle invitation link on www.pmstructure.com.
  */
 export function resolveCommunityJoinUrl(): string {
   const fromEnv =
@@ -90,11 +92,10 @@ export function resolveCommunityJoinUrl(): string {
 
   if (fromEnv) {
     const normalizedEnv = normalizeJoinUrl(fromEnv);
-    // Legacy env pointed at sign-in without invitation — use default invite link.
     if (
-      normalizedEnv === CIRCLE_SIGN_IN_PATH ||
-      fromEnv === CIRCLE_SIGN_IN_PATH ||
-      fromEnv === COMMUNITY_JOIN_FALLBACK_PATH
+      fromEnv === '/community/sign-in' ||
+      fromEnv.startsWith('/community/sign-in?') ||
+      normalizedEnv === '/community/sign-in'
     ) {
       return normalizeJoinUrl(CIRCLE_COMMUNITY_INVITATION_JOIN_URL);
     }

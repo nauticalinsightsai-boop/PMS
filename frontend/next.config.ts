@@ -59,6 +59,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/community/sign-in',
+        destination: '/join',
+        permanent: false,
+      },
+      {
         source: '/compare',
         destination: '/certifications/compare',
         permanent: true,

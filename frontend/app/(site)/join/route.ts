@@ -1,14 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { CIRCLE_SIGN_IN_PATH } from '@/config/community';
+import { CIRCLE_COMMUNITY_INVITATION_JOIN_URL, CIRCLE_CUSTOM_DOMAIN_URL } from '@/config/community';
 
 /**
- * Legacy custom-domain join path (pmstructure.com/join?…).
- * Routes to on-site Circle sign-in with invitation params preserved.
+ * Apex join path (pmstructure.com/join?…).
+ * Redirects to Circle custom domain with invitation params preserved.
  */
 export function GET(request: NextRequest) {
-  const target = new URL(CIRCLE_SIGN_IN_PATH, request.url);
+  const target = new URL('/join', CIRCLE_CUSTOM_DOMAIN_URL);
+
   request.nextUrl.searchParams.forEach((value, key) => {
     target.searchParams.set(key, value);
   });
-  return NextResponse.redirect(target, 302);
+
+  if (!target.searchParams.has('invitation_token')) {
+    const defaults = new URL(CIRCLE_COMMUNITY_INVITATION_JOIN_URL);
+    const token = defaults.searchParams.get('invitation_token');
+    if (token) target.searchParams.set('invitation_token', token);
+  }
+
+  return NextResponse.redirect(target.toString(), 302);
 }
