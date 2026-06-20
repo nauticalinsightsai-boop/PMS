@@ -37,6 +37,7 @@ import {
   type RegisterNowContext,
 } from '@/components/forms/RegisterNowDialog';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
+import { PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS, PATHWAY_MOBILE_CARD_SHELL_CLASS } from '@/lib/brand-visual';
 
 const StoreContent = dynamic(
   () => import('@/components/pages/Store').then((m) => ({ default: m.StoreContent })),
@@ -121,19 +122,19 @@ function CommunityNetworkContent({
           <ResponsiveSnapScroll
             desktopLayoutClassName="md:grid-cols-2 items-stretch"
             gapClassName="gap-8"
-            mobileItemClassName="w-[min(88vw,19rem)]"
+            mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
             className="max-w-4xl mx-auto"
           >
             {communityChannels.map((channel, index) => (
               <m.div
                 key={channel.title}
-                className="h-full"
+                className={PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
               >
-                <Card className="flex h-full flex-col border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 group rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-900 pb-0">
+                <Card className={cn(PATHWAY_MOBILE_CARD_SHELL_CLASS, 'flex h-full flex-col border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 group rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-900 pb-0')}>
                   <CardHeader className={cn("flex flex-1 flex-col p-8", channel.bg)}>
                     <div className={cn("p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm mb-6 w-fit transition-transform group-hover:scale-110", channel.color)}>
                       <channel.icon className="h-6 w-6" />
@@ -190,12 +191,15 @@ function CommunityNetworkContent({
               <ResponsiveSnapScroll
                 desktopLayoutClassName="md:grid-cols-1"
                 gapClassName="gap-8"
-                mobileItemClassName="w-[min(88vw,19rem)]"
+                mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
               >
                 {mentorshipFeatures.map((feature) => (
                   <div
                     key={feature.title}
-                    className="flex h-full items-center gap-6 group rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pl-2.5 md:shadow-none"
+                    className={cn(
+                      PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS,
+                      'flex h-full items-center gap-6 group rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pl-2.5 md:shadow-none',
+                    )}
                   >
                     <div className="shrink-0 rounded-xl border border-slate-100 bg-slate-50 p-2.5 text-brand-purple shadow-sm transition-transform group-hover:scale-110 dark:border-slate-800 dark:bg-slate-900">
                       <feature.icon className="h-6 w-6" />
@@ -246,7 +250,7 @@ function CommunityNetworkContent({
           <ResponsiveSnapScroll
             desktopLayoutClassName="md:grid-cols-2 lg:grid-cols-3"
             gapClassName="gap-8"
-            mobileItemClassName="w-[min(88vw,19rem)]"
+            mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
           >
             {[
               { date: "Oct 24", title: "PMP Exam Strategy Workshop", host: "Robert Vance, PMP", type: "Study Circle" },

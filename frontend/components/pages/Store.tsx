@@ -32,6 +32,7 @@ import {
   type JoinWaitlistContext,
 } from '@/components/forms/JoinWaitlistDialog';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
+import { PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS, PATHWAY_MOBILE_CARD_SHELL_CLASS } from '@/lib/brand-visual';
 
 const categoryIcons: Record<string, typeof Package> = {
   'All Resources': Package,
@@ -211,18 +212,18 @@ export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog
           <ResponsiveSnapScroll
             desktopLayoutClassName="md:grid-cols-2 lg:grid-cols-3"
             gapClassName="gap-8"
-            mobileItemClassName="w-[min(88vw,19rem)]"
+            mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
           >
             {filteredProducts.map((product, index) => (
               <m.div
                 key={product.title}
-                className="h-full"
+                className={PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
               >
-                <Card className="h-full flex flex-col group overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] bg-white dark:bg-slate-900">
+                <Card className={cn(PATHWAY_MOBILE_CARD_SHELL_CLASS, 'h-full flex flex-col group overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] bg-white dark:bg-slate-900')}>
                   <div className="aspect-[4/3] overflow-hidden bg-slate-50 dark:bg-slate-800 relative">
                     <img 
                       src={product.image} 
@@ -316,7 +317,7 @@ export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog
               <ResponsiveSnapScroll
                 desktopLayoutClassName="md:grid-cols-1"
                 gapClassName="gap-6"
-                mobileItemClassName="w-[min(88vw,19rem)]"
+                mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
               >
                 {resourcePreviewItems.map((item) => (
                   <button

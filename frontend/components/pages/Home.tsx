@@ -21,7 +21,7 @@ import {
   MessageSquare,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { MARKETING_HERO_H1_CLASS, PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
+import { MARKETING_HERO_H1_CLASS, PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS, PATHWAY_MOBILE_CARD_SHELL_CLASS } from '@/lib/brand-visual';
 import { BRAND, CTAS, HOME_COPY } from '@/lib/brand-voice';
 import { MARKETING_STOCK_IMAGES, MARKETING_HERO_SOCIAL_AVATARS, marketingTestimonialAvatar } from '@/lib/marketing-stock-images';
 import {
@@ -640,7 +640,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
               <ResponsiveSnapScroll
                 desktopLayoutClassName="md:grid md:grid-cols-2"
                 gapClassName="gap-6"
-                mobileItemClassName="w-[min(88vw,19rem)]"
+                mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
               >
               {(homeCms.membership?.benefits ?? [
                 { title: "Course Discounts", desc: "Up to 30% off all certification prep courses.", iconKey: "trophy" },
@@ -655,7 +655,10 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 return (
                 <m.div 
                   key={benefit.title} 
-                  className="flex h-full flex-col sm:flex-row gap-4 sm:gap-6 p-5 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-all group"
+                  className={cn(
+                    PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS,
+                    'flex h-full flex-col sm:flex-row gap-4 sm:gap-6 p-5 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 transition-all group',
+                  )}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -841,7 +844,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
           <ResponsiveSnapScroll
             desktopLayoutClassName="sm:grid sm:grid-cols-2 lg:grid-cols-4"
             gapClassName="gap-6 md:gap-8"
-            mobileItemClassName="w-[min(88vw,19rem)]"
+            mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
           >
             {CAREER_ACCELERATOR_TOOLS.map((tool, index) => (
               <m.div
@@ -850,8 +853,9 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
+                className={PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS}
               >
-                <Card className="h-full flex flex-col border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] p-4 bg-slate-50/50 dark:bg-slate-900/50">
+                <Card className={cn(PATHWAY_MOBILE_CARD_SHELL_CLASS, 'h-full flex flex-col border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] p-4 bg-slate-50/50 dark:bg-slate-900/50')}>
                   <CardHeader className="p-6 pb-4">
                     <div className="mb-4 flex items-center gap-4">
                       <div className={cn('shrink-0 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800', tool.color)}>

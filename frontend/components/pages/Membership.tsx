@@ -28,6 +28,7 @@ import { MARKETING_STOCK_IMAGES, type MarketingImageSpec } from '@/lib/marketing
 
 import { LazyWhenVisible } from '@/components/LazyWhenVisible';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
+import { PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS, PATHWAY_MOBILE_CARD_SHELL_CLASS } from '@/lib/brand-visual';
 import { membershipTiers } from '@/data/certification-index';
 
 const MEMBERSHIP_VAULT_IMAGES = MARKETING_STOCK_IMAGES.membershipResources;
@@ -373,7 +374,7 @@ export function Membership({
           <ResponsiveSnapScroll
             desktopLayoutClassName="md:grid-cols-3 items-stretch"
             gapClassName="gap-8"
-            mobileItemClassName="w-[min(88vw,19rem)]"
+            mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
             className="max-w-6xl mx-auto"
           >
             {tiers.map((tier, index) => {
@@ -391,9 +392,10 @@ export function Membership({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className="h-full"
+                className={PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS}
               >
                 <Card className={cn(
+                  PATHWAY_MOBILE_CARD_SHELL_CLASS,
                   "h-full flex flex-col transition-all duration-300 border border-slate-100 dark:border-slate-800 relative overflow-hidden rounded-[2.5rem] bg-white dark:bg-slate-900",
                   tier.highlight ? "shadow-xl ring-2 ring-brand-purple/20" : "shadow-sm"
                 )}>

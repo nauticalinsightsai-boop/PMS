@@ -16,7 +16,7 @@ type ResponsiveSnapScrollProps = {
   mobileNaturalHeight?: boolean;
 };
 
-const DEFAULT_MOBILE_ITEM = 'w-[min(92vw,19rem)]';
+const DEFAULT_MOBILE_ITEM = PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS;
 
 /** Width class applied directly to each slide below `md` (flex row). */
 function mobileItemWidthOnSlide(mobileItemClassName: string): string {
@@ -30,7 +30,7 @@ function mobileItemWidthOnSlide(mobileItemClassName: string): string {
   if (mobileItemClassName.startsWith('w-')) {
     return mobileItemClassName.replace(/^w-/, 'max-md:w-');
   }
-  return 'max-md:w-[min(92vw,19rem)]';
+  return 'max-md:w-[310px] max-md:min-w-[310px] max-md:max-w-[310px] max-md:flex-[0_0_310px] max-md:box-border';
 }
 
 /** Native horizontal scroll + Embla viewports: allow both axes (pan-y default blocked horizontal scroll). */

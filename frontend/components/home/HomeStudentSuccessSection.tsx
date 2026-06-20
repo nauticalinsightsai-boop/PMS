@@ -9,6 +9,7 @@ import { BRAND } from '@/lib/brand-voice';
 import { MARKETING_PMP_AVATARS } from '@/lib/marketing-stock-images';
 import { cn } from '@/lib/utils';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
+import { PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
 
@@ -197,12 +198,12 @@ export function HomeStudentSuccessSection() {
           <div className="lg:col-span-8">
             <div className="md:hidden">
               <ResponsiveSnapScroll
-                mobileItemClassName="w-[min(88vw,19rem)]"
+                mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
                 gapClassName="gap-6"
                 desktopLayoutClassName="md:grid-cols-1"
               >
                 {STUDENT_SUCCESS_STORIES.map((story) => (
-                  <div key={story.id} className="h-full">
+                  <div key={story.id} className={PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS}>
                     <TestimonialCard story={story} />
                   </div>
                 ))}
