@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireDashboardMutationAuth } from '@/lib/auth/api-guard';
-import { getSupabaseAdmin } from '@/lib/auth/supabase-admin';
+import { getSupabaseAdmin, isSupabaseAdminConfigured } from '@/lib/auth/supabase-admin';
 
 const BUCKET = 'site-media';
 
@@ -12,6 +12,10 @@ function publicUrl(path: string): string {
 export async function GET(request: NextRequest) {
   const auth = await requireDashboardMutationAuth(request);
   if (auth) return auth;
+
+  if (!isSupabaseAdminConfigured()) {
+    return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+  }
 
   const admin = getSupabaseAdmin();
   const { data, error } = await admin.storage.from(BUCKET).list('', {
@@ -36,6 +40,10 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const auth = await requireDashboardMutationAuth(request);
   if (auth) return auth;
+
+  if (!isSupabaseAdminConfigured()) {
+    return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+  }
 
   const form = await request.formData();
   const file = form.get('file');
@@ -66,6 +74,10 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const auth = await requireDashboardMutationAuth(request);
   if (auth) return auth;
+
+  if (!isSupabaseAdminConfigured()) {
+    return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+  }
 
   let body: { name?: string };
   try {

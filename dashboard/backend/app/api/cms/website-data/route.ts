@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireDashboardMutationAuth } from '@/lib/auth/api-guard';
-import { getSupabaseAdmin } from '@/lib/auth/supabase-admin';
+import { getSupabaseAdmin, isSupabaseAdminConfigured } from '@/lib/auth/supabase-admin';
 
 type Body = {
   action?: 'saveDraft' | 'publish' | 'list';
@@ -12,6 +12,10 @@ type Body = {
 export async function GET(request: NextRequest) {
   const auth = await requireDashboardMutationAuth(request);
   if (auth) return auth;
+
+  if (!isSupabaseAdminConfigured()) {
+    return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+  }
 
   const view = request.nextUrl.searchParams.get('view') === 'published' ? 'published' : 'draft';
   const admin = getSupabaseAdmin();
@@ -25,6 +29,10 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const auth = await requireDashboardMutationAuth(request);
   if (auth) return auth;
+
+  if (!isSupabaseAdminConfigured()) {
+    return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+  }
 
   let body: Body;
   try {

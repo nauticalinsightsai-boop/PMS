@@ -42,6 +42,27 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const DASHBOARD_API_UNREACHABLE =
+  'Dashboard API unreachable. From repo root run: npm run dev and open http://localhost:3000/admin';
+
+function rethrowIfDashboardApiUnreachable(err: unknown): never {
+  if (err instanceof TypeError && err.message === 'Failed to fetch') {
+    throw new Error(DASHBOARD_API_UNREACHABLE);
+  }
+  throw err;
+}
+
+async function fetchDashboardApiOrThrow(
+  input: RequestInfo | URL,
+  init?: RequestInit,
+): Promise<Response> {
+  try {
+    return await fetchDashboardApi(input, init);
+  } catch (err) {
+    rethrowIfDashboardApiUnreachable(err);
+  }
+}
+
 async function restoreApiSession(): Promise<User | null> {
   const token =
     typeof window !== 'undefined' ? localStorage.getItem(AUTH_API_TOKEN_KEY)?.trim() : null;
@@ -54,8 +75,9 @@ async function restoreApiSession(): Promise<User | null> {
     if (!res.ok) return null;
     const data = (await res.json()) as { email?: string };
     if (data.email) return createAdminUser(data.email);
-  } catch {
-    return null;
+  } catch (err) {
+    if (err instanceof TypeError && err.message === 'Failed to fetch') return null;
+    throw err;
   }
   return null;
 }
@@ -111,7 +133,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       throw new Error('Set NEXT_PUBLIC_AUTH_USE_API_LOGIN=true for dashboard_one login');
     }
 
-    const res = await fetchDashboardApi('/api/auth/login', {
+    const res = await fetchDashboardApiOrThrow('/api/auth/login', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -151,7 +173,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const verifyLoginSmsOtp = async (challengeId: string, code: string, email: string) => {
-    const res = await fetchDashboardApi('/api/auth/verify-login-sms', {
+    const res = await fetchDashboardApiOrThrow('/api/auth/verify-login-sms', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -175,7 +197,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const requestPasswordReset = async (email: string) => {
-    const res = await fetchDashboardApi('/api/auth/forgot-password', {
+    const res = await fetchDashboardApiOrThrow('/api/auth/forgot-password', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -194,7 +216,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!opts?.token || !opts?.email) {
       throw new Error('Reset token and email are required');
     }
-    const res = await fetchDashboardApi('/api/auth/reset-password', {
+    const res = await fetchDashboardApiOrThrow('/api/auth/reset-password', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },

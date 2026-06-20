@@ -42,6 +42,7 @@
     "env:link": "node scripts/link-env.mjs",
     "check:stripe": "node scripts/check-stripe-config.cjs",
     "check:ga": "node scripts/check-ga-config.cjs",
+    "check:dashboard-dev": "node scripts/check-dashboard-dev.mjs",
     "verify:regional-dev": "node scripts/verify-regional-dev.mjs",
     "test:legal-seo": "npm run test -w @pms/frontend -- lib/legal-seo.test.ts content/legal/index.test.ts",
     "audit:images": "node scripts/audit-images.mjs",

@@ -11,10 +11,13 @@ import {
   Sun,
   Moon,
   LogOut,
+  CalendarRange,
+  PenLine,
+  SlidersHorizontal,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { withBasePath } from '@/lib/base-path';
-import { useDashboardMode } from '@/contexts/DashboardModeContext';
+import { useDashboardMode, DashboardMode } from '@/contexts/DashboardModeContext';
 import { useTheme } from '@/components/shared/ThemeProvider';
 import { DASHBOARD_ROUTES } from '@/constants/dashboardRoutes';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
@@ -32,7 +35,7 @@ import {
 export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const router = useRouter();
   const { user, logout } = useAuth();
-  const { mode } = useDashboardMode();
+  const { mode, setMode } = useDashboardMode();
   const { theme, setTheme } = useTheme();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isSidebarHovered, setSidebarHovered] = useState(false);
@@ -157,11 +160,11 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           )}
         >
           {isSidebarExpanded ? (
-            <Link href={WEBSITE_CMS_PATHS.newsletter} className="flex items-center gap-2 min-w-0">
+            <Link href={WEBSITE_CMS_PATHS.mediaLibrary} className="flex items-center gap-2 min-w-0">
               <BrandLogo />
             </Link>
           ) : (
-            <Link href={WEBSITE_CMS_PATHS.newsletter} className="hidden lg:flex items-center justify-center" title="Website">
+            <Link href={WEBSITE_CMS_PATHS.mediaLibrary} className="hidden lg:flex items-center justify-center" title="Website">
               <BrandLogo size="sm" />
             </Link>
           )}
@@ -291,14 +294,34 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
             >
               <Menu size={24} />
             </button>
-            <Link href={WEBSITE_CMS_PATHS.newsletter} className="lg:hidden flex items-center gap-2 mr-4">
+            <Link href={WEBSITE_CMS_PATHS.mediaLibrary} className="lg:hidden flex items-center gap-2 mr-4">
               <BrandLogo />
             </Link>
           </div>
 
-          <p className="hidden sm:block text-xs font-semibold uppercase tracking-wider text-muted-foreground px-2">
-            Newsletter
-          </p>
+          <div className="flex items-center bg-muted/50 p-1 rounded-2xl border border-border max-w-full overflow-x-auto">
+            {[
+              { id: 'editor', label: 'Editor', mobileLabel: 'Editor', icon: PenLine },
+              { id: 'bookings', label: 'Booking CRM', mobileLabel: 'Booking', icon: CalendarRange },
+              { id: 'admin', label: 'Admin control', mobileLabel: 'Admin', icon: SlidersHorizontal },
+            ].map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setMode(t.id as DashboardMode)}
+                className={cn(
+                  'px-4 py-1.5 text-xs font-semibold rounded-xl transition-all duration-300 flex items-center gap-2',
+                  mode === t.id
+                    ? 'cta-consultation text-white shadow-lg shadow-brand-orange/20'
+                    : 'text-muted-foreground hover:text-foreground',
+                )}
+              >
+                <t.icon size={14} className="shrink-0" />
+                <span className="sm:hidden">{t.mobileLabel}</span>
+                <span className="hidden sm:inline">{t.label}</span>
+              </button>
+            ))}
+          </div>
 
           <div className="flex items-center gap-2 md:gap-4">
             <Button
@@ -369,7 +392,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           <footer className="mt-20 py-8 border-t border-border bg-transparent">
             <div className="w-full">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <Link href={WEBSITE_CMS_PATHS.newsletter}>
+                <Link href={WEBSITE_CMS_PATHS.mediaLibrary}>
                   <BrandLogo size="sm" />
                 </Link>
                 <span className="text-label text-muted-foreground opacity-60 normal-case tracking-normal font-medium">
