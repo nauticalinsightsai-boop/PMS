@@ -1,12 +1,12 @@
 /**
- * Community platform links (Circle — custom domain join + invitation token).
+ * Community platform links (Circle: custom domain join + invitation token).
  */
 
 /** Circle invitation join URL (custom domain). */
 export const CIRCLE_COMMUNITY_INVITATION_JOIN_URL =
   'https://www.pmstructure.com/join?invitation_token=fc889aa3995f03e8d4923034079eb19a07d3599a-0caba3de-aabe-4309-9177-73c221df358a';
 
-/** Apex join handler — redirects to Circle custom domain with params preserved. */
+/** Apex join handler - redirects to Circle custom domain with params preserved. */
 export const COMMUNITY_JOIN_FALLBACK_PATH = '/join';
 
 export type CommunityPlatform = 'circle';
@@ -69,7 +69,7 @@ function normalizeJoinUrl(url: string): string {
       ).toString();
     }
 
-    // Invalid native slug — pmstructure.circle.so is not a live community URL.
+    // Invalid native slug - pmstructure.circle.so is not a live community URL.
     if (host.endsWith('.circle.so') && host !== 'login.circle.so') {
       return CIRCLE_COMMUNITY_INVITATION_JOIN_URL;
     }
@@ -105,7 +105,7 @@ export function resolveCommunityJoinUrl(): string {
   return normalizeJoinUrl(CIRCLE_COMMUNITY_INVITATION_JOIN_URL);
 }
 
-/** @deprecated Prefer {@link resolveCommunityJoinUrl} — kept for existing imports. */
+/** @deprecated Prefer {@link resolveCommunityJoinUrl} - kept for existing imports. */
 export const PMS_SKOOL_COMMUNITY_JOIN_URL = resolveCommunityJoinUrl();
 
 /** Whether the join CTA points off-site. */

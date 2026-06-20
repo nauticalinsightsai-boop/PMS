@@ -156,7 +156,7 @@ export function RegisterNowDialog({ open, onOpenChange, context }: RegisterNowDi
           </DialogTitle>
           <DialogDescription className="text-sm font-medium leading-relaxed">
             {done
-              ? 'Thanks — we received your details and will reach out with session information.'
+              ? 'Thanks. We received your details and will reach out with session information.'
               : context
                 ? `Register for ${context.headline}. Share your details and our team will reach out.`
                 : 'Share your details and our team will reach out.'}

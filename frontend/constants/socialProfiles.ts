@@ -48,7 +48,7 @@ export const SOCIAL_HANDLE = SITE_USERNAME;
 /** Canonical site origin (SEO, sitemap, channel portal fallbacks). */
 export const SITE_ORIGIN = SITE_CANONICAL_ORIGIN;
 
-/** @deprecated Use SITE_ORIGIN — kept for legacy imports. */
+/** @deprecated Use SITE_ORIGIN - kept for legacy imports. */
 export const PUBLIC_BRAND_ORIGIN = SITE_CANONICAL_ORIGIN;
 
 export const BRAND_EMAIL_DOMAIN = SITE_EMAIL_DOMAIN;

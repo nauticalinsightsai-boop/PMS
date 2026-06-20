@@ -572,7 +572,7 @@ export function Membership({
                   {MEMBERSHIP_VAULT_IMAGES.map((item) => (
                     <div key={item.src} className="flex items-center gap-3 text-slate-300 text-base font-semibold">
                       <span className="shrink-0 text-brand-orange" aria-hidden>
-                        —
+                        -
                       </span>
                       {item.alt}
                     </div>

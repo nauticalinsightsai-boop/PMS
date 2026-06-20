@@ -161,7 +161,7 @@ export function JoinWaitlistDialog({ open, onOpenChange, context }: JoinWaitlist
           </DialogTitle>
           <DialogDescription className="text-sm font-medium leading-relaxed">
             {done
-              ? 'Thanks — we received your details and will reach out when this resource or pathway opens.'
+              ? 'Thanks. We received your details and will reach out when this resource or pathway opens.'
               : context
                 ? `Join the waitlist for ${context.headline}. Share your details and our team will reach out.`
                 : 'Share your details and our team will reach out.'}

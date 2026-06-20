@@ -47,7 +47,7 @@ export function CompareComparisonMatrix({ certs }: { certs: CertificationSummary
     <div className="rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 overflow-hidden">
       <div className="max-h-[min(70vh,56rem)] overflow-auto scrollbar-thin">
         <div className={cn('w-full', minWidthClass)}>
-          {/* Header — sticky while scrolling the matrix */}
+          {/* Header - sticky while scrolling the matrix */}
           <div
             className={cn(
               'sticky top-0 z-20 grid border-b border-slate-800 bg-slate-900 shadow-md shadow-black/20 dark:bg-slate-950 dark:shadow-black/40',
