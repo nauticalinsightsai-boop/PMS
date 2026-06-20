@@ -288,7 +288,7 @@ export function Certifications({
                                   whileInView={{ opacity: 1, y: 0 }}
                                   viewport={{ once: true }}
                                   transition={{ duration: 0.35 }}
-                                  className="h-full motion-reduce:transform-none"
+                                  className="w-full max-md:h-auto md:h-full motion-reduce:transform-none"
                                 >
                                   <PathwayFeaturedCard
                                     cert={cert}

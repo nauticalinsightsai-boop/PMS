@@ -17,14 +17,15 @@ type ResponsiveSnapScrollProps = {
 
 const DEFAULT_MOBILE_ITEM = 'w-[min(92vw,19rem)]';
 
-/** Map slide width utilities to grid `auto-cols` so one row keeps equal card heights on mobile. */
-function mobileItemWidthToAutoCols(mobileItemClassName: string): string {
-  const arbitrary = mobileItemClassName.match(/^w-\[(.+)\]$/);
-  if (arbitrary) return `max-md:auto-cols-[${arbitrary[1]}]`;
-  if (mobileItemClassName.startsWith('w-')) {
-    return mobileItemClassName.replace(/^w-/, 'max-md:auto-cols-');
+/** Width class applied directly to each slide below `md` (flex row). */
+function mobileItemWidthOnSlide(mobileItemClassName: string): string {
+  if (mobileItemClassName.match(/^w-\[/)) {
+    return mobileItemClassName.replace(/^w-/, 'max-md:w-');
   }
-  return 'max-md:auto-cols-[min(92vw,19rem)]';
+  if (mobileItemClassName.startsWith('w-')) {
+    return mobileItemClassName.replace(/^w-/, 'max-md:w-');
+  }
+  return 'max-md:w-[min(92vw,19rem)]';
 }
 
 /** Native horizontal scroll + Embla viewports: allow both axes (pan-y default blocked horizontal scroll). */
@@ -47,14 +48,13 @@ export function ResponsiveSnapScroll({
 }: ResponsiveSnapScrollProps) {
   const items = React.Children.toArray(children);
 
-  const mobileAutoCols = mobileItemWidthToAutoCols(mobileItemClassName);
+  const mobileSlideWidth = mobileItemWidthOnSlide(mobileItemClassName);
 
   return (
     <div
       className={cn(
-        // Mobile: one grid row → equal slide heights; md+: desktopLayoutClassName grid/flex
-        'grid w-full grid-flow-col snap-x snap-proximity overflow-x-auto overflow-y-hidden scroll-px-4',
-        mobileAutoCols,
+        // Mobile: flex row + explicit slide widths; md+: grid from desktopLayoutClassName
+        'flex w-full max-md:flex-nowrap md:grid md:grid-flow-row snap-x max-md:snap-mandatory snap-proximity overflow-x-auto overflow-y-hidden scroll-px-4',
         '-mx-4 px-4 [-webkit-overflow-scrolling:touch]',
         'max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden',
         mobileNaturalHeight ? 'max-md:items-start' : 'max-md:items-stretch',
@@ -70,8 +70,9 @@ export function ResponsiveSnapScroll({
         <div
           key={React.isValidElement(child) && child.key != null ? child.key : index}
           className={cn(
-            'flex snap-start flex-col max-md:min-w-0 md:w-auto md:min-w-0',
-            mobileNaturalHeight ? 'max-md:h-auto' : 'min-h-full',
+            'flex shrink-0 snap-start flex-col max-md:min-w-0 md:w-auto md:min-w-0 md:shrink',
+            mobileSlideWidth,
+            mobileNaturalHeight ? 'max-md:h-auto' : 'min-h-full max-md:self-stretch',
           )}
         >
           {child}

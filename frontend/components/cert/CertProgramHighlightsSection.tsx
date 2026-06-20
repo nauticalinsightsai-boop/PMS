@@ -22,6 +22,7 @@ import {
   type CertProgramOffer,
 } from '@/lib/cert-program-offer';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
+import { PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
 import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { trackRoadmapCtaClick } from '@/lib/analytics/track-roadmap-cta';
 import { REGION_COPY } from '@/lib/brand-voice';
@@ -149,7 +150,8 @@ export function CertProgramHighlightsContent({
       <ResponsiveSnapScroll
         desktopLayoutClassName="md:grid md:grid-cols-2 lg:grid-cols-3"
         gapClassName="gap-6 lg:gap-8"
-        mobileItemClassName="w-[min(92vw,18rem)]"
+        mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
+        mobileNaturalHeight
       >
         {offer.highlights.map((item, index) => {
           const Icon = HIGHLIGHT_ICONS[item.id] ?? Sparkles;

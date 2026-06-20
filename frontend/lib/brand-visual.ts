@@ -126,5 +126,5 @@ export function getCertHeaderBackground(cert: {
 /** Pathway cards: moderate radius on narrow mobile slides; full pill on md+. */
 export const PATHWAY_CARD_RADIUS_CLASS = 'rounded-xl md:rounded-[2.5rem]';
 
-/** Wider mobile slide (~88% viewport) so cards read as panels, not vertical capsules. */
-export const PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS = 'w-[min(88vw,22rem)]';
+/** One full-width card per mobile viewport (matches ResponsiveSnapScroll -mx-4 px-4 inset). */
+export const PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS = 'w-[calc(100vw-2rem)]';

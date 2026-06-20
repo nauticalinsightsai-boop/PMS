@@ -388,7 +388,7 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.6 }}
-            className="flex min-h-full flex-1 flex-col"
+            className="flex min-h-full flex-1 flex-col max-md:h-auto"
           >
             <PathwayCard
               tier={tier}

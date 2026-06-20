@@ -32,7 +32,7 @@ export function FamilyExploreCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      className="group h-full"
+      className="group w-full max-md:h-auto md:h-full"
     >
       <div
         className={cn(

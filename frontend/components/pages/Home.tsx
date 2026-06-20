@@ -492,7 +492,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="h-full"
+                  className="w-full max-md:h-auto md:h-full"
                 >
                   <PathwayFeaturedCard
                     cert={cert}
