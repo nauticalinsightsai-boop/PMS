@@ -371,7 +371,6 @@ export function Membership({
       <section id="plans" className="pb-20 pt-16 md:pt-20 relative z-20">
         <div className="container mx-auto">
           <ResponsiveSnapScroll
-            mobileLoop
             desktopLayoutClassName="md:grid-cols-3 items-stretch"
             gapClassName="gap-8"
             mobileItemClassName="w-[min(88vw,19rem)]"

@@ -209,7 +209,6 @@ export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog
             </p>
           ) : (
           <ResponsiveSnapScroll
-            mobileLoop
             desktopLayoutClassName="md:grid-cols-2 lg:grid-cols-3"
             gapClassName="gap-8"
             mobileItemClassName="w-[min(88vw,19rem)]"
@@ -315,7 +314,6 @@ export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog
             </div>
             <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-12 backdrop-blur-sm shadow-2xl min-w-0">
               <ResponsiveSnapScroll
-                mobileLoop
                 desktopLayoutClassName="md:grid-cols-1"
                 gapClassName="gap-6"
                 mobileItemClassName="w-[min(88vw,19rem)]"

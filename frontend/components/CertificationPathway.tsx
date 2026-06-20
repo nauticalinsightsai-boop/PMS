@@ -15,7 +15,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { StatChip } from '@/components/ui/stat-chip';
 import { MembershipPriceChip } from '@/components/MembershipPriceChip';
-import { CheckCircle2, Zap } from 'lucide-react';
+import { CheckCircle2, ChevronDown, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PathwayTier, FamilyId } from '../types/site';
 import { RegionalStatusBanner } from '@/components/RegionalStatusBanner';
@@ -56,7 +56,7 @@ const tierLevelLabel: Record<PathwayTier['level'], string> = {
 };
 
 const pathwayCardShell =
-  'group/pathway h-full flex flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden';
+  'group/pathway relative h-full flex min-h-full flex-1 flex-col gap-0 border border-slate-100 dark:border-slate-800 py-0 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden';
 
 function tierAccentColor(color: string | undefined, family: FamilyId): string {
   if (color) return color;
@@ -147,6 +147,91 @@ function PathwayTierPricingChips({
   );
 }
 
+function PathwayOutcomeList({
+  outcomes,
+  accentColor,
+  className,
+}: {
+  outcomes: string[];
+  accentColor: string;
+  className?: string;
+}) {
+  return (
+    <ul className={cn('space-y-3', className)}>
+      {outcomes.map((outcome) => (
+        <li
+          key={outcome}
+          className="flex items-start text-xs font-semibold text-slate-600 dark:text-slate-400"
+        >
+          <CheckCircle2
+            className="mr-2 mt-0.5 h-3.5 w-3.5 shrink-0"
+            style={{ color: accentColor }}
+          />
+          <span className="leading-relaxed">{outcome}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function PathwayTierOutcomes({
+  outcomes,
+  accentColor,
+}: {
+  outcomes: string[];
+  accentColor: string;
+}) {
+  const [expanded, setExpanded] = React.useState(false);
+
+  if (outcomes.length === 0) return null;
+
+  return (
+    <div>
+      <button
+        type="button"
+        className="flex w-full items-center justify-between gap-2 py-1 text-left md:hidden"
+        onClick={(event) => {
+          event.stopPropagation();
+          setExpanded((open) => !open);
+        }}
+        aria-expanded={expanded}
+      >
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
+          {expanded ? 'Hide outcomes' : `What's included (${outcomes.length})`}
+        </span>
+        <ChevronDown
+          className={cn(
+            'h-4 w-4 shrink-0 text-slate-400 transition-transform duration-300',
+            expanded && 'rotate-180',
+          )}
+          aria-hidden
+        />
+      </button>
+      <div
+        className={cn(
+          'max-md:grid max-md:transition-[grid-template-rows,opacity] max-md:duration-300 max-md:ease-out',
+          expanded
+            ? 'max-md:grid-rows-[1fr] max-md:opacity-100'
+            : 'max-md:grid-rows-[0fr] max-md:opacity-0',
+        )}
+      >
+        <div
+          className={cn(
+            'min-h-0 overflow-hidden',
+            !expanded && 'max-md:pointer-events-none',
+          )}
+        >
+          <PathwayOutcomeList
+            outcomes={outcomes}
+            accentColor={accentColor}
+            className="max-md:pt-2"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export const PathwayCard: React.FC<{
   tier: PathwayTier;
   siteCertId: string;
@@ -166,13 +251,11 @@ export const PathwayCard: React.FC<{
   );
 
   return (
-    <m.div
-      whileHover={{ y: -4, transition: { duration: 0.25 } }}
-      className="h-full motion-reduce:transform-none max-md:[&]:transform-none"
-    >
+    <div className="flex min-h-full flex-1 flex-col motion-reduce:transform-none md:transition-transform md:duration-300 md:hover:-translate-y-1">
       <Card
         className={cn(
           pathwayCardShell,
+          'min-h-full flex-1',
           tier.isPopular && 'ring-2 ring-offset-2 dark:ring-offset-slate-950',
         )}
         style={
@@ -234,25 +317,12 @@ export const PathwayCard: React.FC<{
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="px-5 pb-5 flex-1">
+        <CardContent className="flex flex-1 flex-col px-5 pb-5">
           <PathwayTierPricingChips tier={tier} accentColor={accent} />
-          <ul className="space-y-3">
-            {tier.outcomes.map((outcome) => (
-              <li
-                key={outcome}
-                className="flex items-start text-xs font-semibold text-slate-600 dark:text-slate-400"
-              >
-                <CheckCircle2
-                  className="h-3.5 w-3.5 mr-2 mt-0.5 shrink-0"
-                  style={{ color: accent }}
-                />
-                <span className="leading-relaxed">{outcome}</span>
-              </li>
-            ))}
-          </ul>
+          <PathwayTierOutcomes outcomes={tier.outcomes} accentColor={accent} />
         </CardContent>
 
-        <CardFooter className="border-t border-border bg-muted/50 px-5 pb-5 pt-6 flex flex-col gap-3">
+        <CardFooter className="mt-auto border-t border-border bg-muted/50 px-5 pb-5 pt-6 flex flex-col gap-3">
           {tier.regionMessage && tier.status && (
             <RegionalStatusBanner
               status={tier.status as OfferingStatus}
@@ -283,7 +353,7 @@ export const PathwayCard: React.FC<{
           </p>
         </CardFooter>
       </Card>
-    </m.div>
+    </div>
   );
 };
 
@@ -315,7 +385,7 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.6 }}
-            className="h-full"
+            className="flex min-h-full flex-1 flex-col"
           >
             <PathwayCard
               tier={tier}

@@ -178,7 +178,10 @@ export function Certifications({
       {/* Hero Section */}
       <section
         className={cn(
-          'relative flex h-[804px] items-center overflow-hidden bg-gradient-to-b from-orange-50/80 via-slate-50 to-slate-50 dark:from-[#1a0f0c] dark:via-slate-950 dark:to-slate-950',
+          'relative flex items-start pt-8 pb-12 sm:pt-12 sm:pb-16 md:pt-16 md:pb-20',
+          'overflow-x-hidden max-lg:overflow-y-visible lg:overflow-hidden',
+          'lg:min-h-[804px] lg:items-center lg:py-0',
+          'bg-gradient-to-b from-orange-50/80 via-slate-50 to-slate-50 dark:from-[#1a0f0c] dark:via-slate-950 dark:to-slate-950',
         )}
       >
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -188,12 +191,12 @@ export function Certifications({
         </div>
         
         <div className="container relative z-10 mx-auto w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start lg:items-center">
             <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center lg:text-left"
+              className="relative z-30 min-w-0 text-center lg:text-left"
             >
               <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
                 {hub.hero.badge || CERTIFICATIONS_COPY.heroBadge}

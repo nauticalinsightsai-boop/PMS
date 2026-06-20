@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
 import { cn } from '@/lib/utils';
 
 type ResponsiveSnapScrollProps = {
@@ -12,145 +11,25 @@ type ResponsiveSnapScrollProps = {
   gapClassName?: string;
   /** Fixed slide width below `md` */
   mobileItemClassName?: string;
-  /** Infinite swipe loop on mobile (`md` and below only). */
-  mobileLoop?: boolean;
 };
 
 const DEFAULT_MOBILE_ITEM = 'w-[min(92vw,19rem)]';
-const AXIS_THRESHOLD_PX = 4;
 
-/** Touch classes for mobile Embla viewports: allow drag immediately; lock axis once intent is clear. */
-export const MOBILE_EMLA_VIEWPORT_TOUCH_CLASS =
-  'touch-manipulation data-[scroll-axis=horizontal]:touch-pan-x data-[scroll-axis=vertical]:touch-pan-y';
-
-/**
- * On mobile, decide horizontal (carousel) vs vertical (page) intent early so
- * vertical swipes on cards are not trapped by overflow-x-auto / Embla drag.
- */
-export function useMobileScrollAxis(
-  ref: React.RefObject<HTMLDivElement | null>,
-  enabled: boolean,
-) {
-  React.useEffect(() => {
-    if (!enabled) return;
-    const root = ref.current;
-    if (!root) return;
-
-    const mq = window.matchMedia('(max-width: 767px)');
-    const apply = () => {
-      if (!mq.matches) root.removeAttribute('data-scroll-axis');
-    };
-    apply();
-
-    let startX = 0;
-    let startY = 0;
-    let axis: 'horizontal' | 'vertical' | null = null;
-
-    const reset = () => {
-      axis = null;
-      root.removeAttribute('data-scroll-axis');
-    };
-
-    const onTouchStart = (event: TouchEvent) => {
-      if (!mq.matches || event.touches.length !== 1) return;
-      startX = event.touches[0].clientX;
-      startY = event.touches[0].clientY;
-      axis = null;
-      root.removeAttribute('data-scroll-axis');
-    };
-
-    const onTouchMove = (event: TouchEvent) => {
-      if (!mq.matches || event.touches.length !== 1) return;
-      const dx = event.touches[0].clientX - startX;
-      const dy = event.touches[0].clientY - startY;
-
-      if (!axis) {
-        if (Math.abs(dx) < AXIS_THRESHOLD_PX && Math.abs(dy) < AXIS_THRESHOLD_PX) return;
-        axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
-        root.setAttribute('data-scroll-axis', axis);
-      }
-    };
-
-    mq.addEventListener('change', apply);
-    root.addEventListener('touchstart', onTouchStart, { passive: true });
-    root.addEventListener('touchmove', onTouchMove, { passive: true });
-    root.addEventListener('touchend', reset, { passive: true });
-    root.addEventListener('touchcancel', reset, { passive: true });
-
-    return () => {
-      mq.removeEventListener('change', apply);
-      root.removeEventListener('touchstart', onTouchStart);
-      root.removeEventListener('touchmove', onTouchMove);
-      root.removeEventListener('touchend', reset);
-      root.removeEventListener('touchcancel', reset);
-      reset();
-    };
-  }, [ref, enabled]);
+/** Map slide width utilities to grid `auto-cols` so one row keeps equal card heights on mobile. */
+function mobileItemWidthToAutoCols(mobileItemClassName: string): string {
+  const arbitrary = mobileItemClassName.match(/^w-\[(.+)\]$/);
+  if (arbitrary) return `max-md:auto-cols-[${arbitrary[1]}]`;
+  if (mobileItemClassName.startsWith('w-')) {
+    return mobileItemClassName.replace(/^w-/, 'max-md:auto-cols-');
+  }
+  return 'max-md:auto-cols-[min(92vw,19rem)]';
 }
 
-export function useMergedEmblaViewportRef(
-  emblaRef: (node: HTMLElement | null) => void,
-) {
-  const axisRef = React.useRef<HTMLDivElement | null>(null);
-  useMobileScrollAxis(axisRef, true);
+/** Native horizontal scroll + Embla viewports: allow both axes (pan-y default blocked horizontal scroll). */
+export const MOBILE_CAROUSEL_TOUCH_CLASS = 'touch-manipulation overscroll-x-contain';
 
-  return React.useCallback(
-    (node: HTMLDivElement | null) => {
-      axisRef.current = node;
-      emblaRef(node);
-    },
-    [emblaRef],
-  );
-}
-
-export function MobileLoopCarousel({
-  items,
-  mobileItemClassName,
-  className,
-  gapClassName,
-}: {
-  items: React.ReactNode[];
-  mobileItemClassName: string;
-  className?: string;
-  gapClassName: string;
-}) {
-  const [emblaRef] = useEmblaCarousel({
-    loop: true,
-    align: 'start',
-    containScroll: false,
-    watchDrag: true,
-  });
-  const viewportRef = useMergedEmblaViewportRef(emblaRef);
-
-  const slideGap = gapClassName.includes('gap-8') ? 'pr-6' : 'pr-4';
-
-  return (
-    <div className={cn('md:hidden -mx-4 px-4', className)}>
-      <div
-        ref={viewportRef}
-        className={cn(
-          'overflow-hidden cursor-grab overscroll-x-contain active:cursor-grabbing',
-          MOBILE_EMLA_VIEWPORT_TOUCH_CLASS,
-        )}
-      >
-        <div className="flex">
-          {items.map((child, index) => (
-            <div
-              key={React.isValidElement(child) && child.key != null ? `loop-${child.key}` : `loop-${index}`}
-              className={cn(
-                mobileItemClassName,
-                'min-w-0 shrink-0 grow-0',
-                slideGap,
-              )}
-            >
-              {child}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+/** @deprecated Use MOBILE_CAROUSEL_TOUCH_CLASS */
+export const MOBILE_EMLA_VIEWPORT_TOUCH_CLASS = MOBILE_CAROUSEL_TOUCH_CLASS;
 
 /**
  * Horizontal snap scroll on mobile; grid (or other layout) from `md` up.
@@ -162,54 +41,23 @@ export function ResponsiveSnapScroll({
   desktopLayoutClassName,
   gapClassName = 'gap-6 md:gap-8',
   mobileItemClassName = DEFAULT_MOBILE_ITEM,
-  mobileLoop = false,
 }: ResponsiveSnapScrollProps) {
-  const scrollerRef = React.useRef<HTMLDivElement>(null);
-  useMobileScrollAxis(scrollerRef, !mobileLoop);
   const items = React.Children.toArray(children);
 
-  if (mobileLoop) {
-    return (
-      <>
-        <MobileLoopCarousel
-          items={items}
-          mobileItemClassName={mobileItemClassName}
-          className={className}
-          gapClassName={gapClassName}
-        />
-        <div
-          className={cn(
-            'hidden w-full md:grid',
-            gapClassName,
-            desktopLayoutClassName,
-            className,
-          )}
-        >
-          {items.map((child, index) => (
-            <div
-              key={React.isValidElement(child) && child.key != null ? child.key : index}
-              className="min-w-0 h-full"
-            >
-              {child}
-            </div>
-          ))}
-        </div>
-      </>
-    );
-  }
+  const mobileAutoCols = mobileItemWidthToAutoCols(mobileItemClassName);
 
   return (
     <div
-      ref={scrollerRef}
       className={cn(
-        'flex w-full flex-nowrap snap-x snap-proximity overflow-x-auto overflow-y-hidden scroll-px-4',
+        // Mobile: one grid row → equal slide heights; md+: desktopLayoutClassName grid/flex
+        'grid w-full grid-flow-col snap-x snap-proximity overflow-x-auto overflow-y-hidden scroll-px-4',
+        mobileAutoCols,
         '-mx-4 px-4 [-webkit-overflow-scrolling:touch]',
         'max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden',
-        'max-md:overscroll-x-contain max-md:items-start',
-        'max-md:touch-pan-y max-md:data-[scroll-axis=horizontal]:touch-pan-x',
-        'max-md:data-[scroll-axis=vertical]:overflow-x-hidden',
+        'max-md:items-stretch max-md:overscroll-x-contain',
+        MOBILE_CAROUSEL_TOUCH_CLASS,
         gapClassName,
-        'md:mx-0 md:px-0 md:snap-none md:overflow-visible md:overflow-y-visible md:pb-0 md:touch-auto',
+        'md:mx-0 md:px-0 md:auto-cols-auto md:grid-flow-row md:snap-none md:overflow-visible md:overflow-y-visible md:pb-0 md:touch-auto',
         desktopLayoutClassName,
         className,
       )}
@@ -218,8 +66,7 @@ export function ResponsiveSnapScroll({
         <div
           key={React.isValidElement(child) && child.key != null ? child.key : index}
           className={cn(
-            mobileItemClassName,
-            'flex shrink-0 snap-start md:w-auto md:min-w-0 md:shrink',
+            'flex min-h-full snap-start flex-col max-md:min-w-0 md:w-auto md:min-w-0',
           )}
         >
           {child}

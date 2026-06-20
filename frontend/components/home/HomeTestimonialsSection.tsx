@@ -12,8 +12,7 @@ import { BRAND } from '@/lib/brand-voice';
 import { T176_TESTIMONIAL_PLACEHOLDER } from '@/content/t176-claims';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import {
-  MOBILE_EMLA_VIEWPORT_TOUCH_CLASS,
-  useMergedEmblaViewportRef,
+  MOBILE_CAROUSEL_TOUCH_CLASS,
 } from '@/components/ResponsiveSnapScroll';
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
@@ -50,8 +49,11 @@ export function HomeTestimonialsSection({
     () => (reduceMotion ? [] : [Autoplay({ delay: 5000 })]),
     [reduceMotion],
   );
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start', watchDrag: true }, emblaPlugins);
-  const viewportRef = useMergedEmblaViewportRef(emblaRef);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: false, align: 'start', containScroll: 'trimSnaps', watchDrag: true },
+    emblaPlugins,
+  );
+  const viewportRef = emblaRef;
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const onSelect = React.useCallback(() => {
@@ -130,7 +132,7 @@ export function HomeTestimonialsSection({
             <div
               className={cn(
                 'overflow-hidden cursor-grab overscroll-x-contain active:cursor-grabbing',
-                MOBILE_EMLA_VIEWPORT_TOUCH_CLASS,
+                MOBILE_CAROUSEL_TOUCH_CLASS,
               )}
               ref={viewportRef}
             >

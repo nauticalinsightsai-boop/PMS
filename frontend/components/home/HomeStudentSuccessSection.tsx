@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { BRAND } from '@/lib/brand-voice';
 import { MARKETING_PMP_AVATARS } from '@/lib/marketing-stock-images';
 import { cn } from '@/lib/utils';
-import { MobileLoopCarousel } from '@/components/ResponsiveSnapScroll';
+import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
 
@@ -195,13 +195,19 @@ export function HomeStudentSuccessSection() {
           </m.div>
 
           <div className="lg:col-span-8">
-            <MobileLoopCarousel
-              mobileItemClassName="w-[min(88vw,19rem)]"
-              gapClassName="gap-6"
-              items={STUDENT_SUCCESS_STORIES.map((story) => (
-                <TestimonialCard key={story.id} story={story} />
-              ))}
-            />
+            <div className="md:hidden">
+              <ResponsiveSnapScroll
+                mobileItemClassName="w-[min(88vw,19rem)]"
+                gapClassName="gap-6"
+                desktopLayoutClassName="md:grid-cols-1"
+              >
+                {STUDENT_SUCCESS_STORIES.map((story) => (
+                  <div key={story.id} className="h-full">
+                    <TestimonialCard story={story} />
+                  </div>
+                ))}
+              </ResponsiveSnapScroll>
+            </div>
             <div className="hidden md:grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
               <AnimatePresence mode="popLayout" initial={false}>
                 {visibleStories.map((story) => (

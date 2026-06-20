@@ -476,7 +476,6 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
 
           <ResponsiveSnapScroll
             className="pt-4 md:pt-6"
-            mobileLoop
             desktopLayoutClassName="md:grid md:grid-cols-2 lg:grid-cols-3"
             gapClassName="gap-6 md:gap-8"
             mobileItemClassName="w-[min(92vw,19rem)]"
@@ -536,7 +535,6 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             desktopLayoutClassName="md:grid md:grid-cols-2 lg:grid-cols-3"
             gapClassName="gap-6 md:gap-8"
             mobileItemClassName="w-[min(88vw,19rem)]"
-            mobileLoop
           >
             {(["PMI", "PRINCE2", "SixSigma"] as const)
               .filter((familyId) => {
@@ -639,7 +637,6 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
             <div className="lg:col-span-2">
               <ResponsiveSnapScroll
-                mobileLoop
                 desktopLayoutClassName="md:grid md:grid-cols-2"
                 gapClassName="gap-6"
                 mobileItemClassName="w-[min(88vw,19rem)]"
@@ -841,7 +838,6 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
           </div>
           
           <ResponsiveSnapScroll
-            mobileLoop
             desktopLayoutClassName="sm:grid sm:grid-cols-2 lg:grid-cols-4"
             gapClassName="gap-6 md:gap-8"
             mobileItemClassName="w-[min(88vw,19rem)]"

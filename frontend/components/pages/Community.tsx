@@ -119,7 +119,6 @@ function CommunityNetworkContent({
       <section className="relative z-20 pt-14 pb-20 md:pt-16">
         <div className="container mx-auto">
           <ResponsiveSnapScroll
-            mobileLoop
             desktopLayoutClassName="md:grid-cols-2 items-stretch"
             gapClassName="gap-8"
             mobileItemClassName="w-[min(88vw,19rem)]"
@@ -189,7 +188,6 @@ function CommunityNetworkContent({
                 {mentorshipSubtitle}
               </p>
               <ResponsiveSnapScroll
-                mobileLoop
                 desktopLayoutClassName="md:grid-cols-1"
                 gapClassName="gap-8"
                 mobileItemClassName="w-[min(88vw,19rem)]"
@@ -246,7 +244,6 @@ function CommunityNetworkContent({
           </div>
           
           <ResponsiveSnapScroll
-            mobileLoop
             desktopLayoutClassName="md:grid-cols-2 lg:grid-cols-3"
             gapClassName="gap-8"
             mobileItemClassName="w-[min(88vw,19rem)]"
