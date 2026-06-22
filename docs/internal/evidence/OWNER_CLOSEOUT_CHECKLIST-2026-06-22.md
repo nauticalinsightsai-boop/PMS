@@ -4,6 +4,8 @@ Dev/agent closeout for the SEO Remaining Implementation Plan is complete. These 
 
 ## Mahaa (OA-001, OA-002, OA-003, OA-010, dashboard)
 
+**Start here:** [`GSC_GA4_OWNER_ACTIONS.md`](./GSC_GA4_OWNER_ACTIONS.md) — direct GSC/GA4 links, 9 inspection URLs, screenshot folders (`evidence/gsc/`, `evidence/ga4/`).
+
 - [ ] **OA-002** Resubmit `https://pmstructure.com/sitemap.xml` in Google Search Console
 - [ ] **OA-002** URL Inspection on 9 priority URLs (see `GSC_GA4_OWNER_ACTIONS.md`)
 - [ ] **OA-002** Manual actions: confirm none; screenshot

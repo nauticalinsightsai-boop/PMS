@@ -113,7 +113,7 @@ Do not leave duplicate legal pages indexable with identical content.
 
 **Partial Lighthouse baseline attached** — mobile performance scores for `/`, `/certifications`, `/certifications/pmp`, `/newsletter` in [evidence/b15-lighthouse-production-summary-2026-06-20.json](./evidence/b15-lighthouse-production-summary-2026-06-20.json).
 
-Desktop PSI and remaining priority URLs pending (OA-009).
+Desktop PSI and remaining priority URLs: **Verified** (16/16 batch 2026-06-22 — `psi-batch-summary-2026-06-22.json`).
 
 ## GSC / GA4 status
 
