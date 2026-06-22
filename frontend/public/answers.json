@@ -2,7 +2,7 @@
   "site": "https://pmstructure.com",
   "version": "1.0.0",
   "updatedAt": "2026-06-22",
-  "count": 36,
+  "count": 39,
   "indexUrl": "https://pmstructure.com/answers",
   "answers": [
     {
@@ -363,6 +363,36 @@
       "question": "What should I do after a low PMP mock score?",
       "description": "Steps to recover from a disappointing PMP mock exam result.",
       "shortAnswer": "Log misses by domain, revisit ECO tasks for weak areas, and retake a timed mock only after targeted review: do not schedule the real exam yet.",
+      "status": "live"
+    },
+    {
+      "slug": "pmp-for-construction-and-infrastructure",
+      "path": "/answers/pmp-for-construction-and-infrastructure",
+      "url": "https://pmstructure.com/answers/pmp-for-construction-and-infrastructure",
+      "title": "PMP for Construction & Infrastructure Professionals | PM Structure",
+      "question": "Is PMP useful for construction and infrastructure professionals?",
+      "description": "How PMP can support construction and infrastructure professionals moving into structured project leadership without replacing technical or site experience.",
+      "shortAnswer": "PMP can help construction and infrastructure professionals who already manage scope, contractors, safety interfaces, and staged delivery show structured project leadership, especially when the role expands beyond pure technical delivery.",
+      "status": "live"
+    },
+    {
+      "slug": "is-pmp-a-shortcut-for-credibility",
+      "path": "/answers/is-pmp-a-shortcut-for-credibility",
+      "url": "https://pmstructure.com/answers/is-pmp-a-shortcut-for-credibility",
+      "title": "Is PMP a Shortcut for Credibility? | PM Structure",
+      "question": "Is PMP a shortcut for professional credibility?",
+      "description": "PMP is not a fast track around experience. Learn how structured prep can support credibility without overclaiming.",
+      "shortAnswer": "No. PMP is not a shortcut. PMI requires eligible project leadership experience and a rigorous exam. Structured prep can organize your study route and readiness decision so certification supports your real background instead of replacing it.",
+      "status": "live"
+    },
+    {
+      "slug": "corporate-pmp-2026-readiness-for-teams",
+      "path": "/answers/corporate-pmp-2026-readiness-for-teams",
+      "url": "https://pmstructure.com/answers/corporate-pmp-2026-readiness-for-teams",
+      "title": "Corporate PMP 2026 Readiness for Teams | PM Structure",
+      "question": "How can teams plan corporate PMP 2026 readiness?",
+      "description": "Orientation for PMOs and delivery leaders planning team PMP readiness around the July 2026 exam transition without pass guarantees.",
+      "shortAnswer": "Team PMP readiness is a delivery capability issue: align roles to exam routes (current vs updated from July 2026), verify individual eligibility, structure mock review cadence, and avoid bulk certificate chasing without governance context.",
       "status": "live"
     }
   ]
