@@ -24,7 +24,8 @@ Agent session implementing `seo_remaining_closeout_c8c86d99` plan. Production ba
 ### OA-009 — Lighthouse / PSI
 
 - Batch capture: `node scripts/seo/psi-batch-capture.mjs` → `docs/internal/evidence/psi-batch-summary-2026-06-22.json`
-- Prior evidence retained: `lighthouse-home-final-mobile-2026-06-22.json`, `psi-agentic-3of3-2026-06-22.png`, cert hub mobile JSONs
+- **16/16 complete** (2026-06-22): mobile priority URLs + desktop `/`, `/certifications`, `/certifications/pmp` + legal terms
+- Prior evidence retained: `lighthouse-home-final-mobile-2026-06-22.json`, `psi-agentic-3of3-2026-06-22.png`
 
 ### OA-012 — Forms smoke
 
@@ -89,7 +90,7 @@ Use these statuses when updating the external Excel (no `.xlsx` in repo):
 
 - [x] `seo:release-verify` + `seo:smoke-live` pass
 - [x] `/answers` + `/topics` crawl registers updated (no longer Pending crawl)
-- [x] Fresh PSI batch for priority URLs (see summary JSON)
+- [x] Fresh PSI batch for priority URLs (16/16 — see summary JSON)
 - [x] Dev Website schedule rows marked Done where implemented
+- [x] Forms storage verified (OA-012, deploy `819fae3`)
 - [ ] GSC/GA4 owner screenshots (Mahaa)
-- [ ] Forms storage 503 resolved (owner env)

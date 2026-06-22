@@ -33,3 +33,4 @@ frontend/public/videos/programme/*.mp4
 # Large session-deck PDF (~150MB; copy locally: see frontend/public/programme/README.md)
 frontend/public/programme/pmp-foundation-session-slides.pdf
 .tmp-portal-preview.html
+.tmp-lighthouse/
