@@ -31,8 +31,6 @@ import { getCertDurationLabel, getListingPriceForCert } from '@/lib/regional-cat
 import type { CertificationSummary } from '@/types/site';
 import type { RegionId } from '@/types/regional-catalogue';
 
-import type { RegionId } from '@/types/regional-catalogue';
-
 /** Prep time, tuition, and membership: three aligned chips from the same listing tier. */
 function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
   const { regionId, gccCountry } = useRegion();
@@ -163,12 +161,14 @@ function certAccentColor(cert: CertificationSummary): string | undefined {
 
 function PathwayCardCta({
   certId,
+  certName,
   regionId,
   accentColor,
   ctaLabel,
   ctaHref,
 }: {
   certId: string;
+  certName?: string;
   regionId: RegionId;
   accentColor?: string;
   ctaLabel?: string;
@@ -177,6 +177,9 @@ function PathwayCardCta({
   const label =
     ctaLabel ?? (isEnrollmentOpen(certId, regionId) ? 'View pathway' : 'View overview');
   const href = ctaHref ?? `/certifications/${certId}`;
+  const pathwayAriaLabel = certName
+    ? `${label} for ${certName}`
+    : `${label} for ${certId.toUpperCase()}`;
   const btnClass = featuredCardCtaClass;
   const [waitlistOpen, setWaitlistOpen] = React.useState(false);
   const waitlistContext = React.useMemo<JoinWaitlistContext | null>(() => {
@@ -228,7 +231,7 @@ function PathwayCardCta({
   }
 
   return (
-    <Link href={href} className="w-full">
+    <Link href={href} className="w-full" aria-label={pathwayAriaLabel}>
       <Button
         variant={accentColor ? 'default' : 'brand'}
         className={btnClass}
@@ -304,6 +307,7 @@ function PathwayFeaturedVisualCard({
       <CardFooter className={featuredCardFooterClass}>
         <PathwayCardCta
           certId={cert.id}
+          certName={displayTitle}
           regionId={regionId}
           ctaLabel={ctaLabel}
           ctaHref={ctaHref}
@@ -395,7 +399,7 @@ function PathwayFeaturedCatalogCard({
         </ul>
       </CardContent>
       <CardFooter className={featuredCardFooterClass}>
-        <PathwayCardCta certId={cert.id} regionId={regionId} accentColor={accent} />
+        <PathwayCardCta certId={cert.id} certName={displayTitle} regionId={regionId} accentColor={accent} />
       </CardFooter>
     </Card>
   );

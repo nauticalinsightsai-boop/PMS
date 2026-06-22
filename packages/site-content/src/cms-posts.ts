@@ -84,7 +84,7 @@ export function cmsPostToArticle(
 ): BlogArticle {
   const image =
     post.featuredImageUrl.trim() ||
-    `https://picsum.photos/seed/${encodeURIComponent(post.slug)}/800/600`;
+    '/images/marketing/community-collab-600.webp';
 
   const category =
     post.topicIds.map((id) => topicNameById[id]).find(Boolean) || 'Insights';

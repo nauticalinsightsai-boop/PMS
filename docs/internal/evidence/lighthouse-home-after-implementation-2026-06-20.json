@@ -1,0 +1,29 @@
+{
+  "capturedAt": "2026-06-20T00:00:00.000Z",
+  "note": "Post Lighthouse fix implementation (local build). Production PSI pending deploy.",
+  "route": "/",
+  "implementation": {
+    "homeHeroServer": true,
+    "realtimeGatedOnPublicHome": true,
+    "ipapiSessionCache": true,
+    "llmsMarkdownLinks": true,
+    "picsumDefaultsRemoved": true,
+    "runtimeAvatarSanitize": true
+  },
+  "baselineReference": "lighthouse-home-baseline-2026-06-16.json",
+  "preFixCli": {
+    "source": "b15-lighthouse-production-summary-2026-06-20.json",
+    "performanceScore": 66,
+    "lcpMs": 4233.82
+  },
+  "targets": {
+    "mobilePerformanceScore": 85,
+    "mobileLcpMs": 2500,
+    "desktopPerformanceScore": 91,
+    "accessibilityScore": 100,
+    "bestPracticesScore": 100,
+    "agenticBrowsing": "3/3",
+    "seoScore": 100
+  },
+  "postFixProduction": null
+}

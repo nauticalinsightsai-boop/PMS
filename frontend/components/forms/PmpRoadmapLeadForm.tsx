@@ -82,7 +82,7 @@ function FormPrivacyNotice({ compact }: { compact: boolean }) {
       )}
     >
       By submitting, you agree to our{' '}
-      <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
+      <Link href="/legal/privacy" className="font-semibold text-orange-800 underline decoration-orange-800/50 hover:text-orange-900 dark:text-orange-300 dark:decoration-orange-300/50">
         Privacy Policy
       </Link>
       .
@@ -169,6 +169,8 @@ export function PmpRoadmapLeadForm({
 
   const shellClass = cn(
     'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
+    (placement === 'home_hero_mobile' || placement === 'home_hero_desktop') &&
+      'min-h-[420px] sm:min-h-[440px]',
     variant === 'cert'
       ? 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800'
       : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 shadow-slate-900/10 dark:shadow-black/30',

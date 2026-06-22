@@ -84,7 +84,17 @@ export function StoreContent({ initialCatalog }: { initialCatalog?: StoreCatalog
       category: catalog?.categories.find((c) => c.id === p.categoryId)?.name ?? p.categoryId,
       rating: p.rating,
       reviews: p.reviewCount,
-      image: p.image?.url ?? p.imageUrl ?? MARKETING_STOCK_IMAGES.storeProduct.src,
+      image: (() => {
+        const raw = p.image?.url ?? p.imageUrl ?? '';
+        if (
+          raw &&
+          !raw.includes('picsum.photos') &&
+          !raw.includes('pravatar.cc')
+        ) {
+          return raw;
+        }
+        return MARKETING_STOCK_IMAGES.storeProduct.src;
+      })(),
       description: p.description,
       badge: p.badge ?? '',
     }));

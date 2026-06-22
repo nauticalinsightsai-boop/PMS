@@ -84,20 +84,22 @@ export function buildEntityJson() {
 }
 
 export function buildLlmsTxt(): string {
+  const md = (label: string, href: string) => `- [${label}](${href})`;
+
   const pmpClusterLines = [
-    '/pmp-faq',
-    '/pmp-exam-2026',
-    '/pmp',
-    '/pmp-exam-timeline-2026',
-    '/pmp-current-vs-new-exam',
-    '/certifications/pmp',
-    '/pmp-foundation',
-    '/pmp-professional',
-    '/pmp-mastery',
-    '/answers/is-the-pmp-exam-changing-in-2026',
-    '/topics/pmp-exam-2026',
+    ['PMP FAQ', '/pmp-faq'],
+    ['PMP exam 2026', '/pmp-exam-2026'],
+    ['PMP hub', '/pmp'],
+    ['PMP exam timeline 2026', '/pmp-exam-timeline-2026'],
+    ['PMP current vs new exam', '/pmp-current-vs-new-exam'],
+    ['PMP certification pathway', '/certifications/pmp'],
+    ['PMP Foundation', '/pmp-foundation'],
+    ['PMP Professional', '/pmp-professional'],
+    ['PMP Mastery', '/pmp-mastery'],
+    ['Is the PMP exam changing in 2026?', '/answers/is-the-pmp-exam-changing-in-2026'],
+    ['PMP exam 2026 topic hub', '/topics/pmp-exam-2026'],
   ]
-    .map((p) => `- ${siteUrl}${p}`)
+    .map(([label, p]) => md(label, `${siteUrl}${p}`))
     .join('\n');
 
   const aiFileLabels: [string, string][] = [
@@ -116,7 +118,9 @@ export function buildLlmsTxt(): string {
     ['Pricing policy', 'pricing-policy.json'],
     ['PMP articles feed', 'feeds/pmp-articles.json'],
   ];
-  const aiFiles = aiFileLabels.map(([label, f]) => `- ${label}: ${siteUrl}/${f}`).join('\n');
+  const aiFiles = aiFileLabels
+    .map(([label, f]) => md(label, `${siteUrl}/${f}`))
+    .join('\n');
 
   const bestPages = [
     ['Home', '/'],
@@ -131,7 +135,7 @@ export function buildLlmsTxt(): string {
     ['Blog', '/blog'],
     ['Newsletter', '/newsletter'],
   ]
-    .map(([label, p]) => `- ${label}: ${siteUrl}${p}`)
+    .map(([label, p]) => md(label, `${siteUrl}${p}`))
     .join('\n');
 
   return `# PM Structure
@@ -143,13 +147,13 @@ version: ${AI_FILE_VERSION}
 
 ## Canonical site
 
-- ${siteUrl}
+${md('PM Structure', siteUrl)}
 
 ## AI & entity files
 
 ${aiFiles}
-- RSS: ${siteUrl}/rss.xml
-- Humans: ${siteUrl}/humans.txt
+${md('RSS feed', `${siteUrl}/rss.xml`)}
+${md('Humans.txt', `${siteUrl}/humans.txt`)}
 
 ## Primary topics
 
@@ -168,7 +172,7 @@ ${bestPages}
 
 ## Do not cite (noindex, private, or session URLs)
 
-${DO_NOT_CITE_EXACT.map((p) => `- ${p}`).join('\n')}
+${DO_NOT_CITE_EXACT.map((p) => md(p, `${siteUrl}${p}`)).join('\n')}
 - /dashboard, /login
 - /certifications/{id}/{tier}/enroll and enroll success URLs
 - Any URL with currency, region, or UTM query parameters

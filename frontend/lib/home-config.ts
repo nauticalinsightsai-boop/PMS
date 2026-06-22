@@ -33,7 +33,9 @@ function isPreviewRequest() {
 
 export function useHomePageConfig(initialConfig?: HomePageConfigV2 | null) {
   const [config, setConfig] = useState<HomePageConfigV2 | null>(initialConfig ?? null);
-  const [isPreview, setIsPreview] = useState(false);
+  const [isPreview, setIsPreview] = useState(() =>
+    typeof window !== 'undefined' ? isPreviewRequest() : false,
+  );
 
   const refresh = useCallback(async () => {
     try {
@@ -60,7 +62,7 @@ export function useHomePageConfig(initialConfig?: HomePageConfigV2 | null) {
     void refresh();
   }, [initialConfig, refresh]);
 
-  useWebsiteDataRealtime(HOME_CONFIG_KEY, refresh);
+  useWebsiteDataRealtime(HOME_CONFIG_KEY, refresh, isPreview);
 
   useEffect(() => {
     if (!isPreviewRequest()) return;

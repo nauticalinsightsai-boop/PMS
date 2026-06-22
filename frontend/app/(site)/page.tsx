@@ -1,5 +1,5 @@
 import { Home } from '@/components/pages/Home';
-import { HomeServerHeading } from '@/components/home/HomeServerHeading';
+import { HomeHeroServer } from '@/components/home/HomeHeroServer';
 import { HomePageJsonLd } from '@/components/seo/HomePageJsonLd';
 import { buildPageMetadata } from '@/lib/site-metadata';
 import { T169_SEO } from '@/content/pmp/flagship-t169';
@@ -17,8 +17,10 @@ export default async function Page() {
   return (
     <>
       <HomePageJsonLd />
-      <HomeServerHeading config={initialHomeConfig} />
-      <Home initialHomeConfig={initialHomeConfig} />
+      <Home
+        initialHomeConfig={initialHomeConfig}
+        heroShell={<HomeHeroServer config={initialHomeConfig} />}
+      />
     </>
   );
 }

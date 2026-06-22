@@ -241,9 +241,9 @@ export function Newsletter({
                       <Badge variant="link" className="p-0 h-auto text-brand-purple text-[10px] uppercase tracking-widest font-bold mb-1">
                         {article.category}
                       </Badge>
-                      <h4 className="font-bold leading-tight group-hover:text-brand-purple transition-colors line-clamp-2">
+                      <h3 className="font-bold leading-tight group-hover:text-brand-purple transition-colors line-clamp-2">
                         {article.title}
-                      </h4>
+                      </h3>
                       <p className="text-xs text-muted-foreground mt-2">{article.readTime}</p>
                     </div>
                   </Link>

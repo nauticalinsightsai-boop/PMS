@@ -63,6 +63,7 @@ function ShellWordmark({
           imageClassName,
         )}
         priority={priority}
+        quality={priority ? 70 : 75}
       />
       <Image
         src={BRAND_LOGO_DARK}
@@ -74,6 +75,7 @@ function ShellWordmark({
           imageClassName,
         )}
         priority={priority}
+        quality={priority ? 70 : 75}
         loading={priority ? undefined : 'lazy'}
       />
     </span>
@@ -103,6 +105,7 @@ function ShellMark({
           imageClassName,
         )}
         priority={priority}
+        quality={priority ? 70 : 75}
       />
       <Image
         src={BRAND_MARK_DARK}
@@ -114,6 +117,7 @@ function ShellMark({
           imageClassName,
         )}
         priority={priority}
+        quality={priority ? 70 : 75}
         loading={priority ? undefined : 'lazy'}
       />
     </span>

@@ -1,0 +1,41 @@
+{
+  "capturedAt": "2026-06-16T21:32:00+05:00",
+  "source": "PageSpeed Insights paste (pmstructure.com /)",
+  "route": "/",
+  "mobile": {
+    "profile": "Moto G Power, Slow 4G",
+    "performanceScore": 70,
+    "fcpMs": 1500,
+    "lcpMs": 7300,
+    "tbtMs": 120,
+    "cls": 0.043,
+    "speedIndexMs": 5400,
+    "accessibilityScore": 95,
+    "bestPracticesScore": 96,
+    "seoScore": 100,
+    "agenticBrowsing": "2/3",
+    "lcpElement": "visible client hero h1 — element render delay ~2320ms"
+  },
+  "desktop": {
+    "profile": "Desktop, custom throttle",
+    "performanceScore": 91,
+    "fcpMs": 300,
+    "lcpMs": 1600,
+    "tbtMs": 150,
+    "cls": 0.014,
+    "speedIndexMs": 1100,
+    "accessibilityScore": 95,
+    "bestPracticesScore": 96,
+    "seoScore": 100,
+    "agenticBrowsing": "2/3",
+    "lcpElement": "visible client hero h1 — element render delay ~2460ms"
+  },
+  "sharedFindings": [
+    "pravatar.cc ~56 KiB (CMS testimonial avatars)",
+    "picsum.photos ~148 KiB (CMS store/newsletter images)",
+    "Supabase realtime WebSocket console errors",
+    "ipapi.co 429 on desktop",
+    "llms.txt missing markdown links"
+  ],
+  "reconcileNote": "Jun 19 B15 CLI home.json: Perf 66, LCP 4.2s — fresher pre-fix repo baseline; see b15-lighthouse-production-summary-2026-06-20.json"
+}

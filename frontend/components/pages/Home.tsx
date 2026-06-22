@@ -21,11 +21,10 @@ import {
   MessageSquare,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { MARKETING_HERO_H1_CLASS, PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS, PATHWAY_MOBILE_CARD_SHELL_CLASS } from '@/lib/brand-visual';
+import { PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS, PATHWAY_MOBILE_CARD_SHELL_CLASS } from '@/lib/brand-visual';
 import { BRAND, CTAS, HOME_COPY } from '@/lib/brand-voice';
 import { MARKETING_STOCK_IMAGES, MARKETING_HERO_SOCIAL_AVATARS, marketingTestimonialAvatar } from '@/lib/marketing-stock-images';
 import {
-  resolveHomeHeroHeadingLines,
   resolveHomeHeroSubtitle,
   type HomePageConfigV2,
 } from '@pms/site-content';
@@ -206,7 +205,13 @@ type FeaturedPathway = (typeof featuredCertifications)[number];
 
 /** Featured Pathways: exactly 6 cards in 2 rows × 3 columns on lg+ */
 const featuredPathways = featuredCertifications;
-export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfigV2 }) {
+export function Home({
+  initialHomeConfig,
+  heroShell,
+}: {
+  initialHomeConfig?: HomePageConfigV2;
+  heroShell?: React.ReactNode;
+}) {
   const homeCms = useHomePageConfig(initialHomeConfig);
   const isLgUp = useIsLgUp();
   const heroFormPlacement = isLgUp ? 'home_hero_desktop' : 'home_hero_mobile';
@@ -248,22 +253,30 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
     homeCms.stats?.professionalsCount ??
     initialHomeConfig?.stats?.professionalsCount ??
     1284;
-  const heroTitleRaw =
-    homeCms.heroTitle ||
-    serverSlide?.heading ||
-    HOME_COPY.heroTitle;
-  const heroHeadingLines = resolveHomeHeroHeadingLines(heroTitleRaw);
   const heroSubtitleRaw =
     homeCms.heroSubtitle || serverSlide?.description || HOME_COPY.heroSubtitle;
   const heroSubtitleResolved = resolveHomeHeroSubtitle(heroSubtitleRaw);
+
+  const sanitizeAvatarUrl = (url: string | undefined | null, index: number) => {
+    const trimmed = url?.trim() ?? '';
+    if (
+      trimmed &&
+      !trimmed.includes('pravatar.cc') &&
+      !trimmed.includes('picsum.photos')
+    ) {
+      return trimmed;
+    }
+    return marketingTestimonialAvatar(index);
+  };
+
   const testimonials =
     homeCms.visibleTestimonials.length > 0
-      ? homeCms.visibleTestimonials.map((t) => ({
+      ? homeCms.visibleTestimonials.map((t, index) => ({
           id: t.id,
           name: t.name,
           role: t.role,
           content: t.quote,
-          avatar: t.avatarUrl ?? marketingTestimonialAvatar(Number(t.id) || 0),
+          avatar: sanitizeAvatarUrl(t.avatarUrl, Number(t.id) || index),
           company: '',
         }))
       : [];
@@ -326,27 +339,12 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
         <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center">
             <m.div
-              initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.6 }}
+              transition={{ duration: 0 }}
               className="relative z-30 min-w-0 overflow-x-clip"
             >
-              <Badge className="mb-4 sm:mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-                {HOME_COPY.heroBadge}
-              </Badge>
-              
-              <h1
-                className={cn(
-                  MARKETING_HERO_H1_CLASS,
-                  'mb-3 sm:mb-4 max-w-full text-balance lg:text-6xl xl:text-7xl',
-                )}
-              >
-                {heroHeadingLines.map((line, index) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </h1>
+              {heroShell ?? null}
 
               <HomeHeroAccentRotator />
 
@@ -387,14 +385,9 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
             </m.div>
 
             <div id={PMP_ROADMAP_FORM_ANCHOR} className="relative z-10 scroll-mt-24 w-full min-w-0">
-              <m.div
-                initial={reduceMotion ? false : { opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={reduceMotion ? { duration: 0 } : { duration: 0.7 }}
-                className="relative z-30 isolate w-full min-w-0"
-              >
+              <div className="relative z-30 isolate w-full min-w-0">
                 <PmpRoadmapLeadFormHero placement={heroFormPlacement} variant="hero" />
-              </m.div>
+              </div>
             </div>
           </div>
         </div>
@@ -586,7 +579,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                   <Link key={item.title} href={item.href} className="flex gap-6 group">
                     <div className="h-1 w-12 bg-brand-orange mt-4 group-hover:w-16 transition-all duration-500 rounded-full shrink-0" />
                     <div>
-                      <h4 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-orange transition-colors tracking-tight">{item.title}</h4>
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-orange transition-colors tracking-tight">{item.title}</h3>
                       <p className="text-base text-slate-600 dark:text-slate-400 mt-1 font-medium">{item.desc}</p>
                     </div>
                   </Link>
@@ -668,7 +661,7 @@ export function Home({ initialHomeConfig }: { initialHomeConfig?: HomePageConfig
                     <Icon className="h-6 w-6" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-bold mb-2 tracking-tight">{benefit.title}</h4>
+                    <h3 className="text-xl font-bold mb-2 tracking-tight">{benefit.title}</h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">{benefit.desc}</p>
                   </div>
                 </m.div>

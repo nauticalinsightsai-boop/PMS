@@ -42,7 +42,7 @@ export function CookieConsent() {
       <p id="cookie-consent-desc" className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-relaxed mb-4">
         We use necessary cookies for region preference, theme, and checkout. Optional analytics cookies
         are off until you accept. See our{' '}
-        <Link href="/legal/cookies" className="text-brand-orange font-bold hover:underline">
+        <Link href="/legal/cookies" className="font-bold text-orange-800 underline decoration-orange-800/50 hover:text-orange-900 dark:text-orange-300 dark:decoration-orange-300/50">
           Cookie Policy
         </Link>
         .

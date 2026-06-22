@@ -27,15 +27,51 @@ export type RegionGeoHint = {
   gccCountry: GccCountryCode | null;
 };
 
+const IPAPI_CACHE_KEY = 'pms_ip_region_hint_v1';
+const IPAPI_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+
+function readCachedIpRegionHint(): RegionGeoHint | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = sessionStorage.getItem(IPAPI_CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { savedAt: number; hint: RegionGeoHint };
+    if (Date.now() - parsed.savedAt > IPAPI_CACHE_TTL_MS) {
+      sessionStorage.removeItem(IPAPI_CACHE_KEY);
+      return null;
+    }
+    return parsed.hint;
+  } catch {
+    return null;
+  }
+}
+
+function writeCachedIpRegionHint(hint: RegionGeoHint): void {
+  if (typeof window === 'undefined') return;
+  try {
+    sessionStorage.setItem(
+      IPAPI_CACHE_KEY,
+      JSON.stringify({ savedAt: Date.now(), hint }),
+    );
+  } catch {
+    // ignore quota errors
+  }
+}
+
 /** Optional IP hint: never throws; returns null on failure. */
 export async function fetchIpRegionHint(): Promise<RegionGeoHint | null> {
+  const cached = readCachedIpRegionHint();
+  if (cached) return cached;
+
   try {
     const res = await fetch('https://ipapi.co/json/', {
       signal: AbortSignal.timeout(4000),
     });
     if (!res.ok) return null;
     const data = (await res.json()) as { country_code?: string };
-    return regionFromCountryCode(data.country_code);
+    const hint = regionFromCountryCode(data.country_code);
+    writeCachedIpRegionHint(hint);
+    return hint;
   } catch {
     return null;
   }
