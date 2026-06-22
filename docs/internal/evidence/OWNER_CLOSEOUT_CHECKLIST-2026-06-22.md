@@ -35,14 +35,10 @@ All `mkt-*` rows in the plan are **LinkedIn, X, email, internal, outreach** — 
 
 Blocked regional Website rows (Jul 23–Aug 4) remain blocked until **OA-008** approval.
 
-## Phase B copy still needed from Mahaa
+## Phase B — dev shipped (closeout 2026-06-22)
 
-| Date | Topic |
-|------|-------|
-| Jul 21 | Engineer-focused FAQ block |
-| Aug 11 | Mock-tracking CTA block |
-| Aug 18 | Trust FAQ block |
-| Sep 3 | PMP landing objection update |
-| Sep 12 | Site update after 90-day review (Sheikh decision) |
+Website **dev** rows are Done in repo. Only **Sep 12** remains blocked (Sheikh 90-day review).
+
+**Mahaa content still Planned** (articles/landings, not dev): Jul 16–17, Jul 31, Aug 6–7, Aug 20, Aug 27–28, Sep 4 — see `pmstructure-90-day-marketing-schedule.csv`.
 
 Reference: [`seo-remaining-closeout-2026-06-22.md`](./seo-remaining-closeout-2026-06-22.md)

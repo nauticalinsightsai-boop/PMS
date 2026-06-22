@@ -97,4 +97,4 @@ Use these statuses when updating the external Excel (no `.xlsx` in repo):
 
 ## Dev agent sign-off (2026-06-22)
 
-All executable dev/agent items from `seo_remaining_closeout_c8c86d99` are **complete**. Commits: `66112e6` → `6249818`. Mirror for Mahaa Excel: [`pmstructure-mahaa-audit-phase1-mirror.csv`](../pmstructure-mahaa-audit-phase1-mirror.csv).
+All executable dev/agent items from `seo_remaining_closeout_c8c86d99` are **complete**. Commits: `66112e6` → `a9d1224`. Re-verified production smoke + forms **2026-06-22**. Mirror for Mahaa Excel: [`pmstructure-mahaa-audit-phase1-mirror.csv`](../pmstructure-mahaa-audit-phase1-mirror.csv).
