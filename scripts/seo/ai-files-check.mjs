@@ -106,6 +106,15 @@ if (!llms.includes('Do not cite')) fail('llms.txt missing doNotCite section');
 
 if (!llms.includes('answers.json')) fail('llms.txt missing answers.json link');
 
+const MD_LINK_RE = /\[[^\]]+\]\(https?:\/\/[^)]+\)/;
+if (!MD_LINK_RE.test(llms)) fail('llms.txt missing markdown links [text](https://...)');
+
+const MD_LINK_ANY_RE = /\[[^\]]+\]\([^)]+\)/g;
+const withoutMdLinks = llms.replace(MD_LINK_ANY_RE, '');
+if (/https?:\/\/\S+/.test(withoutMdLinks)) {
+  fail('llms.txt contains bare URLs outside markdown link syntax');
+}
+
 if (llms.includes('planned page')) fail('llms.txt stale planned label for pmp-2026');
 
 const entity = readJson('entity.json');

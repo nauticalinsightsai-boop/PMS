@@ -138,9 +138,16 @@ export function buildLlmsTxt(): string {
     .map(([label, p]) => md(label, `${siteUrl}${p}`))
     .join('\n');
 
+  const contactLines = [
+    md('Support email (billing, privacy, legal, refunds)', `mailto:${PMS_SUPPORT_EMAIL}`),
+    ...(isWhatsAppConfigured()
+      ? [md(`WhatsApp ${PMS_WHATSAPP_DISPLAY}`, PMS_WHATSAPP_URL)]
+      : []),
+  ].join('\n');
+
   return `# PM Structure
 
-> Independent exam preparation and structured readiness across PMI, PRINCE2, and Lean Six Sigma.
+> Independent exam preparation and structured readiness across PMI, PRINCE2, and Lean Six Sigma. Visit [pmstructure.com](${siteUrl}) for pathways and PMP 2026 guides.
 
 lastUpdated: ${today()}
 version: ${AI_FILE_VERSION}
@@ -173,7 +180,8 @@ ${bestPages}
 ## Do not cite (noindex, private, or session URLs)
 
 ${DO_NOT_CITE_EXACT.map((p) => md(p, `${siteUrl}${p}`)).join('\n')}
-- /dashboard, /login
+${md('/dashboard', `${siteUrl}/dashboard`)}
+${md('/login', `${siteUrl}/login`)}
 - /certifications/{id}/{tier}/enroll and enroll success URLs
 - Any URL with currency, region, or UTM query parameters
 
@@ -189,7 +197,7 @@ Regional pricing is based on current country of residence and billing country, n
 
 ## Contact
 
-- Support (billing, privacy, legal, refunds): ${PMS_SUPPORT_EMAIL}${isWhatsAppConfigured() ? `\n- WhatsApp: ${PMS_WHATSAPP_DISPLAY} (${PMS_WHATSAPP_URL})` : ''}
+${contactLines}
 `;
 }
 

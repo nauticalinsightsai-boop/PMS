@@ -1,6 +1,6 @@
 # PM Structure
 
-> Independent exam preparation and structured readiness across PMI, PRINCE2, and Lean Six Sigma.
+> Independent exam preparation and structured readiness across PMI, PRINCE2, and Lean Six Sigma. Visit [pmstructure.com](https://pmstructure.com) for pathways and PMP 2026 guides.
 
 lastUpdated: 2026-06-22
 version: 1.0.0
@@ -70,7 +70,8 @@ version: 1.0.0
 - [/checkout/cancel](https://pmstructure.com/checkout/cancel)
 - [/admin](https://pmstructure.com/admin)
 - [/admin/login](https://pmstructure.com/admin/login)
-- /dashboard, /login
+- [/dashboard](https://pmstructure.com/dashboard)
+- [/login](https://pmstructure.com/login)
 - /certifications/{id}/{tier}/enroll and enroll success URLs
 - Any URL with currency, region, or UTM query parameters
 
@@ -86,5 +87,5 @@ Regional pricing is based on current country of residence and billing country, n
 
 ## Contact
 
-- Support (billing, privacy, legal, refunds): support@pmstructure.com
-- WhatsApp: +44 7947 540939 (https://wa.me/447947540939)
+- [Support email (billing, privacy, legal, refunds)](mailto:support@pmstructure.com)
+- [WhatsApp +44 7947 540939](https://wa.me/447947540939)
