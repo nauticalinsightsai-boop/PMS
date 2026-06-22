@@ -14,6 +14,7 @@ const pages = [
   // Home H1 lives in HomeHeroServer.tsx (composed in app/(site)/page.tsx)
   'components/home/HomeHeroServer.tsx',
   'components/certifications/CertificationsHeroServer.tsx',
+  'components/certifications/CertificationDetailHeroServer.tsx',
   'components/pages/Compare.tsx',
   'components/pages/About.tsx',
   'components/pages/Contact.tsx',

@@ -8,7 +8,6 @@ import { ArrowLeft, BookOpen, Clock, Award, ShieldCheck, TrendingUp, Target, Zap
 import { Badge } from "@/components/ui/badge";
 import { LazyMotion, domAnimation, m } from "motion/react";
 import { cn } from "@/lib/utils";
-import { MARKETING_HERO_H1_CLASS } from '@/lib/brand-visual';
 import { PathwayTier } from "@/types/site";
 import { certifications, familyConfigs } from "@/data/certification-index";
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
@@ -39,7 +38,6 @@ import {
 } from "@/components/CertDossierBlocks";
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
-import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
 import { CertRoadmapCta } from '@/components/cert/CertProgramHighlightsSection';
 import {
   CERT_ROADMAP_FORM_ANCHOR,
@@ -50,8 +48,31 @@ import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnroll
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
 import { T176_SCHOLARSHIP_SAFE_BLOCK } from '@/content/t176-claims';
-import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
+
+const PmpRoadmapLeadForm = dynamic(
+  () =>
+    import('@/components/forms/PmpRoadmapLeadForm').then((mod) => ({
+      default: mod.PmpRoadmapLeadForm,
+    })),
+  {
+    loading: () => (
+      <div
+        className="min-h-[420px] w-full rounded-2xl border border-slate-200/80 bg-white/60 dark:border-slate-800 dark:bg-slate-900/40 animate-pulse"
+        aria-hidden
+      />
+    ),
+  },
+);
+
+const RelatedGuidesLinks = dynamic(
+  () =>
+    import('@/components/seo/RelatedGuidesLinks').then((mod) => ({
+      default: mod.RelatedGuidesLinks,
+    })),
+  { loading: () => null },
+);
+
 const CertProgramHighlightsContent = dynamic(
   () =>
     import('@/components/cert/CertProgramHighlightsSection').then((m) => ({
@@ -72,9 +93,11 @@ const emptyRegistry: CertificationsRegistry = { entries: [] };
 export function CertificationDetail({
   certId,
   initialRegistry,
+  children,
 }: {
   certId: string;
   initialRegistry?: CertificationsRegistry;
+  children?: React.ReactNode;
 }) {
   const isLgUp = useIsLgUp();
   const { regionId, gccCountry } = useRegion();
@@ -187,9 +210,9 @@ export function CertificationDetail({
         <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <m.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0 }}
             >
               <div className="flex flex-wrap items-center gap-2 mb-6">
                 <Badge className="bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
@@ -198,30 +221,7 @@ export function CertificationDetail({
                 <PathwayEnrollmentBadge certId={cert.id} />
               </div>
 
-              <h1
-                className={cn(
-                  MARKETING_HERO_H1_CLASS,
-                  'mb-8 max-w-full text-balance lg:text-6xl xl:text-7xl',
-                  cert.id === 'pmp' && 'whitespace-nowrap',
-                )}
-              >
-                {cert.id === 'pmp' ? (
-                  <>
-                    PMI-PMP® <span className="text-brand-orange">Pathway</span>
-                  </>
-                ) : cert.detailHeroTitle.includes('Pathway') ? (
-                  cert.detailHeroTitle
-                ) : (
-                  <>
-                    {certName} <br />
-                    <span className="text-brand-orange">Pathway</span>
-                  </>
-                )}
-              </h1>
-
-              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-xl leading-relaxed font-medium">
-                {cert.detailHeroSubtitle}
-              </p>
+              {children}
 
               {cert.id === 'pmp' ? (
                 <RelatedGuidesLinks
@@ -257,11 +257,8 @@ export function CertificationDetail({
               </div>
             </m.div>
 
-            <m.div
+            <div
               id={CERT_ROADMAP_FORM_ANCHOR}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
               className="relative scroll-mt-40 lg:scroll-mt-48"
             >
               <PmpRoadmapLeadForm
@@ -271,7 +268,7 @@ export function CertificationDetail({
                 certName={certName}
                 familyId={cert.familyId}
               />
-            </m.div>
+            </div>
           </div>
         </div>
       </section>

@@ -10,10 +10,10 @@ todos:
     status: completed
   - id: c1-02-pmp-detail-lcp
     content: Audit /certifications/pmp LCP element and cert hero layout
-    status: pending
+    status: completed
   - id: c2-01-shared-images
     content: Apply store/testimonial image sanitization patterns on cert pages if needed
-    status: pending
+    status: completed
   - id: c3-01-verify
     content: Production PSI mobile on /certifications and /certifications/pmp after fixes
     status: pending

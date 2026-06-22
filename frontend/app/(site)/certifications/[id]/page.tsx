@@ -1,4 +1,5 @@
 import { CertificationDetail } from '@/components/pages/CertificationDetail';
+import { CertificationDetailHeroServer } from '@/components/certifications/CertificationDetailHeroServer';
 import { CertJsonLd } from '@/components/seo/CertJsonLd';
 import { buildCertMetadata } from '@/lib/site-metadata';
 import { fetchPublishedDocument } from '@/lib/cms/fetch-published-document';
@@ -33,7 +34,9 @@ export default async function Page({ params }: Props) {
   return (
     <>
       <CertJsonLd certId={id} />
-      <CertificationDetail certId={id} initialRegistry={initialRegistry} />
+      <CertificationDetail certId={id} initialRegistry={initialRegistry}>
+        <CertificationDetailHeroServer certId={id} initialRegistry={initialRegistry} />
+      </CertificationDetail>
     </>
   );
 }
