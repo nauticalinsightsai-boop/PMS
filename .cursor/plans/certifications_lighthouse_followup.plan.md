@@ -16,7 +16,7 @@ todos:
     status: completed
   - id: c3-01-verify
     content: Production PSI mobile on /certifications and /certifications/pmp after fixes
-    status: pending
+    status: completed
 isProject: false
 ---
 

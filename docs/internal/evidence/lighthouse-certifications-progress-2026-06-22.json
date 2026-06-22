@@ -1,6 +1,10 @@
 {
-  "capturedAt": "2026-06-22T14:15:00.000Z",
-  "commits": ["8354f4a", "a08ca78"],
+  "capturedAt": "2026-06-22T14:20:00.000Z",
+  "commits": ["8354f4a", "a08ca78", "8314681"],
+  "postA08ca78Cli": {
+    "capturedAt": "2026-06-22T14:17:00.000Z",
+    "note": "Mobile Lighthouse CLI simulate after cert-detail-hero-title deploy; cert-detail-hero-title-pmp confirmed in production HTML"
+  },
   "routes": {
     "/certifications": {
       "baselineB15": { "performance": 51, "lcpMs": 6042 },
@@ -10,6 +14,18 @@
         "performance": 49,
         "lcpMs": 4341,
         "note": "certifications-hero-title confirmed in production HTML"
+      },
+      "postA08ca78Cli": {
+        "file": "lighthouse-cert-hub-post-a08ca78-mobile.json",
+        "performance": 57,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100,
+        "lcpMs": 4442,
+        "fcpMs": 1893,
+        "tbtMs": 900,
+        "lcpElement": "h1#certifications-hero-title",
+        "consoleOk": true
       }
     },
     "/certifications/pmp": {
@@ -20,8 +36,35 @@
         "lcpMs": 6921,
         "accessibility": 100,
         "bestPractices": 100,
-        "note": "Before cert-detail-hero-title deploy; re-run after a08ca78"
+        "note": "Before cert-detail-hero-title deploy"
+      },
+      "postA08ca78Cli": {
+        "file": "lighthouse-cert-pmp-post-a08ca78-mobile.json",
+        "performance": 48,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100,
+        "lcpMs": 6372,
+        "fcpMs": 1789,
+        "tbtMs": 1285,
+        "lcpElement": "p.detailHeroSubtitle (server subtitle; ~2.6s element render delay)",
+        "elementRenderDelayMs": 2599,
+        "consoleOk": true,
+        "note": "LCP still above 2.5s target; subtitle moved to client in follow-up commit"
       }
     }
+  },
+  "homepageFinalCli": {
+    "file": "lighthouse-home-final-mobile-2026-06-22.json",
+    "performance": 55,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "lcpMs": 5197,
+    "fcpMs": 1753,
+    "tbtMs": 756,
+    "lcpElement": "p#cookie-consent-desc",
+    "consoleOk": true,
+    "note": "Cookie consent banner was LCP; deferred in follow-up commit"
   }
 }

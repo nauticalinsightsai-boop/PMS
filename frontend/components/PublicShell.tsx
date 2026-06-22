@@ -7,7 +7,10 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { RegionProvider } from '@/contexts/RegionContext';
 import { RegionGate } from '@/components/RegionGate';
-import { CookieConsent } from '@/components/CookieConsent';
+const CookieConsent = dynamic(
+  () => import('@/components/CookieConsent').then((m) => ({ default: m.CookieConsent })),
+  { ssr: false },
+);
 import { LeadRecoveryProvider } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';

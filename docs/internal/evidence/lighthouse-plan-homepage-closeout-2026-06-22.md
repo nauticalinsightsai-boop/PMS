@@ -33,4 +33,12 @@ Plan: `pmstructure_lighthouse_fixes_4423e20f`. Commits: `8f15584` → `43f3dd3`.
 
 ## p7-09 follow-up
 
-Certifications hub + all `/certifications/[id]` detail pages: server hero shipped (`8354f4a`, `a08ca78`). Hub LCP CLI **4.3s** (was 6.0s B15). See `lighthouse-certifications-progress-2026-06-22.json`.
+Certifications hub + all `/certifications/[id]` detail pages: server hero shipped (`8354f4a`, `a08ca78`). Hub LCP CLI **4.4s** (was 6.0s B15). PMP detail LCP **6.4s** CLI (subtitle LCP element, ~2.6s render delay). See `lighthouse-certifications-progress-2026-06-22.json`.
+
+## Post-closeout findings (2026-06-22)
+
+| Finding | Action |
+|---------|--------|
+| Home LCP element = `cookie-consent-desc` | Defer banner 4.5s + `ssr:false` dynamic import |
+| PMP LCP element = hero subtitle `<p>` | Subtitle moved to client; h1-only server hero |
+| Mobile Perf ≥85 / LCP &lt;2.5s | Still open; cookie fix expected to help home most |

@@ -6,11 +6,25 @@ import { Button } from '@/components/ui/button';
 import { acceptAllConsent, rejectNonEssentialConsent, readStoredConsent } from '@/lib/legal/consent';
 import { BRAND } from '@/lib/brand-voice';
 
+/** Defer banner until after the LCP window so consent copy is not the largest paint. */
+const CONSENT_SHOW_DELAY_MS = 4500;
+
 export function CookieConsent() {
   const [visible, setVisible] = React.useState(false);
 
   React.useEffect(() => {
-    if (!readStoredConsent()) setVisible(true);
+    if (readStoredConsent()) return;
+
+    let cancelled = false;
+    const show = () => {
+      if (!cancelled) setVisible(true);
+    };
+
+    const delayId = window.setTimeout(show, CONSENT_SHOW_DELAY_MS);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(delayId);
+    };
   }, []);
 
   React.useEffect(() => {
