@@ -1,6 +1,10 @@
-# Phase 6 — Stretch / conditional notes (2026-06-22)
+# Phase 6 — Stretch / conditional notes (2026-06-22, updated plan closeout)
 
-Post-fix CLI home (`https://pmstructure.com/`): Perf **57**, LCP **4.36s**, TBT **~1032ms** (desktop throttle).
+## Latest production CLI (`lighthouse-home-plan-closeout-mobile.json`)
+
+Perf **60**, LCP **6.0s**, TBT **540ms**, A11y/BP/SEO **100**. Best run post cookie-defer: Perf **70**, LCP **4.0s**.
+
+`lighthouse:sample` production (2026-06-22): home Perf **61**, LCP **4.15s**.
 
 ## p6-01 Logo quality — **done**
 
@@ -8,24 +12,24 @@ Post-fix CLI home (`https://pmstructure.com/`): Perf **57**, LCP **4.36s**, TBT 
 
 ## p6-02 Render-blocking CSS — **deferred**
 
-Measured ~240–490ms in Jun 16 PSI. Mobile LCP still >2.5s on CLI; critical CSS inline not implemented (risk to `globals.css` lock). Revisit if mobile PSI LCP remains >2.5s after hero fix.
+Measured ~240–490ms in Jun 16 PSI. Critical CSS inline not implemented.
 
 ## p6-03 Legacy polyfills (~12 KiB chunk 3131) — **deferred**
 
-Browserslist modernization needs product sign-off (may drop older mobile browsers).
+Browserslist modernization needs product sign-off.
 
 ## p6-04 Security headers — **deferred**
 
-CSP, HSTS preload, COOP, XFO, Trusted Types: configure at **Cloudflare/Namecheap** — not in `next.config.ts`.
+CSP, HSTS preload, COOP, XFO, Trusted Types: Cloudflare/Namecheap.
 
-## p6-05 Unused JS (~57 KiB) — **conditional, not triggered**
+## p6-05 Unused JS — **done (partial)**
 
-Chunks 6963, 7531. Mobile Perf <85 on PSI → audit dynamic imports in a follow-up.
+`WebsiteCalendlyButton` moved to `dynamic()` in `Home.tsx` (matches `Certifications.tsx` pattern). Further chunk trimming if Perf still &lt;85 after PSI.
 
-## p6-06 Long tasks — **conditional**
+## p6-06 Long tasks — **documented**
 
-4–6 tasks (3131, 241, 2498, webpack). TBT high on CLI; address if mobile PSI TBT >200ms.
+TBT 540–1060ms on CLI; monitor on PSI field data.
 
 ## p6-07 DOM size — **documented**
 
-Homepage ~1,140 elements, depth 18 (Jun 16 PSI). No section removal; lazy sections already use `LazyWhenVisible` / dynamic imports.
+Homepage ~1,140 elements, depth 18. Lazy sections use `LazyWhenVisible` / dynamic imports.

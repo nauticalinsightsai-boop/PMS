@@ -35,7 +35,6 @@ import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { MembershipDualPrice } from '@/components/MembershipDualPrice';
 import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { useHomePageConfig } from '@/lib/home-config';
-import { WebsiteCalendlyButton } from '@/components/calendly/WebsiteCalendlyButton';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { T169_SUPPORT_COPY } from '@/content/pmp/flagship-t169';
 import { COMPARE_PATHWAYS_HREF, PMP_ROADMAP_CTA_HREF } from '@/lib/pmp-roadmap-cta';
@@ -110,6 +109,20 @@ const JoinWaitlistDialog = dynamic(
       default: mod.JoinWaitlistDialog,
     })),
   { ssr: false, loading: () => null },
+);
+
+const WebsiteCalendlyButton = dynamic(
+  () =>
+    import('@/components/calendly/WebsiteCalendlyButton').then((mod) => ({
+      default: mod.WebsiteCalendlyButton,
+    })),
+  {
+    loading: () => (
+      <span className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-brand-orange/80 px-6 text-sm font-bold text-white sm:h-14 sm:w-auto">
+        {CTAS.pathwayConsultation}
+      </span>
+    ),
+  },
 );
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';

@@ -1,0 +1,22 @@
+{
+  "capturedAt": "2026-06-22T15:00:00.000Z",
+  "source": "lighthouse:sample production + plan closeout CLI",
+  "agenticNote": "llms.txt markdown links shipped; Agentic 3/3 requires manual PageSpeed Insights run (not available in LH CLI)",
+  "postFixSample": {
+    "file": "frontend/docs/lighthouse/summary.json",
+    "routes": {
+      "/": { "performance": 61, "lcpMs": 4149 },
+      "/certifications": { "performance": 57, "lcpMs": 4401 },
+      "/certifications/pmp": { "performance": 59, "lcpMs": 5952 }
+    }
+  },
+  "planCloseoutMobile": {
+    "file": "lighthouse-home-plan-closeout-mobile.json",
+    "performance": 60,
+    "lcpMs": 6000,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "consoleErrors": 0
+  }
+}

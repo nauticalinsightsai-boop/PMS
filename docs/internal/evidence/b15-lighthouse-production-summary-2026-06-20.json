@@ -1,6 +1,6 @@
 {
   "capturedAt": "2026-06-19T21:11:10.696Z",
-  "updatedAt": "2026-06-22T14:40:00.000Z",
+  "updatedAt": "2026-06-22T15:00:00.000Z",
   "base": "https://pmstructure.com",
   "summary": [
     {
@@ -10,17 +10,19 @@
       "tbtMs": 416.5,
       "totalJsKb": 696,
       "postFix2026-06-22": {
-        "source": "lighthouse-home-post-cookie-defer-mobile.json",
-        "commit": "5bb02e2",
-        "performanceScore": 70,
-        "lcpMs": 4000,
-        "tbtMs": 620,
+        "source": "frontend/docs/lighthouse/summary.json + lighthouse-home-plan-closeout-mobile.json",
+        "commit": "plan-closeout",
+        "performanceScore": 61,
+        "lcpMs": 4149,
+        "bestPerformanceScore": 70,
+        "bestLcpMs": 4000,
+        "tbtMs": 866,
         "accessibilityScore": 100,
         "bestPracticesScore": 100,
         "seoScore": 100,
         "consoleErrors": 0,
-        "lcpElement": "h1 home hero",
-        "note": "Cookie consent defer fixed LCP element; Perf 70 best CLI run"
+        "lcpElement": "h1 home hero (post cookie-consent defer)",
+        "note": "CLI lab variance; see lighthouse-plan-implementation-closeout-2026-06-22.md"
       }
     },
     {
@@ -30,12 +32,8 @@
       "tbtMs": 1204.4803849999998,
       "totalJsKb": 683,
       "postFix2026-06-22": {
-        "source": "lighthouse-cert-hub-post-a08ca78-mobile.json",
-        "commit": "a08ca78",
         "performanceScore": 57,
-        "lcpMs": 4442,
-        "accessibilityScore": 100,
-        "bestPracticesScore": 100,
+        "lcpMs": 4401,
         "lcpElement": "h1#certifications-hero-title"
       }
     },
@@ -46,15 +44,9 @@
       "tbtMs": 357.5,
       "totalJsKb": 733,
       "postFix2026-06-22": {
-        "source": "lighthouse-cert-pmp-a63de43-mobile.json",
-        "commit": "a63de43",
-        "performanceScore": 64,
-        "lcpMs": 5900,
-        "tbtMs": 520,
-        "accessibilityScore": 96,
-        "bestPracticesScore": 100,
-        "lcpElement": "h1#cert-detail-hero-title-pmp",
-        "note": "LCP element now server h1; still above 2.5s target"
+        "performanceScore": 59,
+        "lcpMs": 5952,
+        "lcpElement": "h1#cert-detail-hero-title-pmp"
       }
     },
     {
@@ -62,7 +54,11 @@
       "performanceScore": 93,
       "lcpMs": 2052.5507,
       "tbtMs": 232.99999999999955,
-      "totalJsKb": 869
+      "totalJsKb": 869,
+      "postFix2026-06-22": {
+        "performanceScore": 66,
+        "lcpMs": 6728
+      }
     }
   ]
 }

@@ -1,31 +1,34 @@
 {
-  "capturedAt": "2026-06-22T13:09:01.582Z",
+  "capturedAt": "2026-06-22T14:59:10.091Z",
   "base": "https://pmstructure.com",
   "summary": [
     {
       "route": "/",
-      "performanceScore": 60,
-      "lcpMs": 4650.982269999999,
-      "tbtMs": 1031.9633450000001,
-      "totalJsKb": 686
+      "performanceScore": 61,
+      "lcpMs": 4149.386934999999,
+      "tbtMs": 866.3235949999998,
+      "totalJsKb": 666
     },
     {
       "route": "/certifications",
-      "performanceScore": 53,
-      "lcpMs": 6670.059244999999,
-      "tbtMs": 971.5,
-      "totalJsKb": 673
+      "performanceScore": 57,
+      "lcpMs": 4400.8035150000005,
+      "tbtMs": 969.9999999999986,
+      "totalJsKb": 675
     },
     {
       "route": "/certifications/pmp",
-      "performanceScore": 53,
-      "lcpMs": 6692.329685000002,
-      "tbtMs": 1053.1181450000017,
-      "totalJsKb": 699
+      "performanceScore": 59,
+      "lcpMs": 5951.9490000000005,
+      "tbtMs": 587,
+      "totalJsKb": 681
     },
     {
       "route": "/newsletter",
-      "error": "Command failed: npx --yes lighthouse \"https://pmstructure.com/newsletter\" --only-categories=performance --chrome-flags=\"--headless=new --no-sandbox\" --max-wait-for-load=90000 --output=json --output-path=\"D:\\My Websites\\PMS\\frontend\\docs\\lighthouse\\newsletter.json\""
+      "performanceScore": 66,
+      "lcpMs": 6727.842314999998,
+      "tbtMs": 325,
+      "totalJsKb": 936
     }
   ]
 }
