@@ -179,7 +179,7 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
   '/pmp-2026-pathway': {
     route: '/pmp-2026-pathway',
     pageRole: 'PMP 2026 commercial pathway',
-    primaryKeyword: 'PMP 2026 readiness pathway',
+    primaryKeyword: 'PMP 2026 pathway roadmap',
     secondaryKeywords: [
       'PMP roadmap steps',
       'PMP 90 day focus',
