@@ -1,29 +1,40 @@
 {
-  "capturedAt": "2026-06-20T00:00:00.000Z",
-  "note": "Post Lighthouse fix implementation (local build). Production PSI pending deploy.",
-  "route": "/",
-  "implementation": {
-    "homeHeroServer": true,
-    "realtimeGatedOnPublicHome": true,
-    "ipapiSessionCache": true,
-    "llmsMarkdownLinks": true,
-    "picsumDefaultsRemoved": true,
-    "runtimeAvatarSanitize": true
+  "capturedAt": "2026-06-22T13:17:00.000Z",
+  "base": "https://pmstructure.com",
+  "commits": ["8f15584", "578abbd"],
+  "deploy": "Railway production auto-deploy from main",
+  "verification": {
+    "smokeLive": "10/10 pass",
+    "llmsTxtMarkdownLinks": true,
+    "serverH1InInitialHtml": true,
+    "auditImagesProduction": "PASS — no pravatar/picsum in HTML"
   },
-  "baselineReference": "lighthouse-home-baseline-2026-06-16.json",
-  "preFixCli": {
-    "source": "b15-lighthouse-production-summary-2026-06-20.json",
-    "performanceScore": 66,
-    "lcpMs": 4233.82
+  "lighthouseCliDesktop": {
+    "tool": "lighthouse 13.x CLI, performance only, desktop (no Slow 4G)",
+    "route": "/",
+    "performanceScore": 57,
+    "fcpMs": 1615,
+    "lcpMs": 4357,
+    "speedIndexMs": 2929,
+    "note": "Improved vs first deploy (LCP 4651ms). Mobile PSI (Moto G Slow 4G) still required for plan targets."
+  },
+  "psiBaselineJun16": {
+    "mobile": { "performance": 70, "lcpMs": 7300, "a11y": 95, "bp": 96, "agentic": "2/3" },
+    "desktop": { "performance": 91, "lcpMs": 1600, "a11y": 95, "bp": 96, "agentic": "2/3" }
   },
   "targets": {
-    "mobilePerformanceScore": 85,
+    "mobilePerf": 85,
     "mobileLcpMs": 2500,
-    "desktopPerformanceScore": 91,
-    "accessibilityScore": 100,
-    "bestPracticesScore": 100,
-    "agenticBrowsing": "3/3",
-    "seoScore": 100
+    "a11y": 100,
+    "bp": 100,
+    "agentic": "3/3"
   },
-  "postFixProduction": null
+  "status": {
+    "mobilePerf": "pending PSI",
+    "mobileLcp": "pending PSI",
+    "a11y": "code shipped — pending PSI",
+    "bp": "code shipped — pending PSI",
+    "agentic": "llms.txt fixed — pending PSI",
+    "certificationsFollowUp": "deferred p7-09"
+  }
 }

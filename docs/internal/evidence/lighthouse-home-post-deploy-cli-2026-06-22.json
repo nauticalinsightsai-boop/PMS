@@ -1,0 +1,32 @@
+{
+  "capturedAt": "2026-06-22T13:09:00.000Z",
+  "base": "https://pmstructure.com",
+  "tool": "lighthouse CLI (desktop, no mobile throttle)",
+  "commit": "8f15584",
+  "note": "First deploy used heroShell prop — h1 not in initial HTML. Fixed in follow-up commit via children slot.",
+  "summary": [
+    {
+      "route": "/",
+      "performanceScore": 60,
+      "lcpMs": 4650.98,
+      "tbtMs": 1031.96,
+      "totalJsKb": 686
+    },
+    {
+      "route": "/certifications",
+      "performanceScore": 53,
+      "lcpMs": 6670.06,
+      "tbtMs": 971.5,
+      "totalJsKb": 673
+    },
+    {
+      "route": "/certifications/pmp",
+      "performanceScore": 53,
+      "lcpMs": 6692.33,
+      "tbtMs": 1053.12,
+      "totalJsKb": 699
+    }
+  ],
+  "smokeLive": "10/10 pass 2026-06-22",
+  "llmsTxtMarkdownLinks": true
+}
