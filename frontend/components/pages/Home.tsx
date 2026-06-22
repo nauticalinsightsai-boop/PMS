@@ -207,10 +207,10 @@ type FeaturedPathway = (typeof featuredCertifications)[number];
 const featuredPathways = featuredCertifications;
 export function Home({
   initialHomeConfig,
-  heroShell,
+  children,
 }: {
   initialHomeConfig?: HomePageConfigV2;
-  heroShell?: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   const homeCms = useHomePageConfig(initialHomeConfig);
   const isLgUp = useIsLgUp();
@@ -344,7 +344,7 @@ export function Home({
               transition={{ duration: 0 }}
               className="relative z-30 min-w-0 overflow-x-clip"
             >
-              {heroShell ?? null}
+              {children}
 
               <HomeHeroAccentRotator />
 

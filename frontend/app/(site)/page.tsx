@@ -17,10 +17,9 @@ export default async function Page() {
   return (
     <>
       <HomePageJsonLd />
-      <Home
-        initialHomeConfig={initialHomeConfig}
-        heroShell={<HomeHeroServer config={initialHomeConfig} />}
-      />
+      <Home initialHomeConfig={initialHomeConfig}>
+        <HomeHeroServer config={initialHomeConfig} />
+      </Home>
     </>
   );
 }
