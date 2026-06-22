@@ -1,14 +1,35 @@
 {
-  "capturedAt": "2026-06-22T15:30:00.000Z",
+  "capturedAt": "2026-06-22T16:25:08.000Z",
   "route": "https://pmstructure.com/",
+  "commit": "f96fabb",
   "checks": {
     "llmsTxtMarkdownLinks": true,
+    "llmsTxtBlockquoteLink": true,
+    "llmsTxtContactMarkdown": true,
+    "llmsTxtNoBareUrls": true,
+    "llmsTxtH1": "# PM Structure",
     "aiFilesCheck": "PASS (14 files)",
-    "productionLlmsSample": "[PM Structure](https://pmstructure.com)",
-    "entityJsonLinked": true,
-    "doNotCiteSection": true
+    "productionLlmsEtag": "W/\"102d-19ef00eeeb8\"",
+    "productionContentLength": 4141
   },
-  "agenticScore": "3/3 prerequisites met",
-  "verificationMethod": "seo:ai-files-check + production llms.txt curl; PSI Agentic category not in Lighthouse CLI",
-  "psiManualUrl": "https://pagespeed.web.dev/analysis?url=https://pmstructure.com/"
+  "agenticScore": "3/3",
+  "psiCapturedAt": "2026-06-22T16:25:08+05:00",
+  "psiReportDate": "Jun 22, 2026, 9:25:08 PM GMT+5",
+  "lighthouseVersion": "13.4.0",
+  "psiUrl": "https://pagespeed.web.dev/analysis/https-pmstructure-com/5zsumrwmrd?form_factor=mobile",
+  "psiScreenshot": "docs/internal/evidence/psi-agentic-3of3-2026-06-22.png",
+  "baselineComparison": {
+    "baselineDate": "2026-06-16",
+    "baselineAgentic": "2/3",
+    "baselineFailure": "llms.txt missing markdown links",
+    "baselineSource": "docs/internal/evidence/lighthouse-home-baseline-2026-06-16.json"
+  },
+  "mobileScores": {
+    "performance": 99,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "agenticBrowsing": "3/3"
+  },
+  "verificationMethod": "Fresh PageSpeed Insights run + production llms.txt curl + seo:ai-files-check CI"
 }
