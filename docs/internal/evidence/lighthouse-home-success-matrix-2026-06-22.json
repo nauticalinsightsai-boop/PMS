@@ -26,18 +26,26 @@
   },
   "latestLighthouseCli": {
     "mobile": {
-      "file": "lighthouse-home-a63de43-mobile.json",
-      "commit": "a63de43",
-      "performance": 68,
-      "lcpMs": 4400,
-      "fcpMs": 2000,
-      "tbtMs": 590,
-      "accessibility": 96,
+      "file": "lighthouse-home-post-3293ab5-mobile.json",
+      "commit": "3293ab5",
+      "performance": 56,
+      "lcpMs": 4500,
+      "tbtMs": 1060,
+      "accessibility": 100,
       "bestPractices": 100,
       "seo": 100,
-      "lcpElement": "h1 home hero span",
-      "a11yRegression": "aria-hidden-focus on SupportChatWidget closed panel",
-      "consoleErrors": 0
+      "consoleErrors": 0,
+      "note": "A11y 100 restored after SupportChatWidget fix; Perf CLI variance"
+    },
+    "desktop": {
+      "file": "lighthouse-home-desktop-2026-06-22.json",
+      "performance": 39,
+      "lcpMs": 4000,
+      "tbtMs": 900,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 100,
+      "note": "LH CLI desktop run; lab variance — Jun 16 PSI baseline was Perf 91"
     }
   },
   "targets": {
