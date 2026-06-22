@@ -13,14 +13,14 @@ Plan: `pmstructure_lighthouse_fixes_4423e20f`. Commits: `8f15584` → `43f3dd3`.
 | Server h1 in HTML | ✓ `home-hero-title` |
 | No pravatar/picsum | ✓ |
 | Realtime off public home | ✓ `homePreview=1` only |
+| Agentic Browsing 3/3 | ✓ Fresh PSI 2026-06-22 (LH 13.4.0); commits `f96fabb`, `34ac9ff` |
 
 ## Targets not met (documented)
 
 | Target | Status |
 |--------|--------|
-| Mobile Perf ≥85 | CLI **68–70** post cookie defer (`5bb02e2`); still below target |
-| Mobile LCP &lt;2.5s | **4.0–4.4s** CLI post cookie defer (was 7.3s baseline) |
-| Agentic 3/3 | llms.txt fixed; manual PSI |
+| Mobile Perf ≥85 | CLI **68–70** post cookie defer (`5bb02e2`); PSI mobile **99** (2026-06-22) |
+| Mobile LCP &lt;2.5s | CLI **4.0–4.4s** post cookie defer (was 7.3s baseline); PSI **1.4s** (2026-06-22) |
 | Cloudflare headers | p6-04 deferred |
 | A11y 96 regression | SupportChatWidget `aria-hidden` + focusable children; fixed in next commit |
 
@@ -31,6 +31,9 @@ Plan: `pmstructure_lighthouse_fixes_4423e20f`. Commits: `8f15584` → `43f3dd3`.
 - `lighthouse-home-success-matrix-2026-06-22.json`
 - `lighthouse-home-after-implementation-2026-06-20.json`
 - Phase 0/2/3/6 markdown notes in `docs/internal/evidence/`
+- `lighthouse-phase5-agentic-psi-closeout-2026-06-22.md`
+- `lighthouse-phase5-agentic-verified-2026-06-22.json`
+- `psi-agentic-3of3-2026-06-22.png`
 
 ## p7-09 follow-up
 
