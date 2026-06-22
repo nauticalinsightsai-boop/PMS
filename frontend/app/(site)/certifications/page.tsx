@@ -1,5 +1,5 @@
 import { Certifications } from '@/components/pages/Certifications';
-import { CertificationsServerHeading } from '@/components/certifications/CertificationsServerHeading';
+import { CertificationsHeroServer } from '@/components/certifications/CertificationsHeroServer';
 import { MarketingPageJsonLd } from '@/components/seo/MarketingPageJsonLd';
 import { getPhase2Seo } from '@/content/seo/phase-2-page-seo';
 import { buildPhase2PageMetadata } from '@/lib/site-metadata';
@@ -46,8 +46,9 @@ export default async function Page() {
           { name: 'Certifications', path: '/certifications' },
         ]}
       />
-      <CertificationsServerHeading />
-      <Certifications initialHubConfig={initialHubConfig} initialRegistry={initialRegistry} />
+      <Certifications initialHubConfig={initialHubConfig} initialRegistry={initialRegistry}>
+        <CertificationsHeroServer config={initialHubConfig} />
+      </Certifications>
     </>
   );
 }

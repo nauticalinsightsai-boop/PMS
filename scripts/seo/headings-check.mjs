@@ -13,8 +13,7 @@ let failed = false;
 const pages = [
   // Home H1 lives in HomeHeroServer.tsx (composed in app/(site)/page.tsx)
   'components/home/HomeHeroServer.tsx',
-  // FAQ H1 lives in FaqServerHeading.tsx (composed in app/(site)/faq/page.tsx)
-  'components/pages/Certifications.tsx',
+  'components/certifications/CertificationsHeroServer.tsx',
   'components/pages/Compare.tsx',
   'components/pages/About.tsx',
   'components/pages/Contact.tsx',

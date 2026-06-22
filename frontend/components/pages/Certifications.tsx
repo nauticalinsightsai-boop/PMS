@@ -14,7 +14,7 @@ import {
   Search,
   ShieldCheck,
 } from "lucide-react";
-import { MARKETING_HERO_H1_CLASS, PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
+import { PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
 import { cn } from '@/lib/utils';
 import { certifications, familyConfigs } from "@/data/certification-index";
 import type { CertificationSummary } from "@/types/site";
@@ -22,10 +22,8 @@ import { CERTIFICATIONS_COPY, CTAS } from "@/lib/brand-voice";
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
 import { LazyWhenVisible } from '@/components/LazyWhenVisible';
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
-import { PmpRoadmapLeadForm } from '@/components/forms/PmpRoadmapLeadForm';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
-import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
 import { useRegion } from "@/contexts/RegionContext";
 import {
@@ -44,6 +42,29 @@ import {
   type CertificationsHubConfig,
   type CertificationsRegistry,
 } from "@pms/site-content";
+
+const PmpRoadmapLeadForm = dynamic(
+  () =>
+    import('@/components/forms/PmpRoadmapLeadForm').then((mod) => ({
+      default: mod.PmpRoadmapLeadForm,
+    })),
+  {
+    loading: () => (
+      <div
+        className="min-h-[420px] w-full rounded-2xl border border-slate-200/80 bg-white/60 dark:border-slate-800 dark:bg-slate-900/40 animate-pulse"
+        aria-hidden
+      />
+    ),
+  },
+);
+
+const RelatedGuidesLinks = dynamic(
+  () =>
+    import('@/components/seo/RelatedGuidesLinks').then((mod) => ({
+      default: mod.RelatedGuidesLinks,
+    })),
+  { loading: () => null },
+);
 
 const ResponsiveSnapScroll = dynamic(
   () =>
@@ -135,9 +156,11 @@ const CERTIFICATIONS_RELATED = getPhase2RelatedBlock('/certifications');
 export function Certifications({
   initialHubConfig,
   initialRegistry,
+  children,
 }: {
   initialHubConfig?: CertificationsHubConfig;
   initialRegistry?: CertificationsRegistry;
+  children?: React.ReactNode;
 }) {
   const isLgUp = useIsLgUp();
   const { regionId } = useRegion();
@@ -193,33 +216,20 @@ export function Certifications({
         <div className="container relative z-10 mx-auto w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start lg:items-center">
             <m.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0 }}
               className="relative z-30 min-w-0 text-center lg:text-left"
             >
-              <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-                {hub.hero.badge || CERTIFICATIONS_COPY.heroBadge}
-              </Badge>
-              <h1 className={cn(MARKETING_HERO_H1_CLASS, 'mb-8 leading-tight')}>
-                {hub.hero.title || (<>Find your <span className="text-pms-gradient-orange">pathway</span></>)}
-              </h1>
-              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                {hub.hero.subtitle || CERTIFICATIONS_COPY.heroSubtitle}
-              </p>
+              {children}
             </m.div>
             <div id={PMP_ROADMAP_FORM_ANCHOR} className="scroll-mt-24 w-full min-w-0">
-              <m.div
-                initial={{ opacity: 0, scale: isLgUp ? 0.95 : 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: isLgUp ? 0.8 : 0.7 }}
-                className={cn('relative w-full min-w-0', isLgUp ? 'z-30 isolate' : 'z-20')}
-              >
+              <div className={cn('relative w-full min-w-0', isLgUp ? 'z-30 isolate' : 'z-20')}>
                 <PmpRoadmapLeadForm
                   placement={isLgUp ? 'certifications_hub_desktop' : 'certifications_hub_mobile'}
                   variant="hero"
                 />
-              </m.div>
+              </div>
             </div>
           </div>
         </div>

@@ -75,7 +75,7 @@ export function usePublishedSiteDocument<T>(
     void refresh();
   }, [fieldKey, options?.previewParam, options?.initialData, refresh]);
 
-  useWebsiteDataRealtime(fieldKey, refresh);
+  useWebsiteDataRealtime(fieldKey, refresh, isPreview);
 
   useEffect(() => {
     const messageType = options?.previewMessageType ?? `pms:site-preview:${fieldKey}`;
