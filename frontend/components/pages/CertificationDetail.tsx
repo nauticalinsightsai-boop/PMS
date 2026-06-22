@@ -44,6 +44,7 @@ import {
   getCertProgramOffer,
 } from '@/lib/cert-program-offer';
 import { PmpConsiderationsSection } from '@/components/pmp/PmpConsiderationsSection';
+import { PmpExam2026LiveBanner } from '@/components/pmp/PmpExam2026LiveBanner';
 import { EnrollReturnRecovery } from '@/components/conversion-recovery/EnrollReturnRecovery';
 import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnrollTrackedLink';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';

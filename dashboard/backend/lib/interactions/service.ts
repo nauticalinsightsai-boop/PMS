@@ -70,7 +70,6 @@ export async function insertFormSubmission(params: {
       email: params.email,
       payload: params.payload,
       metadata: params.metadata,
-      sheets_sync_attempts: 0,
     })
     .select('id, created_at, source, subject, email, payload, metadata')
     .single();

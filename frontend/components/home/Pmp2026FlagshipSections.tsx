@@ -13,6 +13,7 @@ import {
   T169_WHO_NOT_FOR,
 } from '@/content/pmp/flagship-t169';
 import { Pmp2026ScheduleSections } from '@/components/pmp/Pmp2026ScheduleSections';
+import { FaqAnswer } from '@/components/faq/FaqAccordionList';
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24';
 
