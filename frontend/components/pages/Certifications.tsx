@@ -457,6 +457,11 @@ export function Certifications({
                     Compare Frameworks
                   </Button>
                 </Link>
+                <Link href="/certifications/compare#secondary-waitlist">
+                  <Button size="lg" variant="outline" className="h-16 px-10 rounded-2xl font-bold text-lg">
+                    Secondary pathway waitlists
+                  </Button>
+                </Link>
                 <WebsiteCalendlyButton
                   size="lg"
                   tier="mentor"

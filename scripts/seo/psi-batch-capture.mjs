@@ -52,7 +52,7 @@ for (const item of paths) {
         url,
         '--quiet',
         '--chrome-flags=--headless',
-        `--form-factor=${item.formFactor}`,
+        ...(item.formFactor === 'desktop' ? ['--preset=desktop'] : [`--form-factor=${item.formFactor}`]),
         '--only-categories=performance,accessibility,best-practices,seo',
         '--output=json',
         `--output-path=${relOut}`,

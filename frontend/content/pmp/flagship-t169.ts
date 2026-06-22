@@ -135,6 +135,72 @@ export const T169_FAQS = [
   },
 ] as const;
 
+/** Jul 21 schedule row: engineer-focused FAQ block (compliance-safe). */
+export const T169_ENGINEER_FAQS = [
+  {
+    question: 'Is PMP useful for engineers moving into project leadership?',
+    answer:
+      'PMP can help engineers who already manage scope, stakeholders, risk, and delivery transitions show structured project leadership. It is not a substitute for technical depth, but it can support credibility when your role expands beyond pure engineering work.',
+  },
+  {
+    question: 'Should engineers prepare for the current or updated PMP exam?',
+    answer:
+      'Use your realistic exam date. If you can sit before 8 July 2026, prepare for the current exam. If your date is 9 July 2026 or later, align study to the updated exam content outline. Start with the PMP 2026 roadmap before locking a date.',
+  },
+  {
+    question: 'Do engineers need more study material or a clearer study route?',
+    answer:
+      'Most engineers do not need random extra content. They need a route: eligibility check, timeline decision, domain-focused study, mock tracking, and weak-area review before booking the exam.',
+  },
+] as const;
+
+/** Aug 18 schedule row: trust FAQ block. */
+export const T169_TRUST_FAQS = [
+  {
+    question: 'Does PM Structure guarantee a PMP pass?',
+    answer:
+      'No. No responsible exam-prep provider should guarantee a pass. PM Structure helps you prepare with structure, practice, review, and readiness tracking.',
+  },
+  {
+    question: 'Is PM Structure a PMI Authorized Training Partner?',
+    answer:
+      'PM Structure should only be described as a PMI Authorized Training Partner if that status is formally approved and publicly verifiable. Unless that approval exists, describe PM Structure as an independent exam-prep platform.',
+  },
+  {
+    question: 'Does PM Structure issue the PMP certification?',
+    answer:
+      'No. PMP is issued by PMI after eligibility, application, and exam success. PM Structure provides independent preparation and readiness support.',
+  },
+] as const;
+
+export const T169_MOCK_TRACKING_CTA = {
+  heading: 'Track mocks by weak area, not just score',
+  body:
+    'A mock score alone does not tell you whether you are ready. PM Structure helps you log attempts, note domain gaps, and decide when to book based on readiness patterns, not guesswork.',
+  primaryLabel: 'PMP readiness diagnostic',
+  primaryHref: '/pmp-readiness-diagnostic',
+  secondaryLabel: 'Mock exam practice pathway',
+  secondaryHref: '/pmp-mock-exam',
+} as const;
+
+export const T169_CONSIDERATION_FAQS = [
+  {
+    question: 'What if I am not sure I am eligible yet?',
+    answer:
+      'Start with eligibility and training-hour clarity before buying more content. Verify requirements on PMI.org and use the roadmap to organize your preparation record.',
+  },
+  {
+    question: 'What if my exam date is close to the July 2026 change?',
+    answer:
+      'Treat the transition as a routing decision, not a panic deadline. Compare current vs updated exam preparation before you book.',
+  },
+  {
+    question: 'What should I expect from independent PMP prep support?',
+    answer:
+      'Structure, mock tracking, mentor-led review where offered, and honest readiness guidance. Not a pass guarantee, not PMI certification issuance, and not a substitute for verifying eligibility with PMI.',
+  },
+] as const;
+
 export const T169_ELIGIBILITY_SECTION = {
   heading: 'PMP eligibility and training-hour guidance',
   body:

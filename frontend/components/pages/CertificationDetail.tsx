@@ -43,7 +43,7 @@ import {
   CERT_ROADMAP_FORM_ANCHOR,
   getCertProgramOffer,
 } from '@/lib/cert-program-offer';
-import { PmpExam2026LiveBanner } from '@/components/pmp/PmpExam2026LiveBanner';
+import { PmpConsiderationsSection } from '@/components/pmp/PmpConsiderationsSection';
 import { EnrollReturnRecovery } from '@/components/conversion-recovery/EnrollReturnRecovery';
 import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnrollTrackedLink';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
@@ -452,6 +452,8 @@ export function CertificationDetail({
         </div>
       </section>
       </LazyWhenVisible>
+
+      {cert.id === 'pmp' ? <PmpConsiderationsSection /> : null}
 
       {/* Final CTA */}
       <section className={sectionSurface('soft', 'py-32')}>

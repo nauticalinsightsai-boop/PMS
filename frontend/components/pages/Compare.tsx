@@ -205,7 +205,7 @@ export function Compare({ globalContent }: { globalContent?: GlobalContentMap })
         </div>
       </section>
 
-      <section className={cn(sectionSurface('blend', 'py-14 sm:py-16'))}>
+      <section id="secondary-waitlist" className={cn(sectionSurface('blend', 'py-14 sm:py-16'))}>
         <SectionAmbience tone="blend" />
         <div className="container relative z-10 mx-auto max-w-3xl px-4 text-center">
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-3">

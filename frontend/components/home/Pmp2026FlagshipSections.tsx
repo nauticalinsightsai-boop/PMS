@@ -12,7 +12,7 @@ import {
   T169_WHO_FOR,
   T169_WHO_NOT_FOR,
 } from '@/content/pmp/flagship-t169';
-import { FaqAnswer } from '@/components/faq/FaqAccordionList';
+import { Pmp2026ScheduleSections } from '@/components/pmp/Pmp2026ScheduleSections';
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24';
 
@@ -139,6 +139,8 @@ export function Pmp2026FlagshipSections() {
           </div>
         </div>
       </section>
+
+      <Pmp2026ScheduleSections />
     </>
   );
 }
