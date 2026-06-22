@@ -1,0 +1,27 @@
+{
+  "capturedAt": "2026-06-22T14:15:00.000Z",
+  "commits": ["8354f4a", "a08ca78"],
+  "routes": {
+    "/certifications": {
+      "baselineB15": { "performance": 51, "lcpMs": 6042 },
+      "post8354f4aCli": { "performance": 63, "lcpMs": 5904 },
+      "hubLiveWithServerH1": {
+        "file": "lighthouse-certifications-hub-live-mobile.json",
+        "performance": 49,
+        "lcpMs": 4341,
+        "note": "certifications-hero-title confirmed in production HTML"
+      }
+    },
+    "/certifications/pmp": {
+      "baselineB15": { "performance": 65, "lcpMs": 6548 },
+      "preA08ca78Cli": {
+        "file": "lighthouse-cert-pmp-pre-a08ca78-mobile.json",
+        "performance": 42,
+        "lcpMs": 6921,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "note": "Before cert-detail-hero-title deploy; re-run after a08ca78"
+      }
+    }
+  }
+}

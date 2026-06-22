@@ -33,4 +33,4 @@ Plan: `pmstructure_lighthouse_fixes_4423e20f`. Commits: `8f15584` → `43f3dd3`.
 
 ## p7-09 follow-up
 
-Certifications hub server hero shipped in separate commit (see `certifications_lighthouse_followup.plan.md`).
+Certifications hub + all `/certifications/[id]` detail pages: server hero shipped (`8354f4a`, `a08ca78`). Hub LCP CLI **4.3s** (was 6.0s B15). See `lighthouse-certifications-progress-2026-06-22.json`.
