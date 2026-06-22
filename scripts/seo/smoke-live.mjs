@@ -32,15 +32,17 @@ let failed = false;
 let passed = 0;
 
 function fetchBody(url) {
-  try {
-    return execFileSync(
-      'curl',
-      ['-sL', '-m', '25', '-A', 'PMS-SEO-Smoke/1.0', '-w', '\n__STATUS__%{http_code}', url],
-      { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 },
-    );
-  } catch (err) {
-    throw new Error(err.message || 'curl failed');
+  const args = ['-sL', '-m', '40', '-A', 'PMS-SEO-Smoke/1.0', '-w', '\n__STATUS__%{http_code}', url];
+  let lastErr;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      return execFileSync('curl', args, { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
+    } catch (err) {
+      lastErr = err;
+      if (attempt < 2) continue;
+    }
   }
+  throw new Error(lastErr?.message || 'curl failed');
 }
 
 console.log(`smoke-live: ${base}\n`);

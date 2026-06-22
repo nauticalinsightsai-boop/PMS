@@ -139,7 +139,7 @@ See [pmstructure-final-owner-action-list.csv](./pmstructure-final-owner-action-l
 
 ## Batch B15 closeout status
 
-**Partially Verified** (20 June 2026)
+**Dev verified live** (22 June 2026) — owner evidence still partial
 
 - Production technical fixes: **Verified**
 - Sitemap readiness: **Verified**
@@ -149,13 +149,13 @@ See [pmstructure-final-owner-action-list.csv](./pmstructure-final-owner-action-l
 - Legacy URL SEO risk: **Needs Owner Approval** (T-032 interim keep)
 - GSC readiness: **Pending External Evidence**
 - GA4 readiness: **Pending External Evidence**
-- Performance readiness: **Partially Verified** (Lighthouse baseline attached)
+- Performance readiness: **Verified** (16/16 PSI batch 2026-06-22)
 - Full crawl readiness: **Partially Verified** (sitemap audit attached; SF export pending)
 - Legal approval: **Pending External Evidence**
 - Owner approvals: **Needs Owner Approval**
-- Final SEO closeout: **Partially Verified**
+- Final SEO closeout: **Dev complete** — see `docs/internal/evidence/seo-remaining-closeout-2026-06-22.md`
 
 Owner: Sheikh M. Abdullah  
 Technical owner: Developer  
 Marketing owner: Mahaa  
-Last updated: 19 June 2026 (schedule + answer page continuation)
+Last updated: 22 June 2026 (SEO remaining closeout complete)

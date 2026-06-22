@@ -1,0 +1,17 @@
+Category,Item,Status,Verified_Date,Evidence_Notes
+Foundation,seo:release-verify (build + seo:all + postbuild),Verified live,2026-06-22,docs/internal/evidence/seo-remaining-closeout-2026-06-22.md
+Foundation,seo:smoke-live production 10/10,Verified live,2026-06-22,docs/reports/SMOKE_LIVE_2026-06-22.md
+Foundation,audit:weekly-seo-health,Verified live,2026-06-22,www Circle exception documented
+Foundation,seo:audit-crawl-indexation,Verified live,2026-06-22,
+Foundation,seo:audit-on-page-seo,Verified live,2026-06-22,4 title-length warnings non-blocking
+Foundation,seo:audit-analytics repo guards,Verified live,2026-06-22,Live GA4 pending owner
+Foundation,Hub /answers CRAWL-T137,Verified live,2026-06-22,pmstructure-crawl-findings-register.csv
+Foundation,Hub /topics CRAWL-T138,Verified live,2026-06-22,pmstructure-crawl-findings-register.csv
+Foundation,OA-009 PSI/Lighthouse 16/16,Verified live,2026-06-22,docs/internal/evidence/psi-batch-summary-2026-06-22.json
+Foundation,OA-012 forms smoke 3/3,Verified live,2026-06-22,docs/internal/evidence/forms-smoke-live-2026-06-22.json
+Foundation,Phase B dev Website schedule rows,Verified live,2026-06-22,pmstructure-90-day-marketing-schedule.csv
+GSC,Resubmit sitemap + URL inspection,Pending owner,,OA-002 — GSC_GA4_OWNER_ACTIONS.md
+GSC,Manual actions screenshot,Pending owner,,SCAN-005
+GA4,DebugView key events,Pending owner,,OA-003 — SCAN-004
+Crawl,Full Screaming Frog / Sitebulb export,Pending owner,,OA-001 partial substitute attached
+Regional,GBP / GCC routes / Cloudflare CSP,Deferred,,OA-008 deferred by owner default

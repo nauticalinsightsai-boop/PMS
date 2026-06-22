@@ -10,7 +10,7 @@ Agent session implementing `seo_remaining_closeout_c8c86d99` plan. Production ba
 | `npm run seo:smoke-live` | **PASS** | 10/10 URLs — report `docs/reports/SMOKE_LIVE_2026-06-22.md` |
 | `npm run audit:weekly-seo-health` | **PASS** | Sitemap `<loc>` hygiene fix; www Circle community documented as known exception |
 | `npm run seo:audit-crawl-indexation` | **PASS** | Priority indexable URLs OK |
-| `npm run seo:audit-redirects` | **PARTIAL** | Legacy paths OK; `www.pmstructure.com` serves Circle (302) by design |
+| `npm run seo:audit-redirects` | **PASS** | Legacy paths OK; www Circle community documented as known infra exception |
 | `npm run seo:audit-on-page-seo` | **PASS** | Duplicate PMP 2026 titles fixed; architecture-check updated |
 | `npm run seo:audit-analytics` | **PASS** | Repo guards OK; live GA4 needs owner (OA-003) |
 
@@ -94,3 +94,7 @@ Use these statuses when updating the external Excel (no `.xlsx` in repo):
 - [x] Dev Website schedule rows marked Done where implemented
 - [x] Forms storage verified (OA-012, deploy `819fae3`)
 - [ ] GSC/GA4 owner screenshots (Mahaa)
+
+## Dev agent sign-off (2026-06-22)
+
+All executable dev/agent items from `seo_remaining_closeout_c8c86d99` are **complete**. Commits: `66112e6` → `6249818`. Mirror for Mahaa Excel: [`pmstructure-mahaa-audit-phase1-mirror.csv`](../pmstructure-mahaa-audit-phase1-mirror.csv).

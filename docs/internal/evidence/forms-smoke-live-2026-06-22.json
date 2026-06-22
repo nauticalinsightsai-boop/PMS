@@ -1,27 +1,27 @@
 {
   "base": "https://pmstructure.com",
   "testEmail": "seo-smoke+20260622@pmstructure.com",
-  "capturedAt": "2026-06-22T17:57:59.623Z",
+  "capturedAt": "2026-06-22T18:16:16.195Z",
   "results": [
     {
       "form": "roadmap",
       "ok": true,
       "status": 201,
-      "detail": "id=971d9240-7904-4bae-9117-fc5ef6c625c7 sheetsSynced=false sheetsSyncPending=false",
+      "detail": "id=25ffba29-8bb6-4325-9607-85bd0e2f2d3b sheetsSynced=false sheetsSyncPending=false",
       "sheetsWarning": null
     },
     {
       "form": "waitlist",
       "ok": true,
       "status": 201,
-      "detail": "id=31f9f2de-c13a-4796-8dee-de1ecad82cc6 sheetsSynced=false sheetsSyncPending=false",
+      "detail": "id=f17657b4-7178-4440-bb5a-26c96304444b sheetsSynced=false sheetsSyncPending=false",
       "sheetsWarning": null
     },
     {
       "form": "newsletter",
       "ok": true,
       "status": 201,
-      "detail": "id=bed08333-64ed-43f7-adba-f9f3249221e6 sheetsSynced=false sheetsSyncPending=false",
+      "detail": "id=e8e8823d-eed8-420d-a200-644c2bddfd4f sheetsSynced=false sheetsSyncPending=false",
       "sheetsWarning": null
     }
   ]
