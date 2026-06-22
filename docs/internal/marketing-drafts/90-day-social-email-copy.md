@@ -303,9 +303,42 @@ https://pmstructure.com/pmp-exam-2026
 
 Use `pmstructure-weekly-seo-dashboard.csv`, lead notes in admin inbox, and kill/pivot thresholds from planning docs. No public copy required.
 
-## Website rows still awaiting Mahaa copy (not in this file)
+---
 
-- 2026-07-17 PMP for construction/infrastructure
-- 2026-07-31 PMP credibility article
-- 2026-08-20 Corporate PMP 2026 teams landing
-- 2026-09-12 Site update (blocked until Sheikh 90-day decision 2026-09-11)
+## 2026-07-17 · Website · Mahaa
+**Title:** PMP for construction and infrastructure professionals  
+**URL suggestion:** `/answers/pmp-for-construction-and-infrastructure` or topic hub section
+
+Construction and infrastructure professionals often already manage scope, contractors, safety interfaces, and staged delivery. PMP can help structure that experience into project leadership language employers recognize—especially when your role expands beyond technical delivery.
+
+This is not a substitute for engineering depth or site experience. It supports credibility when you coordinate multi-disciplinary teams, stakeholders, and phased capital delivery.
+
+**CTA:** Get My PMP Roadmap → https://pmstructure.com/pmp-exam-2026  
+**Compliance:** Verify eligibility on PMI.org. PM Structure is independent prep support; we do not issue PMP.
+
+---
+
+## 2026-07-31 · Website · Mahaa
+**Title:** PMP is not a shortcut, but it can structure your credibility  
+**URL suggestion:** `/answers/is-pmp-a-shortcut-for-credibility`
+
+PMP is not a fast track around experience. PMI requires eligible project leadership hours and a rigorous exam. What structured prep can do is organize your study route, mock tracking, and readiness decision—so certification supports your real project background instead of replacing it.
+
+Avoid providers promising guaranteed passes or confusing training hours with PDU marketing.
+
+**CTA:** https://pmstructure.com/pmp-exam-2026
+
+---
+
+## 2026-08-20 · Website · Mahaa
+**Title:** Corporate PMP 2026 readiness for teams  
+**URL suggestion:** `/corporate-pmp-readiness` (B2B landing)
+
+Teams do not need a wall of certificates. They need consistent project delivery capability: clear governance, stakeholder alignment, risk discipline, and exam-ready preparation for key roles—aligned to the current or updated PMP exam route from July 2026.
+
+PM Structure can support structured readiness conversations for PMOs and delivery leads. We do not guarantee passes or issue PMI credentials.
+
+**CTA:** Request team roadmap → support@pmstructure.com  
+**Note:** Pair with corporate one-page proposal (Aug 21 internal row).
+
+**Blocked:** 2026-09-12 Site update until Sheikh 2026-09-11 decision — see `evidence/SEP12_90DAY_DECISION_TEMPLATE.md`
