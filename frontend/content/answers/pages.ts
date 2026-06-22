@@ -866,6 +866,122 @@ const pages: AnswerPageContent[] = [
     ctaHref: '/pmp-mock-exam',
     ctaLabel: 'Mock exam guidance',
   },
+  {
+    slug: 'pmp-for-construction-and-infrastructure',
+    path: '/answers/pmp-for-construction-and-infrastructure',
+    question: 'Is PMP useful for construction and infrastructure professionals?',
+    title: 'PMP for Construction & Infrastructure Professionals | PM Structure',
+    description:
+      'How PMP can support construction and infrastructure professionals moving into structured project leadership without replacing technical or site experience.',
+    shortAnswer:
+      'PMP can help construction and infrastructure professionals who already manage scope, contractors, safety interfaces, and staged delivery show structured project leadership, especially when the role expands beyond pure technical delivery.',
+    detailedAnswer:
+      'Capital projects, utilities, transport, and built-environment roles often include phased delivery, multi-disciplinary coordination, and stakeholder governance. PMP does not replace engineering depth or site experience. It can support credibility when you need a recognized project leadership framework for promotions, client-facing roles, or PMO transitions. Verify PMI eligibility and exam rules before applying; align study to your realistic exam date (current vs updated PMP from July 2026).',
+    whoApplies:
+      'Construction managers, infrastructure project leads, planners, and engineers moving into broader delivery or PMO-facing roles in GCC and global markets.',
+    nextSteps: [
+      'Start with the PMP 2026 guide at /pmp-exam-2026',
+      'Review engineer-focused FAQs at /pmp-exam-2026#pmp-engineer-faq',
+      'Verify eligibility on PMI.org before booking',
+    ],
+    relatedCourses: [
+      { href: '/pmp-professional', label: 'PMP Professional pathway' },
+      { href: '/pmp-mastery', label: 'PMP Mastery pathway' },
+    ],
+    relatedPages: [
+      { href: '/pmp-exam-2026', label: 'PMP exam 2026 guide' },
+      { href: '/certifications/pmp', label: 'PMP readiness pathway' },
+      { href: '/pmp-study-plan-2026', label: 'Study plan 2026' },
+    ],
+    relatedAnswers: [
+      {
+        href: '/answers/is-the-pmp-exam-changing-in-2026',
+        label: 'Is the PMP exam changing in 2026?',
+      },
+      { href: '/answers/what-is-pmp-readiness', label: 'What is PMP readiness?' },
+    ],
+    dateModified: '2026-06-22',
+    ctaHref: '/certifications/pmp#cert-roadmap-form',
+    ctaLabel: 'Get My PMP Roadmap',
+    faqs: [
+      {
+        question: 'Does PM Structure issue PMP for construction professionals?',
+        answer:
+          'No. PMP is issued by PMI after eligibility, application, and exam success. PM Structure provides independent preparation support.',
+      },
+    ],
+  },
+  {
+    slug: 'is-pmp-a-shortcut-for-credibility',
+    path: '/answers/is-pmp-a-shortcut-for-credibility',
+    question: 'Is PMP a shortcut for professional credibility?',
+    title: 'Is PMP a Shortcut for Credibility? | PM Structure',
+    description:
+      'PMP is not a fast track around experience. Learn how structured prep can support credibility without overclaiming.',
+    shortAnswer:
+      'No. PMP is not a shortcut. PMI requires eligible project leadership experience and a rigorous exam. Structured prep can organize your study route and readiness decision so certification supports your real background instead of replacing it.',
+    detailedAnswer:
+      'Credibility comes from delivery outcomes, stakeholder trust, and experience, not a certificate alone. PMP can help professionals who already lead projects communicate that capability in a recognized framework. Avoid providers promising guaranteed passes or confusing application training hours with PDU marketing. Verify eligibility on PMI.org, track mocks by weak area, and book when readiness patterns support it, not when marketing creates urgency.',
+    whoApplies: 'Professionals evaluating whether PMP fits their career direction in 2026.',
+    nextSteps: [
+      'Compare pathways at /certifications/compare',
+      'Read the PMP 2026 guide at /pmp-exam-2026',
+      'Review considerations at /certifications/pmp#pmp-considerations',
+    ],
+    relatedCourses: [{ href: '/pmp-foundation', label: 'PMP Foundation pathway' }],
+    relatedPages: [
+      { href: '/certifications/pmp', label: 'PMP readiness pathway' },
+      { href: '/pmp-exam-2026#pmp-trust-faq', label: 'Trust and expectations FAQs' },
+    ],
+    relatedAnswers: [
+      { href: '/answers/pmp-training-hours-vs-pdus', label: 'PMP training hours vs PDUs' },
+      { href: '/answers/what-is-pmp-readiness', label: 'What is PMP readiness?' },
+    ],
+    dateModified: '2026-06-22',
+    ctaHref: '/pmp-exam-2026',
+    ctaLabel: 'Read the PMP 2026 guide',
+  },
+  {
+    slug: 'corporate-pmp-2026-readiness-for-teams',
+    path: '/answers/corporate-pmp-2026-readiness-for-teams',
+    question: 'How can teams plan corporate PMP 2026 readiness?',
+    title: 'Corporate PMP 2026 Readiness for Teams | PM Structure',
+    description:
+      'Orientation for PMOs and delivery leaders planning team PMP readiness around the July 2026 exam transition without pass guarantees.',
+    shortAnswer:
+      'Team PMP readiness is a delivery capability issue: align roles to exam routes (current vs updated from July 2026), verify individual eligibility, structure mock review cadence, and avoid bulk certificate chasing without governance context.',
+    detailedAnswer:
+      'Organizations often ask for PMP coverage without mapping who needs certification versus who needs delivery coaching. A sensible team plan identifies target roles, exam timelines, study structure, and mock accountability, then verifies each candidate against PMI eligibility. PM Structure can support structured readiness conversations for PMOs and delivery leads. We do not guarantee passes, issue PMI credentials, or replace your internal performance management.',
+    whoApplies: 'PMO leads, HR L&D partners, and delivery directors planning 2026 certification support.',
+    nextSteps: [
+      'Email support@pmstructure.com for team roadmap conversations',
+      'Share /pmp-exam-2026 with candidates deciding exam routes',
+      'Use /pmp-readiness-diagnostic for individual readiness orientation',
+    ],
+    relatedCourses: [
+      { href: '/pmp-professional', label: 'PMP Professional pathway' },
+      { href: '/pmp-mastery', label: 'PMP Mastery pathway' },
+    ],
+    relatedPages: [
+      { href: '/pm-service', label: 'PM services' },
+      { href: '/certifications/pmp', label: 'PMP readiness pathway' },
+      { href: '/pmp-exam-2026', label: 'PMP 2026 guide' },
+    ],
+    relatedAnswers: [
+      { href: '/answers/what-is-pmp-readiness', label: 'What is PMP readiness?' },
+      { href: '/answers/how-long-does-pmp-preparation-take', label: 'How long does PMP prep take?' },
+    ],
+    dateModified: '2026-06-22',
+    ctaHref: 'mailto:support@pmstructure.com',
+    ctaLabel: 'Request team roadmap',
+    faqs: [
+      {
+        question: 'Does PM Structure guarantee team pass rates?',
+        answer:
+          'No. We provide structured preparation support; exam results depend on eligibility, preparation quality, and individual performance.',
+      },
+    ],
+  },
 ];
 
 export const ANSWER_PAGES = pages;
