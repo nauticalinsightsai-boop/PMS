@@ -46,11 +46,11 @@ Evidence: [`forms-smoke-live-2026-06-22.json`](./forms-smoke-live-2026-06-22.jso
 | 2026-07-14 | PMP metadata + schema | **Done** | Distinct phase-2 titles for `/topics/pmp-exam-2026` vs `/pmp-exam-2026` |
 | 2026-08-14 | Learner story | **Done (placeholder)** | `PORTAL_SOCIAL_PROOF_PENDING_MESSAGE` — no fake testimonials (OA-011) |
 | 2026-09-01 | Waitlist CTAs secondary pathways | **Done** | Compare page secondary waitlist block |
-| 2026-09-09 | Funnel cleanup | **Partial** | Banner + compare waitlist + metadata alignment |
-| 2026-07-21 | Engineer FAQ | **Blocked** | Mahaa FAQ copy not in repo |
-| 2026-08-11 | Mock-tracking CTA | **Blocked** | Mahaa copy |
-| 2026-08-18 | Trust FAQ | **Blocked** | Mahaa copy |
-| 2026-09-03 | PMP landing objections | **Blocked** | Objection data from leads |
+| 2026-09-09 | Funnel cleanup | **Done** | Banner + compare#secondary-waitlist + cert hub link |
+| 2026-07-21 | Engineer FAQ | **Done** | `#pmp-engineer-faq` (`Pmp2026ScheduleSections`) |
+| 2026-08-11 | Mock-tracking CTA | **Done** | `#pmp-mock-tracking-cta` + diagnostic GA4 event |
+| 2026-08-18 | Trust FAQ | **Done** | `#pmp-trust-faq` section |
+| 2026-09-03 | PMP landing objections | **Done** | `#pmp-considerations` on `/certifications/pmp` |
 | 2026-09-12 | Site update post-review | **Blocked** | Sheikh 90-day decision |
 
 Regional rows (OA-008): remain **Blocked** / cancelled in plan.
