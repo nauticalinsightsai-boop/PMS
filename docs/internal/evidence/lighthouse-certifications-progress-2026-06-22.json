@@ -66,5 +66,19 @@
     "lcpElement": "p#cookie-consent-desc",
     "consoleOk": true,
     "note": "Cookie consent banner was LCP; deferred in follow-up commit"
+  },
+  "homepagePostCookieDeferCli": {
+    "file": "lighthouse-home-post-cookie-defer-mobile.json",
+    "commit": "5bb02e2",
+    "performance": 70,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "lcpMs": 4000,
+    "fcpMs": 1800,
+    "tbtMs": 620,
+    "lcpElement": "h1 home hero span (Project management)",
+    "elementRenderDelayMs": 922,
+    "consoleOk": true
   }
 }
