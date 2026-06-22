@@ -97,4 +97,21 @@ Use these statuses when updating the external Excel (no `.xlsx` in repo):
 
 ## Dev agent sign-off (2026-06-22)
 
-All executable dev/agent items from `seo_remaining_closeout_c8c86d99` are **complete**. Commits: `66112e6` → `a9d1224`. Re-verified production smoke + forms **2026-06-22**. Mirror for Mahaa Excel: [`pmstructure-mahaa-audit-phase1-mirror.csv`](../pmstructure-mahaa-audit-phase1-mirror.csv).
+All executable dev/agent items from `seo_remaining_closeout_c8c86d99` are **complete**. Commits: `66112e6` → `3344fb5`.
+
+**Final verification pass:** `seo:release-verify` PASS; production smoke 10/10; forms 3/3; weekly health PASS; crawl/redirects/on-page/analytics PASS.
+
+Mirror for Mahaa Excel: [`pmstructure-mahaa-audit-phase1-mirror.csv`](../pmstructure-mahaa-audit-phase1-mirror.csv).
+
+## Remaining todos (owner-only — agent cannot complete)
+
+| IDs | Owner | Blocker |
+|-----|-------|---------|
+| `o-m-001`–`o-m-016` | Mahaa | GSC/GA4 login, SF crawl export, dashboard metrics |
+| `o-s-007` | Sheikh | Legal sign-off |
+| `o-env-012` | Owner | Google Sheets env (optional; Supabase storage verified) |
+| `b-sep12`, `mkt-20260912` | Sheikh+Mahaa | Blocked until 90-day review decision |
+| `mkt-*` (64 rows) | Sheikh/Mahaa | Publish social/email per schedule CSV |
+| Regional `b-block-*`, `mkt-20260723`–`60804` | — | **Cancelled** (OA-008 deferred) |
+
+Handoff: [`OWNER_CLOSEOUT_CHECKLIST-2026-06-22.md`](./OWNER_CLOSEOUT_CHECKLIST-2026-06-22.md) + [`GSC_GA4_OWNER_ACTIONS.md`](./GSC_GA4_OWNER_ACTIONS.md)
