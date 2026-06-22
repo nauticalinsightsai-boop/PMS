@@ -1,0 +1,14 @@
+{
+  "capturedAt": "2026-06-22T15:30:00.000Z",
+  "route": "https://pmstructure.com/",
+  "checks": {
+    "llmsTxtMarkdownLinks": true,
+    "aiFilesCheck": "PASS (14 files)",
+    "productionLlmsSample": "[PM Structure](https://pmstructure.com)",
+    "entityJsonLinked": true,
+    "doNotCiteSection": true
+  },
+  "agenticScore": "3/3 prerequisites met",
+  "verificationMethod": "seo:ai-files-check + production llms.txt curl; PSI Agentic category not in Lighthouse CLI",
+  "psiManualUrl": "https://pagespeed.web.dev/analysis?url=https://pmstructure.com/"
+}
