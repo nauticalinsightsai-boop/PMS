@@ -7,6 +7,7 @@
   "groups": {
     "cluster": [
       "/pmp",
+      "/pmp-2026-pathway",
       "/pmp-exam-2026",
       "/pmp-current-vs-new-exam",
       "/pmp-before-8-july-2026",
@@ -42,6 +43,13 @@
       "group": "cluster",
       "status": "live",
       "url": "https://pmstructure.com/pmp",
+      "indexing": "index,follow"
+    },
+    {
+      "path": "/pmp-2026-pathway",
+      "group": "cluster",
+      "status": "live",
+      "url": "https://pmstructure.com/pmp-2026-pathway",
       "indexing": "index,follow"
     },
     {

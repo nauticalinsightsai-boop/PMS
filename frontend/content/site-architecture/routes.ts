@@ -66,6 +66,13 @@ const PRIORITY_ROUTES: SiteRoute[] = [
     breadcrumbs: [HOME_CRUMB, { label: 'FAQ' }],
   },
   {
+    path: '/pmp-2026-pathway',
+    label: 'PMP 2026 Readiness Pathway',
+    role: 'commercial',
+    breadcrumbs: [HOME_CRUMB, { label: 'PMP', href: '/pmp' }],
+    notes: 'Structured pathway landing; deep exam facts on /pmp-exam-2026.',
+  },
+  {
     path: '/pmp-exam-2026',
     label: 'PMP Exam 2026 Guide',
     role: 'deep-guide',

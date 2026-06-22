@@ -39,10 +39,13 @@ describe('marketing performance — content preservation smoke', () => {
     expect(src).toContain('LazyWhenVisible');
   });
 
-  it('PMP exam 2026 guide hosts flagship readiness sections', () => {
-    const src = fs.readFileSync(path.join(ROOT, 'components/pmp/PmpAuthorityPage.tsx'), 'utf8');
-    expect(src).toContain('Pmp2026FlagshipSections');
-    expect(src).toContain('PmpPackageTierPositioning');
+  it('PMP exam 2026 guide stays focused; pathway page hosts flagship sections', () => {
+    const authority = fs.readFileSync(path.join(ROOT, 'components/pmp/PmpAuthorityPage.tsx'), 'utf8');
+    const pathway = fs.readFileSync(path.join(ROOT, 'components/pmp/Pmp2026PathwayPage.tsx'), 'utf8');
+    expect(authority).not.toContain('Pmp2026FlagshipSections');
+    expect(authority).not.toContain('PmpPackageTierPositioning');
+    expect(pathway).toContain('Pmp2026FlagshipSections');
+    expect(pathway).toContain('PmpPackageTierPositioning');
   });
 
   it('Community keeps store tab wiring and dynamic StoreContent', () => {

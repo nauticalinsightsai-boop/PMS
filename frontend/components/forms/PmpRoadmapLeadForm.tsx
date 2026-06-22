@@ -82,7 +82,7 @@ function FormPrivacyNotice({ compact }: { compact: boolean }) {
       )}
     >
       By submitting, you agree to our{' '}
-      <Link href="/legal/privacy" className="font-semibold text-orange-800 underline decoration-orange-800/50 hover:text-orange-900 dark:text-orange-300 dark:decoration-orange-300/50">
+      <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
         Privacy Policy
       </Link>
       .

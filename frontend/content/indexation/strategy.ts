@@ -92,6 +92,7 @@ const HTML_SITEMAP_KEY_CERT_PATHS = new Set([
 const HTML_SITEMAP_PMP_CLUSTER_PATHS = new Set([
   '/pmp',
   '/pmp-exam-2026',
+  '/pmp-2026-pathway',
   '/pmp-current-vs-new-exam',
   '/pmp-exam-timeline-2026',
   '/pmp-study-plan-2026',

@@ -14,21 +14,12 @@ import { PMP_EXAM_2026_PRIORITY_ANSWERS } from '@/content/answers/priority-answe
 import { ConversionViewTracker } from '@/components/analytics/ConversionViewTracker';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { FaqAnswer } from '@/components/faq/FaqAccordionList';
-import { PmpPackageTierPositioning } from '@/components/pmp/PmpPackageTierPositioning';
 import { ComparePathwaysCtaLink, PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import { PmpExam2026LiveBanner } from '@/components/pmp/PmpExam2026LiveBanner';
+import { PMP_PATHWAY_PAGE } from '@/content/pmp/pathway-page';
 import { CTAS } from '@/lib/brand-voice';
 import { cn } from '@/lib/utils';
 import { CheckCircle2, XCircle } from 'lucide-react';
-import dynamic from 'next/dynamic';
-
-const Pmp2026FlagshipSections = dynamic(
-  () =>
-    import('@/components/home/Pmp2026FlagshipSections').then((m) => ({
-      default: m.Pmp2026FlagshipSections,
-    })),
-  { loading: () => null },
-);
 
 function MarkdownBlock({
   text,
@@ -138,6 +129,24 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
             <ComparePathwaysCtaLink size="lg" />
             </div>
 
+            {page.path === '/pmp-exam-2026' ? (
+              <div className="mb-10 rounded-xl border border-brand-orange/25 bg-brand-orange/5 p-5">
+                <h2 className="mb-2 text-sm font-bold uppercase tracking-wider text-brand-orange">
+                  Structured pathway
+                </h2>
+                <p className="mb-4 text-sm font-medium leading-relaxed text-slate-700 dark:text-slate-300">
+                  Roadmap steps, 90-day focus, tier options, engineer FAQs, and mock-tracking guidance live on
+                  the dedicated pathway page so this guide stays focused on exam facts and eligibility.
+                </p>
+                <Link
+                  href={PMP_PATHWAY_PAGE.path}
+                  className={buttonVariants({ size: 'lg', variant: 'outline' })}
+                >
+                  {PMP_PATHWAY_PAGE.shortLabel}
+                </Link>
+              </div>
+            ) : null}
+
             {page.sections.map((section) => (
               <section key={section.id} id={section.id} className="mb-10">
                 <h2 className="font-heading text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-4">
@@ -232,12 +241,6 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
             </aside>
         </div>
       </section>
-      {page.path === '/pmp-exam-2026' ? (
-        <>
-          <PmpPackageTierPositioning />
-          <Pmp2026FlagshipSections />
-        </>
-      ) : null}
     </>
   );
 }

@@ -6,14 +6,12 @@ import { Badge } from '@/components/ui/badge';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
 import {
-  T169_FAQS,
   T169_NINETY_DAY_FOCUS,
   T169_ROADMAP_STEPS,
   T169_WHO_FOR,
   T169_WHO_NOT_FOR,
 } from '@/content/pmp/flagship-t169';
 import { Pmp2026ScheduleSections } from '@/components/pmp/Pmp2026ScheduleSections';
-import { FaqAnswer } from '@/components/faq/FaqAccordionList';
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24';
 
@@ -118,25 +116,6 @@ export function Pmp2026FlagshipSections() {
                 ))}
               </ul>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="pmp-readiness-faqs" className={sectionSurface('purple', SECTION_PY)}>
-        <SectionAmbience tone="purple" />
-        <div className="container relative z-10 mx-auto px-4 max-w-3xl">
-          <h2 className="font-heading text-section font-bold mb-8 tracking-tight text-slate-900 dark:text-white">
-            PMP 2026 readiness: common questions
-          </h2>
-          <div className="space-y-8">
-            {T169_FAQS.map((faq) => (
-              <article key={faq.question}>
-                <h3 className="font-semibold text-lg mb-2 text-slate-900 dark:text-white">{faq.question}</h3>
-                <div className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
-                  <FaqAnswer text={faq.answer} />
-                </div>
-              </article>
-            ))}
           </div>
         </div>
       </section>

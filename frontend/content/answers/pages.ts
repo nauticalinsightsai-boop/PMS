@@ -881,7 +881,7 @@ const pages: AnswerPageContent[] = [
       'Construction managers, infrastructure project leads, planners, and engineers moving into broader delivery or PMO-facing roles in GCC and global markets.',
     nextSteps: [
       'Start with the PMP 2026 guide at /pmp-exam-2026',
-      'Review engineer-focused FAQs at /pmp-exam-2026#pmp-engineer-faq',
+      'Review engineer-focused FAQs at /pmp-2026-pathway#pmp-engineer-faq',
       'Verify eligibility on PMI.org before booking',
     ],
     relatedCourses: [
@@ -931,7 +931,7 @@ const pages: AnswerPageContent[] = [
     relatedCourses: [{ href: '/pmp-foundation', label: 'PMP Foundation pathway' }],
     relatedPages: [
       { href: '/certifications/pmp', label: 'PMP readiness pathway' },
-      { href: '/pmp-exam-2026#pmp-trust-faq', label: 'Trust and expectations FAQs' },
+      { href: '/pmp-2026-pathway#pmp-trust-faq', label: 'Trust and expectations FAQs' },
     ],
     relatedAnswers: [
       { href: '/answers/pmp-training-hours-vs-pdus', label: 'PMP training hours vs PDUs' },

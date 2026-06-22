@@ -4,14 +4,13 @@ import {
   T169_FAQS,
   T169_ELIGIBILITY_SECTION,
   T169_PMP_PAGE,
-  T169_ROADMAP_STEPS,
   T169_SEO,
-  T169_WHO_FOR,
-  T169_WHO_NOT_FOR,
 } from '@/content/pmp/flagship-t169';
+import { PMP_PATHWAY_PAGE } from '@/content/pmp/pathway-page';
 
 const clusterLinks = (current: string): PmpPageContent['relatedLinks'] => [
   { href: '/pmp', label: 'PMP hub' },
+  { href: '/pmp-2026-pathway', label: 'PMP 2026 readiness pathway' },
   { href: '/pmp-exam-2026', label: 'PMP exam 2026 guide' },
   { href: '/pmp-current-vs-new-exam', label: 'Current vs new exam' },
   { href: '/pmp-exam-timeline-2026', label: '2026 timeline' },
@@ -22,6 +21,11 @@ const clusterLinks = (current: string): PmpPageContent['relatedLinks'] => [
 ].filter((l) => l.href !== current);
 
 export const PMP_HUB_CARDS: PmpHubCard[] = [
+  {
+    path: '/pmp-2026-pathway',
+    title: 'PMP 2026 readiness pathway',
+    description: '90-day focus, roadmap steps, tiers, engineer FAQs, and mock tracking.',
+  },
   {
     path: '/pmp-exam-2026',
     title: 'PMP exam 2026',
@@ -104,23 +108,6 @@ const pages: PmpPageContent[] = [
         body: `${T169_PMP_PAGE.domainBody}\n\n${T169_PMP_PAGE.domainTable}\n\n${T169_PMP_PAGE.domainNote}`,
       },
       {
-        id: 'roadmap-steps',
-        heading: T169_ROADMAP_STEPS.heading,
-        body: T169_ROADMAP_STEPS.steps
-          .map((step, index) => `**${index + 1}. ${step.title}**: ${step.body}`)
-          .join('\n\n'),
-      },
-      {
-        id: 'who-for',
-        heading: T169_WHO_FOR.heading,
-        body: T169_WHO_FOR.bullets.map((item) => `- ${item}`).join('\n'),
-      },
-      {
-        id: 'who-not-for',
-        heading: T169_WHO_NOT_FOR.heading,
-        body: T169_WHO_NOT_FOR.bullets.map((item) => `- ${item}`).join('\n'),
-      },
-      {
         id: 'eligibility-training-hours',
         heading: T169_ELIGIBILITY_SECTION.heading,
         body: `${T169_ELIGIBILITY_SECTION.body}\n\n${T169_ELIGIBILITY_SECTION.complianceNote}\n\n${T169_ELIGIBILITY_SECTION.lastReviewed}`,
@@ -136,6 +123,7 @@ const pages: PmpPageContent[] = [
       answer: faq.answer,
     })),
     relatedLinks: [
+      { href: PMP_PATHWAY_PAGE.path, label: PMP_PATHWAY_PAGE.shortLabel },
       ...clusterLinks('/pmp-exam-2026'),
       { href: '/answers/is-the-pmp-exam-changing-in-2026', label: 'Is the PMP exam changing in 2026?' },
       { href: '/answers/current-pmp-exam-vs-new-pmp-exam', label: 'Current vs new PMP exam' },
@@ -376,4 +364,4 @@ export function getPmpPageByPath(path: string): PmpPageContent | undefined {
   return pages.find((p) => p.path === path);
 }
 
-export const PMP_CLUSTER_PATHS = ['/pmp', ...pages.map((p) => p.path)] as const;
+export const PMP_CLUSTER_PATHS = ['/pmp', '/pmp-2026-pathway', ...pages.map((p) => p.path)] as const;
