@@ -10,13 +10,15 @@
       "tbtMs": 416.5,
       "totalJsKb": 696,
       "postFix2026-06-22": {
-        "source": "lighthouse-home-psi-mobile-2026-06-22.json",
-        "performanceScore": 54,
-        "lcpMs": 4560.58,
-        "tbtMs": 1140,
+        "source": "lighthouse-home-post-deploy-mobile-2026-06-22.json",
+        "commit": "e001a35",
+        "performanceScore": 52,
+        "lcpMs": 6348,
+        "tbtMs": 810,
         "accessibilityScore": 100,
-        "bestPracticesScore": 96,
-        "note": "Mobile CLI after HomeHeroServer deploy; LCP element now server h1"
+        "bestPracticesScore": 100,
+        "consoleErrors": 0,
+        "note": "BP 100 after region-hint proxy; LCP CLI variance across runs"
       }
     },
     {

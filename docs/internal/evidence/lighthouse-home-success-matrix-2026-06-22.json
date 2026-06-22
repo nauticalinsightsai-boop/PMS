@@ -1,38 +1,31 @@
 {
-  "capturedAt": "2026-06-22T13:25:00.000Z",
+  "capturedAt": "2026-06-22T13:52:00.000Z",
   "route": "/",
   "base": "https://pmstructure.com",
-  "commits": ["8f15584", "578abbd", "641031e"],
+  "commits": ["8f15584", "578abbd", "641031e", "e001a35"],
   "baselineJun16Psi": {
     "mobile": { "perf": 70, "lcpMs": 7300, "a11y": 95, "bp": 96, "agentic": "2/3" },
     "desktop": { "perf": 91, "lcpMs": 1600, "a11y": 95, "bp": 96, "agentic": "2/3" }
   },
-  "postFixLighthouseCli": {
+  "postDeployLighthouseCli": {
     "mobile": {
-      "file": "lighthouse-home-psi-mobile-2026-06-22.json",
-      "profile": "LH CLI mobile emulation + simulate throttle",
-      "performance": 54,
-      "lcpMs": 4561,
-      "fcpMs": 1688,
-      "tbtMs": 1140,
-      "cls": 0.109,
-      "speedIndexMs": 4103,
-      "accessibility": 100,
-      "bestPractices": 96,
-      "seo": 100
-    },
-    "desktop": {
-      "file": "lighthouse-home-psi-desktop-2026-06-22.json",
-      "profile": "LH CLI desktop + simulate throttle",
-      "performance": 36,
-      "lcpMs": 4435,
-      "fcpMs": 1646,
-      "tbtMs": 1457,
+      "file": "lighthouse-home-post-deploy-mobile-2026-06-22.json",
+      "commit": "e001a35",
+      "profile": "LH CLI mobile emulation + simulate throttle (post region-hint deploy)",
+      "performance": 52,
+      "lcpMs": 6348,
+      "fcpMs": 1856,
+      "tbtMs": 810,
       "cls": 0,
       "accessibility": 100,
-      "bestPractices": 96,
-      "seo": 100
+      "bestPractices": 100,
+      "seo": 100,
+      "consoleErrors": 0
     }
+  },
+  "priorCliRuns": {
+    "mobilePreDeploy": { "file": "lighthouse-home-psi-mobile-2026-06-22.json", "performance": 54, "lcpMs": 4561, "bp": 96 },
+    "mobileE001a35PreDeploy": { "file": "lighthouse-home-post-e001a35-mobile.json", "performance": 58, "lcpMs": 4236, "bp": 96, "consoleErrors": 2 }
   },
   "targets": {
     "mobilePerf": 85,
@@ -42,11 +35,11 @@
     "agentic": "3/3"
   },
   "matrix": [
-    { "metric": "Mobile Perf ≥85", "baseline": 70, "postFix": 54, "met": false, "note": "CLI mobile; PSI lab variance. Server h1 shipped; further JS/DOM work in p6 stretch." },
-    { "metric": "Mobile LCP <2.5s", "baseline": 7300, "postFix": 4561, "met": false, "note": "~37% improvement vs Jun 16 PSI baseline; still above target." },
+    { "metric": "Mobile Perf ≥85", "baseline": 70, "postFix": 52, "met": false, "note": "CLI lab variance (52–58 across runs). LCP element is server h1; TBT ~810ms post-deploy." },
+    { "metric": "Mobile LCP <2.5s", "baseline": 7300, "postFix": "4236–6348", "met": false, "note": "Improved vs 7.3s baseline; CLI runs vary. Re-run PSI for field/lab comparison." },
     { "metric": "A11y 100", "baseline": 95, "postFix": 100, "met": true },
-    { "metric": "BP 100", "baseline": 96, "postFix": 96, "met": false, "note": "Security headers deferred p6-04 (Cloudflare)." },
-    { "metric": "Agentic 3/3", "baseline": "2/3", "postFix": "pending PSI", "met": "partial", "note": "llms.txt markdown links shipped; re-run PSI Agentic Browsing." },
+    { "metric": "BP 100", "baseline": 96, "postFix": 100, "met": true, "note": "Zero console errors after /api/region-hint (e001a35)." },
+    { "metric": "Agentic 3/3", "baseline": "2/3", "postFix": "pending PSI", "met": "partial", "note": "llms.txt markdown links shipped." },
     { "metric": "No pravatar/picsum in HTML", "baseline": false, "postFix": true, "met": true },
     { "metric": "Server h1 in initial HTML", "baseline": false, "postFix": true, "met": true },
     { "metric": "Realtime WS on public home", "baseline": true, "postFix": false, "met": true }

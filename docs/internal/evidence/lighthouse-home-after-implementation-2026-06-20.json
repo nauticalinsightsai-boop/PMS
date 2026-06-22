@@ -1,34 +1,36 @@
 {
-  "capturedAt": "2026-06-22T13:25:00.000Z",
+  "capturedAt": "2026-06-22T13:52:00.000Z",
   "base": "https://pmstructure.com",
-  "commits": ["8f15584", "578abbd", "641031e"],
-  "deploy": "Railway production auto-deploy from main",
+  "commits": ["8f15584", "578abbd", "641031e", "e001a35"],
+  "deploy": "Railway production — e001a35 live",
   "verification": {
-    "smokeLive": "10/10 pass (2026-06-22)",
+    "smokeLive": "10/10 pass (2026-06-22 post-deploy)",
+    "regionHintApi": "GET /api/region-hint → 200",
     "llmsTxtMarkdownLinks": true,
     "serverH1InInitialHtml": true,
     "auditImagesProduction": "PASS — no pravatar/picsum in HTML",
     "seoCheck": "pass",
-    "structuredData": "seo:schema-check pass"
+    "structuredData": "seo:schema-check pass",
+    "consoleErrorsOnHome": 0
   },
   "lighthouseCli": {
-    "mobile": {
+    "mobilePostDeploy": {
+      "file": "docs/internal/evidence/lighthouse-home-post-deploy-mobile-2026-06-22.json",
+      "performanceScore": 52,
+      "lcpMs": 6348,
+      "fcpMs": 1856,
+      "tbtMs": 810,
+      "cls": 0,
+      "accessibilityScore": 100,
+      "bestPracticesScore": 100,
+      "seoScore": 100,
+      "consoleErrors": 0
+    },
+    "mobilePreDeploy": {
       "file": "docs/internal/evidence/lighthouse-home-psi-mobile-2026-06-22.json",
       "performanceScore": 54,
       "lcpMs": 4561,
-      "fcpMs": 1688,
-      "tbtMs": 1140,
-      "accessibilityScore": 100,
-      "bestPracticesScore": 96,
-      "seoScore": 100
-    },
-    "desktop": {
-      "file": "docs/internal/evidence/lighthouse-home-psi-desktop-2026-06-22.json",
-      "performanceScore": 36,
-      "lcpMs": 4435,
-      "accessibilityScore": 100,
-      "bestPracticesScore": 96,
-      "seoScore": 100
+      "bestPracticesScore": 96
     }
   },
   "psiBaselineJun16": {
@@ -43,11 +45,11 @@
     "agentic": "3/3"
   },
   "status": {
-    "mobilePerf": "not met — see success matrix; p6 stretch",
-    "mobileLcp": "improved vs baseline, not met",
+    "mobilePerf": "not met — CLI 52–58; p6 stretch if PSI confirms",
+    "mobileLcp": "improved vs 7.3s baseline; CLI variance 4.2–6.3s",
     "a11y": "met (CLI 100)",
-    "bp": "96 — headers deferred p6-04",
-    "agentic": "llms.txt fixed — re-run PSI",
+    "bp": "met (CLI 100 post region-hint)",
+    "agentic": "llms.txt fixed — manual PSI re-run",
     "certificationsFollowUp": ".cursor/plans/certifications_lighthouse_followup.plan.md"
   },
   "successMatrix": "docs/internal/evidence/lighthouse-home-success-matrix-2026-06-22.json"
