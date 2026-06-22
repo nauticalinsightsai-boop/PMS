@@ -1,0 +1,13 @@
+# Fallback when Railway uses Nixpacks instead of Dockerfile.
+# Prefer Dockerfile (see railway.toml). Service root must be repo root.
+[phases.setup]
+nixPkgs = ["nodejs_22"]
+
+[phases.install]
+cmds = ["npm ci --include=dev"]
+
+[phases.build]
+cmds = ["npm run build -w @pms/frontend"]
+
+[start]
+cmd = "npm run start -w @pms/frontend"

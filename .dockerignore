@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.cursor
+.env
+.env.*
+!.env.example
+*.log
+coverage
+dist
+build
+reports
+frontend/public/videos/programme/*.mp4
+frontend/public/programme/pmp-foundation-session-slides.pdf

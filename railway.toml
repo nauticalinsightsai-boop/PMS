@@ -1,11 +1,12 @@
-# Marketing site (pmstructure.com) — monorepo root service.
-# Railway: leave "Root Directory" empty (repo root), or use frontend/railway.toml if set to frontend/.
+# Marketing site (pmstructure.com)
+# Railway service settings:
+#   Root Directory: (empty — repo root, NOT frontend/)
+#   Clear any custom Build/Start commands in the dashboard (use this file).
 [build]
-builder = "NIXPACKS"
-buildCommand = "npm ci --include=dev && npm run build -w @pms/frontend"
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "npm run start -w @pms/frontend"
 healthcheckPath = "/"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
