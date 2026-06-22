@@ -1,6 +1,6 @@
 {
   "capturedAt": "2026-06-19T21:11:10.696Z",
-  "updatedAt": "2026-06-22T13:25:00.000Z",
+  "updatedAt": "2026-06-22T14:40:00.000Z",
   "base": "https://pmstructure.com",
   "summary": [
     {
@@ -10,15 +10,17 @@
       "tbtMs": 416.5,
       "totalJsKb": 696,
       "postFix2026-06-22": {
-        "source": "lighthouse-home-post-deploy-mobile-2026-06-22.json",
-        "commit": "e001a35",
-        "performanceScore": 52,
-        "lcpMs": 6348,
-        "tbtMs": 810,
+        "source": "lighthouse-home-post-cookie-defer-mobile.json",
+        "commit": "5bb02e2",
+        "performanceScore": 70,
+        "lcpMs": 4000,
+        "tbtMs": 620,
         "accessibilityScore": 100,
         "bestPracticesScore": 100,
+        "seoScore": 100,
         "consoleErrors": 0,
-        "note": "BP 100 after region-hint proxy; LCP CLI variance across runs"
+        "lcpElement": "h1 home hero",
+        "note": "Cookie consent defer fixed LCP element; Perf 70 best CLI run"
       }
     },
     {
@@ -26,14 +28,34 @@
       "performanceScore": 51,
       "lcpMs": 6042.120985,
       "tbtMs": 1204.4803849999998,
-      "totalJsKb": 683
+      "totalJsKb": 683,
+      "postFix2026-06-22": {
+        "source": "lighthouse-cert-hub-post-a08ca78-mobile.json",
+        "commit": "a08ca78",
+        "performanceScore": 57,
+        "lcpMs": 4442,
+        "accessibilityScore": 100,
+        "bestPracticesScore": 100,
+        "lcpElement": "h1#certifications-hero-title"
+      }
     },
     {
       "route": "/certifications/pmp",
       "performanceScore": 65,
       "lcpMs": 6547.720284999998,
       "tbtMs": 357.5,
-      "totalJsKb": 733
+      "totalJsKb": 733,
+      "postFix2026-06-22": {
+        "source": "lighthouse-cert-pmp-a63de43-mobile.json",
+        "commit": "a63de43",
+        "performanceScore": 64,
+        "lcpMs": 5900,
+        "tbtMs": 520,
+        "accessibilityScore": 96,
+        "bestPracticesScore": 100,
+        "lcpElement": "h1#cert-detail-hero-title-pmp",
+        "note": "LCP element now server h1; still above 2.5s target"
+      }
     },
     {
       "route": "/newsletter",

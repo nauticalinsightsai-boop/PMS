@@ -58,9 +58,9 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const run = () => setDeferWidgets(true);
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(run, { timeout: 2500 });
+      (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(run, { timeout: 4500 });
     } else {
-      setTimeout(run, 1500);
+      setTimeout(run, 4500);
     }
   }, []);
 

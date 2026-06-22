@@ -1,31 +1,44 @@
 {
-  "capturedAt": "2026-06-22T13:52:00.000Z",
+  "capturedAt": "2026-06-22T14:40:00.000Z",
   "route": "/",
   "base": "https://pmstructure.com",
-  "commits": ["8f15584", "578abbd", "641031e", "e001a35"],
+  "commits": ["8f15584", "578abbd", "641031e", "e001a35", "5bb02e2", "a63de43"],
   "baselineJun16Psi": {
     "mobile": { "perf": 70, "lcpMs": 7300, "a11y": 95, "bp": 96, "agentic": "2/3" },
     "desktop": { "perf": 91, "lcpMs": 1600, "a11y": 95, "bp": 96, "agentic": "2/3" }
   },
-  "postDeployLighthouseCli": {
+  "bestPostFixLighthouseCli": {
     "mobile": {
-      "file": "lighthouse-home-post-deploy-mobile-2026-06-22.json",
-      "commit": "e001a35",
-      "profile": "LH CLI mobile emulation + simulate throttle (post region-hint deploy)",
-      "performance": 52,
-      "lcpMs": 6348,
-      "fcpMs": 1856,
-      "tbtMs": 810,
+      "file": "lighthouse-home-post-cookie-defer-mobile.json",
+      "commit": "5bb02e2",
+      "profile": "LH CLI mobile emulation + simulate throttle",
+      "performance": 70,
+      "lcpMs": 4000,
+      "fcpMs": 1800,
+      "tbtMs": 620,
       "cls": 0,
       "accessibility": 100,
       "bestPractices": 100,
       "seo": 100,
+      "lcpElement": "h1 home hero (Project management)",
       "consoleErrors": 0
     }
   },
-  "priorCliRuns": {
-    "mobilePreDeploy": { "file": "lighthouse-home-psi-mobile-2026-06-22.json", "performance": 54, "lcpMs": 4561, "bp": 96 },
-    "mobileE001a35PreDeploy": { "file": "lighthouse-home-post-e001a35-mobile.json", "performance": 58, "lcpMs": 4236, "bp": 96, "consoleErrors": 2 }
+  "latestLighthouseCli": {
+    "mobile": {
+      "file": "lighthouse-home-a63de43-mobile.json",
+      "commit": "a63de43",
+      "performance": 68,
+      "lcpMs": 4400,
+      "fcpMs": 2000,
+      "tbtMs": 590,
+      "accessibility": 96,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcpElement": "h1 home hero span",
+      "a11yRegression": "aria-hidden-focus on SupportChatWidget closed panel",
+      "consoleErrors": 0
+    }
   },
   "targets": {
     "mobilePerf": 85,
@@ -35,10 +48,10 @@
     "agentic": "3/3"
   },
   "matrix": [
-    { "metric": "Mobile Perf ≥85", "baseline": 70, "postFix": 52, "met": false, "note": "CLI lab variance (52–58 across runs). LCP element is server h1; TBT ~810ms post-deploy." },
-    { "metric": "Mobile LCP <2.5s", "baseline": 7300, "postFix": "4236–6348", "met": false, "note": "Improved vs 7.3s baseline; CLI runs vary. Re-run PSI for field/lab comparison." },
-    { "metric": "A11y 100", "baseline": 95, "postFix": 100, "met": true },
-    { "metric": "BP 100", "baseline": 96, "postFix": 100, "met": true, "note": "Zero console errors after /api/region-hint (e001a35)." },
+    { "metric": "Mobile Perf ≥85", "baseline": 70, "postFix": "68–70", "met": false, "note": "Cookie consent defer raised Perf to 70; CLI variance 68–70." },
+    { "metric": "Mobile LCP <2.5s", "baseline": 7300, "postFix": "4000–4400", "met": false, "note": "Improved from 7.3s baseline; cookie banner was LCP before 5bb02e2." },
+    { "metric": "A11y 100", "baseline": 95, "postFix": "96–100", "met": "partial", "note": "SupportChatWidget aria-hidden-focus fix in next commit." },
+    { "metric": "BP 100", "baseline": 96, "postFix": 100, "met": true },
     { "metric": "Agentic 3/3", "baseline": "2/3", "postFix": "pending PSI", "met": "partial", "note": "llms.txt markdown links shipped." },
     { "metric": "No pravatar/picsum in HTML", "baseline": false, "postFix": true, "met": true },
     { "metric": "Server h1 in initial HTML", "baseline": false, "postFix": true, "met": true },

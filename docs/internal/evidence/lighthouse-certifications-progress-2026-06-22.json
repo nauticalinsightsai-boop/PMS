@@ -61,6 +61,19 @@
         "lcpElement": "client subtitle p (4s defer; still LCP at 4.6s)",
         "elementRenderDelayMs": 829,
         "note": "Replaced with server line-clamp-2 subtitle in follow-up"
+      },
+      "postA63de43Cli": {
+        "file": "lighthouse-cert-pmp-a63de43-mobile.json",
+        "commit": "a63de43",
+        "performance": 64,
+        "accessibility": 96,
+        "bestPractices": 100,
+        "seo": 100,
+        "lcpMs": 5900,
+        "tbtMs": 520,
+        "lcpElement": "h1#cert-detail-hero-title-pmp",
+        "elementRenderDelayMs": 1550,
+        "consoleOk": true
       }
     }
   },

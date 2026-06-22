@@ -18,10 +18,11 @@ Plan: `pmstructure_lighthouse_fixes_4423e20f`. Commits: `8f15584` → `43f3dd3`.
 
 | Target | Status |
 |--------|--------|
-| Mobile Perf ≥85 | CLI 52–58 → **70** post cookie defer (`5bb02e2`); still below target |
-| Mobile LCP &lt;2.5s | ~4.0s CLI post cookie defer (was 7.3s baseline, 5.2s pre-fix) |
+| Mobile Perf ≥85 | CLI **68–70** post cookie defer (`5bb02e2`); still below target |
+| Mobile LCP &lt;2.5s | **4.0–4.4s** CLI post cookie defer (was 7.3s baseline) |
 | Agentic 3/3 | llms.txt fixed; manual PSI |
 | Cloudflare headers | p6-04 deferred |
+| A11y 96 regression | SupportChatWidget `aria-hidden` + focusable children; fixed in next commit |
 
 ## Evidence index
 
@@ -40,5 +41,5 @@ Certifications hub + all `/certifications/[id]` detail pages: server hero shippe
 | Finding | Action |
 |---------|--------|
 | Home LCP element = `cookie-consent-desc` | Defer banner 4.5s + `ssr:false` dynamic import |
-| PMP LCP element = hero subtitle `<p>` | Subtitle moved to client; h1-only server hero |
-| Mobile Perf ≥85 / LCP &lt;2.5s | Still open; cookie fix expected to help home most |
+| PMP LCP element = hero subtitle `<p>` | Server `line-clamp-2` subtitle; h1 wins LCP on a63de43 (5.9s) |
+| Support chat A11y 96 | Closed panel had `aria-hidden` + focusable controls; unmount when closed |

@@ -113,19 +113,16 @@ export function SupportChatWidget() {
         scrollFabVisible ? FLOATING_CORNER_STACKED_CLASS : FLOATING_CORNER_BOTTOM_CLASS,
       )}
     >
-      <div
-        className={cn(
-          CHAT_PANEL_CLASS,
-          'flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900',
-          'origin-bottom-right transition-all duration-200',
-          open
-            ? 'pointer-events-auto scale-100 opacity-100'
-            : 'pointer-events-none scale-95 opacity-0 h-0 overflow-hidden border-0 shadow-none',
-        )}
-        role="dialog"
-        aria-label="PM Structure support chat"
-        aria-hidden={!open}
-      >
+      {open ? (
+        <div
+          className={cn(
+            CHAT_PANEL_CLASS,
+            'pointer-events-auto flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900',
+            'origin-bottom-right scale-100 opacity-100 transition-all duration-200',
+          )}
+          role="dialog"
+          aria-label="PM Structure support chat"
+        >
         <div className="flex items-center justify-between border-b border-slate-200 bg-brand-orange px-4 py-3 text-white dark:border-slate-700">
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
@@ -225,7 +222,8 @@ export function SupportChatWidget() {
             <Send className="h-4 w-4" aria-hidden />
           </button>
         </div>
-      </div>
+        </div>
+      ) : null}
 
       {!open ? (
         <button
