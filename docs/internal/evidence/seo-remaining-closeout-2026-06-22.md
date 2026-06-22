@@ -47,16 +47,37 @@ Evidence: [`forms-smoke-live-2026-06-22.json`](./forms-smoke-live-2026-06-22.jso
 |---------------|-----|--------|----------------|
 | 2026-07-09 | Updated PMP exam live banner | **Done** | `PmpExam2026LiveBanner` on `/certifications/pmp`, `/pmp-exam-2026` cluster, `/topics/pmp-exam-2026` |
 | 2026-07-14 | PMP metadata + schema | **Done** | Distinct phase-2 titles for `/topics/pmp-exam-2026` vs `/pmp-exam-2026` |
+| 2026-07-16 | PMP for engineers | **Done** | `#pmp-engineer-faq` on PMP cluster |
+| 2026-08-06 | Study plan after 2026 change | **Done** | `/pmp-study-plan-2026` |
+| 2026-08-07 | Mock tracking framework | **Done** | `#pmp-mock-tracking-cta` + `/pmp-mock-exam` |
 | 2026-08-14 | Learner story | **Done (placeholder)** | `PORTAL_SOCIAL_PROOF_PENDING_MESSAGE` — no fake testimonials (OA-011) |
+| 2026-08-27/28 | PMP vs PRINCE2 / PMI-RMP | **Done** | `/certifications/compare` |
 | 2026-09-01 | Waitlist CTAs secondary pathways | **Done** | Compare page secondary waitlist block |
+| 2026-09-03 | PMP landing objections | **Done** | `#pmp-considerations` on `/certifications/pmp` |
+| 2026-09-04 | Objection-handling FAQ | **Done** | Consideration FAQs + `FAQPage` in `CertJsonLd` on `/certifications/pmp` |
 | 2026-09-09 | Funnel cleanup | **Done** | Banner + compare#secondary-waitlist + cert hub link |
 | 2026-07-21 | Engineer FAQ | **Done** | `#pmp-engineer-faq` (`Pmp2026ScheduleSections`) |
 | 2026-08-11 | Mock-tracking CTA | **Done** | `#pmp-mock-tracking-cta` + diagnostic GA4 event |
 | 2026-08-18 | Trust FAQ | **Done** | `#pmp-trust-faq` section |
-| 2026-09-03 | PMP landing objections | **Done** | `#pmp-considerations` on `/certifications/pmp` |
-| 2026-09-12 | Site update post-review | **Blocked** | Sheikh 90-day decision |
+| 2026-09-12 | Site update post-review | **Blocked** | Template: `evidence/SEP12_90DAY_DECISION_TEMPLATE.md` |
 
 Regional rows (OA-008): remain **Blocked** / cancelled in plan.
+
+## Re-verification (2026-06-22 session 2)
+
+| Script | Result |
+|--------|--------|
+| `npm run seo:release-verify` | **PASS** |
+| `npm run seo:smoke-live` | **PASS** 10/10 |
+| `npm run audit:weekly-seo-health` | **PASS** |
+| `npm run seo:audit-crawl-indexation` | **PASS** |
+| `npm run seo:audit-redirects` | **PASS** |
+| `npm run seo:audit-on-page-seo` | **PASS** (4 non-blocking title warnings) |
+| `npm run seo:audit-analytics` | **PASS** |
+| `npm run seo:forms-smoke-live` | **PASS** 3/3 HTTP 201 |
+| `npm run seo:owner-prereq-check` | **PASS** 14/14 URLs |
+
+Marketing drafts for Planned social/email rows: [`marketing-drafts/90-day-social-email-copy.md`](../marketing-drafts/90-day-social-email-copy.md)
 
 ## Owner handoff (human-only)
 
@@ -70,9 +91,17 @@ Follow [`GSC_GA4_OWNER_ACTIONS.md`](./GSC_GA4_OWNER_ACTIONS.md). Attach screensh
 - **OA-011:** Testimonials remain withheld until written permission
 - **OA-008:** Regional/GCC routes deferred (unblocks 5 schedule rows)
 
-### Marketing schedule (74 Planned rows)
+### Marketing schedule (Planned social/email)
 
-LinkedIn, X, email, internal ops — **owner content**, not dev. Copy for blocked Phase B FAQ/CTA rows should be added to `pmstructure-90-day-marketing-schedule.csv` before dev can ship.
+Ready-to-publish copy: [`marketing-drafts/90-day-social-email-copy.md`](../marketing-drafts/90-day-social-email-copy.md).  
+Publish on schedule dates via LinkedIn, X, and newsletter tooling.
+
+**Website copy still Planned (Mahaa):** Jul 17 construction article, Jul 31 credibility article, Aug 20 corporate landing.  
+**Sep 12 site update:** blocked — use [`SEP12_90DAY_DECISION_TEMPLATE.md`](./SEP12_90DAY_DECISION_TEMPLATE.md) after 2026-09-11 review.
+
+### Owner prereq automation
+
+Run `npm run seo:owner-prereq-check` before GSC/GA4 login (14/14 public URLs verified 2026-06-22).
 
 ## Mahaa audit Excel — Phase 1 Foundation mirror
 

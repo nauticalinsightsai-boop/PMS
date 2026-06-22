@@ -27,6 +27,19 @@ https://pmstructure.com
 - /legal/privacy (canonical; `/privacy` redirects here via 308)
 - /legal/terms (canonical; `/terms` redirects here via 308)
 
+## Dev closeout status (2026-06-22)
+
+**Agent scope complete.** All Phase A/B verification passes on production. Uncommitted session-2 changes:
+
+- `CertJsonLd` — PMP page FAQPage schema for `#pmp-considerations`
+- `npm run seo:owner-prereq-check` — 14/14 public URL prereqs
+- Marketing drafts: `docs/internal/marketing-drafts/90-day-social-email-copy.md`
+- Schedule CSV: social/email rows → **Copy ready**
+
+**Owner-only (cannot close in repo):** GSC/GA4 screenshots (OA-002/OA-003), SF crawl export (OA-001), Sheikh legal (OA-007), Sep 12 site update (post 2026-09-11 decision).
+
+Handoff: [`evidence/OWNER_CLOSEOUT_CHECKLIST-2026-06-22.md`](./evidence/OWNER_CLOSEOUT_CHECKLIST-2026-06-22.md)
+
 ## Related registers (B15)
 
 | Register | File |

@@ -29,18 +29,17 @@ Dev/agent closeout for the SEO Remaining Implementation Plan is complete. These 
 ## Env (OA-012 full)
 
 - [x] Form submissions persist to Supabase (verified 2026-06-22 after deploy `819fae3`)
+- [x] Public URL prereqs for GSC/GA4: `npm run seo:owner-prereq-check` (14/14 pass 2026-06-22)
 - [ ] Optional: Google Sheets env on Railway for mirror append (`INTERACTIONS_SETUP.md`)
 
-## Marketing schedule (74 Planned + 5 Blocked)
+## Marketing schedule
 
-All `mkt-*` rows in the plan are **LinkedIn, X, email, internal, outreach** — publish using copy in `pmstructure-90-day-marketing-schedule.csv`.
+- [x] **Dev Website rows** — Done in repo (see `seo-remaining-closeout-2026-06-22.md`)
+- [x] **Social/email copy drafts** — [`marketing-drafts/90-day-social-email-copy.md`](../marketing-drafts/90-day-social-email-copy.md)
+- [ ] **Publish** LinkedIn/X/email on schedule dates (Sheikh/Mahaa)
+- [ ] **Mahaa Website copy** still needed: Jul 17, Jul 31, Aug 20 corporate landing
+- [ ] **Sep 12** site update — blocked until Sheikh 2026-09-11 decision ([`SEP12_90DAY_DECISION_TEMPLATE.md`](./SEP12_90DAY_DECISION_TEMPLATE.md))
 
 Blocked regional Website rows (Jul 23–Aug 4) remain blocked until **OA-008** approval.
-
-## Phase B — dev shipped (closeout 2026-06-22)
-
-Website **dev** rows are Done in repo. Only **Sep 12** remains blocked (Sheikh 90-day review).
-
-**Mahaa content still Planned** (articles/landings, not dev): Jul 16–17, Jul 31, Aug 6–7, Aug 20, Aug 27–28, Sep 4 — see `pmstructure-90-day-marketing-schedule.csv`.
 
 Reference: [`seo-remaining-closeout-2026-06-22.md`](./seo-remaining-closeout-2026-06-22.md)

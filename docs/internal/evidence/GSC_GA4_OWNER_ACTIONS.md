@@ -4,7 +4,7 @@
 **Owner:** Mahaa (Marketing) / Sheikh (legal sign-off)  
 **Time:** ~30–45 minutes with GSC + GA4 access
 
-Public prerequisites re-verified **2026-06-22**: `seo:smoke-live` 10/10, forms 3/3. Attach screenshots to the paths below, then update [pmstructure-result-scan-links.csv](../pmstructure-result-scan-links.csv) and [pmstructure-final-owner-action-list.csv](../pmstructure-final-owner-action-list.csv).
+Public prerequisites re-verified **2026-06-22**: `seo:smoke-live` 10/10, forms 3/3, `seo:owner-prereq-check` 14/14. Attach screenshots to the paths below, then update [pmstructure-result-scan-links.csv](../pmstructure-result-scan-links.csv) and [pmstructure-final-owner-action-list.csv](../pmstructure-final-owner-action-list.csv).
 
 ## Quick links
 

@@ -113,6 +113,7 @@
     "seo:smoke-urls": "node scripts/seo/smoke-urls.mjs",
     "seo:smoke-live": "node scripts/seo/smoke-live.mjs",
     "seo:forms-smoke-live": "node scripts/seo/forms-smoke-live.mjs",
+    "seo:owner-prereq-check": "node scripts/seo/owner-prereq-check.mjs",
     "seo:psi-batch-capture": "node scripts/seo/psi-batch-capture.mjs",
     "seo:audit-indexability": "node scripts/audit-indexability.mjs",
     "seo:audit-insecure-content": "node scripts/audit-insecure-content.mjs",
