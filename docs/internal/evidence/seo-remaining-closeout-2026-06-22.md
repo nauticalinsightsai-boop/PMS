@@ -32,11 +32,13 @@ Evidence: [`forms-smoke-live-2026-06-22.json`](./forms-smoke-live-2026-06-22.jso
 
 | Form | HTTP | Result |
 |------|------|--------|
-| PMP roadmap | 503 | `Could not store submission` — Supabase/API storage on production |
-| Waitlist | 503 | Same |
-| Newsletter | 503 | Same |
+| PMP roadmap | 201 | Stored (`971d9240-…`) after deploy `819fae3` |
+| Waitlist | 201 | Stored (`31f9f2de-…`) |
+| Newsletter | 201 | Stored (`bed08333-…`) |
 
-**Owner action:** Verify Supabase + interactions env on Railway; re-run `node scripts/seo/forms-smoke-live.mjs` after fix. Google Sheet sync cannot be verified until storage succeeds.
+**Fix:** Removed explicit `sheets_sync_attempts` insert for DBs without migration columns; restored missing PMP prerender imports (`PmpExam2026LiveBanner`, `FaqAnswer`). Railway deploy `819fae3` **SUCCESS** 2026-06-22.
+
+**Note:** Google Sheets sync not configured on production (`sheetsSyncPending=false`). Owner can add Sheets env per `docs/interactions/INTERACTIONS_SETUP.md` for mirror append.
 
 ## Phase B — Website dev rows shipped
 

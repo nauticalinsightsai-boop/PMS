@@ -26,8 +26,8 @@ Dev/agent closeout for the SEO Remaining Implementation Plan is complete. These 
 
 ## Env (OA-012 full)
 
-- [ ] Provide Google Sheets / interactions env on Railway so form submissions persist and sync
-- [ ] Re-run: `node scripts/seo/forms-smoke-live.mjs` (currently HTTP 503 storage)
+- [x] Form submissions persist to Supabase (verified 2026-06-22 after deploy `819fae3`)
+- [ ] Optional: Google Sheets env on Railway for mirror append (`INTERACTIONS_SETUP.md`)
 
 ## Marketing schedule (74 Planned + 5 Blocked)
 
