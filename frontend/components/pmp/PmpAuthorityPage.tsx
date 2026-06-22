@@ -16,6 +16,7 @@ import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { FaqAnswer } from '@/components/faq/FaqAccordionList';
 import { PmpPackageTierPositioning } from '@/components/pmp/PmpPackageTierPositioning';
 import { ComparePathwaysCtaLink, PmpRoadmapCtaLink } from '@/components/pmp/PmpRoadmapCtaLink';
+import { PmpExam2026LiveBanner } from '@/components/pmp/PmpExam2026LiveBanner';
 import { CTAS } from '@/lib/brand-voice';
 import { cn } from '@/lib/utils';
 import { CheckCircle2, XCircle } from 'lucide-react';
@@ -115,6 +116,7 @@ export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
     <>
       {viewEvent ? <ConversionViewTracker event={viewEvent} /> : null}
       <PmpPageJsonLd page={page} />
+      {page.slug === 'pmp-exam-2026' || page.slug.includes('2026') ? <PmpExam2026LiveBanner /> : null}
       <section className={cn(sectionSurface('purple', 'py-16 sm:py-20'))}>
         <SectionAmbience tone="purple" />
         <div className="container max-w-3xl mx-auto px-4 relative z-10">

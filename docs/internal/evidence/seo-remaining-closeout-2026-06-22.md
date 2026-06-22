@@ -1,0 +1,93 @@
+# SEO Remaining Closeout — Evidence (2026-06-22)
+
+Agent session implementing `seo_remaining_closeout_c8c86d99` plan. Production base: `https://pmstructure.com`.
+
+## Phase A — Automated verification
+
+| Script | Result | Notes |
+|--------|--------|-------|
+| `npm run seo:release-verify` | **PASS** | Build + seo:all + postbuild 2026-06-22 |
+| `npm run seo:smoke-live` | **PASS** | 10/10 URLs — report `docs/reports/SMOKE_LIVE_2026-06-22.md` |
+| `npm run audit:weekly-seo-health` | **PASS** | Sitemap `<loc>` hygiene fix; www Circle community documented as known exception |
+| `npm run seo:audit-crawl-indexation` | **PASS** | Priority indexable URLs OK |
+| `npm run seo:audit-redirects` | **PARTIAL** | Legacy paths OK; `www.pmstructure.com` serves Circle (302) by design |
+| `npm run seo:audit-on-page-seo` | **PASS** | Duplicate PMP 2026 titles fixed; architecture-check updated |
+| `npm run seo:audit-analytics` | **PASS** | Repo guards OK; live GA4 needs owner (OA-003) |
+
+### Hub QA (CRAWL-T137 / T138)
+
+| URL | HTTP | Scripts | Notes |
+|-----|------|---------|-------|
+| `/answers` | 200 | h1/metadata/internal-links OK | 36 answer pages indexed; not thin |
+| `/topics` | 200 | topics-check OK | Links to `/topics/pmp-exam-2026` |
+
+### OA-009 — Lighthouse / PSI
+
+- Batch capture: `node scripts/seo/psi-batch-capture.mjs` → `docs/internal/evidence/psi-batch-summary-2026-06-22.json`
+- Prior evidence retained: `lighthouse-home-final-mobile-2026-06-22.json`, `psi-agentic-3of3-2026-06-22.png`, cert hub mobile JSONs
+
+### OA-012 — Forms smoke
+
+Evidence: [`forms-smoke-live-2026-06-22.json`](./forms-smoke-live-2026-06-22.json)
+
+| Form | HTTP | Result |
+|------|------|--------|
+| PMP roadmap | 503 | `Could not store submission` — Supabase/API storage on production |
+| Waitlist | 503 | Same |
+| Newsletter | 503 | Same |
+
+**Owner action:** Verify Supabase + interactions env on Railway; re-run `node scripts/seo/forms-smoke-live.mjs` after fix. Google Sheet sync cannot be verified until storage succeeds.
+
+## Phase B — Website dev rows shipped
+
+| Schedule date | Row | Status | Implementation |
+|---------------|-----|--------|----------------|
+| 2026-07-09 | Updated PMP exam live banner | **Done** | `PmpExam2026LiveBanner` on `/certifications/pmp`, `/pmp-exam-2026` cluster, `/topics/pmp-exam-2026` |
+| 2026-07-14 | PMP metadata + schema | **Done** | Distinct phase-2 titles for `/topics/pmp-exam-2026` vs `/pmp-exam-2026` |
+| 2026-08-14 | Learner story | **Done (placeholder)** | `PORTAL_SOCIAL_PROOF_PENDING_MESSAGE` — no fake testimonials (OA-011) |
+| 2026-09-01 | Waitlist CTAs secondary pathways | **Done** | Compare page secondary waitlist block |
+| 2026-09-09 | Funnel cleanup | **Partial** | Banner + compare waitlist + metadata alignment |
+| 2026-07-21 | Engineer FAQ | **Blocked** | Mahaa FAQ copy not in repo |
+| 2026-08-11 | Mock-tracking CTA | **Blocked** | Mahaa copy |
+| 2026-08-18 | Trust FAQ | **Blocked** | Mahaa copy |
+| 2026-09-03 | PMP landing objections | **Blocked** | Objection data from leads |
+| 2026-09-12 | Site update post-review | **Blocked** | Sheikh 90-day decision |
+
+Regional rows (OA-008): remain **Blocked** / cancelled in plan.
+
+## Owner handoff (human-only)
+
+### Mahaa — OA-001, OA-002, OA-003, OA-010, weekly dashboard
+
+Follow [`GSC_GA4_OWNER_ACTIONS.md`](./GSC_GA4_OWNER_ACTIONS.md). Attach screenshots to `pmstructure-result-scan-links.csv` SCAN-004 (GA4) and SCAN-005 (GSC).
+
+### Sheikh — OA-007, OA-011, OA-008
+
+- **OA-007:** Legal sign-off in `pmstructure-qa-signoff-register.csv`
+- **OA-011:** Testimonials remain withheld until written permission
+- **OA-008:** Regional/GCC routes deferred (unblocks 5 schedule rows)
+
+### Marketing schedule (74 Planned rows)
+
+LinkedIn, X, email, internal ops — **owner content**, not dev. Copy for blocked Phase B FAQ/CTA rows should be added to `pmstructure-90-day-marketing-schedule.csv` before dev can ship.
+
+## Mahaa audit Excel — Phase 1 Foundation mirror
+
+Use these statuses when updating the external Excel (no `.xlsx` in repo):
+
+| Category | Status | Date |
+|----------|--------|------|
+| Dev verification scripts | **Verified live** | 2026-06-22 |
+| GSC resubmit + URL inspection | **Pending owner** | — |
+| GA4 DebugView events | **Pending owner** | — |
+| Full Screaming Frog export | **Pending owner** | OA-001 partial substitute attached |
+| GBP / regional routes / Cloudflare CSP | **Deferred** | — |
+
+## Success criteria snapshot
+
+- [x] `seo:release-verify` + `seo:smoke-live` pass
+- [x] `/answers` + `/topics` crawl registers updated (no longer Pending crawl)
+- [x] Fresh PSI batch for priority URLs (see summary JSON)
+- [x] Dev Website schedule rows marked Done where implemented
+- [ ] GSC/GA4 owner screenshots (Mahaa)
+- [ ] Forms storage 503 resolved (owner env)

@@ -21,8 +21,19 @@ import { PageHeroWithImage } from '@/components/marketing/PageMarketingImage';
 import { MARKETING_PAGE_IMAGES } from '@/lib/marketing-stock-images';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
+import { cn } from '@/lib/utils';
 
 const COMPARE_RELATED = getPhase2RelatedBlock('/certifications/compare');
+
+const SECONDARY_WAITLIST_PATHWAYS = [
+  { certId: 'prince2-practitioner', label: 'PRINCE2 Practitioner' },
+  { certId: 'pmi-rmp', label: 'PMI-RMP' },
+  { certId: 'lss-yellow', label: 'Lean Six Sigma Yellow Belt' },
+] as const;
+
+function waitlistContactHref(certId: string): string {
+  return `/contact?topic=waitlist&offering=${encodeURIComponent(certId)}`;
+}
 
 export function Compare({ globalContent }: { globalContent?: GlobalContentMap }) {
   const router = useRouter();
@@ -190,6 +201,31 @@ export function Compare({ globalContent }: { globalContent?: GlobalContentMap })
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={cn(sectionSurface('blend', 'py-14 sm:py-16'))}>
+        <SectionAmbience tone="blend" />
+        <div className="container relative z-10 mx-auto max-w-3xl px-4 text-center">
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-3">
+            Secondary pathways: join the waitlist
+          </h2>
+          <p className="text-base text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+            PMP 2026 is our flagship offer. If you are comparing other certifications, join the
+            waitlist and we will notify you when enrollment opens.
+          </p>
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch justify-center gap-3">
+            {SECONDARY_WAITLIST_PATHWAYS.map((pathway) => (
+              <Button
+                key={pathway.certId}
+                asChild
+                variant="outline"
+                className="h-12 rounded-2xl border-brand-purple/30 px-6 font-bold"
+              >
+                <Link href={waitlistContactHref(pathway.certId)}>{pathway.label} waitlist</Link>
+              </Button>
+            ))}
           </div>
         </div>
       </section>

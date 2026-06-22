@@ -143,7 +143,7 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     secondaryKeywords: ['PMP 2026 changes', 'updated PMP domains', 'PMP 2026 preparation'],
     searchIntent: 'Informational / hub',
     funnelStage: 'Awareness + consideration',
-    title: 'PMP Exam 2026 Guide | PM Structure',
+    title: 'PMP Exam 2026 Topic Hub | Timeline & Preparation | PM Structure',
     description:
       'Explore PMP exam 2026 updates, readiness guidance, answer pages, and practical next steps for planning your PMP pathway.',
     h1: 'PMP Exam 2026 Guide',
@@ -162,7 +162,7 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     ],
     searchIntent: 'Informational / deep guide',
     funnelStage: 'Consideration',
-    title: 'PMP Exam 2026 Guide | PM Structure',
+    title: 'PMP Exam 2026 Deep Guide | Readiness & Domains | PM Structure',
     description:
       'Deep PMP exam 2026 readiness guide: current vs updated exam routes, domain weights, eligibility, study steps, and independent preparation support from PM Structure.',
     h1: 'PMP Exam 2026: deep readiness guide',

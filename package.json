@@ -112,6 +112,8 @@
     "seo:release-verify": "npm run build -w @pms/frontend && npm run seo:all && npm run seo:postbuild",
     "seo:smoke-urls": "node scripts/seo/smoke-urls.mjs",
     "seo:smoke-live": "node scripts/seo/smoke-live.mjs",
+    "seo:forms-smoke-live": "node scripts/seo/forms-smoke-live.mjs",
+    "seo:psi-batch-capture": "node scripts/seo/psi-batch-capture.mjs",
     "seo:audit-indexability": "node scripts/audit-indexability.mjs",
     "seo:audit-insecure-content": "node scripts/audit-insecure-content.mjs",
     "seo:audit-redirects": "node scripts/audit-redirects.mjs",

@@ -27,6 +27,14 @@ export const T169_CTAS = {
   mentor: 'Talk to a Mentor',
 } as const;
 
+/** Post–9 July 2026 transition banner (Jul 9 schedule row). Verify dates on PMI.org. */
+export const PMP_EXAM_2026_LIVE_BANNER = {
+  message:
+    'The updated PMP exam is now live (from 9 July 2026). Confirm scheduling dates, eligibility, and the current exam content outline on PMI.org before you book.',
+  ctaLabel: 'Get My PMP Roadmap',
+  ctaHref: '/certifications/pmp#cert-roadmap-form',
+} as const;
+
 export const T169_HERO = {
   eyebrow: 'PMP 2026 Readiness Pathway',
   h1: 'Prepare for the PMP exam change with a clear route, not random study noise.',

@@ -43,6 +43,7 @@ import {
   CERT_ROADMAP_FORM_ANCHOR,
   getCertProgramOffer,
 } from '@/lib/cert-program-offer';
+import { PmpExam2026LiveBanner } from '@/components/pmp/PmpExam2026LiveBanner';
 import { EnrollReturnRecovery } from '@/components/conversion-recovery/EnrollReturnRecovery';
 import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnrollTrackedLink';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
@@ -152,6 +153,7 @@ export function CertificationDetail({
       )}
     >
       <EnrollReturnRecovery siteCertId={cert.id} certName={certName} />
+      {cert.id === 'pmp' ? <PmpExam2026LiveBanner /> : null}
       {cert.id === 'pmp' ? (
         <ConversionViewTracker
           event={CONVERSION_EVENTS.VIEW_PMP_PATHWAY}

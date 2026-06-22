@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { PMP_INDEPENDENT_DISCLAIMER } from '@/content/pmp/disclaimer';
+import { PmpExam2026LiveBanner } from '@/components/pmp/PmpExam2026LiveBanner';
 import { Pmp2026ComplianceNote } from '@/components/pmp/Pmp2026ComplianceNote';
 import type { TopicHubContent } from '@/content/topics/types';
 import { getTopicFaqsForHub } from '@/content/topics';
@@ -30,6 +31,7 @@ export function TopicHubPage({ hub }: { hub: TopicHubContent }) {
     <>
       <ConversionViewTracker event={CONVERSION_EVENTS.VIEW_TOPIC_HUB} slug={hub.slug} />
       <TopicHubJsonLd hub={hub} relatedFaqs={relatedFaqs} />
+      {hub.slug === 'pmp-exam-2026' ? <PmpExam2026LiveBanner /> : null}
       <section className={cn(sectionSurface('purple', 'py-16 sm:py-20'))}>
         <SectionAmbience tone="purple" />
         <div className="container max-w-3xl mx-auto px-4 relative z-10">

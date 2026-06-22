@@ -1,0 +1,28 @@
+{
+  "base": "https://pmstructure.com",
+  "testEmail": "seo-smoke+20260622@pmstructure.com",
+  "capturedAt": "2026-06-22T17:26:28.046Z",
+  "results": [
+    {
+      "form": "roadmap",
+      "ok": false,
+      "status": 503,
+      "detail": "{\"error\":\"Could not store submission.\"}",
+      "sheetsWarning": null
+    },
+    {
+      "form": "waitlist",
+      "ok": false,
+      "status": 503,
+      "detail": "{\"error\":\"Could not store submission.\"}",
+      "sheetsWarning": null
+    },
+    {
+      "form": "newsletter",
+      "ok": false,
+      "status": 503,
+      "detail": "{\"error\":\"Could not store submission.\"}",
+      "sheetsWarning": null
+    }
+  ]
+}
