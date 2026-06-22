@@ -112,12 +112,6 @@ export function CertificationDetail({
   const family = familyConfigs[cert.familyId] || familyConfigs["PMI"];
   const enrollmentOpen = certHasOpenEnrollment(cert.id, regionId);
 
-  const [showHeroSubtitle, setShowHeroSubtitle] = React.useState(false);
-  React.useEffect(() => {
-    const id = window.setTimeout(() => setShowHeroSubtitle(true), 4000);
-    return () => window.clearTimeout(id);
-  }, []);
-
   const foundationOffering = React.useMemo(
     () => getOfferingsForSiteCert(cert.id).find((o) => o.tierId === 'foundation'),
     [cert.id],
@@ -228,17 +222,6 @@ export function CertificationDetail({
               </div>
 
               {children}
-
-              {showHeroSubtitle ? (
-                <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-xl leading-relaxed font-medium">
-                  {cert.detailHeroSubtitle}
-                </p>
-              ) : (
-                <div
-                  className="mb-10 min-h-[5.5rem] max-w-xl"
-                  aria-hidden
-                />
-              )}
 
               {cert.id === 'pmp' ? (
                 <RelatedGuidesLinks

@@ -51,6 +51,16 @@
         "elementRenderDelayMs": 2599,
         "consoleOk": true,
         "note": "LCP still above 2.5s target; subtitle moved to client in follow-up commit"
+      },
+      "postSubtitleDeferCli": {
+        "file": "lighthouse-cert-pmp-post-subtitle-defer-mobile.json",
+        "commit": "6514b4b",
+        "performance": 53,
+        "lcpMs": 4600,
+        "tbtMs": 570,
+        "lcpElement": "client subtitle p (4s defer; still LCP at 4.6s)",
+        "elementRenderDelayMs": 829,
+        "note": "Replaced with server line-clamp-2 subtitle in follow-up"
       }
     }
   },

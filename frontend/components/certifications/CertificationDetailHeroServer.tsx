@@ -41,6 +41,9 @@ export function CertificationDetailHeroServer({
           </>
         )}
       </h1>
+      <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-xl leading-relaxed font-medium line-clamp-2 md:line-clamp-none">
+        {cert.detailHeroSubtitle}
+      </p>
     </>
   );
 }

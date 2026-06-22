@@ -18,8 +18,8 @@ Plan: `pmstructure_lighthouse_fixes_4423e20f`. Commits: `8f15584` → `43f3dd3`.
 
 | Target | Status |
 |--------|--------|
-| Mobile Perf ≥85 | CLI 52–58; p6 stretch |
-| Mobile LCP &lt;2.5s | ~4.2–6.3s CLI (improved vs 7.3s baseline) |
+| Mobile Perf ≥85 | CLI 52–58 → **70** post cookie defer (`5bb02e2`); still below target |
+| Mobile LCP &lt;2.5s | ~4.0s CLI post cookie defer (was 7.3s baseline, 5.2s pre-fix) |
 | Agentic 3/3 | llms.txt fixed; manual PSI |
 | Cloudflare headers | p6-04 deferred |
 
