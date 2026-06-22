@@ -18,7 +18,8 @@ describe('marketing performance — content preservation smoke', () => {
     expect(home).toContain('HomeTestimonialsSection');
     expect(home).toContain('sections?.testimonials');
     expect(home).toContain('LazyWhenVisible');
-    expect(home).toContain('PmpRoadmapLeadFormHero');
+    expect(home).toContain('PmpRoadmapLeadForm');
+    expect(home).toContain('heroFormPlacement');
     expect(home).toContain('useIsLgUp');
     expect(home).not.toContain('useWebsiteData');
   });

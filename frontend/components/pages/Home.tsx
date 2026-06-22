@@ -40,12 +40,8 @@ import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { T169_SUPPORT_COPY } from '@/content/pmp/flagship-t169';
 import { COMPARE_PATHWAYS_HREF, PMP_ROADMAP_CTA_HREF } from '@/lib/pmp-roadmap-cta';
 import { getT169FeaturedCardOverrides } from '@/lib/t169-featured-cards';
-import {
-  JoinWaitlistDialog,
-  type JoinWaitlistContext,
-} from '@/components/forms/JoinWaitlistDialog';
+import type { JoinWaitlistContext } from '@/components/forms/JoinWaitlistDialog';
 import { buildGeneralWaitlistContext } from '@/lib/waitlist-contact-href';
-import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getPhase2Seo } from '@/content/seo/phase-2-page-seo';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
 import { COMMUNITY_PLATFORM_LABEL } from '@/config/community';
@@ -85,7 +81,7 @@ const ResponsiveSnapScroll = dynamic(
   { ssr: false, loading: () => null },
 );
 
-const PmpRoadmapLeadFormHero = dynamic(
+const PmpRoadmapLeadForm = dynamic(
   () =>
     import('@/components/forms/PmpRoadmapLeadForm').then((mod) => ({
       default: mod.PmpRoadmapLeadForm,
@@ -100,19 +96,20 @@ const PmpRoadmapLeadFormHero = dynamic(
   },
 );
 
-const PmpRoadmapLeadFormInsights = dynamic(
+const RelatedGuidesLinks = dynamic(
   () =>
-    import('@/components/forms/PmpRoadmapLeadForm').then((mod) => ({
-      default: mod.PmpRoadmapLeadForm,
+    import('@/components/seo/RelatedGuidesLinks').then((mod) => ({
+      default: mod.RelatedGuidesLinks,
     })),
-  {
-    loading: () => (
-      <div
-        className="min-h-[420px] w-full rounded-2xl border border-slate-200/80 bg-white/60 dark:border-slate-800 dark:bg-slate-900/40 animate-pulse"
-        aria-hidden
-      />
-    ),
-  },
+  { loading: () => null },
+);
+
+const JoinWaitlistDialog = dynamic(
+  () =>
+    import('@/components/forms/JoinWaitlistDialog').then((mod) => ({
+      default: mod.JoinWaitlistDialog,
+    })),
+  { ssr: false, loading: () => null },
 );
 
 const SECTION_PY = 'py-16 sm:py-20 md:py-24 lg:py-32';
@@ -386,7 +383,7 @@ export function Home({
 
             <div id={PMP_ROADMAP_FORM_ANCHOR} className="relative z-10 scroll-mt-24 w-full min-w-0">
               <div className="relative z-30 isolate w-full min-w-0">
-                <PmpRoadmapLeadFormHero placement={heroFormPlacement} variant="hero" />
+                <PmpRoadmapLeadForm placement={heroFormPlacement} variant="hero" />
               </div>
             </div>
           </div>
@@ -600,7 +597,7 @@ export function Home({
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
             >
-              <PmpRoadmapLeadFormInsights placement="home_insights" variant="hero" />
+              <PmpRoadmapLeadForm placement="home_insights" variant="hero" />
             </m.div>
             </div>
             </LazyWhenVisible>
@@ -1021,11 +1018,13 @@ export function Home({
       </section>
       )}
     </div>
-    <JoinWaitlistDialog
-      open={waitlistOpen}
-      onOpenChange={setWaitlistOpen}
-      context={waitlistContext}
-    />
+    {waitlistOpen ? (
+      <JoinWaitlistDialog
+        open={waitlistOpen}
+        onOpenChange={setWaitlistOpen}
+        context={waitlistContext}
+      />
+    ) : null}
     </LazyMotion>
   );
 }

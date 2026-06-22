@@ -1,0 +1,55 @@
+{
+  "capturedAt": "2026-06-22T13:25:00.000Z",
+  "route": "/",
+  "base": "https://pmstructure.com",
+  "commits": ["8f15584", "578abbd", "641031e"],
+  "baselineJun16Psi": {
+    "mobile": { "perf": 70, "lcpMs": 7300, "a11y": 95, "bp": 96, "agentic": "2/3" },
+    "desktop": { "perf": 91, "lcpMs": 1600, "a11y": 95, "bp": 96, "agentic": "2/3" }
+  },
+  "postFixLighthouseCli": {
+    "mobile": {
+      "file": "lighthouse-home-psi-mobile-2026-06-22.json",
+      "profile": "LH CLI mobile emulation + simulate throttle",
+      "performance": 54,
+      "lcpMs": 4561,
+      "fcpMs": 1688,
+      "tbtMs": 1140,
+      "cls": 0.109,
+      "speedIndexMs": 4103,
+      "accessibility": 100,
+      "bestPractices": 96,
+      "seo": 100
+    },
+    "desktop": {
+      "file": "lighthouse-home-psi-desktop-2026-06-22.json",
+      "profile": "LH CLI desktop + simulate throttle",
+      "performance": 36,
+      "lcpMs": 4435,
+      "fcpMs": 1646,
+      "tbtMs": 1457,
+      "cls": 0,
+      "accessibility": 100,
+      "bestPractices": 96,
+      "seo": 100
+    }
+  },
+  "targets": {
+    "mobilePerf": 85,
+    "mobileLcpMs": 2500,
+    "a11y": 100,
+    "bp": 100,
+    "agentic": "3/3"
+  },
+  "matrix": [
+    { "metric": "Mobile Perf ≥85", "baseline": 70, "postFix": 54, "met": false, "note": "CLI mobile; PSI lab variance. Server h1 shipped; further JS/DOM work in p6 stretch." },
+    { "metric": "Mobile LCP <2.5s", "baseline": 7300, "postFix": 4561, "met": false, "note": "~37% improvement vs Jun 16 PSI baseline; still above target." },
+    { "metric": "A11y 100", "baseline": 95, "postFix": 100, "met": true },
+    { "metric": "BP 100", "baseline": 96, "postFix": 96, "met": false, "note": "Security headers deferred p6-04 (Cloudflare)." },
+    { "metric": "Agentic 3/3", "baseline": "2/3", "postFix": "pending PSI", "met": "partial", "note": "llms.txt markdown links shipped; re-run PSI Agentic Browsing." },
+    { "metric": "No pravatar/picsum in HTML", "baseline": false, "postFix": true, "met": true },
+    { "metric": "Server h1 in initial HTML", "baseline": false, "postFix": true, "met": true },
+    { "metric": "Realtime WS on public home", "baseline": true, "postFix": false, "met": true }
+  ],
+  "certificationsFollowUp": ".cursor/plans/certifications_lighthouse_followup.plan.md"
+}

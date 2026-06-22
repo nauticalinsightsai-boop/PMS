@@ -64,12 +64,21 @@ export async function fetchIpRegionHint(): Promise<RegionGeoHint | null> {
   if (cached) return cached;
 
   try {
-    const res = await fetch('https://ipapi.co/json/', {
+    const endpoint =
+      typeof window !== 'undefined' ? '/api/region-hint' : 'https://ipapi.co/json/';
+    const res = await fetch(endpoint, {
       signal: AbortSignal.timeout(4000),
     });
     if (!res.ok) return null;
-    const data = (await res.json()) as { country_code?: string };
-    const hint = regionFromCountryCode(data.country_code);
+    const data = (await res.json()) as
+      | { country_code?: string }
+      | { hint?: RegionGeoHint | null };
+    const hint =
+      'hint' in data && data.hint
+        ? data.hint
+        : regionFromCountryCode(
+            'country_code' in data ? data.country_code : undefined,
+          );
     writeCachedIpRegionHint(hint);
     return hint;
   } catch {
