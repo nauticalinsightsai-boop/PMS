@@ -1,0 +1,16 @@
+{
+  "capturedAt": "2026-06-22T14:03:00.000Z",
+  "route": "/certifications",
+  "commit": "8354f4a",
+  "note": "CLI run may precede Railway deploy; re-run after certifications-hero-title appears in HTML",
+  "baselineB15": { "performance": 51, "lcpMs": 6042 },
+  "lighthouseCliMobile": {
+    "file": "lighthouse-certifications-post-8354f4a-mobile.json",
+    "performance": 63,
+    "lcpMs": 5904,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "consoleErrors": 0
+  }
+}

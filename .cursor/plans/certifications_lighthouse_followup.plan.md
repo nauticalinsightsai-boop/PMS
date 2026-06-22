@@ -4,10 +4,10 @@ overview: "Follow-up from homepage Lighthouse plan (p7-09). Target /certificatio
 todos:
   - id: c0-01-baseline
     content: Record post-homepage-ship Lighthouse CLI for /certifications and /certifications/pmp
-    status: pending
+    status: completed
   - id: c1-01-hero-lcp
     content: Audit certifications hub hero LCP element (likely client-rendered heading)
-    status: pending
+    status: completed
   - id: c1-02-pmp-detail-lcp
     content: Audit /certifications/pmp LCP element and cert hero layout
     status: pending
