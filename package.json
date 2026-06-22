@@ -25,6 +25,8 @@
     "dev:backend": "npm run dev -w @pms/backend",
     "dev:dashboard": "concurrently -n dash,dash-api -c magenta,yellow \"npm run dev -w @pms/dashboard-frontend\" \"npm run dev -w @pms/dashboard-backend\"",
     "build": "npm run build -w @pms/frontend && npm run build -w @pms/backend && npm run build -w @pms/dashboard-frontend && npm run build -w @pms/dashboard-backend",
+    "build:site": "npm run build -w @pms/frontend",
+    "start": "npm run start -w @pms/frontend",
     "lint": "npm run lint -w @pms/frontend && npm run lint -w @pms/backend && npm run lint -w @pms/dashboard-frontend && npm run lint -w @pms/dashboard-backend",
     "import:regional": "node scripts/import-regional-matrix.mjs",
     "validate:regional": "node scripts/validate-regional-catalogue.mjs",

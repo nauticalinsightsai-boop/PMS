@@ -1,3 +1,4 @@
+import { ensureMonorepoEnv } from '@/lib/ensure-monorepo-env';
 import { buildSupportSystemPrompt } from '@/lib/support/guardrails';
 import { completeSupportChat, hasSupportLlmConfigured } from '@/lib/support/llm';
 import { retrieveSupportContext } from '@/lib/support/rag';
@@ -28,6 +29,8 @@ function parseMessages(raw: unknown): ChatMessage[] | null {
 }
 
 export async function POST(request: Request) {
+  ensureMonorepoEnv();
+
   const ip = getSupportChatClientIp(request);
   if (isSupportChatRateLimited(ip)) {
     return Response.json({ error: 'Too many requests. Please try again shortly.' }, { status: 429 });
