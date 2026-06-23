@@ -28,6 +28,13 @@ function parseMessages(raw: unknown): ChatMessage[] | null {
   return messages.slice(-12);
 }
 
+function sanitizeSupportReply(reply: string): string {
+  if (process.env.NODE_ENV !== 'production') return reply;
+  return reply
+    .replace(/https?:\/\/localhost(?::\d+)?/gi, 'https://pmstructure.com')
+    .replace(/https?:\/\/127\.0\.0\.1(?::\d+)?/gi, 'https://pmstructure.com');
+}
+
 export async function POST(request: Request) {
   ensureMonorepoEnv();
 
@@ -71,7 +78,7 @@ export async function POST(request: Request) {
   ];
 
   try {
-    const reply = await completeSupportChat(llmMessages);
+    const reply = sanitizeSupportReply(await completeSupportChat(llmMessages));
     return Response.json({ reply });
   } catch (err) {
     console.error('[support/chat]', err);

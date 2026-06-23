@@ -3,7 +3,33 @@
  * Mirrors frontend/config/pms-site.ts — keep env keys in sync with .env.example.
  */
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://pmstructure.com').replace(/\/$/, '');
+const PRODUCTION_SITE_URL = 'https://pmstructure.com';
+
+function isLocalDevHost(hostname) {
+  return (
+    hostname === 'localhost' ||
+    hostname.endsWith('.localhost') ||
+    hostname === '127.0.0.1' ||
+    hostname === '[::1]'
+  );
+}
+
+function resolveSiteUrl() {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, '');
+  const isProduction = process.env.NODE_ENV === 'production';
+  if (raw) {
+    try {
+      const host = new URL(raw).hostname;
+      if (isProduction && isLocalDevHost(host)) return PRODUCTION_SITE_URL;
+      return raw;
+    } catch {
+      /* fall through */
+    }
+  }
+  return isProduction ? PRODUCTION_SITE_URL : raw || PRODUCTION_SITE_URL;
+}
+
+const SITE_URL = resolveSiteUrl();
 
 export function buildSupportSiteContext() {
   const supportEmail =
