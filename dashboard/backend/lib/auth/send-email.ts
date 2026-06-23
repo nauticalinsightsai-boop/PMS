@@ -5,11 +5,27 @@ type SendParams = {
   html?: string;
 };
 
+const SMTP_TIMEOUT_MS = 12_000;
+
 function fromHeader(): { email: string; name: string } {
   return {
     email: process.env.AUTH_EMAIL_FROM?.trim() || process.env.SMTP_USER?.trim() || '',
     name: process.env.AUTH_EMAIL_FROM_NAME?.trim() || 'PM Structure',
   };
+}
+
+function isSmtpConfigured(): boolean {
+  const host = process.env.SMTP_HOST?.trim();
+  const user = process.env.SMTP_USER?.trim();
+  const pass = process.env.SMTP_PASS?.trim();
+  const from = process.env.AUTH_EMAIL_FROM?.trim() || user;
+  return Boolean(host && user && pass && from);
+}
+
+function isResendConfigured(): boolean {
+  const key = process.env.RESEND_API_KEY?.trim();
+  const from = process.env.AUTH_EMAIL_FROM?.trim() || process.env.SMTP_USER?.trim();
+  return Boolean(key && from);
 }
 
 async function sendViaSmtp(params: SendParams): Promise<void> {
@@ -29,6 +45,10 @@ async function sendViaSmtp(params: SendParams): Promise<void> {
       user: process.env.SMTP_USER?.trim(),
       pass: process.env.SMTP_PASS?.trim(),
     },
+    connectionTimeout: SMTP_TIMEOUT_MS,
+    greetingTimeout: SMTP_TIMEOUT_MS,
+    socketTimeout: SMTP_TIMEOUT_MS,
+    pool: false,
   });
 
   await transporter.sendMail({
@@ -40,16 +60,68 @@ async function sendViaSmtp(params: SendParams): Promise<void> {
   });
 }
 
+async function sendViaResend(params: SendParams): Promise<void> {
+  const key = process.env.RESEND_API_KEY?.trim();
+  if (!key) throw new Error('RESEND_API_KEY is not configured');
+  const from = fromHeader();
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${key}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: `${from.name} <${from.email}>`,
+      to: [params.to],
+      subject: params.subject,
+      text: params.text,
+      html: params.html ?? params.text,
+    }),
+    signal: AbortSignal.timeout(SMTP_TIMEOUT_MS),
+  });
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`Resend HTTP ${res.status}: ${body.slice(0, 300)}`);
+  }
+}
+
 export async function sendAuthEmail(params: SendParams): Promise<void> {
-  await sendViaSmtp(params);
+  const preferResend = process.env.AUTH_EMAIL_TRANSPORT?.trim() === 'resend';
+  const attempts: Array<() => Promise<void>> = [];
+
+  if (preferResend && isResendConfigured()) {
+    attempts.push(() => sendViaResend(params));
+    if (isSmtpConfigured()) attempts.push(() => sendViaSmtp(params));
+  } else {
+    if (isSmtpConfigured()) attempts.push(() => sendViaSmtp(params));
+    if (isResendConfigured()) attempts.push(() => sendViaResend(params));
+  }
+
+  if (!attempts.length) {
+    throw new Error('Email is not configured (set SMTP_* or RESEND_API_KEY)');
+  }
+
+  const errors: string[] = [];
+  for (const attempt of attempts) {
+    try {
+      await attempt();
+      return;
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      errors.push(msg);
+      console.error('[send-email]', msg);
+    }
+  }
+
+  throw new Error(
+    `Could not send email (${errors.join(' | ')}). On Railway, Gmail SMTP often blocks cloud IPs — add RESEND_API_KEY and redeploy.`,
+  );
 }
 
 export function isEmailConfigured(): boolean {
-  const host = process.env.SMTP_HOST?.trim();
-  const user = process.env.SMTP_USER?.trim();
-  const pass = process.env.SMTP_PASS?.trim();
-  const from = process.env.AUTH_EMAIL_FROM?.trim() || user;
-  return Boolean(host && user && pass && from);
+  return isSmtpConfigured() || isResendConfigured();
 }
 
 function shouldLogAuthEmailInDev(): boolean {

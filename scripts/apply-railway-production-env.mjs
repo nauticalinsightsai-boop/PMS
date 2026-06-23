@@ -65,6 +65,7 @@ function collectVars() {
       'DASHBOARD_',
       'TWILIO_',
       'DISCOVERY_',
+      'RESEND_',
     ];
     if (!allowedPrefixes.some((p) => key.startsWith(p))) continue;
     entries.push([key, productionValue(key, value.trim())]);

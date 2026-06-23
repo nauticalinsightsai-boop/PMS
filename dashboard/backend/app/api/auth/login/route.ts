@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: 'OTP delivery is not configured',
-        hint: 'Set SMTP_HOST/SMTP_USER/SMTP_PASS, enable email OTP in Security settings, or configure Twilio for SMS.',
+        hint: 'Set SMTP_HOST/SMTP_USER/SMTP_PASS or RESEND_API_KEY, enable email OTP in Security settings, or configure Twilio for SMS.',
       },
       { status: 503 },
     );
@@ -155,32 +155,46 @@ export async function POST(request: NextRequest) {
     expiresAt,
   });
 
-  const otpChannels = { sms: canSms, email: canEmail || devEmailOtp };
+  const otpChannels = { sms: false, email: false };
+  const errors: string[] = [];
   const smsTo = creds?.phone_e164;
   const otpEmail = email;
 
-  after(async () => {
-    const errors: string[] = [];
-    if (canSms && smsTo) {
-      try {
-        await sendLoginOtpSms(smsTo, code);
-      } catch (err) {
-        errors.push(`SMS: ${err instanceof Error ? err.message : 'failed'}`);
-        console.error('[login-otp-sms]', err);
-      }
+  if (canSms && smsTo) {
+    try {
+      await sendLoginOtpSms(smsTo, code);
+      otpChannels.sms = true;
+    } catch (err) {
+      errors.push(`SMS: ${err instanceof Error ? err.message : 'failed'}`);
+      console.error('[login-otp-sms]', err);
     }
-    if (canEmail) {
-      try {
-        await sendLoginOtpEmail(otpEmail, code);
-      } catch (err) {
-        errors.push(`Email: ${err instanceof Error ? err.message : 'failed'}`);
-        console.error('[login-otp-email]', err);
-      }
-    } else if (devEmailOtp) {
+  }
+
+  if (canEmail) {
+    try {
+      await sendLoginOtpEmail(otpEmail, code);
+      otpChannels.email = true;
+    } catch (err) {
+      errors.push(`Email: ${err instanceof Error ? err.message : 'failed'}`);
+      console.error('[login-otp-email]', err);
       logLoginOtpForDev(otpEmail, code);
     }
-    if (errors.length) console.error('[login-otp]', errors.join('; '));
-  });
+  } else if (devEmailOtp) {
+    logLoginOtpForDev(otpEmail, code);
+    otpChannels.email = true;
+  }
+
+  if (!otpChannels.sms && !otpChannels.email) {
+    return NextResponse.json(
+      {
+        error: 'Could not deliver login code',
+        details: errors,
+        hint:
+          'Gmail SMTP often fails from Railway. Add RESEND_API_KEY on Railway, verify AUTH_EMAIL_FROM domain on Resend, and redeploy. Check spam/promotions too.',
+      },
+      { status: 503 },
+    );
+  }
 
   void writeAuthAuditLog({
     email,
