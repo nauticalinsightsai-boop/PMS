@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'motion/react';
 import { ShieldCheck, Mail, Lock, ArrowRight, Eye, EyeOff, Smartphone } from 'lucide-react';
 import { useAuth, REQUIRES_LOGIN_OTP } from '@/contexts/AuthContext';
@@ -32,6 +32,7 @@ export const Login: React.FC = () => {
     isAuthenticated,
     loading: authLoading,
   } = useAuth();
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const postLoginPath = (): string => {
@@ -44,7 +45,7 @@ export const Login: React.FC = () => {
   };
 
   const goAfterLogin = (path: string) => {
-    window.location.assign(path);
+    router.replace(path);
   };
 
   useEffect(() => {

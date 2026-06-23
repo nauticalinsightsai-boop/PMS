@@ -1,3 +1,4 @@
+import { after } from 'next/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { assertSameOrigin } from '@/lib/auth/csrf-origin';
 import { isKnownAdminEmail } from '@/lib/auth/known-users';
@@ -6,7 +7,7 @@ import {
   getUserCredentials,
   isTrustedFingerprint,
   createOtpChallenge,
-  verifyUserPassword,
+  verifyUserPasswordRow,
 } from '@/lib/auth/auth-db';
 import { writeAuthAuditLog } from '@/lib/auth/audit-log';
 import { buildLoginSuccessResponse, isLegacyLoginEnabled } from '@/lib/auth/login-session';
@@ -53,7 +54,7 @@ export async function POST(request: NextRequest) {
 
   if (!isKnownAdminEmail(email)) {
     const fp0 = getLoginFingerprint(request);
-    await writeAuthAuditLog({
+    void writeAuthAuditLog({
       email,
       eventType: 'login_failed',
       ipAddress: fp0.ip,
@@ -63,26 +64,28 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
   }
 
-  const settings = await getLoginSecuritySettings();
+  const [settings, creds] = await Promise.all([
+    getLoginSecuritySettings(),
+    getUserCredentials(email),
+  ]);
   if (!settings.password_login_enabled) {
     return NextResponse.json({ error: 'Password login is disabled' }, { status: 403 });
   }
 
-  const creds = await getUserCredentials(email);
   let passwordOk = false;
-
   if (creds?.password_hash) {
-    passwordOk = await verifyUserPassword(email, password);
+    passwordOk = await verifyUserPasswordRow(password, creds);
   } else if (isLegacyLoginEnabled()) {
     passwordOk = true;
   }
 
   if (!passwordOk) {
-    await writeAuthAuditLog({
+    const fpFail = getLoginFingerprint(request);
+    void writeAuthAuditLog({
       email,
       eventType: 'login_failed',
-      ipAddress: getLoginFingerprint(request).ip,
-      userAgent: getLoginFingerprint(request).userAgent,
+      ipAddress: fpFail.ip,
+      userAgent: fpFail.userAgent,
       metadata: { reason: 'bad_password' },
     });
     return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
@@ -102,7 +105,7 @@ export async function POST(request: NextRequest) {
   const otpEnabled = smsOn || emailOn;
 
   if (trusted || !otpEnabled) {
-    await writeAuthAuditLog({
+    void writeAuthAuditLog({
       email,
       eventType: 'login_success',
       ipAddress: fp.ip,
@@ -110,17 +113,35 @@ export async function POST(request: NextRequest) {
       metadata: { trusted },
     });
     if (settings.login_alerts_enabled && isEmailConfigured()) {
-      try {
-        await sendAuthEmail({
-          to: email,
-          subject: 'New login to PM Structure dashboard',
-          text: `Signed in from ${fp.ip} at ${new Date().toISOString()}.`,
-        });
-      } catch (err) {
-        console.error('[login-alert]', err);
-      }
+      const alertTo = email;
+      const alertIp = fp.ip;
+      after(async () => {
+        try {
+          await sendAuthEmail({
+            to: alertTo,
+            subject: 'New login to PM Structure dashboard',
+            text: `Signed in from ${alertIp} at ${new Date().toISOString()}.`,
+          });
+        } catch (err) {
+          console.error('[login-alert]', err);
+        }
+      });
     }
     return buildLoginSuccessResponse(email, {});
+  }
+
+  const canSms = Boolean(smsOn && creds?.phone_e164 && isTwilioConfigured());
+  const canEmail = emailOn && isEmailConfigured();
+  const devEmailOtp = emailOn && process.env.NODE_ENV === 'development';
+
+  if (!canSms && !canEmail && !devEmailOtp) {
+    return NextResponse.json(
+      {
+        error: 'OTP delivery is not configured',
+        hint: 'Set SMTP_HOST/SMTP_USER/SMTP_PASS, enable email OTP in Security settings, or configure Twilio for SMS.',
+      },
+      { status: 503 },
+    );
   }
 
   const code = generateOtpCode();
@@ -134,48 +155,34 @@ export async function POST(request: NextRequest) {
     expiresAt,
   });
 
-  const otpChannels = { sms: false, email: false };
-  const errors: string[] = [];
+  const otpChannels = { sms: canSms, email: canEmail || devEmailOtp };
+  const smsTo = creds?.phone_e164;
+  const otpEmail = email;
 
-  if (smsOn && creds?.phone_e164 && isTwilioConfigured()) {
-    try {
-      await sendLoginOtpSms(creds.phone_e164, code);
-      otpChannels.sms = true;
-    } catch (err) {
-      errors.push(`SMS: ${err instanceof Error ? err.message : 'failed'}`);
-    }
-  }
-
-  if (emailOn && isEmailConfigured()) {
-    try {
-      await sendLoginOtpEmail(email, code);
-      otpChannels.email = true;
-    } catch (err) {
-      errors.push(`Email: ${err instanceof Error ? err.message : 'failed'}`);
-      logLoginOtpForDev(email, code);
-      if (process.env.NODE_ENV === 'development') {
-        otpChannels.email = true;
+  after(async () => {
+    const errors: string[] = [];
+    if (canSms && smsTo) {
+      try {
+        await sendLoginOtpSms(smsTo, code);
+      } catch (err) {
+        errors.push(`SMS: ${err instanceof Error ? err.message : 'failed'}`);
+        console.error('[login-otp-sms]', err);
       }
     }
-  } else if (emailOn) {
-    logLoginOtpForDev(email, code);
-    if (process.env.NODE_ENV === 'development') {
-      otpChannels.email = true;
+    if (canEmail) {
+      try {
+        await sendLoginOtpEmail(otpEmail, code);
+      } catch (err) {
+        errors.push(`Email: ${err instanceof Error ? err.message : 'failed'}`);
+        console.error('[login-otp-email]', err);
+      }
+    } else if (devEmailOtp) {
+      logLoginOtpForDev(otpEmail, code);
     }
-  }
+    if (errors.length) console.error('[login-otp]', errors.join('; '));
+  });
 
-  if (!otpChannels.sms && !otpChannels.email) {
-    return NextResponse.json(
-      {
-        error: 'OTP delivery is not configured',
-        details: errors,
-        hint: 'Set SMTP_HOST/SMTP_USER/SMTP_PASS, enable email OTP in Security settings, or configure Twilio for SMS.',
-      },
-      { status: 503 },
-    );
-  }
-
-  await writeAuthAuditLog({
+  void writeAuthAuditLog({
     email,
     eventType: 'login_otp_sent',
     ipAddress: fp.ip,

@@ -64,7 +64,15 @@ export async function getUserCredentials(email: string): Promise<UserCredentialR
 
 export async function verifyUserPassword(email: string, password: string): Promise<boolean> {
   const row = await getUserCredentials(email);
-  if (!row?.password_hash) return false;
+  return verifyUserPasswordRow(password, row);
+}
+
+/** Verify password against an already-loaded credential row (avoids a duplicate DB round trip). */
+export function verifyUserPasswordRow(
+  password: string,
+  row: UserCredentialRow | null,
+): Promise<boolean> {
+  if (!row?.password_hash) return Promise.resolve(false);
   return verifyPassword(password, row.password_hash);
 }
 

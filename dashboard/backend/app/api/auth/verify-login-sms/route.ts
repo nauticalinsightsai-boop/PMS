@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
   const fp = getLoginFingerprint(request);
   const result = await verifyOtpChallenge(challengeId, email, code);
   if (!result.ok) {
-    await writeAuthAuditLog({
+    void writeAuthAuditLog({
       email,
       eventType: 'login_otp_failed',
       ipAddress: fp.ip,
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     userAgent: result.userAgent || fp.userAgent,
   });
 
-  await writeAuthAuditLog({
+  void writeAuthAuditLog({
     email,
     eventType: 'login_otp_success',
     ipAddress: fp.ip,
