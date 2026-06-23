@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ensureMonorepoEnv } from '@/lib/ensure-monorepo-env';
 import { assertSameOrigin } from '@/lib/auth/csrf-origin';
 import { isKnownAdminEmail } from '@/lib/auth/known-users';
 import { getUserCredentials } from '@/lib/auth/auth-db';
@@ -11,6 +12,8 @@ import { writeAuthAuditLog } from '@/lib/auth/audit-log';
 type Body = { email?: string };
 
 export async function POST(request: NextRequest) {
+  ensureMonorepoEnv();
+
   if (!assertSameOrigin(request)) {
     return NextResponse.json({ error: 'Invalid origin' }, { status: 403 });
   }
@@ -77,6 +80,16 @@ export async function POST(request: NextRequest) {
     if (process.env.NODE_ENV === 'development') {
       console.log('\n[forgot-password] Email send failed: reset link for dev:\n', link, '\n');
     }
+    return NextResponse.json(
+      {
+        error: 'Could not send reset email',
+        hint:
+          err instanceof Error
+            ? err.message
+            : 'Check SMTP locally or RESEND_API_KEY on Railway.',
+      },
+      { status: 503 },
+    );
   }
 
   return generic;

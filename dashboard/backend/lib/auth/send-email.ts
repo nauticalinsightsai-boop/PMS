@@ -7,6 +7,16 @@ type SendParams = {
 
 const SMTP_TIMEOUT_MS = 12_000;
 
+function isCloudRuntime(): boolean {
+  return Boolean(
+    process.env.RAILWAY_ENVIRONMENT ||
+      process.env.RAILWAY_SERVICE_ID ||
+      process.env.RAILWAY_PROJECT_ID ||
+      process.env.VERCEL ||
+      process.env.FLY_APP_NAME,
+  );
+}
+
 function fromHeader(): { email: string; name: string } {
   return {
     email: process.env.AUTH_EMAIL_FROM?.trim() || process.env.SMTP_USER?.trim() || '',
@@ -87,20 +97,31 @@ async function sendViaResend(params: SendParams): Promise<void> {
   }
 }
 
+function cloudEmailSetupError(): Error {
+  return new Error(
+    'Production email requires RESEND_API_KEY on Railway (Gmail SMTP is blocked from cloud servers). Add RESEND_API_KEY + AUTH_EMAIL_FROM in Railway Variables, redeploy, then try again.',
+  );
+}
+
 export async function sendAuthEmail(params: SendParams): Promise<void> {
-  const preferResend = process.env.AUTH_EMAIL_TRANSPORT?.trim() === 'resend';
+  const onCloud = isCloudRuntime();
+  const preferResend = process.env.AUTH_EMAIL_TRANSPORT?.trim() === 'resend' || onCloud;
   const attempts: Array<() => Promise<void>> = [];
+
+  if (onCloud && !isResendConfigured()) {
+    throw cloudEmailSetupError();
+  }
 
   if (preferResend && isResendConfigured()) {
     attempts.push(() => sendViaResend(params));
-    if (isSmtpConfigured()) attempts.push(() => sendViaSmtp(params));
+    if (!onCloud && isSmtpConfigured()) attempts.push(() => sendViaSmtp(params));
   } else {
     if (isSmtpConfigured()) attempts.push(() => sendViaSmtp(params));
     if (isResendConfigured()) attempts.push(() => sendViaResend(params));
   }
 
   if (!attempts.length) {
-    throw new Error('Email is not configured (set SMTP_* or RESEND_API_KEY)');
+    throw new Error('Email is not configured (set SMTP_* locally or RESEND_API_KEY on Railway)');
   }
 
   const errors: string[] = [];
@@ -115,12 +136,11 @@ export async function sendAuthEmail(params: SendParams): Promise<void> {
     }
   }
 
-  throw new Error(
-    `Could not send email (${errors.join(' | ')}). On Railway, Gmail SMTP often blocks cloud IPs — add RESEND_API_KEY and redeploy.`,
-  );
+  throw new Error(`Could not send email (${errors.join(' | ')})`);
 }
 
 export function isEmailConfigured(): boolean {
+  if (isCloudRuntime()) return isResendConfigured();
   return isSmtpConfigured() || isResendConfigured();
 }
 
@@ -145,5 +165,5 @@ export async function sendLoginOtpEmail(to: string, code: string): Promise<void>
 
 export function logLoginOtpForDev(email: string, code: string): void {
   if (!shouldLogAuthEmailInDev()) return;
-  console.log(`\n[login-otp] Email not configured: dev code for ${email}: ${code}\n`);
+  console.log(`\n[login-otp] Dev OTP for ${email}: ${code}\n`);
 }

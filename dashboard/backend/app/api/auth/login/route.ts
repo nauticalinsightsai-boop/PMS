@@ -1,5 +1,6 @@
 import { after } from 'next/server';
 import { NextRequest, NextResponse } from 'next/server';
+import { ensureMonorepoEnv } from '@/lib/ensure-monorepo-env';
 import { assertSameOrigin } from '@/lib/auth/csrf-origin';
 import { isKnownAdminEmail } from '@/lib/auth/known-users';
 import {
@@ -21,6 +22,8 @@ import { isSupabaseAdminConfigured } from '@/lib/auth/supabase-admin';
 type LoginBody = { email?: string; password?: string };
 
 export async function POST(request: NextRequest) {
+  ensureMonorepoEnv();
+
   if (!assertSameOrigin(request)) {
     return NextResponse.json({ error: 'Invalid origin' }, { status: 403 });
   }
