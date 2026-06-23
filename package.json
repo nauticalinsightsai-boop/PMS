@@ -129,7 +129,9 @@
     "seo:generate-indexation-strategy-csv": "cd frontend && node --import tsx ../scripts/generate-indexation-strategy-csv.mjs",
     "seo:generate-indexation-control-matrix-csv": "cd frontend && node --import tsx ../scripts/generate-indexation-control-matrix-csv.mjs",
     "seo:indexnow": "node scripts/seo/indexnow.mjs",
-    "index:support-rag": "node --import tsx scripts/index-support-rag.mjs"
+    "index:support-rag": "node --import tsx scripts/index-support-rag.mjs",
+    "sync:sheets": "node scripts/sync-sheets-fix-and-backfill.mjs",
+    "apply:sheets": "node scripts/apply-google-sheets-setup.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
