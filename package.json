@@ -131,7 +131,9 @@
     "seo:indexnow": "node scripts/seo/indexnow.mjs",
     "index:support-rag": "node --import tsx scripts/index-support-rag.mjs",
     "sync:sheets": "node scripts/sync-sheets-fix-and-backfill.mjs",
-    "apply:sheets": "node scripts/apply-google-sheets-setup.mjs"
+    "apply:sheets": "node scripts/apply-google-sheets-setup.mjs",
+    "apply:railway": "node scripts/apply-railway-production-env.mjs",
+    "smoke:production": "node scripts/production-platform-smoke.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",

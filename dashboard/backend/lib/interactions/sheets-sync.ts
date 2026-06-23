@@ -5,6 +5,22 @@ import type { FormSubmissionRow } from '@/lib/interactions/types';
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+async function tryUpdateSyncFields(
+  supabase: SupabaseClient,
+  rowId: string,
+  patch: Record<string, unknown>,
+): Promise<void> {
+  const { error } = await supabase.from('form_submissions').update(patch).eq('id', rowId);
+  if (!error) return;
+  if (error.message?.includes('sheets_sync')) {
+    console.warn(
+      '[interactions:sheets-sync] sync tracking columns missing — apply supabase/migrations/20260610120000_form_submissions_sheets_sync.sql',
+    );
+    return;
+  }
+  console.error('[interactions:sheets-sync] could not update sync fields', error.message);
+}
+
 export type SheetsSyncRow = Pick<
   FormSubmissionRow,
   'id' | 'created_at' | 'source' | 'subject' | 'email' | 'payload' | 'metadata'
@@ -48,10 +64,7 @@ export async function syncRowToGoogleSheetsWithRetries(
   const maxAttempts = 4;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    await supabase
-      .from('form_submissions')
-      .update({ sheets_sync_attempts: attempt })
-      .eq('id', rowId);
+    await tryUpdateSyncFields(supabase, rowId, { sheets_sync_attempts: attempt });
 
     try {
       console.info('[interactions:sheets-sync] append attempt', {
@@ -62,14 +75,11 @@ export async function syncRowToGoogleSheetsWithRetries(
       });
       await appendRowToGoogleSheet(values);
       console.info('[interactions:sheets-sync] append success', { submissionId: rowId, attempt });
-      await supabase
-        .from('form_submissions')
-        .update({
-          sheets_synced_at: new Date().toISOString(),
-          sheets_sync_error: null,
-          sheets_sync_attempts: attempt,
-        })
-        .eq('id', rowId);
+      await tryUpdateSyncFields(supabase, rowId, {
+        sheets_synced_at: new Date().toISOString(),
+        sheets_sync_error: null,
+        sheets_sync_attempts: attempt,
+      });
       return { synced: true, error: null };
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
@@ -85,10 +95,7 @@ export async function syncRowToGoogleSheetsWithRetries(
     }
   }
 
-  await supabase
-    .from('form_submissions')
-    .update({ sheets_sync_error: lastErr })
-    .eq('id', rowId);
+  await tryUpdateSyncFields(supabase, rowId, { sheets_sync_error: lastErr });
 
   return { synced: false, error: lastErr };
 }

@@ -113,7 +113,10 @@ function readServiceAccountJsonRaw(): {
 } {
   warnDeprecatedInlineJson();
 
-  const pathEnv = process.env.GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH?.trim();
+  const pathEnv =
+    process.env.NODE_ENV === 'production'
+      ? undefined
+      : process.env.GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH?.trim();
   const base64Env = process.env.GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64?.trim();
 
   if (pathEnv) {
