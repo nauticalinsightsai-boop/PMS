@@ -7,13 +7,25 @@ The **Sheets Records** page (`/admin/dashboard/booking-crm/interactions/sheets`)
 All marketing forms use `POST /api/interactions` → Supabase `form_submissions` → background Google Sheets append:
 
 - Contact, newsletter, waitlists
-- PMP / certification roadmap forms (home, cert pages, popups)
+- **PMP / certification roadmap forms** (home, cert pages, popups) — `pmp_roadmap_lead` / `cert_roadmap_lead`
+- **Consultation, scholarship, register modal, cert waitlists** — see `Certification Forms` tab
 - Register / join-waitlist modals
 - Lead recovery bar and dialog
 - `/go/*` channel landing forms
 - Confirmed engagement bookings (`meeting_booking`)
 
-Details (name, phone, page path, cert interest, etc.) live in column **payload_json**.
+Details (name, phone, page path, cert interest, tier, etc.) live in column **payload_json**.
+
+### Readable tabs (after `npm run sync:sheets` or Apps Script refresh)
+
+| Tab | Purpose |
+|-----|---------|
+| **Submissions** | Raw API append (A–G) — do not edit row 1 |
+| **Records** | All leads, human-readable (name, phone, cert, tier, page) |
+| **Certification Forms** | Certification / pathway leads only (roadmap, consultation, scholarship, waitlist with cert context, register modal) |
+| **Roadmap Leads** | Filtered view (Apps Script menu refresh) |
+
+Every form submit on the website appends one row to **Submissions** automatically when `GOOGLE_SHEETS_*` is set on the server. Run **PM Structure → Refresh all views** in the spreadsheet (Apps Script) to update **Records** / **Certification Forms** after bulk imports.
 
 See also: [INTERACTIONS_SETUP.md](../interactions/INTERACTIONS_SETUP.md)
 

@@ -131,8 +131,12 @@
     "seo:indexnow": "node scripts/seo/indexnow.mjs",
     "index:support-rag": "node --import tsx scripts/index-support-rag.mjs",
     "sync:sheets": "node scripts/sync-sheets-fix-and-backfill.mjs",
+    "test:cert-form-sheets": "node scripts/test-cert-form-sheets.mjs",
     "apply:sheets": "node scripts/apply-google-sheets-setup.mjs",
     "apply:railway": "node scripts/apply-railway-production-env.mjs",
+    "railway:setup": "node scripts/railway-setup-production.mjs",
+    "test:resend": "node scripts/test-resend-email.mjs",
+    "test:smtp": "node scripts/test-smtp-email.mjs",
     "smoke:production": "node scripts/production-platform-smoke.mjs"
   },
   "devDependencies": {

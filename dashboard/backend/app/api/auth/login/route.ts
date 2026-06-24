@@ -193,7 +193,7 @@ export async function POST(request: NextRequest) {
         error: 'Could not deliver login code',
         details: errors,
         hint:
-          'Gmail SMTP often fails from Railway. Add RESEND_API_KEY on Railway, verify AUTH_EMAIL_FROM domain on Resend, and redeploy. Check spam/promotions too.',
+          'Check SMTP_HOST/SMTP_USER/SMTP_PASS on Railway (Gmail: port 465, SMTP_SECURE=true). On Railway use an App Password, not your normal Gmail password.',
       },
       { status: 503 },
     );

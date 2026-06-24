@@ -9,7 +9,9 @@
  */
 
 const SUBMISSIONS_SHEET = 'Submissions';
+const RECORDS_SHEET = 'Records';
 const ALL_LEADS_SHEET = 'All Leads';
+const CERT_FORMS_SHEET = 'Certification Forms';
 
 const SOURCE_LABELS = {
   contact: 'Contact',
@@ -24,6 +26,16 @@ const SOURCE_LABELS = {
   channel_portal: 'Channel portal',
   meeting_booking: 'Meeting booking',
   documentation_request: 'Documentation',
+};
+
+const CERTIFICATION_SOURCES = {
+  pmp_roadmap_lead: true,
+  cert_roadmap_lead: true,
+  consultation: true,
+  scholarship_review: true,
+  register_modal: true,
+  waitlist: true,
+  lead_recovery: true,
 };
 
 /** Safe JSON parse for payload_json / metadata_json cells */
@@ -62,6 +74,23 @@ function phoneFromPayload(p) {
   return payloadField(p, ['phoneFull', 'phone', 'whatsapp', 'whatsappNumber']);
 }
 
+function isCertificationRow(r) {
+  if (!CERTIFICATION_SOURCES[r.source]) return false;
+  if (r.source === 'waitlist' || r.source === 'lead_recovery') {
+    var p = r.payload;
+    return !!(payloadField(p, ['siteCertId', 'certName', 'certificationInterest', 'offeringId']));
+  }
+  return true;
+}
+
+function tierFromPayload(p) {
+  return payloadField(p, ['tierLabel', 'offeringId']);
+}
+
+function formFromPayload(p) {
+  return payloadField(p, ['formLabel', 'formId', 'placement']);
+}
+
 function sourceLabel(code) {
   return SOURCE_LABELS[code] || String(code || '').replace(/_/g, ' ');
 }
@@ -86,10 +115,24 @@ function setupPmStructureSheets() {
   ]]);
   sub.setFrozenRows(1);
 
+  var records = ss.getSheetByName(RECORDS_SHEET) || ss.insertSheet(RECORDS_SHEET);
+  records.clear();
+  records.getRange(1, 1, 1, 15).setValues([[
+    'Date', 'Type', 'Email', 'Name', 'Phone', 'Certification', 'Tier', 'Region', 'Page', 'Form', 'Subject', 'Submission ID', 'Status', 'Owner', 'Notes',
+  ]]);
+  records.setFrozenRows(1);
+
+  var certForms = ss.getSheetByName(CERT_FORMS_SHEET) || ss.insertSheet(CERT_FORMS_SHEET);
+  certForms.clear();
+  certForms.getRange(1, 1, 1, 13).setValues([[
+    'Date', 'Form type', 'Email', 'Name', 'Phone', 'Certification', 'Tier', 'Region', 'Page', 'Placement', 'Subject', 'Submission ID', 'Notes',
+  ]]);
+  certForms.setFrozenRows(1);
+
   var all = ss.getSheetByName(ALL_LEADS_SHEET) || ss.insertSheet(ALL_LEADS_SHEET);
   all.clear();
-  all.getRange(1, 1, 1, 13).setValues([[
-    'Date', 'Type', 'Email', 'Name', 'Phone', 'Certification', 'Region', 'Page', 'Subject', 'Submission ID', 'Status', 'Owner', 'Notes',
+  all.getRange(1, 1, 1, 15).setValues([[
+    'Date', 'Type', 'Email', 'Name', 'Phone', 'Certification', 'Tier', 'Region', 'Page', 'Form', 'Subject', 'Submission ID', 'Status', 'Owner', 'Notes',
   ]]);
   all.setFrozenRows(1);
 
@@ -98,7 +141,9 @@ function setupPmStructureSheets() {
 }
 
 function refreshAllViews() {
-  refreshAllLeadsTab();
+  refreshRecordsTab(RECORDS_SHEET);
+  refreshRecordsTab(ALL_LEADS_SHEET);
+  refreshCertificationFormsTab();
   refreshFilteredTab('Contact', ['contact']);
   refreshFilteredTab('Newsletter', ['subscription']);
   refreshFilteredTab('Waitlist', ['waitlist']);
@@ -109,6 +154,84 @@ function refreshAllViews() {
   refreshFilteredTab('Register Events', ['register_modal']);
   refreshFilteredTab('Channel Portals', ['channel_portal', 'contact']);
   refreshFilteredTab('Meeting Bookings', ['meeting_booking']);
+}
+
+function refreshRecordsTab(tabName) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(tabName);
+  if (!sheet) return;
+
+  var rows = readSubmissionsRows();
+  rows.sort(function (a, b) {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
+  if (sheet.getLastRow() > 1) {
+    sheet.getRange(2, 1, sheet.getLastRow() - 1, 15).clearContent();
+  }
+
+  if (!rows.length) return;
+
+  var out = rows.map(function (r) {
+    var p = r.payload;
+    return [
+      r.createdAt,
+      sourceLabel(r.source),
+      r.email,
+      fullNameFromPayload(p),
+      phoneFromPayload(p),
+      payloadField(p, ['certName', 'certificationInterest', 'siteCertId']),
+      tierFromPayload(p),
+      payloadField(p, ['regionId']),
+      payloadField(p, ['pagePath']),
+      formFromPayload(p),
+      r.subject,
+      r.submissionId,
+      '',
+      '',
+      '',
+    ];
+  });
+
+  sheet.getRange(2, 1, out.length, 15).setValues(out);
+}
+
+function refreshCertificationFormsTab() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(CERT_FORMS_SHEET);
+  if (!sheet) return;
+
+  var rows = readSubmissionsRows().filter(isCertificationRow);
+  rows.sort(function (a, b) {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
+  if (sheet.getLastRow() > 1) {
+    sheet.getRange(2, 1, sheet.getLastRow() - 1, 13).clearContent();
+  }
+
+  if (!rows.length) return;
+
+  var out = rows.map(function (r) {
+    var p = r.payload;
+    return [
+      r.createdAt,
+      sourceLabel(r.source),
+      r.email,
+      fullNameFromPayload(p),
+      phoneFromPayload(p),
+      payloadField(p, ['certName', 'certificationInterest', 'siteCertId']),
+      tierFromPayload(p),
+      payloadField(p, ['regionId']),
+      payloadField(p, ['pagePath']),
+      payloadField(p, ['placement', 'formLabel']),
+      r.subject,
+      r.submissionId,
+      '',
+    ];
+  });
+
+  sheet.getRange(2, 1, out.length, 13).setValues(out);
 }
 
 function readSubmissionsRows() {
@@ -129,44 +252,6 @@ function readSubmissionsRows() {
       submissionId: row[6],
     };
   });
-}
-
-function refreshAllLeadsTab() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName(ALL_LEADS_SHEET);
-  if (!sheet) return;
-
-  var rows = readSubmissionsRows();
-  rows.sort(function (a, b) {
-    return new Date(b.createdAt) - new Date(a.createdAt);
-  });
-
-  if (sheet.getLastRow() > 1) {
-    sheet.getRange(2, 1, sheet.getLastRow() - 1, 13).clearContent();
-  }
-
-  if (!rows.length) return;
-
-  var out = rows.map(function (r) {
-    var p = r.payload;
-    return [
-      r.createdAt,
-      sourceLabel(r.source),
-      r.email,
-      fullNameFromPayload(p),
-      phoneFromPayload(p),
-      payloadField(p, ['certName', 'certificationInterest', 'siteCertId']),
-      payloadField(p, ['regionId']),
-      payloadField(p, ['pagePath']),
-      r.subject,
-      r.submissionId,
-      '', // Status — fill manually
-      '', // Owner
-      '', // Notes
-    ];
-  });
-
-  sheet.getRange(2, 1, out.length, 13).setValues(out);
 }
 
 function refreshFilteredTab(tabName, sources) {

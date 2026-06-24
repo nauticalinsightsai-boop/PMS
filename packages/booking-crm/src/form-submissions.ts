@@ -19,6 +19,17 @@ export const INTERACTION_SOURCES = [
 
 export type InteractionSource = (typeof INTERACTION_SOURCES)[number]
 
+/** Certification / pathway lead forms — all append to Submissions + Records tabs. */
+export const CERTIFICATION_FORM_SOURCES: readonly InteractionSource[] = [
+  'pmp_roadmap_lead',
+  'cert_roadmap_lead',
+  'consultation',
+  'scholarship_review',
+  'register_modal',
+  'waitlist',
+  'lead_recovery',
+] as const
+
 /** Human-readable labels for `form_submissions.source` values. */
 export const FORM_SOURCE_LABELS: Record<InteractionSource, string> = {
   contact: 'Contact',

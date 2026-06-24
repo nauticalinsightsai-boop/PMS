@@ -43,7 +43,20 @@ function productionValue(key, value) {
   if (key === 'AUTH_ALLOWED_ORIGINS') {
     return PRODUCTION;
   }
+  const host = process.env.SMTP_HOST?.trim() ?? '';
+  const isGmail = /gmail\.com$/i.test(host) || host === 'smtp.gmail.com';
+  if (isGmail && key === 'SMTP_PORT') return '465';
+  if (isGmail && key === 'SMTP_SECURE') return 'true';
+  if (key === 'AUTH_EMAIL_TRANSPORT' && isSmtpConfigured()) return 'smtp';
   return value;
+}
+
+function isSmtpConfigured() {
+  const host = process.env.SMTP_HOST?.trim();
+  const user = process.env.SMTP_USER?.trim();
+  const pass = process.env.SMTP_PASS?.trim();
+  const from = process.env.AUTH_EMAIL_FROM?.trim() || user;
+  return Boolean(host && user && pass && from);
 }
 
 function collectVars() {
@@ -71,6 +84,9 @@ function collectVars() {
     entries.push([key, productionValue(key, value.trim())]);
   }
   entries.sort((a, b) => a[0].localeCompare(b[0]));
+  if (isSmtpConfigured() && !entries.some(([k]) => k === 'AUTH_EMAIL_TRANSPORT')) {
+    entries.push(['AUTH_EMAIL_TRANSPORT', 'smtp']);
+  }
   return entries;
 }
 
