@@ -14,6 +14,7 @@ import {
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { TierPathwayCta } from '@/lib/pathway-tier-cta';
+import type { ProgrammeOfferingAssets } from '@pms/site-content';
 import { getProgrammePreviewContent } from '@/lib/pathway-programme-preview';
 import { ProgrammePreviewExplorer } from '@/components/ProgrammePreviewExplorer';
 import { openPathwayConsultationCalendly } from '@/lib/pathway-consultation-scheduling';
@@ -39,6 +40,7 @@ interface PathwayOfferingModalProps {
   deliveryLine: string;
   pathwayCta: TierPathwayCta;
   outcomes: string[];
+  programmeAssets?: ProgrammeOfferingAssets | null;
 }
 
 export function PathwayOfferingModal({
@@ -52,6 +54,7 @@ export function PathwayOfferingModal({
   deliveryLine,
   pathwayCta,
   outcomes,
+  programmeAssets,
 }: PathwayOfferingModalProps) {
   const recovery = useLeadRecoveryOptional();
   const actionRef = React.useRef<'none' | 'enroll' | 'consultation'>('none');
@@ -86,8 +89,8 @@ export function PathwayOfferingModal({
   };
 
   const preview = React.useMemo(
-    () => getProgrammePreviewContent(offeringId, programmeTitle),
-    [offeringId, programmeTitle],
+    () => getProgrammePreviewContent(offeringId, programmeTitle, programmeAssets),
+    [offeringId, programmeTitle, programmeAssets],
   );
 
   const dualActions = pathwayCta.showConsultationInModal && pathwayCta.enrollHref;

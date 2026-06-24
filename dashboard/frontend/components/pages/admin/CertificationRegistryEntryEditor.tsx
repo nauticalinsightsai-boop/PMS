@@ -4,6 +4,7 @@ import React from 'react';
 import { Archive, Trash2 } from 'lucide-react';
 import { CTAButton } from '@/components/ui/CTAButton';
 import type { CertificationRegistryEntry } from '@pms/site-content';
+import { ProgrammeAssetsUploader } from '@/components/pages/admin/ProgrammeAssetsUploader';
 
 const FAMILY_OPTIONS: CertificationRegistryEntry['familyId'][] = [
   'PMI',
@@ -281,6 +282,8 @@ export function CertificationRegistryEntryEditor({
           </Field>
         ))}
       </section>
+
+      <ProgrammeAssetsUploader entry={entry} onChange={onChange} />
     </div>
   );
 }

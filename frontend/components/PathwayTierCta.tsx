@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import type { PathwayTier } from '@/types/site';
 import type { TierPathwayCta } from '@/lib/pathway-tier-cta';
 import { tierDeliveryLine } from '@/lib/pathway-tier-cta';
+import type { ProgrammeOfferingAssets } from '@pms/site-content';
 import { PathwayOfferingModal } from '@/components/PathwayOfferingModal';
 import {
   JoinWaitlistDialog,
@@ -21,6 +22,7 @@ export function PathwayTierCta({
   className,
   gradient,
   color,
+  programmeAssetsByOffering,
 }: {
   tier: PathwayTier;
   pathwayCta: TierPathwayCta;
@@ -30,12 +32,14 @@ export function PathwayTierCta({
   gradient?: string;
   accentClass?: string;
   color?: string;
+  programmeAssetsByOffering?: Record<string, ProgrammeOfferingAssets>;
 }) {
   const [open, setOpen] = React.useState(false);
   const offeringId = tier.offeringId ?? 'pathway';
   const offering = getOfferingById(offeringId);
   const tierId = offering?.tierId ?? 'foundation';
   const isWaitlist = pathwayCta.modalMode === 'waitlist';
+  const programmeAssets = programmeAssetsByOffering?.[offeringId] ?? null;
 
   const waitlistContext: JoinWaitlistContext = {
     headline: tier.title,
@@ -80,6 +84,7 @@ export function PathwayTierCta({
         deliveryLine={tierDeliveryLine(tier.tierDelivery ?? tier.deliveryMode)}
         pathwayCta={pathwayCta}
         outcomes={tier.outcomes}
+        programmeAssets={programmeAssets}
       />
 
       <JoinWaitlistDialog

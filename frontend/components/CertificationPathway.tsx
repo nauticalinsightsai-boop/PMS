@@ -25,6 +25,7 @@ import { resolvePricingPresentation } from '@/lib/regional-price-display';
 import type { OfferingStatus } from '@/types/regional-catalogue';
 import { ResponsiveSnapScroll } from '@/components/ResponsiveSnapScroll';
 import { PATHWAY_CARD_RADIUS_CLASS, PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS, PATHWAY_MOBILE_CARD_SHELL_CLASS } from '@/lib/brand-visual';
+import type { ProgrammeOfferingAssets } from '@pms/site-content';
 
 export interface CertificationPathwayProps {
   certificationName: string;
@@ -33,6 +34,7 @@ export interface CertificationPathwayProps {
   tiers: PathwayTier[];
   color?: string;
   gradient?: string;
+  programmeAssets?: Record<string, ProgrammeOfferingAssets>;
 }
 
 const familyConfigs = {
@@ -246,7 +248,8 @@ export const PathwayCard: React.FC<{
   family: FamilyId;
   color?: string;
   gradient?: string;
-}> = ({ tier, siteCertId, family, color, gradient }) => {
+  programmeAssetsByOffering?: Record<string, ProgrammeOfferingAssets>;
+}> = ({ tier, siteCertId, family, color, gradient, programmeAssetsByOffering }) => {
   const accent = tierAccentColor(color, family);
 
   const ctaButtonStyle: React.CSSProperties | undefined = gradient
@@ -346,6 +349,7 @@ export const PathwayCard: React.FC<{
               gradient={gradient}
               color={accent}
               className={ctaButtonClass}
+              programmeAssetsByOffering={programmeAssetsByOffering}
             />
           ) : (
             <Link href={tier.primaryHref ?? '#'} className="w-full">
@@ -370,6 +374,7 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
   tiers,
   color,
   gradient,
+  programmeAssets,
 }) => {
   const desktopLayout = cn(
     'md:grid md:items-stretch',
@@ -400,6 +405,7 @@ export const CertificationPathway: React.FC<CertificationPathwayProps> = ({
               family={family}
               color={color}
               gradient={gradient}
+              programmeAssetsByOffering={programmeAssets}
             />
           </m.div>
         ))}

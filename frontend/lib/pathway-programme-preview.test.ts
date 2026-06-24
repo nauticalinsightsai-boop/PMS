@@ -19,6 +19,18 @@ describe('pathway-programme-preview', () => {
     expect(programmePreviewHasVideo(preview)).toBe(true);
   });
 
+  it('merges CMS Supabase assets over static fallbacks', () => {
+    const preview = getProgrammePreviewContent('pmp-preparation-foundation', 'PMP® Foundation', {
+      videoUrl: 'https://example.supabase.co/storage/v1/object/public/programme-media/pmp/video.mp4',
+      guidePdfUrl: 'https://example.supabase.co/guide.pdf',
+    });
+    const guide = preview.panels.find((p) => p.id === 'guide');
+    expect(guide?.pdfSrc).toBe('https://example.supabase.co/guide.pdf');
+    const video = preview.panels.find((p) => p.kind === 'video');
+    expect(video?.videoSrc).toContain('programme-media');
+    expect(programmePreviewHasVideo(preview)).toBe(true);
+  });
+
   it('provides default infographic and panels for other offerings', () => {
     const preview = getProgrammePreviewContent('capm-preparation-professional', 'CAPM®');
     expect(preview.infographic.steps.length).toBe(4);

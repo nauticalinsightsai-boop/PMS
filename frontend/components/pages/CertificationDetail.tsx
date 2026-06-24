@@ -331,6 +331,7 @@ export function CertificationDetail({
             tiers={pathway} 
             color={cert.color}
             gradient={cert.gradient}
+            programmeAssets={registryEntry?.programmeAssets}
           />
         </div>
       </section>

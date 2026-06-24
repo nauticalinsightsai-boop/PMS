@@ -1,3 +1,5 @@
+import type { ProgrammeOfferingAssets } from '@pms/site-content';
+
 export type ProgrammePanelKind = 'pdf' | 'slides' | 'video';
 
 export interface ProgrammeInfographicStep {
@@ -174,13 +176,42 @@ function defaultPanels(programmeTitle: string): ProgrammePreviewPanel[] {
 export function getProgrammePreviewContent(
   offeringId: string,
   programmeTitle: string,
+  cmsAssets?: ProgrammeOfferingAssets | null,
 ): ProgrammePreviewContent {
   const override = PROGRAMME_PREVIEW_BY_OFFERING[offeringId];
-
-  return {
+  const base: ProgrammePreviewContent = {
     infographic: override?.infographic ?? defaultInfographic(programmeTitle, offeringId),
     panels: override?.panels ?? defaultPanels(programmeTitle),
   };
+
+  if (!cmsAssets) return base;
+
+  const panels = base.panels.map((panel) => {
+    if (panel.id === 'guide' && cmsAssets.guidePdfUrl) {
+      return { ...panel, available: true, pdfSrc: cmsAssets.guidePdfUrl };
+    }
+    if (panel.id === 'slides' && cmsAssets.slidesPdfUrl) {
+      return { ...panel, available: true, slidesPdfSrc: cmsAssets.slidesPdfUrl };
+    }
+    if (panel.id === 'video') {
+      const hasVideo = !!(cmsAssets.videoUrl || cmsAssets.videoEmbedUrl);
+      if (!hasVideo) return panel;
+      return {
+        ...panel,
+        available: true,
+        videoSrc: cmsAssets.videoUrl ?? panel.videoSrc ?? null,
+        videoEmbedUrl: cmsAssets.videoEmbedUrl ?? panel.videoEmbedUrl ?? null,
+      };
+    }
+    return panel;
+  });
+
+  const infographic =
+    cmsAssets.infographicUrl && base.infographic
+      ? { ...base.infographic, imageSrc: cmsAssets.infographicUrl }
+      : base.infographic;
+
+  return { infographic, panels };
 }
 
 export function programmePreviewHasVideo(preview: ProgrammePreviewContent): boolean {

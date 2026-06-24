@@ -13,6 +13,30 @@ export const certificationPathwayOutcomesSchema = z.object({
   mastery: z.array(z.string()).optional(),
 });
 
+/** Supabase Storage programme-media assets for pathway modal (per offering id). */
+export const programmeOfferingAssetsSchema = z.object({
+  guidePdfUrl: z.string().optional(),
+  guidePdfPath: z.string().optional(),
+  slidesPdfUrl: z.string().optional(),
+  slidesPdfPath: z.string().optional(),
+  videoUrl: z.string().optional(),
+  videoPath: z.string().optional(),
+  videoEmbedUrl: z.string().optional(),
+  infographicUrl: z.string().optional(),
+  infographicPath: z.string().optional(),
+});
+
+export type ProgrammeOfferingAssets = z.infer<typeof programmeOfferingAssetsSchema>;
+
+export function offeringIdForCertTier(
+  certId: string,
+  tier: 'foundation' | 'professional' | 'mastery',
+): string {
+  const slug =
+    tier === 'mastery' ? 'mastery' : tier === 'professional' ? 'professional' : 'foundation';
+  return `${certId}-preparation-${slug}`;
+}
+
 export const certificationRegistryEntrySchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -46,6 +70,8 @@ export const certificationRegistryEntrySchema = z.object({
   pathwayOutcomes: certificationPathwayOutcomesSchema.optional(),
   suggestedResources: z.array(z.string()).optional(),
   regionalDemand: z.string().optional(),
+  /** Keyed by offering id, e.g. pmp-preparation-foundation */
+  programmeAssets: z.record(z.string(), programmeOfferingAssetsSchema).optional(),
 });
 
 export const certificationsRegistrySchema = z.object({
