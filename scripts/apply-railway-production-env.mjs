@@ -47,7 +47,10 @@ function productionValue(key, value) {
   const isGmail = /gmail\.com$/i.test(host) || host === 'smtp.gmail.com';
   if (isGmail && key === 'SMTP_PORT') return '465';
   if (isGmail && key === 'SMTP_SECURE') return 'true';
-  if (key === 'AUTH_EMAIL_TRANSPORT' && isSmtpConfigured()) return 'smtp';
+  if (key === 'AUTH_EMAIL_TRANSPORT') {
+    if (process.env.RESEND_API_KEY?.trim()) return 'resend';
+    if (isSmtpConfigured()) return 'smtp';
+  }
   return value;
 }
 
@@ -85,7 +88,13 @@ function collectVars() {
   }
   entries.sort((a, b) => a[0].localeCompare(b[0]));
   if (isSmtpConfigured() && !entries.some(([k]) => k === 'AUTH_EMAIL_TRANSPORT')) {
-    entries.push(['AUTH_EMAIL_TRANSPORT', 'smtp']);
+    entries.push(['AUTH_EMAIL_TRANSPORT', process.env.RESEND_API_KEY?.trim() ? 'resend' : 'smtp']);
+  }
+  if (process.env.RESEND_API_KEY?.trim() && !entries.some(([k]) => k === 'RESEND_API_KEY')) {
+    entries.push(['RESEND_API_KEY', process.env.RESEND_API_KEY.trim()]);
+    const idx = entries.findIndex(([k]) => k === 'AUTH_EMAIL_TRANSPORT');
+    if (idx >= 0) entries[idx][1] = 'resend';
+    else entries.push(['AUTH_EMAIL_TRANSPORT', 'resend']);
   }
   return entries;
 }

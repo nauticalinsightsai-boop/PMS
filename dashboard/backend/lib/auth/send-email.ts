@@ -96,7 +96,9 @@ async function sendViaResend(params: SendParams): Promise<void> {
 
   const from =
     process.env.RESEND_FROM?.trim() ||
-    `${fromHeader().name} <${fromHeader().email || 'onboarding@resend.dev'}>`;
+    (isCloudRuntime()
+      ? 'PM Structure <onboarding@resend.dev>'
+      : `${fromHeader().name} <${fromHeader().email || 'onboarding@resend.dev'}>`);
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -122,11 +124,14 @@ async function sendViaResend(params: SendParams): Promise<void> {
 
 export async function sendAuthEmail(params: SendParams): Promise<void> {
   const transport = process.env.AUTH_EMAIL_TRANSPORT?.trim().toLowerCase();
+  const onCloud = isCloudRuntime();
   const attempts: Array<() => Promise<void>> = [];
 
-  if (transport === 'resend') {
-    if (isResendConfigured()) attempts.push(() => sendViaResend(params));
-    if (isSmtpConfigured()) attempts.push(() => sendViaSmtp(params));
+  const preferResend = transport === 'resend' || (onCloud && isResendConfigured());
+
+  if (preferResend && isResendConfigured()) {
+    attempts.push(() => sendViaResend(params));
+    if (!onCloud && isSmtpConfigured()) attempts.push(() => sendViaSmtp(params));
   } else if (transport === 'smtp') {
     if (isSmtpConfigured()) attempts.push(() => sendViaSmtp(params));
     if (isResendConfigured()) attempts.push(() => sendViaResend(params));

@@ -121,6 +121,18 @@ function ensureSmtpForAuth(entries) {
   ];
 }
 
+function ensureResendForAuth(entries) {
+  const key = process.env.RESEND_API_KEY?.trim();
+  if (!key) return entries;
+  let out = [...entries];
+  if (!out.some(([k]) => k === 'RESEND_API_KEY')) {
+    out.push(['RESEND_API_KEY', key]);
+  }
+  out = out.filter(([k]) => k !== 'AUTH_EMAIL_TRANSPORT');
+  out.push(['AUTH_EMAIL_TRANSPORT', 'resend']);
+  return out;
+}
+
 function setVariable(key, value) {
   const args = ['variable', 'set', `${key}=${value}`, '--skip-deploys', ...scopeArgs()];
   runRailway(args);
@@ -147,17 +159,17 @@ async function main() {
 
   let entries = parseVarsFile();
   entries = ensureSmtpForAuth(entries);
+  entries = ensureResendForAuth(entries);
 
   const smtpOk = entries.some(([k, v]) => k === 'SMTP_HOST' && v?.trim());
-  if (!smtpOk) {
-    console.error('\nERROR: SMTP is required for login OTP on Railway.');
-    console.error('Set SMTP_HOST, SMTP_USER, SMTP_PASS, AUTH_EMAIL_FROM in .env.local');
-    console.error('Then: npm run apply:railway && npm run railway:setup');
+  const resendOk = entries.some(([k, v]) => k === 'RESEND_API_KEY' && v?.trim());
+  if (!smtpOk && !resendOk) {
+    console.error('\nERROR: Set SMTP_* or RESEND_API_KEY in .env.local for auth email.');
     process.exit(1);
   }
 
   if (!entries.some(([k]) => k === 'AUTH_EMAIL_TRANSPORT')) {
-    entries.push(['AUTH_EMAIL_TRANSPORT', 'smtp']);
+    entries.push(['AUTH_EMAIL_TRANSPORT', resendOk ? 'resend' : 'smtp']);
   }
 
   entries = entries.filter(([k]) => k !== 'GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH');
