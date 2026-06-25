@@ -6,6 +6,7 @@ type SendParams = {
 };
 
 const SMTP_TIMEOUT_MS = 20_000;
+const RESEND_DEV_FROM = 'PM Structure <onboarding@resend.dev>';
 
 function isCloudRuntime(): boolean {
   return Boolean(
@@ -36,6 +37,10 @@ function isResendConfigured(): boolean {
   return Boolean(process.env.RESEND_API_KEY?.trim());
 }
 
+function resendDomainVerified(): boolean {
+  return process.env.RESEND_DOMAIN_VERIFIED?.trim().toLowerCase() === 'true';
+}
+
 /** Gmail on cloud hosts: port 465 + SSL is more reliable than 587 STARTTLS. */
 function smtpTransportOptions(): { host: string; port: number; secure: boolean } {
   const host = process.env.SMTP_HOST?.trim() ?? '';
@@ -56,6 +61,38 @@ function smtpTransportOptions(): { host: string; port: number; secure: boolean }
   }
 
   return { host, port: 587, secure: envSecure === 'true' };
+}
+
+function resendFromCandidates(): string[] {
+  const custom = process.env.RESEND_FROM?.trim();
+  const candidates: string[] = [];
+
+  if (custom && (resendDomainVerified() || !custom.includes('@pmstructure.com'))) {
+    candidates.push(custom);
+  } else if (custom) {
+    console.warn(
+      '[send-email] RESEND_FROM uses pmstructure.com but RESEND_DOMAIN_VERIFIED is not true — using Resend sandbox sender first',
+    );
+  }
+
+  candidates.push(RESEND_DEV_FROM);
+
+  if (!isCloudRuntime()) {
+    const local = fromHeader();
+    if (local.email) candidates.push(`${local.name} <${local.email}>`);
+  }
+
+  return [...new Set(candidates)];
+}
+
+function resendRecipientHint(body: string): string | null {
+  if (body.includes('only send testing emails to your own email address')) {
+    return 'Resend is in test mode: verify pmstructure.com at resend.com/domains, set RESEND_DOMAIN_VERIFIED=true, then use noreply@pmstructure.com as the sender.';
+  }
+  if (body.includes('domain is not verified')) {
+    return 'Verify pmstructure.com in the Resend dashboard and add the DNS records at your domain registrar.';
+  }
+  return null;
 }
 
 async function sendViaSmtp(params: SendParams): Promise<void> {
@@ -94,32 +131,48 @@ async function sendViaResend(params: SendParams): Promise<void> {
   const key = process.env.RESEND_API_KEY?.trim();
   if (!key) throw new Error('RESEND_API_KEY is not configured');
 
-  const from =
-    process.env.RESEND_FROM?.trim() ||
-    (isCloudRuntime()
-      ? 'PM Structure <onboarding@resend.dev>'
-      : `${fromHeader().name} <${fromHeader().email || 'onboarding@resend.dev'}>`);
+  const candidates = resendFromCandidates();
+  let lastError = '';
 
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${key}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from,
-      to: [params.to],
-      subject: params.subject,
-      text: params.text,
-      html: params.html ?? params.text,
-    }),
-    signal: AbortSignal.timeout(SMTP_TIMEOUT_MS),
-  });
+  for (const from of candidates) {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${key}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from,
+        to: [params.to],
+        subject: params.subject,
+        text: params.text,
+        html: params.html ?? params.text,
+      }),
+      signal: AbortSignal.timeout(SMTP_TIMEOUT_MS),
+    });
 
-  if (!res.ok) {
+    if (res.ok) return;
+
     const body = await res.text().catch(() => '');
-    throw new Error(`Resend HTTP ${res.status}: ${body.slice(0, 300)}`);
+    lastError = `Resend HTTP ${res.status}: ${body.slice(0, 300)}`;
+    const hint = resendRecipientHint(body);
+    if (hint) lastError = `${lastError} — ${hint}`;
+
+    const retryFrom =
+      res.status === 403 &&
+      (body.includes('domain is not verified') ||
+        body.includes('not verified') ||
+        body.includes('validation_error'));
+
+    if (retryFrom && from !== candidates[candidates.length - 1]) {
+      console.error('[send-email] Resend rejected sender, trying fallback:', from);
+      continue;
+    }
+
+    throw new Error(lastError);
   }
+
+  throw new Error(lastError || 'Resend send failed');
 }
 
 export async function sendAuthEmail(params: SendParams): Promise<void> {
@@ -131,13 +184,12 @@ export async function sendAuthEmail(params: SendParams): Promise<void> {
 
   if (preferResend && isResendConfigured()) {
     attempts.push(() => sendViaResend(params));
-    if (!onCloud && isSmtpConfigured()) attempts.push(() => sendViaSmtp(params));
-  } else if (transport === 'smtp') {
-    if (isSmtpConfigured()) attempts.push(() => sendViaSmtp(params));
-    if (isResendConfigured()) attempts.push(() => sendViaResend(params));
-  } else {
-    if (isSmtpConfigured()) attempts.push(() => sendViaSmtp(params));
-    if (isResendConfigured()) attempts.push(() => sendViaResend(params));
+  }
+  if (isSmtpConfigured()) {
+    attempts.push(() => sendViaSmtp(params));
+  }
+  if (!preferResend && isResendConfigured()) {
+    attempts.push(() => sendViaResend(params));
   }
 
   if (!attempts.length) {
@@ -168,6 +220,18 @@ function shouldLogAuthEmailInDev(): boolean {
     process.env.NODE_ENV === 'development' &&
     (process.env.AUTH_DEV_LOG_RESET_LINK === 'true' || process.env.AUTH_DEV_LOG_OTP === 'true')
   );
+}
+
+export async function sendPasswordResetEmail(to: string, link: string): Promise<void> {
+  const subject = 'Reset your PM Structure dashboard password';
+  const text = `Use this link to reset your password (valid 1 hour):\n\n${link}\n\nIf you did not request this, ignore this email.`;
+  const html = `<div style="font-family:system-ui,sans-serif;max-width:480px;margin:0 auto;padding:24px">
+  <p style="margin:0 0 16px;font-size:15px;color:#334155">Reset your PM Structure dashboard password:</p>
+  <p style="margin:0 0 20px"><a href="${link}" style="display:inline-block;background:#f97316;color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:12px">Reset password</a></p>
+  <p style="margin:0 0 12px;font-size:13px;color:#64748b">This link expires in 1 hour. If the button does not work, copy and paste this URL:</p>
+  <p style="margin:0;font-size:12px;word-break:break-all;color:#64748b">${link}</p>
+</div>`;
+  await sendAuthEmail({ to, subject, text, html });
 }
 
 /** Login OTP: plain text + simple HTML for inbox clients. */

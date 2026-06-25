@@ -47,6 +47,12 @@ function productionValue(key, value) {
   const isGmail = /gmail\.com$/i.test(host) || host === 'smtp.gmail.com';
   if (isGmail && key === 'SMTP_PORT') return '465';
   if (isGmail && key === 'SMTP_SECURE') return 'true';
+  if (key === 'RESEND_FROM') {
+    const verified = process.env.RESEND_DOMAIN_VERIFIED?.trim().toLowerCase() === 'true';
+    if (!verified && value.includes('@pmstructure.com')) {
+      return 'PM Structure <onboarding@resend.dev>';
+    }
+  }
   if (key === 'AUTH_EMAIL_TRANSPORT') {
     if (process.env.RESEND_API_KEY?.trim()) return 'resend';
     if (isSmtpConfigured()) return 'smtp';

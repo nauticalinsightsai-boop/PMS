@@ -115,7 +115,12 @@ export const Login: React.FC = () => {
       setResetSent(true);
     } catch (error) {
       console.error('Password reset failed:', error);
-      setFormError('Could not send reset email. Check the address and try again.');
+      setFormError(
+        error instanceof Error
+          ? error.message
+          : 'Could not send reset email. Check the address and try again.',
+      );
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }

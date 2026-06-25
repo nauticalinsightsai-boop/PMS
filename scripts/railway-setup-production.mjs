@@ -128,6 +128,14 @@ function ensureResendForAuth(entries) {
   if (!out.some(([k]) => k === 'RESEND_API_KEY')) {
     out.push(['RESEND_API_KEY', key]);
   }
+  const verified = process.env.RESEND_DOMAIN_VERIFIED?.trim().toLowerCase() === 'true';
+  const fromIdx = out.findIndex(([k]) => k === 'RESEND_FROM');
+  if (fromIdx >= 0 && !verified && out[fromIdx][1]?.includes('@pmstructure.com')) {
+    out[fromIdx][1] = 'PM Structure <onboarding@resend.dev>';
+  }
+  if (!verified && !out.some(([k]) => k === 'RESEND_DOMAIN_VERIFIED')) {
+    out.push(['RESEND_DOMAIN_VERIFIED', 'false']);
+  }
   out = out.filter(([k]) => k !== 'AUTH_EMAIL_TRANSPORT');
   out.push(['AUTH_EMAIL_TRANSPORT', 'resend']);
   return out;

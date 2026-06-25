@@ -204,8 +204,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       body: JSON.stringify({ email: email.trim() }),
     });
     if (!res.ok) {
-      const data = (await res.json().catch(() => ({}))) as { error?: string };
-      throw new Error(data.error || 'Could not send reset email');
+      const data = (await res.json().catch(() => ({}))) as { error?: string; hint?: string };
+      const message = [data.error, data.hint].filter(Boolean).join(' — ');
+      throw new Error(message || 'Could not send reset email');
     }
   };
 

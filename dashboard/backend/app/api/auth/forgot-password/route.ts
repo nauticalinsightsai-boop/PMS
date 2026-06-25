@@ -6,7 +6,7 @@ import { getUserCredentials } from '@/lib/auth/auth-db';
 import { getSupabaseDashboardOne } from '@/lib/auth/supabase-admin';
 import { generateResetToken, hashResetToken } from '@/lib/auth/password-crypto';
 import { buildPasswordResetLink } from '@/lib/auth/email-links';
-import { sendAuthEmail, isEmailConfigured } from '@/lib/auth/send-email';
+import { sendPasswordResetEmail, isEmailConfigured } from '@/lib/auth/send-email';
 import { writeAuthAuditLog } from '@/lib/auth/audit-log';
 
 type Body = { email?: string };
@@ -69,11 +69,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    await sendAuthEmail({
-      to: email,
-      subject: 'Reset your PM Structure dashboard password',
-      text: `Use this link to reset your password (valid 1 hour):\n\n${link}`,
-    });
+    await sendPasswordResetEmail(email, link);
     await writeAuthAuditLog({ email, eventType: 'password_reset_requested' });
   } catch (err) {
     console.error('[forgot-password]', err);
