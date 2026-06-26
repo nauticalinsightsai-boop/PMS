@@ -4,6 +4,14 @@ export const NEWSLETTER_POSTS_FIELD_KEY = 'newsletter_posts_registry';
 
 export const newsletterPostStatusSchema = z.enum(['published', 'draft', 'scheduled']);
 
+export const newsletterEditorMetaSchema = z.object({
+  tone: z.string().default('informative'),
+  template: z.string().default('news_roundup'),
+  segment: z.string().default('all'),
+  sectionCount: z.number().default(4),
+  rawNotes: z.string().default(''),
+});
+
 export const newsletterPostSchema = z.object({
   id: z.string(),
   slug: z.string(),
@@ -19,6 +27,13 @@ export const newsletterPostSchema = z.object({
   topics: z.array(z.string()),
   youtubeUrl: z.string(),
   featuredImageUrl: z.string(),
+  featuredImageMobileUrl: z.string().default(''),
+  heroImageAlt: z.string().default(''),
+  emailSubject: z.string().default(''),
+  emailPreheader: z.string().default(''),
+  ctaLabel: z.string().default(''),
+  ctaUrl: z.string().default(''),
+  editorMeta: newsletterEditorMetaSchema.default({}),
   audioUrl: z.string(),
   content: z.string(),
 });
@@ -29,6 +44,7 @@ export const newsletterPostsRegistrySchema = z.object({
 });
 
 export type NewsletterPostStatus = z.infer<typeof newsletterPostStatusSchema>;
+export type NewsletterEditorMeta = z.infer<typeof newsletterEditorMetaSchema>;
 export type NewsletterPost = z.infer<typeof newsletterPostSchema>;
 export type NewsletterPostsRegistry = z.infer<typeof newsletterPostsRegistrySchema>;
 
@@ -42,6 +58,8 @@ export type NewsletterArticle = {
   author: string;
   readTime: string;
   image: string;
+  imageMobile?: string;
+  heroImageAlt?: string;
   body: string[];
 };
 
@@ -107,6 +125,10 @@ export function resolveNewsletterArticleImage(slug: string, featuredImageUrl?: s
 
 export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle {
   const image = resolveNewsletterArticleImage(post.slug, post.featuredImageUrl);
+  const mobileRaw = post.featuredImageMobileUrl?.trim() ?? '';
+  const imageMobile = mobileRaw
+    ? mobileRaw
+    : image;
 
   return {
     slug: post.slug,
@@ -117,6 +139,8 @@ export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle
     author: post.author || 'PM Structure Editorial',
     readTime: estimateReadTime(post.content),
     image,
+    imageMobile,
+    heroImageAlt: post.heroImageAlt?.trim() || post.title,
     body: contentToBodyParagraphs(post.content),
   };
 }
@@ -127,10 +151,11 @@ export function parseNewsletterPostsRegistry(raw: unknown): NewsletterPostsRegis
   if (!raw || typeof raw !== 'object') return defaultNewsletterPostsRegistry();
   const data = raw as Partial<NewsletterPostsRegistry>;
   if (data.version !== 1 || !Array.isArray(data.posts)) return defaultNewsletterPostsRegistry();
-  return {
-    version: 1,
-    posts: data.posts.filter((post): post is NewsletterPost => Boolean(post?.id && post?.title)),
-  };
+  const posts = data.posts
+    .map((post) => newsletterPostSchema.safeParse(post))
+    .filter((row): row is { success: true; data: NewsletterPost } => row.success)
+    .map((row) => row.data);
+  return { version: 1, posts };
 }
 
 export function defaultNewsletterPostsRegistry(): NewsletterPostsRegistry {
@@ -156,6 +181,19 @@ export function defaultNewsletterPostsRegistry(): NewsletterPostsRegistry {
         topics: ['Safety'],
         youtubeUrl: '',
         featuredImageUrl: '/images/marketing/mentorship-circle-900.webp',
+        featuredImageMobileUrl: '',
+        heroImageAlt: '',
+        emailSubject: '',
+        emailPreheader: '',
+        ctaLabel: '',
+        ctaUrl: '',
+        editorMeta: {
+          tone: 'informative',
+          template: 'news_roundup',
+          segment: 'all',
+          sectionCount: 4,
+          rawNotes: '',
+        },
         audioUrl: '',
         content:
           'I vividly remember sitting across from a Project Director during a tense budget meeting for a massive offshore expansion project. The conversation turned to safety investment: and whether it was optional.\n\n## The Moral Reason\n\nEvery organization has an ethical duty to protect people who depend on its operations.\n\n## The Legal Reason\n\nRegulators expect documented controls, not good intentions.\n\n## The Financial Reason\n\nAccidents destroy margin through downtime, fines, and reputational loss.',
@@ -177,6 +215,19 @@ export function defaultNewsletterPostsRegistry(): NewsletterPostsRegistry {
         topics: ['Certification'],
         youtubeUrl: '',
         featuredImageUrl: '',
+        featuredImageMobileUrl: '',
+        heroImageAlt: '',
+        emailSubject: '',
+        emailPreheader: '',
+        ctaLabel: '',
+        ctaUrl: '',
+        editorMeta: {
+          tone: 'informative',
+          template: 'news_roundup',
+          segment: 'all',
+          sectionCount: 4,
+          rawNotes: '',
+        },
         audioUrl: '',
         content: 'Structured pathways beat random content consumption every time.',
       },
@@ -201,6 +252,19 @@ export function createEmptyNewsletterPost(): NewsletterPost {
     topics: [],
     youtubeUrl: '',
     featuredImageUrl: '',
+    featuredImageMobileUrl: '',
+    heroImageAlt: '',
+    emailSubject: '',
+    emailPreheader: '',
+    ctaLabel: '',
+    ctaUrl: '',
+    editorMeta: {
+      tone: 'informative',
+      template: 'news_roundup',
+      segment: 'all',
+      sectionCount: 4,
+      rawNotes: '',
+    },
     audioUrl: '',
     content: '',
   };

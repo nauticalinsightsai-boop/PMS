@@ -54,10 +54,18 @@ export function NewsletterArticlePage({
       </section>
 
       <div className="container mx-auto max-w-4xl py-12 md:py-16">
-        <div className="aspect-[16/10] rounded-[2rem] overflow-hidden shadow-xl mb-12">
+        <div className="aspect-[16/10] rounded-[2rem] overflow-hidden shadow-xl mb-12 md:hidden">
+          <img
+            src={resolveNewsletterArticleImage(article.slug, article.imageMobile ?? article.image)}
+            alt={article.heroImageAlt ?? article.title}
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+        <div className="hidden md:block aspect-[16/10] rounded-[2rem] overflow-hidden shadow-xl mb-12">
           <img
             src={resolveNewsletterArticleImage(article.slug, article.image)}
-            alt={article.title}
+            alt={article.heroImageAlt ?? article.title}
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
