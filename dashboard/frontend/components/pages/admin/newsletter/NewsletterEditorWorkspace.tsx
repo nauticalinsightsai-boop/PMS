@@ -15,6 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
+import { MarkdownContentEditor } from './MarkdownContentEditor';
 import { estimateReadTime, type NewsletterEditorMeta, type NewsletterPost } from '@/lib/newsletter-posts';
 import {
   buildNewsletterScaffold,
@@ -321,12 +322,18 @@ export function NewsletterEditorWorkspace({ post, onChange, onMetaChange }: Prop
 
         <div>
           <FieldLabel required>Post content</FieldLabel>
-          <Textarea
+          <MarkdownContentEditor
             value={post.content}
-            onChange={(e) => onChange({ content: e.target.value })}
+            onChange={(content) => onChange({ content })}
             rows={18}
-            className="min-h-96 font-mono text-sm leading-relaxed"
+            placeholder="Write your newsletter… Use the toolbar for headings, bold, lists, quotes, and links."
           />
+          <p className="mt-1.5 text-xs text-muted-foreground">
+            Formatting uses Markdown: select text and use the toolbar, or type{' '}
+            <code className="rounded bg-muted px-1">**bold**</code>,{' '}
+            <code className="rounded bg-muted px-1">## Heading</code>,{' '}
+            <code className="rounded bg-muted px-1">&gt; quote</code> directly.
+          </p>
         </div>
       </div>
 

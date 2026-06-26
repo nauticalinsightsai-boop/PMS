@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Badge } from '@/components/ui/badge';
 import { ArticleCard, CTABanner } from '@/components/NewsletterComponents';
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
@@ -71,10 +73,10 @@ export function NewsletterArticlePage({
           />
         </div>
 
-        <div className="prose prose-slate dark:prose-invert max-w-none prose-p:font-medium prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-400 prose-headings:font-heading">
-          {article.body.map((paragraph, i) => (
-            <p key={i}>{paragraph}</p>
-          ))}
+        <div className="prose prose-slate dark:prose-invert max-w-none prose-p:font-medium prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-400 prose-headings:font-heading prose-a:text-brand-orange prose-strong:text-slate-900 dark:prose-strong:text-white">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {article.body.join('\n\n')}
+          </ReactMarkdown>
         </div>
 
         <div className="mt-12 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/50">
