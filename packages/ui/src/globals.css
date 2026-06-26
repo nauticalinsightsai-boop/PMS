@@ -472,6 +472,46 @@
     @apply bg-background/80 backdrop-blur-sm;
   }
 
+  /* Admin dashboard shell — flat, sorted, minimal shadow */
+  #dashboard-root {
+    --dashboard-sidebar-width: 3.5rem;
+  }
+  #dashboard-root .bg-dashboard-canvas {
+    @apply bg-muted/30 dark:bg-background;
+  }
+  #dashboard-root .dashboard-panel {
+    @apply rounded-xl border border-border bg-card text-card-foreground shadow-sm;
+  }
+  #dashboard-root .dashboard-segmented {
+    @apply inline-flex items-center gap-0.5 rounded-lg border border-border bg-muted/60 p-0.5;
+  }
+  #dashboard-root .dashboard-segmented-btn {
+    @apply inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors;
+  }
+  #dashboard-root .dashboard-segmented-btn[data-active='true'] {
+    @apply bg-background text-foreground shadow-sm;
+  }
+  #dashboard-root .dashboard-input {
+    @apply w-full rounded-lg border border-input bg-background px-3 py-2 text-sm shadow-none outline-none focus-visible:ring-2 focus-visible:ring-ring/25;
+  }
+  #dashboard-root .dashboard-nav-item {
+    @apply flex items-center rounded-lg text-sm font-medium text-muted-foreground transition-colors;
+  }
+  #dashboard-root .dashboard-nav-item[data-active='true'] {
+    @apply bg-accent text-accent-foreground font-semibold;
+  }
+  #dashboard-root .dashboard-nav-item:hover {
+    @apply bg-muted text-foreground;
+  }
+  #dashboard-root .text-label {
+    @apply text-[11px] font-semibold uppercase tracking-wider text-muted-foreground;
+  }
+  #dashboard-root .cta-consultation,
+  #dashboard-root button[class*='uppercase'] {
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
   /* /go/website: match marketing home hero shell */
   .portal-website {
     background-color: transparent !important;

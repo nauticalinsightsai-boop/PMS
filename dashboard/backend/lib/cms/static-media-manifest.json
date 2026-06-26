@@ -1,0 +1,966 @@
+{
+  "generatedAt": "2026-06-26T13:14:55.883Z",
+  "count": 192,
+  "items": [
+    {
+      "name": "brand/pmi-logo.png",
+      "path": "/brand/pmi-logo.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-icon-dark.png",
+      "path": "/brand/pms-icon-dark.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-icon-dark.source.png",
+      "path": "/brand/pms-icon-dark.source.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-icon-dark.webp",
+      "path": "/brand/pms-icon-dark.webp",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-icon.png",
+      "path": "/brand/pms-icon.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-icon.source.png",
+      "path": "/brand/pms-icon.source.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-icon.webp",
+      "path": "/brand/pms-icon.webp",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-logo-dark.png",
+      "path": "/brand/pms-logo-dark.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-logo-dark.source.png",
+      "path": "/brand/pms-logo-dark.source.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-logo-light.png",
+      "path": "/brand/pms-logo-light.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-logo-light.source.png",
+      "path": "/brand/pms-logo-light.source.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-mark-dark.png",
+      "path": "/brand/pms-mark-dark.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-mark-dark.source.png",
+      "path": "/brand/pms-mark-dark.source.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-mark-light.png",
+      "path": "/brand/pms-mark-light.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/pms-mark-light.source.png",
+      "path": "/brand/pms-mark-light.source.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/prince2-logo.png",
+      "path": "/brand/prince2-logo.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/prince2-logo.svg",
+      "path": "/brand/prince2-logo.svg",
+      "category": "brand"
+    },
+    {
+      "name": "brand/sixsigma-logo.png",
+      "path": "/brand/sixsigma-logo.png",
+      "category": "brand"
+    },
+    {
+      "name": "brand/sixsigma-logo.svg",
+      "path": "/brand/sixsigma-logo.svg",
+      "category": "brand"
+    },
+    {
+      "name": "images/logo/ai-visibility-mark.png",
+      "path": "/images/logo/ai-visibility-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/amazon-audible-mark.png",
+      "path": "/images/logo/amazon-audible-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/api-ai-fed-mark-dark.png",
+      "path": "/images/logo/api-ai-fed-mark-dark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/api-ai-fed-mark-light.png",
+      "path": "/images/logo/api-ai-fed-mark-light.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/apple-podcasts-mark.png",
+      "path": "/images/logo/apple-podcasts-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/beehiiv-mark-dark.png",
+      "path": "/images/logo/beehiiv-mark-dark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/beehiiv-mark-light.png",
+      "path": "/images/logo/beehiiv-mark-light.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/bing-search-mark.png",
+      "path": "/images/logo/bing-search-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/bluesky-mark.png",
+      "path": "/images/logo/bluesky-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/discord-mark.png",
+      "path": "/images/logo/discord-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/ghost-mark.png",
+      "path": "/images/logo/ghost-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/google-podcasts-mark.png",
+      "path": "/images/logo/google-podcasts-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/google-search-mark.png",
+      "path": "/images/logo/google-search-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/hashnode-mark.png",
+      "path": "/images/logo/hashnode-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/instagram-mark.png",
+      "path": "/images/logo/instagram-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/linkedin-mark.png",
+      "path": "/images/logo/linkedin-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/mastodon-mark.png",
+      "path": "/images/logo/mastodon-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/medium-mark-dark.png",
+      "path": "/images/logo/medium-mark-dark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/medium-mark-light.png",
+      "path": "/images/logo/medium-mark-light.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/notion-mark-dark.png",
+      "path": "/images/logo/notion-mark-dark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/notion-mark-light.png",
+      "path": "/images/logo/notion-mark-light.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/pinterest-mark.png",
+      "path": "/images/logo/pinterest-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/podbean-mark.png",
+      "path": "/images/logo/podbean-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/quora-mark.png",
+      "path": "/images/logo/quora-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/reddit-mark.png",
+      "path": "/images/logo/reddit-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/slack-mark.png",
+      "path": "/images/logo/slack-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/snapchat-mark.png",
+      "path": "/images/logo/snapchat-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/soundcloud-mark.png",
+      "path": "/images/logo/soundcloud-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/spotify-mark.png",
+      "path": "/images/logo/spotify-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/substack-mark.png",
+      "path": "/images/logo/substack-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/telegram-mark.png",
+      "path": "/images/logo/telegram-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/tiktok-mark.png",
+      "path": "/images/logo/tiktok-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/vimeo-mark.png",
+      "path": "/images/logo/vimeo-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/vk-mark.png",
+      "path": "/images/logo/vk-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/whatsapp-mark.png",
+      "path": "/images/logo/whatsapp-mark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/x-mark-dark.png",
+      "path": "/images/logo/x-mark-dark.png",
+      "category": "images"
+    },
+    {
+      "name": "images/logo/x-mark-light.png",
+      "path": "/images/logo/x-mark-light.png",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/about-session-800.webp",
+      "path": "/images/marketing/about-session-800.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/about-workshop-800.webp",
+      "path": "/images/marketing/about-workshop-800.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/community-collab-600.webp",
+      "path": "/images/marketing/community-collab-600.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/community-image-sources/community-collab-600.jpg",
+      "path": "/images/marketing/community-image-sources/community-collab-600.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/community-image-sources/community-mentor-600.jpg",
+      "path": "/images/marketing/community-image-sources/community-mentor-600.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/community-image-sources/community-network-600.jpg",
+      "path": "/images/marketing/community-image-sources/community-network-600.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/community-image-sources/community-workshop-600.jpg",
+      "path": "/images/marketing/community-image-sources/community-workshop-600.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/community-mentor-600.webp",
+      "path": "/images/marketing/community-mentor-600.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/community-network-600.webp",
+      "path": "/images/marketing/community-network-600.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/community-workshop-600.webp",
+      "path": "/images/marketing/community-workshop-600.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/hero-social-avatar-1.webp",
+      "path": "/images/marketing/hero-social-avatar-1.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/hero-social-avatar-2.webp",
+      "path": "/images/marketing/hero-social-avatar-2.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/hero-social-avatar-3.webp",
+      "path": "/images/marketing/hero-social-avatar-3.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/hero-social-avatar-4.webp",
+      "path": "/images/marketing/hero-social-avatar-4.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/hero-social-avatar-founder.webp",
+      "path": "/images/marketing/hero-social-avatar-founder.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/hero-social-avatar-sources/hero-social-avatar-1.jpg",
+      "path": "/images/marketing/hero-social-avatar-sources/hero-social-avatar-1.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/hero-social-avatar-sources/hero-social-avatar-2.jpg",
+      "path": "/images/marketing/hero-social-avatar-sources/hero-social-avatar-2.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/hero-social-avatar-sources/hero-social-avatar-3.jpg",
+      "path": "/images/marketing/hero-social-avatar-sources/hero-social-avatar-3.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/hero-social-avatar-sources/hero-social-avatar-4.jpg",
+      "path": "/images/marketing/hero-social-avatar-sources/hero-social-avatar-4.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/hero-social-avatar-sources/hero-social-avatar-founder.png",
+      "path": "/images/marketing/hero-social-avatar-sources/hero-social-avatar-founder.png",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/membership-guides-500.webp",
+      "path": "/images/marketing/membership-guides-500.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/membership-templates-500.webp",
+      "path": "/images/marketing/membership-templates-500.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/membership-tools-500.webp",
+      "path": "/images/marketing/membership-tools-500.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/membership-webinars-500.webp",
+      "path": "/images/marketing/membership-webinars-500.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/mentorship-circle-900.webp",
+      "path": "/images/marketing/mentorship-circle-900.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-amara.webp",
+      "path": "/images/marketing/pmp-avatar-amara.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-david.webp",
+      "path": "/images/marketing/pmp-avatar-david.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-elena.webp",
+      "path": "/images/marketing/pmp-avatar-elena.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-fatima.webp",
+      "path": "/images/marketing/pmp-avatar-fatima.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-hassan.webp",
+      "path": "/images/marketing/pmp-avatar-hassan.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-james.webp",
+      "path": "/images/marketing/pmp-avatar-james.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-michael.webp",
+      "path": "/images/marketing/pmp-avatar-michael.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-priya.webp",
+      "path": "/images/marketing/pmp-avatar-priya.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-robert.webp",
+      "path": "/images/marketing/pmp-avatar-robert.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-sarah.webp",
+      "path": "/images/marketing/pmp-avatar-sarah.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-sources/pmp-avatar-amara.jpg",
+      "path": "/images/marketing/pmp-avatar-sources/pmp-avatar-amara.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-sources/pmp-avatar-david.jpg",
+      "path": "/images/marketing/pmp-avatar-sources/pmp-avatar-david.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-sources/pmp-avatar-elena.jpg",
+      "path": "/images/marketing/pmp-avatar-sources/pmp-avatar-elena.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-sources/pmp-avatar-fatima.jpg",
+      "path": "/images/marketing/pmp-avatar-sources/pmp-avatar-fatima.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-sources/pmp-avatar-hassan.jpg",
+      "path": "/images/marketing/pmp-avatar-sources/pmp-avatar-hassan.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-sources/pmp-avatar-james.jpg",
+      "path": "/images/marketing/pmp-avatar-sources/pmp-avatar-james.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-sources/pmp-avatar-michael.jpg",
+      "path": "/images/marketing/pmp-avatar-sources/pmp-avatar-michael.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-sources/pmp-avatar-priya.jpg",
+      "path": "/images/marketing/pmp-avatar-sources/pmp-avatar-priya.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-sources/pmp-avatar-robert.jpg",
+      "path": "/images/marketing/pmp-avatar-sources/pmp-avatar-robert.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/pmp-avatar-sources/pmp-avatar-sarah.jpg",
+      "path": "/images/marketing/pmp-avatar-sources/pmp-avatar-sarah.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/section-image-sources/about-session-800.jpg",
+      "path": "/images/marketing/section-image-sources/about-session-800.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/section-image-sources/about-workshop-800.jpg",
+      "path": "/images/marketing/section-image-sources/about-workshop-800.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/section-image-sources/membership-guides-500.jpg",
+      "path": "/images/marketing/section-image-sources/membership-guides-500.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/section-image-sources/membership-templates-500.jpg",
+      "path": "/images/marketing/section-image-sources/membership-templates-500.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/section-image-sources/membership-tools-500.jpg",
+      "path": "/images/marketing/section-image-sources/membership-tools-500.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/section-image-sources/membership-webinars-500.jpg",
+      "path": "/images/marketing/section-image-sources/membership-webinars-500.jpg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/section-image-sources/mentorship-circle-900.jpg",
+      "path": "/images/marketing/section-image-sources/mentorship-circle-900.jpg",
+      "category": "images"
+    },
+    {
+      "name": "og/default.png",
+      "path": "/og/default.png",
+      "category": "og"
+    },
+    {
+      "name": "portal/learners/ai-visibility-1.webp",
+      "path": "/portal/learners/ai-visibility-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/ai-visibility-2.webp",
+      "path": "/portal/learners/ai-visibility-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/amazon-audible-1.webp",
+      "path": "/portal/learners/amazon-audible-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/amazon-audible-2.webp",
+      "path": "/portal/learners/amazon-audible-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/api-ai-fed-1.webp",
+      "path": "/portal/learners/api-ai-fed-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/api-ai-fed-2.webp",
+      "path": "/portal/learners/api-ai-fed-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/apple-podcasts-1.webp",
+      "path": "/portal/learners/apple-podcasts-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/apple-podcasts-2.webp",
+      "path": "/portal/learners/apple-podcasts-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/beehiiv-1.webp",
+      "path": "/portal/learners/beehiiv-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/beehiiv-2.webp",
+      "path": "/portal/learners/beehiiv-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/bing-search-1.webp",
+      "path": "/portal/learners/bing-search-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/bing-search-2.webp",
+      "path": "/portal/learners/bing-search-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/bluesky-1.webp",
+      "path": "/portal/learners/bluesky-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/bluesky-2.webp",
+      "path": "/portal/learners/bluesky-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/content-aggregators-1.webp",
+      "path": "/portal/learners/content-aggregators-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/content-aggregators-2.webp",
+      "path": "/portal/learners/content-aggregators-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/discord-1.webp",
+      "path": "/portal/learners/discord-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/discord-2.webp",
+      "path": "/portal/learners/discord-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/email-1.webp",
+      "path": "/portal/learners/email-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/email-2.webp",
+      "path": "/portal/learners/email-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/facebook-1.webp",
+      "path": "/portal/learners/facebook-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/facebook-2.webp",
+      "path": "/portal/learners/facebook-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/ghost-1.webp",
+      "path": "/portal/learners/ghost-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/ghost-2.webp",
+      "path": "/portal/learners/ghost-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/google-search-1.webp",
+      "path": "/portal/learners/google-search-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/google-search-2.webp",
+      "path": "/portal/learners/google-search-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/hashnode-1.webp",
+      "path": "/portal/learners/hashnode-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/hashnode-2.webp",
+      "path": "/portal/learners/hashnode-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/instagram-1.webp",
+      "path": "/portal/learners/instagram-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/instagram-2.webp",
+      "path": "/portal/learners/instagram-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/linkedin-1.webp",
+      "path": "/portal/learners/linkedin-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/linkedin-2.webp",
+      "path": "/portal/learners/linkedin-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/mastodon-1.webp",
+      "path": "/portal/learners/mastodon-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/mastodon-2.webp",
+      "path": "/portal/learners/mastodon-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/medium-1.webp",
+      "path": "/portal/learners/medium-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/medium-2.webp",
+      "path": "/portal/learners/medium-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/notion-public-1.webp",
+      "path": "/portal/learners/notion-public-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/notion-public-2.webp",
+      "path": "/portal/learners/notion-public-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/pinterest-1.webp",
+      "path": "/portal/learners/pinterest-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/pinterest-2.webp",
+      "path": "/portal/learners/pinterest-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/podbean-1.webp",
+      "path": "/portal/learners/podbean-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/podbean-2.webp",
+      "path": "/portal/learners/podbean-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/podcast-directories-1.webp",
+      "path": "/portal/learners/podcast-directories-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/podcast-directories-2.webp",
+      "path": "/portal/learners/podcast-directories-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/quora-1.webp",
+      "path": "/portal/learners/quora-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/quora-2.webp",
+      "path": "/portal/learners/quora-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/reddit-1.webp",
+      "path": "/portal/learners/reddit-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/reddit-2.webp",
+      "path": "/portal/learners/reddit-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/rss-feeds-1.webp",
+      "path": "/portal/learners/rss-feeds-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/rss-feeds-2.webp",
+      "path": "/portal/learners/rss-feeds-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/slack-1.webp",
+      "path": "/portal/learners/slack-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/slack-2.webp",
+      "path": "/portal/learners/slack-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/snapchat-1.webp",
+      "path": "/portal/learners/snapchat-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/snapchat-2.webp",
+      "path": "/portal/learners/snapchat-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/soundcloud-1.webp",
+      "path": "/portal/learners/soundcloud-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/soundcloud-2.webp",
+      "path": "/portal/learners/soundcloud-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/spotify-1.webp",
+      "path": "/portal/learners/spotify-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/spotify-2.webp",
+      "path": "/portal/learners/spotify-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/substack-1.webp",
+      "path": "/portal/learners/substack-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/substack-2.webp",
+      "path": "/portal/learners/substack-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/telegram-1.webp",
+      "path": "/portal/learners/telegram-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/telegram-2.webp",
+      "path": "/portal/learners/telegram-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/threads-1.webp",
+      "path": "/portal/learners/threads-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/threads-2.webp",
+      "path": "/portal/learners/threads-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/tiktok-1.webp",
+      "path": "/portal/learners/tiktok-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/tiktok-2.webp",
+      "path": "/portal/learners/tiktok-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/twitter-1.webp",
+      "path": "/portal/learners/twitter-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/twitter-2.webp",
+      "path": "/portal/learners/twitter-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/vimeo-1.webp",
+      "path": "/portal/learners/vimeo-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/vimeo-2.webp",
+      "path": "/portal/learners/vimeo-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/vk-1.webp",
+      "path": "/portal/learners/vk-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/vk-2.webp",
+      "path": "/portal/learners/vk-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/webinar-1.webp",
+      "path": "/portal/learners/webinar-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/webinar-2.webp",
+      "path": "/portal/learners/webinar-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/website-1.webp",
+      "path": "/portal/learners/website-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/website-2.webp",
+      "path": "/portal/learners/website-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/whatsapp-1.webp",
+      "path": "/portal/learners/whatsapp-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/whatsapp-2.webp",
+      "path": "/portal/learners/whatsapp-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/youtube-1.webp",
+      "path": "/portal/learners/youtube-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/youtube-2.webp",
+      "path": "/portal/learners/youtube-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/youtube-search-1.webp",
+      "path": "/portal/learners/youtube-search-1.webp",
+      "category": "portal"
+    },
+    {
+      "name": "portal/learners/youtube-search-2.webp",
+      "path": "/portal/learners/youtube-search-2.webp",
+      "category": "portal"
+    },
+    {
+      "name": "programme/pmp-foundation-roadmap.png",
+      "path": "/programme/pmp-foundation-roadmap.png",
+      "category": "programme"
+    }
+  ]
+}

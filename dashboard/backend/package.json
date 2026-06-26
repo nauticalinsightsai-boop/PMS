@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@pms/booking-crm": "file:../../packages/booking-crm",
+    "@aws-sdk/client-s3": "^3.888.0",
     "google-auth-library": "^9.15.1",
     "@supabase/supabase-js": "^2.105.4",
     "nodemailer": "^6.10.1",

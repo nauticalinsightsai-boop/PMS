@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import {
   Menu,
@@ -32,8 +32,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+const MODE_TABS: Array<{
+  id: DashboardMode;
+  label: string;
+  mobileLabel: string;
+  icon: typeof PenLine;
+}> = [
+  { id: 'editor', label: 'Editor', mobileLabel: 'Editor', icon: PenLine },
+  { id: 'bookings', label: 'Booking CRM', mobileLabel: 'Booking', icon: CalendarRange },
+  { id: 'admin', label: 'Admin control', mobileLabel: 'Admin', icon: SlidersHorizontal },
+];
+
 export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const router = useRouter();
   const { user, logout } = useAuth();
   const { mode, setMode } = useDashboardMode();
   const { theme, setTheme } = useTheme();
@@ -41,22 +51,16 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
   const [isSidebarHovered, setSidebarHovered] = useState(false);
   const [hoveredMenuPath, setHoveredMenuPath] = useState<string | null>(null);
   const closeSidebarTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const hoverNavigateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reduceMotion = useReducedMotion();
   const pathname = normalizeDashboardPath(usePathname() ?? '');
 
   const isSidebarExpanded = isSidebarOpen || isSidebarHovered;
   const currentRoutes = DASHBOARD_ROUTES[mode];
-  const collapseDelayMs = 180;
+  const contentMaxWidth = 'max-w-7xl';
 
   useEffect(
     () => () => {
-      if (closeSidebarTimeoutRef.current) {
-        clearTimeout(closeSidebarTimeoutRef.current);
-      }
-      if (hoverNavigateTimeoutRef.current) {
-        clearTimeout(hoverNavigateTimeoutRef.current);
-      }
+      if (closeSidebarTimeoutRef.current) clearTimeout(closeSidebarTimeoutRef.current);
     },
     [],
   );
@@ -68,28 +72,18 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
-  const clearHoverNavigateTimeout = () => {
-    if (hoverNavigateTimeoutRef.current) {
-      clearTimeout(hoverNavigateTimeoutRef.current);
-      hoverNavigateTimeoutRef.current = null;
-    }
-  };
-
   const openDesktopSidebar = () => {
-    if (typeof window !== 'undefined' && !window.matchMedia('(min-width: 1024px)').matches) {
-      return;
-    }
+    if (typeof window !== 'undefined' && !window.matchMedia('(min-width: 1024px)').matches) return;
     clearCloseSidebarTimeout();
     setSidebarHovered(true);
   };
 
   const closeDesktopSidebarWithDelay = () => {
     clearCloseSidebarTimeout();
-    clearHoverNavigateTimeout();
     closeSidebarTimeoutRef.current = setTimeout(() => {
       setSidebarHovered(false);
       setHoveredMenuPath(null);
-    }, collapseDelayMs);
+    }, 160);
   };
 
   const handleLogout = async () => {
@@ -101,23 +95,11 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
-  const hoverNavigateDelayMs = 300;
-  const queueHoverNavigation = (path: string) => {
-    clearHoverNavigateTimeout();
-    hoverNavigateTimeoutRef.current = setTimeout(() => {
-      if (pathname !== path) {
-        router.push(dashboardHref(path));
-      }
-    }, hoverNavigateDelayMs);
-  };
-
   const navItemClasses = (isActive: boolean) =>
     cn(
-      'group flex items-center px-3 py-2 text-sm font-medium rounded-xl transition-all duration-200 motion-reduce:duration-0 motion-reduce:transform-none',
-      !isSidebarExpanded && 'lg:justify-center lg:px-2',
-      isActive
-        ? 'bg-brand-orange/10 text-brand-orange font-semibold border-l-2 border-brand-orange'
-        : 'text-muted-foreground hover:bg-muted/80 hover:text-foreground',
+      'dashboard-nav-item',
+      isSidebarExpanded ? 'px-3 py-2' : 'lg:justify-center lg:px-0 lg:py-2 lg:w-10 lg:mx-auto',
+      isActive && 'bg-accent text-accent-foreground font-semibold',
     );
 
   return (
@@ -129,8 +111,8 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSidebarOpen(false)}
-            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
-            transition={{ duration: reduceMotion ? 0 : 0.2 }}
+            className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+            transition={{ duration: reduceMotion ? 0 : 0.15 }}
           />
         )}
       </AnimatePresence>
@@ -148,30 +130,34 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           }
         }}
         className={cn(
-          'fixed inset-y-0 left-0 z-sidebar flex shrink-0 flex-col bg-background/95 backdrop-blur-md border-r border-border',
-          'transition-[width,transform] duration-300 ease-out motion-reduce:transition-none lg:translate-x-0',
-          isSidebarExpanded ? 'w-72 translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-[4.5rem]',
+          'fixed inset-y-0 left-0 z-sidebar flex shrink-0 flex-col overflow-hidden border-r border-border bg-card',
+          'transition-[width,transform] duration-200 ease-out motion-reduce:transition-none lg:translate-x-0',
+          isSidebarExpanded ? 'w-60 translate-x-0' : '-translate-x-full lg:w-14',
         )}
       >
         <div
           className={cn(
-            'flex items-center h-[75px] border-b border-border shrink-0',
-            isSidebarExpanded ? 'justify-between px-6' : 'justify-center px-2 lg:px-2',
+            'flex h-14 shrink-0 items-center border-b border-border',
+            isSidebarExpanded ? 'justify-between px-4' : 'justify-center px-2',
           )}
         >
           {isSidebarExpanded ? (
-            <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)} className="flex items-center gap-2 min-w-0">
+            <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)} className="flex min-w-0 items-center gap-2">
               <BrandLogo />
             </Link>
           ) : (
-            <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)} className="hidden lg:flex items-center justify-center" title="Website">
+            <Link
+              href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)}
+              className="hidden lg:flex items-center justify-center"
+              title="Dashboard home"
+            >
               <BrandLogo size="sm" />
             </Link>
           )}
           <button
             type="button"
             onClick={() => setSidebarOpen(false)}
-            className="p-2 lg:hidden text-muted-foreground hover:text-foreground"
+            className="p-2 text-muted-foreground hover:text-foreground lg:hidden"
             aria-label="Close menu"
           >
             <X size={20} />
@@ -179,22 +165,25 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
         </div>
 
         <nav
-          className="flex-1 overflow-y-auto overflow-x-hidden py-6 px-2 lg:px-2 space-y-8 no-scrollbar"
+          className={cn(
+            'flex-1 overflow-y-auto overflow-x-hidden no-scrollbar',
+            isSidebarExpanded ? 'space-y-5 px-3 py-4' : 'space-y-2 px-2 py-3',
+          )}
           aria-label="Main dashboard sections"
         >
           {currentRoutes.map((section) => (
             <div key={section.title} className="space-y-1">
-              {isSidebarExpanded && <h3 className="px-3 text-label mb-3">{section.title}</h3>}
+              {isSidebarExpanded ? (
+                <h3 className="px-2 pb-1 text-label">{section.title}</h3>
+              ) : null}
               {section.items.map((item) => (
                 <div
                   key={item.path}
                   className="relative group/menu-item"
                   onMouseEnter={() => {
                     if (item.subItems) setHoveredMenuPath(item.path);
-                    queueHoverNavigation(item.path);
                   }}
                   onMouseLeave={() => {
-                    clearHoverNavigateTimeout();
                     if (item.subItems) setHoveredMenuPath(null);
                   }}
                 >
@@ -204,71 +193,59 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                     className={navItemClasses}
                     title={!isSidebarExpanded ? item.name : undefined}
                   >
-                    <item.icon size={20} className={cn('shrink-0', isSidebarExpanded && 'mr-3')} />
+                    <item.icon size={18} className={cn('shrink-0', isSidebarExpanded && 'mr-3')} strokeWidth={2} />
                     <span
                       className={cn(
-                        'truncate transition-all duration-200 motion-reduce:transition-none',
-                        isSidebarExpanded
-                          ? 'opacity-100 translate-x-0'
-                          : 'opacity-0 -translate-x-1 lg:sr-only lg:absolute',
+                        'truncate',
+                        isSidebarExpanded ? 'opacity-100' : 'opacity-0 lg:sr-only lg:absolute',
                       )}
                     >
                       {item.name}
                     </span>
                   </DashboardNavLink>
-                  {item.subItems &&
-                    isSidebarExpanded &&
-                    (pathname.startsWith(item.path) || hoveredMenuPath === item.path) && (
-                      <div
-                        className="ml-9 mt-1 space-y-1"
-                        role="group"
-                        aria-expanded={pathname.startsWith(item.path) || hoveredMenuPath === item.path}
-                      >
-                        {item.subItems.map((sub) => (
-                          <DashboardNavLink
-                            key={sub.path}
-                            href={sub.path}
-                            onMouseEnter={() => queueHoverNavigation(sub.path)}
-                            onMouseLeave={clearHoverNavigateTimeout}
-                            className={(isActive) =>
-                              cn(
-                                'flex items-center text-xs py-1.5 px-3 rounded-lg transition-colors motion-reduce:transition-none',
-                                isActive
-                                  ? 'text-brand-orange font-semibold'
-                                  : 'text-muted-foreground hover:text-foreground',
-                              )
-                            }
-                          >
-                            {sub.name}
-                          </DashboardNavLink>
-                        ))}
-                      </div>
-                    )}
-                  {item.subItems && !isSidebarExpanded && (
-                    <div className="pointer-events-none absolute left-full top-0 z-50 ml-3 hidden min-w-56 rounded-xl border border-border bg-popover p-2 opacity-0 shadow-xl transition-all duration-200 group-hover/menu-item:pointer-events-auto group-hover/menu-item:opacity-100 group-focus-within/menu-item:pointer-events-auto group-focus-within/menu-item:opacity-100 motion-reduce:transition-none lg:block">
-                      <p className="px-2 py-1 text-label">{item.name}</p>
-                      <div className="mt-1 space-y-1">
-                        {item.subItems.map((sub) => (
-                          <DashboardNavLink
-                            key={sub.path}
-                            href={sub.path}
-                            onMouseEnter={() => queueHoverNavigation(sub.path)}
-                            onMouseLeave={clearHoverNavigateTimeout}
-                            className={(isActive) =>
-                              cn(
-                                'flex items-center rounded-lg px-2.5 py-2 text-xs transition-colors motion-reduce:transition-none',
-                                isActive
-                                  ? 'text-brand-orange bg-brand-orange/10 font-semibold'
-                                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/80',
-                              )
-                            }
-                          >
-                            {sub.name}
-                          </DashboardNavLink>
-                        ))}
-                      </div>
+
+                  {item.subItems && isSidebarExpanded && (pathname.startsWith(item.path) || hoveredMenuPath === item.path) ? (
+                    <div className="ml-8 mt-0.5 space-y-0.5 border-l border-border pl-2" role="group">
+                      {item.subItems.map((sub) => (
+                        <DashboardNavLink
+                          key={sub.path}
+                          href={sub.path}
+                          className={(isActive) =>
+                            cn(
+                              'block rounded-md py-1.5 pl-2 text-xs transition-colors',
+                              isActive
+                                ? 'font-semibold text-brand-orange'
+                                : 'text-muted-foreground hover:text-foreground',
+                            )
+                          }
+                        >
+                          {sub.name}
+                        </DashboardNavLink>
+                      ))}
                     </div>
-                  )}
+                  ) : null}
+
+                  {item.subItems && !isSidebarExpanded ? (
+                    <div className="pointer-events-none absolute left-full top-0 z-50 ml-2 hidden min-w-52 rounded-lg border border-border bg-popover p-1.5 opacity-0 shadow-md transition-opacity group-hover/menu-item:pointer-events-auto group-hover/menu-item:opacity-100 group-focus-within/menu-item:pointer-events-auto group-focus-within/menu-item:opacity-100 lg:block">
+                      <p className="px-2 py-1.5 text-label">{item.name}</p>
+                      {item.subItems.map((sub) => (
+                        <DashboardNavLink
+                          key={sub.path}
+                          href={sub.path}
+                          className={(isActive) =>
+                            cn(
+                              'block rounded-md px-2 py-1.5 text-xs transition-colors',
+                              isActive
+                                ? 'bg-accent font-semibold text-accent-foreground'
+                                : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                            )
+                          }
+                        >
+                          {sub.name}
+                        </DashboardNavLink>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               ))}
             </div>
@@ -276,101 +253,85 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
         </nav>
       </aside>
 
-      <div
-        className={cn(
-          'flex min-w-0 flex-1 flex-col overflow-hidden transition-[padding] duration-300 ease-out motion-reduce:transition-none',
-          isSidebarExpanded ? 'lg:pl-72' : 'lg:pl-[4.5rem]',
-        )}
-      >
-        <header className="h-[75px] flex items-center justify-between px-4 md:px-8 border-b border-border bg-background/95 backdrop-blur-md sticky top-0 z-30">
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => setSidebarOpen(true)}
-              aria-label="Open navigation menu"
-              aria-controls="dashboard-sidebar"
-              aria-expanded={isSidebarOpen}
-              className="p-2 lg:hidden text-muted-foreground hover:text-foreground"
-            >
-              <Menu size={24} />
-            </button>
-            <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)} className="lg:hidden flex items-center gap-2 mr-4">
-              <BrandLogo />
-            </Link>
-          </div>
-
-          <div className="flex items-center bg-muted/50 p-1 rounded-2xl border border-border max-w-full overflow-x-auto">
-            {[
-              { id: 'editor', label: 'Editor', mobileLabel: 'Editor', icon: PenLine },
-              { id: 'bookings', label: 'Booking CRM', mobileLabel: 'Booking', icon: CalendarRange },
-              { id: 'admin', label: 'Admin control', mobileLabel: 'Admin', icon: SlidersHorizontal },
-            ].map((t) => (
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden lg:pl-14">
+        <header className="sticky top-0 z-30 flex h-14 items-center justify-center border-b border-border bg-background/95 px-4 backdrop-blur-sm md:px-6">
+          <div className={cn('flex w-full items-center justify-between gap-3', contentMaxWidth, 'mx-auto')}>
+            <div className="flex min-w-0 items-center gap-2">
               <button
-                key={t.id}
                 type="button"
-                onClick={() => setMode(t.id as DashboardMode)}
-                className={cn(
-                  'px-4 py-1.5 text-xs font-semibold rounded-xl transition-all duration-300 flex items-center gap-2',
-                  mode === t.id
-                    ? 'cta-consultation text-white shadow-lg shadow-brand-orange/20'
-                    : 'text-muted-foreground hover:text-foreground',
-                )}
+                onClick={() => setSidebarOpen(true)}
+                aria-label="Open navigation menu"
+                aria-controls="dashboard-sidebar"
+                aria-expanded={isSidebarOpen}
+                className="rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground lg:hidden"
               >
-                <t.icon size={14} className="shrink-0" />
-                <span className="sm:hidden">{t.mobileLabel}</span>
-                <span className="hidden sm:inline">{t.label}</span>
+                <Menu size={22} />
               </button>
-            ))}
-          </div>
+              <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)} className="lg:hidden">
+                <BrandLogo size="sm" />
+              </Link>
+            </div>
 
-          <div className="flex items-center gap-2 md:gap-4">
-            <Button
-              variant="brandOutline"
-              size="sm"
-              className="hidden lg:inline-flex gap-2"
-              render={
-                <a
-                  href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
-              }
-            >
-              View Site <ExternalLink size={12} />
-            </Button>
+            <div className="dashboard-segmented max-w-full shrink-0 overflow-x-auto">
+              {MODE_TABS.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  data-active={mode === t.id}
+                  onClick={() => setMode(t.id)}
+                  className="dashboard-segmented-btn"
+                >
+                  <t.icon size={14} className="shrink-0" />
+                  <span className="sm:hidden">{t.mobileLabel}</span>
+                  <span className="hidden sm:inline">{t.label}</span>
+                </button>
+              ))}
+            </div>
 
-            <button
-              type="button"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-xl border border-border bg-background hover:bg-muted transition-colors"
-            >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden h-8 gap-1.5 lg:inline-flex"
+                render={
+                  <a
+                    href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+              >
+                View site <ExternalLink size={12} />
+              </Button>
 
-            <div className="flex items-center gap-3 pl-2 md:pl-4 border-l border-border">
-              <div className="hidden sm:block text-right">
-                <p className="text-sm font-bold truncate max-w-[120px]">
-                  {user?.email?.split('@')[0] || 'Admin'}
-                </p>
-                <p className="text-label">
-                  {(user?.user_metadata as { role?: string })?.role || 'Administrator'}
-                </p>
-              </div>
+              <button
+                type="button"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              </button>
+
               <DropdownMenu>
                 <DropdownMenuTrigger
-                  className="flex h-10 w-10 items-center justify-center rounded-full cta-consultation text-sm font-bold text-white premium-shadow outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-muted text-xs font-semibold text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   aria-label="Account menu"
                 >
                   {user?.email?.charAt(0).toUpperCase() || 'A'}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
+                  <div className="border-b border-border px-3 py-2">
+                    <p className="truncate text-sm font-medium">{user?.email?.split('@')[0] || 'Admin'}</p>
+                    <p className="text-xs text-muted-foreground">Administrator</p>
+                  </div>
                   <DropdownMenuItem
                     variant="destructive"
                     onClick={() => void handleLogout()}
                     className="cursor-pointer"
                   >
                     <LogOut size={16} />
-                    Log Out
+                    Log out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -378,27 +339,23 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto scrollbar-thin relative bg-shell-gradient p-4 md:p-8">
+        <main className="relative flex-1 overflow-y-auto bg-dashboard-canvas scrollbar-thin px-4 py-5 md:px-6 md:py-6">
           <motion.div
             key={pathname}
-            initial={{ opacity: 0, y: 12 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.3 }}
-            className="w-full motion-reduce:transition-none"
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
+            className={cn('mx-auto w-full space-y-6 motion-reduce:transition-none', contentMaxWidth)}
           >
             {children}
           </motion.div>
 
-          <footer className="mt-20 py-8 border-t border-border bg-transparent">
-            <div className="w-full">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)}>
-                  <BrandLogo size="sm" />
-                </Link>
-                <span className="text-label text-muted-foreground opacity-60 normal-case tracking-normal font-medium">
-                  © {new Date().getFullYear()} PMS.OS
-                </span>
-              </div>
+          <footer className="mx-auto mt-12 max-w-7xl border-t border-border py-6">
+            <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
+              <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)}>
+                <BrandLogo size="sm" />
+              </Link>
+              <span className="text-xs text-muted-foreground">© {new Date().getFullYear()} PMS.OS</span>
             </div>
           </footer>
         </main>

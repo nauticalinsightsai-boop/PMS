@@ -13,6 +13,14 @@ import {
 } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { CTAButton } from '@/components/ui/CTAButton';
+import { DashboardPageHeader } from '@/components/layout/DashboardPageHeader';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { SyncStatusIndicator, type SyncStatus } from '@/components/shared/SyncStatusIndicator';
 import {
   FIELD_KEYS,
@@ -28,6 +36,7 @@ import {
 } from '@pms/site-content';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
 import { siteUrl } from '@/lib/site-config';
+import { cn } from '@/lib/utils';
 import { previewStorageKey } from '@/lib/usePublishedSiteDocument';
 import {
   CertificationRegistryEntryEditor,
@@ -59,7 +68,7 @@ function FlagshipDragList({
       {certIds.map((certId, idx) => (
         <div
           key={`${familyId}-${idx}`}
-          className="flex items-center gap-2 p-2 rounded-xl border border-white/10 bg-white/5"
+          className="flex items-center gap-2 rounded-lg border border-border bg-muted/30 p-2"
         >
           <GripVertical className="h-4 w-4 text-muted-foreground shrink-0" />
           <span className="text-xs font-bold text-muted-foreground w-6">{idx + 1}</span>
@@ -273,37 +282,40 @@ export function CertificationsHubEditor() {
   const editingEntry = editingId ? registry.entries.find((e) => e.id === editingId) : null;
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto p-4">
+    <div className="space-y-5">
       {loadError && (
-        <p className="rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
+        <p className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-100">
           {loadError}
         </p>
       )}
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">Certifications CMS</h1>
-        <div className="flex flex-wrap items-center gap-2">
-          <SyncStatusIndicator status={syncStatus} lastSynced={updatedAt} />
-          <CTAButton variant="outline" onClick={openPreview} className="gap-2">
-            <Eye className="h-4 w-4" /> Preview
-          </CTAButton>
-          <CTAButton variant="outline" onClick={() => saveBoth(false)} disabled={!hasChanges} className="gap-2">
-            <Save className="h-4 w-4" /> Save draft
-          </CTAButton>
-          <CTAButton onClick={() => saveBoth(true)} className="gap-2">
-            <Send className="h-4 w-4" /> Publish
-          </CTAButton>
-        </div>
-      </div>
 
-      <div className="flex gap-2">
+      <DashboardPageHeader
+        title="Certifications CMS"
+        description="Manage pathway listings, pricing display, dossier copy, and programme media. Save draft, then publish to update the live site."
+        actions={
+          <>
+            <SyncStatusIndicator status={syncStatus} lastSynced={updatedAt} />
+            <CTAButton variant="outline" size="sm" onClick={openPreview} className="gap-2 normal-case tracking-normal">
+              <Eye className="h-4 w-4" /> Preview
+            </CTAButton>
+            <CTAButton variant="outline" size="sm" onClick={() => saveBoth(false)} disabled={!hasChanges} className="gap-2 normal-case tracking-normal">
+              <Save className="h-4 w-4" /> Save draft
+            </CTAButton>
+            <CTAButton size="sm" onClick={() => saveBoth(true)} className="gap-2 normal-case tracking-normal">
+              <Send className="h-4 w-4" /> Publish
+            </CTAButton>
+          </>
+        }
+      />
+
+      <div className="dashboard-segmented w-fit">
         {(['hub', 'registry'] as const).map((t) => (
           <button
             key={t}
             type="button"
+            data-active={tab === t}
             onClick={() => setTab(t)}
-            className={`px-4 py-2 rounded-xl text-sm font-bold capitalize ${
-              tab === t ? 'bg-brand-orange/15 text-brand-orange' : 'text-muted-foreground'
-            }`}
+            className="dashboard-segmented-btn capitalize"
           >
             {t === 'hub' ? 'Hub & flagships' : `Registry (${registry.entries.length})`}
           </button>
@@ -311,7 +323,7 @@ export function CertificationsHubEditor() {
       </div>
 
       {tab === 'hub' && (
-        <GlassCard className="p-6 space-y-6">
+        <GlassCard variant="flat" animateEntry={false} className="p-5 space-y-6">
           <section className="space-y-3">
             <h2 className="font-bold">Hero</h2>
             {(['badge', 'title', 'subtitle'] as const).map((key) => (
@@ -320,7 +332,7 @@ export function CertificationsHubEditor() {
                 value={hub.hero[key]}
                 onChange={(e) => setHub((c) => ({ ...c, hero: { ...c.hero, [key]: e.target.value } }))}
                 placeholder={key}
-                className="w-full border rounded-xl px-3 py-2 text-sm"
+                className="dashboard-input"
               />
             ))}
           </section>
@@ -334,7 +346,7 @@ export function CertificationsHubEditor() {
                   setHub((c) => ({ ...c, listing: { ...c.listing, [key]: e.target.value } }))
                 }
                 placeholder={`listing ${key}`}
-                className="w-full border rounded-xl px-3 py-2 text-sm"
+                className="dashboard-input"
               />
             ))}
           </section>
@@ -379,7 +391,7 @@ export function CertificationsHubEditor() {
       )}
 
       {tab === 'registry' && (
-        <GlassCard className="p-6 space-y-4">
+        <GlassCard variant="flat" animateEntry={false} className="p-5 space-y-4">
           <div className="flex flex-wrap justify-between items-center gap-3">
             <p className="text-sm text-muted-foreground">
               {registry.entries.length} pathways · edit pricing, dossier, and marketing copy. Save draft then
@@ -397,7 +409,7 @@ export function CertificationsHubEditor() {
                 value={registryQuery}
                 onChange={(e) => setRegistryQuery(e.target.value)}
                 placeholder="Search by id, name, family…"
-                className="w-full border rounded-xl pl-9 pr-3 py-2 text-sm"
+                className="dashboard-input pl-9"
               />
             </div>
             <label className="flex items-center gap-2 text-sm whitespace-nowrap">
@@ -410,62 +422,18 @@ export function CertificationsHubEditor() {
             </label>
           </div>
 
-          {wizardOpen && (
-            <div className="p-4 rounded-2xl border border-amber-500/40 bg-amber-500/5 space-y-3">
-              <p className="text-xs text-amber-600 font-medium">
-                Creates a full registry record with default pricing tiers. Regional checkout still uses
-                regional-catalogue.json for live enroll buttons.
-              </p>
-              <input
-                value={wizard.id}
-                onChange={(e) => setWizard((w) => ({ ...w, id: e.target.value }))}
-                placeholder="cert-id (e.g. new-pathway)"
-                className="w-full border rounded-xl px-3 py-2 text-sm"
-              />
-              <input
-                value={wizard.name}
-                onChange={(e) => setWizard((w) => ({ ...w, name: e.target.value }))}
-                placeholder="Display name"
-                className="w-full border rounded-xl px-3 py-2 text-sm"
-              />
-              <select
-                value={wizard.familyId}
-                onChange={(e) =>
-                  setWizard((w) => ({ ...w, familyId: e.target.value as CertificationRegistryEntry['familyId'] }))
-                }
-                className="w-full border rounded-xl px-3 py-2 text-sm"
-              >
-                <option value="PMI">PMI</option>
-                <option value="PRINCE2">PRINCE2</option>
-                <option value="SixSigma">Lean Six Sigma</option>
-                <option value="FoundationDirect">Foundation Direct</option>
-              </select>
-              <textarea
-                value={wizard.desc}
-                onChange={(e) => setWizard((w) => ({ ...w, desc: e.target.value }))}
-                placeholder="Short description"
-                className="w-full border rounded-xl px-3 py-2 text-sm h-20"
-              />
-              <div className="flex gap-2">
-                <CTAButton size="sm" onClick={addCert}>
-                  Add to registry
-                </CTAButton>
-                <CTAButton size="sm" variant="outline" onClick={() => setWizardOpen(false)}>
-                  Cancel
-                </CTAButton>
-              </div>
-            </div>
-          )}
-
-          <div className="max-h-[28rem] overflow-y-auto space-y-2">
+          <div className="max-h-[32rem] overflow-y-auto space-y-2">
             {filteredEntries.map((entry) => {
               const idx = registry.entries.findIndex((e) => e.id === entry.id);
               return (
                 <div
                   key={entry.id}
-                  className={`flex flex-wrap items-center gap-2 p-3 rounded-xl border text-sm ${
-                    entry.archived ? 'border-white/5 opacity-60' : 'border-white/10'
-                  } ${editingId === entry.id ? 'ring-2 ring-brand-orange/40' : ''}`}
+                  className={cn(
+                    'flex flex-wrap items-center gap-2 rounded-lg border p-3 text-sm transition-colors',
+                    entry.archived
+                      ? 'border-border/60 bg-muted/20 opacity-70'
+                      : 'border-border bg-background hover:bg-muted/30',
+                  )}
                 >
                   <span className="font-mono font-bold min-w-[7rem] text-xs">{entry.id}</span>
                   <span className="flex-1 min-w-[8rem] truncate font-medium">{entry.name}</span>
@@ -505,8 +473,67 @@ export function CertificationsHubEditor() {
               <p className="text-sm text-muted-foreground py-6 text-center">No pathways match your filters.</p>
             )}
           </div>
+        </GlassCard>
+      )}
 
-          {editingEntry && (
+      <Dialog open={wizardOpen} onOpenChange={setWizardOpen}>
+        <DialogContent className="sm:max-w-lg bg-background border-border">
+          <DialogHeader>
+            <DialogTitle>Add pathway</DialogTitle>
+            <DialogDescription>
+              Creates a full registry record with default pricing tiers. Regional checkout still uses
+              regional-catalogue.json for live enroll buttons.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <input
+              value={wizard.id}
+              onChange={(e) => setWizard((w) => ({ ...w, id: e.target.value }))}
+              placeholder="cert-id (e.g. new-pathway)"
+              className="dashboard-input"
+            />
+            <input
+              value={wizard.name}
+              onChange={(e) => setWizard((w) => ({ ...w, name: e.target.value }))}
+              placeholder="Display name"
+              className="dashboard-input"
+            />
+            <select
+              value={wizard.familyId}
+              onChange={(e) =>
+                setWizard((w) => ({ ...w, familyId: e.target.value as CertificationRegistryEntry['familyId'] }))
+              }
+              className="dashboard-input"
+            >
+              <option value="PMI">PMI</option>
+              <option value="PRINCE2">PRINCE2</option>
+              <option value="SixSigma">Lean Six Sigma</option>
+              <option value="FoundationDirect">Foundation Direct</option>
+            </select>
+            <textarea
+              value={wizard.desc}
+              onChange={(e) => setWizard((w) => ({ ...w, desc: e.target.value }))}
+              placeholder="Short description"
+              className="dashboard-input h-20"
+            />
+            <div className="flex gap-2 justify-end pt-2">
+              <CTAButton size="sm" variant="outline" onClick={() => setWizardOpen(false)}>
+                Cancel
+              </CTAButton>
+              <CTAButton size="sm" onClick={addCert}>
+                Add to registry
+              </CTAButton>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={Boolean(editingEntry)} onOpenChange={(open) => !open && setEditingId(null)}>
+        <DialogContent
+          showCloseButton={false}
+          className="flex h-[min(92vh,920px)] w-[min(96vw,56rem)] max-w-none flex-col gap-0 overflow-hidden p-0 sm:max-w-none"
+        >
+          {editingEntry ? (
             <CertificationRegistryEntryEditor
               entry={editingEntry}
               onChange={updateEntry}
@@ -514,9 +541,9 @@ export function CertificationsHubEditor() {
               onRemove={() => removeEntry(editingEntry.id)}
               onArchive={() => toggleArchive(editingEntry.id)}
             />
-          )}
-        </GlassCard>
-      )}
+          ) : null}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

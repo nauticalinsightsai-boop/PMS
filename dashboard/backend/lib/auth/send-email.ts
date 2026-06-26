@@ -135,6 +135,9 @@ async function sendViaSmtp(params: SendParams): Promise<void> {
     pool: false,
     family: 4,
     ...(secure ? {} : { requireTLS: true }),
+  } as import('nodemailer/lib/smtp-transport').Options & {
+    pool?: boolean;
+    family?: number;
   });
 
   await transporter.sendMail({

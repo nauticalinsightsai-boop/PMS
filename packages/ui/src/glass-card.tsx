@@ -5,14 +5,16 @@ import { motion, HTMLMotionProps } from 'motion/react';
 import { cn } from './utils';
 
 export interface GlassCardProps extends HTMLMotionProps<'div'> {
-  variant?: 'surface' | 'raised' | 'modal';
+  variant?: 'surface' | 'raised' | 'modal' | 'flat';
+  /** Skip entrance animation (preferred in admin dashboards). */
+  animateEntry?: boolean;
   children: React.ReactNode;
   hover?: boolean;
   liquid?: boolean;
 }
 
 export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
-  ({ className, variant = 'surface', children, ...props }, ref) => {
+  ({ className, variant = 'surface', animateEntry = true, children, ...props }, ref) => {
     const variants = {
       surface:
         'bg-white/40 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10',
@@ -20,15 +22,16 @@ export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
         'bg-white/60 dark:bg-black/30 backdrop-blur-lg border border-white/30 dark:border-white/15 shadow-xl',
       modal:
         'bg-white/80 dark:bg-black/40 backdrop-blur-xl border border-white/40 dark:border-white/20 shadow-2xl',
+      flat: 'bg-card border border-border shadow-sm',
     };
 
     return (
       <motion.div
         ref={ref}
         className={cn('r-card overflow-hidden', variants[variant], className)}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: 'easeOut' }}
+        initial={animateEntry ? { opacity: 0, y: 10 } : false}
+        animate={animateEntry ? { opacity: 1, y: 0 } : undefined}
+        transition={animateEntry ? { duration: 0.4, ease: 'easeOut' } : undefined}
         {...props}
       >
         {children}

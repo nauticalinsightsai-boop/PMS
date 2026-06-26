@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Archive, Trash2 } from 'lucide-react';
 import { CTAButton } from '@/components/ui/CTAButton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { CertificationRegistryEntry } from '@pms/site-content';
 import { ProgrammeAssetsUploader } from '@/components/pages/admin/ProgrammeAssetsUploader';
 
@@ -12,6 +13,17 @@ const FAMILY_OPTIONS: CertificationRegistryEntry['familyId'][] = [
   'SixSigma',
   'FoundationDirect',
 ];
+
+const EDITOR_TABS = [
+  { id: 'basics', label: 'Basics' },
+  { id: 'pricing', label: 'Pricing' },
+  { id: 'hero', label: 'Hero & CTA' },
+  { id: 'exam', label: 'Exam & dossier' },
+  { id: 'outcomes', label: 'Outcomes' },
+  { id: 'media', label: 'Programme media' },
+] as const;
+
+type EditorTab = (typeof EDITOR_TABS)[number]['id'];
 
 function defaultPricing(): NonNullable<CertificationRegistryEntry['pricing']> {
   return {
@@ -63,6 +75,7 @@ export function CertificationRegistryEntryEditor({
   onRemove: () => void;
   onArchive: () => void;
 }) {
+  const [tab, setTab] = useState<EditorTab>('basics');
   const pricing = entry.pricing ?? defaultPricing();
   const pathway = entry.pathwayOutcomes ?? {};
 
@@ -85,9 +98,12 @@ export function CertificationRegistryEntryEditor({
   };
 
   return (
-    <div className="p-4 rounded-2xl border border-brand-orange/30 space-y-5 mt-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 className="font-bold text-lg">{entry.name || entry.id}</h3>
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3 shrink-0">
+        <div className="min-w-0">
+          <p className="font-mono text-xs text-muted-foreground">{entry.id}</p>
+          <h3 className="truncate font-bold text-lg">{entry.name || entry.id}</h3>
+        </div>
         <div className="flex flex-wrap gap-2">
           <CTAButton size="sm" variant="outline" onClick={onArchive} className="gap-1">
             <Archive className="h-3.5 w-3.5" />
@@ -96,194 +112,205 @@ export function CertificationRegistryEntryEditor({
           <CTAButton size="sm" variant="outline" onClick={onRemove} className="gap-1 text-red-600">
             <Trash2 className="h-3.5 w-3.5" /> Remove
           </CTAButton>
-          <CTAButton size="sm" variant="outline" onClick={onClose}>
+          <CTAButton size="sm" onClick={onClose}>
             Done
           </CTAButton>
         </div>
       </div>
 
-      <section className="space-y-3">
-        <h4 className="font-semibold text-sm">Basics</h4>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <Field label="Cert ID (slug)">
-            <input
-              value={entry.id}
-              readOnly
-              className={`${inputClass} opacity-70`}
-              title="ID cannot change after creation"
-            />
-          </Field>
-          <Field label="Family">
-            <select
-              value={entry.familyId}
-              onChange={(e) =>
-                patch({ familyId: e.target.value as CertificationRegistryEntry['familyId'] })
-              }
-              className={inputClass}
-            >
-              {FAMILY_OPTIONS.map((id) => (
-                <option key={id} value={id}>
-                  {id}
-                </option>
-              ))}
-            </select>
-          </Field>
+      <Tabs value={tab} onValueChange={(value) => setTab(value as EditorTab)} className="flex min-h-0 flex-1 flex-col">
+        <div className="shrink-0 border-b border-border px-4 pt-3">
+          <TabsList variant="line" className="h-auto w-full justify-start gap-1 overflow-x-auto bg-transparent p-0 no-scrollbar">
+            {EDITOR_TABS.map((item) => (
+              <TabsTrigger key={item.id} value={item.id} className="shrink-0 text-xs sm:text-sm">
+                {item.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
         </div>
-        <Field label="Display name">
-          <input
-            value={entry.name}
-            onChange={(e) => patch({ name: e.target.value })}
-            className={inputClass}
-          />
-        </Field>
-        <Field label="Short description (hub card)">
-          <textarea
-            value={entry.desc}
-            onChange={(e) => patch({ desc: e.target.value })}
-            className={textareaClass}
-          />
-        </Field>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <Field label="Brand color (hex)">
-            <input
-              value={entry.color ?? ''}
-              onChange={(e) => patch({ color: e.target.value })}
-              placeholder="#6D28D9"
-              className={inputClass}
-            />
-          </Field>
-          <Field label="Gradient class">
-            <input
-              value={entry.gradient ?? ''}
-              onChange={(e) => patch({ gradient: e.target.value })}
-              placeholder="from-[#D8B4FE] to-[#6D28D9]"
-              className={inputClass}
-            />
-          </Field>
-        </div>
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={!entry.hidden}
-            onChange={(e) => patch({ hidden: !e.target.checked })}
-          />
-          Listed on certifications hub
-        </label>
-      </section>
 
-      <section className="space-y-3 border-t pt-4">
-        <h4 className="font-semibold text-sm">Display pricing (USD, hub cards)</h4>
-        <p className="text-xs text-muted-foreground">
-          Checkout amounts still come from regional-catalogue.json. These values appear on pathway cards.
-        </p>
-        {(['Foundation', 'Professional', 'Elite'] as const).map((tier) => (
-          <div key={tier} className="grid gap-2 sm:grid-cols-3 items-end p-3 rounded-xl border border-white/10">
-            <span className="text-sm font-bold sm:col-span-3">{tier}</span>
-            <Field label="Duration">
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+          <TabsContent value="basics" className="mt-0 space-y-4">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Cert ID (slug)">
+                <input
+                  value={entry.id}
+                  readOnly
+                  className={`${inputClass} opacity-70`}
+                  title="ID cannot change after creation"
+                />
+              </Field>
+              <Field label="Family">
+                <select
+                  value={entry.familyId}
+                  onChange={(e) =>
+                    patch({ familyId: e.target.value as CertificationRegistryEntry['familyId'] })
+                  }
+                  className={inputClass}
+                >
+                  {FAMILY_OPTIONS.map((id) => (
+                    <option key={id} value={id}>
+                      {id}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+            </div>
+            <Field label="Display name">
               <input
-                value={pricing[tier].duration}
-                onChange={(e) => patchPricing(tier, 'duration', e.target.value)}
+                value={entry.name}
+                onChange={(e) => patch({ name: e.target.value })}
                 className={inputClass}
               />
             </Field>
-            <Field label="Price (USD)">
-              <input
-                type="number"
-                min={0}
-                step={1}
-                value={pricing[tier].price}
-                onChange={(e) => patchPricing(tier, 'price', e.target.value)}
-                className={inputClass}
+            <Field label="Short description (hub card)">
+              <textarea
+                value={entry.desc}
+                onChange={(e) => patch({ desc: e.target.value })}
+                className={textareaClass}
               />
             </Field>
-          </div>
-        ))}
-      </section>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Brand color (hex)">
+                <input
+                  value={entry.color ?? ''}
+                  onChange={(e) => patch({ color: e.target.value })}
+                  placeholder="#6D28D9"
+                  className={inputClass}
+                />
+              </Field>
+              <Field label="Gradient class">
+                <input
+                  value={entry.gradient ?? ''}
+                  onChange={(e) => patch({ gradient: e.target.value })}
+                  placeholder="from-[#D8B4FE] to-[#6D28D9]"
+                  className={inputClass}
+                />
+              </Field>
+            </div>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={!entry.hidden}
+                onChange={(e) => patch({ hidden: !e.target.checked })}
+              />
+              Listed on certifications hub
+            </label>
+          </TabsContent>
 
-      <section className="space-y-3 border-t pt-4">
-        <h4 className="font-semibold text-sm">Detail page hero</h4>
-        {(
-          [
-            ['detailHeroTitle', 'Hero title'],
-            ['detailHeroSubtitle', 'Hero subtitle'],
-            ['outputValue', 'Primary value line'],
-            ['recommendedCta', 'Recommended CTA'],
-            ['targetAudience', 'Target audience'],
-          ] as const
-        ).map(([key, label]) => (
-          <Field key={key} label={label}>
-            <textarea
-              value={entry[key] ?? ''}
-              onChange={(e) => patch({ [key]: e.target.value })}
-              className={textareaClass}
-            />
-          </Field>
-        ))}
-      </section>
+          <TabsContent value="pricing" className="mt-0 space-y-4">
+            <p className="text-xs text-muted-foreground">
+              Checkout amounts still come from regional-catalogue.json. These values appear on pathway cards.
+            </p>
+            {(['Foundation', 'Professional', 'Elite'] as const).map((tier) => (
+              <div key={tier} className="grid gap-2 sm:grid-cols-3 items-end p-3 rounded-xl border border-white/10">
+                <span className="text-sm font-bold sm:col-span-3">{tier}</span>
+                <Field label="Duration">
+                  <input
+                    value={pricing[tier].duration}
+                    onChange={(e) => patchPricing(tier, 'duration', e.target.value)}
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label="Price (USD)">
+                  <input
+                    type="number"
+                    min={0}
+                    step={1}
+                    value={pricing[tier].price}
+                    onChange={(e) => patchPricing(tier, 'price', e.target.value)}
+                    className={inputClass}
+                  />
+                </Field>
+              </div>
+            ))}
+          </TabsContent>
 
-      <section className="space-y-3 border-t pt-4">
-        <h4 className="font-semibold text-sm">Exam & dossier</h4>
-        {(
-          [
-            ['prerequisites', 'Prerequisites'],
-            ['examFormat', 'Exam format'],
-            ['registrationSteps', 'Registration steps'],
-            ['officialFee', 'Official exam fee'],
-            ['trainingPriceRange', 'Training price range'],
-            ['regionalDemand', 'Regional demand'],
-          ] as const
-        ).map(([key, label]) => (
-          <Field key={key} label={label}>
-            <textarea
-              value={entry[key] ?? ''}
-              onChange={(e) => patch({ [key]: e.target.value })}
-              className={textareaClass}
-            />
-          </Field>
-        ))}
-        <Field label="Learning outcomes (one per line)">
-          <textarea
-            value={arrayToLines(entry.learningOutcomes)}
-            onChange={(e) => patch({ learningOutcomes: linesToArray(e.target.value) })}
-            className={`${textareaClass} min-h-[6rem]`}
-          />
-        </Field>
-        <Field label="Suggested resources (one per line)">
-          <textarea
-            value={arrayToLines(entry.suggestedResources)}
-            onChange={(e) => patch({ suggestedResources: linesToArray(e.target.value) })}
-            className={textareaClass}
-          />
-        </Field>
-      </section>
+          <TabsContent value="hero" className="mt-0 space-y-4">
+            {(
+              [
+                ['detailHeroTitle', 'Hero title'],
+                ['detailHeroSubtitle', 'Hero subtitle'],
+                ['outputValue', 'Primary value line'],
+                ['recommendedCta', 'Recommended CTA'],
+                ['targetAudience', 'Target audience'],
+              ] as const
+            ).map(([key, label]) => (
+              <Field key={key} label={label}>
+                <textarea
+                  value={entry[key] ?? ''}
+                  onChange={(e) => patch({ [key]: e.target.value })}
+                  className={textareaClass}
+                />
+              </Field>
+            ))}
+          </TabsContent>
 
-      <section className="space-y-3 border-t pt-4">
-        <h4 className="font-semibold text-sm">Pathway tier outcomes (one bullet per line)</h4>
-        {(
-          [
-            ['foundation', 'Foundation tier'],
-            ['professional', 'Professional tier'],
-            ['mastery', 'Mastery / Elite tier'],
-          ] as const
-        ).map(([key, label]) => (
-          <Field key={key} label={label}>
-            <textarea
-              value={arrayToLines(pathway[key])}
-              onChange={(e) =>
-                patch({
-                  pathwayOutcomes: {
-                    ...pathway,
-                    [key]: linesToArray(e.target.value),
-                  },
-                })
-              }
-              className={`${textareaClass} min-h-[5rem]`}
-            />
-          </Field>
-        ))}
-      </section>
+          <TabsContent value="exam" className="mt-0 space-y-4">
+            {(
+              [
+                ['prerequisites', 'Prerequisites'],
+                ['examFormat', 'Exam format'],
+                ['registrationSteps', 'Registration steps'],
+                ['officialFee', 'Official exam fee'],
+                ['trainingPriceRange', 'Training price range'],
+                ['regionalDemand', 'Regional demand'],
+              ] as const
+            ).map(([key, label]) => (
+              <Field key={key} label={label}>
+                <textarea
+                  value={entry[key] ?? ''}
+                  onChange={(e) => patch({ [key]: e.target.value })}
+                  className={textareaClass}
+                />
+              </Field>
+            ))}
+            <Field label="Learning outcomes (one per line)">
+              <textarea
+                value={arrayToLines(entry.learningOutcomes)}
+                onChange={(e) => patch({ learningOutcomes: linesToArray(e.target.value) })}
+                className={`${textareaClass} min-h-[6rem]`}
+              />
+            </Field>
+            <Field label="Suggested resources (one per line)">
+              <textarea
+                value={arrayToLines(entry.suggestedResources)}
+                onChange={(e) => patch({ suggestedResources: linesToArray(e.target.value) })}
+                className={textareaClass}
+              />
+            </Field>
+          </TabsContent>
 
-      <ProgrammeAssetsUploader entry={entry} onChange={onChange} />
+          <TabsContent value="outcomes" className="mt-0 space-y-4">
+            {(
+              [
+                ['foundation', 'Foundation tier'],
+                ['professional', 'Professional tier'],
+                ['mastery', 'Mastery / Elite tier'],
+              ] as const
+            ).map(([key, label]) => (
+              <Field key={key} label={label}>
+                <textarea
+                  value={arrayToLines(pathway[key])}
+                  onChange={(e) =>
+                    patch({
+                      pathwayOutcomes: {
+                        ...pathway,
+                        [key]: linesToArray(e.target.value),
+                      },
+                    })
+                  }
+                  className={`${textareaClass} min-h-[5rem]`}
+                />
+              </Field>
+            ))}
+          </TabsContent>
+
+          <TabsContent value="media" className="mt-0">
+            <ProgrammeAssetsUploader entry={entry} onChange={onChange} />
+          </TabsContent>
+        </div>
+      </Tabs>
     </div>
   );
 }

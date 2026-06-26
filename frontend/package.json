@@ -3,8 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "predev": "node ../scripts/sync-admin-into-frontend.mjs && node ../scripts/sync-public-api-into-frontend.mjs",
-    "prebuild": "node ../scripts/sync-admin-into-frontend.mjs && node ../scripts/sync-public-api-into-frontend.mjs && npm run seo:generate-ai-files",
+    "predev": "node ../scripts/sync-admin-into-frontend.mjs && node ../scripts/sync-public-api-into-frontend.mjs && node ../scripts/generate-site-media-manifest.mjs",
+    "prebuild": "node ../scripts/sync-admin-into-frontend.mjs && node ../scripts/sync-public-api-into-frontend.mjs && node ../scripts/generate-site-media-manifest.mjs && npm run seo:generate-ai-files",
     "seo:generate-ai-files": "node --import tsx ./scripts/generate-ai-files.mjs",
     "dev": "next dev -p 3050",
     "build": "next build",

@@ -13,7 +13,7 @@ export interface CTAButtonProps extends HTMLMotionProps<'button'> {
 export const CTAButton = React.forwardRef<HTMLButtonElement, CTAButtonProps>(
   ({ className, variant = 'primary', size = 'md', isLoading, children, ...props }, ref) => {
     const variants = {
-      primary: 'cta-consultation shadow-lg shadow-brand-orange/20 premium-shadow',
+      primary: 'cta-consultation shadow-sm',
       secondary:
         'bg-white/10 dark:bg-black/20 text-foreground hover:bg-white/20 dark:hover:bg-black/30 border border-white/20 dark:border-white/10',
       ghost: 'bg-transparent text-foreground hover:bg-white/10 dark:hover:bg-black/10',

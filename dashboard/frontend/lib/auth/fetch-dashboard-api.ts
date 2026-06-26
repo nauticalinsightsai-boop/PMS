@@ -12,7 +12,10 @@ function resolveInput(input: RequestInfo | URL): RequestInfo | URL {
 export function fetchDashboardApi(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
   const auth = getDashboardApiHeaders();
   const headers = new Headers(init?.headers);
-  if (!headers.has('Content-Type') && init?.body) {
+  const body = init?.body;
+  const isFormData =
+    typeof FormData !== 'undefined' && body instanceof FormData;
+  if (!headers.has('Content-Type') && body && !isFormData) {
     headers.set('Content-Type', 'application/json');
   }
   for (const [k, v] of Object.entries(auth)) {

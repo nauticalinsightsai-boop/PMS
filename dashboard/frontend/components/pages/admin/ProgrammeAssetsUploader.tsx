@@ -317,25 +317,20 @@ function TierPanel({
       </div>
 
       <GlassCard className="p-4">
-        <label className="block space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
-            Video embed (optional)
-          </span>
-          <p className="text-xs text-muted-foreground">
-            Use YouTube or Vimeo instead of a hosted MP4 when the file is larger than 50MB.
-          </p>
-          <input
-            value={assets.videoEmbedUrl ?? ''}
-            onChange={(e) =>
-              onChange({
-                ...assets,
-                videoEmbedUrl: e.target.value.trim() || undefined,
-              })
-            }
-            placeholder="https://www.youtube.com/embed/…"
-            className={inputClass}
-          />
-        </label>
+        <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Large video files</p>
+        <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
+          Keep videos self-hosted on PM Structure (upload MP4/WebM above) so playback and views stay on your site —
+          not on YouTube or Vimeo. If a clip is over 50MB, compress it with{' '}
+          <a
+            href="https://handbrake.fr/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-brand-orange underline-offset-2 hover:underline"
+          >
+            HandBrake
+          </a>{' '}
+          (H.264, 720p) before uploading. Contact support if you need a higher limit.
+        </p>
       </GlassCard>
     </div>
   );
