@@ -18,7 +18,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ className, size = 'md' }) 
 
   const textClasses = {
     sm: 'text-sm',
-    md: 'text-xl',
+    md: 'text-base',
     lg: 'text-3xl',
   };
 
