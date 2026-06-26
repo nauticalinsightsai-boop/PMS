@@ -30,6 +30,7 @@ import { CertFamilyMark } from '@/components/CertFamilyMark';
 import BrandIconMark from '@/components/BrandIconMark';
 import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { useFormPartialRecovery } from '@/components/conversion-recovery/useFormPartialRecovery';
+import { resolveHomeHeroForm, type HomeHeroForm } from '@pms/site-content';
 
 export type PmpRoadmapFormPlacement =
   | 'home_hero_mobile'
@@ -50,6 +51,8 @@ type PmpRoadmapLeadFormProps = {
   certId?: string;
   certName?: string;
   familyId?: string;
+  /** Homepage hero / insights placements: CMS copy overrides */
+  heroCopy?: HomeHeroForm | null;
 };
 
 const PLACEMENT_LABELS: Record<PmpRoadmapFormPlacement, string> = {
@@ -73,7 +76,17 @@ function PmsFormHeaderMark({ compact }: { compact: boolean }) {
   return <BrandIconMark size={compact ? 48 : 56} priority />;
 }
 
-function FormPrivacyNotice({ compact }: { compact: boolean }) {
+function FormPrivacyNotice({
+  compact,
+  privacyPrefix,
+  privacyLinkLabel,
+}: {
+  compact: boolean;
+  privacyPrefix?: string;
+  privacyLinkLabel?: string;
+}) {
+  const prefix = privacyPrefix ?? 'By submitting, you agree to our';
+  const linkLabel = privacyLinkLabel ?? 'Privacy Policy';
   return (
     <p
       className={cn(
@@ -81,9 +94,9 @@ function FormPrivacyNotice({ compact }: { compact: boolean }) {
         compact ? 'text-[10px] leading-snug' : 'text-[11px] leading-relaxed',
       )}
     >
-      By submitting, you agree to our{' '}
+      {prefix}{' '}
       <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
-        Privacy Policy
+        {linkLabel}
       </Link>
       .
     </p>
@@ -97,6 +110,7 @@ export function PmpRoadmapLeadForm({
   certId,
   certName,
   familyId,
+  heroCopy,
 }: PmpRoadmapLeadFormProps) {
   const { regionId, gccCountry } = useRegion();
   const idPrefix = [placement, certId].filter(Boolean).join('-').replace(/[^a-z0-9]/gi, '-');
@@ -106,13 +120,20 @@ export function PmpRoadmapLeadForm({
     placement === 'home_insights' ||
     placement === 'certifications_hub_mobile' ||
     placement === 'certifications_hub_desktop';
+  const homeFormCopy =
+    isHomeForm && (placement === 'home_hero_mobile' || placement === 'home_hero_desktop') && heroCopy
+      ? resolveHomeHeroForm(heroCopy)
+      : null;
+  const certInterestOptions = homeFormCopy?.certOptions ?? HOME_CERT_INTEREST_OPTIONS;
   const roadmapLabel = isHomeForm ? 'PM certification' : (certName ?? 'PMP®');
-  const formTitle = isHomeForm
-    ? 'Build your PM certification roadmap'
-    : `Build your ${roadmapLabel} roadmap`;
-  const formSubtitle = isHomeForm
-    ? "Share your experience: we'll map a study plan for you."
-    : `Share your experience: we'll map a ${certName ? certName : 'PMP'} study plan for you.`;
+  const formTitle = homeFormCopy?.title
+    ?? (isHomeForm
+      ? 'Build your PM certification roadmap'
+      : `Build your ${roadmapLabel} roadmap`);
+  const formSubtitle = homeFormCopy?.subtitle
+    ?? (isHomeForm
+      ? "Share your experience: we'll map a study plan for you."
+      : `Share your experience: we'll map a ${certName ? certName : 'PMP'} study plan for you.`);
 
   const [fullName, setFullName] = React.useState('');
   const [dialValue, setDialValue] = React.useState('us');
@@ -258,7 +279,7 @@ export function PmpRoadmapLeadForm({
   const resolvedCertInterest =
     certInterest === 'other'
       ? certInterestOther.trim()
-      : HOME_CERT_INTEREST_OPTIONS.find((o) => o.value === certInterest)?.label ?? '';
+      : certInterestOptions.find((o) => o.value === certInterest)?.label ?? '';
 
   const toggleCertInterest = (value: HomeCertInterestValue) => {
     if (certInterest === value) {
@@ -375,7 +396,8 @@ export function PmpRoadmapLeadForm({
     return (
       <div className={cn(shellClass, 'p-8 sm:p-10')}>
         <p className="text-base font-semibold text-green-700 dark:text-green-400">
-          Thanks: we received your details and will follow up with your {roadmapLabel} roadmap.
+          {homeFormCopy?.successMessage ??
+            `Thanks: we received your details and will follow up with your ${roadmapLabel} roadmap.`}
         </p>
         <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
           Questions?{' '}
@@ -483,7 +505,7 @@ export function PmpRoadmapLeadForm({
           >
           <div className={fieldGroupClass}>
             <Label htmlFor={`${idPrefix}-name`} className={labelClass}>
-              Full Name
+              {homeFormCopy?.fullNameLabel ?? 'Full Name'}
             </Label>
             <Input
               id={`${idPrefix}-name`}
@@ -493,14 +515,14 @@ export function PmpRoadmapLeadForm({
                 setFullName(e.target.value);
                 touchField();
               }}
-              placeholder="John Smith"
+              placeholder={homeFormCopy?.fullNamePlaceholder ?? 'John Smith'}
               className={fieldClass}
             />
           </div>
 
           <div className={cn(fieldGroupClass, certMobileSectionPad)}>
             <Label htmlFor={`${idPrefix}-phone`} className={labelClass}>
-              Mobile Number
+              {homeFormCopy?.mobileLabel ?? 'Mobile Number'}
             </Label>
             <div
               className={cn(
@@ -543,7 +565,7 @@ export function PmpRoadmapLeadForm({
                   setPhone(e.target.value);
                   touchField();
                 }}
-                placeholder="50 123 4567"
+                placeholder={homeFormCopy?.mobilePlaceholder ?? '50 123 4567'}
                 className="h-full min-w-0 flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0"
               />
             </div>
@@ -551,7 +573,7 @@ export function PmpRoadmapLeadForm({
 
           <div className={cn(fieldGroupClass, certMobileSectionPad)}>
             <Label htmlFor={`${idPrefix}-email`} className={labelClass}>
-              Email Address
+              {homeFormCopy?.emailLabel ?? 'Email Address'}
             </Label>
             <Input
               id={`${idPrefix}-email`}
@@ -562,7 +584,7 @@ export function PmpRoadmapLeadForm({
                 setEmail(e.target.value);
                 touchField();
               }}
-              placeholder="john@example.com"
+              placeholder={homeFormCopy?.emailPlaceholder ?? 'john@example.com'}
               className={fieldClass}
             />
           </div>
@@ -587,17 +609,17 @@ export function PmpRoadmapLeadForm({
             <div className="space-y-0">
               <fieldset className="m-0 min-w-0 border-0 p-0">
                 <legend className={legendClass}>
-                  Which certification are you interested in?{' '}
+                  {homeFormCopy?.certInterestLabel ?? 'Which certification are you interested in?'}{' '}
                   <span className="text-brand-orange">*</span>
                 </legend>
                 <div className="flex flex-wrap gap-2.5 sm:gap-3" role="group" aria-label="Certification interest">
-                  {HOME_CERT_INTEREST_OPTIONS.map((o) => (
+                  {certInterestOptions.map((o) => (
                     <button
                       key={o.value}
                       type="button"
                       className={toggleOptionClass(certInterest === o.value)}
                       aria-pressed={certInterest === o.value}
-                      onClick={() => toggleCertInterest(o.value)}
+                      onClick={() => toggleCertInterest(o.value as HomeCertInterestValue)}
                     >
                       {o.label}
                     </button>
@@ -609,7 +631,7 @@ export function PmpRoadmapLeadForm({
                     aria-expanded={certInterest === 'other'}
                     onClick={() => toggleCertInterest('other')}
                   >
-                    Other
+                    {homeFormCopy?.otherCertLabel ?? 'Other'}
                   </button>
                 </div>
                 {certInterest === 'other' ? (
@@ -621,7 +643,7 @@ export function PmpRoadmapLeadForm({
                       id={`${idPrefix}-cert-other`}
                       value={certInterestOther}
                       onChange={(e) => setCertInterestOther(e.target.value)}
-                      placeholder="Specify another certification"
+                      placeholder={homeFormCopy?.otherCertPlaceholder ?? 'Specify another certification'}
                       className={fieldClass}
                       required
                     />
@@ -632,7 +654,8 @@ export function PmpRoadmapLeadForm({
               {certInterest ? (
                 <fieldset className={cn('m-0 mb-0 min-w-0 space-y-0 border-0 mt-6 sm:mt-8', experienceFieldsetPad)}>
                   <legend className={cn(labelClass, 'mb-2.5')}>
-                    Years of Total Job Experience <span className="text-brand-orange">*</span>
+                    {homeFormCopy?.experienceLabel ?? 'Years of Total Job Experience'}{' '}
+                    <span className="text-brand-orange">*</span>
                   </legend>
                   <div className="flex flex-wrap gap-2.5 sm:gap-3" role="group" aria-label="Years of total job experience">
                     {PMP_JOB_EXPERIENCE_OPTIONS.map((o) => (
@@ -714,7 +737,11 @@ export function PmpRoadmapLeadForm({
 
           {error ? <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p> : null}
 
-          <FormPrivacyNotice compact={isCompact} />
+          <FormPrivacyNotice
+            compact={isCompact}
+            privacyPrefix={homeFormCopy?.privacyPrefix}
+            privacyLinkLabel={homeFormCopy?.privacyLinkLabel}
+          />
         </div>
 
         <div
@@ -743,7 +770,7 @@ export function PmpRoadmapLeadForm({
                     : 'h-12 text-base',
             )}
           >
-            {submitting ? 'Submitting…' : isHomeForm ? 'Get My PM Roadmap' : 'Submit'}
+            {submitting ? 'Submitting…' : homeFormCopy?.submitLabel ?? (isHomeForm ? 'Get My PM Roadmap' : 'Submit')}
           </Button>
         </div>
       </form>

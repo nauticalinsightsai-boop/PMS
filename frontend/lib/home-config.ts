@@ -5,6 +5,7 @@ import { WebsiteDataService } from '@/services/WebsiteDataService';
 import {
   FIELD_KEYS,
   normalizeHomeConfigV1ToV2,
+  resolveHomeHeroForm,
   type HomePageConfigV2,
 } from '@pms/site-content';
 import { useWebsiteDataRealtime } from '@/hooks/useWebsiteDataRealtime';
@@ -117,6 +118,7 @@ export function useHomePageConfig(initialConfig?: HomePageConfigV2 | null) {
     primaryAction: activeSlide?.primaryAction ?? 'register_modal',
     ctaPrimaryLink: activeSlide?.primaryLink ?? '/contact?topic=consultation',
     ctaSecondaryLink: activeSlide?.secondaryLink ?? '/certifications',
+    heroForm: resolveHomeHeroForm(config?.heroForm),
   };
 }
 

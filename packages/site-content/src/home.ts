@@ -3,6 +3,73 @@ import { mediaRefSchema } from './media';
 
 export const primaryActionSchema = z.enum(['link', 'register_modal', 'contact', 'calendly']);
 
+export const homeHeroFormCertOptionSchema = z.object({
+  value: z.string(),
+  label: z.string(),
+});
+
+export const homeHeroFormSchema = z.object({
+  title: z.string(),
+  subtitle: z.string(),
+  fullNameLabel: z.string(),
+  fullNamePlaceholder: z.string(),
+  mobileLabel: z.string(),
+  mobilePlaceholder: z.string(),
+  emailLabel: z.string(),
+  emailPlaceholder: z.string(),
+  certInterestLabel: z.string(),
+  certOptions: z.array(homeHeroFormCertOptionSchema).min(1),
+  otherCertLabel: z.string(),
+  otherCertPlaceholder: z.string(),
+  experienceLabel: z.string(),
+  submitLabel: z.string(),
+  privacyPrefix: z.string(),
+  privacyLinkLabel: z.string(),
+  successMessage: z.string(),
+});
+
+export const DEFAULT_HOME_HERO_FORM: z.infer<typeof homeHeroFormSchema> = {
+  title: 'Build your PM certification roadmap',
+  subtitle: "Share your experience: we'll map a study plan for you.",
+  fullNameLabel: 'Full Name',
+  fullNamePlaceholder: 'John Smith',
+  mobileLabel: 'Mobile Number',
+  mobilePlaceholder: '50 123 4567',
+  emailLabel: 'Email Address',
+  emailPlaceholder: 'john@example.com',
+  certInterestLabel: 'Which certification are you interested in?',
+  certOptions: [
+    { value: 'pmp', label: 'PMP' },
+    { value: 'prince2', label: 'PRINCE2' },
+    { value: 'six-sigma', label: 'Six Sigma' },
+  ],
+  otherCertLabel: 'Other',
+  otherCertPlaceholder: 'Specify another certification',
+  experienceLabel: 'Years of Total Job Experience',
+  submitLabel: 'Get My PM Roadmap',
+  privacyPrefix: 'By submitting, you agree to our',
+  privacyLinkLabel: 'Privacy Policy',
+  successMessage:
+    "Thanks: we received your details and will follow up with your PM certification roadmap.",
+};
+
+export function resolveHomeHeroForm(
+  form?: Partial<z.infer<typeof homeHeroFormSchema>> | null,
+): z.infer<typeof homeHeroFormSchema> {
+  const base = DEFAULT_HOME_HERO_FORM;
+  if (!form) return base;
+  const certOptions =
+    form.certOptions?.length &&
+    form.certOptions.every((option) => option.value.trim() && option.label.trim())
+      ? form.certOptions
+      : base.certOptions;
+  return {
+    ...base,
+    ...form,
+    certOptions,
+  };
+}
+
 export const homeHeroSlideSchema = z.object({
   id: z.number(),
   visible: z.boolean(),
@@ -105,6 +172,7 @@ export const homeInsightsBandSchema = z.object({
 export const homePageConfigV2Schema = z.object({
   version: z.literal(2),
   heroSlides: z.array(homeHeroSlideSchema).min(1),
+  heroForm: homeHeroFormSchema.optional(),
   stats: z.object({
     professionalsCount: z.number().int().nonnegative(),
     professionalsLabel: z.string().optional(),
@@ -144,6 +212,7 @@ export const homePageConfigV2Schema = z.object({
 
 export type HomePageConfigV2 = z.infer<typeof homePageConfigV2Schema>;
 export type HomeHeroSlide = z.infer<typeof homeHeroSlideSchema>;
+export type HomeHeroForm = z.infer<typeof homeHeroFormSchema>;
 export type HomeSections = z.infer<typeof homeSectionsSchema>;
 
 /** Legacy v1 shape (no version field) */
@@ -334,6 +403,7 @@ export function applyLeanHomeDefaults(config: HomePageConfigV2): HomePageConfigV
   return {
     ...config,
     heroSlides,
+    heroForm: resolveHomeHeroForm(config.heroForm),
     instituteSection,
     stats,
     insightsBand,
@@ -378,6 +448,7 @@ export function resolveHomeHeroSubtitle(description: string): string {
 export function defaultHomePageConfigV2(): HomePageConfigV2 {
   return {
     version: 2,
+    heroForm: { ...DEFAULT_HOME_HERO_FORM },
     heroSlides: [
       {
         id: 1,

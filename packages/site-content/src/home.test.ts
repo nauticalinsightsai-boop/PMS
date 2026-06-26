@@ -13,6 +13,21 @@ import {
 } from './home';
 
 describe('home config', () => {
+  it('default v2 includes hero form copy defaults', () => {
+    const cfg = defaultHomePageConfigV2();
+    expect(cfg.heroForm?.title).toBe('Build your PM certification roadmap');
+    expect(cfg.heroForm?.certOptions).toHaveLength(3);
+    expect(cfg.heroForm?.submitLabel).toBe('Get My PM Roadmap');
+  });
+
+  it('normalizes missing hero form from defaults', () => {
+    const v2 = normalizeHomeConfigV1ToV2({
+      version: 2,
+      heroSlides: defaultHomePageConfigV2().heroSlides,
+    });
+    expect(v2.heroForm?.title).toBe('Build your PM certification roadmap');
+  });
+
   it('default v2 passes schema', () => {
     const cfg = defaultHomePageConfigV2();
     expect(homePageConfigV2Schema.parse(cfg).version).toBe(2);

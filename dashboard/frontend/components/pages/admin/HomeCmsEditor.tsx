@@ -30,17 +30,19 @@ import { CmsSaveNotice } from '@/components/pages/admin/CmsSaveNotice';
 import { getCmsSaveBlockReason, toSyncErrorMessage } from '@/lib/cms/save-guard';
 import { siteUrl } from '@/lib/site-config';
 import { HOME_COPY, CTAS } from '@/lib/brand-voice';
-import { MediaPicker } from './site-content/MediaPicker';
 import { MediaLibraryGrid } from './site-content/MediaLibraryGrid';
 import { DashboardPageHeader } from '@/components/layout/DashboardPageHeader';
 import { PageEditorIntro } from '@/components/layout/PageEditorIntro';
 import { getPublicSitePage } from '@/constants/publicSitePages';
+import { cn } from '@/lib/utils';
 import {
   defaultHomePageConfigV2,
   normalizeHomeConfigV1ToV2,
+  resolveHomeHeroForm,
   validateFieldContent,
   FIELD_KEYS,
   type HomePageConfigV2,
+  type HomeHeroForm,
 } from '@pms/site-content';
 
 type CmsTab =
@@ -174,6 +176,33 @@ export function HomeCmsEditor() {
       heroSlides: prev.heroSlides.map((slide) => (slide.id === id ? { ...slide, ...patch } : slide)),
     }));
   };
+
+  const heroForm = resolveHomeHeroForm(config.heroForm);
+
+  const updateHeroForm = (patch: Partial<HomeHeroForm>) => {
+    setConfig((prev) => ({
+      ...prev,
+      heroForm: { ...resolveHomeHeroForm(prev.heroForm), ...patch },
+    }));
+  };
+
+  const updateCertOptionLabel = (value: string, label: string) => {
+    setConfig((prev) => {
+      const form = resolveHomeHeroForm(prev.heroForm);
+      return {
+        ...prev,
+        heroForm: {
+          ...form,
+          certOptions: form.certOptions.map((option) =>
+            option.value === value ? { ...option, label } : option,
+          ),
+        },
+      };
+    });
+  };
+
+  const heroFieldClass =
+    'w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange';
 
   type HomeCtaBlock = NonNullable<HomePageConfig['instituteSection']>['institute'];
 
@@ -381,14 +410,14 @@ export function HomeCmsEditor() {
 
         <GlassCard variant="raised" className="p-4 md:p-6 space-y-4">
           {activeTab === 'hero' && (
-            <div className="space-y-3">
+            <div className="space-y-6">
               {filteredHeroSlides.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No hero slides match your search.</p>
               ) : (
                 filteredHeroSlides.map((slide) => (
                   <div key={slide.id} className="p-4 rounded-2xl border border-white/10 bg-white/5 space-y-4">
                     <div className="flex items-center justify-between">
-                      <p className="text-xs font-black uppercase tracking-widest">Slide {slide.id}</p>
+                      <p className="text-xs font-black uppercase tracking-widest">Hero copy (left column)</p>
                       <button
                         type="button"
                         onClick={() => updateHeroSlide(slide.id, { visible: !slide.visible })}
@@ -407,7 +436,7 @@ export function HomeCmsEditor() {
                     <textarea
                       value={slide.description}
                       onChange={(e) => updateHeroSlide(slide.id, { description: e.target.value })}
-                      placeholder="Description"
+                      placeholder="Subtitle"
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm h-24 outline-none focus:ring-1 focus:ring-brand-orange"
                     />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -415,7 +444,7 @@ export function HomeCmsEditor() {
                         value={slide.primaryCta}
                         onChange={(e) => updateHeroSlide(slide.id, { primaryCta: e.target.value })}
                         placeholder="Primary CTA"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
+                        className={heroFieldClass}
                       />
                       <select
                         value={slide.primaryAction ?? 'register_modal'}
@@ -424,7 +453,7 @@ export function HomeCmsEditor() {
                             primaryAction: e.target.value as 'link' | 'register_modal' | 'contact',
                           })
                         }
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
+                        className={heroFieldClass}
                       >
                         <option value="register_modal">Open registration modal</option>
                         <option value="contact">Link to contact / consultation</option>
@@ -433,38 +462,208 @@ export function HomeCmsEditor() {
                       <input
                         value={slide.primaryLink}
                         onChange={(e) => updateHeroSlide(slide.id, { primaryLink: e.target.value })}
-                        placeholder="Primary Link"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange md:col-span-2"
+                        placeholder="Primary link (e.g. /#pmp-roadmap-form)"
+                        className={cn(heroFieldClass, 'md:col-span-2')}
                       />
                       <input
                         value={slide.secondaryCta}
                         onChange={(e) => updateHeroSlide(slide.id, { secondaryCta: e.target.value })}
                         placeholder="Secondary CTA"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
+                        className={heroFieldClass}
                       />
                       <input
                         value={slide.secondaryLink}
                         onChange={(e) => updateHeroSlide(slide.id, { secondaryLink: e.target.value })}
-                        placeholder="Secondary Link"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
+                        placeholder="Secondary link"
+                        className={heroFieldClass}
                       />
-                      <div className="md:col-span-2">
-                        <MediaPicker
-                          label="Hero image URL"
-                          value={slide.heroImage?.url ?? ''}
-                          onChange={(url) =>
-                            updateHeroSlide(slide.id, {
-                              heroImage: url.trim()
-                                ? { id: `hero-${slide.id}`, url: url.trim(), alt: slide.heading }
-                                : undefined,
-                            })
-                          }
-                        />
-                      </div>
                     </div>
                   </div>
                 ))
               )}
+
+              <div className="p-4 rounded-2xl border border-white/10 bg-white/5 space-y-4">
+                <p className="text-xs font-black uppercase tracking-widest">Lead form (right column)</p>
+                <p className="text-sm text-muted-foreground">
+                  Controls the roadmap form on the live homepage hero. Field values (PMP, PRINCE2, etc.) stay fixed for analytics; you can edit labels and copy.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="md:col-span-2">
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Form title
+                    </label>
+                    <input
+                      value={heroForm.title}
+                      onChange={(e) => updateHeroForm({ title: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Form subtitle
+                    </label>
+                    <textarea
+                      value={heroForm.subtitle}
+                      onChange={(e) => updateHeroForm({ subtitle: e.target.value })}
+                      rows={2}
+                      className={cn(heroFieldClass, 'py-3')}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Full name label
+                    </label>
+                    <input
+                      value={heroForm.fullNameLabel}
+                      onChange={(e) => updateHeroForm({ fullNameLabel: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Full name placeholder
+                    </label>
+                    <input
+                      value={heroForm.fullNamePlaceholder}
+                      onChange={(e) => updateHeroForm({ fullNamePlaceholder: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Mobile label
+                    </label>
+                    <input
+                      value={heroForm.mobileLabel}
+                      onChange={(e) => updateHeroForm({ mobileLabel: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Mobile placeholder
+                    </label>
+                    <input
+                      value={heroForm.mobilePlaceholder}
+                      onChange={(e) => updateHeroForm({ mobilePlaceholder: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Email label
+                    </label>
+                    <input
+                      value={heroForm.emailLabel}
+                      onChange={(e) => updateHeroForm({ emailLabel: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Email placeholder
+                    </label>
+                    <input
+                      value={heroForm.emailPlaceholder}
+                      onChange={(e) => updateHeroForm({ emailPlaceholder: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Certification question
+                    </label>
+                    <input
+                      value={heroForm.certInterestLabel}
+                      onChange={(e) => updateHeroForm({ certInterestLabel: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  {heroForm.certOptions.map((option) => (
+                    <div key={option.value}>
+                      <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                        {option.value} button label
+                      </label>
+                      <input
+                        value={option.label}
+                        onChange={(e) => updateCertOptionLabel(option.value, e.target.value)}
+                        className={heroFieldClass}
+                      />
+                    </div>
+                  ))}
+                  <div>
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Other button label
+                    </label>
+                    <input
+                      value={heroForm.otherCertLabel}
+                      onChange={(e) => updateHeroForm({ otherCertLabel: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Other field placeholder
+                    </label>
+                    <input
+                      value={heroForm.otherCertPlaceholder}
+                      onChange={(e) => updateHeroForm({ otherCertPlaceholder: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Experience question
+                    </label>
+                    <input
+                      value={heroForm.experienceLabel}
+                      onChange={(e) => updateHeroForm({ experienceLabel: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Submit button
+                    </label>
+                    <input
+                      value={heroForm.submitLabel}
+                      onChange={(e) => updateHeroForm({ submitLabel: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Privacy link label
+                    </label>
+                    <input
+                      value={heroForm.privacyLinkLabel}
+                      onChange={(e) => updateHeroForm({ privacyLinkLabel: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Privacy notice (before link)
+                    </label>
+                    <input
+                      value={heroForm.privacyPrefix}
+                      onChange={(e) => updateHeroForm({ privacyPrefix: e.target.value })}
+                      className={heroFieldClass}
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                      Success message
+                    </label>
+                    <textarea
+                      value={heroForm.successMessage}
+                      onChange={(e) => updateHeroForm({ successMessage: e.target.value })}
+                      rows={3}
+                      className={cn(heroFieldClass, 'py-3')}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 

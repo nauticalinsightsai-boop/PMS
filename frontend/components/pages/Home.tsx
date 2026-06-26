@@ -37,7 +37,7 @@ import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { useHomePageConfig } from '@/lib/home-config';
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { T169_SUPPORT_COPY } from '@/content/pmp/flagship-t169';
-import { COMPARE_PATHWAYS_HREF, PMP_ROADMAP_CTA_HREF } from '@/lib/pmp-roadmap-cta';
+import { COMPARE_PATHWAYS_HREF, PMP_ROADMAP_CTA_HREF, scrollToPmpRoadmapForm } from '@/lib/pmp-roadmap-cta';
 import { getT169FeaturedCardOverrides } from '@/lib/t169-featured-cards';
 import type { JoinWaitlistContext } from '@/components/forms/JoinWaitlistDialog';
 import { buildGeneralWaitlistContext } from '@/lib/waitlist-contact-href';
@@ -310,8 +310,18 @@ export function Home({
     if (
       action === 'link' &&
       primaryLink &&
-      !primaryLink.includes(PMP_ROADMAP_FORM_ANCHOR) &&
-      primaryLink !== PMP_ROADMAP_CTA_HREF
+      (primaryLink.includes(PMP_ROADMAP_FORM_ANCHOR) || primaryLink === PMP_ROADMAP_CTA_HREF)
+    ) {
+      return (
+        <Button size="lg" className={cn(btnClass, 'w-full sm:w-auto')} type="button" onClick={scrollToPmpRoadmapForm}>
+          {label}
+        </Button>
+      );
+    }
+
+    if (
+      action === 'link' &&
+      primaryLink
     ) {
       return (
         <Link href={primaryLink} className="block w-full sm:w-auto">
@@ -364,9 +374,9 @@ export function Home({
               
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <div className="w-full sm:w-auto">{renderPrimaryCta()}</div>
-                <Link href="/certifications" className="w-full sm:w-auto">
+                <Link href={homeCms.ctaSecondaryLink || COMPARE_PATHWAYS_HREF} className="w-full sm:w-auto">
                   <Button size="lg" variant="outline" className={HERO_BTN_OUTLINE}>
-                    {CTAS.findPathway}
+                    {homeCms.ctaSecondary || CTAS.findPathway}
                   </Button>
                 </Link>
               </div>
@@ -396,7 +406,7 @@ export function Home({
 
             <div id={PMP_ROADMAP_FORM_ANCHOR} className="relative z-10 scroll-mt-24 w-full min-w-0">
               <div className="relative z-30 isolate w-full min-w-0">
-                <PmpRoadmapLeadForm placement={heroFormPlacement} variant="hero" />
+                <PmpRoadmapLeadForm placement={heroFormPlacement} variant="hero" heroCopy={homeCms.heroForm} />
               </div>
             </div>
           </div>
