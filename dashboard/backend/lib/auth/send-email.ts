@@ -103,7 +103,17 @@ function loadNodemailer(): typeof import('nodemailer') {
   return requireFromDisk('nodemailer') as typeof import('nodemailer');
 }
 
+/** Railway Hobby blocks outbound SMTP; use Resend (HTTPS) on cloud instead. */
+function isSmtpAvailable(): boolean {
+  return isSmtpConfigured() && !isCloudRuntime();
+}
+
 async function sendViaSmtp(params: SendParams): Promise<void> {
+  if (isCloudRuntime()) {
+    throw new Error(
+      'SMTP is blocked on Railway Hobby. Verify pmstructure.com at resend.com/domains, set RESEND_API_KEY + RESEND_DOMAIN_VERIFIED=true, and AUTH_EMAIL_TRANSPORT=resend.',
+    );
+  }
   const from = fromHeader();
   if (!from.email) throw new Error('AUTH_EMAIL_FROM or SMTP_USER is not configured');
 
@@ -189,12 +199,19 @@ export async function sendAuthEmail(params: SendParams): Promise<void> {
   const onCloud = isCloudRuntime();
   const attempts: Array<() => Promise<void>> = [];
 
-  const smtpOk = isSmtpConfigured();
+  const smtpOk = isSmtpAvailable();
   const resendOk = isResendConfigured();
   const resendReady = resendOk && (resendDomainVerified() || !onCloud);
 
+  if (onCloud && resendOk && !resendDomainVerified()) {
+    console.warn(
+      '[send-email] Resend domain not verified — auth email only works for the Resend account owner until pmstructure.com is verified.',
+    );
+  }
+
   if (transport === 'smtp') {
     if (smtpOk) attempts.push(() => sendViaSmtp(params));
+    else if (onCloud && resendOk) attempts.push(() => sendViaResend(params));
   } else if (transport === 'resend') {
     if (resendOk) attempts.push(() => sendViaResend(params));
     if (smtpOk) attempts.push(() => sendViaSmtp(params));
@@ -226,7 +243,7 @@ export async function sendAuthEmail(params: SendParams): Promise<void> {
 }
 
 export function isEmailConfigured(): boolean {
-  return isSmtpConfigured() || isResendConfigured();
+  return isSmtpAvailable() || isResendConfigured();
 }
 
 function shouldLogAuthEmailInDev(): boolean {
