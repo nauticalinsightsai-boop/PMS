@@ -474,7 +474,7 @@
 
   /* Admin dashboard shell — flat, sorted, minimal shadow */
   #dashboard-root {
-    --dashboard-sidebar-width: 3.5rem;
+    --dashboard-sidebar-width: calc(22px * 1.05 + 0.25rem);
     height: 100dvh;
     min-height: 100dvh;
   }
@@ -523,6 +523,14 @@
   }
   #dashboard-root .dashboard-nav-item:hover {
     @apply bg-muted text-foreground;
+  }
+  #dashboard-sidebar[data-expanded='false'] .dashboard-nav-item-active::before,
+  #dashboard-sidebar[data-expanded='false'] .dashboard-nav-item[data-active='true']::before {
+    display: none;
+  }
+  #dashboard-sidebar[data-expanded='false'] .dashboard-nav-item-active,
+  #dashboard-sidebar[data-expanded='false'] .dashboard-nav-item[data-active='true'] {
+    @apply bg-brand-orange/15 text-brand-orange;
   }
   #dashboard-root .text-label {
     @apply text-[11px] font-semibold uppercase tracking-wider text-muted-foreground;

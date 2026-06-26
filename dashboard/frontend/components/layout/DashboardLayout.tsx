@@ -42,6 +42,10 @@ const MODE_TABS: Array<{
   { id: 'bookings', label: 'Booking CRM', mobileLabel: 'Booking', icon: CalendarRange },
 ];
 
+const SIDEBAR_ICON_PX = 22;
+/** Collapsed rail: icon width + ~5% (minimal side padding). */
+const SIDEBAR_COLLAPSED = `calc(${SIDEBAR_ICON_PX}px * 1.05 + 0.25rem)`;
+
 export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
   const { mode, setMode } = useDashboardMode();
@@ -82,7 +86,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     closeSidebarTimeoutRef.current = setTimeout(() => {
       setSidebarHovered(false);
       setHoveredMenuPath(null);
-    }, 160);
+    }, 280);
   };
 
   const handleLogout = async () => {
@@ -94,11 +98,12 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
-  const navItemClasses = (isActive: boolean) =>
-    cn(
-      'dashboard-nav-item min-h-11',
-      isSidebarExpanded ? 'px-3 py-2.5 pl-4' : 'lg:justify-center lg:px-0 lg:py-2.5 lg:w-11 lg:mx-auto lg:pl-0',
-    );
+  const navItemClasses = cn(
+    'dashboard-nav-item min-h-10',
+    isSidebarExpanded
+      ? 'px-3 py-2.5 pl-4'
+      : 'lg:justify-center lg:px-0 lg:py-2 lg:min-h-10 lg:w-full',
+  );
 
   return (
     <div
@@ -118,6 +123,13 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
         )}
       </AnimatePresence>
 
+      {/* Desktop: reserves collapsed rail width so main content never jumps on hover expand */}
+      <div
+        className="hidden shrink-0 lg:block"
+        style={{ width: SIDEBAR_COLLAPSED }}
+        aria-hidden
+      />
+
       <aside
         id="dashboard-sidebar"
         aria-expanded={isSidebarExpanded}
@@ -131,18 +143,21 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           }
         }}
         className={cn(
-          'z-sidebar flex h-dvh min-h-dvh shrink-0 flex-col overflow-hidden border-r border-border bg-card',
-          'transition-[width,transform] duration-200 ease-out motion-reduce:transition-none',
-          'fixed inset-y-0 left-0 w-64',
+          'z-sidebar flex h-dvh min-h-dvh shrink-0 flex-col border-r border-border bg-card',
+          'transition-[width,box-shadow] duration-200 ease-out motion-reduce:transition-none',
+          'fixed inset-y-0 left-0 w-64 overflow-hidden',
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
-          'lg:sticky lg:top-0 lg:translate-x-0 lg:self-stretch',
-          isSidebarExpanded ? 'lg:w-64' : 'lg:w-[4.25rem]',
+          'lg:translate-x-0',
+          isSidebarExpanded
+            ? 'lg:w-60 lg:overflow-hidden lg:shadow-xl lg:ring-1 lg:ring-border/50'
+            : 'lg:w-[calc(22px*1.05+0.25rem)] lg:overflow-visible',
         )}
+        data-expanded={isSidebarExpanded ? 'true' : 'false'}
       >
         <div
           className={cn(
-            'flex h-14 shrink-0 items-center border-b border-border',
-            isSidebarExpanded ? 'justify-between px-4' : 'justify-center px-2',
+            'flex shrink-0 items-center border-b border-border',
+            isSidebarExpanded ? 'h-14 justify-between px-4' : 'h-12 justify-center px-0 lg:h-auto lg:min-h-12 lg:py-2',
           )}
         >
           {isSidebarExpanded ? (
@@ -155,7 +170,9 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
               className="hidden lg:flex items-center justify-center"
               title="Website home editor"
             >
-              <BrandLogo size="sm" />
+              <span className="cta-consultation flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-md text-[10px] font-black text-white">
+                P
+              </span>
             </Link>
           )}
           <button
@@ -171,7 +188,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
         <nav
           className={cn(
             'min-h-0 flex-1 overflow-y-auto overflow-x-hidden no-scrollbar',
-            isSidebarExpanded ? 'space-y-5 px-3 py-4' : 'space-y-2 px-2 py-3',
+            isSidebarExpanded ? 'space-y-5 px-3 py-4' : 'space-y-1 px-0 py-2 lg:px-0',
           )}
           aria-label="Main dashboard sections"
         >
@@ -234,7 +251,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                   ) : null}
 
                   {item.subItems && !isSidebarExpanded ? (
-                    <div className="pointer-events-none absolute left-full top-0 z-50 ml-2 hidden min-w-52 rounded-lg border border-border bg-popover p-1.5 opacity-0 shadow-md transition-opacity group-hover/menu-item:pointer-events-auto group-hover/menu-item:opacity-100 group-focus-within/menu-item:pointer-events-auto group-focus-within/menu-item:opacity-100 lg:block">
+                    <div className="pointer-events-none absolute left-full top-0 z-[60] ml-1.5 hidden min-w-52 rounded-lg border border-border bg-popover p-1.5 opacity-0 shadow-lg transition-opacity group-hover/menu-item:pointer-events-auto group-hover/menu-item:opacity-100 group-focus-within/menu-item:pointer-events-auto group-focus-within/menu-item:opacity-100 lg:block">
                       <p className="px-2 py-1.5 text-label">{item.name}</p>
                       {item.subItems.map((sub) => (
                         <DashboardNavLink
@@ -254,20 +271,23 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                       ))}
                     </div>
                   ) : null}
+
+                  {!isSidebarExpanded && !item.subItems ? (
+                    <span className="pointer-events-none absolute left-full top-1/2 z-[60] ml-2 hidden -translate-y-1/2 whitespace-nowrap rounded-md border border-border bg-popover px-2.5 py-1.5 text-xs font-medium text-foreground opacity-0 shadow-md transition-opacity group-hover/menu-item:opacity-100 lg:block">
+                      {item.name}
+                    </span>
+                  ) : null}
                 </div>
               ))}
             </div>
           ))}
         </nav>
 
-        <div
-          className={cn(
-            'shrink-0 border-t border-border px-3 py-3 text-[10px] text-muted-foreground',
-            isSidebarExpanded ? 'block' : 'hidden lg:block lg:px-2 lg:text-center',
-          )}
-        >
-          {isSidebarExpanded ? 'PM Structure · Website CMS' : 'CMS'}
-        </div>
+        {isSidebarExpanded ? (
+          <div className="shrink-0 border-t border-border px-3 py-3 text-[10px] text-muted-foreground">
+            PM Structure · Website CMS
+          </div>
+        ) : null}
       </aside>
 
       <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
