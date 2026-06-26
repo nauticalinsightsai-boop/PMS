@@ -47,6 +47,10 @@ import {
 
 const FAMILIES: PathwayFamilyTab[] = ['PMI', 'PRINCE2', 'SixSigma'];
 
+/** Nearly full-viewport pathway editor — inset margins; height comes from top/bottom inset, not h-auto. */
+const PATHWAY_EDITOR_DIALOG_CLASS =
+  '!fixed !inset-3 z-modal !flex !max-h-none !w-auto !max-w-none !translate-x-0 !translate-y-0 flex-col gap-0 overflow-hidden rounded-xl border border-border bg-background p-0 shadow-2xl sm:!inset-4 sm:!max-w-none md:!inset-5';
+
 function moveItem<T>(arr: T[], from: number, to: number): T[] {
   const next = [...arr];
   const [item] = next.splice(from, 1);
@@ -539,19 +543,18 @@ export function CertificationsHubEditor() {
       </Dialog>
 
       <Dialog open={Boolean(editingEntry)} onOpenChange={(open) => !open && setEditingId(null)}>
-        <DialogContent
-          showCloseButton={false}
-          className="flex h-[min(94vh,960px)] w-[min(98vw,88rem)] max-w-none flex-col gap-0 overflow-hidden rounded-xl p-0 sm:max-w-none"
-        >
-          {editingEntry ? (
-            <CertificationRegistryEntryEditor
-              entry={editingEntry}
-              onChange={updateEntry}
-              onClose={() => setEditingId(null)}
-              onRemove={() => removeEntry(editingEntry.id)}
-              onArchive={() => toggleArchive(editingEntry.id)}
-            />
-          ) : null}
+        <DialogContent showCloseButton={false} className={PATHWAY_EDITOR_DIALOG_CLASS}>
+          <div className="flex h-full min-h-0 flex-col">
+            {editingEntry ? (
+              <CertificationRegistryEntryEditor
+                entry={editingEntry}
+                onChange={updateEntry}
+                onClose={() => setEditingId(null)}
+                onRemove={() => removeEntry(editingEntry.id)}
+                onArchive={() => toggleArchive(editingEntry.id)}
+              />
+            ) : null}
+          </div>
         </DialogContent>
       </Dialog>
     </div>

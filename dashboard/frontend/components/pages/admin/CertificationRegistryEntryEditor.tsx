@@ -98,8 +98,8 @@ export function CertificationRegistryEntryEditor({
   };
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3 shrink-0">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-background">
+      <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-border bg-card px-4 py-3 sm:px-6">
         <div className="min-w-0">
           <p className="font-mono text-xs text-muted-foreground">{entry.id}</p>
           <h3 className="truncate font-bold text-lg">{entry.name || entry.id}</h3>
@@ -118,18 +118,30 @@ export function CertificationRegistryEntryEditor({
         </div>
       </div>
 
-      <Tabs value={tab} onValueChange={(value) => setTab(value as EditorTab)} className="flex min-h-0 flex-1 flex-col">
-        <div className="shrink-0 border-b border-border px-4 pt-3">
-          <TabsList variant="line" className="h-auto w-full justify-start gap-1 overflow-x-auto bg-transparent p-0 no-scrollbar">
+      <Tabs
+        value={tab}
+        onValueChange={(value) => setTab(value as EditorTab)}
+        className="flex min-h-0 flex-1 flex-col gap-0 overflow-hidden"
+      >
+        <div className="shrink-0 border-b border-border bg-card px-4 pt-3 sm:px-6">
+          <TabsList
+            variant="line"
+            className="h-auto w-full justify-start gap-1 overflow-x-auto bg-transparent p-0 no-scrollbar"
+          >
             {EDITOR_TABS.map((item) => (
-              <TabsTrigger key={item.id} value={item.id} className="shrink-0 text-xs sm:text-sm">
+              <TabsTrigger
+                key={item.id}
+                value={item.id}
+                className="shrink-0 flex-none px-3 py-2 text-xs sm:text-sm"
+              >
                 {item.label}
               </TabsTrigger>
             ))}
           </TabsList>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 md:px-6">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6 md:px-8 md:py-6">
+          <div className="mx-auto w-full max-w-5xl">
           <TabsContent value="basics" className="mt-0 space-y-4">
             <div className="grid gap-3 sm:grid-cols-2">
               <Field label="Cert ID (slug)">
@@ -203,7 +215,10 @@ export function CertificationRegistryEntryEditor({
               Checkout amounts still come from regional-catalogue.json. These values appear on pathway cards.
             </p>
             {(['Foundation', 'Professional', 'Elite'] as const).map((tier) => (
-              <div key={tier} className="grid gap-2 sm:grid-cols-3 items-end p-3 rounded-xl border border-white/10">
+              <div
+                key={tier}
+                className="grid items-end gap-3 rounded-xl border border-border bg-muted/20 p-4 sm:grid-cols-3"
+              >
                 <span className="text-sm font-bold sm:col-span-3">{tier}</span>
                 <Field label="Duration">
                   <input
@@ -313,6 +328,7 @@ export function CertificationRegistryEntryEditor({
             </p>
             <ProgrammeAssetsUploader entry={entry} onChange={onChange} />
           </TabsContent>
+          </div>
         </div>
       </Tabs>
     </div>
