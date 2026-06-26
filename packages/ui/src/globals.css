@@ -474,8 +474,8 @@
 
   /* Admin dashboard shell — flat, sorted, minimal shadow */
   #dashboard-root {
-    --dashboard-sidebar-collapsed: calc(22px * 1.05 + 0.25rem);
-    --dashboard-sidebar-expanded: 15rem;
+    --dashboard-sidebar-collapsed: calc(23px * 1.05 + 0.25rem);
+    --dashboard-sidebar-expanded: 15.75rem;
     --dashboard-sidebar-width: var(--dashboard-sidebar-collapsed);
     height: 100dvh;
     min-height: 100dvh;
@@ -519,8 +519,8 @@
     @apply relative flex min-h-11 items-center rounded-lg text-sm font-medium text-muted-foreground transition-colors;
   }
   #dashboard-root .dashboard-nav-item svg {
-    width: 1.375rem;
-    height: 1.375rem;
+    width: calc(1.375rem * 1.05);
+    height: calc(1.375rem * 1.05);
   }
   #dashboard-root .dashboard-nav-item-active,
   #dashboard-root .dashboard-nav-item[data-active='true'] {
