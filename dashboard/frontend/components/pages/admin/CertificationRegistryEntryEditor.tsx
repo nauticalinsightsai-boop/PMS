@@ -102,7 +102,7 @@ export function CertificationRegistryEntryEditor({
       <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-border bg-card px-4 py-3 sm:px-6">
         <div className="min-w-0">
           <p className="font-mono text-xs text-muted-foreground">{entry.id}</p>
-          <h3 className="truncate font-bold text-lg">{entry.name || entry.id}</h3>
+          <h3 id="pathway-editor-title" className="truncate font-bold text-lg">{entry.name || entry.id}</h3>
         </div>
         <div className="flex flex-wrap gap-2">
           <CTAButton size="sm" variant="outline" onClick={onArchive} className="gap-1">

@@ -24,6 +24,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { SyncStatusIndicator, type SyncStatus } from '@/components/shared/SyncStatusIndicator';
+import { ModalPortal } from '@/components/shared/ModalPortal';
 import {
   FIELD_KEYS,
   defaultCertificationsHubConfig,
@@ -46,10 +47,6 @@ import {
 } from '@/components/pages/admin/CertificationRegistryEntryEditor';
 
 const FAMILIES: PathwayFamilyTab[] = ['PMI', 'PRINCE2', 'SixSigma'];
-
-/** Nearly full-viewport pathway editor — inset margins; height comes from top/bottom inset, not h-auto. */
-const PATHWAY_EDITOR_DIALOG_CLASS =
-  '!fixed !inset-3 z-modal !flex !max-h-none !w-auto !max-w-none !translate-x-0 !translate-y-0 flex-col gap-0 overflow-hidden rounded-xl border border-border bg-background p-0 shadow-2xl sm:!inset-4 sm:!max-w-none md:!inset-5';
 
 function moveItem<T>(arr: T[], from: number, to: number): T[] {
   const next = [...arr];
@@ -136,6 +133,20 @@ export function CertificationsHubEditor() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [registryQuery, setRegistryQuery] = useState('');
   const [showArchived, setShowArchived] = useState(false);
+
+  useEffect(() => {
+    if (!editingId) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setEditingId(null);
+    };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [editingId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -542,10 +553,21 @@ export function CertificationsHubEditor() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={Boolean(editingEntry)} onOpenChange={(open) => !open && setEditingId(null)}>
-        <DialogContent showCloseButton={false} className={PATHWAY_EDITOR_DIALOG_CLASS}>
-          <div className="flex h-full min-h-0 flex-col">
-            {editingEntry ? (
+      {editingEntry ? (
+        <ModalPortal>
+          <div
+            className="fixed inset-0 z-modal flex flex-col p-3 sm:p-4 md:p-5"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="pathway-editor-title"
+          >
+            <button
+              type="button"
+              className="absolute inset-0 bg-black/65 backdrop-blur-[2px]"
+              aria-label="Close pathway editor"
+              onClick={() => setEditingId(null)}
+            />
+            <div className="relative z-10 flex min-h-0 w-full flex-1 flex-col overflow-hidden rounded-xl border border-border bg-background shadow-2xl ring-1 ring-foreground/10">
               <CertificationRegistryEntryEditor
                 entry={editingEntry}
                 onChange={updateEntry}
@@ -553,10 +575,10 @@ export function CertificationsHubEditor() {
                 onRemove={() => removeEntry(editingEntry.id)}
                 onArchive={() => toggleArchive(editingEntry.id)}
               />
-            ) : null}
+            </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </ModalPortal>
+      ) : null}
     </div>
   );
 }
