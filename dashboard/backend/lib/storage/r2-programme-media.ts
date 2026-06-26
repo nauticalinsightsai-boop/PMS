@@ -24,11 +24,25 @@ export function isR2ProgrammeMediaConfigured(): boolean {
   );
 }
 
-export function programmeMediaUsesR2(): boolean {
+export type ProgrammeMediaStorageDriver = 'r2' | 'supabase';
+
+/** Resolved storage backend for programme PDFs/videos (CMS uploads). */
+export function programmeMediaStorageDriver(): ProgrammeMediaStorageDriver {
   const driver = process.env.PROGRAMME_MEDIA_STORAGE?.trim().toLowerCase();
-  if (driver === 'supabase') return false;
-  if (driver === 'r2') return isR2ProgrammeMediaConfigured();
-  return isR2ProgrammeMediaConfigured();
+  if (driver === 'supabase') return 'supabase';
+  if (driver === 'r2') return 'r2';
+  return isR2ProgrammeMediaConfigured() ? 'r2' : 'supabase';
+}
+
+export function programmeMediaUsesR2(): boolean {
+  return programmeMediaStorageDriver() === 'r2';
+}
+
+export function programmeMediaStorageNotConfiguredMessage(): string {
+  if (programmeMediaStorageDriver() === 'r2') {
+    return 'Cloudflare R2 is not configured. Set R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, and R2_PUBLIC_BASE_URL (see .env.example).';
+  }
+  return 'Programme media storage not configured (Supabase admin or Cloudflare R2).';
 }
 
 export function programmeMediaMaxBytes(): number {

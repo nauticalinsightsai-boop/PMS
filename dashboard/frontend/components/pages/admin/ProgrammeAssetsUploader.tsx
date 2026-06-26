@@ -48,9 +48,9 @@ const ASSET_ROWS: Array<{
   {
     kind: 'guide',
     label: 'Programme guide',
-    hint: 'PDF in pathway preview modal',
+    hint: 'PDF in pathway preview modal (Cloudflare R2)',
     accept: 'application/pdf,.pdf',
-    formats: 'PDF · max 50MB',
+    formats: 'PDF · max 500MB',
     urlKey: 'guidePdfUrl',
     pathKey: 'guidePdfPath',
     Icon: FileText,
@@ -58,9 +58,9 @@ const ASSET_ROWS: Array<{
   {
     kind: 'slides',
     label: 'Session slides',
-    hint: 'Lesson deck for in-modal viewing',
+    hint: 'Lesson deck for in-modal viewing (Cloudflare R2)',
     accept: 'application/pdf,.pdf',
-    formats: 'PDF · max 50MB',
+    formats: 'PDF · max 500MB',
     urlKey: 'slidesPdfUrl',
     pathKey: 'slidesPdfPath',
     Icon: FileText,
@@ -68,9 +68,9 @@ const ASSET_ROWS: Array<{
   {
     kind: 'video',
     label: 'Overview video',
-    hint: 'Streamed on the public site',
+    hint: 'Streamed from Cloudflare R2 on the public site',
     accept: 'video/mp4,video/webm,.mp4,.webm',
-    formats: 'MP4 or WebM · max 50MB',
+    formats: 'MP4 or WebM · max 500MB',
     urlKey: 'videoUrl',
     pathKey: 'videoPath',
     Icon: FileVideo,
@@ -283,13 +283,19 @@ function TierPanel({
   offeringId,
   assets,
   onChange,
+  mode = 'all',
+  visibleRows,
 }: {
   certId: string;
   tier: Tier;
   offeringId: string;
   assets: ProgrammeOfferingAssets;
   onChange: (next: ProgrammeOfferingAssets) => void;
+  mode?: 'all' | 'video' | 'documents';
+  visibleRows: typeof ASSET_ROWS;
 }) {
+  const showVideoEmbed = mode === 'video' || mode === 'all';
+
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-muted/30 px-4 py-3">
@@ -298,12 +304,51 @@ function TierPanel({
           <p className="mt-1 font-mono text-sm">{offeringId}</p>
         </div>
         <p className="max-w-xl text-xs text-muted-foreground">
-          Materials appear in the pathway preview modal after you publish the registry.
+          {mode === 'video'
+            ? 'Videos are stored on Cloudflare R2 and play in the pathway preview modal after you publish.'
+            : mode === 'documents'
+              ? 'PDFs and roadmap images are stored on Cloudflare R2 and appear in the preview modal after publish.'
+              : 'Files upload to Cloudflare R2 and appear in the pathway preview modal after you publish the registry.'}
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {ASSET_ROWS.map((row) => (
+      {showVideoEmbed ? (
+        <div className="rounded-xl border border-border bg-card p-4">
+          <label className="block space-y-1.5">
+            <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              YouTube / Vimeo embed URL (optional)
+            </span>
+            <input
+              value={assets.videoEmbedUrl ?? ''}
+              onChange={(e) => onChange({ ...assets, videoEmbedUrl: e.target.value.trim() || undefined })}
+              placeholder="https://www.youtube.com/embed/…"
+              className="dashboard-input"
+            />
+          </label>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Use embed URL when you host on YouTube/Vimeo. Self-hosted MP4 below takes priority when both are set.
+            </p>
+            {assets.videoEmbedUrl?.trim() ? (
+              <div className="mt-3 overflow-hidden rounded-lg border border-border bg-black/20">
+                <iframe
+                  src={assets.videoEmbedUrl.trim()}
+                  title="Video embed preview"
+                  className="aspect-video w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            ) : null}
+        </div>
+      ) : null}
+
+      <div
+        className={cn(
+          'grid gap-4',
+          visibleRows.length === 1 ? 'max-w-2xl' : 'sm:grid-cols-2 xl:grid-cols-3',
+        )}
+      >
+        {visibleRows.map((row) => (
           <AssetRow
             key={row.kind}
             certId={certId}
@@ -315,21 +360,23 @@ function TierPanel({
         ))}
       </div>
 
-      <div className="flex gap-2 rounded-lg border border-border bg-muted/20 px-3 py-2.5 text-xs text-muted-foreground">
-        <Info className="mt-0.5 h-4 w-4 shrink-0 text-brand-orange" aria-hidden />
-        <p>
-          Keep videos self-hosted (MP4/WebM above) so playback stays on pmstructure.com. Over 50MB? Compress with{' '}
-          <a
-            href="https://handbrake.fr/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-brand-orange underline-offset-2 hover:underline"
-          >
-            HandBrake
-          </a>{' '}
-          (H.264, 720p) before uploading.
-        </p>
-      </div>
+      {mode === 'video' || mode === 'all' ? (
+        <div className="flex gap-2 rounded-lg border border-border bg-muted/20 px-3 py-2.5 text-xs text-muted-foreground">
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-brand-orange" aria-hidden />
+          <p>
+            Keep videos self-hosted (MP4/WebM) on Cloudflare R2 for reliable playback. Over 500MB? Compress with{' '}
+            <a
+              href="https://handbrake.fr/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-brand-orange underline-offset-2 hover:underline"
+            >
+              HandBrake
+            </a>{' '}
+            (H.264, 720p) before uploading.
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -339,21 +386,35 @@ const TIERS = ['foundation', 'professional', 'mastery'] as const;
 export function ProgrammeAssetsUploader({
   entry,
   onChange,
+  mode = 'all',
 }: {
   entry: CertificationRegistryEntry;
   onChange: (next: CertificationRegistryEntry) => void;
+  /** `video` = upload + embed only; `documents` = PDFs + roadmap; `all` = every asset type */
+  mode?: 'all' | 'video' | 'documents';
 }) {
   const programmeAssets = entry.programmeAssets ?? {};
+  const visibleRows = ASSET_ROWS.filter((row) => {
+    if (mode === 'video') return row.kind === 'video';
+    if (mode === 'documents') return row.kind !== 'video';
+    return true;
+  });
+  const maxPerTier = visibleRows.length;
 
   const tierCounts = useMemo(
     () =>
       Object.fromEntries(
         TIERS.map((tier) => {
           const offeringId = offeringIdForCertTier(entry.id, tier);
-          return [tier, tierAssetCount(programmeAssets[offeringId] ?? {})];
+          const assets = programmeAssets[offeringId] ?? {};
+          if (mode === 'video') {
+            const hasVideo = Boolean(assets.videoUrl || assets.videoEmbedUrl?.trim());
+            return [tier, hasVideo ? 1 : 0];
+          }
+          return [tier, visibleRows.filter((row) => assets[row.urlKey]).length];
         }),
       ) as Record<Tier, number>,
-    [entry.id, programmeAssets],
+    [entry.id, mode, programmeAssets, visibleRows],
   );
 
   const patchTier = (tier: Tier, offeringId: string, assets: ProgrammeOfferingAssets) => {
@@ -381,7 +442,7 @@ export function ProgrammeAssetsUploader({
             >
               {TIER_LABELS[tier]}
               <span className="ml-2 rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold tabular-nums">
-                {tierCounts[tier]}/4
+                {tierCounts[tier]}/{maxPerTier}
               </span>
             </TabsTrigger>
           ))}
@@ -398,6 +459,8 @@ export function ProgrammeAssetsUploader({
                 offeringId={offeringId}
                 assets={assets}
                 onChange={(next) => patchTier(tier, offeringId, next)}
+                mode={mode}
+                visibleRows={visibleRows}
               />
             </TabsContent>
           );

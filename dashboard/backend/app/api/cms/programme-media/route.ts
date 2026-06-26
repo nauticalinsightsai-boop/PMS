@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireDashboardMutationAuth } from '@/lib/auth/api-guard';
 import { getSupabaseAdmin, isSupabaseAdminConfigured } from '@/lib/auth/supabase-admin';
 import {
+  isR2ProgrammeMediaConfigured,
   programmeMediaMaxBytes,
+  programmeMediaStorageDriver,
+  programmeMediaStorageNotConfiguredMessage,
   programmeMediaUsesR2,
   r2DeleteObject,
   r2ListObjects,
@@ -32,7 +35,7 @@ function safeSegment(value: string): string {
 }
 
 function storageReady(): boolean {
-  if (programmeMediaUsesR2()) return true;
+  if (programmeMediaStorageDriver() === 'r2') return isR2ProgrammeMediaConfigured();
   return isSupabaseAdminConfigured();
 }
 
@@ -41,7 +44,7 @@ export async function GET(request: NextRequest) {
   if (auth) return auth;
 
   if (!storageReady()) {
-    return NextResponse.json({ error: 'Programme media storage not configured' }, { status: 503 });
+    return NextResponse.json({ error: programmeMediaStorageNotConfiguredMessage() }, { status: 503 });
   }
 
   const prefix = request.nextUrl.searchParams.get('prefix')?.trim() ?? '';
@@ -84,7 +87,7 @@ export async function POST(request: NextRequest) {
   if (auth) return auth;
 
   if (!storageReady()) {
-    return NextResponse.json({ error: 'Programme media storage not configured' }, { status: 503 });
+    return NextResponse.json({ error: programmeMediaStorageNotConfiguredMessage() }, { status: 503 });
   }
 
   const form = await request.formData();
@@ -138,7 +141,7 @@ export async function DELETE(request: NextRequest) {
   if (auth) return auth;
 
   if (!storageReady()) {
-    return NextResponse.json({ error: 'Programme media storage not configured' }, { status: 503 });
+    return NextResponse.json({ error: programmeMediaStorageNotConfiguredMessage() }, { status: 503 });
   }
 
   let body: { path?: string };

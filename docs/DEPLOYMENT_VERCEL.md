@@ -37,6 +37,15 @@ SUPABASE_SERVICE_ROLE_KEY=eyJ...
 NEXT_PUBLIC_AUTH_USE_API_LOGIN=true
 DASHBOARD_ADMIN_EMAILS=nauticalinsights.ai@gmail.com
 
+# Programme PDFs + videos (pathway preview modal) — Cloudflare R2
+PROGRAMME_MEDIA_STORAGE=r2
+R2_ACCOUNT_ID=
+R2_ACCESS_KEY_ID=
+R2_SECRET_ACCESS_KEY=
+R2_BUCKET_NAME=pmstructure-programme-media
+R2_PUBLIC_BASE_URL=https://media.pmstructure.com
+R2_PROGRAMME_MEDIA_MAX_MB=500
+
 # SMTP (password reset + OTP email)
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587

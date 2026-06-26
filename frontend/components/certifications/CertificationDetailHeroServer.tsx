@@ -28,11 +28,7 @@ export function CertificationDetailHeroServer({
           cert.id === 'pmp' && 'whitespace-nowrap',
         )}
       >
-        {cert.id === 'pmp' ? (
-          <>
-            PMI-PMP® <span className="text-brand-orange">Pathway</span>
-          </>
-        ) : cert.detailHeroTitle.includes('Pathway') ? (
+        {cert.detailHeroTitle.includes('Pathway') ? (
           cert.detailHeroTitle
         ) : (
           <>

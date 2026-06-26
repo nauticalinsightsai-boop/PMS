@@ -32,6 +32,7 @@ import {
   pickFeaturedPathwayCerts,
   type PathwayFamilyTab,
 } from "@/lib/certification-enrollment";
+import { resolveCertMarketing } from '@/lib/cert-detail';
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
 import { useIsLgUp } from '@/hooks/useIsLgUp';
 import {
@@ -177,6 +178,18 @@ export function Certifications({
   const hiddenIds = new Set(
     (registry?.entries ?? []).filter((e) => e.hidden || e.archived).map((e) => e.id),
   );
+  const registryEntriesById = React.useMemo(() => {
+    const map = new Map<string, NonNullable<typeof registry>['entries'][number]>();
+    for (const entry of registry?.entries ?? []) {
+      if (!entry.archived) map.set(entry.id, entry);
+    }
+    return map;
+  }, [registry?.entries]);
+  const resolvePathwayCert = React.useCallback(
+    (cert: CertificationSummary) =>
+      resolveCertMarketing(cert, registryEntriesById.get(cert.id)),
+    [registryEntriesById],
+  );
   const certifications = certificationsBase.filter((c) => !hiddenIds.has(c.id));
   const sortByEnrollmentThenName = React.useCallback(
     (a: CertificationSummary, b: CertificationSummary) => {
@@ -300,7 +313,7 @@ export function Certifications({
                                   className={cn(PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, 'motion-reduce:transform-none')}
                                 >
                                   <PathwayFeaturedCard
-                                    cert={cert}
+                                    cert={resolvePathwayCert(cert)}
                                     familyLabel={cert.familyId}
                                   />
                                 </m.div>
@@ -316,7 +329,7 @@ export function Certifications({
                             </h3>
                             <ul className="rounded-2xl border border-slate-100 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden bg-slate-50/50 dark:bg-slate-800/30">
                               {moreOpen.map((cert) => (
-                                <PathwayCompactRow key={cert.id} cert={cert} />
+                                <PathwayCompactRow key={cert.id} cert={resolvePathwayCert(cert)} />
                               ))}
                             </ul>
                           </div>
@@ -331,7 +344,7 @@ export function Certifications({
                             </h3>
                             <ul className="rounded-2xl border border-slate-100 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden bg-slate-50/50 dark:bg-slate-800/30">
                               {closedRest.map((cert) => (
-                                <PathwayCompactRow key={cert.id} cert={cert} />
+                                <PathwayCompactRow key={cert.id} cert={resolvePathwayCert(cert)} />
                               ))}
                             </ul>
                             <p className="mt-4 text-sm text-slate-500 dark:text-slate-400 font-medium">

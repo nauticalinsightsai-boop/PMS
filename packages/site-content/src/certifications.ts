@@ -13,7 +13,7 @@ export const certificationPathwayOutcomesSchema = z.object({
   mastery: z.array(z.string()).optional(),
 });
 
-/** Supabase Storage programme-media assets for pathway modal (per offering id). */
+/** Cloudflare R2 (or legacy Supabase) programme assets for pathway modal (per offering id). */
 export const programmeOfferingAssetsSchema = z.object({
   guidePdfUrl: z.string().optional(),
   guidePdfPath: z.string().optional(),
