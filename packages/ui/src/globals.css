@@ -474,7 +474,7 @@
 
   /* Admin dashboard shell — flat, sorted, minimal shadow */
   #dashboard-root {
-    --dashboard-sidebar-collapsed: calc(22px * 1.50 * 1.05 + 0.25rem);
+    --dashboard-sidebar-collapsed: calc((22px * 1.50 * 1.05 + 0.25rem) * 1.5);
     --dashboard-sidebar-expanded: 22.5rem;
     --dashboard-sidebar-width: var(--dashboard-sidebar-collapsed);
     height: 100dvh;

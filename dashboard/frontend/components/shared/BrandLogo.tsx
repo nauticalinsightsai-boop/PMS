@@ -12,13 +12,13 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ className, size = 'md' }) 
   
   const sizeClasses = {
     sm: 'w-6 h-6 text-xs rounded-md',
-    md: 'w-9 h-9 text-lg rounded-[10px]',
+    md: 'w-7 h-7 text-sm rounded-lg',
     lg: 'w-12 h-12 text-2xl rounded-2xl',
   };
 
   const textClasses = {
     sm: 'text-sm',
-    md: 'text-base',
+    md: 'text-sm',
     lg: 'text-3xl',
   };
 

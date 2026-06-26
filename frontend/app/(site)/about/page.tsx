@@ -1,6 +1,6 @@
 import { About } from '@/components/pages/About';
 import { AboutPageJsonLd } from '@/components/seo/AboutPageJsonLd';
-import { buildPageMetadata } from '@/lib/site-metadata';
+import { buildPageMetadataWithCms } from '@/lib/cms/page-metadata';
 import {
   fetchPublishedDocument,
   fetchPublishedGlobalContent,
@@ -11,11 +11,13 @@ import {
 } from '@pms/site-content';
 import { FIELD_KEYS } from '@pms/site-content/keys';
 
-export const metadata = buildPageMetadata({
-  title: 'About PM Structure',
-  description: 'Independent exam-preparation platform for project management certifications.',
-  path: '/about',
-});
+export async function generateMetadata() {
+  return buildPageMetadataWithCms('about', {
+    title: 'About PM Structure',
+    description: 'Independent exam-preparation platform for project management certifications.',
+    path: '/about',
+  });
+}
 
 export default async function Page() {
   const [initialPageConfig, globalContent] = await Promise.all([

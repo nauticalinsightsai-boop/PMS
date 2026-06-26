@@ -6,14 +6,21 @@ import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { FaqPageJsonLd } from '@/components/seo/FaqPageJsonLd';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
 import { getFaqBreadcrumbs } from '@/content/site-architecture/routes';
-import { getPhase2Seo } from '@/content/seo/phase-2-page-seo';
-import { buildPhase2PageMetadata } from '@/lib/site-metadata';
+import { getPhase2Seo, titleNeedsNoSuffix } from '@/content/seo/phase-2-page-seo';
+import { buildPageMetadataWithCms } from '@/lib/cms/page-metadata';
 import { fetchPublishedGlobalContent } from '@/lib/cms/fetch-published-document';
 
 const faqSeo = getPhase2Seo('/faq')!;
 const faqBreadcrumbs = getFaqBreadcrumbs();
 
-export const metadata = buildPhase2PageMetadata('/faq')!;
+export async function generateMetadata() {
+  return buildPageMetadataWithCms('faq', {
+    title: faqSeo.title,
+    description: faqSeo.description,
+    path: faqSeo.canonicalPath,
+    noSuffix: titleNeedsNoSuffix(faqSeo.title),
+  });
+}
 
 export default async function Page() {
   const globalContent = await fetchPublishedGlobalContent();

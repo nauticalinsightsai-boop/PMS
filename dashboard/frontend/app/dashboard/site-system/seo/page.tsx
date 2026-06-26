@@ -1,5 +1,5 @@
-import { PlaceholderPage } from '@/components/PlaceholderPage';
+import { SeoControlEditor } from '@/components/pages/admin/SeoControlEditor';
 
 export default function Page() {
-  return <PlaceholderPage title="SEO Control" />;
+  return <SeoControlEditor />;
 }

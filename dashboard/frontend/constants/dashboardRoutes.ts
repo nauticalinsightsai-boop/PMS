@@ -11,7 +11,6 @@ import {
   Database,
   Search,
   Wrench,
-  Layers,
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
@@ -48,7 +47,6 @@ export const ADMIN_ROUTE_PREFIXES = [
   '/dashboard/site-system/security',
   '/dashboard/site-system/analytics',
   '/dashboard/site-system/website-data',
-  '/dashboard/site-system/service-scopes',
   '/dashboard/site-system/discovery-call-email',
   '/dashboard/site-system/portfolio',
   '/dashboard/site-system/discarded',
@@ -91,7 +89,6 @@ const ADMIN_SYSTEM_NAV: DashboardNavSection = {
     { name: 'Security', path: '/dashboard/site-system/security', icon: Shield },
     { name: 'Analytics', path: '/dashboard/site-system/analytics', icon: BarChart3 },
     { name: 'Website data', path: '/dashboard/site-system/website-data', icon: Database },
-    { name: 'Service scopes', path: '/dashboard/site-system/service-scopes', icon: Layers },
     { name: 'Data migration', path: '/dashboard/migrate', icon: Wrench },
   ],
 };

@@ -4,10 +4,19 @@ import { CompareServerHeading } from '@/components/certifications/CompareServerH
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { getCompareBreadcrumbs } from '@/content/site-architecture/routes';
-import { buildPhase2PageMetadata } from '@/lib/site-metadata';
+import { getPhase2Seo, titleNeedsNoSuffix } from '@/content/seo/phase-2-page-seo';
+import { buildPageMetadataWithCms } from '@/lib/cms/page-metadata';
 import { fetchPublishedGlobalContent } from '@/lib/cms/fetch-published-document';
 
-export const metadata = buildPhase2PageMetadata('/certifications/compare')!;
+export async function generateMetadata() {
+  const seo = getPhase2Seo('/certifications/compare')!;
+  return buildPageMetadataWithCms('compare', {
+    title: seo.title,
+    description: seo.description,
+    path: seo.canonicalPath,
+    noSuffix: titleNeedsNoSuffix(seo.title),
+  });
+}
 
 const compareBreadcrumbs = getCompareBreadcrumbs();
 

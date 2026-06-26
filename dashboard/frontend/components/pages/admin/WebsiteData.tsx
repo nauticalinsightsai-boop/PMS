@@ -195,29 +195,40 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
                   </div>
 
                   <div className="space-y-6">
-                    {section.fields.map((field) => (
-                      <div key={field.key} className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">
-                          {field.label}
-                        </label>
-                        {field.type === 'textarea' ? (
-                          <textarea
-                            value={content[field.key] || ''}
-                            placeholder={`Enter ${field.label}...`}
-                            onChange={(e) => handleChange(field.key, e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm leading-relaxed focus:ring-2 focus:ring-brand-orange outline-none transition-all h-32"
-                          />
-                        ) : (
-                          <input
-                            type="text"
-                            value={content[field.key] || ''}
-                            placeholder={`Enter ${field.label}...`}
-                            onChange={(e) => handleChange(field.key, e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm font-bold focus:ring-2 focus:ring-brand-orange outline-none transition-all"
-                          />
-                        )}
-                      </div>
-                    ))}
+                    {section.fields.map((field) => {
+                      const fieldValue = content[field.key] ?? field.defaultValue ?? '';
+                      const usingDefault =
+                        content[field.key] === undefined &&
+                        (field.defaultValue ?? '').length > 0;
+                      return (
+                        <div key={field.key} className="space-y-2">
+                          <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">
+                            {field.label}
+                            {usingDefault ? (
+                              <span className="ml-2 rounded-full bg-brand-orange/10 px-2 py-0.5 text-[9px] font-bold tracking-wider text-brand-orange">
+                                Live default
+                              </span>
+                            ) : null}
+                          </label>
+                          {field.type === 'textarea' ? (
+                            <textarea
+                              value={fieldValue}
+                              placeholder={`Enter ${field.label}...`}
+                              onChange={(e) => handleChange(field.key, e.target.value)}
+                              className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm leading-relaxed focus:ring-2 focus:ring-brand-orange outline-none transition-all h-32"
+                            />
+                          ) : (
+                            <input
+                              type="text"
+                              value={fieldValue}
+                              placeholder={`Enter ${field.label}...`}
+                              onChange={(e) => handleChange(field.key, e.target.value)}
+                              className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm font-bold focus:ring-2 focus:ring-brand-orange outline-none transition-all"
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </GlassCard>
               ))}
