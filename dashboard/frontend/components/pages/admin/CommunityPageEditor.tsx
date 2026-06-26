@@ -70,12 +70,32 @@ export function CommunityPageEditor() {
             placeholder="Member count"
             className="w-full border rounded-xl px-3 py-2 text-sm"
           />
-          <input
-            value={config.network.ctaText}
-            onChange={(e) => setConfig((c) => ({ ...c, network: { ...c.network, ctaText: e.target.value } }))}
-            placeholder="CTA text"
-            className="w-full border rounded-xl px-3 py-2 text-sm"
-          />
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Join button label
+            </label>
+            <input
+              value={config.network.ctaText}
+              onChange={(e) => setConfig((c) => ({ ...c, network: { ...c.network, ctaText: e.target.value } }))}
+              placeholder="e.g. Join Community"
+              className="w-full border rounded-xl px-3 py-2 text-sm"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              Community join link
+            </label>
+            <input
+              value={config.network.ctaHref}
+              onChange={(e) => setConfig((c) => ({ ...c, network: { ...c.network, ctaHref: e.target.value } }))}
+              placeholder="https://join.slack.com/t/your-workspace/shared_invite/…"
+              className="w-full border rounded-xl px-3 py-2 text-sm"
+            />
+            <p className="text-xs text-muted-foreground">
+              Paste a full URL (Slack invite, Circle, Discord, etc.) to point every &ldquo;Join Community&rdquo; button
+              on /community at it. Leave blank to use the default community link.
+            </p>
+          </div>
         </section>
         {config.storeIntro && (
           <section className="space-y-3 border-t pt-4">

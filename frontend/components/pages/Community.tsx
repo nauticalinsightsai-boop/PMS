@@ -88,9 +88,11 @@ const mentorshipFeatures = [
 function CommunityNetworkContent({
   mentorshipTitle,
   mentorshipSubtitle,
+  joinUrl,
 }: {
   mentorshipTitle: string;
   mentorshipSubtitle: string;
+  joinUrl: string;
 }) {
   const [registerOpen, setRegisterOpen] = React.useState(false);
   const [registerContext, setRegisterContext] = React.useState<RegisterNowContext | null>(null);
@@ -146,9 +148,9 @@ function CommunityNetworkContent({
                   </CardHeader>
                   <CardContent className="mt-auto shrink-0 px-8 pt-0 pb-5">
                     <Link
-                      href={channel.joinHref}
+                      href={joinUrl}
                       className="block w-full"
-                      {...externalHrefLinkProps(channel.joinHref)}
+                      {...externalHrefLinkProps(joinUrl)}
                     >
                       <Button
                         variant={channel.ctaVariant}
@@ -305,8 +307,8 @@ function CommunityNetworkContent({
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4 w-full">
                 <Link
-                  href={PMS_SKOOL_COMMUNITY_JOIN_URL}
-                  {...externalHrefLinkProps(PMS_SKOOL_COMMUNITY_JOIN_URL)}
+                  href={joinUrl}
+                  {...externalHrefLinkProps(joinUrl)}
                   className="w-full sm:w-auto"
                 >
                   <Button
@@ -360,6 +362,11 @@ export function Community({
     initialData: initialPageConfig ?? fallback,
   });
   const hero = pageConfig?.hero ?? fallback.hero;
+  const configuredJoinUrl = pageConfig?.network?.ctaHref?.trim();
+  const communityJoinUrl =
+    configuredJoinUrl && /^https?:\/\//i.test(configuredJoinUrl)
+      ? configuredJoinUrl
+      : PMS_SKOOL_COMMUNITY_JOIN_URL;
   const mentorshipTitle = globalContentString(
     globalContent,
     'community_mentorship_title',
@@ -456,6 +463,7 @@ export function Community({
           <CommunityNetworkContent
             mentorshipTitle={mentorshipTitle}
             mentorshipSubtitle={mentorshipSubtitle}
+            joinUrl={communityJoinUrl}
           />
         ) : (
           <StoreContent initialCatalog={initialStoreCatalog} />
