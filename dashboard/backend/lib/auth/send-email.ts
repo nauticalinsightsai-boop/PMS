@@ -95,6 +95,14 @@ function resendRecipientHint(body: string): string | null {
   return null;
 }
 
+/** Load nodemailer from node_modules at runtime — webpack bundling breaks SMTP on Railway. */
+function loadNodemailer(): typeof import('nodemailer') {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { createRequire } = require('module') as typeof import('module');
+  const requireFromDisk = createRequire(__filename);
+  return requireFromDisk('nodemailer') as typeof import('nodemailer');
+}
+
 async function sendViaSmtp(params: SendParams): Promise<void> {
   const from = fromHeader();
   if (!from.email) throw new Error('AUTH_EMAIL_FROM or SMTP_USER is not configured');
@@ -102,7 +110,7 @@ async function sendViaSmtp(params: SendParams): Promise<void> {
   const { host, port, secure } = smtpTransportOptions();
   if (!host) throw new Error('SMTP_HOST is not configured');
 
-  const nodemailer = await import('nodemailer');
+  const nodemailer = loadNodemailer();
   const transporter = nodemailer.createTransport({
     host,
     port,
