@@ -67,9 +67,15 @@ const forgot = await fetch(`${base.replace(/\/$/, '')}/admin/api/auth/forgot-pas
 const forgotData = await forgot.json?.().catch?.(() => ({}));
 console.log('\nProduction forgot-password:', forgot.status, forgotData);
 
+if (forgot.status === 503 || forgotData?.error) {
+  console.log('\n✗ Production reset email failed — verify pmstructure.com at resend.com/domains.');
+  if (forgotData?.hint) console.log('  hint:', forgotData.hint);
+  process.exit(1);
+}
+
 if (forgot.status === 200) {
   console.log('\n✓ Reset email accepted (check inbox).');
 } else {
-  console.log('\n✗ Production reset email failed — deploy latest send-email fix + verify Resend domain.');
+  console.log('\n✗ Unexpected production response.');
   process.exit(1);
 }
