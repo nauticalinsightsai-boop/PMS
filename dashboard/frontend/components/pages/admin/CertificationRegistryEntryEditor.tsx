@@ -59,7 +59,7 @@ function Field({
   );
 }
 
-const inputClass = 'w-full border rounded-xl px-3 py-2 text-sm bg-transparent';
+const inputClass = 'dashboard-input';
 const textareaClass = `${inputClass} min-h-[4.5rem] resize-y`;
 
 export function CertificationRegistryEntryEditor({
@@ -129,7 +129,7 @@ export function CertificationRegistryEntryEditor({
           </TabsList>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 md:px-6">
           <TabsContent value="basics" className="mt-0 space-y-4">
             <div className="grid gap-3 sm:grid-cols-2">
               <Field label="Cert ID (slug)">
@@ -307,6 +307,10 @@ export function CertificationRegistryEntryEditor({
           </TabsContent>
 
           <TabsContent value="media" className="mt-0">
+            <p className="mb-4 text-sm text-muted-foreground">
+              Upload guides, slides, videos, and roadmap images for each pathway tier. Files are hosted on your
+              site and appear in the public pathway preview after you publish.
+            </p>
             <ProgrammeAssetsUploader entry={entry} onChange={onChange} />
           </TabsContent>
         </div>

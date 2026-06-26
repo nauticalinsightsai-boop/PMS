@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <>
       <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      <div className={`${montserrat.className} ${montserrat.variable} antialiased min-h-screen`}>
+      <div className={`${montserrat.className} ${montserrat.variable} flex min-h-dvh h-dvh flex-col antialiased overflow-hidden`}>
         <ClientProviders>{children}</ClientProviders>
       </div>
     </>

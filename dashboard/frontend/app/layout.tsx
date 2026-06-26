@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${montserrat.className} antialiased`}>
+      <body className={`${montserrat.className} h-dvh min-h-dvh overflow-hidden antialiased`}>
         <ClientProviders>{children}</ClientProviders>
       </body>
     </html>

@@ -20,7 +20,7 @@ interface DashboardModeContextType {
 const DashboardModeContext = createContext<DashboardModeContextType | undefined>(undefined);
 
 export const DashboardModeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [mode, setMode] = useState<DashboardMode>('editor');
+  const [mode, setMode] = useState<DashboardMode>('admin');
   const pathname = usePathname();
   const router = useRouter();
 
@@ -32,14 +32,14 @@ export const DashboardModeProvider: React.FC<{ children: React.ReactNode }> = ({
       setMode('bookings');
     } else if (ADMIN_ROUTE_PREFIXES.some((prefix) => path.startsWith(prefix))) {
       setMode('admin');
-    } else if (path === '/dashboard') {
-      setMode('editor');
+    } else if (path === '/dashboard' || path.startsWith('/dashboard/site-system/media')) {
+      setMode('admin');
     }
   }, [pathname]);
 
   const handleSetMode = (newMode: DashboardMode) => {
     setMode(newMode);
-    if (newMode === 'editor') router.push(dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary));
+    if (newMode === 'editor') router.push(dashboardHref(WEBSITE_CMS_PATHS.newsletter));
     if (newMode === 'bookings') router.push(dashboardHref('/dashboard/booking-crm/cta'));
     if (newMode === 'admin') router.push(dashboardHref('/dashboard/site-system/home'));
   };

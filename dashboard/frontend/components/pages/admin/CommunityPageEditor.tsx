@@ -9,6 +9,7 @@ import {
 } from '@pms/site-content';
 import { useSiteDocumentDraft } from '@/hooks/useSiteDocumentDraft';
 import { SiteDocumentEditorShell } from './site-content/SiteDocumentEditorShell';
+import { getPublicSitePage } from '@/constants/publicSitePages';
 
 export function CommunityPageEditor() {
   const { config, setConfig, baseline, setBaseline, isLoading, loadError, updatedAt } =
@@ -22,6 +23,7 @@ export function CommunityPageEditor() {
     <SiteDocumentEditorShell
       fieldKey={FIELD_KEYS.COMMUNITY_PAGE_CONFIG}
       title="Community page"
+      editorDescription={getPublicSitePage('community')?.editorDescription}
       data={config as unknown as Record<string, unknown>}
       setData={setConfig as React.Dispatch<React.SetStateAction<Record<string, unknown>>>}
       baseline={baseline}

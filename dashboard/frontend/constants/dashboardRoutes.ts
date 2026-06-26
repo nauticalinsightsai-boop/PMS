@@ -1,7 +1,6 @@
 import {
   MousePointer2,
   Map,
-  ImageIcon,
   Newspaper,
   Users,
   FileText,
@@ -36,11 +35,7 @@ export interface DashboardNavSection {
 
 export const BOOKINGS_ROUTE_PREFIXES = ['/dashboard/booking-crm', '/dashboard/account'];
 
-export const EDITOR_ROUTE_PREFIXES = [
-  '/dashboard/site-system/media-library',
-  '/dashboard/site-system/media',
-  '/dashboard/site-system/newsletter',
-];
+export const EDITOR_ROUTE_PREFIXES = ['/dashboard/site-system/newsletter'];
 
 /** @deprecated Use EDITOR_ROUTE_PREFIXES */
 export const WEBSITE_ROUTE_PREFIXES = EDITOR_ROUTE_PREFIXES;
@@ -61,13 +56,12 @@ export const ADMIN_ROUTE_PREFIXES = [
   '/dashboard/migrate',
 ];
 
-/** Editor tab — media library + newsletter */
-const EDITOR_CMS_NAV: DashboardNavSection = {
-  title: 'Editor',
+/** Newsletter authoring — separate from per-page website CMS */
+const EDITOR_NEWSLETTER_NAV: DashboardNavSection = {
+  title: 'Newsletter',
   items: [
-    { name: 'Media library', path: WEBSITE_CMS_PATHS.mediaLibrary, icon: ImageIcon },
     {
-      name: 'Newsletter',
+      name: 'Posts & issues',
       path: WEBSITE_CMS_PATHS.newsletter,
       icon: Newspaper,
       subItems: [
@@ -103,7 +97,7 @@ const ADMIN_SYSTEM_NAV: DashboardNavSection = {
 };
 
 export const DASHBOARD_ROUTES: Record<'editor' | 'bookings' | 'admin', DashboardNavSection[]> = {
-  editor: [EDITOR_CMS_NAV],
+  editor: [EDITOR_NEWSLETTER_NAV],
   bookings: [
     {
       title: 'Booking CRM',

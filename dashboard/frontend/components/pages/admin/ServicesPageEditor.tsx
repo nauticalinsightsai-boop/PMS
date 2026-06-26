@@ -11,6 +11,7 @@ import {
 } from '@pms/site-content';
 import { useSiteDocumentDraft } from '@/hooks/useSiteDocumentDraft';
 import { SiteDocumentEditorShell } from './site-content/SiteDocumentEditorShell';
+import { getPublicSitePage } from '@/constants/publicSitePages';
 
 export function ServicesPageEditor() {
   const { config, setConfig, baseline, setBaseline, isLoading, loadError, updatedAt } =
@@ -24,6 +25,7 @@ export function ServicesPageEditor() {
     <SiteDocumentEditorShell
       fieldKey={FIELD_KEYS.SERVICES_PAGE_CONFIG}
       title="Services page"
+      editorDescription={getPublicSitePage('pm-service')?.editorDescription}
       data={config as unknown as Record<string, unknown>}
       setData={setConfig as React.Dispatch<React.SetStateAction<Record<string, unknown>>>}
       baseline={baseline}

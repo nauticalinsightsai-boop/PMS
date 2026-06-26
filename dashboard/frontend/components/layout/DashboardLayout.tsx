@@ -13,14 +13,13 @@ import {
   LogOut,
   CalendarRange,
   PenLine,
-  SlidersHorizontal,
+  Newspaper,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { withBasePath, dashboardHref, normalizeDashboardPath } from '@/lib/base-path';
 import { useDashboardMode, DashboardMode } from '@/contexts/DashboardModeContext';
 import { useTheme } from '@/components/shared/ThemeProvider';
 import { DASHBOARD_ROUTES } from '@/constants/dashboardRoutes';
-import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 import { cn } from '@/lib/utils';
 import { DashboardNavLink } from '@/components/DashboardNavLink';
 import { BrandLogo } from '@/components/shared/BrandLogo';
@@ -38,9 +37,9 @@ const MODE_TABS: Array<{
   mobileLabel: string;
   icon: typeof PenLine;
 }> = [
-  { id: 'editor', label: 'Editor', mobileLabel: 'Editor', icon: PenLine },
+  { id: 'admin', label: 'Website', mobileLabel: 'Website', icon: PenLine },
+  { id: 'editor', label: 'Newsletter', mobileLabel: 'News', icon: Newspaper },
   { id: 'bookings', label: 'Booking CRM', mobileLabel: 'Booking', icon: CalendarRange },
-  { id: 'admin', label: 'Admin control', mobileLabel: 'Admin', icon: SlidersHorizontal },
 ];
 
 export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -97,13 +96,15 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
 
   const navItemClasses = (isActive: boolean) =>
     cn(
-      'dashboard-nav-item',
-      isSidebarExpanded ? 'px-3 py-2' : 'lg:justify-center lg:px-0 lg:py-2 lg:w-10 lg:mx-auto',
-      isActive && 'bg-accent text-accent-foreground font-semibold',
+      'dashboard-nav-item min-h-11',
+      isSidebarExpanded ? 'px-3 py-2.5 pl-4' : 'lg:justify-center lg:px-0 lg:py-2.5 lg:w-11 lg:mx-auto lg:pl-0',
     );
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background text-foreground" id="dashboard-root">
+    <div
+      className="flex h-dvh min-h-dvh w-full overflow-hidden bg-background text-foreground"
+      id="dashboard-root"
+    >
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
@@ -130,9 +131,12 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           }
         }}
         className={cn(
-          'fixed inset-y-0 left-0 z-sidebar flex shrink-0 flex-col overflow-hidden border-r border-border bg-card',
-          'transition-[width,transform] duration-200 ease-out motion-reduce:transition-none lg:translate-x-0',
-          isSidebarExpanded ? 'w-60 translate-x-0' : '-translate-x-full lg:w-14',
+          'z-sidebar flex h-dvh min-h-dvh shrink-0 flex-col overflow-hidden border-r border-border bg-card',
+          'transition-[width,transform] duration-200 ease-out motion-reduce:transition-none',
+          'fixed inset-y-0 left-0 w-64',
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
+          'lg:sticky lg:top-0 lg:translate-x-0 lg:self-stretch',
+          isSidebarExpanded ? 'lg:w-64' : 'lg:w-[4.25rem]',
         )}
       >
         <div
@@ -142,14 +146,14 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           )}
         >
           {isSidebarExpanded ? (
-            <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)} className="flex min-w-0 items-center gap-2">
+            <Link href={dashboardHref('/dashboard/site-system/home')} className="flex min-w-0 items-center gap-2">
               <BrandLogo />
             </Link>
           ) : (
             <Link
-              href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)}
+              href={dashboardHref('/dashboard/site-system/home')}
               className="hidden lg:flex items-center justify-center"
-              title="Dashboard home"
+              title="Website home editor"
             >
               <BrandLogo size="sm" />
             </Link>
@@ -166,7 +170,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
 
         <nav
           className={cn(
-            'flex-1 overflow-y-auto overflow-x-hidden no-scrollbar',
+            'min-h-0 flex-1 overflow-y-auto overflow-x-hidden no-scrollbar',
             isSidebarExpanded ? 'space-y-5 px-3 py-4' : 'space-y-2 px-2 py-3',
           )}
           aria-label="Main dashboard sections"
@@ -193,7 +197,11 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                     className={navItemClasses}
                     title={!isSidebarExpanded ? item.name : undefined}
                   >
-                    <item.icon size={18} className={cn('shrink-0', isSidebarExpanded && 'mr-3')} strokeWidth={2} />
+                    <item.icon
+                      size={22}
+                      className={cn('shrink-0', isSidebarExpanded && 'mr-3')}
+                      strokeWidth={2}
+                    />
                     <span
                       className={cn(
                         'truncate',
@@ -251,9 +259,18 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
             </div>
           ))}
         </nav>
+
+        <div
+          className={cn(
+            'shrink-0 border-t border-border px-3 py-3 text-[10px] text-muted-foreground',
+            isSidebarExpanded ? 'block' : 'hidden lg:block lg:px-2 lg:text-center',
+          )}
+        >
+          {isSidebarExpanded ? 'PM Structure · Website CMS' : 'CMS'}
+        </div>
       </aside>
 
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden lg:pl-14">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <header className="sticky top-0 z-30 flex h-14 items-center justify-center border-b border-border bg-background/95 px-4 backdrop-blur-sm md:px-6">
           <div className={cn('flex w-full items-center justify-between gap-3', contentMaxWidth, 'mx-auto')}>
             <div className="flex min-w-0 items-center gap-2">
@@ -267,7 +284,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
               >
                 <Menu size={22} />
               </button>
-              <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)} className="lg:hidden">
+              <Link href={dashboardHref('/dashboard/site-system/home')} className="lg:hidden">
                 <BrandLogo size="sm" />
               </Link>
             </div>
@@ -281,7 +298,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                   onClick={() => setMode(t.id)}
                   className="dashboard-segmented-btn"
                 >
-                  <t.icon size={14} className="shrink-0" />
+                  <t.icon size={16} className="shrink-0" />
                   <span className="sm:hidden">{t.mobileLabel}</span>
                   <span className="hidden sm:inline">{t.label}</span>
                 </button>
@@ -345,19 +362,10 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
             initial={reduceMotion ? false : { opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: reduceMotion ? 0 : 0.2 }}
-            className={cn('mx-auto w-full space-y-6 motion-reduce:transition-none', contentMaxWidth)}
+            className={cn('mx-auto w-full motion-reduce:transition-none', contentMaxWidth)}
           >
             {children}
           </motion.div>
-
-          <footer className="mx-auto mt-12 max-w-7xl border-t border-border py-6">
-            <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
-              <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)}>
-                <BrandLogo size="sm" />
-              </Link>
-              <span className="text-xs text-muted-foreground">© {new Date().getFullYear()} PMS.OS</span>
-            </div>
-          </footer>
         </main>
       </div>
     </div>

@@ -32,7 +32,8 @@ export function DashboardNavLink({
   return (
     <Link
       href={dashboardHref(href)}
-      className={cn(resolvedClass)}
+      className={cn(resolvedClass, isActive && 'dashboard-nav-item-active')}
+      data-active={isActive ? 'true' : 'false'}
       title={title}
       aria-current={isActive ? 'page' : undefined}
       onMouseEnter={onMouseEnter}

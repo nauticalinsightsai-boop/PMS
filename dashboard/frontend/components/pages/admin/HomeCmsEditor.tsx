@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   ArrowRight,
   Eye,
@@ -30,6 +31,10 @@ import { getCmsSaveBlockReason, toSyncErrorMessage } from '@/lib/cms/save-guard'
 import { siteUrl } from '@/lib/site-config';
 import { HOME_COPY, CTAS } from '@/lib/brand-voice';
 import { MediaPicker } from './site-content/MediaPicker';
+import { MediaLibraryGrid } from './site-content/MediaLibraryGrid';
+import { DashboardPageHeader } from '@/components/layout/DashboardPageHeader';
+import { PageEditorIntro } from '@/components/layout/PageEditorIntro';
+import { getPublicSitePage } from '@/constants/publicSitePages';
 import {
   defaultHomePageConfigV2,
   normalizeHomeConfigV1ToV2,
@@ -49,7 +54,8 @@ type CmsTab =
   | 'testimonials'
   | 'insights'
   | 'latest-news'
-  | 'global-footprint';
+  | 'global-footprint'
+  | 'media';
 
 type HomePageConfig = HomePageConfigV2;
 
@@ -76,6 +82,7 @@ const tabItems: Array<{ id: CmsTab; label: string; icon: React.ComponentType<{ s
   { id: 'cta', label: 'CTA', icon: ArrowRight },
   { id: 'latest-news', label: 'Latest News', icon: Newspaper },
   { id: 'global-footprint', label: 'Global Footprint', icon: Globe },
+  { id: 'media', label: 'Site images', icon: Image },
 ];
 
 function normalizeConfig(raw: unknown): HomePageConfig {
@@ -87,6 +94,7 @@ function newId() {
 }
 
 export function HomeCmsEditor() {
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<CmsTab>('hero');
   const [config, setConfig] = useState<HomePageConfig>(defaultConfig);
   const [baseline, setBaseline] = useState<string>(JSON.stringify(defaultConfig));
@@ -100,6 +108,12 @@ export function HomeCmsEditor() {
   const [newNews, setNewNews] = useState({ title: '', description: '', link: '' });
   const [newFootprint, setNewFootprint] = useState({ category: '', item: '', location: '', year: '' });
   const previewIframeRef = useRef<HTMLIFrameElement>(null);
+  const homePageMeta = getPublicSitePage('home');
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab === 'media') setActiveTab('media');
+  }, [searchParams]);
 
   useEffect(() => {
     const load = async () => {
@@ -299,6 +313,16 @@ export function HomeCmsEditor() {
     <div className="h-full flex flex-col overflow-hidden">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6 space-y-4 pb-8">
         <CmsSaveNotice />
+
+        <DashboardPageHeader
+          title="Home page"
+          icon={Home}
+          description="Edit homepage sections. Changes apply to pmstructure.com after you Publish."
+        />
+
+        {homePageMeta ? (
+          <PageEditorIntro publicPath={homePageMeta.path} description={homePageMeta.editorDescription} />
+        ) : null}
 
         <div className="sticky top-0 z-20 bg-background py-3 border-b border-white/10">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -875,6 +899,16 @@ export function HomeCmsEditor() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {activeTab === 'media' && (
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Upload images for homepage hero slides and other site sections. Pick images from here when editing
+                hero slides — certification programme videos and PDFs are managed under Certifications.
+              </p>
+              <MediaLibraryGrid />
             </div>
           )}
         </GlassCard>

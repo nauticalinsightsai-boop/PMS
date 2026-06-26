@@ -475,6 +475,13 @@
   /* Admin dashboard shell — flat, sorted, minimal shadow */
   #dashboard-root {
     --dashboard-sidebar-width: 3.5rem;
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+  html:has(#dashboard-root),
+  html:has(#dashboard-root) body {
+    height: 100%;
+    overflow: hidden;
   }
   #dashboard-root .bg-dashboard-canvas {
     @apply bg-muted/30 dark:bg-background;
@@ -486,19 +493,33 @@
     @apply inline-flex items-center gap-0.5 rounded-lg border border-border bg-muted/60 p-0.5;
   }
   #dashboard-root .dashboard-segmented-btn {
-    @apply inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors;
+    @apply inline-flex items-center gap-2 rounded-md px-3.5 py-2 text-xs font-semibold text-muted-foreground transition-colors;
+  }
+  #dashboard-root .dashboard-segmented-btn svg {
+    width: 1rem;
+    height: 1rem;
   }
   #dashboard-root .dashboard-segmented-btn[data-active='true'] {
-    @apply bg-background text-foreground shadow-sm;
+    @apply bg-background text-foreground shadow-sm ring-1 ring-border/60;
   }
   #dashboard-root .dashboard-input {
     @apply w-full rounded-lg border border-input bg-background px-3 py-2 text-sm shadow-none outline-none focus-visible:ring-2 focus-visible:ring-ring/25;
   }
   #dashboard-root .dashboard-nav-item {
-    @apply flex items-center rounded-lg text-sm font-medium text-muted-foreground transition-colors;
+    @apply relative flex min-h-11 items-center rounded-lg text-sm font-medium text-muted-foreground transition-colors;
   }
+  #dashboard-root .dashboard-nav-item svg {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+  #dashboard-root .dashboard-nav-item-active,
   #dashboard-root .dashboard-nav-item[data-active='true'] {
     @apply bg-accent text-accent-foreground font-semibold;
+  }
+  #dashboard-root .dashboard-nav-item-active::before,
+  #dashboard-root .dashboard-nav-item[data-active='true']::before {
+    content: '';
+    @apply absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-brand-orange;
   }
   #dashboard-root .dashboard-nav-item:hover {
     @apply bg-muted text-foreground;

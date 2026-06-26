@@ -8,10 +8,13 @@ import { WebsiteDataService } from '@/services/WebsiteDataService';
 import { validateFieldContent } from '@pms/site-content';
 import { previewStorageKey } from '@/lib/usePublishedSiteDocument';
 import { siteUrl } from '@/lib/site-config';
+import { DashboardPageHeader } from '@/components/layout/DashboardPageHeader';
+import { PageEditorIntro } from '@/components/layout/PageEditorIntro';
 
 type Props<T> = {
   fieldKey: string;
   title: string;
+  editorDescription?: string;
   data: T;
   setData: React.Dispatch<React.SetStateAction<T>>;
   baseline: string;
@@ -27,6 +30,7 @@ type Props<T> = {
 export function SiteDocumentEditorShell<T extends Record<string, unknown>>({
   fieldKey,
   title,
+  editorDescription,
   data,
   setData,
   baseline,
@@ -86,27 +90,33 @@ export function SiteDocumentEditorShell<T extends Record<string, unknown>>({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {loadError && (
         <p className="rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
           {loadError}
         </p>
       )}
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-        <div className="flex flex-wrap items-center gap-3">
-          <SyncStatusIndicator status={syncStatus} lastSynced={lastSynced} />
-          <CTAButton variant="outline" onClick={openPreview} className="gap-2">
-            <Eye className="h-4 w-4" /> Preview
-          </CTAButton>
-          <CTAButton variant="outline" onClick={handleSaveDraft} disabled={!hasChanges} className="gap-2">
-            <Save className="h-4 w-4" /> Save draft
-          </CTAButton>
-          <CTAButton onClick={handlePublish} className="gap-2">
-            <Send className="h-4 w-4" /> Publish
-          </CTAButton>
-        </div>
-      </div>
+      <DashboardPageHeader
+        title={title}
+        description={editorDescription ? undefined : `Publish to update ${publicPreviewPath} on the live site.`}
+        actions={
+          <>
+            <SyncStatusIndicator status={syncStatus} lastSynced={lastSynced} />
+            <CTAButton variant="outline" onClick={openPreview} className="gap-2">
+              <Eye className="h-4 w-4" /> Preview
+            </CTAButton>
+            <CTAButton variant="outline" onClick={handleSaveDraft} disabled={!hasChanges} className="gap-2">
+              <Save className="h-4 w-4" /> Save draft
+            </CTAButton>
+            <CTAButton onClick={handlePublish} className="gap-2">
+              <Send className="h-4 w-4" /> Publish
+            </CTAButton>
+          </>
+        }
+      />
+      {editorDescription ? (
+        <PageEditorIntro publicPath={publicPreviewPath} description={editorDescription} />
+      ) : null}
       {children}
     </div>
   );

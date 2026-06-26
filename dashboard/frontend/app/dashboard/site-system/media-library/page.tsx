@@ -1,5 +1,6 @@
-import { MediaLibraryPage } from '@/components/pages/admin/MediaLibraryPage';
+import { redirect } from 'next/navigation';
 
-export default function Page() {
-  return <MediaLibraryPage />;
+/** Legacy route — site images live under Home → Site images tab. */
+export default function MediaLibraryRedirectPage() {
+  redirect('/dashboard/site-system/home?tab=media');
 }

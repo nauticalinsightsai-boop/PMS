@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-  Globe,
   Send,
   History,
   Settings2,
@@ -16,6 +15,9 @@ import { WebsiteDataService } from '@/services/WebsiteDataService';
 import { useWebsiteDataRealtime } from '@/hooks/useWebsiteDataRealtime';
 import { FIELD_KEYS } from '@pms/site-content/keys';
 import { CmsSaveNotice } from '@/components/pages/admin/CmsSaveNotice';
+import { DashboardPageHeader } from '@/components/layout/DashboardPageHeader';
+import { PageEditorIntro } from '@/components/layout/PageEditorIntro';
+import { getPublicSitePage } from '@/constants/publicSitePages';
 import { getCmsSaveBlockReason, toSyncErrorMessage } from '@/lib/cms/save-guard';
 import { motion, AnimatePresence } from 'motion/react';
 import { siteUrl } from '@/lib/site-config';
@@ -118,6 +120,7 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
   };
 
   const pageConfig = WEBSITE_PAGE_CONFIGS[activePage];
+  const pageMeta = getPublicSitePage(activePage);
   const livePageUrl = `${siteUrl.replace(/\/$/, '')}${pageConfig.publicPath}`;
 
   if (isLoading) {
@@ -129,50 +132,43 @@ export const WebsiteDataEditor: React.FC<WebsiteDataEditorProps> = ({
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <CmsSaveNotice />
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <h1 className="text-4xl font-black tracking-tight mb-2">{pageConfig.label}</h1>
-          <p className="text-muted-foreground font-medium uppercase tracking-widest text-[10px] flex items-center gap-2">
-            <Globe size={12} className="text-brand-orange" />
-            Edits content for{' '}
+      <DashboardPageHeader
+        title={pageConfig.label}
+        icon={pageConfig.icon}
+        description={`Edit copy for ${pageConfig.publicPath}. Publish to update the live site.`}
+        actions={
+          <>
             <a
               href={livePageUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-brand-orange hover:underline inline-flex items-center gap-1"
+              className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-xs font-semibold hover:border-brand-orange/40 hover:text-brand-orange"
             >
-              {pageConfig.publicPath}
-              <ExternalLink size={10} />
+              View live <ExternalLink size={12} />
             </a>
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <a
-            href={livePageUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border-2 border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-white px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-all"
-          >
-            View live page <ExternalLink size={12} />
-          </a>
-          <SyncStatusIndicator
-            status={syncStatus}
-            lastSynced={lastSynced}
-            onManualSync={() => setSyncStatus('pending')}
-            errorDetail={syncErrorDetail}
-          />
-          <CTAButton
-            size="sm"
-            onClick={handlePublish}
-            variant="primary"
-            className="bg-green-600 hover:bg-green-700 shadow-green-600/20"
-          >
-            <Send size={14} className="mr-2" /> Publish all pages
-          </CTAButton>
-        </div>
-      </header>
+            <SyncStatusIndicator
+              status={syncStatus}
+              lastSynced={lastSynced}
+              onManualSync={() => setSyncStatus('pending')}
+              errorDetail={syncErrorDetail}
+            />
+            <CTAButton
+              size="sm"
+              onClick={handlePublish}
+              variant="primary"
+              className="bg-green-600 hover:bg-green-700 shadow-green-600/20"
+            >
+              <Send size={14} className="mr-2" /> Publish {pageConfig.label}
+            </CTAButton>
+          </>
+        }
+      />
+
+      {pageMeta ? (
+        <PageEditorIntro publicPath={pageMeta.path} description={pageMeta.editorDescription} />
+      ) : null}
 
       <div className="max-w-4xl space-y-6">
           <AnimatePresence mode="wait">

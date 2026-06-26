@@ -19,19 +19,93 @@ export interface PublicSitePage {
   path: string;
   icon: LucideIcon;
   inMainNav: boolean;
+  /** Shown at top of dashboard editor — maps controls to the public page. */
+  editorDescription: string;
 }
 
 export const PUBLIC_SITE_PAGES: PublicSitePage[] = [
-  { slug: 'home', label: 'Home', path: '/', icon: Home, inMainNav: true },
-  { slug: 'certifications', label: 'Certifications', path: '/certifications', icon: Award, inMainNav: true },
-  { slug: 'pm-service', label: 'Services', path: '/pm-service', icon: Briefcase, inMainNav: true },
-  { slug: 'community', label: 'Community', path: '/community', icon: Users, inMainNav: true },
-  { slug: 'store', label: 'Resource Store', path: '/community?view=store', icon: ShoppingBag, inMainNav: false },
-  { slug: 'about', label: 'About', path: '/about', icon: Info, inMainNav: false },
-  { slug: 'compare', label: 'Compare Certifications', path: '/certifications/compare', icon: GitCompare, inMainNav: false },
-  { slug: 'faq', label: 'FAQ', path: '/faq', icon: HelpCircle, inMainNav: false },
-  { slug: 'contact', label: 'Contact', path: '/contact', icon: Mail, inMainNav: false },
-  { slug: 'membership', label: 'Membership', path: '/membership', icon: CreditCard, inMainNav: false },
+  {
+    slug: 'home',
+    label: 'Home',
+    path: '/',
+    icon: Home,
+    inMainNav: true,
+    editorDescription:
+      'Hero slides, stats, featured pathways, testimonials, and institute CTAs on the homepage. Upload hero images under the Site images tab.',
+  },
+  {
+    slug: 'certifications',
+    label: 'Certifications',
+    path: '/certifications',
+    icon: Award,
+    inMainNav: true,
+    editorDescription:
+      'Certification hub hero, pathway listing, and per-cert registry (pricing, dossier, programme PDFs/videos for pathway modals).',
+  },
+  {
+    slug: 'pm-service',
+    label: 'Services',
+    path: '/pm-service',
+    icon: Briefcase,
+    inMainNav: true,
+    editorDescription: 'Services page hero, service cards, and delivery highlights shown on /pm-service.',
+  },
+  {
+    slug: 'community',
+    label: 'Community',
+    path: '/community',
+    icon: Users,
+    inMainNav: true,
+    editorDescription: 'Community hub hero, membership bands, and store entry copy on /community.',
+  },
+  {
+    slug: 'store',
+    label: 'Resource Store',
+    path: '/community?view=store',
+    icon: ShoppingBag,
+    inMainNav: false,
+    editorDescription: 'Digital products in the resource store — titles, pricing, and product images.',
+  },
+  {
+    slug: 'about',
+    label: 'About',
+    path: '/about',
+    icon: Info,
+    inMainNav: false,
+    editorDescription: 'About page mission hero and intro copy on /about.',
+  },
+  {
+    slug: 'compare',
+    label: 'Compare Certifications',
+    path: '/certifications/compare',
+    icon: GitCompare,
+    inMainNav: false,
+    editorDescription: 'Compare page hero and intro text on /certifications/compare.',
+  },
+  {
+    slug: 'faq',
+    label: 'FAQ',
+    path: '/faq',
+    icon: HelpCircle,
+    inMainNav: false,
+    editorDescription: 'FAQ page header badge, title, and subtitle on /faq.',
+  },
+  {
+    slug: 'contact',
+    label: 'Contact',
+    path: '/contact',
+    icon: Mail,
+    inMainNav: false,
+    editorDescription: 'Contact page title and subtitle above the enquiry form on /contact.',
+  },
+  {
+    slug: 'membership',
+    label: 'Membership',
+    path: '/membership',
+    icon: CreditCard,
+    inMainNav: false,
+    editorDescription: 'Membership landing hero, tiers, and benefits on /membership.',
+  },
 ];
 
 export function getPublicSitePage(slug: string): PublicSitePage | undefined {

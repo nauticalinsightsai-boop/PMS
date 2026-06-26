@@ -12,6 +12,7 @@ import {
 import { useSiteDocumentDraft } from '@/hooks/useSiteDocumentDraft';
 import { SiteDocumentEditorShell } from './site-content/SiteDocumentEditorShell';
 import { MediaPicker } from './site-content/MediaPicker';
+import { getPublicSitePage } from '@/constants/publicSitePages';
 
 function defaultCategoryId(catalog: StoreCatalog): string {
   const first = catalog.categories.find((c) => c.id !== 'all');
@@ -64,6 +65,7 @@ export function StoreCatalogEditor() {
     <SiteDocumentEditorShell
       fieldKey={FIELD_KEYS.STORE_CATALOG}
       title="Resource store catalog"
+      editorDescription={getPublicSitePage('store')?.editorDescription}
       data={config as unknown as Record<string, unknown>}
       setData={setConfig as React.Dispatch<React.SetStateAction<Record<string, unknown>>>}
       baseline={baseline}

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { ImageIcon, X } from 'lucide-react';
 import { MediaLibraryGrid } from './MediaLibraryGrid';
+import { dashboardHref } from '@/lib/base-path';
 
 /** Image picker with preview, library modal, and manual URL entry */
 export function MediaPicker({
@@ -51,11 +52,11 @@ export function MediaPicker({
           Choose from library
         </button>
         <Link
-          href="/dashboard/site-system/media-library"
+          href={dashboardHref('/dashboard/site-system/home?tab=media')}
           target="_blank"
           className="text-xs font-semibold px-3 py-2 rounded-lg border border-white/10 hover:border-brand-orange/40"
         >
-          Open media library
+          Open site images (Home)
         </Link>
       </div>
 

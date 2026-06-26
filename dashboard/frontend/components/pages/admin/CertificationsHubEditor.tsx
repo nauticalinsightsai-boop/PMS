@@ -14,6 +14,8 @@ import {
 import { GlassCard } from '@/components/ui/GlassCard';
 import { CTAButton } from '@/components/ui/CTAButton';
 import { DashboardPageHeader } from '@/components/layout/DashboardPageHeader';
+import { PageEditorIntro } from '@/components/layout/PageEditorIntro';
+import { getPublicSitePage } from '@/constants/publicSitePages';
 import {
   Dialog,
   DialogContent,
@@ -308,6 +310,14 @@ export function CertificationsHubEditor() {
         }
       />
 
+      <PageEditorIntro
+        publicPath="/certifications"
+        description={
+          getPublicSitePage('certifications')?.editorDescription ??
+          'Certification hub and registry for the public certifications pages.'
+        }
+      />
+
       <div className="dashboard-segmented w-fit">
         {(['hub', 'registry'] as const).map((t) => (
           <button
@@ -531,7 +541,7 @@ export function CertificationsHubEditor() {
       <Dialog open={Boolean(editingEntry)} onOpenChange={(open) => !open && setEditingId(null)}>
         <DialogContent
           showCloseButton={false}
-          className="flex h-[min(92vh,920px)] w-[min(96vw,56rem)] max-w-none flex-col gap-0 overflow-hidden p-0 sm:max-w-none"
+          className="flex h-[min(94vh,960px)] w-[min(98vw,88rem)] max-w-none flex-col gap-0 overflow-hidden rounded-xl p-0 sm:max-w-none"
         >
           {editingEntry ? (
             <CertificationRegistryEntryEditor
