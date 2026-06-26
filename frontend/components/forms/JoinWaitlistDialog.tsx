@@ -22,6 +22,8 @@ import {
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
+import { usePublishedSiteDocument } from '@/lib/usePublishedSiteDocument';
+import { FIELD_KEYS, parseCertificationsRegistry } from '@pms/site-content';
 import { useRegion } from '@/contexts/RegionContext';
 import { useSimpleFormRecovery } from '@/components/conversion-recovery/useSimpleFormRecovery';
 import {
@@ -54,6 +56,29 @@ type JoinWaitlistDialogProps = {
 
 export function JoinWaitlistDialog({ open, onOpenChange, context }: JoinWaitlistDialogProps) {
   const { regionId } = useRegion();
+
+  // Resolve the certification's uploaded preview video (CMS registry programme assets).
+  const { data: registry } = usePublishedSiteDocument(FIELD_KEYS.CERTIFICATIONS_REGISTRY, {
+    parse: (raw) => (raw ? parseCertificationsRegistry(raw) : null),
+    initialData: null,
+  });
+
+  const certVideo = React.useMemo(() => {
+    if (!context?.siteCertId || !registry) return null;
+    const entry = registry.entries.find((e) => e.id === context.siteCertId && !e.archived);
+    const assets = entry?.programmeAssets ?? {};
+    const ordered = [
+      ...(context.offeringId && assets[context.offeringId] ? [assets[context.offeringId]] : []),
+      ...Object.values(assets),
+    ];
+    for (const asset of ordered) {
+      const embed = asset?.videoEmbedUrl?.trim();
+      if (embed) return { kind: 'embed' as const, src: embed };
+      const file = asset?.videoUrl?.trim();
+      if (file) return { kind: 'file' as const, src: file };
+    }
+    return null;
+  }, [context?.siteCertId, context?.offeringId, registry]);
   const [fullName, setFullName] = React.useState('');
   const [dialValue, setDialValue] = React.useState('us');
   const dialOption = resolveDialOption(dialValue);
@@ -154,7 +179,7 @@ export function JoinWaitlistDialog({ open, onOpenChange, context }: JoinWaitlist
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className={cn(certVideo && !done ? 'sm:max-w-lg' : 'sm:max-w-md')}>
         <DialogHeader>
           <DialogTitle className="text-xl font-bold tracking-tight pr-6">
             {done ? 'You\u2019re on the waitlist' : CTAS.joinWaitlist}
@@ -181,6 +206,31 @@ export function JoinWaitlistDialog({ open, onOpenChange, context }: JoinWaitlist
         ) : (
           <form onSubmit={onSubmit}>
             <DialogBody className="space-y-4 py-1">
+              {certVideo ? (
+                <div className="space-y-1.5">
+                  <span className={labelClass}>Watch: programme overview</span>
+                  <div className="overflow-hidden rounded-2xl border border-slate-200 bg-black/5 dark:border-slate-800 dark:bg-black/30">
+                    {certVideo.kind === 'embed' ? (
+                      <iframe
+                        src={certVideo.src}
+                        title={`${context?.headline ?? 'Programme'} overview video`}
+                        className="aspect-video w-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    ) : (
+                      <video
+                        src={certVideo.src}
+                        className="aspect-video w-full bg-black object-contain"
+                        controls
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
+                  </div>
+                </div>
+              ) : null}
+
               <div className="space-y-2">
                 <Label htmlFor="join-waitlist-name" className={labelClass}>
                   Full name
