@@ -42,8 +42,8 @@ const MODE_TABS: Array<{
   { id: 'bookings', label: 'Booking CRM', mobileLabel: 'Booking', icon: CalendarRange },
 ];
 
-const SIDEBAR_COLLAPSED = 'calc(22px * 1.30 * 1.05 + 0.25rem)';
-const SIDEBAR_EXPANDED = '19.5rem';
+const SIDEBAR_COLLAPSED = 'calc(22px * 1.50 * 1.05 + 0.25rem)';
+const SIDEBAR_EXPANDED = '22.5rem';
 const SIDEBAR_ICON_SIZE = 23;
 
 export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
