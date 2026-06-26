@@ -42,9 +42,9 @@ const MODE_TABS: Array<{
   { id: 'bookings', label: 'Booking CRM', mobileLabel: 'Booking', icon: CalendarRange },
 ];
 
-const SIDEBAR_COLLAPSED = 'calc(23px * 1.05 + 0.25rem)';
-const SIDEBAR_EXPANDED = '15.75rem';
-const SIDEBAR_ICON_SIZE = 23;
+const SIDEBAR_COLLAPSED = 'calc(24px * 1.05 + 0.25rem)';
+const SIDEBAR_EXPANDED = '16.5rem';
+const SIDEBAR_ICON_SIZE = 24;
 
 export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
@@ -169,7 +169,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
               className="hidden lg:flex items-center justify-center"
               title="Website home editor"
             >
-              <span className="cta-consultation flex h-[23px] w-[23px] shrink-0 items-center justify-center rounded-md text-[11px] font-black text-white">
+              <span className="cta-consultation flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-md text-[11px] font-black text-white">
                 P
               </span>
             </Link>
