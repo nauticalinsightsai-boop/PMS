@@ -42,9 +42,8 @@ const MODE_TABS: Array<{
   { id: 'bookings', label: 'Booking CRM', mobileLabel: 'Booking', icon: CalendarRange },
 ];
 
-const SIDEBAR_ICON_PX = 22;
-/** Collapsed rail: icon width + ~5% (minimal side padding). */
-const SIDEBAR_COLLAPSED = `calc(${SIDEBAR_ICON_PX}px * 1.05 + 0.25rem)`;
+const SIDEBAR_COLLAPSED = 'calc(22px * 1.05 + 0.25rem)';
+const SIDEBAR_EXPANDED = '15rem';
 
 export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
@@ -86,7 +85,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     closeSidebarTimeoutRef.current = setTimeout(() => {
       setSidebarHovered(false);
       setHoveredMenuPath(null);
-    }, 280);
+    }, 200);
   };
 
   const handleLogout = async () => {
@@ -123,7 +122,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
         )}
       </AnimatePresence>
 
-      {/* Desktop: reserves collapsed rail width so main content never jumps on hover expand */}
+      {/* Desktop rail spacer — layout stays thin while sidebar overlays on hover */}
       <div
         className="hidden shrink-0 lg:block"
         style={{ width: SIDEBAR_COLLAPSED }}
@@ -136,21 +135,20 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
         aria-label="Dashboard navigation"
         onMouseEnter={openDesktopSidebar}
         onMouseLeave={closeDesktopSidebarWithDelay}
-        onFocusCapture={openDesktopSidebar}
-        onBlurCapture={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-            closeDesktopSidebarWithDelay();
-          }
-        }}
+        style={
+          {
+            '--sidebar-width': isSidebarExpanded ? SIDEBAR_EXPANDED : SIDEBAR_COLLAPSED,
+          } as React.CSSProperties
+        }
         className={cn(
-          'z-sidebar flex h-dvh min-h-dvh shrink-0 flex-col border-r border-border bg-card',
+          'dashboard-sidebar z-sidebar flex h-dvh min-h-dvh shrink-0 flex-col border-r border-border bg-card',
           'transition-[width,box-shadow] duration-200 ease-out motion-reduce:transition-none',
-          'fixed inset-y-0 left-0 w-64 overflow-hidden',
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
-          'lg:translate-x-0',
+          'fixed inset-y-0 left-0 max-lg:w-64 max-lg:overflow-hidden',
+          isSidebarOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full',
+          'lg:fixed lg:translate-x-0',
           isSidebarExpanded
-            ? 'lg:w-60 lg:overflow-hidden lg:shadow-xl lg:ring-1 lg:ring-border/50'
-            : 'lg:w-[calc(22px*1.05+0.25rem)] lg:overflow-visible',
+            ? 'lg:overflow-hidden lg:shadow-xl lg:ring-1 lg:ring-border/50'
+            : 'lg:overflow-visible',
         )}
         data-expanded={isSidebarExpanded ? 'true' : 'false'}
       >
@@ -219,14 +217,9 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                       className={cn('shrink-0', isSidebarExpanded && 'mr-3')}
                       strokeWidth={2}
                     />
-                    <span
-                      className={cn(
-                        'truncate',
-                        isSidebarExpanded ? 'opacity-100' : 'opacity-0 lg:sr-only lg:absolute',
-                      )}
-                    >
-                      {item.name}
-                    </span>
+                    {isSidebarExpanded ? (
+                      <span className="truncate">{item.name}</span>
+                    ) : null}
                   </DashboardNavLink>
 
                   {item.subItems && isSidebarExpanded && (pathname.startsWith(item.path) || hoveredMenuPath === item.path) ? (
@@ -270,12 +263,6 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                         </DashboardNavLink>
                       ))}
                     </div>
-                  ) : null}
-
-                  {!isSidebarExpanded && !item.subItems ? (
-                    <span className="pointer-events-none absolute left-full top-1/2 z-[60] ml-2 hidden -translate-y-1/2 whitespace-nowrap rounded-md border border-border bg-popover px-2.5 py-1.5 text-xs font-medium text-foreground opacity-0 shadow-md transition-opacity group-hover/menu-item:opacity-100 lg:block">
-                      {item.name}
-                    </span>
                   ) : null}
                 </div>
               ))}

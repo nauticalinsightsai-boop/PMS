@@ -474,9 +474,19 @@
 
   /* Admin dashboard shell — flat, sorted, minimal shadow */
   #dashboard-root {
-    --dashboard-sidebar-width: calc(22px * 1.05 + 0.25rem);
+    --dashboard-sidebar-collapsed: calc(22px * 1.05 + 0.25rem);
+    --dashboard-sidebar-expanded: 15rem;
+    --dashboard-sidebar-width: var(--dashboard-sidebar-collapsed);
     height: 100dvh;
     min-height: 100dvh;
+  }
+  #dashboard-root .dashboard-sidebar {
+    width: 16rem;
+  }
+  @media (min-width: 1024px) {
+    #dashboard-root .dashboard-sidebar {
+      width: var(--sidebar-width, var(--dashboard-sidebar-collapsed));
+    }
   }
   html:has(#dashboard-root),
   html:has(#dashboard-root) body {
