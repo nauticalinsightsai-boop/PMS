@@ -124,17 +124,20 @@ function ensureSmtpForAuth(entries) {
 function ensureResendForAuth(entries) {
   const key = process.env.RESEND_API_KEY?.trim();
   if (!key) return entries;
+  const verified = process.env.RESEND_DOMAIN_VERIFIED?.trim().toLowerCase() === 'true';
+  if (!verified) {
+    console.warn(
+      '[railway-setup] RESEND_DOMAIN_VERIFIED is not true — skipping Resend auth vars; use SMTP until pmstructure.com is verified.',
+    );
+    return entries.filter(([k]) => !k.startsWith('RESEND_') && k !== 'AUTH_EMAIL_TRANSPORT');
+  }
   let out = [...entries];
   if (!out.some(([k]) => k === 'RESEND_API_KEY')) {
     out.push(['RESEND_API_KEY', key]);
   }
-  const verified = process.env.RESEND_DOMAIN_VERIFIED?.trim().toLowerCase() === 'true';
   const fromIdx = out.findIndex(([k]) => k === 'RESEND_FROM');
-  if (fromIdx >= 0 && !verified && out[fromIdx][1]?.includes('@pmstructure.com')) {
+  if (fromIdx >= 0 && out[fromIdx][1]?.includes('@pmstructure.com') && !verified) {
     out[fromIdx][1] = 'PM Structure <onboarding@resend.dev>';
-  }
-  if (!verified && !out.some(([k]) => k === 'RESEND_DOMAIN_VERIFIED')) {
-    out.push(['RESEND_DOMAIN_VERIFIED', 'false']);
   }
   out = out.filter(([k]) => k !== 'AUTH_EMAIL_TRANSPORT');
   out.push(['AUTH_EMAIL_TRANSPORT', 'resend']);

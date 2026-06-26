@@ -5,7 +5,7 @@ type SendParams = {
   html?: string;
 };
 
-const SMTP_TIMEOUT_MS = 20_000;
+const SMTP_TIMEOUT_MS = 30_000;
 const RESEND_DEV_FROM = 'PM Structure <onboarding@resend.dev>';
 
 function isCloudRuntime(): boolean {
@@ -115,6 +115,7 @@ async function sendViaSmtp(params: SendParams): Promise<void> {
     greetingTimeout: SMTP_TIMEOUT_MS,
     socketTimeout: SMTP_TIMEOUT_MS,
     pool: false,
+    family: 4,
     ...(secure ? {} : { requireTLS: true }),
   });
 
@@ -180,16 +181,21 @@ export async function sendAuthEmail(params: SendParams): Promise<void> {
   const onCloud = isCloudRuntime();
   const attempts: Array<() => Promise<void>> = [];
 
-  const preferResend = transport === 'resend' || (onCloud && isResendConfigured());
+  const smtpOk = isSmtpConfigured();
+  const resendOk = isResendConfigured();
+  const resendReady = resendOk && (resendDomainVerified() || !onCloud);
 
-  if (preferResend && isResendConfigured()) {
+  if (transport === 'smtp') {
+    if (smtpOk) attempts.push(() => sendViaSmtp(params));
+  } else if (transport === 'resend') {
+    if (resendOk) attempts.push(() => sendViaResend(params));
+    if (smtpOk) attempts.push(() => sendViaSmtp(params));
+  } else if (onCloud && resendReady) {
     attempts.push(() => sendViaResend(params));
-  }
-  if (isSmtpConfigured()) {
-    attempts.push(() => sendViaSmtp(params));
-  }
-  if (!preferResend && isResendConfigured()) {
-    attempts.push(() => sendViaResend(params));
+    if (smtpOk) attempts.push(() => sendViaSmtp(params));
+  } else {
+    if (smtpOk) attempts.push(() => sendViaSmtp(params));
+    if (resendOk) attempts.push(() => sendViaResend(params));
   }
 
   if (!attempts.length) {

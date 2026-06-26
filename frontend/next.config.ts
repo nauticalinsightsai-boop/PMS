@@ -22,6 +22,7 @@ const publicApiRoot = path.join(__dirname, '../backend');
 const nextConfig: NextConfig = {
   // Dev gateway uses localhost:3000 → 127.0.0.1:3050; allow both hosts for /_next/* chunks.
   allowedDevOrigins: ['127.0.0.1', 'localhost'],
+  serverExternalPackages: ['nodemailer'],
   experimental: {
     optimizePackageImports: ['lucide-react', 'motion'],
   },
