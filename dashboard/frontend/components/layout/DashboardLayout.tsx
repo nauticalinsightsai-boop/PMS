@@ -16,7 +16,7 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { withBasePath } from '@/lib/base-path';
+import { withBasePath, dashboardHref, normalizeDashboardPath } from '@/lib/base-path';
 import { useDashboardMode, DashboardMode } from '@/contexts/DashboardModeContext';
 import { useTheme } from '@/components/shared/ThemeProvider';
 import { DASHBOARD_ROUTES } from '@/constants/dashboardRoutes';
@@ -43,7 +43,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
   const closeSidebarTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hoverNavigateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reduceMotion = useReducedMotion();
-  const pathname = usePathname();
+  const pathname = normalizeDashboardPath(usePathname() ?? '');
 
   const isSidebarExpanded = isSidebarOpen || isSidebarHovered;
   const currentRoutes = DASHBOARD_ROUTES[mode];
@@ -106,7 +106,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     clearHoverNavigateTimeout();
     hoverNavigateTimeoutRef.current = setTimeout(() => {
       if (pathname !== path) {
-        router.push(path);
+        router.push(dashboardHref(path));
       }
     }, hoverNavigateDelayMs);
   };
@@ -160,11 +160,11 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           )}
         >
           {isSidebarExpanded ? (
-            <Link href={WEBSITE_CMS_PATHS.mediaLibrary} className="flex items-center gap-2 min-w-0">
+            <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)} className="flex items-center gap-2 min-w-0">
               <BrandLogo />
             </Link>
           ) : (
-            <Link href={WEBSITE_CMS_PATHS.mediaLibrary} className="hidden lg:flex items-center justify-center" title="Website">
+            <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)} className="hidden lg:flex items-center justify-center" title="Website">
               <BrandLogo size="sm" />
             </Link>
           )}
@@ -294,7 +294,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
             >
               <Menu size={24} />
             </button>
-            <Link href={WEBSITE_CMS_PATHS.mediaLibrary} className="lg:hidden flex items-center gap-2 mr-4">
+            <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)} className="lg:hidden flex items-center gap-2 mr-4">
               <BrandLogo />
             </Link>
           </div>
@@ -392,7 +392,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
           <footer className="mt-20 py-8 border-t border-border bg-transparent">
             <div className="w-full">
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <Link href={WEBSITE_CMS_PATHS.mediaLibrary}>
+                <Link href={dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary)}>
                   <BrandLogo size="sm" />
                 </Link>
                 <span className="text-label text-muted-foreground opacity-60 normal-case tracking-normal font-medium">

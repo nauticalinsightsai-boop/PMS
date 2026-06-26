@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { dashboardHref, normalizeDashboardPath } from '@/lib/base-path';
 
 export function DashboardNavLink({
   href,
@@ -21,7 +22,7 @@ export function DashboardNavLink({
   onMouseEnter?: React.MouseEventHandler<HTMLAnchorElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLAnchorElement>;
 }) {
-  const pathname = usePathname();
+  const pathname = normalizeDashboardPath(usePathname() ?? '');
   const isActive = exact
     ? pathname === href
     : pathname === href || pathname.startsWith(`${href}/`);
@@ -30,7 +31,7 @@ export function DashboardNavLink({
 
   return (
     <Link
-      href={href}
+      href={dashboardHref(href)}
       className={cn(resolvedClass)}
       title={title}
       aria-current={isActive ? 'page' : undefined}

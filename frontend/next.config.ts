@@ -28,6 +28,8 @@ const nextConfig: NextConfig = {
   },
   env: {
     NEXT_PUBLIC_AUTH_USE_API_LOGIN: process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN ?? 'true',
+    NEXT_PUBLIC_BASE_PATH: '/admin',
+    NEXT_PUBLIC_DASHBOARD_BUNDLED: 'true',
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ??
       process.env.STRIPE_PUBLISHABLE_KEY ??

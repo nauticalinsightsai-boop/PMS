@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_AUTH_USE_API_LOGIN: process.env.NEXT_PUBLIC_AUTH_USE_API_LOGIN ?? 'true',
     NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL:
       process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL ?? '',
+    NEXT_PUBLIC_DASHBOARD_BUNDLED: 'false',
   },
   basePath: basePath || undefined,
   eslint: { ignoreDuringBuilds: true },

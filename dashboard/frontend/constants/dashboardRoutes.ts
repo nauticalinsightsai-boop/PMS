@@ -38,6 +38,7 @@ export const BOOKINGS_ROUTE_PREFIXES = ['/dashboard/booking-crm', '/dashboard/ac
 
 export const EDITOR_ROUTE_PREFIXES = [
   '/dashboard/site-system/media-library',
+  '/dashboard/site-system/media',
   '/dashboard/site-system/newsletter',
 ];
 

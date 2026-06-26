@@ -8,6 +8,7 @@ import {
   EDITOR_ROUTE_PREFIXES,
 } from '@/constants/dashboardRoutes';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
+import { dashboardHref, normalizeDashboardPath } from '@/lib/base-path';
 
 export type DashboardMode = 'editor' | 'bookings' | 'admin';
 
@@ -24,22 +25,23 @@ export const DashboardModeProvider: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
 
   useEffect(() => {
-    if (EDITOR_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
+    const path = normalizeDashboardPath(pathname ?? '');
+    if (EDITOR_ROUTE_PREFIXES.some((prefix) => path.startsWith(prefix))) {
       setMode('editor');
-    } else if (BOOKINGS_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
+    } else if (BOOKINGS_ROUTE_PREFIXES.some((prefix) => path.startsWith(prefix))) {
       setMode('bookings');
-    } else if (ADMIN_ROUTE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
+    } else if (ADMIN_ROUTE_PREFIXES.some((prefix) => path.startsWith(prefix))) {
       setMode('admin');
-    } else if (pathname === '/dashboard') {
+    } else if (path === '/dashboard') {
       setMode('editor');
     }
   }, [pathname]);
 
   const handleSetMode = (newMode: DashboardMode) => {
     setMode(newMode);
-    if (newMode === 'editor') router.push(WEBSITE_CMS_PATHS.mediaLibrary);
-    if (newMode === 'bookings') router.push('/dashboard/booking-crm/cta');
-    if (newMode === 'admin') router.push('/dashboard/site-system/home');
+    if (newMode === 'editor') router.push(dashboardHref(WEBSITE_CMS_PATHS.mediaLibrary));
+    if (newMode === 'bookings') router.push(dashboardHref('/dashboard/booking-crm/cta'));
+    if (newMode === 'admin') router.push(dashboardHref('/dashboard/site-system/home'));
   };
 
   return (
