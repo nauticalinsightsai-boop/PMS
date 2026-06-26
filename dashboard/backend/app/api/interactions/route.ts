@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server';
 import { requireInteractionAdmin } from '@/lib/interactions/admin-guard';
 import {
   buildInteractionListQuery,
+  isMissingSheetsColumnError,
   parseInteractionListFilters,
 } from '@/lib/interactions/query';
 import { isInteractionRateLimited } from '@/lib/interactions/rate-limit';
@@ -102,15 +103,37 @@ export async function GET(request: NextRequest) {
   const limit = Math.min(Math.max(1, Number(searchParams.get('limit') ?? 50)), 200);
   const filters = parseInteractionListFilters(searchParams);
 
-  const { data, error, count } = await buildInteractionListQuery(supabaseAdmin, filters, {
+  const result = await buildInteractionListQuery(supabaseAdmin, filters, {
     limit,
     offset: page * limit,
     count: true,
   });
 
-  if (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+  // Graceful fallback when the Sheets-sync columns have not been migrated yet.
+  if (result.error && isMissingSheetsColumnError(result.error.message)) {
+    const fallback = await buildInteractionListQuery(supabaseAdmin, filters, {
+      limit,
+      offset: page * limit,
+      count: true,
+      includeSheetsColumns: false,
+    });
+    if (fallback.error) {
+      return Response.json({ error: fallback.error.message }, { status: 500 });
+    }
+    const rows = Array.isArray(fallback.data)
+      ? fallback.data.map((row) => ({
+          ...(row as Record<string, unknown>),
+          sheets_synced_at: null,
+          sheets_sync_error: null,
+          sheets_sync_attempts: 0,
+        }))
+      : fallback.data;
+    return Response.json({ data: rows, count: fallback.count });
   }
 
-  return Response.json({ data, count });
+  if (result.error) {
+    return Response.json({ error: result.error.message }, { status: 500 });
+  }
+
+  return Response.json({ data: result.data, count: result.count });
 }

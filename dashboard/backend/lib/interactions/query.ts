@@ -15,6 +15,16 @@ export type InteractionListFilters = {
 export const INTERACTION_SELECT_COLUMNS =
   'id, created_at, source, subject, email, payload, metadata, sheets_synced_at, sheets_sync_error, sheets_sync_attempts';
 
+/** Columns guaranteed to exist even before the Sheets-sync migration is applied. */
+export const INTERACTION_BASE_COLUMNS =
+  'id, created_at, source, subject, email, payload, metadata';
+
+/** True when a Postgrest error is caused by the not-yet-migrated Sheets sync columns. */
+export function isMissingSheetsColumnError(message?: string | null): boolean {
+  if (!message) return false;
+  return /sheets_synced_at|sheets_sync_error|sheets_sync_attempts/.test(message);
+}
+
 /** Minimal Supabase filter chain used by list/export queries (avoids deep Postgrest generics). */
 export interface InteractionFilterChain {
   eq(column: string, value: string): InteractionFilterChain;
@@ -96,17 +106,23 @@ export function parseInteractionListFilters(searchParams: URLSearchParams): Inte
 export function buildInteractionListQuery(
   supabase: SupabaseClient,
   filters: InteractionListFilters,
-  options: { limit: number; offset: number; count?: boolean }
+  options: { limit: number; offset: number; count?: boolean; includeSheetsColumns?: boolean }
 ): InteractionListQueryBuilder {
+  const includeSheets = options.includeSheetsColumns !== false;
   const order = filters.orderAsc ? { ascending: true } : { ascending: false };
   const query = supabase
     .from('form_submissions')
-    .select(INTERACTION_SELECT_COLUMNS, options.count ? { count: 'exact' } : undefined)
+    .select(
+      includeSheets ? INTERACTION_SELECT_COLUMNS : INTERACTION_BASE_COLUMNS,
+      options.count ? { count: 'exact' } : undefined,
+    )
     .order('created_at', order);
 
+  // Sheets-status filters reference columns that only exist after the migration.
+  const effectiveFilters = includeSheets ? filters : { ...filters, sheetsStatus: null };
   const filtered = applyInteractionListFilters(
     query as unknown as InteractionFilterChain,
-    filters
+    effectiveFilters
   );
   return (filtered as InteractionFilterChain).range(
     options.offset,
