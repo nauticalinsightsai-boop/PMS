@@ -102,7 +102,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     'dashboard-nav-item min-h-10',
     isSidebarExpanded
       ? 'px-3 py-2.5 pl-4'
-      : 'lg:justify-center lg:px-0 lg:py-2 lg:min-h-10 lg:w-full',
+      : 'w-full justify-center px-0 py-2',
   );
 
   return (
