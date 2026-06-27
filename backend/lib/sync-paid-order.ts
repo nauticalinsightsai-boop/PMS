@@ -1,4 +1,5 @@
 import { sendOrderConfirmationEmail } from '@/lib/order-confirmation-email';
+import { recordPaidOrderToSheet } from '@/lib/record-payment-interaction';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 
 type OrderRow = {
@@ -91,6 +92,24 @@ export async function syncPaidOrderFromStripeSession(params: {
     .maybeSingle();
 
   const latestMetadata = asMetadataRecord(freshRow?.metadata ?? paidMetadata);
+
+  // Record the paid order into the forms → Google Sheets pipeline (once per order).
+  if (recipientEmail && !latestMetadata.sheetRecordedAt) {
+    const recorded = await recordPaidOrderToSheet({
+      email: recipientEmail,
+      offeringId: order.offering_id,
+      sessionId: params.sessionId,
+      metadata: latestMetadata,
+    });
+    if (recorded) {
+      latestMetadata.sheetRecordedAt = new Date().toISOString();
+      await supabaseAdmin
+        .from('orders')
+        .update({ metadata: latestMetadata, updated_at: new Date().toISOString() })
+        .eq('id', order.id);
+    }
+  }
+
   if (latestMetadata.confirmationEmailSentAt) return;
 
   if (!recipientEmail) {

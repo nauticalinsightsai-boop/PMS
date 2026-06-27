@@ -15,6 +15,7 @@ export const INTERACTION_SOURCES = [
   'lead_recovery',
   'channel_portal',
   'register_modal',
+  'payment',
 ] as const
 
 export type InteractionSource = (typeof INTERACTION_SOURCES)[number]
@@ -44,6 +45,7 @@ export const FORM_SOURCE_LABELS: Record<InteractionSource, string> = {
   lead_recovery: 'Lead recovery',
   channel_portal: 'Channel portal',
   register_modal: 'Register modal',
+  payment: 'Payment',
 }
 
 export function submissionSourceLabel(source: string): string {
