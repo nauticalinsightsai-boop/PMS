@@ -146,9 +146,15 @@ export function resolveMembershipCheckoutPrice(
   billing: MembershipBilling,
   regionId: RegionId,
   gccCountry?: string | null,
+  /** Base USD override from the CMS (membership_page_config.pricing); falls back to the built-in PRICING. */
+  usdOverride?: number | null,
 ): { currency: string; unitAmount: number; display: string; usdReference: number } | null {
   const row = PRICING[tier];
-  const usdAmount = billing === 'monthly' ? row.monthlyUsd : row.yearlyUsd;
+  const fallbackUsd = billing === 'monthly' ? row.monthlyUsd : row.yearlyUsd;
+  const usdAmount =
+    typeof usdOverride === 'number' && Number.isFinite(usdOverride) && usdOverride > 0
+      ? usdOverride
+      : fallbackUsd;
   if (usdAmount <= 0) return null;
 
   const regional = convertMembershipUsdToRegional(usdAmount, regionId, gccCountry);

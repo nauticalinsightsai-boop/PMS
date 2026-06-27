@@ -135,26 +135,6 @@ function MembershipTierFeatures({ features }: { features: string[] }) {
   );
 }
 
-function useMaxAnnualSavingsPercent() {
-  const { regionId, gccCountry } = useRegion();
-  const pro = getRegionalMembershipAmounts(
-    MEMBERSHIP_PRICING.professional.monthlyUsd,
-    MEMBERSHIP_PRICING.professional.yearlyUsd,
-    regionId,
-    gccCountry,
-  );
-  const mastery = getRegionalMembershipAmounts(
-    MEMBERSHIP_PRICING.mastery.monthlyUsd,
-    MEMBERSHIP_PRICING.mastery.yearlyUsd,
-    regionId,
-    gccCountry,
-  );
-  return Math.max(
-    membershipAnnualSavingsPercent(pro.monthlyNumeric, pro.yearlyNumeric),
-    membershipAnnualSavingsPercent(mastery.monthlyNumeric, mastery.yearlyNumeric),
-  );
-}
-
 const benefits = [
   {
     title: "AI CV Maker",
@@ -304,26 +284,42 @@ export function Membership({
   });
   const hero = pageConfig?.hero ?? fallback.hero;
   const tierVisibility = pageConfig?.tiers ?? fallback.tiers;
+  const effectivePricing =
+    pageConfig?.pricing ?? fallback.pricing ?? MEMBERSHIP_PRICING;
   const { regionId, gccCountry, regionLabel } = useRegion();
-  const tiers = membershipTiers.filter((tier) => {
-    const cfg = tierVisibility.find(
-      (t) => t.id === (tier.name === 'Free Tier' ? 'starter' : tier.name === 'Professional' ? 'professional' : 'mastery'),
-    );
-    return cfg ? cfg.visible : true;
-  });
+  const cmsTierUsd = (tierName: string): { monthlyUsd: number; yearlyUsd: number } | null => {
+    if (tierName === 'Free Tier') return null;
+    return tierName === 'Professional' ? effectivePricing.professional : effectivePricing.mastery;
+  };
+  const tiers = membershipTiers
+    .filter((tier) => {
+      const cfg = tierVisibility.find(
+        (t) => t.id === (tier.name === 'Free Tier' ? 'starter' : tier.name === 'Professional' ? 'professional' : 'mastery'),
+      );
+      return cfg ? cfg.visible : true;
+    })
+    .map((tier) => {
+      const cms = cmsTierUsd(tier.name);
+      return cms
+        ? { ...tier, monthlyPriceUsd: cms.monthlyUsd, yearlyPriceUsd: cms.yearlyUsd }
+        : tier;
+    });
   const [billing, setBilling] = useState<BillingCycle>('monthly');
-  const maxAnnualSavingsPercent = useMaxAnnualSavingsPercent();
   const proRegional = getRegionalMembershipAmounts(
-    MEMBERSHIP_PRICING.professional.monthlyUsd,
-    MEMBERSHIP_PRICING.professional.yearlyUsd,
+    effectivePricing.professional.monthlyUsd,
+    effectivePricing.professional.yearlyUsd,
     regionId,
     gccCountry,
   );
   const masteryRegional = getRegionalMembershipAmounts(
-    MEMBERSHIP_PRICING.mastery.monthlyUsd,
-    MEMBERSHIP_PRICING.mastery.yearlyUsd,
+    effectivePricing.mastery.monthlyUsd,
+    effectivePricing.mastery.yearlyUsd,
     regionId,
     gccCountry,
+  );
+  const maxAnnualSavingsPercent = Math.max(
+    membershipAnnualSavingsPercent(proRegional.monthlyNumeric, proRegional.yearlyNumeric),
+    membershipAnnualSavingsPercent(masteryRegional.monthlyNumeric, masteryRegional.yearlyNumeric),
   );
 
   return (

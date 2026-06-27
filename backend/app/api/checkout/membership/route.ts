@@ -4,6 +4,7 @@ import {
   type MembershipBilling,
   type MembershipTierId,
 } from '@/lib/membership-checkout-price';
+import { getCmsMembershipUsd } from '@/lib/membership-cms-pricing';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 import { jsonError, jsonOk } from '@/lib/response-helpers.js';
 import { safeRedirectUrl } from '@/lib/safe-redirect-url';
@@ -35,7 +36,8 @@ export async function POST(request: Request) {
     return jsonError('Invalid billing cycle', 400);
   }
 
-  const price = resolveMembershipCheckoutPrice(tier, billing, regionId, gccCountry);
+  const cmsUsd = await getCmsMembershipUsd(tier, billing);
+  const price = resolveMembershipCheckoutPrice(tier, billing, regionId, gccCountry, cmsUsd);
   if (!price) return jsonError('Price unavailable', 400);
 
   const origin = request.headers.get('origin') ?? 'http://localhost:3000';

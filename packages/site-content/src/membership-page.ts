@@ -17,9 +17,22 @@ export const membershipPageConfigSchema = z.object({
     }),
   ),
   benefits: z.array(z.object({ title: z.string(), desc: z.string(), iconKey: z.string() })).optional(),
+  /** Base USD pricing — drives both the displayed price and the Stripe checkout amount (regional conversion is automatic). */
+  pricing: z
+    .object({
+      professional: z.object({ monthlyUsd: z.number(), yearlyUsd: z.number() }),
+      mastery: z.object({ monthlyUsd: z.number(), yearlyUsd: z.number() }),
+    })
+    .optional(),
 });
 
 export type MembershipPageConfig = z.infer<typeof membershipPageConfigSchema>;
+
+/** Default base USD pricing (mirrors backend fallback in membership-checkout-price.ts). */
+export const DEFAULT_MEMBERSHIP_PRICING = {
+  professional: { monthlyUsd: 19, yearlyUsd: 199 },
+  mastery: { monthlyUsd: 49, yearlyUsd: 499 },
+} as const;
 
 export function defaultMembershipPageConfig(): MembershipPageConfig {
   return {
@@ -34,6 +47,10 @@ export function defaultMembershipPageConfig(): MembershipPageConfig {
       { id: 'professional', visible: true, highlight: true },
       { id: 'mastery', visible: true },
     ],
+    pricing: {
+      professional: { ...DEFAULT_MEMBERSHIP_PRICING.professional },
+      mastery: { ...DEFAULT_MEMBERSHIP_PRICING.mastery },
+    },
   };
 }
 
