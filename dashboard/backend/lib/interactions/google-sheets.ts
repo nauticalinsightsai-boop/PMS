@@ -4,6 +4,8 @@
  */
 export {
   appendRowToGoogleSheet,
+  appendRowToTab,
+  ensureSheetTabExists,
   getGoogleSheetsRange,
   getGoogleSpreadsheetEditorUrl,
   getGoogleSpreadsheetId,

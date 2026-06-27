@@ -1,7 +1,51 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-import { appendRowToGoogleSheet, isGoogleSheetsConfigured } from '@/lib/interactions/google-sheets';
+import {
+  appendRowToGoogleSheet,
+  appendRowToTab,
+  ensureSheetTabExists,
+  isGoogleSheetsConfigured,
+} from '@/lib/interactions/google-sheets';
 import type { FormSubmissionRow } from '@/lib/interactions/types';
+
+/** Stripe payments get their own tab so purchases are tracked separately from leads. */
+const PAYMENTS_TAB = 'Payments';
+const PAYMENTS_HEADERS = [
+  'Date',
+  'Type',
+  'Customer',
+  'Email',
+  'Amount',
+  'Currency',
+  'Tier',
+  'Billing',
+  'Offering',
+  'Stripe Session',
+  'Status',
+];
+
+function payloadString(payload: Record<string, unknown>, key: string): string {
+  const value = payload[key];
+  if (value == null) return '';
+  return typeof value === 'string' ? value : String(value);
+}
+
+function paymentRowValues(row: SheetsSyncRow): string[] {
+  const p = row.payload ?? {};
+  return [
+    row.created_at,
+    payloadString(p, 'paymentType'),
+    payloadString(p, 'customerName'),
+    row.email,
+    payloadString(p, 'amountDisplay'),
+    payloadString(p, 'currency'),
+    payloadString(p, 'membershipTier'),
+    payloadString(p, 'billingCycle'),
+    payloadString(p, 'offeringId'),
+    payloadString(p, 'stripeSessionId'),
+    payloadString(p, 'paymentStatus') || 'paid',
+  ];
+}
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -59,7 +103,8 @@ export async function syncRowToGoogleSheetsWithRetries(
     return { synced: false, error: 'Google Sheets is not configured on the server.' };
   }
 
-  const values = rowToSheetValues(row);
+  const isPayment = row.source === 'payment';
+  const values = isPayment ? paymentRowValues(row) : rowToSheetValues(row);
   let lastErr: string | null = null;
   const maxAttempts = 4;
 
@@ -72,8 +117,14 @@ export async function syncRowToGoogleSheetsWithRetries(
         attempt,
         source: row.source,
         columnCount: values.length,
+        tab: isPayment ? PAYMENTS_TAB : 'default',
       });
-      await appendRowToGoogleSheet(values);
+      if (isPayment) {
+        await ensureSheetTabExists(PAYMENTS_TAB, PAYMENTS_HEADERS);
+        await appendRowToTab(PAYMENTS_TAB, values);
+      } else {
+        await appendRowToGoogleSheet(values);
+      }
       console.info('[interactions:sheets-sync] append success', { submissionId: rowId, attempt });
       await tryUpdateSyncFields(supabase, rowId, {
         sheets_synced_at: new Date().toISOString(),

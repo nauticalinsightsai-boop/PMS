@@ -219,16 +219,13 @@ export async function verifyGoogleSheetsConnection(): Promise<GoogleSheetsConnec
   };
 }
 
-/**
- * Appends one or more rows to the configured range (e.g. `Submissions!A:G`).
- */
-export async function appendRowsToGoogleSheet(rows: string[][]): Promise<void> {
+/** Appends rows to an explicit A1 range (e.g. `Submissions!A:G` or `Payments!A:K`). */
+async function appendRowsToRange(range: string, rows: string[][]): Promise<void> {
   if (!rows.length) {
-    throw new Error('appendRowsToGoogleSheet: rows array is empty.');
+    throw new Error('appendRowsToRange: rows array is empty.');
   }
 
   const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID?.trim();
-  const range = getGoogleSheetsRangeFromEnv();
   if (!spreadsheetId) {
     throw new Error('GOOGLE_SHEETS_SPREADSHEET_ID is not set.');
   }
@@ -278,8 +275,87 @@ export async function appendRowsToGoogleSheet(rows: string[][]): Promise<void> {
   });
 }
 
+/**
+ * Appends one or more rows to the configured range (e.g. `Submissions!A:G`).
+ */
+export async function appendRowsToGoogleSheet(rows: string[][]): Promise<void> {
+  await appendRowsToRange(getGoogleSheetsRangeFromEnv(), rows);
+}
+
 export async function appendRowToGoogleSheet(values: string[]): Promise<void> {
   await appendRowsToGoogleSheet([values]);
+}
+
+const ensuredTabs = new Set<string>();
+
+/** Ensures a sheet tab exists (creating it with an optional header row), then caches it. */
+export async function ensureSheetTabExists(tabName: string, headers?: string[]): Promise<void> {
+  if (ensuredTabs.has(tabName)) return;
+
+  const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID?.trim();
+  if (!spreadsheetId) {
+    throw new Error('GOOGLE_SHEETS_SPREADSHEET_ID is not set.');
+  }
+  const creds = getParsedServiceAccountOrThrow();
+  const token = await getAccessToken(creds);
+
+  const metaUrl = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(
+    spreadsheetId
+  )}?fields=sheets.properties.title`;
+  const metaRes = await fetch(metaUrl, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!metaRes.ok) {
+    const text = await metaRes.text();
+    throw new Error(parseSheetsApiError(metaRes.status, text));
+  }
+  const meta = (await metaRes.json()) as {
+    sheets?: { properties?: { title?: string } }[];
+  };
+  const tabs = (meta.sheets ?? [])
+    .map((s) => s.properties?.title)
+    .filter((t): t is string => !!t);
+
+  if (tabs.includes(tabName)) {
+    ensuredTabs.add(tabName);
+    return;
+  }
+
+  log('info', 'ensureSheetTab: creating tab', { tabName });
+  const batchRes = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}:batchUpdate`,
+    {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ requests: [{ addSheet: { properties: { title: tabName } } }] }),
+    },
+  );
+  if (!batchRes.ok) {
+    const text = await batchRes.text();
+    throw new Error(parseSheetsApiError(batchRes.status, text));
+  }
+
+  if (headers?.length) {
+    const headerUrl = new URL(
+      `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(
+        spreadsheetId
+      )}/values/${encodeURIComponent(`${tabName}!A1`)}`,
+    );
+    headerUrl.searchParams.set('valueInputOption', 'USER_ENTERED');
+    await fetch(headerUrl.toString(), {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ values: [headers] }),
+    });
+  }
+
+  ensuredTabs.add(tabName);
+}
+
+/** Appends a single row to a specific tab (columns A:Z). */
+export async function appendRowToTab(tabName: string, values: string[]): Promise<void> {
+  await appendRowsToRange(`${tabName}!A:Z`, [values]);
 }
 
 export async function readGoogleSheetValues(): Promise<string[][]> {
