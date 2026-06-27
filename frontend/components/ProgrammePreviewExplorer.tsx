@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
-import { FileText, Maximize2, PlayCircle, Presentation, XIcon } from 'lucide-react';
+import { ExternalLink, FileText, Maximize2, PlayCircle, Presentation, XIcon } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -31,6 +31,15 @@ function panelSupportsFullscreen(panel: ProgrammePreviewPanel): boolean {
   if (panel.kind === 'pdf') return !!panel.pdfSrc;
   if (panel.kind === 'slides') return !!panel.slidesPdfSrc;
   return false;
+}
+
+/** URL to open the material in a new browser tab (PDF, slides deck, or video). */
+function panelOpenUrl(panel: ProgrammePreviewPanel): string | null {
+  if (!panel.available) return null;
+  if (panel.kind === 'video') return panel.videoEmbedUrl || panel.videoSrc || null;
+  if (panel.kind === 'pdf') return panel.pdfSrc || null;
+  if (panel.kind === 'slides') return panel.slidesPdfSrc || null;
+  return null;
 }
 
 function MaterialFullscreenDialog({
@@ -324,7 +333,9 @@ export function ProgrammePreviewExplorer({
   preview: ProgrammePreviewContent;
   className?: string;
 }) {
-  const [openPanel, setOpenPanel] = React.useState<string | undefined>(undefined);
+  const [openPanel, setOpenPanel] = React.useState<string | undefined>(
+    () => preview.panels.find((panel) => panel.available)?.id,
+  );
   const [fullscreenPanelId, setFullscreenPanelId] = React.useState<string | undefined>(undefined);
 
   const fullscreenPanel = React.useMemo(
@@ -391,16 +402,31 @@ export function ProgrammePreviewExplorer({
                   {panelSupportsFullscreen(panel) ? (
                     <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50/80 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/40">
                       <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                        Need more space? Open fullscreen for easier reading and playback.
+                        {panel.kind === 'video'
+                          ? 'Watch fullscreen, or open the video in a new tab.'
+                          : 'Open fullscreen for easier reading, or open the file in a new tab.'}
                       </p>
-                      <button
-                        type="button"
-                        onClick={() => openFullscreen(panel.id)}
-                        className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-orange px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
-                      >
-                        <Maximize2 className="h-3.5 w-3.5" aria-hidden />
-                        Open fullscreen
-                      </button>
+                      <div className="flex shrink-0 flex-wrap items-center gap-2">
+                        {panelOpenUrl(panel) ? (
+                          <a
+                            href={panelOpenUrl(panel) as string}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-brand-orange/40 px-3 py-1.5 text-xs font-bold text-brand-orange transition-colors hover:bg-brand-orange/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
+                          >
+                            <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+                            Open in new tab
+                          </a>
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={() => openFullscreen(panel.id)}
+                          className="inline-flex items-center gap-1.5 rounded-lg bg-brand-orange px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
+                        >
+                          <Maximize2 className="h-3.5 w-3.5" aria-hidden />
+                          Open fullscreen
+                        </button>
+                      </div>
                     </div>
                   ) : null}
                 </AccordionContent>
