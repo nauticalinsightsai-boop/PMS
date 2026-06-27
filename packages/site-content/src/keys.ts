@@ -7,6 +7,7 @@ export const FIELD_KEYS = {
   COMMUNITY_PAGE_CONFIG: 'community_page_config',
   MEMBERSHIP_PAGE_CONFIG: 'membership_page_config',
   ABOUT_PAGE_CONFIG: 'about_page_config',
+  FAQ_PAGE_CONFIG: 'faq_page_config',
   NEWSLETTER_HUB_CONFIG: 'newsletter_hub_config',
   GLOBAL_CONTENT: 'global_content',
   CMS_POSTS_REGISTRY: 'cms_posts_registry',

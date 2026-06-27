@@ -7,6 +7,7 @@ export * from './store';
 export * from './community';
 export * from './membership-page';
 export * from './about';
+export * from './faq';
 export * from './newsletter';
 export * from './newsletter-posts';
 export * from './media-sections';
@@ -20,6 +21,7 @@ import { storeCatalogSchema } from './store';
 import { communityPageConfigSchema } from './community';
 import { membershipPageConfigSchema } from './membership-page';
 import { aboutPageConfigSchema } from './about';
+import { faqPageConfigSchema } from './faq';
 import { newsletterHubConfigSchema } from './newsletter';
 import { FIELD_KEYS } from './keys';
 import type { z } from 'zod';
@@ -33,6 +35,7 @@ const schemaByKey: Record<string, z.ZodTypeAny> = {
   [FIELD_KEYS.COMMUNITY_PAGE_CONFIG]: communityPageConfigSchema,
   [FIELD_KEYS.MEMBERSHIP_PAGE_CONFIG]: membershipPageConfigSchema,
   [FIELD_KEYS.ABOUT_PAGE_CONFIG]: aboutPageConfigSchema,
+  [FIELD_KEYS.FAQ_PAGE_CONFIG]: faqPageConfigSchema,
   [FIELD_KEYS.NEWSLETTER_HUB_CONFIG]: newsletterHubConfigSchema,
 };
 

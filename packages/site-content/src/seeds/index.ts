@@ -8,6 +8,7 @@ import { defaultStoreCatalog } from '../store';
 import { defaultCommunityPageConfig } from '../community';
 import { defaultMembershipPageConfig } from '../membership-page';
 import { defaultAboutPageConfig } from '../about';
+import { defaultFaqPageConfig } from '../faq';
 import { defaultNewsletterHubConfig } from '../newsletter';
 import bundledRegistry from '../../data/certifications-registry.json';
 
@@ -31,6 +32,7 @@ export function buildAllSeedDocuments(): SeedDocument[] {
     { field_key: FIELD_KEYS.COMMUNITY_PAGE_CONFIG, content: defaultCommunityPageConfig() as unknown as Record<string, unknown> },
     { field_key: FIELD_KEYS.MEMBERSHIP_PAGE_CONFIG, content: defaultMembershipPageConfig() as unknown as Record<string, unknown> },
     { field_key: FIELD_KEYS.ABOUT_PAGE_CONFIG, content: defaultAboutPageConfig() as unknown as Record<string, unknown> },
+    { field_key: FIELD_KEYS.FAQ_PAGE_CONFIG, content: defaultFaqPageConfig() as unknown as Record<string, unknown> },
     { field_key: FIELD_KEYS.NEWSLETTER_HUB_CONFIG, content: defaultNewsletterHubConfig() as unknown as Record<string, unknown> },
   ];
 }

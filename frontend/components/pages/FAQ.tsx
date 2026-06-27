@@ -21,15 +21,34 @@ import {
   getFaqsByCluster,
 } from '@/content/faq';
 import type { FaqClusterId, FaqEntry } from '@/content/faq';
+import { type FaqPageConfig, visibleFaqItems } from '@pms/site-content';
 import { FaqAccordionList } from '@/components/faq/FaqAccordionList';
 import { PageHeroWithImage } from '@/components/marketing/PageMarketingImage';
 import { MARKETING_PAGE_IMAGES } from '@/lib/marketing-stock-images';
 
 const DEFAULT_TAB = FAQ_HUB_SECTIONS[0]?.id ?? 'about-pathways';
 
-export function FAQ({ globalContent }: { globalContent?: GlobalContentMap }) {
+export function FAQ({
+  globalContent,
+  faqConfig,
+}: {
+  globalContent?: GlobalContentMap;
+  faqConfig?: FaqPageConfig | null;
+}) {
   const searchParams = useSearchParams();
   const tabFromUrl = searchParams.get('tab');
+
+  const customFaqs = React.useMemo<FaqEntry[]>(
+    () =>
+      visibleFaqItems(faqConfig).map((item) => ({
+        id: `cms-${item.id}`,
+        clusterId: 'about' as FaqClusterId,
+        question: item.question,
+        answer: item.answer,
+      })),
+    [faqConfig],
+  );
+  const customSectionTitle = faqConfig?.sectionTitle?.trim() || 'Common questions';
   const [activeTab, setActiveTab] = React.useState(
     FAQ_HUB_SECTIONS.some((s) => s.id === tabFromUrl) ? tabFromUrl! : DEFAULT_TAB,
   );
@@ -52,11 +71,11 @@ export function FAQ({ globalContent }: { globalContent?: GlobalContentMap }) {
 
   const searchResults = React.useMemo(() => {
     if (!isSearching) return [] as FaqEntry[];
-    return getAllFaqs().filter(
+    return [...customFaqs, ...getAllFaqs()].filter(
       (f) =>
         f.question.toLowerCase().includes(q) || f.answer.toLowerCase().includes(q),
     );
-  }, [isSearching, q]);
+  }, [isSearching, q, customFaqs]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -73,20 +92,22 @@ export function FAQ({ globalContent }: { globalContent?: GlobalContentMap }) {
               <div className="inline-flex p-3 rounded-2xl bg-brand-purple/10 text-brand-purple mb-6">
                 <HelpCircle className="h-8 w-8" />
               </div>
-              {globalContentString(globalContent, 'faq_badge', '') ? (
+              {(faqConfig?.hero.badge?.trim() || globalContentString(globalContent, 'faq_badge', '')) ? (
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-purple mb-4">
-                  {globalContentString(globalContent, 'faq_badge', '')}
+                  {faqConfig?.hero.badge?.trim() || globalContentString(globalContent, 'faq_badge', '')}
                 </p>
               ) : null}
               <h1 className="font-heading text-4xl font-bold text-slate-900 dark:text-white mb-6">
-                {globalContentString(globalContent, 'faq_title', 'Frequently Asked Questions')}
+                {faqConfig?.hero.title?.trim() ||
+                  globalContentString(globalContent, 'faq_title', 'Frequently Asked Questions')}
               </h1>
               <p className="text-slate-500 dark:text-slate-400 mb-4 max-w-lg mx-auto lg:mx-0">
-                {globalContentString(
-                  globalContent,
-                  'faq_subtitle',
-                  'PMP 2026 exam prep, certification pathways, regional pricing, membership, delivery, and policies.',
-                )}
+                {faqConfig?.hero.subtitle?.trim() ||
+                  globalContentString(
+                    globalContent,
+                    'faq_subtitle',
+                    'PMP 2026 exam prep, certification pathways, regional pricing, membership, delivery, and policies.',
+                  )}
               </p>
               <p className="mb-8">
                 <Link
@@ -114,6 +135,14 @@ export function FAQ({ globalContent }: { globalContent?: GlobalContentMap }) {
       <section className={sectionSurface('soft', 'py-20')}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto max-w-3xl">
+          {!isSearching && customFaqs.length > 0 ? (
+            <section id="faq-common" className="mb-14 scroll-mt-24">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+                {customSectionTitle}
+              </h2>
+              <FaqAccordionList items={customFaqs} />
+            </section>
+          ) : null}
           {isSearching ? (
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6">
