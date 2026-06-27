@@ -87,7 +87,6 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   const resolvedInterest = resolvePmServiceInterestLabel(serviceInterest, serviceInterestOther);
 
   const hasInterestSelection = serviceInterest !== '';
-  const hasIndustrySelection = industry !== '';
 
   const revealClass = (show: boolean) =>
     cn(
@@ -149,10 +148,6 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     }
     if (serviceInterest === 'other' && !serviceInterestOther.trim()) {
       setError('Please specify your interest under Other.');
-      return;
-    }
-    if (!industry) {
-      setError('Please select the industry that best describes your background.');
       return;
     }
     if (industry === 'other' && !industryOther.trim()) {
@@ -364,7 +359,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
               <fieldset className="space-y-3.5">
                 <legend className={legendClass}>
                   Industry or professional field best describes your background.{' '}
-                  <span className="text-brand-orange">*</span>
+                  <span className="font-normal normal-case text-slate-400">(optional)</span>
                 </legend>
                 <div className="space-y-2.5" role="group" aria-label="Industry or professional field">
                   {PM_SERVICE_INDUSTRY_OPTIONS.map((o) => (
@@ -407,8 +402,8 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
             </div>
           </div>
 
-          <div className={revealClass(hasIndustrySelection)} aria-hidden={!hasIndustrySelection}>
-            <div className={cn(revealInnerClass(hasIndustrySelection), 'space-y-5 sm:space-y-6')}>
+          <div className={revealClass(hasInterestSelection)} aria-hidden={!hasInterestSelection}>
+            <div className={cn(revealInnerClass(hasInterestSelection), 'space-y-5 sm:space-y-6')}>
               <div className="space-y-2.5">
                 <Label htmlFor={`${idPrefix}-question`} className={labelClass}>
                   Please describe your specific question or concern. (Optional)
