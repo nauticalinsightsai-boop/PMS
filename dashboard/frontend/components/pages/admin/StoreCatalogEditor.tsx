@@ -209,35 +209,37 @@ export function StoreCatalogEditor() {
                     </div>
                   </div>
 
-                  <div className="grid gap-5 lg:grid-cols-[200px_1fr]">
-                    {/* Image column */}
-                    <div className="space-y-2">
-                      <div className="overflow-hidden rounded-xl border border-border bg-muted/30">
+                  <div className="space-y-4">
+                    {/* Image: compact thumbnail + picker */}
+                    <div className="flex items-start gap-3">
+                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-border bg-muted/30">
                         {imageUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={imageUrl} alt="" className="aspect-[4/3] w-full object-cover" />
+                          <img src={imageUrl} alt="" className="h-full w-full object-cover" />
                         ) : (
-                          <div className="flex aspect-[4/3] w-full items-center justify-center text-xs text-muted-foreground">
+                          <div className="flex h-full w-full items-center justify-center text-center text-[9px] leading-tight text-muted-foreground">
                             No image
                           </div>
                         )}
                       </div>
-                      <MediaPicker
-                        label="Product image"
-                        value={imageUrl}
-                        onChange={(url) => {
-                          const trimmed = url.trim();
-                          updateProduct(idx, {
-                            imageUrl: trimmed || undefined,
-                            image: trimmed
-                              ? { id: `product-img-${product.id}`, url: trimmed, alt: product.title }
-                              : undefined,
-                          });
-                        }}
-                      />
+                      <div className="min-w-0 flex-1">
+                        <MediaPicker
+                          label="Product image"
+                          value={imageUrl}
+                          onChange={(url) => {
+                            const trimmed = url.trim();
+                            updateProduct(idx, {
+                              imageUrl: trimmed || undefined,
+                              image: trimmed
+                                ? { id: `product-img-${product.id}`, url: trimmed, alt: product.title }
+                                : undefined,
+                            });
+                          }}
+                        />
+                      </div>
                     </div>
 
-                    {/* Fields column */}
+                    {/* Fields */}
                     <div className="space-y-4">
                       <div className="grid gap-4 sm:grid-cols-[1fr_160px]">
                         <Field label="Title">
