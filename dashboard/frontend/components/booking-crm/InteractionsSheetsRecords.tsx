@@ -483,11 +483,6 @@ export default function InteractionsSheetsRecords() {
             {filtered.length} shown · page {page + 1} of {totalPages}
           </span>
         )}
-        {!process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL && sheetsEnv?.configured ? (
-          <span className="text-amber-700 dark:text-amber-300">
-            Set NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL for instant refresh (see setup panel)
-          </span>
-        ) : null}
         {process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL ? (
           <span className="inline-flex items-center gap-1 text-green-700 dark:text-green-400">
             <Radio size={12} /> Live refresh active
