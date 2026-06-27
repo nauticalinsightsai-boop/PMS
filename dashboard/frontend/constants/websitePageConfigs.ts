@@ -226,6 +226,24 @@ export const WEBSITE_PAGE_CONFIGS: Record<WebsitePageSlug, WebsitePageConfig> = 
           },
         ],
       },
+      {
+        id: 'details',
+        label: 'Contact details',
+        fields: [
+          {
+            key: 'contact_email',
+            label: 'Email address',
+            type: 'text',
+            defaultValue: 'support@pmstructure.com',
+          },
+          {
+            key: 'contact_whatsapp',
+            label: 'WhatsApp number',
+            type: 'text',
+            defaultValue: '+44 7947 540939',
+          },
+        ],
+      },
     ],
   },
   membership: {

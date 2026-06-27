@@ -24,6 +24,14 @@ import { PageHeroWithImage } from '@/components/marketing/PageMarketingImage';
 import { MARKETING_PAGE_IMAGES } from '@/lib/marketing-stock-images';
 
 export function Contact({ globalContent }: { globalContent?: GlobalContentMap }) {
+  const supportEmail = globalContentString(globalContent, 'contact_email', PMS_SUPPORT_EMAIL);
+  const cmsWhatsApp = globalContentString(globalContent, 'contact_whatsapp', '').trim();
+  const whatsAppDisplay = cmsWhatsApp || getPmsWhatsAppDisplay();
+  const whatsAppUrl = cmsWhatsApp
+    ? `https://wa.me/${cmsWhatsApp.replace(/\D/g, '')}`
+    : getPmsWhatsAppUrl();
+  const showWhatsApp = cmsWhatsApp ? true : isWhatsAppConfigured();
+
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -118,18 +126,18 @@ export function Contact({ globalContent }: { globalContent?: GlobalContentMap })
                 <div>
                   <h3 className="font-bold">Email Us</h3>
                   <TrackedContactLink
-                    href={`mailto:${PMS_SUPPORT_EMAIL}`}
+                    href={`mailto:${supportEmail}`}
                     contactMethod="email"
                     contactContext="general"
                     ctaText="Contact page email"
                     className="text-sm text-muted-foreground mt-1 hover:text-brand-orange transition-colors"
                   >
-                    {PMS_SUPPORT_EMAIL}
+                    {supportEmail}
                   </TrackedContactLink>
                   <p className="text-xs text-muted-foreground mt-1">We typically respond within 24 hours.</p>
                 </div>
               </div>
-              {isWhatsAppConfigured() ? (
+              {showWhatsApp ? (
                 <div className="flex gap-4">
                   <div className="p-3 rounded-xl bg-green-600/10 text-green-600 h-fit">
                     <MessageCircle className="h-6 w-6" />
@@ -137,7 +145,7 @@ export function Contact({ globalContent }: { globalContent?: GlobalContentMap })
                   <div>
                     <h3 className="font-bold">WhatsApp</h3>
                     <TrackedContactLink
-                      href={getPmsWhatsAppUrl()}
+                      href={whatsAppUrl}
                       contactMethod="whatsapp"
                       contactContext="general"
                       ctaText="Contact page WhatsApp"
@@ -145,7 +153,7 @@ export function Contact({ globalContent }: { globalContent?: GlobalContentMap })
                       rel="noopener noreferrer"
                       className="text-sm text-muted-foreground mt-1 hover:text-brand-orange transition-colors"
                     >
-                      {getPmsWhatsAppDisplay()}
+                      {whatsAppDisplay}
                     </TrackedContactLink>
                     <p className="text-xs text-muted-foreground mt-1">Message us for pathway or enrollment questions.</p>
                   </div>

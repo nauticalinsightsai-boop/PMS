@@ -8,7 +8,6 @@ import {
   Settings,
   Shield,
   BarChart3,
-  Database,
   Search,
   Wrench,
 } from 'lucide-react';
@@ -46,7 +45,6 @@ export const ADMIN_ROUTE_PREFIXES = [
   '/dashboard/site-system/seo',
   '/dashboard/site-system/security',
   '/dashboard/site-system/analytics',
-  '/dashboard/site-system/website-data',
   '/dashboard/site-system/discovery-call-email',
   '/dashboard/site-system/portfolio',
   '/dashboard/site-system/discarded',
@@ -88,7 +86,6 @@ const ADMIN_SYSTEM_NAV: DashboardNavSection = {
     { name: 'SEO', path: '/dashboard/site-system/seo', icon: Search },
     { name: 'Security', path: '/dashboard/site-system/security', icon: Shield },
     { name: 'Analytics', path: '/dashboard/site-system/analytics', icon: BarChart3 },
-    { name: 'Website data', path: '/dashboard/site-system/website-data', icon: Database },
     { name: 'Data migration', path: '/dashboard/migrate', icon: Wrench },
   ],
 };
