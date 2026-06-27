@@ -202,7 +202,7 @@ export function HomeCmsEditor() {
   };
 
   const heroFieldClass =
-    'w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange';
+    'w-full bg-brand-purple/5 border border-brand-purple/25 rounded-xl px-4 py-2 text-sm outline-none focus:border-brand-purple/50 focus:ring-1 focus:ring-brand-purple/40';
 
   type HomeCtaBlock = NonNullable<HomePageConfig['instituteSection']>['institute'];
 
@@ -415,7 +415,7 @@ export function HomeCmsEditor() {
                 <p className="text-sm text-muted-foreground">No hero slides match your search.</p>
               ) : (
                 filteredHeroSlides.map((slide) => (
-                  <div key={slide.id} className="p-4 rounded-2xl border border-white/10 bg-white/5 space-y-4">
+                  <div key={slide.id} className="p-4 rounded-2xl border border-brand-purple/25 bg-brand-purple/10 space-y-4">
                     <div className="flex items-center justify-between">
                       <p className="text-xs font-black uppercase tracking-widest">Hero copy (left column)</p>
                       <button
@@ -482,7 +482,7 @@ export function HomeCmsEditor() {
                 ))
               )}
 
-              <div className="p-4 rounded-2xl border border-white/10 bg-white/5 space-y-4">
+              <div className="p-4 rounded-2xl border border-brand-purple/25 bg-brand-purple/10 space-y-4">
                 <p className="text-xs font-black uppercase tracking-widest">Lead form (right column)</p>
                 <p className="text-sm text-muted-foreground">
                   Controls the roadmap form on the live homepage hero. Field values (PMP, PRINCE2, etc.) stay fixed for analytics; you can edit labels and copy.

@@ -480,14 +480,9 @@
     height: 100dvh;
     min-height: 100dvh;
   }
-  /* Dashboard dark mode: brand blue palette instead of near-black (public site keeps its own dark bg). */
+  /* Dashboard dark mode: deep brand navy instead of near-black (public site keeps its own dark bg). */
   .dark #dashboard-root {
-    --background: #0b1733;
-    --card: #14234d;
-    --popover: #14234d;
-    --muted: #1c2c57;
-    --border: #2a3d72;
-    --input: #2a3d72;
+    --background: #0b0a26;
   }
   #dashboard-root .dashboard-sidebar {
     width: 16rem;
