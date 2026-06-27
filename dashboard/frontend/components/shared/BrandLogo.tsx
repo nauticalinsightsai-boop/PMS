@@ -12,18 +12,30 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ className, size = 'md' }) 
   
   const sizeClasses = {
     sm: 'w-6 h-6 text-xs rounded-md',
-    md: 'w-7 h-7 text-sm rounded-lg',
+    md: 'w-4 h-4 text-[8px] rounded-md',
     lg: 'w-12 h-12 text-2xl rounded-2xl',
   };
 
   const textClasses = {
     sm: 'text-sm',
-    md: 'text-sm',
+    md: 'text-[9px]',
     lg: 'text-3xl',
   };
 
+  const subtitleClasses = {
+    sm: 'text-[8px]',
+    md: 'text-[5px]',
+    lg: 'text-[8px]',
+  };
+
   return (
-    <div className={cn("flex items-center gap-3 font-black tracking-tighter group select-none", className)}>
+    <div
+      className={cn(
+        'flex items-center font-black tracking-tighter group select-none',
+        size === 'md' ? 'gap-1.5' : 'gap-3',
+        className,
+      )}
+    >
       <div className="relative">
         <div className={cn(
           "cta-consultation flex items-center justify-center text-white shadow-lg shadow-brand-orange/20 transition-all duration-500 group-hover:rotate-12 group-hover:scale-110",
@@ -42,7 +54,12 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ className, size = 'md' }) 
           PMS<span className="text-brand-orange">.OS</span>
         </span>
         {size !== 'sm' && (
-          <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-muted-foreground opacity-60">
+          <span
+            className={cn(
+              'font-bold uppercase tracking-[0.2em] text-muted-foreground opacity-60',
+              subtitleClasses[size],
+            )}
+          >
             Certification Platform
           </span>
         )}
