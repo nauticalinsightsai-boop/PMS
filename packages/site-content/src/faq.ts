@@ -18,6 +18,8 @@ export const faqPageConfigSchema = z.object({
   /** Heading shown above the editable FAQ list on /faq. */
   sectionTitle: z.string(),
   items: z.array(faqItemSchema),
+  /** IDs of built-in (static) site FAQs the admin has chosen to hide from /faq. */
+  hiddenBuiltInIds: z.array(z.string()).optional(),
 });
 
 export type FaqItem = z.infer<typeof faqItemSchema>;
@@ -34,6 +36,7 @@ export function defaultFaqPageConfig(): FaqPageConfig {
     },
     sectionTitle: 'Common questions',
     items: [],
+    hiddenBuiltInIds: [],
   };
 }
 

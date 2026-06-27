@@ -49,6 +49,10 @@ export function FAQ({
     [faqConfig],
   );
   const customSectionTitle = faqConfig?.sectionTitle?.trim() || 'Common questions';
+  const hiddenBuiltInIds = React.useMemo(
+    () => new Set(faqConfig?.hiddenBuiltInIds ?? []),
+    [faqConfig?.hiddenBuiltInIds],
+  );
   const [activeTab, setActiveTab] = React.useState(
     FAQ_HUB_SECTIONS.some((s) => s.id === tabFromUrl) ? tabFromUrl! : DEFAULT_TAB,
   );
@@ -71,11 +75,11 @@ export function FAQ({
 
   const searchResults = React.useMemo(() => {
     if (!isSearching) return [] as FaqEntry[];
-    return [...customFaqs, ...getAllFaqs()].filter(
+    return [...customFaqs, ...getAllFaqs().filter((f) => !hiddenBuiltInIds.has(f.id))].filter(
       (f) =>
         f.question.toLowerCase().includes(q) || f.answer.toLowerCase().includes(q),
     );
-  }, [isSearching, q, customFaqs]);
+  }, [isSearching, q, customFaqs, hiddenBuiltInIds]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -177,7 +181,9 @@ export function FAQ({
                     {section.clusterIds.map((clusterId) => {
                       const cluster = FAQ_CLUSTERS.find((c) => c.id === clusterId);
                       if (!cluster) return null;
-                      const items = getFaqsByCluster(clusterId);
+                      const items = getFaqsByCluster(clusterId).filter(
+                        (f) => !hiddenBuiltInIds.has(f.id),
+                      );
                       if (items.length === 0) return null;
                       return (
                         <section key={clusterId} id={`faq-${clusterId}`} className="scroll-mt-24">

@@ -1,7 +1,17 @@
 'use client';
 
 import React from 'react';
-import { ChevronDown, ChevronUp, Eye, EyeOff, HelpCircle, Plus, Trash2 } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronUp,
+  Eye,
+  EyeOff,
+  HelpCircle,
+  Library,
+  Plus,
+  Search,
+  Trash2,
+} from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import {
   FIELD_KEYS,
@@ -15,6 +25,8 @@ import { getPublicSitePage } from '@/constants/publicSitePages';
 import { cn } from '@/lib/utils';
 
 type FaqItem = FaqPageConfig['items'][number];
+
+type BuiltInFaq = { id: string; clusterId: string; question: string };
 
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-brand-orange/40 focus-visible:ring-2 focus-visible:ring-brand-orange/30';
@@ -83,6 +95,54 @@ export function FaqPageEditor() {
       return { ...c, items: items.map((it, i) => ({ ...it, sortOrder: i })) };
     });
   };
+
+  // Built-in (static) site FAQs — fetched from the public snapshot so the admin can hide any.
+  const [builtIn, setBuiltIn] = React.useState<BuiltInFaq[]>([]);
+  const [builtInSearch, setBuiltInSearch] = React.useState('');
+
+  React.useEffect(() => {
+    let cancelled = false;
+    fetch('/faq.json', { cache: 'no-store' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { items?: BuiltInFaq[] } | null) => {
+        if (cancelled || !data?.items) return;
+        setBuiltIn(
+          data.items.map((it) => ({
+            id: it.id,
+            clusterId: it.clusterId,
+            question: it.question,
+          })),
+        );
+      })
+      .catch(() => {
+        /* non-fatal: the section just stays empty */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const hiddenIds = React.useMemo(
+    () => new Set(config.hiddenBuiltInIds ?? []),
+    [config.hiddenBuiltInIds],
+  );
+
+  const toggleHiddenBuiltIn = (id: string) => {
+    setConfig((c) => {
+      const current = new Set(c.hiddenBuiltInIds ?? []);
+      if (current.has(id)) current.delete(id);
+      else current.add(id);
+      return { ...c, hiddenBuiltInIds: Array.from(current) };
+    });
+  };
+
+  const filteredBuiltIn = React.useMemo(() => {
+    const q = builtInSearch.trim().toLowerCase();
+    if (!q) return builtIn;
+    return builtIn.filter(
+      (f) => f.question.toLowerCase().includes(q) || f.clusterId.toLowerCase().includes(q),
+    );
+  }, [builtIn, builtInSearch]);
 
   return (
     <SiteDocumentEditorShell
@@ -246,6 +306,80 @@ export function FaqPageEditor() {
                 </div>
               ))}
             </div>
+          )}
+        </GlassCard>
+
+        {/* Built-in site FAQs (hide any) */}
+        <GlassCard className="p-6 space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-orange/10 text-brand-orange">
+                <Library className="h-4 w-4" />
+              </span>
+              <div>
+                <h3 className="text-sm font-semibold text-foreground">Built-in site FAQs</h3>
+                <p className="text-xs text-muted-foreground">
+                  {builtIn.length} built-in · {hiddenIds.size} hidden · hide any you don&apos;t want on /faq
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {builtIn.length === 0 ? (
+            <p className="rounded-xl border border-dashed border-white/15 py-8 text-center text-sm text-muted-foreground">
+              Loading the site&apos;s built-in FAQs… (publish the site once if this stays empty)
+            </p>
+          ) : (
+            <>
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  value={builtInSearch}
+                  onChange={(e) => setBuiltInSearch(e.target.value)}
+                  placeholder="Search built-in FAQs to hide…"
+                  className={cn(inputClass, 'pl-9')}
+                />
+              </div>
+              <div className="max-h-[28rem] space-y-2 overflow-y-auto pr-1">
+                {filteredBuiltIn.map((faq) => {
+                  const hidden = hiddenIds.has(faq.id);
+                  return (
+                    <div
+                      key={faq.id}
+                      className={cn(
+                        'flex items-start justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5',
+                        hidden && 'opacity-60',
+                      )}
+                    >
+                      <div className="min-w-0">
+                        <p className={cn('text-sm text-foreground', hidden && 'line-through')}>
+                          {faq.question}
+                        </p>
+                        <p className="mt-0.5 text-[11px] uppercase tracking-wide text-muted-foreground">
+                          {faq.clusterId}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => toggleHiddenBuiltIn(faq.id)}
+                        className={cn(
+                          'inline-flex shrink-0 items-center gap-1 rounded-md border px-2.5 py-1.5 text-xs font-semibold transition-colors',
+                          hidden
+                            ? 'border-white/10 bg-white/5 text-muted-foreground hover:text-foreground'
+                            : 'border-red-500/30 text-red-500 hover:bg-red-500/10',
+                        )}
+                      >
+                        {hidden ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+                        {hidden ? 'Show' : 'Hide'}
+                      </button>
+                    </div>
+                  );
+                })}
+                {filteredBuiltIn.length === 0 ? (
+                  <p className="py-6 text-center text-sm text-muted-foreground">No FAQs match your search.</p>
+                ) : null}
+              </div>
+            </>
           )}
         </GlassCard>
       </div>
