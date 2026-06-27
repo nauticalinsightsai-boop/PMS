@@ -29,7 +29,7 @@ type Props = {
 
 const toolbarBtn =
   'inline-flex h-8 min-w-8 items-center justify-center gap-1 rounded-md px-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors';
-const divider = 'mx-1 h-5 w-px self-center bg-border';
+const divider = 'mx-1 h-5 w-px self-center bg-white/10';
 
 export function MarkdownContentEditor({
   value,
@@ -165,8 +165,8 @@ export function MarkdownContentEditor({
   ];
 
   return (
-    <div className={cn('overflow-hidden rounded-lg border border-input bg-background', className)}>
-      <div className="flex flex-wrap items-center gap-0.5 border-b border-border bg-muted/40 px-2 py-1.5">
+    <div className={cn('overflow-hidden rounded-lg border border-white/10 bg-white/5', className)}>
+      <div className="flex flex-wrap items-center gap-0.5 border-b border-white/10 bg-white/5 px-2 py-1.5">
         {tools.map((tool, i) =>
           tool.kind === 'divider' ? (
             <span key={`d-${i}`} className={divider} aria-hidden />

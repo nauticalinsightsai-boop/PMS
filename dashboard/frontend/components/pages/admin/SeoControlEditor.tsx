@@ -29,7 +29,7 @@ const SEO_PAGES: Array<{ slug: string; label: string; path: string; defaultTitle
 
 const SITE_NAME = 'PM Structure';
 const inputClass =
-  'w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/25';
+  'w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-brand-orange/40 focus-visible:ring-2 focus-visible:ring-brand-orange/30';
 const labelClass = 'text-[11px] font-bold uppercase tracking-wide text-muted-foreground';
 
 export function SeoControlEditor() {
@@ -164,7 +164,7 @@ export function SeoControlEditor() {
 
           return (
             <GlassCard key={page.slug} className="p-6 space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
                 <div>
                   <h3 className="text-sm font-semibold text-foreground">{page.label}</h3>
                   <p className="font-mono text-xs text-muted-foreground">{page.path}</p>
@@ -173,7 +173,7 @@ export function SeoControlEditor() {
                   href={livePageUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-xs font-semibold hover:border-brand-orange/40 hover:text-brand-orange"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-1.5 text-xs font-semibold hover:border-brand-orange/40 hover:text-brand-orange"
                 >
                   View live <ExternalLink size={12} />
                 </a>
@@ -217,7 +217,7 @@ export function SeoControlEditor() {
                   </label>
                 </div>
 
-                <div className="rounded-xl border border-border bg-muted/30 p-4">
+                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
                   <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                     Google preview
                   </p>

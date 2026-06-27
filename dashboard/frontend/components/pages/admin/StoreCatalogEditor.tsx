@@ -27,7 +27,7 @@ import { cn } from '@/lib/utils';
 type StoreProduct = StoreCatalog['products'][number];
 
 const inputClass =
-  'w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/25';
+  'w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-brand-orange/40 focus-visible:ring-2 focus-visible:ring-brand-orange/30';
 const labelClass = 'text-[11px] font-bold uppercase tracking-wide text-muted-foreground';
 
 function defaultCategoryId(catalog: StoreCatalog): string {
@@ -124,7 +124,7 @@ export function StoreCatalogEditor() {
       <div className="space-y-6">
         {/* Products */}
         <GlassCard className="p-6 space-y-5">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
             <div className="flex items-center gap-2.5">
               <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-orange/10 text-brand-orange">
                 <Package className="h-4 w-4" />
@@ -147,7 +147,7 @@ export function StoreCatalogEditor() {
           </div>
 
           {config.products.length === 0 && (
-            <p className="rounded-xl border border-dashed border-border py-10 text-center text-sm text-muted-foreground">
+            <p className="rounded-xl border border-dashed border-white/15 py-10 text-center text-sm text-muted-foreground">
               No products yet. Click <span className="font-semibold text-foreground">Add product</span> to create one.
             </p>
           )}
@@ -159,7 +159,7 @@ export function StoreCatalogEditor() {
                 <div
                   key={product.id}
                   className={cn(
-                    'rounded-2xl border border-border bg-card p-4 sm:p-5',
+                    'rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5',
                     !product.visible && 'opacity-70',
                   )}
                 >
@@ -172,7 +172,7 @@ export function StoreCatalogEditor() {
                           'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold',
                           product.visible
                             ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400'
-                            : 'bg-muted text-muted-foreground',
+                            : 'bg-white/10 text-muted-foreground',
                         )}
                       >
                         {product.visible ? <Eye className="h-3 w-3" /> : <EyeOff className="h-3 w-3" />}
@@ -185,7 +185,7 @@ export function StoreCatalogEditor() {
                         onClick={() => moveProduct(idx, -1)}
                         disabled={idx === 0}
                         aria-label="Move up"
-                        className="rounded-md border border-border p-1.5 text-muted-foreground hover:text-foreground disabled:opacity-40"
+                        className="rounded-md border border-white/10 p-1.5 text-muted-foreground hover:border-brand-orange/40 hover:text-brand-orange disabled:opacity-40"
                       >
                         <ChevronUp className="h-3.5 w-3.5" />
                       </button>
@@ -194,14 +194,14 @@ export function StoreCatalogEditor() {
                         onClick={() => moveProduct(idx, 1)}
                         disabled={idx === config.products.length - 1}
                         aria-label="Move down"
-                        className="rounded-md border border-border p-1.5 text-muted-foreground hover:text-foreground disabled:opacity-40"
+                        className="rounded-md border border-white/10 p-1.5 text-muted-foreground hover:border-brand-orange/40 hover:text-brand-orange disabled:opacity-40"
                       >
                         <ChevronDown className="h-3.5 w-3.5" />
                       </button>
                       <button
                         type="button"
                         onClick={() => removeProduct(idx)}
-                        className="ml-1 inline-flex items-center gap-1 rounded-md border border-border px-2 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-500/10"
+                        className="ml-1 inline-flex items-center gap-1 rounded-md border border-white/10 px-2 py-1.5 text-xs font-semibold text-red-500 hover:bg-red-500/10"
                       >
                         <Trash2 className="h-3.5 w-3.5" aria-hidden />
                         Remove
@@ -212,7 +212,7 @@ export function StoreCatalogEditor() {
                   <div className="space-y-4">
                     {/* Image: compact thumbnail + picker */}
                     <div className="flex items-start gap-3">
-                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-border bg-muted/30">
+                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-white/5">
                         {imageUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={imageUrl} alt="" className="h-full w-full object-cover" />
@@ -363,7 +363,7 @@ export function StoreCatalogEditor() {
                               'inline-flex h-[38px] w-full items-center justify-center gap-2 rounded-lg border px-3 text-sm font-semibold transition-colors',
                               product.visible
                                 ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
-                                : 'border-border bg-muted/40 text-muted-foreground',
+                                : 'border-white/10 bg-white/5 text-muted-foreground',
                             )}
                           >
                             {product.visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
