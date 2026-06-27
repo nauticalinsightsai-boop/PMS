@@ -1,0 +1,28 @@
+{
+  "base": "https://pmstructure.com",
+  "testEmail": "seo-smoke+20260623@pmstructure.com",
+  "capturedAt": "2026-06-23T13:29:06.852Z",
+  "results": [
+    {
+      "form": "roadmap",
+      "ok": true,
+      "status": 201,
+      "detail": "id=fc45f653-ee89-420b-9ef2-a899e6c7e727 sheetsSynced=false sheetsSyncPending=false",
+      "sheetsWarning": null
+    },
+    {
+      "form": "waitlist",
+      "ok": true,
+      "status": 201,
+      "detail": "id=bfc592b6-5bfc-4ca9-83bb-36320579d713 sheetsSynced=false sheetsSyncPending=false",
+      "sheetsWarning": null
+    },
+    {
+      "form": "newsletter",
+      "ok": true,
+      "status": 201,
+      "detail": "id=fa26d5e6-5b38-4c30-a0ea-006faed84b65 sheetsSynced=false sheetsSyncPending=false",
+      "sheetsWarning": null
+    }
+  ]
+}
