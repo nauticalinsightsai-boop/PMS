@@ -44,7 +44,7 @@ export function parseFaqPageConfig(raw: unknown): FaqPageConfig {
   return faqPageConfigSchema.parse(raw);
 }
 
-/** Visible items in sort order — used by the public /faq page. */
+/** Visible items in sort order: used by the public /faq page. */
 export function visibleFaqItems(config: FaqPageConfig | null | undefined): FaqItem[] {
   if (!config) return [];
   return [...config.items]

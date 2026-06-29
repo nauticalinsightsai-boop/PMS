@@ -17,7 +17,7 @@ export const membershipPageConfigSchema = z.object({
     }),
   ),
   benefits: z.array(z.object({ title: z.string(), desc: z.string(), iconKey: z.string() })).optional(),
-  /** Base USD pricing — drives both the displayed price and the Stripe checkout amount (regional conversion is automatic). */
+  /** Base USD pricing: drives both the displayed price and the Stripe checkout amount (regional conversion is automatic). */
   pricing: z
     .object({
       professional: z.object({ monthlyUsd: z.number(), yearlyUsd: z.number() }),

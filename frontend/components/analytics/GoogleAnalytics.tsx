@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { getGaMeasurementId, isGaConfigured } from '@/lib/analytics/ga-config';
 import { trackPageView } from '@/lib/analytics/funnel';
 
-/** GA4 site measurement — loads whenever a measurement ID is configured. */
+/** GA4 site measurement: loads whenever a measurement ID is configured. */
 export function GoogleAnalytics() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
