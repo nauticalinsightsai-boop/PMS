@@ -11,7 +11,7 @@ const GA_CLIENT_ID_TIMEOUT_MS = 800;
 
 function readGaClientId(): Promise<string | undefined> {
   return new Promise((resolve) => {
-    if (typeof window === 'undefined' || !hasAnalyticsConsent()) {
+    if (typeof window === 'undefined') {
       resolve(undefined);
       return;
     }

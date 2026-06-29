@@ -5,29 +5,13 @@ import { useEffect, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { getGaMeasurementId, isGaConfigured } from '@/lib/analytics/ga-config';
 import { trackPageView } from '@/lib/analytics/funnel';
-import { hasAnalyticsConsent } from '@/lib/legal/consent';
 
-/** Consent-gated GA4: loads gtag only after analytics cookies are accepted. */
+/** GA4 site measurement — loads whenever a measurement ID is configured. */
 export function GoogleAnalytics() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const measurementId = getGaMeasurementId();
-  const [consentGranted, setConsentGranted] = useState(false);
   const [gaReady, setGaReady] = useState(false);
-
-  useEffect(() => {
-    if (!isGaConfigured()) return;
-
-    const sync = () => {
-      const granted = hasAnalyticsConsent();
-      setConsentGranted(granted);
-      if (!granted) setGaReady(false);
-    };
-
-    sync();
-    window.addEventListener('legal-consent-updated', sync);
-    return () => window.removeEventListener('legal-consent-updated', sync);
-  }, []);
 
   useEffect(() => {
     if (!gaReady) return;
@@ -36,7 +20,7 @@ export function GoogleAnalytics() {
     trackPageView(path, window.location.href, document.title);
   }, [gaReady, pathname, searchParams]);
 
-  if (!measurementId || !consentGranted) return null;
+  if (!measurementId || !isGaConfigured()) return null;
 
   return (
     <>

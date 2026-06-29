@@ -2,7 +2,7 @@
 
 > Independent exam preparation and structured readiness across PMI, PRINCE2, and Lean Six Sigma. Visit [pmstructure.com](https://pmstructure.com) for pathways and PMP 2026 guides.
 
-lastUpdated: 2026-06-26
+lastUpdated: 2026-06-29
 version: 1.0.0
 
 ## Canonical site

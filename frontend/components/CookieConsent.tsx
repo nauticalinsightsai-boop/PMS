@@ -4,6 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { acceptAllConsent, rejectNonEssentialConsent, readStoredConsent } from '@/lib/legal/consent';
+import { trackEvent } from '@/lib/analytics/gtag';
 import { BRAND } from '@/lib/brand-voice';
 
 /** Defer banner until after the LCP window so consent copy is not the largest paint. */
@@ -33,11 +34,13 @@ export function CookieConsent() {
 
   const acceptAll = () => {
     acceptAllConsent();
+    trackEvent('cookie_consent_accept', { consent_choice: 'all' });
     setVisible(false);
   };
 
   const rejectNonEssential = () => {
     rejectNonEssentialConsent();
+    trackEvent('cookie_consent_reject', { consent_choice: 'necessary_only' });
     setVisible(false);
   };
 
@@ -54,8 +57,8 @@ export function CookieConsent() {
         Cookies on {BRAND.name}
       </p>
       <p id="cookie-consent-desc" className="text-xs text-slate-600 dark:text-slate-400 font-medium leading-relaxed mb-4">
-        We use necessary cookies for region preference, theme, and checkout. Optional analytics cookies
-        are off until you accept. See our{' '}
+        We use necessary cookies for region preference, theme, and checkout. We also use Google
+        Analytics to measure site usage (including when you reject optional cookies). See our{' '}
         <Link href="/legal/cookies" className="font-bold text-orange-800 underline decoration-orange-800/50 hover:text-orange-900 dark:text-orange-300 dark:decoration-orange-300/50">
           Cookie Policy
         </Link>

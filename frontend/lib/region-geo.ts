@@ -58,8 +58,20 @@ function writeCachedIpRegionHint(hint: RegionGeoHint): void {
   }
 }
 
+export function clearCachedIpRegionHint(): void {
+  if (typeof window === 'undefined') return;
+  try {
+    sessionStorage.removeItem(IPAPI_CACHE_KEY);
+  } catch {
+    // ignore
+  }
+}
+
 /** Optional IP hint: never throws; returns null on failure. */
-export async function fetchIpRegionHint(): Promise<RegionGeoHint | null> {
+export async function fetchIpRegionHint(options?: {
+  bypassCache?: boolean;
+}): Promise<RegionGeoHint | null> {
+  if (options?.bypassCache) clearCachedIpRegionHint();
   const cached = readCachedIpRegionHint();
   if (cached) return cached;
 
@@ -108,18 +120,22 @@ async function reverseGeocodeCountryCode(latitude: number, longitude: number): P
 export async function fetchBrowserGeolocationRegionHint(): Promise<RegionGeoHint | null> {
   if (typeof window === 'undefined' || !navigator.geolocation) return null;
 
-  const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(resolve, reject, {
-      enableHighAccuracy: false,
-      timeout: 12000,
-      maximumAge: 300_000,
+  try {
+    const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: false,
+        timeout: 12000,
+        maximumAge: 0,
+      });
     });
-  });
 
-  const countryCode = await reverseGeocodeCountryCode(
-    position.coords.latitude,
-    position.coords.longitude,
-  );
-  if (!countryCode) return null;
-  return regionFromCountryCode(countryCode);
+    const countryCode = await reverseGeocodeCountryCode(
+      position.coords.latitude,
+      position.coords.longitude,
+    );
+    if (!countryCode) return null;
+    return regionFromCountryCode(countryCode);
+  } catch {
+    return null;
+  }
 }

@@ -9,7 +9,7 @@ import {
   writeStoredRegion,
   type RegionSource,
 } from '@/lib/region-storage';
-import { fetchBrowserGeolocationRegionHint, fetchIpRegionHint } from '@/lib/region-geo';
+import { clearCachedIpRegionHint, fetchBrowserGeolocationRegionHint, fetchIpRegionHint } from '@/lib/region-geo';
 import { syncProfileRegion } from '@/services/regional';
 
 interface RegionContextValue {
@@ -148,12 +148,13 @@ export function RegionProvider({ children, portalDefaults = false }: RegionProvi
     if (isDetectingRegion) return false;
     setIsDetectingRegion(true);
     try {
+      clearCachedIpRegionHint();
       const geoHint = await fetchBrowserGeolocationRegionHint();
       if (geoHint) {
         applyRegionHint(geoHint, 'geolocation', setRegionId, setGccCountry, setRegionSource);
         return true;
       }
-      const ipHint = await fetchIpRegionHint();
+      const ipHint = await fetchIpRegionHint({ bypassCache: true });
       if (ipHint) {
         applyRegionHint(ipHint, 'ip', setRegionId, setGccCountry, setRegionSource);
         return true;
