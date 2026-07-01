@@ -4,6 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
 import { useWebsiteDataRealtime } from '@/hooks/useWebsiteDataRealtime';
 import {
+  buildUnifiedNewsletterRegistry,
+  countNewPosts,
+} from '@/lib/newsletter/registry-merge';
+import {
   NEWSLETTER_POSTS_FIELD_KEY,
   defaultNewsletterPostsRegistry,
   parseNewsletterPostsRegistry,
@@ -14,6 +18,7 @@ import {
 export function useNewsletterPosts() {
   const [registry, setRegistry] = useState<NewsletterPostsRegistry>(defaultNewsletterPostsRegistry());
   const [isRegistryPublished, setIsRegistryPublished] = useState(false);
+  const [lastSyncedCount, setLastSyncedCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,19 +26,36 @@ export function useNewsletterPosts() {
   const load = useCallback(async () => {
     setError(null);
     try {
-      const rows = await WebsiteDataService.getData('draft');
-      const row = rows.find((item) => item.field_key === NEWSLETTER_POSTS_FIELD_KEY);
-      setIsRegistryPublished(Boolean(row?.is_published));
-      if (row?.content) {
-        setRegistry(parseNewsletterPostsRegistry(row.content));
-      } else {
-        const seeded = defaultNewsletterPostsRegistry();
-        setRegistry(seeded);
+      const [draftRows, publishedRows] = await Promise.all([
+        WebsiteDataService.getData('draft'),
+        WebsiteDataService.getData('published'),
+      ]);
+
+      const draftRow = draftRows.find((item) => item.field_key === NEWSLETTER_POSTS_FIELD_KEY);
+      const publishedRow = publishedRows.find((item) => item.field_key === NEWSLETTER_POSTS_FIELD_KEY);
+      setIsRegistryPublished(Boolean(draftRow?.is_published ?? publishedRow?.is_published));
+
+      const draftOnly = draftRow?.content
+        ? parseNewsletterPostsRegistry(draftRow.content)
+        : { version: 1 as const, posts: [] };
+
+      const merged = buildUnifiedNewsletterRegistry({
+        draft: draftRows,
+        published: publishedRows,
+      });
+
+      const imported = countNewPosts(draftOnly, merged);
+      if (imported > 0 || !draftRow?.content) {
         await WebsiteDataService.saveDraft(
           NEWSLETTER_POSTS_FIELD_KEY,
-          seeded as unknown as Record<string, unknown>,
+          merged as unknown as Record<string, unknown>,
         );
+        setLastSyncedCount(imported > 0 ? imported : merged.posts.length);
+      } else {
+        setLastSyncedCount(0);
       }
+
+      setRegistry(merged);
     } catch (err) {
       console.error('Failed to load newsletter posts', err);
       setError('Could not load newsletter posts.');
@@ -71,6 +93,53 @@ export function useNewsletterPosts() {
     }
   }, []);
 
+  const publishRegistry = useCallback(async () => {
+    setIsSaving(true);
+    setError(null);
+    try {
+      await WebsiteDataService.publish(NEWSLETTER_POSTS_FIELD_KEY);
+      setIsRegistryPublished(true);
+    } catch (err) {
+      console.error('Failed to publish newsletter posts', err);
+      setError('Could not publish newsletter posts.');
+      throw err;
+    } finally {
+      setIsSaving(false);
+    }
+  }, []);
+
+  const syncFromSite = useCallback(async () => {
+    setIsSaving(true);
+    setError(null);
+    try {
+      const [draftRows, publishedRows] = await Promise.all([
+        WebsiteDataService.getData('draft'),
+        WebsiteDataService.getData('published'),
+      ]);
+      const draftOnly = parseNewsletterPostsRegistry(
+        draftRows.find((item) => item.field_key === NEWSLETTER_POSTS_FIELD_KEY)?.content ?? null,
+      );
+      const merged = buildUnifiedNewsletterRegistry({
+        draft: draftRows,
+        published: publishedRows,
+      });
+      const imported = countNewPosts(draftOnly, merged);
+      await WebsiteDataService.saveDraft(
+        NEWSLETTER_POSTS_FIELD_KEY,
+        merged as unknown as Record<string, unknown>,
+      );
+      setRegistry(merged);
+      setLastSyncedCount(imported);
+      return imported;
+    } catch (err) {
+      console.error('Failed to sync newsletter posts', err);
+      setError('Could not sync newsletter posts from site sources.');
+      throw err;
+    } finally {
+      setIsSaving(false);
+    }
+  }, []);
+
   const upsertPost = useCallback(
     async (post: NewsletterPost, publish = false) => {
       const nextPosts = [...registry.posts];
@@ -84,7 +153,7 @@ export function useNewsletterPosts() {
       await persist({ version: 1, posts: nextPosts }, publish);
       return updated;
     },
-    [persist, registry.posts, isRegistryPublished],
+    [persist, registry.posts],
   );
 
   const deletePost = useCallback(
@@ -102,8 +171,12 @@ export function useNewsletterPosts() {
     posts: registry.posts,
     isLoading,
     isSaving,
+    isRegistryPublished,
+    lastSyncedCount,
     error,
     refresh: load,
+    syncFromSite,
+    publishRegistry,
     upsertPost,
     deletePost,
     getPostById: (id: string) => registry.posts.find((post) => post.id === id),

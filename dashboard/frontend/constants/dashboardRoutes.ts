@@ -57,10 +57,11 @@ const EDITOR_NEWSLETTER_NAV: DashboardNavSection = {
   title: 'Newsletter',
   items: [
     {
-      name: 'Posts & issues',
+      name: 'Newsletter',
       path: WEBSITE_CMS_PATHS.newsletter,
       icon: Newspaper,
       subItems: [
+        { name: 'All posts', path: WEBSITE_CMS_PATHS.newsletterPosts, icon: FileText },
         { name: 'Subscribers', path: WEBSITE_CMS_PATHS.newsletterSubscribers, icon: Users },
       ],
     },

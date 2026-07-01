@@ -65,11 +65,17 @@ export function NewsletterPostsList() {
             <ol className="flex items-center gap-2">
               <li>
                 <Link href="/dashboard" className="hover:text-foreground transition-colors">
-                  Dashboard
+                  Home
                 </Link>
               </li>
               <li aria-hidden>/</li>
-              <li className="font-medium text-foreground">Newsletter</li>
+              <li>
+                <Link href={WEBSITE_CMS_PATHS.newsletter} className="hover:text-foreground transition-colors">
+                  Newsletter
+                </Link>
+              </li>
+              <li aria-hidden>/</li>
+              <li className="font-medium text-foreground">All posts</li>
             </ol>
           </nav>
           <div className="flex items-center gap-3">

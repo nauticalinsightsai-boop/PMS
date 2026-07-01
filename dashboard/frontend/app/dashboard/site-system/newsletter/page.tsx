@@ -1,5 +1,5 @@
-import { NewsletterPostsList } from '@/components/pages/admin/NewsletterPostsList';
+import { NewsletterDashboard } from '@/components/pages/admin/NewsletterDashboard';
 
 export default function NewsletterPage() {
-  return <NewsletterPostsList />;
+  return <NewsletterDashboard />;
 }

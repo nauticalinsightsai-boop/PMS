@@ -1,4 +1,8 @@
 import { z } from 'zod';
+import type { CmsPost } from './cms-posts';
+import { newsletterFileSeedArticles } from './newsletter-file-seeds';
+
+export { newsletterFileSeedArticles };
 
 export const NEWSLETTER_POSTS_FIELD_KEY = 'newsletter_posts_registry';
 
@@ -297,4 +301,115 @@ export function mergeNewsletterArticles(
 
 export function getNewsletterArticleHref(article: Pick<NewsletterArticle, 'slug'>): string {
   return `/newsletter/${article.slug}`;
+}
+
+export function newsletterArticleToPost(
+  article: NewsletterArticle,
+  status: NewsletterPostStatus = 'published',
+): NewsletterPost {
+  const now = new Date().toISOString();
+  const content = article.markdown?.trim() || article.body.join('\n\n');
+  const parsedDate = new Date(article.date);
+  const publishDate = !Number.isNaN(parsedDate.getTime()) ? parsedDate.toISOString() : now;
+
+  return {
+    id: `post-${article.slug}`,
+    slug: article.slug,
+    title: article.title,
+    description: article.excerpt,
+    metaTitle: article.title,
+    metaDescription: article.excerpt,
+    keywords: article.category,
+    status,
+    publishDate,
+    modifiedDate: now,
+    author: article.author,
+    topics: [article.category],
+    youtubeUrl: '',
+    featuredImageUrl: article.image,
+    featuredImageMobileUrl: article.imageMobile ?? '',
+    heroImageAlt: article.heroImageAlt?.trim() || article.title,
+    emailSubject: '',
+    emailPreheader: '',
+    ctaLabel: '',
+    ctaUrl: '',
+    editorMeta: {
+      tone: 'informative',
+      template: 'news_roundup',
+      segment: 'all',
+      sectionCount: 4,
+      rawNotes: '',
+    },
+    audioUrl: '',
+    content,
+  };
+}
+
+export function cmsPostToNewsletterPost(
+  post: CmsPost,
+  topicNameById: Record<string, string> = {},
+): NewsletterPost {
+  const now = new Date().toISOString();
+  const topics = post.topicIds
+    .map((id) => topicNameById[id])
+    .filter((name): name is string => Boolean(name));
+
+  return {
+    id: post.id.startsWith('post-') ? post.id : `post-${post.id}`,
+    slug: post.slug,
+    title: post.title,
+    description: post.description,
+    metaTitle: post.metaTitle || post.title,
+    metaDescription: post.metaDescription || post.description,
+    keywords: '',
+    status: post.status === 'active' ? 'published' : 'draft',
+    publishDate: post.publishDate || now,
+    modifiedDate: post.modifiedDate || now,
+    author: post.author || 'PM Structure Editorial',
+    topics: topics.length > 0 ? topics : ['Insights'],
+    youtubeUrl: '',
+    featuredImageUrl: post.featuredImageUrl,
+    featuredImageMobileUrl: '',
+    heroImageAlt: post.title,
+    emailSubject: '',
+    emailPreheader: '',
+    ctaLabel: '',
+    ctaUrl: '',
+    editorMeta: {
+      tone: 'informative',
+      template: 'news_roundup',
+      segment: 'all',
+      sectionCount: 4,
+      rawNotes: '',
+    },
+    audioUrl: '',
+    content: post.content,
+  };
+}
+
+/** Later registries in the list win on slug collision — pass draft last so it takes priority. */
+export function mergeNewsletterRegistries(
+  ...sources: NewsletterPostsRegistry[]
+): NewsletterPostsRegistry {
+  const bySlug = new Map<string, NewsletterPost>();
+  for (const reg of sources) {
+    for (const post of reg.posts) {
+      bySlug.set(post.slug, post);
+    }
+  }
+  const posts = Array.from(bySlug.values()).sort(
+    (a, b) =>
+      new Date(b.modifiedDate || b.publishDate).getTime() -
+      new Date(a.modifiedDate || a.publishDate).getTime(),
+  );
+  return { version: 1, posts };
+}
+
+export function registryFromNewsletterArticles(
+  articles: NewsletterArticle[] = newsletterFileSeedArticles,
+): NewsletterPostsRegistry {
+  return {
+    version: 1,
+    posts: articles.map((article) => newsletterArticleToPost(article)),
+  };
 }
