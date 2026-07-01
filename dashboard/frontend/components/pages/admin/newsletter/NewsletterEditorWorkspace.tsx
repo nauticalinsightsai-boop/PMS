@@ -3,7 +3,6 @@
 import React, { useMemo, useState } from 'react';
 import {
   CalendarClock,
-  Eye,
   LayoutList,
   ListChecks,
   Mail,
@@ -16,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { MarkdownContentEditor } from './MarkdownContentEditor';
+import { NewsletterLivePreview } from './NewsletterLivePreview';
 import { estimateReadTime, type NewsletterEditorMeta, type NewsletterPost } from '@/lib/newsletter-posts';
 import {
   buildNewsletterScaffold,
@@ -67,11 +67,6 @@ export function NewsletterEditorWorkspace({ post, onChange, onMetaChange }: Prop
   );
   const outline = useMemo(() => extractContentOutline(post.content), [post.content]);
   const readTime = useMemo(() => estimateReadTime(post.content), [post.content]);
-
-  const heroPreview =
-    previewDevice === 'mobile' && post.featuredImageMobileUrl?.trim()
-      ? post.featuredImageMobileUrl
-      : post.featuredImageUrl;
 
   const applyScaffold = () => {
     onChange({
@@ -326,82 +321,22 @@ export function NewsletterEditorWorkspace({ post, onChange, onMetaChange }: Prop
             value={post.content}
             onChange={(content) => onChange({ content })}
             rows={18}
-            placeholder="Write your newsletter… Use the toolbar for headings, bold, lists, quotes, and links."
+            placeholder="Write your newsletter… Use the toolbar for headings, quotes, lists, centered text, responsive images, and links."
           />
           <p className="mt-1.5 text-xs text-muted-foreground">
-            Formatting uses Markdown: select text and use the toolbar, or type{' '}
-            <code className="rounded bg-muted px-1">**bold**</code>,{' '}
-            <code className="rounded bg-muted px-1">## Heading</code>,{' '}
-            <code className="rounded bg-muted px-1">&gt; quote</code> directly.
+            Syncs to <strong>/newsletter</strong> and <strong>/blog</strong> when published. Use{' '}
+            <code className="rounded bg-muted px-1">Image</code> for desktop + mobile frames,{' '}
+            <code className="rounded bg-muted px-1">Center</code> for centered blocks.
           </p>
         </div>
       </div>
 
       <aside className="space-y-4 xl:sticky xl:top-24 xl:self-start">
-        <div className="rounded-2xl border border-border bg-card p-4">
-          <div className="mb-3 flex items-center justify-between gap-2">
-            <h4 className="flex items-center gap-2 text-sm font-bold">
-              <Eye size={14} className="text-brand-orange" />
-              Live preview
-            </h4>
-            <div className="flex rounded-lg border border-border p-0.5 text-[11px] font-bold">
-              <button
-                type="button"
-                onClick={() => setPreviewDevice('desktop')}
-                className={`rounded-md px-2 py-1 ${previewDevice === 'desktop' ? 'bg-brand-orange text-white' : 'text-muted-foreground'}`}
-              >
-                Desktop
-              </button>
-              <button
-                type="button"
-                onClick={() => setPreviewDevice('mobile')}
-                className={`rounded-md px-2 py-1 ${previewDevice === 'mobile' ? 'bg-brand-orange text-white' : 'text-muted-foreground'}`}
-              >
-                Mobile
-              </button>
-            </div>
-          </div>
-
-          <div
-            className={`mx-auto overflow-hidden rounded-xl border border-border bg-white text-slate-900 shadow-lg dark:bg-slate-950 dark:text-slate-100 ${
-              previewDevice === 'mobile' ? 'max-w-[280px]' : 'w-full'
-            }`}
-          >
-            <div className="border-b border-border bg-muted/40 px-3 py-2 text-[10px] font-medium text-muted-foreground">
-              <p className="truncate font-bold text-foreground">
-                {post.emailSubject.trim() || post.title || 'Subject line'}
-              </p>
-              <p className="truncate">
-                {post.emailPreheader.trim() || post.metaDescription || 'Preheader preview text…'}
-              </p>
-            </div>
-            {heroPreview?.trim() && !heroPreview.startsWith('data:') ? (
-              <div className={previewDevice === 'mobile' ? 'aspect-[9/16]' : 'aspect-[16/10]'}>
-                <img src={heroPreview} alt="" className="h-full w-full object-cover" />
-              </div>
-            ) : (
-              <div className="flex aspect-[16/10] items-center justify-center bg-muted/30 text-xs text-muted-foreground">
-                Hero image preview
-              </div>
-            )}
-            <div className="space-y-2 p-4">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-brand-orange">
-                {post.topics[0] || 'Newsletter'}
-              </p>
-              <h5 className="font-heading text-lg font-bold leading-tight">
-                {post.title || 'Newsletter title'}
-              </h5>
-              <p className="text-xs text-muted-foreground line-clamp-3">
-                {post.description || post.metaDescription || 'Excerpt appears here.'}
-              </p>
-              {post.ctaLabel && post.ctaUrl ? (
-                <span className="inline-block rounded-lg bg-brand-orange px-3 py-1.5 text-xs font-bold text-white">
-                  {post.ctaLabel}
-                </span>
-              ) : null}
-            </div>
-          </div>
-        </div>
+        <NewsletterLivePreview
+          post={post}
+          device={previewDevice}
+          onDeviceChange={setPreviewDevice}
+        />
 
         <div className="rounded-2xl border border-border bg-muted/20 p-4 text-xs text-muted-foreground space-y-2">
           <p>

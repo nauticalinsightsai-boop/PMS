@@ -86,58 +86,66 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
       viewport={{ once: true }}
       className="group"
     >
-      <Link href={linkHref} className="block">
-      <Card className="h-full border-none shadow-none bg-transparent overflow-hidden">
-        <div className="aspect-video rounded-3xl overflow-hidden mb-6">
-          <img 
-            src={resolveNewsletterArticleImage(article.slug, article.image)} 
-            alt={article.title} 
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            referrerPolicy="no-referrer"
-          />
-        </div>
-        <CardHeader className="p-0 space-y-3">
-          <div className="flex items-center justify-between">
-            <Badge className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none hover:bg-brand-purple hover:text-white transition-colors">
-              {article.category}
-            </Badge>
-            <div className="flex gap-2">
-              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                <Bookmark className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                <Share2 className="h-4 w-4" />
-              </Button>
-            </div>
+      <Link href={linkHref} className="block h-full">
+      <Card className="h-full overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
+        <div className="flex h-full flex-col px-5 py-5 sm:px-6 sm:py-6 md:px-7 md:py-7">
+          <div className="aspect-video overflow-hidden rounded-2xl mb-5 sm:mb-6">
+            <img 
+              src={resolveNewsletterArticleImage(article.slug, article.image)} 
+              alt={article.title} 
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              referrerPolicy="no-referrer"
+            />
           </div>
-          <h3 className="text-2xl font-bold font-heading leading-tight group-hover:text-brand-purple transition-colors">
-            {article.title}
-          </h3>
-        </CardHeader>
-        <CardContent className="p-0 mt-3">
-          <p className="text-muted-foreground line-clamp-2 leading-relaxed mb-4">
-            {article.excerpt}
-          </p>
-          <div className="flex items-center justify-between text-xs font-medium text-slate-500">
-            <div className="flex items-center gap-2">
-              <div className="h-6 w-6 shrink-0 overflow-hidden rounded-full border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
-                <img
-                  src={resolveNewsletterAuthorAvatar(article.author)}
-                  alt={article.author}
-                  width={24}
-                  height={24}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
+          <CardHeader className="space-y-3 p-0">
+            <div className="flex items-center justify-between gap-3">
+              <Badge className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-none hover:bg-brand-purple hover:text-white transition-colors">
+                {article.category}
+              </Badge>
+              <div className="flex shrink-0 gap-1">
+                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Bookmark className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Share2 className="h-4 w-4" />
+                </Button>
               </div>
-              <span>{article.author}</span>
             </div>
-            <div className="flex items-center gap-3">
-              <span>{article.date}</span>
-              <span>{article.readTime}</span>
+            <h3 className="text-xl sm:text-2xl font-bold font-heading leading-snug group-hover:text-brand-purple transition-colors">
+              {article.title}
+            </h3>
+          </CardHeader>
+          <CardContent className="mt-auto flex flex-1 flex-col p-0 pt-3">
+            <p className="text-muted-foreground line-clamp-3 leading-relaxed mb-5">
+              {article.excerpt}
+            </p>
+            <div className="mt-auto space-y-3 border-t border-slate-100 pt-4 dark:border-slate-800">
+              <div className="flex items-center gap-3">
+                <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
+                  <img
+                    src={resolveNewsletterAuthorAvatar(article.author)}
+                    alt={article.author}
+                    width={36}
+                    height={36}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{article.author}</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-medium text-slate-500 dark:text-slate-400">
+                <span className="inline-flex items-center gap-1.5">
+                  <Calendar className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                  {article.date}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                  {article.readTime}
+                </span>
+              </div>
             </div>
-          </div>
-        </CardContent>
+          </CardContent>
+        </div>
       </Card>
       </Link>
     </m.div>

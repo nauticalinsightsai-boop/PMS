@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   ArrowLeft,
+  ExternalLink,
   Loader2,
   Mail,
   Save,
@@ -15,6 +16,7 @@ import {
 import { NewsletterEditorWorkspace } from '@/components/pages/admin/newsletter/NewsletterEditorWorkspace';
 import { NewsletterHeroMedia } from '@/components/pages/admin/newsletter/NewsletterHeroMedia';
 import { FieldLabel, SectionCard } from '@/components/pages/admin/cms/CmsShared';
+import { SyncStatusIndicator, type SyncStatus } from '@/components/shared/SyncStatusIndicator';
 import { Button } from '@/components/ui/button';
 import { NavLinkButton } from '@/components/ui/nav-link-button';
 import { Input } from '@/components/ui/input';
@@ -29,11 +31,24 @@ import {
   type NewsletterPostStatus,
 } from '@/lib/newsletter-posts';
 
+function serializePost(post: NewsletterPost, topicsInput: string): string {
+  const topics = topicsInput
+    .split(',')
+    .map((topic) => topic.trim())
+    .filter(Boolean);
+  return JSON.stringify({ ...post, topics });
+}
+
 export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const router = useRouter();
-  const { getPostById, upsertPost, isLoading, isSaving } = useNewsletterPosts();
+  const { getPostById, upsertPost, isLoading, isSaving, error: saveError } = useNewsletterPosts();
   const [post, setPost] = useState<NewsletterPost | null>(null);
   const [topicsInput, setTopicsInput] = useState('');
+  const [baseline, setBaseline] = useState('');
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>('synced');
+  const [lastSynced, setLastSynced] = useState<Date | undefined>();
+
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
 
   useEffect(() => {
     if (isLoading) return;
@@ -42,6 +57,8 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
       if (existing) {
         setPost(existing);
         setTopicsInput(existing.topics.join(', '));
+        setBaseline(JSON.stringify({ ...existing, topics: existing.topics }));
+        setSyncStatus('synced');
       } else {
         setPost(null);
       }
@@ -50,9 +67,31 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
     const empty = createEmptyPost();
     setPost(empty);
     setTopicsInput('');
+    setBaseline(serializePost(empty, ''));
+    setSyncStatus('pending');
   }, [getPostById, isLoading, postId]);
 
   const canSave = useMemo(() => Boolean(post?.title.trim() && post?.slug.trim()), [post]);
+
+  const hasChanges = useMemo(() => {
+    if (!post) return false;
+    return serializePost(post, topicsInput) !== baseline;
+  }, [post, topicsInput, baseline]);
+
+  useEffect(() => {
+    if (isSaving) {
+      setSyncStatus('syncing');
+      return;
+    }
+    if (saveError) {
+      setSyncStatus('error');
+      return;
+    }
+    setSyncStatus((current) => {
+      if (current === 'error') return current;
+      return hasChanges ? 'pending' : 'synced';
+    });
+  }, [hasChanges, isSaving, saveError]);
 
   const updatePost = (patch: Partial<NewsletterPost>) => {
     setPost((current) => (current ? { ...current, ...patch } : current));
@@ -78,32 +117,43 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
     });
   };
 
-  const handleSave = async () => {
-    if (!post) return;
+  const buildPayload = (): NewsletterPost | null => {
+    if (!post) return null;
     const topics = topicsInput
       .split(',')
       .map((topic) => topic.trim())
       .filter(Boolean);
     const publish = post.status === 'published' || post.status === 'scheduled';
-    const saved = await upsertPost(
-      {
-        ...post,
-        topics,
-        heroImageAlt: post.heroImageAlt || post.title,
-        publishDate:
-          publish && !post.publishDate ? new Date().toISOString() : post.publishDate,
-      },
-      publish,
-    );
-    if (!postId) {
-      router.replace(WEBSITE_CMS_PATHS.newsletterEdit(saved.id));
+    return {
+      ...post,
+      topics,
+      heroImageAlt: post.heroImageAlt || post.title,
+      publishDate: publish && !post.publishDate ? new Date().toISOString() : post.publishDate,
+    };
+  };
+
+  const persist = async (publish: boolean) => {
+    const payload = buildPayload();
+    if (!payload) return;
+    setSyncStatus('syncing');
+    try {
+      const saved = await upsertPost(payload, publish);
+      const nextBaseline = JSON.stringify({ ...saved, topics: saved.topics });
+      setBaseline(nextBaseline);
+      setLastSynced(new Date());
+      setSyncStatus('synced');
+      if (!postId) {
+        router.replace(WEBSITE_CMS_PATHS.newsletterEdit(saved.id));
+      }
+    } catch {
+      setSyncStatus('error');
     }
   };
 
   if (isLoading) {
     return (
       <div className="flex min-h-56 items-center justify-center text-muted-foreground">
-        <Loader2 size={24} className="animate-spin" />
+        <Loader2 size={24} className="motion-safe:animate-spin [animation-duration:1.25s]" />
       </div>
     );
   }
@@ -126,40 +176,65 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const metaTitleCount = post.metaTitle.length;
   const metaDescriptionCount = post.metaDescription.length;
   const pageTitle = postId ? 'Edit Newsletter' : 'New Newsletter';
-  const saveLabel = postId ? 'Update Newsletter' : 'Create Newsletter';
+  const publicPaths = post.slug
+    ? [
+        { label: 'Newsletter page', href: `${siteUrl}/newsletter/${post.slug}` },
+        { label: 'Blog page', href: `${siteUrl}/blog/${post.slug}` },
+      ]
+    : [];
 
   return (
     <div className="space-y-6 pb-28">
-      <div className="space-y-2">
-        <nav className="text-sm text-muted-foreground" aria-label="Breadcrumb">
-          <ol className="flex flex-wrap items-center gap-2">
-            <li>
-              <Link href={dashboardHref('/dashboard')} className="hover:text-foreground transition-colors">
-                Dashboard
-              </Link>
-            </li>
-            <li aria-hidden>/</li>
-            <li>
-              <Link
-                href={WEBSITE_CMS_PATHS.newsletter}
-                className="hover:text-foreground transition-colors"
-              >
-                Newsletter
-              </Link>
-            </li>
-            <li aria-hidden>/</li>
-            <li className="font-medium text-foreground">{postId ? 'Edit' : 'New'}</li>
-          </ol>
-        </nav>
-        <div className="flex items-center gap-3">
-          <Tag size={28} className="text-foreground" aria-hidden />
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight font-heading">{pageTitle}</h1>
-            <p className="text-sm text-muted-foreground">
-              Professional newsletter workspace with desktop & mobile heroes, delivery fields, and live preview.
-            </p>
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div className="space-y-2">
+          <nav className="text-sm text-muted-foreground" aria-label="Breadcrumb">
+            <ol className="flex flex-wrap items-center gap-2">
+              <li>
+                <Link href={dashboardHref('/dashboard')} className="hover:text-foreground transition-colors">
+                  Dashboard
+                </Link>
+              </li>
+              <li aria-hidden>/</li>
+              <li>
+                <Link href={WEBSITE_CMS_PATHS.newsletter} className="hover:text-foreground transition-colors">
+                  Newsletter
+                </Link>
+              </li>
+              <li aria-hidden>/</li>
+              <li className="font-medium text-foreground">{postId ? 'Edit' : 'New'}</li>
+            </ol>
+          </nav>
+          <div className="flex items-center gap-3">
+            <Tag size={28} className="text-foreground" aria-hidden />
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight font-heading">{pageTitle}</h1>
+              <p className="text-sm text-muted-foreground">
+                Edits sync to <strong>/newsletter</strong> and <strong>/blog</strong> when you publish.
+              </p>
+            </div>
           </div>
+          {publicPaths.length > 0 ? (
+            <div className="flex flex-wrap gap-2 pt-1">
+              {publicPaths.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1 text-xs font-semibold text-muted-foreground hover:text-foreground"
+                >
+                  {item.label}
+                  <ExternalLink size={12} />
+                </a>
+              ))}
+            </div>
+          ) : null}
         </div>
+        <SyncStatusIndicator
+          status={syncStatus}
+          lastSynced={lastSynced}
+          errorDetail={saveError}
+        />
       </div>
 
       <div className="mx-auto max-w-6xl space-y-6">
@@ -255,8 +330,8 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
                 aria-label="Newsletter status"
                 className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm"
               >
-                <option value="published">Active</option>
-                <option value="draft">Draft</option>
+                <option value="published">Active (visible on site)</option>
+                <option value="draft">Draft (hidden on site)</option>
                 <option value="scheduled">Scheduled</option>
               </select>
             </div>
@@ -269,20 +344,30 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
       </div>
 
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:pl-[calc(var(--sidebar-width,16rem)+1rem)]">
-        <div className="mx-auto flex max-w-6xl justify-end gap-3">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-end gap-3">
           <NavLinkButton href={WEBSITE_CMS_PATHS.newsletter} variant="brand" className="gap-2">
             <ArrowLeft size={16} />
             Cancel
           </NavLinkButton>
           <Button
             type="button"
+            variant="outline"
+            className="gap-2"
+            disabled={!canSave || isSaving || !hasChanges}
+            onClick={() => void persist(false)}
+          >
+            {isSaving ? <Loader2 size={16} className="motion-safe:animate-spin [animation-duration:1.25s]" /> : <Save size={16} />}
+            Save draft
+          </Button>
+          <Button
+            type="button"
             variant="brand"
             className="gap-2"
             disabled={!canSave || isSaving}
-            onClick={() => void handleSave()}
+            onClick={() => void persist(true)}
           >
-            {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-            {saveLabel}
+            {isSaving ? <Loader2 size={16} className="motion-safe:animate-spin [animation-duration:1.25s]" /> : <Send size={16} />}
+            Publish to site
           </Button>
         </div>
       </div>

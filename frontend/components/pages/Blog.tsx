@@ -106,7 +106,7 @@ export function Blog({
           {visible.length === 0 ? (
             <p className="text-center text-muted-foreground py-16">No articles match your search.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
               {visible.map((article) => (
                 <ArticleCard
                   key={article.slug}

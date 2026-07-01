@@ -369,9 +369,9 @@ export function Membership({
         <div className="container mx-auto">
           <ResponsiveSnapScroll
             desktopLayoutClassName="md:grid-cols-3 items-stretch"
-            gapClassName="gap-8"
+            gapClassName="gap-6 md:gap-8 lg:gap-10"
             mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
-            className="max-w-6xl mx-auto"
+            className="max-w-7xl xl:max-w-[90rem] mx-auto"
           >
             {tiers.map((tier, index) => {
               const display = getMembershipDisplayPrice(
@@ -402,8 +402,8 @@ export function Membership({
                       </Badge>
                     </div>
                   )}
-                  <CardHeader className="p-8">
-                    <CardTitle className="text-2xl font-bold tracking-tight">{tier.name}</CardTitle>
+                  <CardHeader className="p-8 lg:px-10 lg:pt-10">
+                    <CardTitle className="text-2xl lg:text-[1.75rem] font-bold tracking-tight">{tier.name}</CardTitle>
                     <div className="mt-6 flex min-h-[5.25rem] flex-col items-start justify-end gap-2">
                       {billing === 'monthly' && tier.monthlyPriceUsd > 0 ? (
                         <MembershipDualPrice
@@ -453,10 +453,10 @@ export function Membership({
                       {tier.description}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="px-8 pb-8 flex-1">
+                  <CardContent className="px-8 lg:px-10 pb-8 flex-1">
                     <MembershipTierFeatures features={tier.features} />
                   </CardContent>
-                  <CardFooter className="flex justify-center px-8 pb-8 pt-[10%]">
+                  <CardFooter className="flex justify-center px-8 lg:px-10 pb-8 lg:pb-10 pt-[10%]">
                     {(() => {
                       const tierId: MembershipCheckoutTier | null =
                         tier.name === 'Professional'
@@ -471,14 +471,14 @@ export function Membership({
                             disabled
                             variant="outline"
                             aria-disabled="true"
-                            className="w-full max-w-[280px] h-14 text-lg font-bold rounded-2xl opacity-70 cursor-default"
+                            className="w-full h-14 text-lg font-bold rounded-2xl opacity-70 cursor-default"
                           >
                             {tier.cta}
                           </Button>
                         );
                       }
                       return (
-                        <Link href={membershipCheckoutHref(tierId, billing)} className="w-full max-w-[280px]">
+                        <Link href={membershipCheckoutHref(tierId, billing)} className="w-full">
                           <Button
                             variant={tier.highlight ? 'brand' : 'outline'}
                             className="w-full h-14 text-lg font-bold rounded-2xl transition-all"
@@ -510,7 +510,7 @@ export function Membership({
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl xl:max-w-[90rem] mx-auto items-stretch">
             {benefits.map((benefit, index) => (
               <m.div
                 key={benefit.title}

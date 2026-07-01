@@ -2,9 +2,11 @@ import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { ArticleCard } from '@/components/NewsletterComponents';
+import { ArticleMarkdown } from '@/components/marketing/ArticleMarkdown';
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import type { BlogArticle } from '@pms/site-content/cms-posts';
 import { getBlogArticleHref } from '@/lib/blog/posts';
+import { resolveNewsletterArticleImage } from '@pms/site-content/newsletter-posts';
 
 export function BlogArticlePage({
   article,
@@ -57,28 +59,26 @@ export function BlogArticlePage({
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto max-w-3xl">
           {article.image ? (
-            <img
-              src={article.image}
-              alt=""
-              className="w-full rounded-3xl mb-12 aspect-[16/9] object-cover shadow-lg"
-            />
+            <>
+              <div className="mb-12 aspect-[16/9] overflow-hidden rounded-3xl shadow-lg md:hidden">
+                <img
+                  src={resolveNewsletterArticleImage(article.slug, article.image)}
+                  alt=""
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="mb-12 hidden aspect-[16/9] overflow-hidden rounded-3xl shadow-lg md:block">
+                <img
+                  src={resolveNewsletterArticleImage(article.slug, article.image)}
+                  alt=""
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </>
           ) : null}
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            {article.body.map((paragraph, i) => {
-              if (paragraph.startsWith('## ')) {
-                return (
-                  <h2 key={i} className="font-heading text-2xl font-bold mt-10 mb-4">
-                    {paragraph.replace(/^##\s+/, '')}
-                  </h2>
-                );
-              }
-              return (
-                <p key={i} className="text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
-                  {paragraph}
-                </p>
-              );
-            })}
-          </div>
+          <ArticleMarkdown body={article.body} markdown={article.markdown} />
         </div>
       </section>
 

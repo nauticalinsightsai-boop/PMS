@@ -11,6 +11,7 @@ import {
   Eye,
   Trash2,
   Loader2,
+  ExternalLink,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NavLinkButton } from '@/components/ui/nav-link-button';
@@ -35,6 +36,16 @@ export function NewsletterPostsList() {
   const { posts, isLoading, isSaving, refresh, deletePost } = useNewsletterPosts();
   const [search, setSearch] = useState('');
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await refresh();
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   const filtered = useMemo(() => {
     const query = search.toLowerCase();
@@ -69,7 +80,7 @@ export function NewsletterPostsList() {
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            Manage and organize your newsletter posts efficiently.
+            Manage newsletter posts — published items appear on <strong>/newsletter</strong> and <strong>/blog</strong>.
           </p>
         </div>
 
@@ -78,10 +89,10 @@ export function NewsletterPostsList() {
             type="button"
             variant="brand"
             className="gap-2"
-            onClick={() => void refresh()}
-            disabled={isLoading || isSaving}
+            onClick={() => void handleRefresh()}
+            disabled={isRefreshing || isSaving}
           >
-            <RefreshCw size={16} className={cn(isLoading && 'animate-spin')} />
+            <RefreshCw size={16} className={cn(isRefreshing && 'motion-safe:animate-spin [animation-duration:1.25s]')} />
             Refresh
           </Button>
           <NavLinkButton href={WEBSITE_CMS_PATHS.newsletterNew} variant="brand" className="gap-2">
@@ -157,7 +168,7 @@ export function NewsletterPostsList() {
                         <Button
                           variant="ghost"
                           size="icon-sm"
-                          aria-label={`View ${post.title}`}
+                          aria-label={`View newsletter ${post.title}`}
                           render={
                             <a
                               href={`${siteUrl.replace(/\/$/, '')}/newsletter/${post.slug}`}
@@ -167,6 +178,20 @@ export function NewsletterPostsList() {
                           }
                         >
                           <Eye size={16} />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon-sm"
+                          aria-label={`View blog ${post.title}`}
+                          render={
+                            <a
+                              href={`${siteUrl.replace(/\/$/, '')}/blog/${post.slug}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            />
+                          }
+                        >
+                          <ExternalLink size={16} />
                         </Button>
                         <Button
                           variant="ghost"

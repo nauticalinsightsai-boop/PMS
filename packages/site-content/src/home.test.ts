@@ -80,7 +80,7 @@ describe('home config', () => {
     expect(cfg.heroSlides[0].description).toBe(DEFAULT_HOME_HERO_SUBTITLE);
     expect(cfg.stats.professionalsCount).toBe(1284);
     expect(cfg.sections.testimonials).toBe(false);
-    expect(cfg.instituteSection.institute.title).toBe('Ready to Start Your Journey?');
+    expect(cfg.instituteSection!.institute.title).toBe('Ready to Start Your Journey?');
   });
 
   it('parseHomeHeroHeadingLines returns two visual lines for default copy', () => {
@@ -136,7 +136,7 @@ describe('home config', () => {
     expect(v2.heroSlides[0].heading).toBe(DEFAULT_HOME_HERO_HEADING_LINES.join('\n'));
     expect(v2.heroSlides[0].description).toBe(DEFAULT_HOME_HERO_SUBTITLE);
     expect(v2.heroSlides[0].secondaryCta).toBe('Compare certifications');
-    expect(v2.instituteSection.institute.title).toBe('Ready to Start Your Journey?');
+    expect(v2.instituteSection!.institute.title).toBe('Ready to Start Your Journey?');
   });
 
   it('preserves featured cert ids from legacy featuredItems', () => {

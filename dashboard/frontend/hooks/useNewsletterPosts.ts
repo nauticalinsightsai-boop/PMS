@@ -81,7 +81,7 @@ export function useNewsletterPosts() {
       };
       if (index >= 0) nextPosts[index] = updated;
       else nextPosts.unshift(updated);
-      await persist({ version: 1, posts: nextPosts }, publish || isRegistryPublished);
+      await persist({ version: 1, posts: nextPosts }, publish);
       return updated;
     },
     [persist, registry.posts, isRegistryPublished],

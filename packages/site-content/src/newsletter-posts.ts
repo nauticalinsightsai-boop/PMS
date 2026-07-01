@@ -61,6 +61,8 @@ export type NewsletterArticle = {
   imageMobile?: string;
   heroImageAlt?: string;
   body: string[];
+  /** Full markdown source when mapped from CMS (preferred for rendering). */
+  markdown?: string;
 };
 
 export function slugifyNewsletterTitle(title: string): string {
@@ -142,6 +144,7 @@ export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle
     imageMobile,
     heroImageAlt: post.heroImageAlt?.trim() || post.title,
     body: contentToBodyParagraphs(post.content),
+    markdown: post.content.trim() || undefined,
   };
 }
 

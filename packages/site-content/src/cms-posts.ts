@@ -41,6 +41,7 @@ export type BlogArticle = {
   readTime: string;
   image: string;
   body: string[];
+  markdown?: string;
 };
 
 export function slugifyCmsTitle(title: string): string {

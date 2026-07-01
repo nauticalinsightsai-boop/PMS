@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { CloudCheck, CloudOff, RefreshCw, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -9,6 +11,7 @@ interface SyncStatusIndicatorProps {
   lastSynced?: Date;
   onManualSync?: () => void;
   errorDetail?: string | null;
+  isManualSyncing?: boolean;
 }
 
 export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
@@ -16,15 +19,17 @@ export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
   lastSynced,
   onManualSync,
   errorDetail,
+  isManualSyncing = false,
 }) => {
   const configs = {
-    synced: { icon: CloudCheck, text: 'Changes Saved', class: 'text-emerald-600 dark:text-emerald-400' },
-    syncing: { icon: RefreshCw, text: 'Syncing...', class: 'text-brand-orange animate-spin' },
-    error: { icon: AlertCircle, text: 'Sync Error', class: 'text-destructive' },
-    pending: { icon: CloudOff, text: 'Unsaved Changes', class: 'text-amber-600 dark:text-amber-400' },
+    synced: { icon: CloudCheck, text: 'Changes saved', class: 'text-emerald-600 dark:text-emerald-400' },
+    syncing: { icon: RefreshCw, text: 'Saving…', class: 'text-brand-orange' },
+    error: { icon: AlertCircle, text: 'Save failed', class: 'text-destructive' },
+    pending: { icon: CloudOff, text: 'Unsaved changes', class: 'text-amber-600 dark:text-amber-400' },
   };
 
   const config = configs[status];
+  const showSpin = status === 'syncing' || isManualSyncing;
 
   return (
     <div className="flex flex-col gap-1">
@@ -35,13 +40,16 @@ export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
             config.class,
           )}
         >
-          <config.icon size={14} className={status === 'syncing' ? 'animate-spin' : ''} />
+          <config.icon
+            size={14}
+            className={cn(showSpin && 'motion-safe:animate-spin [animation-duration:1.25s]')}
+          />
           {config.text}
         </div>
 
         {lastSynced && status === 'synced' && (
           <span className="text-xs text-muted-foreground font-medium">
-            Last sync: {lastSynced.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            {lastSynced.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
         )}
 
@@ -49,10 +57,14 @@ export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
           <button
             type="button"
             onClick={onManualSync}
-            className="p-1 hover:bg-muted rounded-lg transition-colors text-muted-foreground"
-            title="Force Sync"
+            disabled={showSpin}
+            className="p-1 hover:bg-muted rounded-lg transition-colors text-muted-foreground disabled:opacity-50"
+            title="Reload from server"
           >
-            <RefreshCw size={12} />
+            <RefreshCw
+              size={12}
+              className={cn(isManualSyncing && 'motion-safe:animate-spin [animation-duration:1.25s]')}
+            />
           </button>
         )}
       </div>

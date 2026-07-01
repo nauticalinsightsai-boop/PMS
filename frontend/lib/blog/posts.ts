@@ -1,30 +1,32 @@
 import { cache } from 'react';
 import {
-  CMS_POSTS_FIELD_KEY,
-  CMS_TOPICS_FIELD_KEY,
-  cmsPostToArticle,
-  mergeBlogArticles,
-  parseCmsPostsRegistry,
+  mergeNewsletterArticles,
+  NEWSLETTER_POSTS_FIELD_KEY,
+  newsletterPostToArticle,
+  parseNewsletterPostsRegistry,
   publishedPostsFromRegistry,
-  type BlogArticle,
-} from '@pms/site-content/cms-posts';
+  type NewsletterArticle,
+} from '@pms/site-content/newsletter-posts';
+import type { BlogArticle } from '@pms/site-content/cms-posts';
 import { blogArticles as fileArticles } from '@/data/blogArticles';
 import { supabase } from '@/lib/supabase';
 
 export type { BlogArticle };
 export { getBlogArticleHref } from '@pms/site-content/cms-posts';
 
-type TopicRow = { id: string; name: string; status: string };
-
-function parseTopicNames(raw: unknown): Record<string, string> {
-  if (!raw || typeof raw !== 'object') return {};
-  const data = raw as { topics?: TopicRow[] };
-  if (!Array.isArray(data.topics)) return {};
-  const map: Record<string, string> = {};
-  for (const topic of data.topics) {
-    if (topic?.id && topic.status === 'active') map[topic.id] = topic.name;
-  }
-  return map;
+function toBlogArticle(article: NewsletterArticle): BlogArticle {
+  return {
+    slug: article.slug,
+    title: article.title,
+    excerpt: article.excerpt,
+    category: article.category,
+    date: article.date,
+    author: article.author,
+    readTime: article.readTime,
+    image: article.image,
+    body: article.body,
+    markdown: article.markdown,
+  };
 }
 
 async function fetchCmsArticles(): Promise<BlogArticle[]> {
@@ -35,31 +37,37 @@ async function fetchCmsArticles(): Promise<BlogArticle[]> {
   try {
     const { data, error } = await supabase
       .from('website_data')
-      .select('field_key, content')
-      .in('field_key', [CMS_POSTS_FIELD_KEY, CMS_TOPICS_FIELD_KEY])
-      .eq('is_published', true);
+      .select('content')
+      .eq('field_key', NEWSLETTER_POSTS_FIELD_KEY)
+      .eq('is_published', true)
+      .maybeSingle();
 
-    if (error || !data?.length) return [];
+    if (error || !data?.content) return [];
 
-    const postsRow = data.find((row) => row.field_key === CMS_POSTS_FIELD_KEY);
-    if (!postsRow?.content) return [];
-
-    const topicsRow = data.find((row) => row.field_key === CMS_TOPICS_FIELD_KEY);
-    const topicNameById = parseTopicNames(topicsRow?.content);
-
-    const registry = parseCmsPostsRegistry(postsRow.content);
-    return publishedPostsFromRegistry(registry).map((post) =>
-      cmsPostToArticle(post, topicNameById),
-    );
+    const registry = parseNewsletterPostsRegistry(data.content);
+    return publishedPostsFromRegistry(registry).map((post) => toBlogArticle(newsletterPostToArticle(post)));
   } catch {
     return [];
   }
 }
 
-/** Server: published CMS posts merged with file seed (CMS wins on slug conflict). */
+function mergeBlogArticlesFromNewsletter(
+  file: BlogArticle[],
+  cms: BlogArticle[],
+): BlogArticle[] {
+  const cmsAsNewsletter = cms.map((a) => a as unknown as NewsletterArticle);
+  const fileAsNewsletter = file.map((a) => ({
+    ...a,
+    imageMobile: undefined,
+    heroImageAlt: undefined,
+  })) as NewsletterArticle[];
+  return mergeNewsletterArticles(fileAsNewsletter, cmsAsNewsletter).map(toBlogArticle);
+}
+
+/** Server: published newsletter registry merged with file seed (CMS wins on slug conflict). */
 export const getPublishedBlogArticles = cache(async (): Promise<BlogArticle[]> => {
   const cmsArticles = await fetchCmsArticles();
-  return mergeBlogArticles(fileArticles, cmsArticles);
+  return mergeBlogArticlesFromNewsletter(fileArticles, cmsArticles);
 });
 
 export async function getBlogArticle(slug: string): Promise<BlogArticle | undefined> {

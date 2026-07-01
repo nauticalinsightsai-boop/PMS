@@ -46,6 +46,13 @@ export function SiteDocumentEditorShell<T extends Record<string, unknown>>({
 
   const hasChanges = useMemo(() => JSON.stringify(data) !== baseline, [data, baseline]);
 
+  React.useEffect(() => {
+    setSyncStatus((current) => {
+      if (current === 'syncing' || current === 'error') return current;
+      return hasChanges ? 'pending' : 'synced';
+    });
+  }, [hasChanges]);
+
   const handleSaveDraft = async () => {
     setSyncStatus('syncing');
     try {
