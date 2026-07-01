@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import {
   CalendarClock,
   LayoutList,
@@ -14,7 +14,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { MarkdownContentEditor } from './MarkdownContentEditor';
+import { cn } from '@/lib/utils';
+import { MarkdownContentEditor, type MarkdownContentEditorHandle } from './MarkdownContentEditor';
 import { NewsletterLivePreview } from './NewsletterLivePreview';
 import { estimateReadTime, type NewsletterEditorMeta, type NewsletterPost } from '@/lib/newsletter-posts';
 import {
@@ -50,7 +51,9 @@ type Props = {
 
 export function NewsletterEditorWorkspace({ post, onChange, onMetaChange }: Props) {
   const meta = post.editorMeta;
+  const editorRef = useRef<MarkdownContentEditorHandle>(null);
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
+  const [lastSnippet, setLastSnippet] = useState<string | null>(null);
 
   const segmentLabel =
     NEWSLETTER_SEGMENTS.find((item) => item.id === meta.segment)?.label ?? 'All subscribers';
@@ -84,8 +87,11 @@ export function NewsletterEditorWorkspace({ post, onChange, onMetaChange }: Prop
     });
   };
 
-  const appendSnippet = (text: string) => {
-    onChange({ content: `${post.content.trimEnd()}${text}` });
+  const appendSnippet = (snippetId: string, text: string) => {
+    editorRef.current?.insertSnippet(text);
+    editorRef.current?.focus();
+    setLastSnippet(snippetId);
+    window.setTimeout(() => setLastSnippet(null), 2000);
   };
 
   return (
@@ -286,28 +292,38 @@ export function NewsletterEditorWorkspace({ post, onChange, onMetaChange }: Prop
             <Megaphone size={14} />
             Insert blocks
           </h4>
+          <p className="text-xs text-muted-foreground">
+            Inserts at your cursor in the editor below. Use H2 headings (<code className="rounded bg-muted px-1">## Section</code>) for article sections.
+          </p>
           <div className="flex flex-wrap gap-2">
             {CONTENT_SNIPPETS.map((snippet) => (
               <button
                 key={snippet.id}
                 type="button"
-                onClick={() => appendSnippet(snippet.text)}
-                className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:border-brand-orange/50 hover:bg-brand-orange/5"
+                onClick={() => appendSnippet(snippet.id, snippet.text)}
+                className={cn(
+                  'rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors',
+                  lastSnippet === snippet.id
+                    ? 'border-brand-orange bg-brand-orange/10 text-brand-orange'
+                    : 'border-border hover:border-brand-orange/50 hover:bg-brand-orange/5',
+                )}
               >
                 + {snippet.label}
               </button>
             ))}
           </div>
           {outline.length > 0 ? (
-            <div className="rounded-xl border border-dashed border-border bg-muted/30 p-3">
-              <p className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">
-                Section outline ({outline.length})
+            <div className="rounded-lg border border-border bg-muted/20 px-3 py-2">
+              <p className="mb-1.5 text-[11px] font-semibold text-muted-foreground">
+                Article sections ({outline.length}) — from <span className="font-mono">##</span> headings in your draft
               </p>
-              <ol className="space-y-1 text-sm text-foreground">
-                {outline.map((heading) => (
-                  <li key={heading} className="flex gap-2">
-                    <span className="text-brand-orange">#</span>
-                    {heading}
+              <ol className="space-y-0.5 text-sm text-foreground">
+                {outline.map((heading, index) => (
+                  <li key={`${heading}-${index}`} className="flex items-baseline gap-2">
+                    <span className="shrink-0 rounded bg-brand-orange/15 px-1.5 py-0.5 text-[10px] font-bold text-brand-orange">
+                      {index + 1}
+                    </span>
+                    <span>{heading}</span>
                   </li>
                 ))}
               </ol>
@@ -318,10 +334,11 @@ export function NewsletterEditorWorkspace({ post, onChange, onMetaChange }: Prop
         <div>
           <FieldLabel required>Post content</FieldLabel>
           <MarkdownContentEditor
+            ref={editorRef}
             value={post.content}
             onChange={(content) => onChange({ content })}
-            rows={18}
-            placeholder="Write your newsletter… Use the toolbar for headings, quotes, lists, centered text, responsive images, and links."
+            rows={16}
+            placeholder="Write your newsletter… Use the toolbar for headings, quotes, lists, centered text, and images."
           />
           <p className="mt-1.5 text-xs text-muted-foreground">
             Syncs to <strong>/newsletter</strong> and <strong>/blog</strong> when published. Use{' '}

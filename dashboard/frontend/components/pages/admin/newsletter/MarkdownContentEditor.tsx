@@ -1,6 +1,13 @@
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import {
   AlignCenter,
   Bold,
@@ -24,6 +31,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 type Selection = { start: number; end: number };
+
+export type MarkdownContentEditorHandle = {
+  insertSnippet: (text: string) => void;
+  focus: () => void;
+};
 
 type Props = {
   value: string;
@@ -52,110 +64,139 @@ function InlineImageDialog({
 
   if (!open) return null;
 
+  const previewDesktop = desktop.trim();
+  const previewMobile = mobile.trim() || previewDesktop;
+
   return (
-    <div className="border-b border-white/10 bg-slate-950/95 px-3 py-3">
-      <div className="mb-2 flex items-center justify-between">
-        <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Insert responsive image</p>
+    <div className="border-b border-white/10 bg-slate-950/95 px-2.5 py-2">
+      <div className="mb-1.5 flex items-center justify-between gap-2">
+        <p className="text-[11px] font-semibold text-muted-foreground">Insert image (desktop + mobile)</p>
         <button type="button" onClick={onClose} className="text-muted-foreground hover:text-foreground" aria-label="Close">
-          <X size={14} />
+          <X size={13} />
         </button>
       </div>
-      <div className="grid gap-2 sm:grid-cols-2">
-        <div>
-          <label className="mb-1 block text-[11px] font-semibold text-muted-foreground">Desktop image URL</label>
-          <Input value={desktop} onChange={(e) => setDesktop(e.target.value)} placeholder="https://… (16:9 frame)" className="h-9 text-xs" />
-        </div>
-        <div>
-          <label className="mb-1 block text-[11px] font-semibold text-muted-foreground">Mobile image URL</label>
-          <Input value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder="https://… (9:16 frame)" className="h-9 text-xs" />
-        </div>
-      </div>
-      <div className="mt-2">
-        <label className="mb-1 block text-[11px] font-semibold text-muted-foreground">Alt / caption</label>
-        <Input value={alt} onChange={(e) => setAlt(e.target.value)} placeholder="Describe the image" className="h-9 text-xs" />
-      </div>
-      <div className="mt-3 grid grid-cols-2 gap-2">
-        <div className="rounded-lg border border-dashed border-white/15 p-2">
-          <p className="mb-1 text-[10px] font-bold uppercase text-muted-foreground">Desktop frame</p>
-          <div className="aspect-[16/10] overflow-hidden rounded bg-muted/30">
-            {desktop.trim() ? (
-              <img src={desktop.trim()} alt="" className="h-full w-full object-cover" />
+
+      <div className="flex flex-wrap items-center gap-2">
+        <Input
+          value={desktop}
+          onChange={(e) => setDesktop(e.target.value)}
+          placeholder="Desktop URL"
+          className="h-8 min-w-0 flex-1 text-xs"
+        />
+        <Input
+          value={mobile}
+          onChange={(e) => setMobile(e.target.value)}
+          placeholder="Mobile URL (optional)"
+          className="h-8 min-w-0 flex-1 text-xs"
+        />
+        <Input
+          value={alt}
+          onChange={(e) => setAlt(e.target.value)}
+          placeholder="Caption"
+          className="h-8 w-28 shrink-0 text-xs"
+        />
+
+        <div className="flex shrink-0 items-center gap-1.5">
+          <div
+            className="h-10 w-16 overflow-hidden rounded border border-dashed border-white/20 bg-muted/20"
+            title="Desktop 16:10"
+          >
+            {previewDesktop ? (
+              <img src={previewDesktop} alt="" className="h-full w-full object-cover" />
             ) : (
-              <div className="flex h-full items-center justify-center text-[10px] text-muted-foreground">16:10</div>
+              <div className="flex h-full items-center justify-center text-[9px] text-muted-foreground">16:10</div>
+            )}
+          </div>
+          <div
+            className="h-10 w-6 overflow-hidden rounded border border-dashed border-white/20 bg-muted/20"
+            title="Mobile 9:16"
+          >
+            {previewMobile ? (
+              <img src={previewMobile} alt="" className="h-full w-full object-cover" />
+            ) : (
+              <div className="flex h-full items-center justify-center text-[8px] text-muted-foreground">9:16</div>
             )}
           </div>
         </div>
-        <div className="rounded-lg border border-dashed border-white/15 p-2">
-          <p className="mb-1 text-[10px] font-bold uppercase text-muted-foreground">Mobile frame</p>
-          <div className="mx-auto aspect-[9/16] max-w-[80px] overflow-hidden rounded bg-muted/30">
-            {(mobile.trim() || desktop.trim()) ? (
-              <img src={(mobile.trim() || desktop.trim())} alt="" className="h-full w-full object-cover" />
-            ) : (
-              <div className="flex h-full items-center justify-center text-[10px] text-muted-foreground">9:16</div>
-            )}
-          </div>
-        </div>
-      </div>
-      <div className="mt-3 flex justify-end gap-2">
-        <Button type="button" variant="ghost" size="sm" onClick={onClose}>
-          Cancel
-        </Button>
+
         <Button
           type="button"
           size="sm"
           variant="brand"
-          disabled={!desktop.trim()}
+          className="h-8 shrink-0 px-3 text-xs"
+          disabled={!previewDesktop}
           onClick={() => {
-            onInsert(desktop.trim(), mobile.trim() || desktop.trim(), alt.trim() || 'Article image');
+            onInsert(previewDesktop, previewMobile || previewDesktop, alt.trim() || 'Article image');
             setDesktop('');
             setMobile('');
             setAlt('');
             onClose();
           }}
         >
-          Insert image
+          Insert
         </Button>
       </div>
     </div>
   );
 }
 
-export function MarkdownContentEditor({
-  value,
-  onChange,
-  rows = 18,
-  placeholder,
-  className,
-}: Props) {
-  const ref = useRef<HTMLTextAreaElement>(null);
+export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Props>(function MarkdownContentEditor(
+  { value, onChange, rows = 18, placeholder, className },
+  ref,
+) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const pendingSelection = useRef<Selection | null>(null);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (!pendingSelection.current || !ref.current) return;
+    if (!pendingSelection.current || !textareaRef.current) return;
     const { start, end } = pendingSelection.current;
     pendingSelection.current = null;
-    const el = ref.current;
+    const el = textareaRef.current;
     el.focus();
     el.setSelectionRange(start, end);
   }, [value]);
 
   const getSelection = useCallback((): Selection => {
-    const el = ref.current;
+    const el = textareaRef.current;
     if (!el) return { start: value.length, end: value.length };
     return { start: el.selectionStart, end: el.selectionEnd };
   }, [value.length]);
 
-  const commit = (next: string, selection: Selection) => {
-    pendingSelection.current = selection;
-    onChange(next);
-  };
+  const commit = useCallback(
+    (next: string, selection: Selection) => {
+      pendingSelection.current = selection;
+      onChange(next);
+    },
+    [onChange],
+  );
 
-  const insertAtCursor = (snippet: string, caretOffset = snippet.length) => {
-    const { start, end } = getSelection();
-    const next = value.slice(0, start) + snippet + value.slice(end);
-    commit(next, { start: start + caretOffset, end: start + caretOffset });
-  };
+  const insertAtCursor = useCallback(
+    (snippet: string) => {
+      const { start, end } = getSelection();
+      const before = value.slice(0, start);
+      const after = value.slice(end);
+      const trimmedSnippet = snippet.trim();
+      const needsGapBefore = before.length > 0 && !before.endsWith('\n\n');
+      const needsGapAfter = after.length > 0 && !after.startsWith('\n');
+      const block =
+        (needsGapBefore ? '\n\n' : '') + trimmedSnippet + (needsGapAfter ? '\n\n' : '');
+      const next = before + block + after;
+      const caret = before.length + block.length;
+      commit(next, { start: caret, end: caret });
+      requestAnimationFrame(() => textareaRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
+    },
+    [commit, getSelection, value],
+  );
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      insertSnippet: (text: string) => insertAtCursor(text.trimStart()),
+      focus: () => textareaRef.current?.focus(),
+    }),
+    [insertAtCursor],
+  );
 
   const wrapInline = (marker: string, placeholderText: string, endMarker = marker) => {
     const { start, end } = getSelection();
@@ -196,24 +237,22 @@ export function MarkdownContentEditor({
     commit(next, { start: urlStart, end: urlStart + 8 });
   };
 
-  const insertDivider = () => {
-    insertAtCursor('\n\n---\n\n');
-  };
+  const insertDivider = () => insertAtCursor('\n---\n');
 
   const insertQuote = () => {
     const { start, end } = getSelection();
     const selected = value.slice(start, end) || 'Pull quote text goes here.';
-    insertAtCursor(buildQuoteBlock(selected), buildQuoteBlock(selected).length);
+    insertAtCursor(buildQuoteBlock(selected).trim());
   };
 
   const insertCenter = () => {
     const { start, end } = getSelection();
     const selected = value.slice(start, end) || 'Centered text';
-    insertAtCursor(buildCenterBlock(selected));
+    insertAtCursor(buildCenterBlock(selected).trim());
   };
 
   const insertFigure = (desktop: string, mobile: string, alt: string) => {
-    insertAtCursor(buildFigureBlock(desktop, mobile, alt));
+    insertAtCursor(buildFigureBlock(desktop, mobile, alt).trim());
   };
 
   const tools: Array<
@@ -235,7 +274,7 @@ export function MarkdownContentEditor({
     { kind: 'btn', label: 'Center text', icon: <AlignCenter size={15} />, onClick: insertCenter },
     { kind: 'divider' },
     { kind: 'btn', label: 'Link', icon: <Link2 size={15} />, onClick: insertLink },
-    { kind: 'btn', label: 'Image (desktop + mobile)', icon: <ImagePlus size={15} />, onClick: () => setImageDialogOpen(true) },
+    { kind: 'btn', label: 'Image', icon: <ImagePlus size={15} />, onClick: () => setImageDialogOpen((v) => !v) },
     { kind: 'btn', label: 'Divider', icon: <Minus size={15} />, onClick: insertDivider },
   ];
 
@@ -252,7 +291,7 @@ export function MarkdownContentEditor({
               title={tool.label}
               aria-label={tool.label}
               onClick={tool.onClick}
-              className={toolbarBtn}
+              className={cn(toolbarBtn, tool.label === 'Image' && imageDialogOpen && 'bg-accent text-foreground')}
             >
               {tool.icon}
             </button>
@@ -265,14 +304,14 @@ export function MarkdownContentEditor({
         onInsert={insertFigure}
       />
       <textarea
-        ref={ref}
+        ref={textareaRef}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={rows}
         placeholder={placeholder}
         className="block w-full resize-y bg-transparent px-3.5 py-3 text-sm leading-relaxed outline-none placeholder:text-muted-foreground"
-        style={{ minHeight: '24rem' }}
+        style={{ minHeight: '20rem' }}
       />
     </div>
   );
-}
+});

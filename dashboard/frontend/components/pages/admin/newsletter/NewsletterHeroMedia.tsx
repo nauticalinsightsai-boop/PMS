@@ -9,30 +9,41 @@ import { cn } from '@/lib/utils';
 
 type Device = 'desktop' | 'mobile';
 
+/** iPhone-class preview proportions used in hero pickers and live preview. */
+export const MOBILE_FRAME_WIDTH = 375;
+export const MOBILE_FRAME_HEIGHT = 667;
+
 function displayUrl(value: string): string {
   return value.startsWith('data:') ? '' : value;
+}
+
+function FrameDimensionBadge({ label }: { label: string }) {
+  return (
+    <span className="pointer-events-none absolute bottom-2 right-2 rounded-md bg-black/65 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+      {label}
+    </span>
+  );
 }
 
 function DevicePicker({
   device,
   label,
   hint,
-  aspectClass,
-  frameClass,
+  dimensionLabel,
   value,
   onChange,
 }: {
   device: Device;
   label: string;
   hint: string;
-  aspectClass: string;
-  frameClass?: string;
+  dimensionLabel: string;
   value: string;
   onChange: (url: string) => void;
 }) {
   const [open, setOpen] = useState(false);
   const url = displayUrl(value);
   const Icon = device === 'desktop' ? Monitor : Smartphone;
+  const isMobile = device === 'mobile';
 
   const copyUrl = async () => {
     if (!url) return;
@@ -40,7 +51,7 @@ function DevicePicker({
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-muted/20 p-4 space-y-3">
+    <div className="flex h-full flex-col rounded-2xl border border-border bg-muted/20 p-4">
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="flex items-center gap-2 text-sm font-bold text-foreground">
@@ -53,7 +64,7 @@ function DevicePicker({
           <button
             type="button"
             onClick={() => void copyUrl()}
-            className="inline-flex items-center gap-1 rounded-lg border border-border px-2 py-1 text-[11px] font-semibold hover:bg-muted"
+            className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-border px-2 py-1 text-[11px] font-semibold hover:bg-muted"
           >
             <Copy size={12} />
             Copy URL
@@ -61,61 +72,87 @@ function DevicePicker({
         ) : null}
       </div>
 
-      <div className={cn('mx-auto w-full', device === 'mobile' ? 'max-w-[220px]' : 'max-w-full')}>
-        <div
-          className={cn(
-            'relative overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner',
-            frameClass,
-            aspectClass,
-          )}
-        >
-          {url ? (
-            <>
-              <img src={url} alt="" className="h-full w-full object-cover" />
-              <button
-                type="button"
-                onClick={() => onChange('')}
-                className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-white hover:bg-red-500/90"
-                aria-label="Remove image"
-              >
-                <X className="h-3.5 w-3.5" />
-              </button>
-            </>
-          ) : (
-            <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
-              <ImageIcon className="h-8 w-8 opacity-40" />
-              <span className="text-[11px] font-medium">No {device} hero</span>
+      <div className="my-4 flex flex-1 items-center justify-center">
+        {isMobile ? (
+          <div
+            className="flex w-full max-w-[375px] flex-col overflow-hidden rounded-[2rem] border-[6px] border-slate-800 bg-black shadow-inner dark:border-slate-600"
+            style={{ aspectRatio: `${MOBILE_FRAME_WIDTH}/${MOBILE_FRAME_HEIGHT}` }}
+          >
+            <div className="flex items-center justify-center border-b border-slate-800 bg-slate-900 px-4 py-1.5">
+              <div className="h-1 w-14 rounded-full bg-slate-700" />
             </div>
-          )}
-          {device === 'mobile' ? (
-            <div className="pointer-events-none absolute inset-x-[18%] top-0 h-4 rounded-b-xl bg-black/80" />
-          ) : null}
+            <div className="relative min-h-0 flex-1 bg-black/30">
+              {url ? (
+                <>
+                  <img src={url} alt="" className="h-full w-full object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => onChange('')}
+                    className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-white hover:bg-red-500/90"
+                    aria-label="Remove image"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </>
+              ) : (
+                <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
+                  <ImageIcon className="h-8 w-8 opacity-40" />
+                  <span className="text-[11px] font-medium">No mobile hero</span>
+                </div>
+              )}
+              <FrameDimensionBadge label={dimensionLabel} />
+            </div>
+          </div>
+        ) : (
+          <div className="relative w-full overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner aspect-[16/10]">
+            {url ? (
+              <>
+                <img src={url} alt="" className="h-full w-full object-cover" />
+                <button
+                  type="button"
+                  onClick={() => onChange('')}
+                  className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-white hover:bg-red-500/90"
+                  aria-label="Remove image"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </>
+            ) : (
+              <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
+                <ImageIcon className="h-8 w-8 opacity-40" />
+                <span className="text-[11px] font-medium">No desktop hero</span>
+              </div>
+            )}
+            <FrameDimensionBadge label={dimensionLabel} />
+          </div>
+        )}
+      </div>
+
+      <div className="mt-auto space-y-3">
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="rounded-lg bg-brand-orange px-3 py-2 text-xs font-bold text-white hover:opacity-90"
+          >
+            Choose from library
+          </button>
+          <Link
+            href={dashboardHref('/dashboard/site-system/media-library')}
+            target="_blank"
+            className="rounded-lg border border-border px-3 py-2 text-xs font-semibold hover:border-brand-orange/40"
+          >
+            Open media library
+          </Link>
         </div>
-      </div>
 
-      <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="rounded-lg bg-brand-orange px-3 py-2 text-xs font-bold text-white hover:opacity-90"
-        >
-          Choose from library
-        </button>
-        <Link
-          href={dashboardHref('/dashboard/site-system/media-library')}
-          target="_blank"
-          className="rounded-lg border border-border px-3 py-2 text-xs font-semibold hover:border-brand-orange/40"
-        >
-          Open media library
-        </Link>
+        <input
+          value={url}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="Or paste image URL"
+          className="w-full rounded-xl border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
+        />
       </div>
-
-      <input
-        value={url}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="Or paste image URL"
-        className="w-full rounded-xl border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
-      />
 
       {open ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
@@ -167,21 +204,20 @@ export function NewsletterHeroMedia({
         public newsletter page via responsive images.
       </p>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid items-stretch gap-4 lg:grid-cols-2">
         <DevicePicker
           device="desktop"
           label="Desktop hero"
           hint="Recommended 1200×750 (16:10) — email clients & article header"
-          aspectClass="aspect-[16/10]"
+          dimensionLabel="1200 × 750"
           value={desktopUrl}
           onChange={onDesktopChange}
         />
         <DevicePicker
           device="mobile"
           label="Mobile hero"
-          hint="Recommended 750×1334 (9:16) — phone preview & narrow inboxes"
-          aspectClass="aspect-[9/16]"
-          frameClass="rounded-[1.75rem] border-2 border-slate-700"
+          hint={`Recommended ${MOBILE_FRAME_WIDTH}×${MOBILE_FRAME_HEIGHT} (9:16) — phone preview & narrow inboxes`}
+          dimensionLabel={`${MOBILE_FRAME_WIDTH} × ${MOBILE_FRAME_HEIGHT}`}
           value={mobileUrl}
           onChange={onMobileChange}
         />
