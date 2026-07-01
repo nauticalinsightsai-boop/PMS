@@ -17,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { NavLinkButton } from '@/components/ui/nav-link-button';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
+import { RefreshIcon } from '@/components/shared/RefreshIcon';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
 import { useNewsletterSubscribers } from '@/hooks/useNewsletterSubscribers';
 import { formatPostDate } from '@/lib/newsletter-posts';
@@ -156,10 +157,7 @@ export function NewsletterDashboard() {
             onClick={() => void handleRefresh()}
             disabled={isRefreshing || isSaving}
           >
-            <RefreshCw
-              size={16}
-              className={cn(isRefreshing && 'motion-safe:animate-spin [animation-duration:1.25s]')}
-            />
+            <RefreshIcon loading={isRefreshing} size={16} />
             Refresh
           </Button>
           <Button

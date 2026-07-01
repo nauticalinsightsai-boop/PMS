@@ -36,7 +36,12 @@ export async function uploadProgrammeMediaFile(params: {
   };
   if (!res.ok) throw new Error(data.error || 'Upload failed');
   if (!data.url?.trim()) {
-    throw new Error('Upload succeeded but no public URL was returned. Check storage configuration.');
+    throw new Error('Upload succeeded but no public URL was returned. Check R2_PUBLIC_BASE_URL.');
+  }
+  if (data.storage !== 'r2') {
+    throw new Error(
+      'Certification media must upload to Cloudflare R2. Set PROGRAMME_MEDIA_STORAGE=r2 and all R2_* env vars on the dashboard backend.',
+    );
   }
   return { path: data.path ?? '', url: data.url ?? '', storage: data.storage };
 }

@@ -10,8 +10,21 @@ type BucketSpec = {
 const SITE_MEDIA: BucketSpec = {
   id: 'site-media',
   public: true,
-  fileSizeLimit: 5 * 1024 * 1024,
-  allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'],
+  fileSizeLimit: 20 * 1024 * 1024,
+  allowedMimeTypes: [
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'image/gif',
+    'image/svg+xml',
+    'audio/mpeg',
+    'audio/mp3',
+    'audio/wav',
+    'audio/x-wav',
+    'audio/mp4',
+    'audio/m4a',
+    'audio/x-m4a',
+  ],
 };
 
 const PROGRAMME_MEDIA: BucketSpec = {

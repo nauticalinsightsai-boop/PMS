@@ -7,6 +7,7 @@ import { Mail, RefreshCw, Trash2, Loader2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
+import { RefreshIcon } from '@/components/shared/RefreshIcon';
 import { useNewsletterSubscribers } from '@/hooks/useNewsletterSubscribers';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 import { cn } from '@/lib/utils';
@@ -69,7 +70,7 @@ export function NewsletterSubscribers() {
           onClick={() => void refresh()}
           disabled={isLoading || isDeleting}
         >
-          <RefreshCw size={16} className={cn(isLoading && 'animate-spin')} />
+          <RefreshIcon loading={isLoading} size={16} />
           Refresh
         </Button>
       </div>

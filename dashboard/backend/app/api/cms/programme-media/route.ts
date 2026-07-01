@@ -4,8 +4,8 @@ import { getSupabaseAdmin, isSupabaseAdminConfigured } from '@/lib/auth/supabase
 import {
   isR2ProgrammeMediaConfigured,
   programmeMediaMaxBytes,
-  programmeMediaStorageDriver,
   programmeMediaStorageNotConfiguredMessage,
+  programmeMediaUsesR2,
   r2DeleteObject,
   r2ListObjects,
   r2PublicUrl,
@@ -35,17 +35,8 @@ function safeSegment(value: string): string {
   return value.trim().replace(/[^a-zA-Z0-9._-]/g, '_');
 }
 
-function resolvedStorageDriver(): 'r2' | 'supabase' {
-  const driver = programmeMediaStorageDriver();
-  if (driver === 'r2' && !isR2ProgrammeMediaConfigured() && isSupabaseAdminConfigured()) {
-    return 'supabase';
-  }
-  return driver;
-}
-
 function storageReady(): boolean {
-  const driver = resolvedStorageDriver();
-  if (driver === 'r2') return isR2ProgrammeMediaConfigured();
+  if (programmeMediaUsesR2()) return isR2ProgrammeMediaConfigured();
   return isSupabaseAdminConfigured();
 }
 
@@ -59,7 +50,7 @@ export async function GET(request: NextRequest) {
 
   const prefix = request.nextUrl.searchParams.get('prefix')?.trim() ?? '';
 
-  if (resolvedStorageDriver() === 'r2') {
+  if (programmeMediaUsesR2()) {
     const objects = await r2ListObjects(prefix);
     const items = objects.map((obj) => ({
       name: obj.key,
@@ -106,8 +97,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'file is required' }, { status: 400 });
   }
 
-  const maxBytes =
-    resolvedStorageDriver() === 'r2' ? programmeMediaMaxBytes() : 52_428_800;
+  const maxBytes = programmeMediaMaxBytes();
   if (file.size > maxBytes) {
     const maxMb = Math.round(maxBytes / (1024 * 1024));
     return NextResponse.json({ error: `File exceeds ${maxMb}MB limit` }, { status: 413 });
@@ -129,7 +119,7 @@ export async function POST(request: NextRequest) {
   const path = `${certId}/${tier}/${kind}-${Date.now()}.${safeSegment(ext)}`;
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  if (resolvedStorageDriver() === 'r2') {
+  if (programmeMediaUsesR2()) {
     try {
       await r2UploadObject({ key: path, body: buffer, contentType });
       return NextResponse.json({ ok: true, path, url: r2PublicUrl(path), storage: 'r2' });
@@ -176,7 +166,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'path is required' }, { status: 400 });
   }
 
-  if (resolvedStorageDriver() === 'r2') {
+  if (programmeMediaUsesR2()) {
     try {
       await r2DeleteObject(storagePath);
     } catch (err) {

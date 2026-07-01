@@ -7,14 +7,35 @@ import { inferContentType } from '@/lib/storage/content-type';
 import { ensureSiteMediaBucket } from '@/lib/storage/ensure-supabase-bucket';
 
 const BUCKET = 'site-media';
-const MAX_BYTES = 5 * 1024 * 1024;
-const ALLOWED_TYPES = new Set([
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const MAX_AUDIO_BYTES = 20 * 1024 * 1024;
+
+const IMAGE_TYPES = new Set([
   'image/jpeg',
   'image/png',
   'image/webp',
   'image/gif',
   'image/svg+xml',
 ]);
+
+const AUDIO_TYPES = new Set([
+  'audio/mpeg',
+  'audio/mp3',
+  'audio/wav',
+  'audio/x-wav',
+  'audio/mp4',
+  'audio/m4a',
+  'audio/x-m4a',
+]);
+
+function maxBytesForType(contentType: string): number {
+  if (AUDIO_TYPES.has(contentType)) return MAX_AUDIO_BYTES;
+  return MAX_IMAGE_BYTES;
+}
+
+function isAllowedMediaType(contentType: string): boolean {
+  return IMAGE_TYPES.has(contentType) || AUDIO_TYPES.has(contentType);
+}
 
 function publicUrl(path: string): string {
   const base = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL ?? '';
@@ -89,16 +110,18 @@ export async function POST(request: NextRequest) {
       ? original.trim().replace(/[^a-zA-Z0-9._-]/g, '_')
       : 'upload.bin';
   const contentType = inferContentType(safeName, file.type);
-  if (!ALLOWED_TYPES.has(contentType)) {
+  if (!isAllowedMediaType(contentType)) {
     return NextResponse.json(
-      { error: 'Only JPEG, PNG, WebP, GIF, and SVG images are allowed' },
+      { error: 'Only images (JPEG, PNG, WebP, GIF, SVG) or audio (MP3, M4A, WAV) are allowed' },
       { status: 400 },
     );
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  if (buffer.length > MAX_BYTES) {
-    return NextResponse.json({ error: 'File exceeds 5MB limit' }, { status: 400 });
+  const maxBytes = maxBytesForType(contentType);
+  if (buffer.length > maxBytes) {
+    const maxMb = Math.round(maxBytes / (1024 * 1024));
+    return NextResponse.json({ error: `File exceeds ${maxMb}MB limit` }, { status: 400 });
   }
 
   const path = isUploadReplace ? replaceName : `${Date.now()}-${safeName}`;

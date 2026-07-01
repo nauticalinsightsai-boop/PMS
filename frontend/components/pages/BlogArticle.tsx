@@ -7,6 +7,7 @@ import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from '@/components
 import type { BlogArticle } from '@pms/site-content/cms-posts';
 import { getBlogArticleHref } from '@/lib/blog/posts';
 import { resolveNewsletterArticleImage } from '@pms/site-content/newsletter-posts';
+import { youtubeEmbedUrl } from '@pms/site-content/youtube';
 
 export function BlogArticlePage({
   article,
@@ -78,6 +79,26 @@ export function BlogArticlePage({
               </div>
             </>
           ) : null}
+
+          {article.youtubeUrl ? (
+            <div className="mb-10 overflow-hidden rounded-2xl border border-slate-200 bg-black shadow-xl dark:border-slate-800">
+              <iframe
+                src={youtubeEmbedUrl(article.youtubeUrl) ?? article.youtubeUrl}
+                title={`${article.title} video`}
+                className="aspect-video w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          ) : null}
+
+          {article.audioUrl ? (
+            <div className="mb-10 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-800 dark:bg-slate-900/50">
+              <p className="mb-3 text-sm font-bold text-slate-700 dark:text-slate-300">Listen to this article</p>
+              <audio src={article.audioUrl} controls className="w-full" preload="metadata" />
+            </div>
+          ) : null}
+
           <ArticleMarkdown body={article.body} markdown={article.markdown} />
         </div>
       </section>

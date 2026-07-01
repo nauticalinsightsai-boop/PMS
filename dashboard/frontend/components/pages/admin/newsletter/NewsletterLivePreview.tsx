@@ -3,6 +3,7 @@
 import React from 'react';
 import { Eye, Monitor, Smartphone } from 'lucide-react';
 import { ArticleMarkdownPreview } from '@/components/marketing/ArticleMarkdownPreview';
+import { youtubeEmbedUrl } from '@pms/site-content/youtube';
 import {
   MOBILE_FRAME_HEIGHT,
   MOBILE_FRAME_WIDTH,
@@ -71,6 +72,25 @@ export function NewsletterLivePreview({ post, device, onDeviceChange }: Props) {
           Hero image preview
         </div>
       )}
+
+      {post.youtubeUrl?.trim() ? (
+        <div className="border-b border-border bg-black p-2">
+          <div className="aspect-video w-full overflow-hidden rounded-lg bg-black">
+            <iframe
+              src={youtubeEmbedUrl(post.youtubeUrl) ?? post.youtubeUrl}
+              title="YouTube preview"
+              className="h-full w-full"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      ) : null}
+
+      {post.audioUrl?.trim() ? (
+        <div className="border-b border-border bg-muted/30 px-3 py-2">
+          <audio src={post.audioUrl} controls className="w-full" preload="metadata" />
+        </div>
+      ) : null}
 
       <div className={cn('space-y-3', isMobile ? 'p-3' : 'p-5')}>
         <p className="text-[10px] font-bold uppercase tracking-widest text-brand-orange">

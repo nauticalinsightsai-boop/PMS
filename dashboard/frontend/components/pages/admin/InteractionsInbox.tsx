@@ -16,6 +16,7 @@ import {
 import { InteractionService, Interaction } from '@/services/InteractionService';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { CTAButton } from '@/components/ui/CTAButton';
+import { RefreshIcon } from '@/components/shared/RefreshIcon';
 import { formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -23,7 +24,7 @@ import { motion, AnimatePresence } from 'motion/react';
 export const InteractionsInbox: React.FC = () => {
   const [interactions, setInteractions] = useState<Interaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSyncing, setIsSyncing] = useState(false);
+  const [retryingId, setRetryingId] = useState<string | null>(null);
   const [filter, setFilter] = useState('');
   const [selectedSource, setSelectedSource] = useState('all');
 
@@ -44,11 +45,14 @@ export const InteractionsInbox: React.FC = () => {
   }, []);
 
   const handleRetry = async (id: string) => {
+    setRetryingId(id);
     try {
       await InteractionService.retrySheetsSync(id);
-      fetchInteractions();
+      await fetchInteractions();
     } catch (err) {
-      alert('Retry failed');
+      alert(err instanceof Error ? err.message : 'Retry failed');
+    } finally {
+      setRetryingId(null);
     }
   };
 
@@ -86,8 +90,9 @@ export const InteractionsInbox: React.FC = () => {
           <CTAButton variant="secondary" size="sm" onClick={() => InteractionService.exportCSV()}>
             <Download size={14} className="mr-2" /> EXPORT CSV
           </CTAButton>
-          <CTAButton size="sm" onClick={fetchInteractions} isLoading={isLoading}>
-            <RefreshCw size={14} className={cn("mr-2", isLoading && "animate-spin")} /> REFRESH
+          <CTAButton variant="secondary" size="sm" onClick={() => void fetchInteractions()} disabled={isLoading}>
+            <RefreshIcon loading={isLoading} size={14} className="mr-2" />
+            Refresh
           </CTAButton>
         </div>
       </header>
@@ -167,13 +172,14 @@ export const InteractionsInbox: React.FC = () => {
                       </div>
                       
                       <div className="flex items-center gap-2">
-                        {interaction.sheets_status === 'failed' && (
+                        {(interaction.sheets_status === 'failed' || interaction.sheets_status === 'pending') && (
                           <button 
-                            onClick={(e) => { e.stopPropagation(); handleRetry(interaction.id); }}
-                            className="p-2 text-gw-accent-primary hover:bg-gw-accent-primary/10 rounded-xl transition-colors"
+                            onClick={(e) => { e.stopPropagation(); void handleRetry(interaction.id); }}
+                            disabled={retryingId === interaction.id}
+                            className="p-2 text-gw-accent-primary hover:bg-gw-accent-primary/10 rounded-xl transition-colors disabled:opacity-50"
                             title="Retry Sheets Sync"
                           >
-                            <RefreshCw size={18} />
+                            <RefreshIcon loading={retryingId === interaction.id} size={18} />
                           </button>
                         )}
                         <button className="p-2 text-gw-text-secondary hover:text-gw-text-primary rounded-xl transition-colors">

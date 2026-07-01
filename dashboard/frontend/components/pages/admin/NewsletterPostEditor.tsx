@@ -7,14 +7,11 @@ import {
   ArrowLeft,
   ExternalLink,
   Loader2,
-  Mail,
   Save,
   Search,
-  Send,
   Tag,
 } from 'lucide-react';
 import { NewsletterEditorWorkspace } from '@/components/pages/admin/newsletter/NewsletterEditorWorkspace';
-import { NewsletterHeroMedia } from '@/components/pages/admin/newsletter/NewsletterHeroMedia';
 import { FieldLabel, SectionCard } from '@/components/pages/admin/cms/CmsShared';
 import { SyncStatusIndicator, type SyncStatus } from '@/components/shared/SyncStatusIndicator';
 import { Button } from '@/components/ui/button';
@@ -95,12 +92,6 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
 
   const updatePost = (patch: Partial<NewsletterPost>) => {
     setPost((current) => (current ? { ...current, ...patch } : current));
-  };
-
-  const updateMeta = (patch: Partial<NewsletterPost['editorMeta']>) => {
-    setPost((current) =>
-      current ? { ...current, editorMeta: { ...current.editorMeta, ...patch } } : current,
-    );
   };
 
   const handleTitleChange = (title: string) => {
@@ -191,17 +182,29 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
             <ol className="flex flex-wrap items-center gap-2">
               <li>
                 <Link href={dashboardHref('/dashboard')} className="hover:text-foreground transition-colors">
-                  Dashboard
+                  Home
                 </Link>
               </li>
               <li aria-hidden>/</li>
               <li>
                 <Link href={WEBSITE_CMS_PATHS.newsletter} className="hover:text-foreground transition-colors">
-                  Newsletter
+                  Dashboard
                 </Link>
               </li>
               <li aria-hidden>/</li>
-              <li className="font-medium text-foreground">{postId ? 'Edit' : 'New'}</li>
+              <li>
+                <Link href={WEBSITE_CMS_PATHS.newsletterPosts} className="hover:text-foreground transition-colors">
+                  Posts
+                </Link>
+              </li>
+              <li aria-hidden>/</li>
+              <li className="font-medium text-foreground">Edit</li>
+              {postId ? (
+                <>
+                  <li aria-hidden>/</li>
+                  <li className="font-mono text-xs text-muted-foreground">{postId}</li>
+                </>
+              ) : null}
             </ol>
           </nav>
           <div className="flex items-center gap-3">
@@ -282,16 +285,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
           </div>
         </SectionCard>
 
-        <SectionCard title="Hero Images" icon={Send}>
-          <NewsletterHeroMedia
-            desktopUrl={post.featuredImageUrl}
-            mobileUrl={post.featuredImageMobileUrl}
-            altText={post.heroImageAlt}
-            onDesktopChange={(url) => updatePost({ featuredImageUrl: url })}
-            onMobileChange={(url) => updatePost({ featuredImageMobileUrl: url })}
-            onAltChange={(alt) => updatePost({ heroImageAlt: alt })}
-          />
-        </SectionCard>
+        <NewsletterEditorWorkspace post={post} onChange={updatePost} />
 
         <SectionCard title="SEO & publishing" icon={Search}>
           <div className="space-y-4">
@@ -321,6 +315,14 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
               </p>
             </div>
             <div>
+              <FieldLabel>Hero alt text</FieldLabel>
+              <Input
+                value={post.heroImageAlt}
+                onChange={(event) => updatePost({ heroImageAlt: event.target.value })}
+                placeholder="Describe the featured image for accessibility"
+              />
+            </div>
+            <div>
               <FieldLabel required>Status</FieldLabel>
               <select
                 value={post.status}
@@ -336,10 +338,6 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
               </select>
             </div>
           </div>
-        </SectionCard>
-
-        <SectionCard title="Content" icon={Mail}>
-          <NewsletterEditorWorkspace post={post} onChange={updatePost} onMetaChange={updateMeta} />
         </SectionCard>
       </div>
 
@@ -361,13 +359,13 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
           </Button>
           <Button
             type="button"
-            variant="brand"
-            className="gap-2"
+            variant="default"
+            className="gap-2 bg-foreground text-background hover:bg-foreground/90"
             disabled={!canSave || isSaving}
             onClick={() => void persist(true)}
           >
-            {isSaving ? <Loader2 size={16} className="motion-safe:animate-spin [animation-duration:1.25s]" /> : <Send size={16} />}
-            Publish to site
+            {isSaving ? <Loader2 size={16} className="motion-safe:animate-spin [animation-duration:1.25s]" /> : <Save size={16} />}
+            {postId ? 'Update Post' : 'Publish Post'}
           </Button>
         </div>
       </div>

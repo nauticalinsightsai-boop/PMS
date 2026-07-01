@@ -98,10 +98,12 @@ export async function listMediaItems(): Promise<{
 
 export async function uploadMediaFile(
   file: File,
-  options?: { replace?: string; cmsContext?: string },
+  options?: { replace?: string; cmsContext?: string; kind?: 'image' | 'audio' },
 ): Promise<MediaItem & { cmsUpdated?: boolean; message?: string }> {
-  if (file.size > 5 * 1024 * 1024) {
-    throw new Error('File exceeds 5MB limit');
+  const isAudio = options?.kind === 'audio' || file.type.startsWith('audio/');
+  const maxBytes = isAudio ? 20 * 1024 * 1024 : 5 * 1024 * 1024;
+  if (file.size > maxBytes) {
+    throw new Error(`File exceeds ${Math.round(maxBytes / (1024 * 1024))}MB limit`);
   }
 
   if (USE_MEDIA_API) {

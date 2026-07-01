@@ -1,28 +1,26 @@
-import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+import { requireInteractionAdmin } from '@/lib/interactions/admin-guard';
+import { retryFormSubmissionSheetsSync } from '@/lib/interactions/service';
 
 export async function POST(
-  _request: Request,
+  request: NextRequest,
   context: { params: Promise<{ id: string }> },
 ) {
-  if (!isSupabaseConfigured) {
-    return Response.json({ error: 'Database not configured' }, { status: 503 });
-  }
+  const auth = await requireInteractionAdmin(request);
+  if (auth instanceof NextResponse) return auth;
 
   const { id } = await context.params;
+  const result = await retryFormSubmissionSheetsSync(id);
 
-  const { data, error } = await supabaseAdmin
-    .from('form_submissions')
-    .update({
-      sheets_status: 'pending',
-      metadata: { retry_at: new Date().toISOString() },
-    })
-    .eq('id', id)
-    .select()
-    .single();
-
-  if (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: result.status });
   }
 
-  return Response.json({ data, message: 'Retry queued' });
+  return NextResponse.json({
+    synced: result.synced,
+    error: result.error,
+    message: result.synced ? 'Row synced to Google Sheets.' : 'Sheets sync failed — see error.',
+  });
 }

@@ -44,6 +44,12 @@ describe('programme media storage driver', () => {
     expect(programmeMediaUsesR2()).toBe(true);
   });
 
+  it('defaults to r2 when PROGRAMME_MEDIA_STORAGE is unset', () => {
+    setR2Env({});
+    expect(programmeMediaStorageDriver()).toBe('r2');
+    expect(programmeMediaUsesR2()).toBe(true);
+  });
+
   it('prefers supabase when driver is supabase', () => {
     setR2Env({
       PROGRAMME_MEDIA_STORAGE: 'supabase',

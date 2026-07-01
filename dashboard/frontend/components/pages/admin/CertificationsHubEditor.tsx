@@ -556,7 +556,7 @@ export function CertificationsHubEditor() {
       {editingEntry ? (
         <ModalPortal>
           <div
-            className="fixed inset-0 z-modal flex flex-col p-3 sm:p-4 md:p-5"
+            className="fixed inset-0 z-modal flex items-stretch justify-center p-2 sm:p-3 md:p-4"
             role="dialog"
             aria-modal="true"
             aria-labelledby="pathway-editor-title"
@@ -567,7 +567,7 @@ export function CertificationsHubEditor() {
               aria-label="Close pathway editor"
               onClick={() => setEditingId(null)}
             />
-            <div className="relative z-10 flex min-h-0 w-full flex-1 flex-col overflow-hidden rounded-xl border border-border bg-background shadow-2xl ring-1 ring-foreground/10">
+            <div className="relative z-10 flex h-full w-full max-w-[96rem] flex-col overflow-hidden rounded-xl border border-border bg-background shadow-2xl ring-1 ring-foreground/10">
               <CertificationRegistryEntryEditor
                 entry={editingEntry}
                 onChange={updateEntry}

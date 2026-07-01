@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { NavLinkButton } from '@/components/ui/nav-link-button';
 import { Input } from '@/components/ui/input';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
+import { RefreshIcon } from '@/components/shared/RefreshIcon';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
 import type { NewsletterPostStatus } from '@/lib/newsletter-posts';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
@@ -98,7 +99,7 @@ export function NewsletterPostsList() {
             onClick={() => void handleRefresh()}
             disabled={isRefreshing || isSaving}
           >
-            <RefreshCw size={16} className={cn(isRefreshing && 'motion-safe:animate-spin [animation-duration:1.25s]')} />
+            <RefreshIcon loading={isRefreshing} size={16} />
             Refresh
           </Button>
           <NavLinkButton href={WEBSITE_CMS_PATHS.newsletterNew} variant="brand" className="gap-2">

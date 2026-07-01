@@ -26,6 +26,8 @@ function toBlogArticle(article: NewsletterArticle): BlogArticle {
     image: article.image,
     body: article.body,
     markdown: article.markdown,
+    audioUrl: article.audioUrl,
+    youtubeUrl: article.youtubeUrl,
   };
 }
 

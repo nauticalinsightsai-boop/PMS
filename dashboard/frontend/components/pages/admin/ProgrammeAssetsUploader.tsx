@@ -113,6 +113,7 @@ function AssetRow({
 }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [uploadedToR2, setUploadedToR2] = useState(false);
   const url = assets[row.urlKey] as string | undefined;
   const path = assets[row.pathKey] as string | undefined;
   const hasFile = Boolean(url);
@@ -123,8 +124,9 @@ function AssetRow({
     if (!file) return;
     setBusy(true);
     setError(null);
+    setUploadedToR2(false);
     try {
-      const { path: storagePath, url: publicUrl } = await uploadProgrammeMediaFile({
+      const { path: storagePath, url: publicUrl, storage } = await uploadProgrammeMediaFile({
         file,
         certId,
         tier,
@@ -135,6 +137,7 @@ function AssetRow({
         [row.urlKey]: publicUrl,
         [row.pathKey]: storagePath,
       });
+      setUploadedToR2(storage === 'r2');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Upload failed');
     } finally {
@@ -160,7 +163,7 @@ function AssetRow({
   };
 
   return (
-    <GlassCard variant="flat" animateEntry={false} className="flex h-full flex-col p-4">
+    <GlassCard variant="flat" animateEntry={false} className="flex h-full min-h-[280px] flex-col p-5">
       <div className="flex items-start justify-between gap-2">
         <div className="flex min-w-0 items-start gap-2.5">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-orange/10 text-brand-orange">
@@ -183,7 +186,7 @@ function AssetRow({
           {hasFile ? (
             <>
               <CheckCircle2 className="h-3 w-3" />
-              Live
+              {uploadedToR2 || (url && (url.includes('media.') || !url.includes('supabase'))) ? 'R2 live' : 'Live'}
             </>
           ) : (
             <>
@@ -194,10 +197,10 @@ function AssetRow({
         </span>
       </div>
 
-      <div className="mt-3 min-h-[7rem] flex-1">
+      <div className="mt-3 min-h-[10rem] flex-1">
         {hasFile && row.kind === 'infographic' ? (
           <div className="overflow-hidden rounded-lg border border-border bg-muted/30">
-            <img src={url} alt="" className="max-h-28 w-full object-cover" />
+            <img src={url} alt="" className="max-h-48 w-full object-contain" />
           </div>
         ) : null}
 
@@ -303,7 +306,7 @@ function TierPanel({
           <p className="text-label">Offering ID</p>
           <p className="mt-1 font-mono text-sm">{offeringId}</p>
         </div>
-        <p className="max-w-xl text-xs text-muted-foreground">
+        <p className="max-w-3xl text-xs text-muted-foreground">
           {mode === 'video'
             ? 'Videos are stored on Cloudflare R2 and play in the pathway preview modal after you publish.'
             : mode === 'documents'
@@ -345,7 +348,11 @@ function TierPanel({
       <div
         className={cn(
           'grid gap-4',
-          visibleRows.length === 1 ? 'max-w-2xl' : 'sm:grid-cols-2 xl:grid-cols-3',
+          visibleRows.length === 1
+            ? 'grid-cols-1 lg:grid-cols-1'
+            : visibleRows.length === 2
+              ? 'grid-cols-1 md:grid-cols-2'
+              : 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3',
         )}
       >
         {visibleRows.map((row) => (

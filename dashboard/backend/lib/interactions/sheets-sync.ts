@@ -1,15 +1,26 @@
-import type { SupabaseClient } from '@supabase/supabase-js';
-
 import {
-  appendRowToGoogleSheet,
   appendRowToTab,
   ensureSheetTabExists,
   isGoogleSheetsConfigured,
 } from '@/lib/interactions/google-sheets';
 import type { FormSubmissionRow } from '@/lib/interactions/types';
+import {
+  buildCertificationSheetRow,
+  buildHumanSubmissionsRow,
+  buildRecordsRow,
+  CERTIFICATION_SHEET_HEADERS,
+  isCertificationSheetSubmission,
+  RECORDS_SHEET_HEADERS,
+  SUBMISSIONS_SHEET_HEADERS,
+  type SheetSubmissionRow,
+} from '@pms/booking-crm/sheets-human-row';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
-/** Stripe payments get their own tab so purchases are tracked separately from leads. */
+const SUBMISSIONS_TAB = 'Submissions';
+const RECORDS_TAB = 'Records';
+const CERTIFICATION_TAB = 'Certification Forms';
 const PAYMENTS_TAB = 'Payments';
+
 const PAYMENTS_HEADERS = [
   'Date',
   'Type',
@@ -82,29 +93,36 @@ function isRetryableSheetsError(message: string): boolean {
   );
 }
 
+/** Human-readable row for Google Sheets (no JSON columns). */
 export function rowToSheetValues(row: SheetsSyncRow): string[] {
-  return [
-    row.created_at,
-    row.source,
-    row.subject,
-    row.email,
-    JSON.stringify(row.payload),
-    JSON.stringify(row.metadata),
-    row.id,
-  ];
+  return buildHumanSubmissionsRow(row as SheetSubmissionRow);
+}
+
+async function appendHumanLeadRows(row: SheetsSyncRow): Promise<void> {
+  const sheetRow = row as SheetSubmissionRow;
+
+  await ensureSheetTabExists(SUBMISSIONS_TAB, [...SUBMISSIONS_SHEET_HEADERS]);
+  await appendRowToTab(SUBMISSIONS_TAB, buildHumanSubmissionsRow(sheetRow));
+
+  await ensureSheetTabExists(RECORDS_TAB, [...RECORDS_SHEET_HEADERS]);
+  await appendRowToTab(RECORDS_TAB, buildRecordsRow(sheetRow));
+
+  if (isCertificationSheetSubmission(sheetRow)) {
+    await ensureSheetTabExists(CERTIFICATION_TAB, [...CERTIFICATION_SHEET_HEADERS]);
+    await appendRowToTab(CERTIFICATION_TAB, buildCertificationSheetRow(sheetRow));
+  }
 }
 
 export async function syncRowToGoogleSheetsWithRetries(
   supabase: SupabaseClient,
   rowId: string,
-  row: SheetsSyncRow
+  row: SheetsSyncRow,
 ): Promise<{ synced: boolean; error: string | null }> {
   if (!isGoogleSheetsConfigured()) {
     return { synced: false, error: 'Google Sheets is not configured on the server.' };
   }
 
   const isPayment = row.source === 'payment';
-  const values = isPayment ? paymentRowValues(row) : rowToSheetValues(row);
   let lastErr: string | null = null;
   const maxAttempts = 4;
 
@@ -116,15 +134,16 @@ export async function syncRowToGoogleSheetsWithRetries(
         submissionId: rowId,
         attempt,
         source: row.source,
-        columnCount: values.length,
-        tab: isPayment ? PAYMENTS_TAB : 'default',
+        tab: isPayment ? PAYMENTS_TAB : SUBMISSIONS_TAB,
       });
+
       if (isPayment) {
         await ensureSheetTabExists(PAYMENTS_TAB, PAYMENTS_HEADERS);
-        await appendRowToTab(PAYMENTS_TAB, values);
+        await appendRowToTab(PAYMENTS_TAB, paymentRowValues(row));
       } else {
-        await appendRowToGoogleSheet(values);
+        await appendHumanLeadRows(row);
       }
+
       console.info('[interactions:sheets-sync] append success', { submissionId: rowId, attempt });
       await tryUpdateSyncFields(supabase, rowId, {
         sheets_synced_at: new Date().toISOString(),

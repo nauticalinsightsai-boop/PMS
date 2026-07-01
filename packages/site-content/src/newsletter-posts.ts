@@ -67,6 +67,8 @@ export type NewsletterArticle = {
   body: string[];
   /** Full markdown source when mapped from CMS (preferred for rendering). */
   markdown?: string;
+  audioUrl?: string;
+  youtubeUrl?: string;
 };
 
 export function slugifyNewsletterTitle(title: string): string {
@@ -149,6 +151,8 @@ export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle
     heroImageAlt: post.heroImageAlt?.trim() || post.title,
     body: contentToBodyParagraphs(post.content),
     markdown: post.content.trim() || undefined,
+    audioUrl: post.audioUrl?.trim() || undefined,
+    youtubeUrl: post.youtubeUrl?.trim() || undefined,
   };
 }
 

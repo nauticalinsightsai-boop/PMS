@@ -26,38 +26,63 @@ export const CERTIFICATION_FORM_SOURCES = new Set([
   'lead_recovery',
 ]);
 
+/** Human-readable Submissions tab headers (written by live API sync). */
+export const SUBMISSIONS_HEADERS = [
+  'Date',
+  'Form Type',
+  'Email',
+  'Full Name',
+  'Phone',
+  'Company',
+  'Role / Job Title',
+  'Certification',
+  'Tier / Package',
+  'Region',
+  'Page URL',
+  'Form / Placement',
+  'Subject line',
+  'Message / Notes',
+  'Years of Experience',
+  'Daily Study Time',
+  'How they found us',
+  'UTM Source',
+  'UTM Medium',
+  'UTM Campaign',
+  'Referrer',
+  'Other form answers',
+  'Submission ID',
+];
+
 export const RECORDS_HEADERS = [
   'Date',
-  'Type',
+  'Form Type',
   'Email',
-  'Name',
+  'Full Name',
   'Phone',
   'Certification',
-  'Tier',
+  'Tier / Package',
   'Region',
-  'Page',
-  'Form',
-  'Subject',
+  'Page URL',
+  'Form / Placement',
+  'Subject line',
+  'Message / Notes',
   'Submission ID',
-  'Status',
-  'Owner',
-  'Notes',
 ];
 
 export const CERTIFICATION_RECORDS_HEADERS = [
   'Date',
-  'Form type',
+  'Form Type',
   'Email',
-  'Name',
+  'Full Name',
   'Phone',
   'Certification',
-  'Tier',
+  'Tier / Package',
   'Region',
-  'Page',
-  'Placement',
-  'Subject',
+  'Page URL',
+  'Form / Placement',
+  'Subject line',
+  'Message / Notes',
   'Submission ID',
-  'Notes',
 ];
 
 function field(p, keys) {
@@ -93,42 +118,76 @@ export function isCertificationSubmission(row) {
   return false;
 }
 
+function formatSheetDate(iso) {
+  if (!iso) return '';
+  try {
+    return new Date(iso).toLocaleString('en-GB', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+      timeZone: 'Europe/London',
+    });
+  } catch {
+    return iso;
+  }
+}
+
+function pageUrlFrom(p) {
+  if (p.pageUrl) return String(p.pageUrl);
+  const path = field(p, ['pagePath']);
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  return `https://pmstructure.com${path.startsWith('/') ? path : `/${path}`}`;
+}
+
+export function submissionToHumanRow(row) {
+  const p = row.payload ?? {};
+  const m = row.metadata ?? {};
+  return [
+    formatSheetDate(row.created_at),
+    sourceLabel(row.source),
+    (row.email ?? '').toLowerCase(),
+    nameFrom(p),
+    field(p, ['phoneFull', 'phone', 'whatsapp', 'whatsappNumber']),
+    field(p, ['company']),
+    field(p, ['role']),
+    field(p, ['certName', 'certificationInterest', 'siteCertId']),
+    field(p, ['tierLabel', 'offeringId']),
+    field(p, ['regionId']),
+    pageUrlFrom(p),
+    field(p, ['formLabel', 'formId', 'placement']),
+    row.subject ?? '',
+    field(p, ['message', 'notes']),
+    field(p, ['jobExperienceYears']),
+    field(p, ['dailyStudyTime']),
+    field(p, ['originLabel']),
+    field(p, ['utm_source']),
+    field(p, ['utm_medium']),
+    field(p, ['utm_campaign']),
+    typeof m.referrer === 'string' ? m.referrer : '',
+    '',
+    row.id ?? '',
+  ];
+}
+
 export function submissionToRecordRow(row) {
   const p = row.payload ?? {};
   return [
-    row.created_at,
+    formatSheetDate(row.created_at),
     sourceLabel(row.source),
-    row.email,
+    (row.email ?? '').toLowerCase(),
     nameFrom(p),
     field(p, ['phoneFull', 'phone', 'whatsapp', 'whatsappNumber']),
     field(p, ['certName', 'certificationInterest', 'siteCertId']),
     field(p, ['tierLabel', 'offeringId']),
     field(p, ['regionId']),
-    field(p, ['pagePath']),
+    pageUrlFrom(p),
     field(p, ['formLabel', 'formId', 'placement']),
-    row.subject,
-    row.id,
-    '',
-    '',
-    '',
+    row.subject ?? '',
+    field(p, ['message', 'notes']),
+    row.id ?? '',
   ];
 }
 
 export function submissionToCertificationRecordRow(row) {
-  const p = row.payload ?? {};
-  return [
-    row.created_at,
-    sourceLabel(row.source),
-    row.email,
-    nameFrom(p),
-    field(p, ['phoneFull', 'phone', 'whatsapp', 'whatsappNumber']),
-    field(p, ['certName', 'certificationInterest', 'siteCertId']),
-    field(p, ['tierLabel', 'offeringId']),
-    field(p, ['regionId']),
-    field(p, ['pagePath']),
-    field(p, ['placement', 'formLabel']),
-    row.subject,
-    row.id,
-    '',
-  ];
+  return submissionToRecordRow(row);
 }

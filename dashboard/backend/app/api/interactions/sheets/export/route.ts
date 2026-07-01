@@ -9,6 +9,7 @@ import {
   sheetRecordsToXlsxBuffer,
 } from '@/lib/interactions/sheets-records';
 import { isGoogleSheetsConfigured } from '@/lib/interactions/google-sheets';
+import { requireInteractionAdmin } from '@/lib/interactions/admin-guard';
 import { isSupabaseConfigured } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
@@ -33,6 +34,9 @@ async function loadRecordsForExport() {
 }
 
 export async function GET(request: NextRequest) {
+  const auth = await requireInteractionAdmin(request);
+  if (auth instanceof NextResponse) return auth;
+
   const format = request.nextUrl.searchParams.get('format') === 'xlsx' ? 'xlsx' : 'csv';
   const loaded = await loadRecordsForExport();
 

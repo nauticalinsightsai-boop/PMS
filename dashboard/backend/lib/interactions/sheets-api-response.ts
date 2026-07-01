@@ -10,6 +10,10 @@ import {
   sheetHeadersFromValues,
   type SheetRecord,
 } from '@/lib/interactions/sheets-records';
+import {
+  buildHumanSubmissionsRow,
+  type SheetSubmissionRow,
+} from '@pms/booking-crm/sheets-human-row';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 
 export type InteractionRecordsDataSource = 'google_sheets' | 'supabase';
@@ -25,25 +29,28 @@ function rowsFromSupabase(
     metadata: Record<string, unknown> | null;
   }>,
 ): SheetRecord[] {
-  return data.map((row, index) => ({
-    rowIndex: index + 1,
-    createdAt: row.created_at,
-    source: row.source,
-    subject: row.subject ?? '',
-    email: row.email ?? '',
-    payload: row.payload ?? {},
-    metadata: row.metadata ?? {},
-    submissionId: row.id,
-    raw: [
-      row.created_at,
-      row.source,
-      row.subject ?? '',
-      row.email ?? '',
-      JSON.stringify(row.payload ?? {}),
-      JSON.stringify(row.metadata ?? {}),
-      row.id,
-    ],
-  }));
+  return data.map((row, index) => {
+    const sheetRow: SheetSubmissionRow = {
+      id: row.id,
+      created_at: row.created_at,
+      source: row.source,
+      subject: row.subject ?? '',
+      email: row.email ?? '',
+      payload: row.payload ?? {},
+      metadata: row.metadata ?? {},
+    };
+    return {
+      rowIndex: index + 1,
+      createdAt: row.created_at,
+      source: row.source,
+      subject: row.subject ?? '',
+      email: row.email ?? '',
+      payload: row.payload ?? {},
+      metadata: row.metadata ?? {},
+      submissionId: row.id,
+      raw: buildHumanSubmissionsRow(sheetRow),
+    };
+  });
 }
 
 export async function fetchSupabaseFormSubmissionRecords(): Promise<

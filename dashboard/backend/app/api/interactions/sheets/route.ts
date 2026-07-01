@@ -1,17 +1,21 @@
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 import {
   fetchInteractionSheetRecords,
   fetchSupabaseFormSubmissionRecords,
 } from '@/lib/interactions/sheets-api-response';
 import { DEFAULT_SHEET_HEADERS } from '@/lib/interactions/sheets-records';
 import { isGoogleSheetsConfigured } from '@/lib/interactions/google-sheets';
+import { requireInteractionAdmin } from '@/lib/interactions/admin-guard';
 import { getClientSheetsEnvMeta } from '@/lib/google/sheets-env';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 /** Google Sheets when configured; otherwise Supabase form_submissions fallback. */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const auth = await requireInteractionAdmin(request);
+  if (auth instanceof NextResponse) return auth;
   const sheetsEnv = getClientSheetsEnvMeta();
 
   if (isGoogleSheetsConfigured()) {

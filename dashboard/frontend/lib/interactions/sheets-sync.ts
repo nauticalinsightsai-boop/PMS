@@ -1,7 +1,62 @@
+import {
+  appendRowToTab,
+  ensureSheetTabExists,
+  isGoogleSheetsConfigured,
+} from '@/lib/interactions/google-sheets';
+import type { FormSubmissionRow } from '@/lib/interactions/types';
+import {
+  buildCertificationSheetRow,
+  buildHumanSubmissionsRow,
+  buildRecordsRow,
+  CERTIFICATION_SHEET_HEADERS,
+  isCertificationSheetSubmission,
+  RECORDS_SHEET_HEADERS,
+  SUBMISSIONS_SHEET_HEADERS,
+  type SheetSubmissionRow,
+} from '@pms/booking-crm/sheets-human-row';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-import { appendRowToGoogleSheet, isGoogleSheetsConfigured } from '@/lib/interactions/google-sheets';
-import type { FormSubmissionRow } from '@/lib/interactions/types';
+const SUBMISSIONS_TAB = 'Submissions';
+const RECORDS_TAB = 'Records';
+const CERTIFICATION_TAB = 'Certification Forms';
+const PAYMENTS_TAB = 'Payments';
+
+const PAYMENTS_HEADERS = [
+  'Date',
+  'Type',
+  'Customer',
+  'Email',
+  'Amount',
+  'Currency',
+  'Tier',
+  'Billing',
+  'Offering',
+  'Stripe Session',
+  'Status',
+];
+
+function payloadString(payload: Record<string, unknown>, key: string): string {
+  const value = payload[key];
+  if (value == null) return '';
+  return typeof value === 'string' ? value : String(value);
+}
+
+function paymentRowValues(row: SheetsSyncRow): string[] {
+  const p = row.payload ?? {};
+  return [
+    row.created_at,
+    payloadString(p, 'paymentType'),
+    payloadString(p, 'customerName'),
+    row.email,
+    payloadString(p, 'amountDisplay'),
+    payloadString(p, 'currency'),
+    payloadString(p, 'membershipTier'),
+    payloadString(p, 'billingCycle'),
+    payloadString(p, 'offeringId'),
+    payloadString(p, 'stripeSessionId'),
+    payloadString(p, 'paymentStatus') || 'paid',
+  ];
+}
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -23,27 +78,34 @@ function isRetryableSheetsError(message: string): boolean {
 }
 
 export function rowToSheetValues(row: SheetsSyncRow): string[] {
-  return [
-    row.created_at,
-    row.source,
-    row.subject,
-    row.email,
-    JSON.stringify(row.payload),
-    JSON.stringify(row.metadata),
-    row.id,
-  ];
+  return buildHumanSubmissionsRow(row as SheetSubmissionRow);
+}
+
+async function appendHumanLeadRows(row: SheetsSyncRow): Promise<void> {
+  const sheetRow = row as SheetSubmissionRow;
+
+  await ensureSheetTabExists(SUBMISSIONS_TAB, [...SUBMISSIONS_SHEET_HEADERS]);
+  await appendRowToTab(SUBMISSIONS_TAB, buildHumanSubmissionsRow(sheetRow));
+
+  await ensureSheetTabExists(RECORDS_TAB, [...RECORDS_SHEET_HEADERS]);
+  await appendRowToTab(RECORDS_TAB, buildRecordsRow(sheetRow));
+
+  if (isCertificationSheetSubmission(sheetRow)) {
+    await ensureSheetTabExists(CERTIFICATION_TAB, [...CERTIFICATION_SHEET_HEADERS]);
+    await appendRowToTab(CERTIFICATION_TAB, buildCertificationSheetRow(sheetRow));
+  }
 }
 
 export async function syncRowToGoogleSheetsWithRetries(
   supabase: SupabaseClient,
   rowId: string,
-  row: SheetsSyncRow
+  row: SheetsSyncRow,
 ): Promise<{ synced: boolean; error: string | null }> {
   if (!isGoogleSheetsConfigured()) {
     return { synced: false, error: 'Google Sheets is not configured on the server.' };
   }
 
-  const values = rowToSheetValues(row);
+  const isPayment = row.source === 'payment';
   let lastErr: string | null = null;
   const maxAttempts = 4;
 
@@ -54,14 +116,13 @@ export async function syncRowToGoogleSheetsWithRetries(
       .eq('id', rowId);
 
     try {
-      console.info('[interactions:sheets-sync] append attempt', {
-        submissionId: rowId,
-        attempt,
-        source: row.source,
-        columnCount: values.length,
-      });
-      await appendRowToGoogleSheet(values);
-      console.info('[interactions:sheets-sync] append success', { submissionId: rowId, attempt });
+      if (isPayment) {
+        await ensureSheetTabExists(PAYMENTS_TAB, PAYMENTS_HEADERS);
+        await appendRowToTab(PAYMENTS_TAB, paymentRowValues(row));
+      } else {
+        await appendHumanLeadRows(row);
+      }
+
       await supabase
         .from('form_submissions')
         .update({
@@ -74,21 +135,13 @@ export async function syncRowToGoogleSheetsWithRetries(
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       lastErr = msg.slice(0, 2000);
-      console.error('[interactions:sheets-sync] append failed', {
-        submissionId: rowId,
-        attempt,
-        error: lastErr,
-      });
       if (attempt < maxAttempts && isRetryableSheetsError(msg)) {
         await sleep(400 * 2 ** (attempt - 1));
       }
     }
   }
 
-  await supabase
-    .from('form_submissions')
-    .update({ sheets_sync_error: lastErr })
-    .eq('id', rowId);
+  await supabase.from('form_submissions').update({ sheets_sync_error: lastErr }).eq('id', rowId);
 
   return { synced: false, error: lastErr };
 }

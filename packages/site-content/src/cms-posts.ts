@@ -42,6 +42,8 @@ export type BlogArticle = {
   image: string;
   body: string[];
   markdown?: string;
+  audioUrl?: string;
+  youtubeUrl?: string;
 };
 
 export function slugifyCmsTitle(title: string): string {

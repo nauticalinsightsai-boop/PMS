@@ -104,7 +104,7 @@ export function CertificationRegistryEntryEditor({
   const [tab, setTab] = useState<EditorTab>('basics');
   const pricing = entry.pricing ?? defaultPricing();
   const pathway = entry.pathwayOutcomes ?? {};
-  const isWideTab = tab === 'video' || tab === 'documents';
+  const activeTabMeta = EDITOR_TABS.find((item) => item.id === tab);
 
   const videoLiveCount = useMemo(() => {
     const assets = entry.programmeAssets ?? {};
@@ -137,7 +137,7 @@ export function CertificationRegistryEntryEditor({
 
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden bg-background">
-      <div className="flex shrink-0 flex-wrap items-start justify-between gap-4 border-b border-border bg-card px-4 py-4 sm:px-6">
+      <div className="flex shrink-0 flex-wrap items-start justify-between gap-4 border-b border-border bg-card px-4 py-4 sm:px-6 lg:px-8">
         <div className="min-w-0 space-y-1">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-md bg-brand-orange/10 px-2 py-0.5 font-mono text-[11px] font-bold uppercase tracking-wide text-brand-orange">
@@ -188,29 +188,36 @@ export function CertificationRegistryEntryEditor({
         onValueChange={(value) => setTab(value as EditorTab)}
         className="flex min-h-0 flex-1 flex-col gap-0 overflow-hidden"
       >
-        <div className="shrink-0 border-b border-border bg-card/80 px-4 sm:px-6">
+        <div className="shrink-0 border-b border-border bg-card px-4 sm:px-6 lg:px-8">
           <TabsList
             variant="line"
-            className="h-auto w-full justify-start gap-0.5 overflow-x-auto bg-transparent p-0 py-1 no-scrollbar"
+            className="h-auto w-full justify-start gap-1 overflow-x-auto bg-transparent p-0 py-2 no-scrollbar"
           >
             {EDITOR_TABS.map((item) => (
               <TabsTrigger
                 key={item.id}
                 value={item.id}
-                className="group shrink-0 flex-none flex-col items-start gap-0 rounded-lg px-3 py-2.5 text-left data-active:bg-accent/60"
+                className="shrink-0 rounded-lg px-4 py-2.5 text-sm font-semibold data-active:bg-emerald-600 data-active:text-white data-active:shadow-sm"
               >
-                <span className="text-xs font-semibold sm:text-sm">{item.label}</span>
-                <span className="hidden text-[10px] text-muted-foreground group-data-active:text-foreground/70 sm:block">
-                  {item.hint}
-                  {item.id === 'video' ? ` · ${videoLiveCount}/3 live` : ''}
-                </span>
+                {item.label}
+                {item.id === 'video' ? (
+                  <span className="ml-2 rounded-full bg-black/10 px-2 py-0.5 text-[10px] font-bold tabular-nums data-active:bg-white/20">
+                    {videoLiveCount}/3
+                  </span>
+                ) : null}
               </TabsTrigger>
             ))}
           </TabsList>
+          {activeTabMeta ? (
+            <p className="pb-3 text-sm text-muted-foreground">
+              {activeTabMeta.hint}
+              {activeTabMeta.id === 'video' ? ` · ${videoLiveCount} of 3 tiers have video` : ''}
+            </p>
+          ) : null}
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-muted/15 px-4 py-5 sm:px-6 md:py-6">
-          <div className={cn('mx-auto w-full', isWideTab ? 'max-w-6xl' : 'max-w-3xl')}>
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-muted/15 px-4 py-5 sm:px-6 lg:px-8 md:py-6">
+          <div className="w-full">
             <TabsContent value="basics" className="mt-0 outline-none">
               <SectionIntro
                 title="Basics"

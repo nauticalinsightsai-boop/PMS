@@ -29,8 +29,14 @@ export const InteractionService = {
     const response = await fetchDashboardApi(`/api/interactions/${interactionId}/retry-sheets`, {
       method: 'POST',
     });
-    if (!response.ok) throw new Error('Retry failed');
-    return response.json();
+    const data = (await response.json().catch(() => ({}))) as {
+      error?: string;
+      synced?: boolean;
+      message?: string;
+    };
+    if (!response.ok) throw new Error(data.error || 'Retry failed');
+    if (data.synced === false && data.error) throw new Error(data.error);
+    return data;
   },
 
   async exportCSV() {

@@ -18,6 +18,7 @@ import {
   Layers,
 } from 'lucide-react';
 import { CTAButton } from '@/components/ui/CTAButton';
+import { RefreshIcon } from '@/components/shared/RefreshIcon';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { SkeletonBar } from '@/components/shared/PageSkeleton';
 import EmptyState from '@/components/shared/EmptyState';
@@ -71,6 +72,20 @@ function formatDate(iso: string): string {
   } catch {
     return iso;
   }
+}
+
+function humanRecordSummary(payload: Record<string, unknown>): string {
+  const parts = [
+    typeof payload.fullName === 'string' ? payload.fullName : '',
+    typeof payload.phone === 'string' ? payload.phone : '',
+    typeof payload.message === 'string' ? payload.message : '',
+    typeof payload._otherAnswers === 'string' ? payload._otherAnswers : '',
+  ].filter(Boolean);
+  if (parts.length) return parts.join(' · ');
+  return formFieldsFromPayload(payload)
+    .slice(0, 4)
+    .map((field) => `${field.label}: ${field.value}`)
+    .join(' · ');
 }
 
 function cellPreview(value: string, max = 100): string {
@@ -165,7 +180,7 @@ function SheetRecordDetailPanel({
           </div>
         )}
         <div>
-          <h4 className="mb-2 text-label text-foreground">Payload</h4>
+          <h4 className="mb-2 text-label text-foreground">Form answers</h4>
           <pre className="overflow-x-auto whitespace-pre-wrap break-all rounded-lg bg-muted/80 p-3 font-mono text-meta">
             {JSON.stringify(record.payload, null, 2)}
           </pre>
@@ -469,7 +484,7 @@ export default function InteractionsSheetsRecords() {
           disabled={loading}
           className="flex items-center gap-2 shrink-0"
         >
-          <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
+          <RefreshIcon loading={loading} />
           Refresh
         </CTAButton>
       </div>
@@ -515,7 +530,7 @@ export default function InteractionsSheetsRecords() {
               <th className="px-3 py-3 font-medium">Page</th>
               <th className="px-3 py-3 font-medium">Certification</th>
               <th className="px-3 py-3 font-medium">Origin</th>
-              <th className="px-3 py-3 font-medium">Payload</th>
+              <th className="px-3 py-3 font-medium">Details</th>
               <th className="px-3 py-3 font-medium w-[88px]">View</th>
             </tr>
           </thead>
@@ -548,8 +563,8 @@ export default function InteractionsSheetsRecords() {
                   <td className="px-3 py-2 max-w-[160px] text-meta text-muted-foreground">
                     {cellPreview(originLabelFromPayload(r.payload), 48)}
                   </td>
-                  <td className="px-3 py-2 max-w-[240px] font-mono text-meta line-clamp-2 break-all opacity-90">
-                    {cellPreview(JSON.stringify(r.payload))}
+                  <td className="px-3 py-2 max-w-[240px] text-meta line-clamp-2 break-words">
+                    {cellPreview(humanRecordSummary(r.payload), 120)}
                   </td>
                   <td className="px-3 py-2">
                     <button

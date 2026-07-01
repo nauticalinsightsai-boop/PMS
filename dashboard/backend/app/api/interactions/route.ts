@@ -18,11 +18,37 @@ import {
   sanitizeInteractionPayload,
 } from '@/lib/interactions/payload-sanitize';
 import { insertFormSubmission } from '@/lib/interactions/service';
+import { isGoogleSheetsConfigured } from '@/lib/interactions/google-sheets';
+import { getSheetsSyncUiStatus } from '@/lib/interactions/sync-status';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
 
 const MAX_PAYLOAD_BYTES = 48_000;
+
+type InteractionListRow = Record<string, unknown> & {
+  sheets_synced_at?: string | null;
+  sheets_sync_error?: string | null;
+};
+
+function toClientSheetsStatus(row: InteractionListRow): 'synced' | 'failed' | 'pending' | 'na' {
+  const ui = getSheetsSyncUiStatus(
+    {
+      sheets_synced_at: row.sheets_synced_at ?? null,
+      sheets_sync_error: row.sheets_sync_error ?? null,
+    },
+    isGoogleSheetsConfigured(),
+  );
+  if (ui === 'not_configured' || ui === 'skipped') return 'na';
+  return ui;
+}
+
+function mapInteractionListRow(row: InteractionListRow) {
+  return {
+    ...row,
+    sheets_status: toClientSheetsStatus(row),
+  };
+}
 
 export async function POST(request: NextRequest) {
   const ip = getInteractionClientIp(request);
@@ -121,12 +147,14 @@ export async function GET(request: NextRequest) {
       return Response.json({ error: fallback.error.message }, { status: 500 });
     }
     const rows = Array.isArray(fallback.data)
-      ? fallback.data.map((row) => ({
-          ...(row as Record<string, unknown>),
-          sheets_synced_at: null,
-          sheets_sync_error: null,
-          sheets_sync_attempts: 0,
-        }))
+      ? fallback.data.map((row) =>
+          mapInteractionListRow({
+            ...(row as Record<string, unknown>),
+            sheets_synced_at: null,
+            sheets_sync_error: null,
+            sheets_sync_attempts: 0,
+          }),
+        )
       : fallback.data;
     return Response.json({ data: rows, count: fallback.count });
   }
@@ -135,5 +163,9 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: result.error.message }, { status: 500 });
   }
 
-  return Response.json({ data: result.data, count: result.count });
+  const rows = Array.isArray(result.data)
+    ? result.data.map((row) => mapInteractionListRow(row as InteractionListRow))
+    : result.data;
+
+  return Response.json({ data: rows, count: result.count });
 }

@@ -3,6 +3,7 @@ import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { ArticleCard, CTABanner } from '@/components/NewsletterComponents';
 import { ArticleMarkdown } from '@/components/marketing/ArticleMarkdown';
+import { youtubeEmbedUrl } from '@pms/site-content/youtube';
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import type { NewsletterArticle } from '@pms/site-content/newsletter-posts';
 import { resolveNewsletterArticleImage } from '@pms/site-content/newsletter-posts';
@@ -71,6 +72,25 @@ export function NewsletterArticlePage({
             referrerPolicy="no-referrer"
           />
         </div>
+
+        {article.youtubeUrl ? (
+          <div className="mb-10 overflow-hidden rounded-2xl border border-slate-200 bg-black shadow-xl dark:border-slate-800">
+            <iframe
+              src={youtubeEmbedUrl(article.youtubeUrl) ?? article.youtubeUrl}
+              title={`${article.title} video`}
+              className="aspect-video w-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        ) : null}
+
+        {article.audioUrl ? (
+          <div className="mb-10 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-800 dark:bg-slate-900/50">
+            <p className="mb-3 text-sm font-bold text-slate-700 dark:text-slate-300">Listen to this article</p>
+            <audio src={article.audioUrl} controls className="w-full" preload="metadata" />
+          </div>
+        ) : null}
 
         <ArticleMarkdown body={article.body} markdown={article.markdown} />
 

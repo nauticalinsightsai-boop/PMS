@@ -213,7 +213,7 @@ export function parseServiceAccountJson(raw: string): ParsedServiceAccount {
 }
 
 export function getGoogleSheetsRangeFromEnv(): string {
-  return process.env.GOOGLE_SHEETS_RANGE?.trim() || 'Sheet1!A:G';
+  return process.env.GOOGLE_SHEETS_RANGE?.trim() || 'Submissions!A:W';
 }
 
 /** Sheet tab name from A1 range, e.g. `Sheet1!A:G` → `Sheet1`. */

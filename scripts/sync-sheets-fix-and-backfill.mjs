@@ -13,8 +13,10 @@ import { loadMonorepoEnv, applyToProcessEnv } from './lib/monorepo-env.mjs';
 import {
   CERTIFICATION_RECORDS_HEADERS,
   RECORDS_HEADERS,
+  SUBMISSIONS_HEADERS,
   isCertificationSubmission,
   submissionToCertificationRecordRow,
+  submissionToHumanRow,
   submissionToRecordRow,
 } from './lib/sheets-record-rows.mjs';
 
@@ -22,15 +24,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 applyToProcessEnv(loadMonorepoEnv());
 
-const HEADERS = [
-  'created_at',
-  'source',
-  'subject',
-  'email',
-  'payload_json',
-  'metadata_json',
-  'submission_id',
-];
+const HEADERS = SUBMISSIONS_HEADERS;
 
 const SPREADSHEET_ID = process.env.GOOGLE_SHEETS_SPREADSHEET_ID?.trim();
 const SA_PATH = path.resolve(ROOT, process.env.GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH || '.secrets/google-sheets-sa.json');
@@ -62,15 +56,7 @@ async function sheetsRequest(token, method, apiPath, body) {
 }
 
 function rowFromSubmission(row) {
-  return [
-    row.created_at ?? '',
-    row.source ?? '',
-    row.subject ?? '',
-    (row.email ?? '').toLowerCase(),
-    JSON.stringify(row.payload ?? {}),
-    JSON.stringify(row.metadata ?? {}),
-    row.id ?? '',
-  ];
+  return submissionToHumanRow(row);
 }
 
 async function ensureSheetTab(token, sheets, title) {
@@ -126,7 +112,7 @@ async function main() {
   await sheetsRequest(
     token,
     'PUT',
-    '/values/Submissions!A1:G1?valueInputOption=USER_ENTERED',
+    '/values/Submissions!A1:W1?valueInputOption=USER_ENTERED',
     { values: [HEADERS] },
   );
   console.log('Submissions row 1 headers set');
@@ -146,7 +132,7 @@ async function main() {
     await sheetsRequest(
       token,
       'PUT',
-      `/values/Submissions!A2:G${lastRow}?valueInputOption=USER_ENTERED`,
+      `/values/Submissions!A2:W${lastRow}?valueInputOption=USER_ENTERED`,
       { values },
     );
     console.log(`Wrote ${values.length} rows to Submissions`);

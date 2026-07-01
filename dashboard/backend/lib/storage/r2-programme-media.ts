@@ -26,12 +26,12 @@ export function isR2ProgrammeMediaConfigured(): boolean {
 
 export type ProgrammeMediaStorageDriver = 'r2' | 'supabase';
 
-/** Resolved storage backend for programme PDFs/videos (CMS uploads). */
+/** Resolved storage backend for programme PDFs/videos/images (CMS certification uploads). */
 export function programmeMediaStorageDriver(): ProgrammeMediaStorageDriver {
   const driver = process.env.PROGRAMME_MEDIA_STORAGE?.trim().toLowerCase();
   if (driver === 'supabase') return 'supabase';
-  if (driver === 'r2') return 'r2';
-  return isR2ProgrammeMediaConfigured() ? 'r2' : 'supabase';
+  // Default: Cloudflare R2 (see .env.example). Do not fall back to Supabase silently.
+  return 'r2';
 }
 
 export function programmeMediaUsesR2(): boolean {
@@ -39,10 +39,10 @@ export function programmeMediaUsesR2(): boolean {
 }
 
 export function programmeMediaStorageNotConfiguredMessage(): string {
-  if (programmeMediaStorageDriver() === 'r2') {
-    return 'Cloudflare R2 is not configured. Set R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, and R2_PUBLIC_BASE_URL (see .env.example).';
+  if (programmeMediaStorageDriver() === 'supabase') {
+    return 'Programme media Supabase storage is not configured (SUPABASE_SERVICE_ROLE_KEY and bucket).';
   }
-  return 'Programme media storage not configured (Supabase admin or Cloudflare R2).';
+  return 'Cloudflare R2 is required for certification videos, PDFs, and images. Set R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, and R2_PUBLIC_BASE_URL on the dashboard backend.';
 }
 
 export function programmeMediaMaxBytes(): number {

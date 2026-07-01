@@ -14,18 +14,46 @@ All marketing forms use `POST /api/interactions` → Supabase `form_submissions`
 - `/go/*` channel landing forms
 - Confirmed engagement bookings (`meeting_booking`)
 
-Details (name, phone, page path, cert interest, tier, etc.) live in column **payload_json**.
+Details (name, phone, message, etc.) live in dedicated columns — **no JSON**.
 
-### Readable tabs (after `npm run sync:sheets` or Apps Script refresh)
+### Sheet tabs (auto-updated on every form submit)
 
 | Tab | Purpose |
 |-----|---------|
-| **Submissions** | Raw API append (A–G) — do not edit row 1 |
-| **Records** | All leads, human-readable (name, phone, cert, tier, page) |
-| **Certification Forms** | Certification / pathway leads only (roadmap, consultation, scholarship, waitlist with cert context, register modal) |
-| **Roadmap Leads** | Filtered view (Apps Script menu refresh) |
+| **Submissions** | Every form — human-readable columns (Date, Form Type, Email, Name, Phone, …) |
+| **Records** | Same leads in a shorter layout for daily ops |
+| **Certification Forms** | Certification / pathway leads only |
+| **Payments** | Stripe purchases (separate layout) |
 
-Every form submit on the website appends one row to **Submissions** automatically when `GOOGLE_SHEETS_*` is set on the server. Run **PM Structure → Refresh all views** in the spreadsheet (Apps Script) to update **Records** / **Certification Forms** after bulk imports.
+Row 1 on **Submissions** (columns A–W):
+
+| Col | Header |
+|-----|--------|
+| A | Date |
+| B | Form Type |
+| C | Email |
+| D | Full Name |
+| E | Phone |
+| F | Company |
+| G | Role / Job Title |
+| H | Certification |
+| I | Tier / Package |
+| J | Region |
+| K | Page URL |
+| L | Form / Placement |
+| M | Subject line |
+| N | Message / Notes |
+| O | Years of Experience |
+| P | Daily Study Time |
+| Q | How they found us |
+| R | UTM Source |
+| S | UTM Medium |
+| T | UTM Campaign |
+| U | Referrer |
+| V | Other form answers |
+| W | Submission ID |
+
+Do not edit row 1. Legacy rows with `payload_json` are still readable in the dashboard.
 
 See also: [INTERACTIONS_SETUP.md](../interactions/INTERACTIONS_SETUP.md)
 
@@ -33,17 +61,7 @@ See also: [INTERACTIONS_SETUP.md](../interactions/INTERACTIONS_SETUP.md)
 
 1. In Google Drive, create a spreadsheet (suggested title: **PMS structure Website**).
 2. Add a tab named **`Submissions`**.
-3. Row 1 headers (columns A–G):
-
-| Col | Header |
-|-----|--------|
-| A | `created_at` |
-| B | `source` |
-| C | `subject` |
-| D | `email` |
-| E | `payload_json` |
-| F | `metadata_json` |
-| G | `submission_id` |
+3. Row 1 headers: see table in section **What syncs** below (columns A–W).
 
 Copy the spreadsheet ID from the URL:  
 `https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}/edit`
@@ -67,7 +85,7 @@ Set on **dashboard API** (local: repo root `.env.local`; production: Railway **P
 ```env
 GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH=.secrets/google-sheets-sa.json
 GOOGLE_SHEETS_SPREADSHEET_ID=your_spreadsheet_id
-GOOGLE_SHEETS_RANGE=Submissions!A:G
+GOOGLE_SHEETS_RANGE=Submissions!A:W
 GOOGLE_SHEETS_EDITOR_URL=https://docs.google.com/spreadsheets/d/your_spreadsheet_id/edit
 ```
 
@@ -78,7 +96,7 @@ Save the JSON key at `.secrets/google-sheets-sa.json` (gitignored).
 ```env
 GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64=<base64 of entire service account JSON>
 GOOGLE_SHEETS_SPREADSHEET_ID=your_spreadsheet_id
-GOOGLE_SHEETS_RANGE=Submissions!A:G
+GOOGLE_SHEETS_RANGE=Submissions!A:W
 GOOGLE_SHEETS_EDITOR_URL=https://docs.google.com/spreadsheets/d/your_spreadsheet_id/edit
 ```
 

@@ -29,7 +29,8 @@ export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
   };
 
   const config = configs[status];
-  const showSpin = status === 'syncing' || isManualSyncing;
+  const isBusy = status === 'syncing' || isManualSyncing;
+  const StatusIcon = config.icon;
 
   return (
     <div className="flex flex-col gap-1">
@@ -40,11 +41,18 @@ export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
             config.class,
           )}
         >
-          <config.icon
-            size={14}
-            className={cn(showSpin && 'motion-safe:animate-spin [animation-duration:1.25s]')}
-          />
-          {config.text}
+          {isBusy ? (
+            <span
+              className="relative flex h-3.5 w-3.5 shrink-0 items-center justify-center"
+              aria-hidden
+            >
+              <span className="absolute inline-flex h-full w-full motion-safe:animate-ping rounded-full bg-brand-orange/35 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-orange" />
+            </span>
+          ) : (
+            <StatusIcon size={14} className="shrink-0" aria-hidden />
+          )}
+          <span>{config.text}</span>
         </div>
 
         {lastSynced && status === 'synced' && (
@@ -57,13 +65,17 @@ export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
           <button
             type="button"
             onClick={onManualSync}
-            disabled={showSpin}
+            disabled={isBusy}
             className="p-1 hover:bg-muted rounded-lg transition-colors text-muted-foreground disabled:opacity-50"
             title="Reload from server"
           >
             <RefreshCw
               size={12}
-              className={cn(isManualSyncing && 'motion-safe:animate-spin [animation-duration:1.25s]')}
+              aria-hidden
+              className={cn(
+                'shrink-0 origin-center',
+                isManualSyncing && 'motion-safe:animate-spin [animation-duration:1.25s]',
+              )}
             />
           </button>
         )}

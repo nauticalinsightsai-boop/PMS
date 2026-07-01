@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { NavLinkButton } from '@/components/ui/nav-link-button';
 import { Input } from '@/components/ui/input';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
+import { RefreshIcon } from '@/components/shared/RefreshIcon';
 import { cmsStatusBadge, cmsStatusLabel } from '@/components/pages/admin/cms/CmsShared';
 import { useCmsPosts } from '@/hooks/useCmsPosts';
 import { useCmsTopics } from '@/hooks/useCmsTopics';
@@ -80,7 +81,7 @@ export function PostsList({
             onClick={() => void refresh()}
             disabled={isLoading || isSaving}
           >
-            <RefreshCw size={16} className={cn(isLoading && 'animate-spin')} />
+            <RefreshIcon loading={isLoading} size={16} />
             Refresh
           </Button>
           <NavLinkButton href={`${basePath}/new`} variant="brand" className="gap-2">

@@ -104,6 +104,7 @@ export function HomeCmsEditor() {
   const [syncStatus, setSyncStatus] = useState<SyncStatus>('synced');
   const [syncErrorDetail, setSyncErrorDetail] = useState<string | null>(null);
   const [lastSynced, setLastSynced] = useState<Date | undefined>(undefined);
+  const [isManualSyncing, setIsManualSyncing] = useState(false);
   const [search, setSearch] = useState('');
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [previewKey, setPreviewKey] = useState(0);
@@ -234,6 +235,15 @@ export function HomeCmsEditor() {
       console.error('Failed to save draft', error);
       setSyncErrorDetail(toSyncErrorMessage(error, 'Failed to save draft.'));
       setSyncStatus('error');
+    }
+  };
+
+  const handleManualSync = async () => {
+    setIsManualSyncing(true);
+    try {
+      await handleSaveDraft();
+    } finally {
+      setIsManualSyncing(false);
     }
   };
 
@@ -384,7 +394,8 @@ export function HomeCmsEditor() {
               <SyncStatusIndicator
                 status={syncStatus}
                 lastSynced={lastSynced}
-                onManualSync={handleSaveDraft}
+                onManualSync={() => void handleManualSync()}
+                isManualSyncing={isManualSyncing}
                 errorDetail={syncErrorDetail}
               />
               <CTAButton size="sm" variant="secondary" onClick={openPreview}>
