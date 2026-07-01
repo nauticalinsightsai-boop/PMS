@@ -3,6 +3,8 @@ import { requireDashboardMutationAuth } from '@/lib/auth/api-guard';
 import { getSupabaseAdmin, isSupabaseAdminConfigured } from '@/lib/auth/supabase-admin';
 import { buildMediaCatalog, buildSectionTabs } from '@/lib/cms/media-catalog';
 import { updateCmsImageAtContext } from '@/lib/cms/cms-image-update';
+import { inferContentType } from '@/lib/storage/content-type';
+import { ensureSiteMediaBucket } from '@/lib/storage/ensure-supabase-bucket';
 
 const BUCKET = 'site-media';
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -16,7 +18,10 @@ const ALLOWED_TYPES = new Set([
 
 function publicUrl(path: string): string {
   const base = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL ?? '';
-  return `${base}/storage/v1/object/public/${BUCKET}/${path}`;
+  if (!base.trim()) {
+    throw new Error('NEXT_PUBLIC_SUPABASE_URL is not configured — cannot build media URL.');
+  }
+  return `${base.replace(/\/$/, '')}/storage/v1/object/public/${BUCKET}/${path}`;
 }
 
 function isSafeObjectName(name: string): boolean {
@@ -78,7 +83,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Use either replace or cmsContext, not both' }, { status: 400 });
   }
 
-  const contentType = file.type || 'application/octet-stream';
+  const original = form.get('filename');
+  const safeName =
+    typeof original === 'string' && original.trim()
+      ? original.trim().replace(/[^a-zA-Z0-9._-]/g, '_')
+      : 'upload.bin';
+  const contentType = inferContentType(safeName, file.type);
   if (!ALLOWED_TYPES.has(contentType)) {
     return NextResponse.json(
       { error: 'Only JPEG, PNG, WebP, GIF, and SVG images are allowed' },
@@ -91,14 +101,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'File exceeds 5MB limit' }, { status: 400 });
   }
 
-  const original = form.get('filename');
-  const safeName =
-    typeof original === 'string' && original.trim()
-      ? original.trim().replace(/[^a-zA-Z0-9._-]/g, '_')
-      : 'upload.bin';
   const path = isUploadReplace ? replaceName : `${Date.now()}-${safeName}`;
 
   const admin = getSupabaseAdmin();
+  const bucketReady = await ensureSiteMediaBucket(admin);
+  if (!bucketReady.ok) {
+    return NextResponse.json({ error: bucketReady.error }, { status: 503 });
+  }
   if (isUploadReplace) {
     const { data: existing, error: listError } = await admin.storage.from(BUCKET).list('', { limit: 500 });
     if (listError) {
@@ -118,7 +127,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const uploadedUrl = publicUrl(path);
+  let uploadedUrl: string;
+  try {
+    uploadedUrl = publicUrl(path);
+  } catch (err) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : 'Invalid storage URL configuration' },
+      { status: 503 },
+    );
+  }
 
   if (isCmsReplace) {
     const { fieldKey } = await updateCmsImageAtContext(admin, cmsContext, uploadedUrl);

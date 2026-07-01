@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-import { Copy, ImageIcon, Monitor, Smartphone, X } from 'lucide-react';
+import { Copy, ImageIcon, Loader2, Monitor, Smartphone, Upload, X } from 'lucide-react';
 import { MediaLibraryGrid } from '@/components/pages/admin/site-content/MediaLibraryGrid';
+import { uploadMediaFile } from '@/lib/cms/media-api';
 import { dashboardHref } from '@/lib/base-path';
-import { cn } from '@/lib/utils';
 
 type Device = 'desktop' | 'mobile';
 
-/** iPhone-class preview proportions used in hero pickers and live preview. */
+/** Used by live preview phone frame only — not the hero editor pickers. */
 export const MOBILE_FRAME_WIDTH = 375;
 export const MOBILE_FRAME_HEIGHT = 667;
 
@@ -17,11 +17,36 @@ function displayUrl(value: string): string {
   return value.startsWith('data:') ? '' : value;
 }
 
-function FrameDimensionBadge({ label }: { label: string }) {
+function HeroImageFrame({
+  url,
+  emptyLabel,
+  onClear,
+}: {
+  url: string;
+  emptyLabel: string;
+  onClear: () => void;
+}) {
   return (
-    <span className="pointer-events-none absolute bottom-2 right-2 rounded-md bg-black/65 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
-      {label}
-    </span>
+    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner">
+      {url ? (
+        <>
+          <img src={url} alt="" className="h-full w-full object-cover" />
+          <button
+            type="button"
+            onClick={onClear}
+            className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-white hover:bg-red-500/90"
+            aria-label="Remove image"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </>
+      ) : (
+        <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
+          <ImageIcon className="h-8 w-8 opacity-40" />
+          <span className="text-[11px] font-medium">{emptyLabel}</span>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -29,21 +54,22 @@ function DevicePicker({
   device,
   label,
   hint,
-  dimensionLabel,
   value,
   onChange,
 }: {
   device: Device;
   label: string;
   hint: string;
-  dimensionLabel: string;
   value: string;
   onChange: (url: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
+  const fileRef = useRef<HTMLInputElement>(null);
   const url = displayUrl(value);
   const Icon = device === 'desktop' ? Monitor : Smartphone;
-  const isMobile = device === 'mobile';
+  const emptyLabel = device === 'desktop' ? 'No desktop hero' : 'No mobile hero';
 
   const copyUrl = async () => {
     if (!url) return;
@@ -73,67 +99,24 @@ function DevicePicker({
       </div>
 
       <div className="my-4 flex flex-1 items-center justify-center">
-        {isMobile ? (
-          <div
-            className="flex w-full max-w-[375px] flex-col overflow-hidden rounded-[2rem] border-[6px] border-slate-800 bg-black shadow-inner dark:border-slate-600"
-            style={{ aspectRatio: `${MOBILE_FRAME_WIDTH}/${MOBILE_FRAME_HEIGHT}` }}
-          >
-            <div className="flex items-center justify-center border-b border-slate-800 bg-slate-900 px-4 py-1.5">
-              <div className="h-1 w-14 rounded-full bg-slate-700" />
-            </div>
-            <div className="relative min-h-0 flex-1 bg-black/30">
-              {url ? (
-                <>
-                  <img src={url} alt="" className="h-full w-full object-cover" />
-                  <button
-                    type="button"
-                    onClick={() => onChange('')}
-                    className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-white hover:bg-red-500/90"
-                    aria-label="Remove image"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                </>
-              ) : (
-                <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
-                  <ImageIcon className="h-8 w-8 opacity-40" />
-                  <span className="text-[11px] font-medium">No mobile hero</span>
-                </div>
-              )}
-              <FrameDimensionBadge label={dimensionLabel} />
-            </div>
-          </div>
-        ) : (
-          <div className="relative w-full overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner aspect-[16/10]">
-            {url ? (
-              <>
-                <img src={url} alt="" className="h-full w-full object-cover" />
-                <button
-                  type="button"
-                  onClick={() => onChange('')}
-                  className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-white hover:bg-red-500/90"
-                  aria-label="Remove image"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              </>
-            ) : (
-              <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
-                <ImageIcon className="h-8 w-8 opacity-40" />
-                <span className="text-[11px] font-medium">No desktop hero</span>
-              </div>
-            )}
-            <FrameDimensionBadge label={dimensionLabel} />
-          </div>
-        )}
+        <HeroImageFrame url={url} emptyLabel={emptyLabel} onClear={() => onChange('')} />
       </div>
 
       <div className="mt-auto space-y-3">
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
+            disabled={uploading}
+            onClick={() => fileRef.current?.click()}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-brand-orange px-3 py-2 text-xs font-bold text-white hover:opacity-90 disabled:opacity-60"
+          >
+            {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
+            Upload
+          </button>
+          <button
+            type="button"
             onClick={() => setOpen(true)}
-            className="rounded-lg bg-brand-orange px-3 py-2 text-xs font-bold text-white hover:opacity-90"
+            className="rounded-lg border border-border px-3 py-2 text-xs font-semibold hover:border-brand-orange/40"
           >
             Choose from library
           </button>
@@ -152,7 +135,30 @@ function DevicePicker({
           placeholder="Or paste image URL"
           className="w-full rounded-xl border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
         />
+        {uploadError ? <p className="text-xs text-destructive">{uploadError}</p> : null}
       </div>
+
+      <input
+        ref={fileRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,.jpg,.jpeg,.png,.webp,.gif,.svg"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          setUploading(true);
+          setUploadError('');
+          void uploadMediaFile(file)
+            .then((result) => onChange(result.url))
+            .catch((err) =>
+              setUploadError(err instanceof Error ? err.message : 'Upload failed'),
+            )
+            .finally(() => {
+              setUploading(false);
+              e.target.value = '';
+            });
+        }}
+      />
 
       {open ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
@@ -200,24 +206,22 @@ export function NewsletterHeroMedia({
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
-        Use a wide hero for desktop inboxes and a vertical crop for mobile clients. Both render on the
-        public newsletter page via responsive images.
+        Set a hero for desktop and optionally a different image for mobile. The public page uses responsive
+        images — you can reuse the same file for both.
       </p>
 
       <div className="grid items-stretch gap-4 lg:grid-cols-2">
         <DevicePicker
           device="desktop"
           label="Desktop hero"
-          hint="Recommended 1200×750 (16:10) — email clients & article header"
-          dimensionLabel="1200 × 750"
+          hint="Wide hero for article header and email clients"
           value={desktopUrl}
           onChange={onDesktopChange}
         />
         <DevicePicker
           device="mobile"
           label="Mobile hero"
-          hint={`Recommended ${MOBILE_FRAME_WIDTH}×${MOBILE_FRAME_HEIGHT} (9:16) — phone preview & narrow inboxes`}
-          dimensionLabel={`${MOBILE_FRAME_WIDTH} × ${MOBILE_FRAME_HEIGHT}`}
+          hint="Optional — leave empty to use the desktop hero on mobile"
           value={mobileUrl}
           onChange={onMobileChange}
         />

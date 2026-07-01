@@ -76,8 +76,14 @@ export function MediaLibraryGrid({ onSelect, compact }: Props) {
     setError('');
     setSuccess('');
     try {
-      await uploadMediaFile(file);
+      const result = await uploadMediaFile(file);
       await load();
+      if (onSelect && result.url) {
+        onSelect(result.url);
+        setSuccess('Uploaded — image selected.');
+      } else {
+        setSuccess('Upload complete.');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Upload failed');
     } finally {

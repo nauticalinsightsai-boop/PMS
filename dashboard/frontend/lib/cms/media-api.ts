@@ -123,6 +123,9 @@ export async function uploadMediaFile(
       error?: string;
     };
     if (!res.ok) throw new Error(data.error || 'Upload failed');
+    if (!data.url?.trim()) {
+      throw new Error('Upload succeeded but no public URL was returned. Check Supabase URL env vars.');
+    }
     return {
       name: data.name ?? file.name,
       url: data.url ?? '',

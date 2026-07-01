@@ -23,12 +23,10 @@ import {
   Minus,
   Quote,
   Strikethrough,
-  X,
 } from 'lucide-react';
 import { buildCenterBlock, buildFigureBlock, buildQuoteBlock } from '@pms/site-content/article-markdown';
+import { FigureImagePicker } from '@/components/pages/admin/newsletter/FigureImagePicker';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 
 type Selection = { start: number; end: number };
 
@@ -48,97 +46,6 @@ type Props = {
 const toolbarBtn =
   'inline-flex h-8 min-w-8 items-center justify-center gap-1 rounded-md px-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors';
 const divider = 'mx-1 h-5 w-px self-center bg-white/10';
-
-function InlineImageDialog({
-  open,
-  onClose,
-  onInsert,
-}: {
-  open: boolean;
-  onClose: () => void;
-  onInsert: (desktop: string, mobile: string, alt: string) => void;
-}) {
-  const [desktop, setDesktop] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [alt, setAlt] = useState('');
-
-  if (!open) return null;
-
-  const previewDesktop = desktop.trim();
-  const previewMobile = mobile.trim() || previewDesktop;
-
-  return (
-    <div className="border-b border-white/10 bg-slate-950/95 px-2.5 py-2">
-      <div className="mb-1.5 flex items-center justify-between gap-2">
-        <p className="text-[11px] font-semibold text-muted-foreground">Insert image (desktop + mobile)</p>
-        <button type="button" onClick={onClose} className="text-muted-foreground hover:text-foreground" aria-label="Close">
-          <X size={13} />
-        </button>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-2">
-        <Input
-          value={desktop}
-          onChange={(e) => setDesktop(e.target.value)}
-          placeholder="Desktop URL"
-          className="h-8 min-w-0 flex-1 text-xs"
-        />
-        <Input
-          value={mobile}
-          onChange={(e) => setMobile(e.target.value)}
-          placeholder="Mobile URL (optional)"
-          className="h-8 min-w-0 flex-1 text-xs"
-        />
-        <Input
-          value={alt}
-          onChange={(e) => setAlt(e.target.value)}
-          placeholder="Caption"
-          className="h-8 w-28 shrink-0 text-xs"
-        />
-
-        <div className="flex shrink-0 items-center gap-1.5">
-          <div
-            className="h-10 w-16 overflow-hidden rounded border border-dashed border-white/20 bg-muted/20"
-            title="Desktop 16:10"
-          >
-            {previewDesktop ? (
-              <img src={previewDesktop} alt="" className="h-full w-full object-cover" />
-            ) : (
-              <div className="flex h-full items-center justify-center text-[9px] text-muted-foreground">16:10</div>
-            )}
-          </div>
-          <div
-            className="h-10 w-6 overflow-hidden rounded border border-dashed border-white/20 bg-muted/20"
-            title="Mobile 9:16"
-          >
-            {previewMobile ? (
-              <img src={previewMobile} alt="" className="h-full w-full object-cover" />
-            ) : (
-              <div className="flex h-full items-center justify-center text-[8px] text-muted-foreground">9:16</div>
-            )}
-          </div>
-        </div>
-
-        <Button
-          type="button"
-          size="sm"
-          variant="brand"
-          className="h-8 shrink-0 px-3 text-xs"
-          disabled={!previewDesktop}
-          onClick={() => {
-            onInsert(previewDesktop, previewMobile || previewDesktop, alt.trim() || 'Article image');
-            setDesktop('');
-            setMobile('');
-            setAlt('');
-            onClose();
-          }}
-        >
-          Insert
-        </Button>
-      </div>
-    </div>
-  );
-}
 
 export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Props>(function MarkdownContentEditor(
   { value, onChange, rows = 18, placeholder, className },
@@ -298,7 +205,7 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
           ),
         )}
       </div>
-      <InlineImageDialog
+      <FigureImagePicker
         open={imageDialogOpen}
         onClose={() => setImageDialogOpen(false)}
         onInsert={insertFigure}

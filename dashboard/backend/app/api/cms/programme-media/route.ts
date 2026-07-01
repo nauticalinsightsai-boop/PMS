@@ -6,12 +6,13 @@ import {
   programmeMediaMaxBytes,
   programmeMediaStorageDriver,
   programmeMediaStorageNotConfiguredMessage,
-  programmeMediaUsesR2,
   r2DeleteObject,
   r2ListObjects,
   r2PublicUrl,
   r2UploadObject,
 } from '@/lib/storage/r2-programme-media';
+import { inferContentType } from '@/lib/storage/content-type';
+import { ensureProgrammeMediaBucket } from '@/lib/storage/ensure-supabase-bucket';
 
 const SUPABASE_BUCKET = 'programme-media';
 
@@ -34,8 +35,17 @@ function safeSegment(value: string): string {
   return value.trim().replace(/[^a-zA-Z0-9._-]/g, '_');
 }
 
+function resolvedStorageDriver(): 'r2' | 'supabase' {
+  const driver = programmeMediaStorageDriver();
+  if (driver === 'r2' && !isR2ProgrammeMediaConfigured() && isSupabaseAdminConfigured()) {
+    return 'supabase';
+  }
+  return driver;
+}
+
 function storageReady(): boolean {
-  if (programmeMediaStorageDriver() === 'r2') return isR2ProgrammeMediaConfigured();
+  const driver = resolvedStorageDriver();
+  if (driver === 'r2') return isR2ProgrammeMediaConfigured();
   return isSupabaseAdminConfigured();
 }
 
@@ -49,7 +59,7 @@ export async function GET(request: NextRequest) {
 
   const prefix = request.nextUrl.searchParams.get('prefix')?.trim() ?? '';
 
-  if (programmeMediaUsesR2()) {
+  if (resolvedStorageDriver() === 'r2') {
     const objects = await r2ListObjects(prefix);
     const items = objects.map((obj) => ({
       name: obj.key,
@@ -96,35 +106,45 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'file is required' }, { status: 400 });
   }
 
-  const maxBytes = programmeMediaMaxBytes();
+  const maxBytes =
+    resolvedStorageDriver() === 'r2' ? programmeMediaMaxBytes() : 52_428_800;
   if (file.size > maxBytes) {
     const maxMb = Math.round(maxBytes / (1024 * 1024));
     return NextResponse.json({ error: `File exceeds ${maxMb}MB limit` }, { status: 413 });
-  }
-
-  const contentType = file.type || 'application/octet-stream';
-  if (!ALLOWED_TYPES.has(contentType)) {
-    return NextResponse.json({ error: `Unsupported file type: ${contentType}` }, { status: 400 });
   }
 
   const certId = safeSegment(String(form.get('certId') ?? 'cert'));
   const tier = safeSegment(String(form.get('tier') ?? 'foundation'));
   const kind = safeSegment(String(form.get('kind') ?? 'file'));
   const original = form.get('filename');
-  const ext =
-    typeof original === 'string' && original.includes('.')
-      ? original.trim().split('.').pop()!
-      : (contentType.split('/')[1] ?? 'bin');
+  const filename =
+    typeof original === 'string' && original.trim() ? original.trim() : `${kind}.bin`;
+  const contentType = inferContentType(filename, file.type);
+  if (!ALLOWED_TYPES.has(contentType)) {
+    return NextResponse.json({ error: `Unsupported file type: ${contentType}` }, { status: 400 });
+  }
+
+  const ext = filename.includes('.') ? filename.trim().split('.').pop()! : (contentType.split('/')[1] ?? 'bin');
 
   const path = `${certId}/${tier}/${kind}-${Date.now()}.${safeSegment(ext)}`;
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  if (programmeMediaUsesR2()) {
-    await r2UploadObject({ key: path, body: buffer, contentType });
-    return NextResponse.json({ ok: true, path, url: r2PublicUrl(path), storage: 'r2' });
+  if (resolvedStorageDriver() === 'r2') {
+    try {
+      await r2UploadObject({ key: path, body: buffer, contentType });
+      return NextResponse.json({ ok: true, path, url: r2PublicUrl(path), storage: 'r2' });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Cloudflare R2 upload failed';
+      return NextResponse.json({ error: message }, { status: 500 });
+    }
   }
 
   const admin = getSupabaseAdmin();
+  const bucketReady = await ensureProgrammeMediaBucket(admin);
+  if (!bucketReady.ok) {
+    return NextResponse.json({ error: bucketReady.error }, { status: 503 });
+  }
+
   const { error } = await admin.storage.from(SUPABASE_BUCKET).upload(path, buffer, {
     contentType,
     upsert: false,
@@ -156,8 +176,13 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'path is required' }, { status: 400 });
   }
 
-  if (programmeMediaUsesR2()) {
-    await r2DeleteObject(storagePath);
+  if (resolvedStorageDriver() === 'r2') {
+    try {
+      await r2DeleteObject(storagePath);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Cloudflare R2 delete failed';
+      return NextResponse.json({ error: message }, { status: 500 });
+    }
     return NextResponse.json({ ok: true, storage: 'r2' });
   }
 

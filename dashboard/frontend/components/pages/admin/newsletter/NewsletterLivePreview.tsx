@@ -16,22 +16,22 @@ type Props = {
   onDeviceChange: (device: 'desktop' | 'mobile') => void;
 };
 
+/** Shared viewport — desktop and mobile previews stay the same height. */
+const PREVIEW_VIEWPORT_CLASS = 'h-[640px] overflow-hidden';
+
 function MobilePhoneFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex justify-center">
+    <div className="flex h-full items-center justify-center bg-muted/20 p-3">
       <div
-        className="mx-auto flex w-full max-w-[375px] flex-col overflow-hidden rounded-[2.5rem] border-[8px] border-slate-900 bg-white text-slate-900 shadow-2xl dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
-        style={{
-          aspectRatio: `${MOBILE_FRAME_WIDTH}/${MOBILE_FRAME_HEIGHT}`,
-          maxHeight: `min(${MOBILE_FRAME_HEIGHT}px, 85vh)`,
-        }}
+        className="flex h-full max-h-full w-auto max-w-full flex-col overflow-hidden rounded-[2rem] border-[6px] border-slate-900 bg-white text-slate-900 shadow-2xl dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+        style={{ aspectRatio: `${MOBILE_FRAME_WIDTH}/${MOBILE_FRAME_HEIGHT}` }}
       >
-        <div className="flex shrink-0 items-center justify-center border-b border-slate-200 bg-slate-100 px-4 py-2 dark:border-slate-800 dark:bg-slate-900">
-          <div className="h-1.5 w-20 rounded-full bg-slate-300 dark:bg-slate-600" />
+        <div className="flex shrink-0 items-center justify-center border-b border-slate-200 bg-slate-100 px-3 py-1.5 dark:border-slate-800 dark:bg-slate-900">
+          <div className="h-1 w-14 rounded-full bg-slate-300 dark:bg-slate-600" />
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">{children}</div>
-        <div className="flex shrink-0 justify-center border-t border-slate-200 bg-slate-100 py-2 dark:border-slate-800 dark:bg-slate-900">
-          <div className="h-1 w-28 rounded-full bg-slate-300 dark:bg-slate-600" />
+        <div className="flex shrink-0 justify-center border-t border-slate-200 bg-slate-100 py-1.5 dark:border-slate-800 dark:bg-slate-900">
+          <div className="h-1 w-20 rounded-full bg-slate-300 dark:bg-slate-600" />
         </div>
       </div>
     </div>
@@ -133,19 +133,15 @@ export function NewsletterLivePreview({ post, device, onDeviceChange }: Props) {
         </div>
       </div>
 
-      {isMobile ? (
-        <MobilePhoneFrame>{previewBody}</MobilePhoneFrame>
-      ) : (
-        <div className="overflow-hidden rounded-xl border border-border bg-white text-slate-900 shadow-lg dark:bg-slate-950 dark:text-slate-100">
-          <div className="max-h-[640px] overflow-y-auto">{previewBody}</div>
-        </div>
-      )}
-
-      {isMobile ? (
-        <p className="mt-2 text-center text-[10px] font-medium text-muted-foreground">
-          {MOBILE_FRAME_WIDTH} × {MOBILE_FRAME_HEIGHT}px
-        </p>
-      ) : null}
+      <div className={cn('rounded-xl border border-border', PREVIEW_VIEWPORT_CLASS)}>
+        {isMobile ? (
+          <MobilePhoneFrame>{previewBody}</MobilePhoneFrame>
+        ) : (
+          <div className="flex h-full flex-col overflow-hidden bg-white text-slate-900 shadow-lg dark:bg-slate-950 dark:text-slate-100">
+            <div className="min-h-0 flex-1 overflow-y-auto">{previewBody}</div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
