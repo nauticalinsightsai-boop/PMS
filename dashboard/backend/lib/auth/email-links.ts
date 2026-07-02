@@ -1,3 +1,5 @@
+import { resolvePublicSiteUrl, PRODUCTION_SITE_URL } from '@pms/site-content/public-site-url';
+
 /**
  * Base URL for links in auth emails (password reset, etc.).
  * Use AUTH_EMAIL_SITE_URL when running locally but sending real emails to production.
@@ -5,9 +7,7 @@
 export function getAuthEmailSiteUrl(): string {
   const fromEmail = process.env.AUTH_EMAIL_SITE_URL?.trim();
   if (fromEmail) return fromEmail.replace(/\/$/, '');
-  const fromPublic = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (fromPublic) return fromPublic.replace(/\/$/, '');
-  return 'http://localhost:3000';
+  return resolvePublicSiteUrl(process.env.NEXT_PUBLIC_SITE_URL, PRODUCTION_SITE_URL);
 }
 
 export function getAdminBasePath(): string {

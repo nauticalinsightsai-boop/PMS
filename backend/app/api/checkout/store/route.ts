@@ -1,3 +1,4 @@
+import { requestOrigin } from '@/lib/request-origin';
 import { createStripeEmbeddedCheckoutSession } from '@/lib/checkout-session';
 import { resolveStoreCheckoutPrice } from '@/lib/store-checkout';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
   const price = resolveStoreCheckoutPrice(productId);
   if (!price) return jsonError('Product not found', 404);
 
-  const origin = request.headers.get('origin') ?? 'http://localhost:3000';
+  const origin = requestOrigin(request);
   const defaultReturn = `${origin}/checkout/store/success?product=${encodeURIComponent(productId)}&session_id={CHECKOUT_SESSION_ID}`;
 
   const session = await createStripeEmbeddedCheckoutSession({

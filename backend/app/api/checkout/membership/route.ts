@@ -1,3 +1,4 @@
+import { requestOrigin } from '@/lib/request-origin';
 import { createStripeEmbeddedCheckoutSession } from '@/lib/checkout-session';
 import {
   resolveMembershipCheckoutPrice,
@@ -40,7 +41,7 @@ export async function POST(request: Request) {
   const price = resolveMembershipCheckoutPrice(tier, billing, regionId, gccCountry, cmsUsd);
   if (!price) return jsonError('Price unavailable', 400);
 
-  const origin = request.headers.get('origin') ?? 'http://localhost:3000';
+  const origin = requestOrigin(request);
   const defaultReturn = `${origin}/membership/checkout/success?tier=${tier}&billing=${billing}&session_id={CHECKOUT_SESSION_ID}`;
   const tierLabel = tier === 'professional' ? 'Professional' : 'Mastery';
   const billingLabel = billing === 'monthly' ? 'Monthly' : 'Yearly';

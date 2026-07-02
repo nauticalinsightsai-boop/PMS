@@ -21,6 +21,7 @@ import { RefreshIcon } from '@/components/shared/RefreshIcon';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
 import type { NewsletterPostStatus } from '@/lib/newsletter-posts';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
+import { siteUrl } from '@/lib/site-config';
 import { cn } from '@/lib/utils';
 
 function statusBadge(status: NewsletterPostStatus) {
@@ -56,7 +57,7 @@ export function NewsletterPostsList() {
     );
   }, [posts, search]);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const publicSiteUrl = siteUrl;
 
   return (
     <div className="space-y-6">
@@ -178,7 +179,7 @@ export function NewsletterPostsList() {
                           aria-label={`View newsletter ${post.title}`}
                           render={
                             <a
-                              href={`${siteUrl.replace(/\/$/, '')}/newsletter/${post.slug}`}
+                              href={`${publicSiteUrl.replace(/\/$/, '')}/newsletter/${post.slug}`}
                               target="_blank"
                               rel="noopener noreferrer"
                             />
@@ -192,7 +193,7 @@ export function NewsletterPostsList() {
                           aria-label={`View blog ${post.title}`}
                           render={
                             <a
-                              href={`${siteUrl.replace(/\/$/, '')}/blog/${post.slug}`}
+                              href={`${publicSiteUrl.replace(/\/$/, '')}/blog/${post.slug}`}
                               target="_blank"
                               rel="noopener noreferrer"
                             />

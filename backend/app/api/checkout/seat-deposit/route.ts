@@ -1,3 +1,4 @@
+import { requestOrigin } from '@/lib/request-origin';
 import { getOfferingById } from '@/lib/regional-catalogue';
 import {
   createStripeEmbeddedCheckoutSession,
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
   }
 
   try {
-  const origin = request.headers.get('origin') ?? 'http://localhost:3000';
+  const origin = requestOrigin(request);
   const liveSite =
     origin.includes('pmstructure.com') ||
     (process.env.NEXT_PUBLIC_SITE_URL?.includes('pmstructure.com') ?? false);

@@ -11,11 +11,9 @@ import {
 } from '@pms/booking-crm';
 import type { ChannelLandingPage } from '@pms/booking-crm';
 import { requireDashboardMutationAuth } from '@/lib/auth/api-guard';
+import { marketingSiteUrl } from '@/lib/site-config';
 
-const MARKETING_SITE_URL =
-  process.env.NEXT_PUBLIC_MARKETING_SITE_URL ||
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  'http://localhost:3000';
+const MARKETING_SITE_URL = marketingSiteUrl;
 
 export async function GET(request: NextRequest) {
   const auth = await requireDashboardMutationAuth(request);

@@ -1,3 +1,5 @@
+import { resolvePublicSiteUrl } from '@pms/site-content/public-site-url';
+
 /**
  * Resolve API path for fetch().
  * Browser: same-origin relative path so checkout works on whatever host/port
@@ -7,6 +9,6 @@
 export function apiUrl(path: string): string {
   const normalized = path.startsWith('/') ? path : `/${path}`;
   if (typeof window !== 'undefined') return normalized;
-  const base = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000').replace(/\/$/, '');
+  const base = resolvePublicSiteUrl(process.env.NEXT_PUBLIC_API_URL, 'http://localhost:3000');
   return `${base}${normalized}`;
 }

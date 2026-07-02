@@ -22,8 +22,6 @@ applyToProcessEnv(loadMonorepoEnv());
 
 /** Keys that must not be copied to Railway (local dev only). */
 const SKIP = new Set([
-  'BACKEND_URL',
-  'DASHBOARD_BACKEND_URL',
   'GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH',
   'AUTH_DEV_LOG_RESET_LINK',
   'AUTH_DEV_LOG_OTP',
@@ -41,6 +39,12 @@ const URL_KEYS = new Set([
 function productionValue(key, value) {
   if (URL_KEYS.has(key)) return PRODUCTION;
   if (key === 'AUTH_ALLOWED_ORIGINS') {
+    return `${PRODUCTION},https://www.pmstructure.com`;
+  }
+  if (key === 'AUTH_EMAIL_SITE_URL') {
+    return PRODUCTION;
+  }
+  if (key === 'BACKEND_URL' || key === 'DASHBOARD_BACKEND_URL') {
     return PRODUCTION;
   }
   const host = process.env.SMTP_HOST?.trim() ?? '';

@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 import { dashboardHref } from '@/lib/base-path';
+import { siteUrl } from '@/lib/site-config';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
 import {
   createEmptyPost,
@@ -45,7 +46,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const [syncStatus, setSyncStatus] = useState<SyncStatus>('synced');
   const [lastSynced, setLastSynced] = useState<Date | undefined>();
 
-  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
+  const publicSiteUrl = siteUrl.replace(/\/$/, '');
 
   // Load once per post route — do not reset on registry/realtime refresh while editing.
   useEffect(() => {
@@ -171,8 +172,8 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const pageTitle = postId ? 'Edit Newsletter' : 'New Newsletter';
   const publicPaths = post.slug
     ? [
-        { label: 'Newsletter page', href: `${siteUrl}/newsletter/${post.slug}` },
-        { label: 'Blog page', href: `${siteUrl}/blog/${post.slug}` },
+        { label: 'Newsletter page', href: `${publicSiteUrl}/newsletter/${post.slug}` },
+        { label: 'Blog page', href: `${publicSiteUrl}/blog/${post.slug}` },
       ]
     : [];
 

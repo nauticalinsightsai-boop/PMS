@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { withBasePath, dashboardHref, normalizeDashboardPath } from '@/lib/base-path';
+import { siteUrl } from '@/lib/site-config';
 import { useDashboardMode, DashboardMode } from '@/contexts/DashboardModeContext';
 import { useTheme } from '@/components/shared/ThemeProvider';
 import { DASHBOARD_ROUTES } from '@/constants/dashboardRoutes';
@@ -320,7 +321,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                 className="hidden h-8 gap-1.5 lg:inline-flex"
                 render={
                   <a
-                    href={process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}
+                    href={siteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   />

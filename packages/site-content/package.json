@@ -19,6 +19,7 @@
     "./newsletter": "./src/newsletter.ts",
     "./newsletter-posts": "./src/newsletter-posts.ts",
     "./article-markdown": "./src/article-markdown.ts",
+    "./public-site-url": "./src/public-site-url.ts",
     "./youtube": "./src/youtube.ts",
     "./cms-posts": "./src/cms-posts.ts",
     "./seeds": "./src/seeds/index.ts",

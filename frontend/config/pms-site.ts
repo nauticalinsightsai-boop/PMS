@@ -4,37 +4,16 @@
 import { buildOnboardingCalendlyUrl } from '@/lib/calendly/onboarding-calendly-url';
 import { BRAND } from '@/lib/brand-voice';
 import { getOfferingById } from '@/lib/regional-catalogue';
+import {
+  PRODUCTION_SITE_URL,
+  resolvePublicSiteUrl as resolvePublicSiteUrlBase,
+} from '@pms/site-content/public-site-url';
 
-const PRODUCTION_SITE_URL = 'https://pmstructure.com';
+export { PRODUCTION_SITE_URL };
 
-function isLocalDevHost(hostname: string): boolean {
-  return (
-    hostname === 'localhost' ||
-    hostname.endsWith('.localhost') ||
-    hostname === '127.0.0.1' ||
-    hostname === '[::1]'
-  );
-}
-
-/** Resolve public site URL; never emit localhost on production builds. */
+/** Resolve public site URL; never emit localhost on production builds or Railway. */
 export function resolvePublicSiteUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, '');
-  const isProduction =
-    process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production';
-
-  if (raw) {
-    try {
-      const host = new URL(raw).hostname;
-      if (isProduction && isLocalDevHost(host)) {
-        return PRODUCTION_SITE_URL;
-      }
-      return raw;
-    } catch {
-      // fall through
-    }
-  }
-
-  return isProduction ? PRODUCTION_SITE_URL : raw || PRODUCTION_SITE_URL;
+  return resolvePublicSiteUrlBase(process.env.NEXT_PUBLIC_SITE_URL, PRODUCTION_SITE_URL);
 }
 
 export const PMS_SITE_URL = resolvePublicSiteUrl();

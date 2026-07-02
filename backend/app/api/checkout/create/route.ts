@@ -1,3 +1,4 @@
+import { requestOrigin } from '@/lib/request-origin';
 import { getOfferingById, resolveCheckoutUsdCents } from '@/lib/regional-catalogue';
 import { isPaymentBlockedStatus } from '@/lib/enrollment-eligibility';
 import { membershipPriceUsdCents } from '@/lib/membership-pricing';
@@ -60,7 +61,7 @@ export async function POST(request: Request) {
     }
   }
 
-  const origin = request.headers.get('origin') ?? 'http://localhost:3000';
+  const origin = requestOrigin(request);
 
   const defaultSuccess = `${origin}/checkout/success?offering=${offeringId}&session_id={CHECKOUT_SESSION_ID}`;
   const defaultCancel = `${origin}/checkout/cancel?offering=${offeringId}`;
