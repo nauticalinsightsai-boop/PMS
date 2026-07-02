@@ -14,7 +14,8 @@ type Props = { params: Promise<{ id: string }> };
 
 const emptyRegistry: CertificationsRegistry = { version: 1, entries: [] };
 
-export const revalidate = 300;
+/** Fresh CMS registry (programme videos/PDFs) on each request — build-time static cache was missing uploads. */
+export const dynamic = 'force-dynamic';
 
 export function generateStaticParams() {
   return certifications.map((c) => ({ id: c.id }));

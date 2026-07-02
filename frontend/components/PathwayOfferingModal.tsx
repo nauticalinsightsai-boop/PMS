@@ -111,6 +111,15 @@ export function PathwayOfferingModal({
     [offeringId, programmeTitle, resolvedProgrammeAssets],
   );
 
+  const videoPanel = preview.panels.find((panel) => panel.id === 'video');
+  const overviewVideoSrc =
+    videoPanel?.videoSrc?.trim() ||
+    videoPanel?.videoEmbedUrl?.trim() ||
+    resolvedProgrammeAssets?.videoUrl?.trim() ||
+    resolvedProgrammeAssets?.videoEmbedUrl?.trim() ||
+    null;
+  const materialsPending = assetsLoading && !overviewVideoSrc && !programmeAssets?.videoUrl?.trim();
+
   const dualActions = pathwayCta.showConsultationInModal && pathwayCta.enrollHref;
   const singleEnroll = pathwayCta.enrollHref && !pathwayCta.showConsultationInModal;
   const singleOther = !pathwayCta.enrollHref;
@@ -239,7 +248,8 @@ export function PathwayOfferingModal({
             preview={preview}
             step={step}
             outcomes={outcomes}
-            materialsLoading={assetsLoading && step === 'materials'}
+            overviewVideoSrc={overviewVideoSrc}
+            materialsLoading={materialsPending && step === 'materials'}
           />
         </DialogBody>
 

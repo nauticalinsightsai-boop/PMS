@@ -67,15 +67,48 @@ function RoadmapSlide({ hero }: { hero: ProgrammeInfographicHero }) {
 
 function VideoFrame({
   panel,
+  overviewVideoSrc,
   loading,
 }: {
   panel: ProgrammePreviewPanel | undefined;
+  overviewVideoSrc?: string | null;
   loading?: boolean;
 }) {
   if (loading) {
     return (
       <div className="flex aspect-video items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-900/50">
         <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Loading overview video…</p>
+      </div>
+    );
+  }
+
+  const embedUrl = panel?.videoEmbedUrl?.trim() || null;
+  const fileUrl = overviewVideoSrc?.trim() || panel?.videoSrc?.trim() || null;
+
+  if (embedUrl) {
+    return (
+      <div className="aspect-video overflow-hidden rounded-2xl bg-slate-950">
+        <iframe
+          title={panel?.videoTitle ?? panel?.title ?? 'Overview video'}
+          src={embedUrl}
+          className="h-full w-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+    );
+  }
+
+  if (fileUrl) {
+    return (
+      <div className="aspect-video overflow-hidden rounded-2xl bg-slate-950">
+        <video
+          className="h-full w-full object-contain"
+          controls
+          playsInline
+          preload="metadata"
+          src={fileUrl}
+        />
       </div>
     );
   }
@@ -90,38 +123,10 @@ function VideoFrame({
     );
   }
 
-  if (panel.videoEmbedUrl) {
-    return (
-      <div className="aspect-video overflow-hidden rounded-2xl bg-slate-950">
-        <iframe
-          title={panel.videoTitle ?? panel.title}
-          src={panel.videoEmbedUrl}
-          className="h-full w-full"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-    );
-  }
-
-  if (panel.videoSrc) {
-    return (
-      <div className="aspect-video overflow-hidden rounded-2xl bg-slate-950">
-        <video
-          className="h-full w-full object-contain"
-          controls
-          playsInline
-          preload="metadata"
-          src={panel.videoSrc}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="flex aspect-video items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-6 text-center dark:border-slate-700 dark:bg-slate-900/50">
       <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-        Overview video is being prepared.
+        Overview video is being prepared. You can still review the programme guide and session slides below.
       </p>
     </div>
   );
@@ -163,12 +168,14 @@ export function PathwayModalPreviewFlow({
   preview,
   step,
   outcomes,
+  overviewVideoSrc,
   materialsLoading = false,
   className,
 }: {
   preview: ProgrammePreviewContent;
   step: PathwayModalStep;
   outcomes: string[];
+  overviewVideoSrc?: string | null;
   materialsLoading?: boolean;
   className?: string;
 }) {
@@ -216,7 +223,7 @@ export function PathwayModalPreviewFlow({
               Watch the overview, then open the guide or slides in a new tab for reading.
             </p>
           </div>
-          <VideoFrame panel={videoPanel} loading={materialsLoading} />
+          <VideoFrame panel={videoPanel} overviewVideoSrc={overviewVideoSrc} loading={materialsLoading} />
           <div className="grid gap-3 sm:grid-cols-2">
             {guideUrl ? (
               <DocumentLinkButton
