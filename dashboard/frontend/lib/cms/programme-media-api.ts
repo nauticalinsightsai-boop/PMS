@@ -9,6 +9,18 @@ export type ProgrammeMediaItem = {
   storage?: 'r2' | 'supabase';
 };
 
+export type ProgrammeUploadProgress = {
+  phase: 'presign' | 'upload';
+  percent: number;
+};
+
+/** Large files upload directly to R2 (avoids server memory/timeouts). */
+export const PROGRAMME_DIRECT_UPLOAD_BYTES = 4 * 1024 * 1024;
+
+function formatMb(bytes: number): string {
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 function parseUploadError(res: Response, data: Record<string, unknown>): string {
   const msg = typeof data.error === 'string' ? data.error : '';
   if (res.status === 401) {
@@ -37,13 +49,56 @@ function inferProgrammeContentType(
   return file.type || 'application/octet-stream';
 }
 
-async function uploadViaPresignedPut(params: {
-  file: File;
-  certId: string;
-  tier: 'foundation' | 'professional' | 'mastery';
-  kind: 'guide' | 'slides' | 'video' | 'infographic';
-}): Promise<{ path: string; url: string; storage: 'r2' }> {
+function putFileWithProgress(
+  uploadUrl: string,
+  file: File,
+  contentType: string,
+  onProgress?: (percent: number) => void,
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', uploadUrl);
+    xhr.setRequestHeader('Content-Type', contentType);
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable && onProgress) {
+        onProgress(Math.round((event.loaded / event.total) * 100));
+      }
+    };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onProgress?.(100);
+        resolve();
+        return;
+      }
+      reject(
+        new Error(
+          xhr.responseText ||
+            `R2 upload failed (${xhr.status}). Run npm run r2:cors if this is a CORS error.`,
+        ),
+      );
+    };
+    xhr.onerror = () => {
+      reject(
+        new Error(
+          'Direct upload to Cloudflare R2 was blocked (network/CORS). Run `npm run r2:cors` from the repo root.',
+        ),
+      );
+    };
+    xhr.send(file);
+  });
+}
+
+async function uploadViaPresignedPut(
+  params: {
+    file: File;
+    certId: string;
+    tier: 'foundation' | 'professional' | 'mastery';
+    kind: 'guide' | 'slides' | 'video' | 'infographic';
+  },
+  onProgress?: (progress: ProgrammeUploadProgress) => void,
+): Promise<{ path: string; url: string; storage: 'r2' }> {
   const contentType = inferProgrammeContentType(params.file, params.kind);
+  onProgress?.({ phase: 'presign', percent: 0 });
 
   const presignRes = await fetchDashboardApi('/api/cms/programme-media/presign', {
     method: 'POST',
@@ -79,26 +134,13 @@ async function uploadViaPresignedPut(params: {
     throw new Error('Could not get R2 upload URL. Check R2 credentials on the dashboard backend.');
   }
 
-  let putRes: Response;
-  try {
-    putRes = await fetch(uploadUrl, {
-      method: 'PUT',
-      headers: { 'Content-Type': presignData.contentType || contentType },
-      body: params.file,
-    });
-  } catch {
-    throw new Error(
-      'Direct upload to Cloudflare R2 was blocked (network/CORS). Run `npm run r2:cors` from the repo root, or allow PUT from your admin domain in the R2 bucket CORS settings.',
-    );
-  }
-
-  if (!putRes.ok) {
-    const detail = await putRes.text().catch(() => '');
-    throw new Error(
-      detail ||
-        `R2 upload failed (${putRes.status}). If this is a CORS error, run \`npm run r2:cors\` or add PUT permission for your admin origin on the R2 bucket.`,
-    );
-  }
+  onProgress?.({ phase: 'upload', percent: 0 });
+  await putFileWithProgress(
+    uploadUrl,
+    params.file,
+    presignData.contentType || contentType,
+    (percent) => onProgress?.({ phase: 'upload', percent }),
+  );
 
   return { path: storagePath, url: publicUrl, storage: 'r2' };
 }
@@ -141,16 +183,26 @@ async function uploadViaServerProxy(params: {
 }
 
 /** Programme PDFs and videos upload to Cloudflare R2 via the dashboard API (never Supabase direct). */
-export async function uploadProgrammeMediaFile(params: {
-  file: File;
-  certId: string;
-  tier: 'foundation' | 'professional' | 'mastery';
-  kind: 'guide' | 'slides' | 'video' | 'infographic';
-}): Promise<{ path: string; url: string; storage?: 'r2' | 'supabase' }> {
-  const proxied = await uploadViaServerProxy(params);
+export async function uploadProgrammeMediaFile(
+  params: {
+    file: File;
+    certId: string;
+    tier: 'foundation' | 'professional' | 'mastery';
+    kind: 'guide' | 'slides' | 'video' | 'infographic';
+  },
+  options?: {
+    onProgress?: (progress: ProgrammeUploadProgress) => void;
+  },
+): Promise<{ path: string; url: string; storage?: 'r2' | 'supabase' }> {
+  const useDirect = params.file.size > PROGRAMME_DIRECT_UPLOAD_BYTES;
 
+  if (useDirect) {
+    return uploadViaPresignedPut(params, options?.onProgress);
+  }
+
+  const proxied = await uploadViaServerProxy(params);
   if (proxied.directUploadRequired) {
-    return uploadViaPresignedPut(params);
+    return uploadViaPresignedPut(params, options?.onProgress);
   }
 
   if (proxied.storage !== 'r2') {
@@ -160,6 +212,11 @@ export async function uploadProgrammeMediaFile(params: {
   }
 
   return { path: proxied.path, url: proxied.url, storage: proxied.storage };
+}
+
+export function programmeUploadSizeHint(bytes: number): string {
+  if (bytes <= PROGRAMME_DIRECT_UPLOAD_BYTES) return formatMb(bytes);
+  return `${formatMb(bytes)} — uploads directly to Cloudflare R2`;
 }
 
 export async function deleteProgrammeMediaFile(path: string): Promise<void> {
