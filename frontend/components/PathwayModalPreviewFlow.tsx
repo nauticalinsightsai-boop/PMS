@@ -5,10 +5,6 @@ import Image from 'next/image';
 import { ArrowLeft, ArrowRight, ExternalLink, FileText, Presentation } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import {
-  EmbeddedPdf,
-  MaterialFullscreenDialog,
-} from '@/components/programme/ProgrammeMaterialViewer';
 import type {
   ProgrammeInfographicHero,
   ProgrammePreviewContent,
@@ -141,31 +137,30 @@ function DocumentLinkButton({
   label,
   description,
   icon: Icon,
-  onOpen,
 }: {
   href: string;
   label: string;
   description: string;
   icon: typeof FileText;
-  onOpen: () => void;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="group flex w-full items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-left transition-colors hover:border-brand-orange/40 hover:bg-brand-orange/5 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-brand-orange/10"
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 transition-colors hover:border-brand-orange/40 hover:bg-brand-orange/5 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-brand-orange/10"
     >
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-orange/10 text-brand-orange">
         <Icon className="h-4 w-4" />
       </span>
-      <span className="min-w-0 flex-1">
+      <span className="min-w-0 flex-1 text-left">
         <span className="flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-white">
           {label}
           <ExternalLink className="h-3.5 w-3.5 text-brand-orange opacity-70 transition-opacity group-hover:opacity-100" />
         </span>
         <span className="mt-0.5 block text-xs font-medium text-slate-500 dark:text-slate-400">{description}</span>
       </span>
-    </button>
+    </a>
   );
 }
 
@@ -189,12 +184,6 @@ export function PathwayModalPreviewFlow({
   const videoPanel = preview.panels.find((panel) => panel.id === 'video');
   const guideUrl = panelDocumentUrl(guidePanel);
   const slidesUrl = panelDocumentUrl(slidesPanel);
-  const [documentViewer, setDocumentViewer] = React.useState<{
-    title: string;
-    description: string;
-    src: string;
-    openUrl: string;
-  } | null>(null);
 
   return (
     <div className={cn('space-y-4', className)}>
@@ -231,7 +220,7 @@ export function PathwayModalPreviewFlow({
           <div>
             <p className="text-label mb-2">Programme materials</p>
             <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-              Watch the overview, then open the guide or slides to read in this window.
+              Watch the overview, then open the guide or slides in a new tab.
             </p>
           </div>
           <VideoFrame panel={videoPanel} overviewVideoSrc={overviewVideoSrc} loading={materialsLoading} />
@@ -240,17 +229,8 @@ export function PathwayModalPreviewFlow({
               <DocumentLinkButton
                 href={guideUrl}
                 label="Programme guide"
-                description={guidePanel?.description ?? 'Chapter 0: programme foundation (read in this window).'}
+                description={guidePanel?.description ?? 'Chapter 0: programme foundation (opens in a new tab).'}
                 icon={FileText}
-                onOpen={() =>
-                  setDocumentViewer({
-                    title: 'Programme guide',
-                    description:
-                      guidePanel?.description ?? 'Chapter 0: programme foundation (read in this window).',
-                    src: guideUrl,
-                    openUrl: guideUrl,
-                  })
-                }
               />
             ) : (
               <UnavailableDoc label="Programme guide" />
@@ -259,17 +239,8 @@ export function PathwayModalPreviewFlow({
               <DocumentLinkButton
                 href={slidesUrl}
                 label="Session slides"
-                description={slidesPanel?.description ?? 'D0: 2026 PMP Navigator deck (read in this window).'}
+                description={slidesPanel?.description ?? 'D0: 2026 PMP Navigator deck (opens in a new tab).'}
                 icon={Presentation}
-                onOpen={() =>
-                  setDocumentViewer({
-                    title: 'Session slides',
-                    description:
-                      slidesPanel?.description ?? 'D0: 2026 PMP Navigator deck (read in this window).',
-                    src: slidesUrl,
-                    openUrl: slidesUrl,
-                  })
-                }
               />
             ) : (
               <UnavailableDoc label="Session slides" />
@@ -277,24 +248,6 @@ export function PathwayModalPreviewFlow({
           </div>
         </section>
       )}
-
-      {documentViewer ? (
-        <MaterialFullscreenDialog
-          open
-          onOpenChange={(open) => {
-            if (!open) setDocumentViewer(null);
-          }}
-          title={documentViewer.title}
-          description={documentViewer.description}
-        >
-          <EmbeddedPdf
-            src={documentViewer.src}
-            title={documentViewer.title}
-            variant="fullscreen"
-            openUrl={documentViewer.openUrl}
-          />
-        </MaterialFullscreenDialog>
-      ) : null}
     </div>
   );
 }

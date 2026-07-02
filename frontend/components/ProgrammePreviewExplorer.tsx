@@ -12,7 +12,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
-  EmbeddedPdf,
   MaterialFullscreenDialog,
 } from '@/components/programme/ProgrammeMaterialViewer';
 import type {
@@ -31,8 +30,6 @@ const PANEL_ICON = {
 function panelSupportsFullscreen(panel: ProgrammePreviewPanel): boolean {
   if (!panel.available) return false;
   if (panel.kind === 'video') return !!(panel.videoSrc || panel.videoEmbedUrl);
-  if (panel.kind === 'pdf') return !!panel.pdfSrc;
-  if (panel.kind === 'slides') return !!panel.slidesPdfSrc;
   return false;
 }
 
@@ -66,6 +63,20 @@ function InlineSections({ sections }: { sections: ProgrammeInlineSection[] }) {
         </div>
       ))}
     </div>
+  );
+}
+
+function DocumentOpenLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-2 rounded-xl border border-brand-orange/30 bg-brand-orange/5 px-4 py-3 text-sm font-bold text-brand-orange transition-colors hover:bg-brand-orange/10"
+    >
+      <ExternalLink className="h-4 w-4" />
+      Open {label} in new tab
+    </a>
   );
 }
 
@@ -126,7 +137,7 @@ function PanelBody({
 
   if (panel.kind === 'pdf') {
     if (panel.pdfSrc) {
-      return <EmbeddedPdf src={panel.pdfSrc} title={panel.title} variant={variant} openUrl={panel.pdfSrc} />;
+      return <DocumentOpenLink href={panel.pdfSrc} label={panel.title.toLowerCase()} />;
     }
     if (panel.inlineSections?.length) {
       return <InlineSections sections={panel.inlineSections} />;
@@ -135,14 +146,7 @@ function PanelBody({
 
   if (panel.kind === 'slides') {
     if (panel.slidesPdfSrc) {
-      return (
-        <EmbeddedPdf
-          src={panel.slidesPdfSrc}
-          title={panel.title}
-          variant={variant}
-          openUrl={panel.slidesPdfSrc}
-        />
-      );
+      return <DocumentOpenLink href={panel.slidesPdfSrc} label={panel.title.toLowerCase()} />;
     }
     if (panel.inlineSections?.length) {
       return <InlineSections sections={panel.inlineSections} />;
@@ -286,7 +290,7 @@ export function ProgrammePreviewExplorer({
       <div>
         <p className="text-label mb-3">Explore materials</p>
         <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-3 -mt-1">
-          Open a section to preview here, or use fullscreen for easier reading and playback.
+          PDFs open in a new browser tab. Videos play inline below.
         </p>
         <Accordion
           value={openPanel}
@@ -321,9 +325,7 @@ export function ProgrammePreviewExplorer({
                   {panelSupportsFullscreen(panel) ? (
                     <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50/80 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/40">
                       <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                        {panel.kind === 'video'
-                          ? 'Watch fullscreen, or open the video in a new tab.'
-                          : 'Open fullscreen for easier reading, or open the file in a new tab.'}
+                        Watch fullscreen, or open the video in a new tab.
                       </p>
                       <div className="flex shrink-0 flex-wrap items-center gap-2">
                         {panelOpenUrl(panel) ? (

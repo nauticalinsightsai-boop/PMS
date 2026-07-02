@@ -84,7 +84,7 @@ const PROGRAMME_PREVIEW_BY_OFFERING: Partial<
         id: 'guide',
         kind: 'pdf',
         title: 'Programme guide',
-        description: 'Chapter 0: programme foundation (read in this window).',
+        description: 'Chapter 0: programme foundation (opens in a new tab).',
         available: true,
         pdfSrc: '/programme/pmp-foundation-program-guide.pdf',
         inlineSections: PMP_FOUNDATION_GUIDE,
@@ -93,7 +93,7 @@ const PROGRAMME_PREVIEW_BY_OFFERING: Partial<
         id: 'slides',
         kind: 'slides',
         title: 'Session slides',
-        description: 'D0: 2026 PMP Navigator deck (read in this window).',
+        description: 'D0: 2026 PMP Navigator deck (opens in a new tab).',
         available: false,
         slidesPdfSrc: null,
       },
@@ -142,7 +142,7 @@ function defaultPanels(programmeTitle: string): ProgrammePreviewPanel[] {
       inlineSections: [
         {
           heading: programmeTitle,
-          bullets: ['Programme guide will be available here for in-modal reading.'],
+          bullets: ['Programme guide will open in a new tab when available.'],
         },
       ],
     },
@@ -156,7 +156,7 @@ function defaultPanels(programmeTitle: string): ProgrammePreviewPanel[] {
       inlineSections: [
         {
           heading: 'Lesson deck',
-          bullets: ['Session slides will be available here for in-modal viewing.'],
+          bullets: ['Session slides will open in a new tab when available.'],
         },
       ],
     },

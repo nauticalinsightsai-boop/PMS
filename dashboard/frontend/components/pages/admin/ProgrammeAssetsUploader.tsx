@@ -63,7 +63,7 @@ const ASSET_ROWS: Array<{
   {
     kind: 'slides',
     label: 'Session slides',
-    hint: 'Lesson deck for in-modal viewing (Cloudflare R2)',
+    hint: 'Lesson deck — opens in a new tab (Cloudflare R2)',
     accept: 'application/pdf,.pdf',
     formats: 'PDF · max 500MB',
     urlKey: 'slidesPdfUrl',
