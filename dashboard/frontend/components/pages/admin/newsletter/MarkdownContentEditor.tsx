@@ -40,6 +40,15 @@ import {
   sanitizeEditorHtml,
 } from '@/lib/article-editor-html';
 import { cn } from '@/lib/utils';
+import {
+  execEditorCommand,
+  formatBlockValue,
+  getSelectionRange,
+  isRangeInsideEditor,
+  rangeClientRect,
+  restoreEditorSelection,
+  saveEditorSelection,
+} from '@/lib/wysiwyg-selection';
 
 export type MarkdownContentEditorHandle = {
   insertSnippet: (text: string) => void;
@@ -69,34 +78,16 @@ const HEADING_LEVELS = [
   { level: 6, label: 'H6', tag: 'h6' },
 ] as const;
 
-function toolbarMouseDown(event: React.MouseEvent) {
+function toolbarMouseDown(event: React.MouseEvent, editor: HTMLElement | null, onSave: () => void) {
+  onSave();
   event.preventDefault();
 }
 
-function getSelectionRange(): Range | null {
-  const selection = window.getSelection();
-  if (!selection || selection.rangeCount === 0) return null;
-  return selection.getRangeAt(0);
-}
-
-function restoreRange(range: Range | null) {
-  if (!range) return;
-  const selection = window.getSelection();
-  if (!selection) return;
-  selection.removeAllRanges();
-  selection.addRange(range);
-}
-
-function rangeRect(range: Range | null): DOMRect | null {
-  if (!range) return null;
-  const rects = range.getClientRects();
-  if (rects.length > 0) return rects[0] ?? null;
-  return range.getBoundingClientRect();
-}
-
-function isRangeInsideEditor(range: Range | null, editor: HTMLElement | null): boolean {
-  if (!range || !editor) return false;
-  return editor.contains(range.commonAncestorContainer);
+function applyFormatBlock(editor: HTMLElement, saved: Range | null, tag: string): boolean {
+  const value = formatBlockValue(tag);
+  restoreEditorSelection(editor, saved);
+  if (document.execCommand('formatBlock', false, value)) return true;
+  return document.execCommand('formatBlock', false, `<${value}>`);
 }
 
 export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Props>(function MarkdownContentEditor(
@@ -107,7 +98,21 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
   const fileInputRef = useRef<HTMLInputElement>(null);
   const lastEmitted = useRef('');
   const skipSync = useRef(false);
+  const savedSelectionRef = useRef<Range | null>(null);
   const savedLinkRange = useRef<Range | null>(null);
+
+  const persistSelection = useCallback(() => {
+    savedSelectionRef.current = saveEditorSelection(editorRef.current);
+  }, []);
+
+  useEffect(() => {
+    const onSelectionChange = () => {
+      const saved = saveEditorSelection(editorRef.current);
+      if (saved) savedSelectionRef.current = saved;
+    };
+    document.addEventListener('selectionchange', onSelectionChange);
+    return () => document.removeEventListener('selectionchange', onSelectionChange);
+  }, []);
 
   const [blockMode, setBlockMode] = useState<'p' | number>('p');
   const [figureDialogOpen, setFigureDialogOpen] = useState(false);
@@ -161,20 +166,35 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
 
   const runCommand = useCallback(
     (command: string, commandValue?: string) => {
-      focusEditor();
-      document.execCommand(command, false, commandValue);
+      const el = editorRef.current;
+      if (!el) return;
+      execEditorCommand(el, command, savedSelectionRef.current, commandValue);
+      savedSelectionRef.current = saveEditorSelection(el);
       emitChange();
     },
-    [emitChange, focusEditor],
+    [emitChange],
   );
 
   const insertHtmlAtCursor = useCallback(
     (html: string) => {
-      focusEditor();
-      document.execCommand('insertHTML', false, html);
+      const el = editorRef.current;
+      if (!el) return;
+      execEditorCommand(el, 'insertHTML', savedSelectionRef.current, html);
+      savedSelectionRef.current = saveEditorSelection(el);
       emitChange();
     },
-    [emitChange, focusEditor],
+    [emitChange],
+  );
+
+  const runFormatBlock = useCallback(
+    (tag: string) => {
+      const el = editorRef.current;
+      if (!el) return;
+      applyFormatBlock(el, savedSelectionRef.current, tag);
+      savedSelectionRef.current = saveEditorSelection(el);
+      emitChange();
+    },
+    [emitChange],
   );
 
   useImperativeHandle(
@@ -191,32 +211,36 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
 
   const applyHeading = (level: number, tag: string) => {
     setBlockMode(level);
-    runCommand('formatBlock', tag);
+    runFormatBlock(tag);
   };
 
   const applyParagraph = () => {
     setBlockMode('p');
-    runCommand('formatBlock', 'p');
+    runFormatBlock('p');
   };
 
   const openLinkPopup = () => {
-    const range = getSelectionRange();
     const editor = editorRef.current;
-    if (!isRangeInsideEditor(range, editor)) {
-      focusEditor();
+    persistSelection();
+    const activeRange = savedSelectionRef.current ?? getSelectionRange();
+    if (!isRangeInsideEditor(activeRange, editor)) {
+      if (!editor) return;
+      restoreEditorSelection(editor, null);
+      savedSelectionRef.current = saveEditorSelection(editor);
     }
-    const activeRange = getSelectionRange();
-    if (!isRangeInsideEditor(activeRange, editor)) return;
 
-    savedLinkRange.current = activeRange?.cloneRange() ?? null;
-    const rect = rangeRect(activeRange);
+    const range = savedSelectionRef.current ?? getSelectionRange();
+    if (!isRangeInsideEditor(range, editor)) return;
+
+    savedLinkRange.current = range?.cloneRange() ?? null;
+    const rect = rangeClientRect(range);
     if (!rect) return;
 
     let existingUrl = 'https://';
     const anchor =
-      activeRange?.commonAncestorContainer.nodeType === Node.ELEMENT_NODE
-        ? (activeRange.commonAncestorContainer as HTMLElement).closest('a')
-        : (activeRange?.commonAncestorContainer.parentElement?.closest('a') ?? null);
+      range?.commonAncestorContainer.nodeType === Node.ELEMENT_NODE
+        ? (range.commonAncestorContainer as HTMLElement).closest('a')
+        : (range?.commonAncestorContainer.parentElement?.closest('a') ?? null);
     if (anchor?.getAttribute('href')) {
       existingUrl = anchor.getAttribute('href') ?? existingUrl;
     }
@@ -250,9 +274,24 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
 
   const applyLink = () => {
     const url = linkPopup?.url.trim();
-    if (!url) return;
-    restoreRange(linkPopup?.savedRange ?? savedLinkRange.current);
-    runCommand('createLink', url);
+    const el = editorRef.current;
+    if (!url || !el) return;
+    const range = linkPopup?.savedRange ?? savedLinkRange.current;
+    restoreEditorSelection(el, range);
+
+    const selection = window.getSelection();
+    const collapsed = !selection || selection.isCollapsed;
+    let applied = false;
+    if (!collapsed) {
+      applied = document.execCommand('createLink', false, url);
+    } else {
+      applied = document.execCommand('insertHTML', false, `<a href="${url.replace(/"/g, '&quot;')}">${url.replace(/</g, '&lt;')}</a>`);
+    }
+
+    if (applied) {
+      savedSelectionRef.current = saveEditorSelection(el);
+      emitChange();
+    }
     closeLinkPopup();
   };
 
@@ -322,7 +361,7 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     <div className={cn('overflow-hidden rounded-2xl border border-border bg-card shadow-sm', className)}>
       <div
         className="flex flex-wrap items-center gap-0.5 border-b border-border bg-background px-2 py-2"
-        onMouseDown={toolbarMouseDown}
+        onMouseDown={(event) => toolbarMouseDown(event, editorRef.current, persistSelection)}
       >
         <button type="button" title="Undo" aria-label="Undo" onClick={() => runCommand('undo')} className={iconBtn}>
           <Undo2 size={15} />
@@ -367,7 +406,7 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         <button type="button" title="Numbered list" onClick={() => runCommand('insertOrderedList')} className={iconBtn}>
           <ListOrdered size={15} />
         </button>
-        <button type="button" title="Blockquote" onClick={() => runCommand('formatBlock', 'blockquote')} className={iconBtn}>
+        <button type="button" title="Blockquote" onClick={() => runFormatBlock('blockquote')} className={iconBtn}>
           <Quote size={15} />
         </button>
         <button type="button" title="Horizontal rule" onClick={() => runCommand('insertHorizontalRule')} className={iconBtn}>
@@ -400,7 +439,10 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
           type="button"
           title="Insert image"
           disabled={uploading}
-          onClick={() => fileInputRef.current?.click()}
+          onClick={() => {
+            persistSelection();
+            fileInputRef.current?.click();
+          }}
           className={iconBtn}
         >
           {uploading ? <Loader2 size={15} className="animate-spin" /> : <ImagePlus size={15} />}
@@ -408,7 +450,10 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         <button
           type="button"
           title="Responsive image (desktop + mobile)"
-          onClick={() => setFigureDialogOpen(true)}
+          onClick={() => {
+            persistSelection();
+            setFigureDialogOpen(true);
+          }}
           className={iconBtn}
         >
           <Monitor size={14} />
@@ -474,6 +519,8 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
           aria-label="Article body"
           data-placeholder={placeholder ?? 'Write your article…'}
           onInput={emitChange}
+          onKeyUp={persistSelection}
+          onMouseUp={persistSelection}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
           onFocus={() => {

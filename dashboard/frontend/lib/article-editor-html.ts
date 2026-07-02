@@ -132,6 +132,8 @@ export function sanitizeEditorHtml(html: string): string {
     'data-mobile',
     'data-alt',
     'style',
+    'target',
+    'rel',
   ]);
 
   const walk = (node: Node) => {
