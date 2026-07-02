@@ -9,9 +9,6 @@ export type ProgrammeMediaItem = {
   storage?: 'r2' | 'supabase';
 };
 
-/** Vercel serverless body limit — server proxy cannot accept larger uploads on Vercel. */
-const VERCEL_PROXY_MAX_BYTES = 4 * 1024 * 1024;
-
 function parseUploadError(res: Response, data: Record<string, unknown>): string {
   const msg = typeof data.error === 'string' ? data.error : '';
   if (res.status === 401) {
@@ -150,21 +147,19 @@ export async function uploadProgrammeMediaFile(params: {
   tier: 'foundation' | 'professional' | 'mastery';
   kind: 'guide' | 'slides' | 'video' | 'infographic';
 }): Promise<{ path: string; url: string; storage?: 'r2' | 'supabase' }> {
-  try {
-    const proxied = await uploadViaServerProxy(params);
-    if (!proxied.directUploadRequired) {
-      if (proxied.storage !== 'r2') {
-        throw new Error(
-          'Certification media must upload to Cloudflare R2. Set PROGRAMME_MEDIA_STORAGE=r2 and all R2_* env vars on the dashboard backend.',
-        );
-      }
-      return { path: proxied.path, url: proxied.url, storage: proxied.storage };
-    }
-  } catch (error) {
-    if (params.file.size <= VERCEL_PROXY_MAX_BYTES) throw error;
+  const proxied = await uploadViaServerProxy(params);
+
+  if (proxied.directUploadRequired) {
+    return uploadViaPresignedPut(params);
   }
 
-  return uploadViaPresignedPut(params);
+  if (proxied.storage !== 'r2') {
+    throw new Error(
+      'Certification media must upload to Cloudflare R2. Set PROGRAMME_MEDIA_STORAGE=r2 and all R2_* env vars on the dashboard backend.',
+    );
+  }
+
+  return { path: proxied.path, url: proxied.url, storage: proxied.storage };
 }
 
 export async function deleteProgrammeMediaFile(path: string): Promise<void> {

@@ -88,6 +88,8 @@ function collectVars() {
       'TWILIO_',
       'DISCOVERY_',
       'RESEND_',
+      'R2_',
+      'PROGRAMME_MEDIA_',
     ];
     if (!allowedPrefixes.some((p) => key.startsWith(p))) continue;
     entries.push([key, productionValue(key, value.trim())]);

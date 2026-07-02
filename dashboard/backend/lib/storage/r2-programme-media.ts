@@ -1,6 +1,7 @@
 import {
   DeleteObjectCommand,
   ListObjectsV2Command,
+  PutBucketCorsCommand,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
@@ -140,6 +141,41 @@ export async function r2DeleteObject(key: string): Promise<void> {
     new DeleteObjectCommand({
       Bucket: bucketName(),
       Key: key,
+    }),
+  );
+}
+
+export function defaultR2CorsOrigins(): string[] {
+  const origins = [
+    'https://pmstructure.com',
+    'https://www.pmstructure.com',
+    'http://localhost:3000',
+    'http://localhost:3050',
+    'http://localhost:5174',
+  ];
+  const railway = process.env.RAILWAY_PUBLIC_DOMAIN?.trim();
+  if (railway) origins.push(`https://${railway}`);
+  const extra = process.env.R2_CORS_ORIGINS?.split(',').map((o) => o.trim()).filter(Boolean) ?? [];
+  return [...new Set([...origins, ...extra])];
+}
+
+/** Allow browser direct-to-R2 uploads from the admin UI (required for files over Vercel body limit). */
+export async function r2ApplyBucketCors(origins: string[] = defaultR2CorsOrigins()): Promise<void> {
+  const client = getR2Client();
+  await client.send(
+    new PutBucketCorsCommand({
+      Bucket: bucketName(),
+      CORSConfiguration: {
+        CORSRules: [
+          {
+            AllowedHeaders: ['*'],
+            AllowedMethods: ['GET', 'PUT', 'HEAD', 'POST'],
+            AllowedOrigins: origins,
+            ExposeHeaders: ['ETag', 'Content-Length'],
+            MaxAgeSeconds: 3600,
+          },
+        ],
+      },
     }),
   );
 }

@@ -9,6 +9,7 @@ import {
   programmeMediaMaxBytes,
   programmeMediaStorageNotConfiguredMessage,
   programmeMediaUsesR2,
+  r2ApplyBucketCors,
   r2CreatePresignedPutUrl,
   r2PublicUrl,
 } from '@/lib/storage/r2-programme-media';
@@ -21,6 +22,18 @@ type PresignBody = {
   contentType?: string;
   size?: number;
 };
+
+let corsConfigured = false;
+
+async function ensureR2UploadCors(): Promise<void> {
+  if (corsConfigured) return;
+  try {
+    await r2ApplyBucketCors();
+    corsConfigured = true;
+  } catch {
+    // Presign may still work if CORS was set manually; server proxy works on Railway without CORS.
+  }
+}
 
 export async function POST(request: NextRequest) {
   const auth = await requireDashboardMutationAuth(request);
@@ -65,6 +78,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    await ensureR2UploadCors();
     const uploadUrl = await r2CreatePresignedPutUrl({ key: path, contentType });
     return NextResponse.json({
       ok: true,
