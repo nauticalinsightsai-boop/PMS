@@ -10,6 +10,10 @@ import { cn } from '@/lib/utils';
 
 type Device = 'desktop' | 'mobile';
 
+/** Shared preview height — desktop ~20% taller than prior compact frame; mobile matches this height. */
+const EDITOR_PREVIEW_HEIGHT = 'h-[11rem]';
+const DIALOG_PREVIEW_HEIGHT = 'h-[9rem]';
+
 /** Used by live preview phone frame only — not the hero editor pickers. */
 export const MOBILE_FRAME_WIDTH = 375;
 export const MOBILE_FRAME_HEIGHT = 667;
@@ -18,43 +22,49 @@ function displayUrl(value: string): string {
   return value.startsWith('data:') ? '' : value;
 }
 
-function HeroImageFrame({
+function DevicePreviewFrame({
+  device,
   url,
   emptyLabel,
   onClear,
-  compact,
+  frameHeightClass,
 }: {
+  device: Device;
   url: string;
   emptyLabel: string;
   onClear: () => void;
-  compact?: boolean;
+  frameHeightClass: string;
 }) {
+  const isMobile = device === 'mobile';
+
   return (
-    <div
-      className={
-        compact
-          ? 'relative mx-auto w-full max-w-[220px] aspect-[16/10] overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner'
-          : 'relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner'
-      }
-    >
-      {url ? (
-        <>
-          <img src={url} alt="" className="h-full w-full object-cover" />
-          <button
-            type="button"
-            onClick={onClear}
-            className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-white hover:bg-red-500/90"
-            aria-label="Remove image"
-          >
-            <X className="h-3.5 w-3.5" />
-          </button>
-        </>
-      ) : (
-        <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
-          <ImageIcon className="h-8 w-8 opacity-40" />
-          <span className="text-[11px] font-medium">{emptyLabel}</span>
-        </div>
-      )}
+    <div className={cn('flex w-full items-center justify-center', frameHeightClass)}>
+      <div
+        className={cn(
+          'relative overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner',
+          isMobile ? 'h-full w-auto' : 'h-full w-full',
+        )}
+        style={isMobile ? { aspectRatio: `${MOBILE_FRAME_WIDTH}/${MOBILE_FRAME_HEIGHT}` } : undefined}
+      >
+        {url ? (
+          <>
+            <img src={url} alt="" className="h-full w-full object-cover" />
+            <button
+              type="button"
+              onClick={onClear}
+              className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-white hover:bg-red-500/90"
+              aria-label="Remove image"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </>
+        ) : (
+          <div className="flex h-full min-w-[5rem] flex-col items-center justify-center gap-2 px-2 text-muted-foreground">
+            <ImageIcon className="h-8 w-8 opacity-40" />
+            <span className="text-center text-[11px] font-medium">{emptyLabel}</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -67,6 +77,7 @@ function DevicePicker({
   onChange,
   showLibrary = false,
   compact = false,
+  frameHeightClass = EDITOR_PREVIEW_HEIGHT,
 }: {
   device: Device;
   label: string;
@@ -75,6 +86,7 @@ function DevicePicker({
   onChange: (url: string) => void;
   showLibrary?: boolean;
   compact?: boolean;
+  frameHeightClass?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -90,7 +102,7 @@ function DevicePicker({
   };
 
   return (
-    <div className={cn('flex flex-col rounded-2xl border border-border bg-muted/20', compact ? 'p-3' : 'p-4')}>
+    <div className={cn('flex h-full flex-col rounded-2xl border border-border bg-muted/20', compact ? 'p-3' : 'p-4')}>
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="flex items-center gap-2 text-sm font-bold text-foreground">
@@ -111,44 +123,13 @@ function DevicePicker({
         ) : null}
       </div>
 
-      <div className={cn('flex items-center justify-center', compact ? 'my-2' : 'my-3')}>
-        {device === 'mobile' ? (
-          <div
-            className={
-              compact
-                ? 'mx-auto w-full max-w-[80px] overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner'
-                : 'mx-auto w-full max-w-[160px] overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner'
-            }
-            style={{ aspectRatio: `${MOBILE_FRAME_WIDTH}/${MOBILE_FRAME_HEIGHT}` }}
-          >
-            {url ? (
-              <div className="relative h-full w-full">
-                <img src={url} alt="" className="h-full w-full object-cover" />
-                <button
-                  type="button"
-                  onClick={() => onChange('')}
-                  className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-white hover:bg-red-500/90"
-                  aria-label="Remove image"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            ) : (
-              <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
-                <ImageIcon className="h-8 w-8 opacity-40" />
-                <span className="text-[11px] font-medium">{emptyLabel}</span>
-              </div>
-            )}
-          </div>
-        ) : (
-          <HeroImageFrame
-            url={url}
-            emptyLabel={emptyLabel}
-            onClear={() => onChange('')}
-            compact={compact}
-          />
-        )}
-      </div>
+      <DevicePreviewFrame
+        device={device}
+        url={url}
+        emptyLabel={emptyLabel}
+        onClear={() => onChange('')}
+        frameHeightClass={frameHeightClass}
+      />
 
       <div className="mt-3 space-y-3">
         <div className="flex flex-wrap gap-2">
@@ -250,7 +231,6 @@ export function NewsletterHeroMedia({
   onAltChange,
   showLibrary = false,
   showAltText = true,
-  compact = true,
   variant = 'editor',
 }: {
   desktopUrl: string;
@@ -261,15 +241,13 @@ export function NewsletterHeroMedia({
   onAltChange: (alt: string) => void;
   showLibrary?: boolean;
   showAltText?: boolean;
-  /** Shorter preview frames (~50% height) for the newsletter editor */
-  compact?: boolean;
-  /** `dialog` = compact insert-image popup */
   variant?: 'editor' | 'dialog';
 }) {
   const desktop = displayUrl(desktopUrl);
   const mobile = displayUrl(mobileUrl);
 
   const isDialog = variant === 'dialog';
+  const frameHeightClass = isDialog ? DIALOG_PREVIEW_HEIGHT : EDITOR_PREVIEW_HEIGHT;
 
   return (
     <div className={cn('space-y-4', isDialog && 'space-y-3')}>
@@ -280,7 +258,7 @@ export function NewsletterHeroMedia({
         </p>
       ) : null}
 
-      <div className={cn('grid gap-4', isDialog ? 'grid-cols-1 sm:grid-cols-2 gap-3' : 'sm:grid-cols-2')}>
+      <div className={cn('grid items-stretch gap-4', isDialog ? 'grid-cols-1 sm:grid-cols-2 gap-3' : 'sm:grid-cols-2')}>
         <DevicePicker
           device="desktop"
           label={isDialog ? 'Desktop' : 'Desktop hero'}
@@ -288,7 +266,8 @@ export function NewsletterHeroMedia({
           value={desktopUrl}
           onChange={onDesktopChange}
           showLibrary={showLibrary}
-          compact={compact || isDialog}
+          compact={isDialog}
+          frameHeightClass={frameHeightClass}
         />
         <DevicePicker
           device="mobile"
@@ -297,7 +276,8 @@ export function NewsletterHeroMedia({
           value={mobileUrl}
           onChange={onMobileChange}
           showLibrary={showLibrary}
-          compact={compact || isDialog}
+          compact={isDialog}
+          frameHeightClass={frameHeightClass}
         />
       </div>
 
