@@ -15,7 +15,6 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { TierPathwayCta } from '@/lib/pathway-tier-cta';
 import type { ProgrammeOfferingAssets } from '@pms/site-content';
-import { effectiveProgrammeAssets } from '@pms/site-content';
 import { getProgrammePreviewContent } from '@/lib/pathway-programme-preview';
 import { usePublishedProgrammeAssets } from '@/lib/use-published-programme-assets';
 import {
@@ -103,12 +102,8 @@ export function PathwayOfferingModal({
   );
 
   const resolvedProgrammeAssets = React.useMemo(
-    () =>
-      effectiveProgrammeAssets(
-        offeringId,
-        publishedAssets ?? programmeAssets ?? null,
-      ),
-    [offeringId, publishedAssets, programmeAssets],
+    () => publishedAssets ?? programmeAssets ?? null,
+    [publishedAssets, programmeAssets],
   );
 
   const preview = React.useMemo(

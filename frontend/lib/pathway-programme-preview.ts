@@ -1,4 +1,5 @@
 import type { ProgrammeOfferingAssets } from '@pms/site-content';
+import { effectiveProgrammeAssets } from '@pms/site-content';
 
 export type ProgrammePanelKind = 'pdf' | 'slides' | 'video';
 
@@ -184,33 +185,33 @@ export function getProgrammePreviewContent(
     panels: override?.panels ?? defaultPanels(programmeTitle),
   };
 
-  if (!cmsAssets) return base;
+  const assets = effectiveProgrammeAssets(offeringId, cmsAssets ?? null);
 
-  const hasGuide = Boolean(cmsAssets.guidePdfUrl?.trim());
-  const hasSlides = Boolean(cmsAssets.slidesPdfUrl?.trim());
-  const hasVideo = Boolean(cmsAssets.videoUrl?.trim() || cmsAssets.videoEmbedUrl?.trim());
+  const hasGuide = Boolean(assets.guidePdfUrl?.trim());
+  const hasSlides = Boolean(assets.slidesPdfUrl?.trim());
+  const hasVideo = Boolean(assets.videoUrl?.trim() || assets.videoEmbedUrl?.trim());
 
   const panels = base.panels.map((panel) => {
     if (panel.id === 'guide' && hasGuide) {
-      return { ...panel, available: true, pdfSrc: cmsAssets.guidePdfUrl! };
+      return { ...panel, available: true, pdfSrc: assets.guidePdfUrl! };
     }
     if (panel.id === 'slides' && hasSlides) {
-      return { ...panel, available: true, slidesPdfSrc: cmsAssets.slidesPdfUrl! };
+      return { ...panel, available: true, slidesPdfSrc: assets.slidesPdfUrl! };
     }
     if (panel.id === 'video' && hasVideo) {
       return {
         ...panel,
         available: true,
-        videoSrc: cmsAssets.videoUrl?.trim() || panel.videoSrc || null,
-        videoEmbedUrl: cmsAssets.videoEmbedUrl?.trim() || panel.videoEmbedUrl || null,
+        videoSrc: assets.videoUrl?.trim() || panel.videoSrc || null,
+        videoEmbedUrl: assets.videoEmbedUrl?.trim() || panel.videoEmbedUrl || null,
       };
     }
     return panel;
   });
 
   const infographic =
-    cmsAssets.infographicUrl && base.infographic
-      ? { ...base.infographic, imageSrc: cmsAssets.infographicUrl }
+    assets.infographicUrl && base.infographic
+      ? { ...base.infographic, imageSrc: assets.infographicUrl }
       : base.infographic;
 
   return { infographic, panels };

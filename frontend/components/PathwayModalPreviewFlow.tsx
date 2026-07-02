@@ -112,10 +112,8 @@ function VideoFrame({
           controls
           playsInline
           preload="metadata"
-          crossOrigin="anonymous"
-        >
-          <source src={panel.videoSrc} type="video/mp4" />
-        </video>
+          src={panel.videoSrc}
+        />
       </div>
     );
   }
