@@ -64,13 +64,11 @@ export function PathwayOfferingModal({
   const recovery = useLeadRecoveryOptional();
   const actionRef = React.useRef<'none' | 'enroll' | 'consultation'>('none');
   const [step, setStep] = React.useState<PathwayModalStep>('roadmap');
-  const [hasVisitedMaterials, setHasVisitedMaterials] = React.useState(false);
 
   React.useEffect(() => {
     if (open) {
       actionRef.current = 'none';
       setStep('roadmap');
-      setHasVisitedMaterials(false);
       markIntent();
       setPathwayModalTierOpened(tierId);
     }
@@ -115,10 +113,8 @@ export function PathwayOfferingModal({
 
   const intro =
     step === 'roadmap'
-      ? hasVisitedMaterials
-        ? 'Review your pathway map, then continue to secure your place.'
-        : 'Start with your pathway map, then preview programme materials before you enrol.'
-      : 'Watch the overview video and open supporting documents in a new tab when you are ready.';
+      ? 'Start with your pathway map, then continue to preview programme materials.'
+      : 'Watch the overview video, review the documents, then enrol when you are ready.';
 
   const handleConsultation = () => {
     actionRef.current = 'consultation';
@@ -239,15 +235,10 @@ export function PathwayOfferingModal({
         <DialogFooter className="flex-col gap-2 sm:flex-col shrink-0">
           <PathwayModalStepActions
             step={step}
-            hasVisitedMaterials={hasVisitedMaterials}
-            onNext={() => {
-              setHasVisitedMaterials(true);
-              setStep('materials');
-            }}
+            onNext={() => setStep('materials')}
             onBack={() => setStep('roadmap')}
-          >
-            {enrollActions}
-          </PathwayModalStepActions>
+            enrollActions={enrollActions}
+          />
           <Button
             type="button"
             variant="ghost"

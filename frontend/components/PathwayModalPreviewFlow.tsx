@@ -166,68 +166,61 @@ export function PathwayModalPreviewFlow({
         <StepDot active={step === 'materials'} label="Programme materials" />
       </div>
 
-      <div className="relative overflow-hidden">
-        <div
-          className={cn(
-            'flex w-[200%] transition-transform duration-300 ease-out motion-reduce:transition-none',
-            step === 'materials' && '-translate-x-1/2',
-          )}
-        >
-          <section className="w-1/2 shrink-0 space-y-4 pr-0 sm:pr-2" aria-hidden={step !== 'roadmap'}>
-            <div>
-              <p className="text-label mb-2">Your pathway map</p>
-              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                Review the roadmap for this tier, then continue to programme materials.
-              </p>
+      {step === 'roadmap' ? (
+        <section key="roadmap" className="animate-in fade-in slide-in-from-right-4 duration-300 space-y-4">
+          <div>
+            <p className="text-label mb-2">Your pathway map</p>
+            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+              Review the roadmap for this tier, then tap Next to preview programme materials.
+            </p>
+          </div>
+          <RoadmapSlide hero={preview.infographic} />
+          {outcomes.length > 0 ? (
+            <div className="rounded-2xl border border-slate-100 bg-white p-4 dark:border-slate-800 dark:bg-slate-800/90">
+              <p className="mb-3 text-label">Programme focus</p>
+              <ul className="space-y-2">
+                {outcomes.slice(0, 4).map((item) => (
+                  <li key={item} className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                    · {item}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <RoadmapSlide hero={preview.infographic} />
-            {outcomes.length > 0 ? (
-              <div className="rounded-2xl border border-slate-100 bg-white p-4 dark:border-slate-800 dark:bg-slate-800/90">
-                <p className="mb-3 text-label">Programme focus</p>
-                <ul className="space-y-2">
-                  {outcomes.slice(0, 4).map((item) => (
-                    <li key={item} className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                      · {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-          </section>
-
-          <section className="w-1/2 shrink-0 space-y-4 pl-0 sm:pl-2" aria-hidden={step !== 'materials'}>
-            <div>
-              <p className="text-label mb-2">Programme materials</p>
-              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                Watch the overview, then open the guide or slides in a new tab for reading.
-              </p>
-            </div>
-            <VideoFrame panel={videoPanel} />
-            <div className="grid gap-3 sm:grid-cols-2">
-              {guideUrl ? (
-                <DocumentLinkButton
-                  href={guideUrl}
-                  label="Programme guide"
-                  description={guidePanel?.description ?? 'Open the programme guide PDF'}
-                  icon={FileText}
-                />
-              ) : (
-                <UnavailableDoc label="Programme guide" />
-              )}
-              {slidesUrl ? (
-                <DocumentLinkButton
-                  href={slidesUrl}
-                  label="Session slides"
-                  description={slidesPanel?.description ?? 'Open the session deck PDF'}
-                  icon={Presentation}
-                />
-              ) : (
-                <UnavailableDoc label="Session slides" />
-              )}
-            </div>
-          </section>
-        </div>
-      </div>
+          ) : null}
+        </section>
+      ) : (
+        <section key="materials" className="animate-in fade-in slide-in-from-right-4 duration-300 space-y-4">
+          <div>
+            <p className="text-label mb-2">Programme materials</p>
+            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+              Watch the overview, then open the guide or slides in a new tab for reading.
+            </p>
+          </div>
+          <VideoFrame panel={videoPanel} />
+          <div className="grid gap-3 sm:grid-cols-2">
+            {guideUrl ? (
+              <DocumentLinkButton
+                href={guideUrl}
+                label="Programme guide"
+                description={guidePanel?.description ?? 'Chapter 0: programme foundation (read in this window).'}
+                icon={FileText}
+              />
+            ) : (
+              <UnavailableDoc label="Programme guide" />
+            )}
+            {slidesUrl ? (
+              <DocumentLinkButton
+                href={slidesUrl}
+                label="Session slides"
+                description={slidesPanel?.description ?? 'D0: 2026 PMP Navigator deck (read in this window).'}
+                icon={Presentation}
+              />
+            ) : (
+              <UnavailableDoc label="Session slides" />
+            )}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
@@ -264,21 +257,15 @@ function UnavailableDoc({ label }: { label: string }) {
 
 export function PathwayModalStepActions({
   step,
-  hasVisitedMaterials,
   onNext,
   onBack,
-  children,
+  enrollActions,
 }: {
   step: PathwayModalStep;
-  hasVisitedMaterials: boolean;
   onNext: () => void;
   onBack: () => void;
-  children?: React.ReactNode;
+  enrollActions?: React.ReactNode;
 }) {
-  if (step === 'roadmap' && hasVisitedMaterials) {
-    return <div className="flex flex-col gap-2">{children}</div>;
-  }
-
   if (step === 'roadmap') {
     return (
       <div className="flex flex-col gap-2">
@@ -296,6 +283,7 @@ export function PathwayModalStepActions({
 
   return (
     <div className="flex flex-col gap-2">
+      {enrollActions}
       <Button
         type="button"
         variant="outline"
