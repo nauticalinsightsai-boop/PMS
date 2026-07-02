@@ -57,7 +57,7 @@ export function buildCenterBlock(text: string): string {
 
 export function buildQuoteBlock(text: string, attribution?: string): string {
   const lines = text.trim().split('\n').map((line) => `> ${line}`);
-  if (attribution?.trim()) lines.push(`> — ${attribution.trim()}`);
+  if (attribution?.trim()) lines.push(`> \u2014 ${attribution.trim()}`);
   return `\n\n${lines.join('\n')}\n\n`;
 }
 

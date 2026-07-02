@@ -391,7 +391,7 @@ export function cmsPostToNewsletterPost(
   };
 }
 
-/** Later registries in the list win on slug collision — pass draft last so it takes priority. */
+/** Later registries in the list win on slug collision: pass draft last so it takes priority. */
 export function mergeNewsletterRegistries(
   ...sources: NewsletterPostsRegistry[]
 ): NewsletterPostsRegistry {

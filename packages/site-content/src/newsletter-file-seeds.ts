@@ -1,6 +1,6 @@
 import type { NewsletterArticle } from './newsletter-posts';
 
-/** Marketing file seeds — merged into the dashboard registry when missing from CMS. */
+/** Marketing file seeds: merged into the dashboard registry when missing from CMS. */
 export const newsletterFileSeedArticles: NewsletterArticle[] = [
   {
     slug: '2026-pmp-exam-changes',

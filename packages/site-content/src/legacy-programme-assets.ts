@@ -6,7 +6,7 @@ const LEGACY_PROGRAMME_ASSETS: Record<string, ProgrammeOfferingAssets> = {
     infographicUrl: '/programme/pmp-foundation-roadmap.png',
     guidePdfUrl: '/programme/pmp-foundation-program-guide.pdf',
     slidesPdfUrl: '/programme/pmp-foundation-session-slides.pdf',
-    // Overview video is not bundled (large MP4s are gitignored) — upload to R2 via CMS.
+    // Overview video is not bundled (large MP4s are gitignored): upload to R2 via CMS.
   },
 };
 

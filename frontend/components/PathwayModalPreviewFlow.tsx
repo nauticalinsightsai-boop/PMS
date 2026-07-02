@@ -257,7 +257,7 @@ function StepDot({ active, label }: { active: boolean; label: string }) {
 function UnavailableDoc({ label }: { label: string }) {
   return (
     <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-4 py-3.5 text-sm font-medium text-slate-500 dark:border-slate-700 dark:bg-slate-900/50 dark:text-slate-400">
-      {label} — coming soon
+      {label} (coming soon)
     </div>
   );
 }
