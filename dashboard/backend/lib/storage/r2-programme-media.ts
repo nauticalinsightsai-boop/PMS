@@ -4,6 +4,7 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 export type R2ObjectSummary = {
   key: string;
@@ -117,6 +118,20 @@ export async function r2UploadObject(params: {
       ContentType: params.contentType,
     }),
   );
+}
+
+export async function r2CreatePresignedPutUrl(params: {
+  key: string;
+  contentType: string;
+  expiresInSeconds?: number;
+}): Promise<string> {
+  const client = getR2Client();
+  const command = new PutObjectCommand({
+    Bucket: bucketName(),
+    Key: params.key,
+    ContentType: params.contentType,
+  });
+  return getSignedUrl(client, command, { expiresIn: params.expiresInSeconds ?? 3600 });
 }
 
 export async function r2DeleteObject(key: string): Promise<void> {

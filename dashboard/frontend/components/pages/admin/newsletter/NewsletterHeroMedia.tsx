@@ -42,7 +42,7 @@ function DevicePreviewFrame({
       <div
         className={cn(
           'relative overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner',
-          isMobile ? 'h-full w-auto' : 'h-full w-full',
+          isMobile ? 'h-full w-auto' : 'h-full w-full aspect-[16/10]',
         )}
         style={isMobile ? { aspectRatio: `${MOBILE_FRAME_WIDTH}/${MOBILE_FRAME_HEIGHT}` } : undefined}
       >
@@ -272,7 +272,7 @@ export function NewsletterHeroMedia({
         <DevicePicker
           device="mobile"
           label={isDialog ? 'Mobile' : 'Mobile hero'}
-          hint={isDialog ? 'Optional phone crop' : 'Tall 9:16 crop for phones — optional; falls back to desktop'}
+          hint={isDialog ? '375×667 phone frame' : '375×667 crop for phones — optional; falls back to desktop'}
           value={mobileUrl}
           onChange={onMobileChange}
           showLibrary={showLibrary}

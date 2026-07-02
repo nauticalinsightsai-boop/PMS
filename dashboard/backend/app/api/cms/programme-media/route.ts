@@ -11,28 +11,21 @@ import {
   r2PublicUrl,
   r2UploadObject,
 } from '@/lib/storage/r2-programme-media';
+import {
+  buildProgrammeMediaObjectKey,
+  PROGRAMME_MEDIA_ALLOWED_TYPES,
+  PROGRAMME_MEDIA_DIRECT_UPLOAD_BYTES,
+} from '@/lib/storage/programme-media-upload';
 import { inferContentType } from '@/lib/storage/content-type';
 import { ensureProgrammeMediaBucket } from '@/lib/storage/ensure-supabase-bucket';
 
 const SUPABASE_BUCKET = 'programme-media';
 
-const ALLOWED_TYPES = new Set([
-  'application/pdf',
-  'video/mp4',
-  'video/webm',
-  'video/quicktime',
-  'image/jpeg',
-  'image/png',
-  'image/webp',
-]);
+export const maxDuration = 300;
 
 function supabasePublicUrl(path: string): string {
   const base = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL ?? '';
   return `${base}/storage/v1/object/public/${SUPABASE_BUCKET}/${path}`;
-}
-
-function safeSegment(value: string): string {
-  return value.trim().replace(/[^a-zA-Z0-9._-]/g, '_');
 }
 
 function storageReady(): boolean {
@@ -103,20 +96,44 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: `File exceeds ${maxMb}MB limit` }, { status: 413 });
   }
 
-  const certId = safeSegment(String(form.get('certId') ?? 'cert'));
-  const tier = safeSegment(String(form.get('tier') ?? 'foundation'));
-  const kind = safeSegment(String(form.get('kind') ?? 'file'));
+  if (
+    process.env.VERCEL === '1' &&
+    programmeMediaUsesR2() &&
+    file.size > PROGRAMME_MEDIA_DIRECT_UPLOAD_BYTES
+  ) {
+    const maxMb = Math.round(PROGRAMME_MEDIA_DIRECT_UPLOAD_BYTES / (1024 * 1024));
+    return NextResponse.json(
+      {
+        error: `Files over ${maxMb}MB must upload directly to Cloudflare R2 on Vercel. The dashboard will retry with a direct upload link.`,
+        code: 'USE_DIRECT_UPLOAD',
+        directUploadMinBytes: PROGRAMME_MEDIA_DIRECT_UPLOAD_BYTES,
+      },
+      { status: 413 },
+    );
+  }
+
+  const certId = String(form.get('certId') ?? 'cert');
+  const tier = String(form.get('tier') ?? 'foundation');
+  const kind = String(form.get('kind') ?? 'file');
   const original = form.get('filename');
   const filename =
     typeof original === 'string' && original.trim() ? original.trim() : `${kind}.bin`;
-  const contentType = inferContentType(filename, file.type);
-  if (!ALLOWED_TYPES.has(contentType)) {
+
+  let path: string;
+  let contentType: string;
+  try {
+    const built = buildProgrammeMediaObjectKey({ certId, tier, kind, filename });
+    path = built.path;
+    contentType = inferContentType(filename, file.type);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Invalid file';
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
+
+  if (!PROGRAMME_MEDIA_ALLOWED_TYPES.has(contentType)) {
     return NextResponse.json({ error: `Unsupported file type: ${contentType}` }, { status: 400 });
   }
 
-  const ext = filename.includes('.') ? filename.trim().split('.').pop()! : (contentType.split('/')[1] ?? 'bin');
-
-  const path = `${certId}/${tier}/${kind}-${Date.now()}.${safeSegment(ext)}`;
   const buffer = Buffer.from(await file.arrayBuffer());
 
   if (programmeMediaUsesR2()) {

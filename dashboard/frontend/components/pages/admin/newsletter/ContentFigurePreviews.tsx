@@ -14,24 +14,15 @@ type FigurePreview = {
 const FIGURE_PREVIEW_HEIGHT = 'h-[11rem]';
 
 function FigurePreviewFrame({
-  device,
   src,
   alt,
 }: {
-  device: 'desktop' | 'mobile';
   src: string;
   alt: string;
 }) {
-  const isMobile = device === 'mobile';
   return (
     <div className={cn('flex w-full items-center justify-center', FIGURE_PREVIEW_HEIGHT)}>
-      <div
-        className={cn(
-          'overflow-hidden rounded-lg border border-border bg-black/5',
-          isMobile ? 'h-full w-auto' : 'h-full w-full',
-        )}
-        style={isMobile ? { aspectRatio: '9/16' } : undefined}
-      >
+      <div className="h-full w-full aspect-[16/10] overflow-hidden rounded-lg border border-border bg-black/5">
         <img src={src} alt={alt} className="h-full w-full object-cover" />
       </div>
     </div>
@@ -61,14 +52,14 @@ function FigurePair({
             <Monitor size={14} className="text-emerald-600" />
             Desktop
           </p>
-          <FigurePreviewFrame device="desktop" src={figure.desktop} alt={figure.alt || 'Desktop'} />
+          <FigurePreviewFrame src={figure.desktop} alt={figure.alt || 'Desktop'} />
         </div>
         <div>
           <p className="mb-2 flex items-center gap-1.5 text-xs font-bold text-foreground">
             <Smartphone size={14} className="text-emerald-600" />
             Mobile
           </p>
-          <FigurePreviewFrame device="mobile" src={mobileSrc} alt={figure.alt || 'Mobile'} />
+          <FigurePreviewFrame src={mobileSrc} alt={figure.alt || 'Mobile'} />
         </div>
       </div>
     </div>

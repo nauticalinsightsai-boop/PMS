@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { FileText } from 'lucide-react';
 import { MarkdownContentEditor, type MarkdownContentEditorHandle } from './MarkdownContentEditor';
+import { ContentFigurePreviews } from './ContentFigurePreviews';
 import { NewsletterLivePreview } from './NewsletterLivePreview';
 import { ArticleMediaPanel } from './ArticleMediaPanel';
 import { estimateReadTime, type NewsletterPost } from '@/lib/newsletter-posts';
@@ -23,7 +24,6 @@ type Props = {
 
 export function NewsletterEditorWorkspace({ post, onChange }: Props) {
   const editorRef = useRef<MarkdownContentEditorHandle>(null);
-  const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
 
   const readTime = useMemo(() => estimateReadTime(post.content), [post.content]);
 
@@ -58,16 +58,21 @@ export function NewsletterEditorWorkspace({ post, onChange }: Props) {
               rows={20}
               placeholder="Write your article…"
             />
+            <div className="mt-4">
+              <p className="mb-2 text-xs font-semibold text-muted-foreground">Images in this article</p>
+              <ContentFigurePreviews
+                content={post.content}
+                featuredDesktop={post.featuredImageUrl}
+                featuredMobile={post.featuredImageMobileUrl}
+                compact
+              />
+            </div>
           </div>
         </section>
       </div>
 
       <aside className="space-y-4 xl:sticky xl:top-24 xl:self-start">
-        <NewsletterLivePreview
-          post={post}
-          device={previewDevice}
-          onDeviceChange={setPreviewDevice}
-        />
+        <NewsletterLivePreview post={post} />
 
         <div className="rounded-2xl border border-border bg-muted/20 p-4 text-xs text-muted-foreground space-y-2">
           <p>

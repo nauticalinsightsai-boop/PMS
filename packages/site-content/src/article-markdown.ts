@@ -61,6 +61,21 @@ export function buildQuoteBlock(text: string, attribution?: string): string {
   return `\n\n${lines.join('\n')}\n\n`;
 }
 
+/** Serialize parsed segments back to stored article markdown. */
+export function reassembleArticleMarkdown(segments: ArticleSegment[]): string {
+  const parts = segments
+    .map((segment) => {
+      if (segment.type === 'markdown') return segment.content.trim();
+      if (segment.type === 'center') return buildCenterBlock(segment.content).trim();
+      if (segment.type === 'figure') {
+        return buildFigureBlock(segment.desktop, segment.mobile, segment.alt).trim();
+      }
+      return '';
+    })
+    .filter(Boolean);
+  return parts.join('\n\n').trim();
+}
+
 export function articleMarkdownFromBody(body: string[], markdown?: string): string {
   if (markdown?.trim()) return markdown.trim();
   return body.join('\n\n').trim();

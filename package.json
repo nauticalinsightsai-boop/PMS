@@ -32,6 +32,7 @@
     "validate:regional": "node scripts/validate-regional-catalogue.mjs",
     "test:regional": "npm run test -w @pms/frontend -- lib/regional-catalogue.test.ts lib/regional-checkout.integration.test.ts",
     "db:migrate": "node scripts/apply-supabase-migrations.mjs",
+    "r2:cors": "node scripts/configure-r2-cors.mjs",
     "db:migrate:auth": "node scripts/apply-supabase-migrations.mjs --only-auth",
     "db:setup": "node scripts/setup-supabase-database.mjs",
     "db:apply-auth": "node scripts/apply-dashboard-one-auth.mjs",
