@@ -21,13 +21,21 @@ function HeroImageFrame({
   url,
   emptyLabel,
   onClear,
+  compact,
 }: {
   url: string;
   emptyLabel: string;
   onClear: () => void;
+  compact?: boolean;
 }) {
   return (
-    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner">
+    <div
+      className={
+        compact
+          ? 'relative mx-auto w-full max-w-[220px] aspect-[16/10] overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner'
+          : 'relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner'
+      }
+    >
       {url ? (
         <>
           <img src={url} alt="" className="h-full w-full object-cover" />
@@ -57,6 +65,7 @@ function DevicePicker({
   value,
   onChange,
   showLibrary = false,
+  compact = false,
 }: {
   device: Device;
   label: string;
@@ -64,6 +73,7 @@ function DevicePicker({
   value: string;
   onChange: (url: string) => void;
   showLibrary?: boolean;
+  compact?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -79,7 +89,7 @@ function DevicePicker({
   };
 
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-border bg-muted/20 p-4">
+    <div className="flex flex-col rounded-2xl border border-border bg-muted/20 p-4">
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="flex items-center gap-2 text-sm font-bold text-foreground">
@@ -100,10 +110,14 @@ function DevicePicker({
         ) : null}
       </div>
 
-      <div className="my-4 flex flex-1 items-center justify-center">
+      <div className="my-3 flex items-center justify-center">
         {device === 'mobile' ? (
           <div
-            className="mx-auto w-full max-w-[160px] overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner"
+            className={
+              compact
+                ? 'mx-auto w-full max-w-[80px] overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner'
+                : 'mx-auto w-full max-w-[160px] overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner'
+            }
             style={{ aspectRatio: `${MOBILE_FRAME_WIDTH}/${MOBILE_FRAME_HEIGHT}` }}
           >
             {url ? (
@@ -126,11 +140,16 @@ function DevicePicker({
             )}
           </div>
         ) : (
-          <HeroImageFrame url={url} emptyLabel={emptyLabel} onClear={() => onChange('')} />
+          <HeroImageFrame
+            url={url}
+            emptyLabel={emptyLabel}
+            onClear={() => onChange('')}
+            compact={compact}
+          />
         )}
       </div>
 
-      <div className="mt-auto space-y-3">
+      <div className="mt-3 space-y-3">
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
@@ -226,6 +245,7 @@ export function NewsletterHeroMedia({
   onAltChange,
   showLibrary = false,
   showAltText = true,
+  compact = true,
 }: {
   desktopUrl: string;
   mobileUrl: string;
@@ -235,6 +255,8 @@ export function NewsletterHeroMedia({
   onAltChange: (alt: string) => void;
   showLibrary?: boolean;
   showAltText?: boolean;
+  /** Shorter preview frames (~50% height) for the newsletter editor */
+  compact?: boolean;
 }) {
   const desktop = displayUrl(desktopUrl);
   const mobile = displayUrl(mobileUrl);
@@ -246,7 +268,7 @@ export function NewsletterHeroMedia({
         images — you can reuse the same file for both.
       </p>
 
-      <div className="grid items-stretch gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         <DevicePicker
           device="desktop"
           label="Desktop hero"
@@ -254,6 +276,7 @@ export function NewsletterHeroMedia({
           value={desktopUrl}
           onChange={onDesktopChange}
           showLibrary={showLibrary}
+          compact={compact}
         />
         <DevicePicker
           device="mobile"
@@ -262,6 +285,7 @@ export function NewsletterHeroMedia({
           value={mobileUrl}
           onChange={onMobileChange}
           showLibrary={showLibrary}
+          compact={compact}
         />
       </div>
 
