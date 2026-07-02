@@ -6,6 +6,7 @@ import { CTAButton } from '@/components/ui/CTAButton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   offeringIdForCertTier,
+  effectiveProgrammeAssets,
   type CertificationRegistryEntry,
 } from '@pms/site-content';
 import { ProgrammeAssetsUploader } from '@/components/pages/admin/ProgrammeAssetsUploader';
@@ -110,8 +111,9 @@ export function CertificationRegistryEntryEditor({
     const assets = entry.programmeAssets ?? {};
     return (['foundation', 'professional', 'mastery'] as const).filter((tier) => {
       const offeringId = offeringIdForCertTier(entry.id, tier);
-      const row = assets[offeringId];
-      return Boolean(row?.videoUrl || row?.videoEmbedUrl?.trim());
+      const cms = assets[offeringId] ?? {};
+      const effective = effectiveProgrammeAssets(offeringId, cms, siteUrl);
+      return Boolean(effective.videoUrl || cms.videoEmbedUrl?.trim());
     }).length;
   }, [entry.id, entry.programmeAssets]);
 

@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { CheckCircle2, ImageIcon, Loader2, Music, Upload, Video, X } from 'lucide-react';
-import { MediaLibraryGrid } from '@/components/pages/admin/site-content/MediaLibraryGrid';
+import { FeaturedImageUploader } from '@/components/pages/admin/newsletter/FeaturedImageUploader';
 import { uploadMediaFile } from '@/lib/cms/media-api';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -111,136 +111,6 @@ function AudioUpload({
   );
 }
 
-function FeaturedImageUpload({
-  imageUrl,
-  mobileUrl,
-  onImageChange,
-  onMobileChange,
-}: {
-  imageUrl: string;
-  mobileUrl: string;
-  onImageChange: (url: string) => void;
-  onMobileChange: (url: string) => void;
-}) {
-  const [libraryOpen, setLibraryOpen] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState('');
-  const fileRef = useRef<HTMLInputElement>(null);
-  const url = imageUrl.trim();
-
-  const upload = async (file: File) => {
-    setUploading(true);
-    setError('');
-    try {
-      const result = await uploadMediaFile(file);
-      onImageChange(result.url);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Upload failed');
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  return (
-    <div className="space-y-3">
-      <div className="overflow-hidden rounded-xl border border-border bg-muted/20">
-        {url ? (
-          <div className="relative aspect-[16/10] w-full">
-            <img src={url} alt="" className="h-full w-full object-cover" />
-            <button
-              type="button"
-              onClick={() => {
-                onImageChange('');
-                onMobileChange('');
-              }}
-              className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-white hover:bg-red-500/90"
-              aria-label="Remove featured image"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-        ) : (
-          <div className="flex aspect-[16/10] flex-col items-center justify-center gap-2 text-muted-foreground">
-            <ImageIcon className="h-10 w-10 opacity-40" />
-            <p className="text-sm">No featured image</p>
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          disabled={uploading}
-          onClick={() => fileRef.current?.click()}
-          className="inline-flex items-center gap-2 rounded-lg bg-foreground px-4 py-2 text-sm font-semibold text-background disabled:opacity-60"
-        >
-          {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-          Upload Image
-        </button>
-        <button
-          type="button"
-          onClick={() => setLibraryOpen(true)}
-          className="rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:bg-muted"
-        >
-          Choose from library
-        </button>
-        {url && !mobileUrl.trim() ? (
-          <button
-            type="button"
-            onClick={() => onMobileChange(imageUrl)}
-            className="rounded-lg border border-border px-4 py-2 text-xs font-semibold hover:bg-muted"
-          >
-            Set mobile hero same as featured
-          </button>
-        ) : null}
-      </div>
-
-      <Input
-        value={url}
-        onChange={(e) => onImageChange(e.target.value)}
-        placeholder="Or paste image URL"
-        className="text-sm"
-      />
-
-      <input
-        ref={fileRef}
-        type="file"
-        accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,.jpg,.jpeg,.png,.webp,.gif,.svg"
-        className="hidden"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) void upload(file);
-          e.target.value = '';
-        }}
-      />
-
-      {error ? <p className="text-xs text-destructive">{error}</p> : null}
-
-      {libraryOpen ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <div className="flex max-h-[85vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl">
-            <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              <h3 className="font-bold">Featured image — media library</h3>
-              <button type="button" onClick={() => setLibraryOpen(false)} className="rounded-lg p-2 hover:bg-muted">
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="overflow-y-auto p-4">
-              <MediaLibraryGrid
-                compact
-                onSelect={(selected) => {
-                  onImageChange(selected);
-                  setLibraryOpen(false);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
 export function ArticleMediaPanel({
   audioUrl,
   youtubeUrl,
@@ -277,11 +147,14 @@ export function ArticleMediaPanel({
       </MediaSection>
 
       <MediaSection icon={ImageIcon} title="Featured Image" subtitle="Upload Image">
-        <FeaturedImageUpload
+        <FeaturedImageUploader
           imageUrl={featuredImageUrl}
-          mobileUrl={featuredImageMobileUrl}
           onImageChange={onFeaturedChange}
-          onMobileChange={onFeaturedMobileChange}
+          onMobileSync={(url) => {
+            if (url || !featuredImageMobileUrl.trim() || featuredImageMobileUrl === featuredImageUrl) {
+              onFeaturedMobileChange(url);
+            }
+          }}
         />
       </MediaSection>
     </div>

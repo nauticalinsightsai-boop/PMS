@@ -18,6 +18,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import {
   offeringIdForCertTier,
+  effectiveProgrammeAssets,
+  isLegacyProgrammeAssetUrl,
   type CertificationRegistryEntry,
   type ProgrammeOfferingAssets,
 } from '@pms/site-content';
@@ -25,6 +27,7 @@ import {
   deleteProgrammeMediaFile,
   uploadProgrammeMediaFile,
 } from '@/lib/cms/programme-media-api';
+import { siteUrl } from '@/lib/site-config';
 
 type Tier = 'foundation' | 'professional' | 'mastery';
 type AssetKind = 'guide' | 'slides' | 'video' | 'infographic';
@@ -101,22 +104,33 @@ function tierAssetCount(assets: ProgrammeOfferingAssets): number {
 function AssetRow({
   certId,
   tier,
+  offeringId,
   row,
-  assets,
+  cmsAssets,
+  displayAssets,
   onChange,
 }: {
   certId: string;
   tier: Tier;
+  offeringId: string;
   row: (typeof ASSET_ROWS)[number];
-  assets: ProgrammeOfferingAssets;
+  cmsAssets: ProgrammeOfferingAssets;
+  displayAssets: ProgrammeOfferingAssets;
   onChange: (next: ProgrammeOfferingAssets) => void;
 }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uploadedToR2, setUploadedToR2] = useState(false);
-  const url = assets[row.urlKey] as string | undefined;
-  const path = assets[row.pathKey] as string | undefined;
+  const url = displayAssets[row.urlKey] as string | undefined;
+  const path = cmsAssets[row.pathKey] as string | undefined;
   const hasFile = Boolean(url);
+  const isLegacy = isLegacyProgrammeAssetUrl(
+    offeringId,
+    row.urlKey,
+    url,
+    cmsAssets,
+    siteUrl,
+  );
   const fileName = fileNameFromStorage(path, url);
   const Icon = row.Icon;
 
@@ -133,7 +147,7 @@ function AssetRow({
         kind: row.kind,
       });
       onChange({
-        ...assets,
+        ...cmsAssets,
         [row.urlKey]: publicUrl,
         [row.pathKey]: storagePath,
       });
@@ -146,12 +160,16 @@ function AssetRow({
   };
 
   const remove = async () => {
+    if (isLegacy) {
+      setError('This file ships with the site. Upload a replacement to R2 to override it.');
+      return;
+    }
     if (!confirm(`Remove ${row.label.toLowerCase()} for this tier?`)) return;
     setBusy(true);
     setError(null);
     try {
       if (path) await deleteProgrammeMediaFile(path);
-      const next = { ...assets };
+      const next = { ...cmsAssets };
       delete next[row.urlKey];
       delete next[row.pathKey];
       onChange(next);
@@ -186,7 +204,11 @@ function AssetRow({
           {hasFile ? (
             <>
               <CheckCircle2 className="h-3 w-3" />
-              {uploadedToR2 || (url && (url.includes('media.') || !url.includes('supabase'))) ? 'R2 live' : 'Live'}
+              {isLegacy
+                ? 'Bundled (live)'
+                : uploadedToR2 || (url && (url.includes('media.') || !url.includes('supabase')))
+                  ? 'R2 live'
+                  : 'Live'}
             </>
           ) : (
             <>
@@ -265,7 +287,8 @@ function AssetRow({
             <button
               type="button"
               onClick={() => void remove()}
-              disabled={busy}
+              disabled={busy || isLegacy}
+              title={isLegacy ? 'Upload to R2 to replace bundled file' : undefined}
               className="inline-flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-red-600 hover:bg-red-500/10 disabled:opacity-50"
             >
               {busy ? <Loader2 className="h-3 w-3 animate-spin" /> : <Trash2 className="h-3 w-3" />}
@@ -284,7 +307,8 @@ function TierPanel({
   certId,
   tier,
   offeringId,
-  assets,
+  cmsAssets,
+  displayAssets,
   onChange,
   mode = 'all',
   visibleRows,
@@ -292,7 +316,8 @@ function TierPanel({
   certId: string;
   tier: Tier;
   offeringId: string;
-  assets: ProgrammeOfferingAssets;
+  cmsAssets: ProgrammeOfferingAssets;
+  displayAssets: ProgrammeOfferingAssets;
   onChange: (next: ProgrammeOfferingAssets) => void;
   mode?: 'all' | 'video' | 'documents';
   visibleRows: typeof ASSET_ROWS;
@@ -322,8 +347,8 @@ function TierPanel({
               YouTube / Vimeo embed URL (optional)
             </span>
             <input
-              value={assets.videoEmbedUrl ?? ''}
-              onChange={(e) => onChange({ ...assets, videoEmbedUrl: e.target.value.trim() || undefined })}
+              value={cmsAssets.videoEmbedUrl ?? ''}
+              onChange={(e) => onChange({ ...cmsAssets, videoEmbedUrl: e.target.value.trim() || undefined })}
               placeholder="https://www.youtube.com/embed/…"
               className="dashboard-input"
             />
@@ -331,10 +356,10 @@ function TierPanel({
             <p className="mt-2 text-xs text-muted-foreground">
               Use embed URL when you host on YouTube/Vimeo. Self-hosted MP4 below takes priority when both are set.
             </p>
-            {assets.videoEmbedUrl?.trim() ? (
+            {cmsAssets.videoEmbedUrl?.trim() ? (
               <div className="mt-3 overflow-hidden rounded-lg border border-border bg-black/20">
                 <iframe
-                  src={assets.videoEmbedUrl.trim()}
+                  src={cmsAssets.videoEmbedUrl.trim()}
                   title="Video embed preview"
                   className="aspect-video w-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -360,8 +385,10 @@ function TierPanel({
             key={row.kind}
             certId={certId}
             tier={tier}
+            offeringId={offeringId}
             row={row}
-            assets={assets}
+            cmsAssets={cmsAssets}
+            displayAssets={displayAssets}
             onChange={onChange}
           />
         ))}
@@ -401,6 +428,20 @@ export function ProgrammeAssetsUploader({
   mode?: 'all' | 'video' | 'documents';
 }) {
   const programmeAssets = entry.programmeAssets ?? {};
+  const hasBundledAssets = useMemo(
+    () =>
+      TIERS.some((tier) => {
+        const offeringId = offeringIdForCertTier(entry.id, tier);
+        const cms = programmeAssets[offeringId] ?? {};
+        const effective = effectiveProgrammeAssets(offeringId, cms, siteUrl);
+        return ASSET_ROWS.some(
+          (row) =>
+            effective[row.urlKey] &&
+            isLegacyProgrammeAssetUrl(offeringId, row.urlKey, effective[row.urlKey] as string, cms, siteUrl),
+        );
+      }),
+    [entry.id, programmeAssets],
+  );
   const visibleRows = ASSET_ROWS.filter((row) => {
     if (mode === 'video') return row.kind === 'video';
     if (mode === 'documents') return row.kind !== 'video';
@@ -413,12 +454,13 @@ export function ProgrammeAssetsUploader({
       Object.fromEntries(
         TIERS.map((tier) => {
           const offeringId = offeringIdForCertTier(entry.id, tier);
-          const assets = programmeAssets[offeringId] ?? {};
+          const cmsAssets = programmeAssets[offeringId] ?? {};
+          const displayAssets = effectiveProgrammeAssets(offeringId, cmsAssets, siteUrl);
           if (mode === 'video') {
-            const hasVideo = Boolean(assets.videoUrl || assets.videoEmbedUrl?.trim());
+            const hasVideo = Boolean(displayAssets.videoUrl || cmsAssets.videoEmbedUrl?.trim());
             return [tier, hasVideo ? 1 : 0];
           }
-          return [tier, visibleRows.filter((row) => assets[row.urlKey]).length];
+          return [tier, visibleRows.filter((row) => displayAssets[row.urlKey]).length];
         }),
       ) as Record<Tier, number>,
     [entry.id, mode, programmeAssets, visibleRows],
@@ -436,6 +478,15 @@ export function ProgrammeAssetsUploader({
 
   return (
     <div className="space-y-4">
+      {hasBundledAssets ? (
+        <div className="flex gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2.5 text-xs text-amber-900 dark:text-amber-100">
+          <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+          <p>
+            Some files are bundled with the public site (not in your draft registry). They show here as{' '}
+            <strong>Bundled (live)</strong>. Upload to Cloudflare R2 to replace and manage them from the CMS.
+          </p>
+        </div>
+      ) : null}
       <Tabs defaultValue="foundation" className="gap-4">
         <TabsList
           variant="line"
@@ -457,14 +508,16 @@ export function ProgrammeAssetsUploader({
 
         {TIERS.map((tier) => {
           const offeringId = offeringIdForCertTier(entry.id, tier);
-          const assets = programmeAssets[offeringId] ?? {};
+          const cmsAssets = programmeAssets[offeringId] ?? {};
+          const displayAssets = effectiveProgrammeAssets(offeringId, cmsAssets, siteUrl);
           return (
             <TabsContent key={tier} value={tier} className="mt-0 outline-none">
               <TierPanel
                 certId={entry.id}
                 tier={tier}
                 offeringId={offeringId}
-                assets={assets}
+                cmsAssets={cmsAssets}
+                displayAssets={displayAssets}
                 onChange={(next) => patchTier(tier, offeringId, next)}
                 mode={mode}
                 visibleRows={visibleRows}

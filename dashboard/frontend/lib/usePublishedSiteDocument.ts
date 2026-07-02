@@ -35,8 +35,9 @@ export function usePublishedSiteDocument<T>(
   useEffect(() => {
     const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
     const previewKey = params?.get('previewKey');
+    const isSitePreview = params?.get('sitePreview') === '1';
 
-    if (previewKey === fieldKey && typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && (previewKey === fieldKey || isSitePreview)) {
       try {
         const raw = localStorage.getItem(previewStorageKey(fieldKey));
         if (raw) {

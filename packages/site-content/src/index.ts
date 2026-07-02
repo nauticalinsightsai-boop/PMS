@@ -2,6 +2,7 @@ export * from './keys';
 export * from './media';
 export * from './home';
 export * from './certifications';
+export * from './legacy-programme-assets';
 export * from './services';
 export * from './store';
 export * from './community';

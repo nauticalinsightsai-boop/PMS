@@ -5,7 +5,6 @@ import { FileText } from 'lucide-react';
 import { MarkdownContentEditor, type MarkdownContentEditorHandle } from './MarkdownContentEditor';
 import { NewsletterLivePreview } from './NewsletterLivePreview';
 import { ArticleMediaPanel } from './ArticleMediaPanel';
-import { ContentFigurePreviews } from './ContentFigurePreviews';
 import { estimateReadTime, type NewsletterPost } from '@/lib/newsletter-posts';
 
 function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
@@ -56,15 +55,6 @@ export function NewsletterEditorWorkspace({ post, onChange }: Props) {
               onChange={(content) => onChange({ content })}
               rows={20}
               placeholder="Write your article…"
-            />
-          </div>
-
-          <div>
-            <p className="mb-3 text-sm font-semibold text-foreground">Image previews</p>
-            <ContentFigurePreviews
-              content={post.content}
-              featuredDesktop={post.featuredImageUrl}
-              featuredMobile={post.featuredImageMobileUrl}
             />
           </div>
         </section>

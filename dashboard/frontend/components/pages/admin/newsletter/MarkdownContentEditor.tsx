@@ -13,7 +13,6 @@ import {
   Bold,
   Code,
   ImagePlus,
-  Images,
   Italic,
   Link2,
   List,
@@ -25,11 +24,9 @@ import {
   Table,
   Underline,
   Undo2,
-  X,
 } from 'lucide-react';
 import { buildCenterBlock, buildFigureBlock, buildQuoteBlock } from '@pms/site-content/article-markdown';
-import { FigureImagePicker } from '@/components/pages/admin/newsletter/FigureImagePicker';
-import { MediaLibraryGrid } from '@/components/pages/admin/site-content/MediaLibraryGrid';
+import { FeaturedImageUploadDialog } from '@/components/pages/admin/newsletter/FeaturedImageUploader';
 import { cn } from '@/lib/utils';
 
 type Selection = { start: number; end: number };
@@ -66,7 +63,6 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
   const historyIndexRef = useRef(0);
   const skipHistoryRef = useRef(false);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
-  const [libraryOpen, setLibraryOpen] = useState(false);
   const [blockMode, setBlockMode] = useState<'p' | number>('p');
 
   useEffect(() => {
@@ -200,8 +196,8 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     );
   };
 
-  const insertFigure = (desktop: string, mobile: string, alt: string) => {
-    insertAtCursor(buildFigureBlock(desktop, mobile, alt).trim());
+  const insertFigure = (url: string, alt: string) => {
+    insertAtCursor(buildFigureBlock(url, url, alt).trim());
   };
 
   const iconBtn =
@@ -284,13 +280,10 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         <button
           type="button"
           title="Insert image"
-          onClick={() => setImageDialogOpen((v) => !v)}
-          className={cn(iconBtn, imageDialogOpen && 'bg-muted text-foreground')}
+          onClick={() => setImageDialogOpen(true)}
+          className={iconBtn}
         >
           <ImagePlus size={15} />
-        </button>
-        <button type="button" title="Media library" onClick={() => setLibraryOpen(true)} className={iconBtn}>
-          <Images size={15} />
         </button>
         <button type="button" title="Link" onClick={insertLink} className={iconBtn}>
           <Link2 size={15} />
@@ -300,7 +293,7 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         </button>
       </div>
 
-      <FigureImagePicker
+      <FeaturedImageUploadDialog
         open={imageDialogOpen}
         onClose={() => setImageDialogOpen(false)}
         onInsert={insertFigure}
@@ -318,28 +311,6 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         className="block w-full resize-y border-0 bg-background px-4 py-4 text-sm leading-relaxed outline-none placeholder:text-muted-foreground"
         style={{ minHeight: '22rem' }}
       />
-
-      {libraryOpen ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <div className="flex max-h-[85vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl">
-            <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              <h3 className="font-bold">Insert from media library</h3>
-              <button type="button" onClick={() => setLibraryOpen(false)} className="rounded-lg p-2 hover:bg-muted">
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="overflow-y-auto p-4">
-              <MediaLibraryGrid
-                compact
-                onSelect={(url) => {
-                  insertFigure(url, url, 'Article image');
-                  setLibraryOpen(false);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 });

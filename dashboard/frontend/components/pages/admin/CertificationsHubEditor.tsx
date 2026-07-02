@@ -36,6 +36,9 @@ import {
   type CertificationsRegistry,
   type CertificationRegistryEntry,
   type PathwayFamilyTab,
+  offeringIdForCertTier,
+  effectiveProgrammeAssets,
+  countProgrammeAssetUrls,
 } from '@pms/site-content';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
 import { siteUrl } from '@/lib/site-config';
@@ -47,6 +50,14 @@ import {
 } from '@/components/pages/admin/CertificationRegistryEntryEditor';
 
 const FAMILIES: PathwayFamilyTab[] = ['PMI', 'PRINCE2', 'SixSigma'];
+
+function entryProgrammeMediaCount(entry: CertificationRegistryEntry): number {
+  return (['foundation', 'professional', 'mastery'] as const).reduce((sum, tier) => {
+    const offeringId = offeringIdForCertTier(entry.id, tier);
+    const cms = entry.programmeAssets?.[offeringId] ?? {};
+    return sum + countProgrammeAssetUrls(effectiveProgrammeAssets(offeringId, cms, siteUrl));
+  }, 0);
+}
 
 function moveItem<T>(arr: T[], from: number, to: number): T[] {
   const next = [...arr];
@@ -241,7 +252,7 @@ export function CertificationsHubEditor() {
   const openPreview = () => {
     localStorage.setItem(previewStorageKey(FIELD_KEYS.CERTIFICATIONS_HUB_CONFIG), JSON.stringify(hub));
     localStorage.setItem(previewStorageKey(FIELD_KEYS.CERTIFICATIONS_REGISTRY), JSON.stringify(registry));
-    window.open(`${siteUrl.replace(/\/$/, '')}/certifications?sitePreview=1&previewKey=${FIELD_KEYS.CERTIFICATIONS_HUB_CONFIG}`, '_blank');
+    window.open(`${siteUrl.replace(/\/$/, '')}/certifications?sitePreview=1`, '_blank');
   };
 
   const addCert = () => {
@@ -469,6 +480,14 @@ export function CertificationsHubEditor() {
                       {entry.pricing.Elite.price}
                     </span>
                   )}
+                  {(() => {
+                    const mediaCount = entryProgrammeMediaCount(entry);
+                    return mediaCount > 0 ? (
+                      <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:text-emerald-400">
+                        {mediaCount} media
+                      </span>
+                    ) : null;
+                  })()}
                   <label className="flex items-center gap-1 text-xs">
                     <input
                       type="checkbox"
