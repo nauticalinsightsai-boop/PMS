@@ -6,6 +6,7 @@ import { Copy, ImageIcon, Loader2, Monitor, Smartphone, Upload, X } from 'lucide
 import { MediaLibraryGrid } from '@/components/pages/admin/site-content/MediaLibraryGrid';
 import { uploadMediaFile } from '@/lib/cms/media-api';
 import { dashboardHref } from '@/lib/base-path';
+import { cn } from '@/lib/utils';
 
 type Device = 'desktop' | 'mobile';
 
@@ -89,7 +90,7 @@ function DevicePicker({
   };
 
   return (
-    <div className="flex flex-col rounded-2xl border border-border bg-muted/20 p-4">
+    <div className={cn('flex flex-col rounded-2xl border border-border bg-muted/20', compact ? 'p-3' : 'p-4')}>
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="flex items-center gap-2 text-sm font-bold text-foreground">
@@ -110,7 +111,7 @@ function DevicePicker({
         ) : null}
       </div>
 
-      <div className="my-3 flex items-center justify-center">
+      <div className={cn('flex items-center justify-center', compact ? 'my-2' : 'my-3')}>
         {device === 'mobile' ? (
           <div
             className={
@@ -250,6 +251,7 @@ export function NewsletterHeroMedia({
   showLibrary = false,
   showAltText = true,
   compact = true,
+  variant = 'editor',
 }: {
   desktopUrl: string;
   mobileUrl: string;
@@ -261,55 +263,73 @@ export function NewsletterHeroMedia({
   showAltText?: boolean;
   /** Shorter preview frames (~50% height) for the newsletter editor */
   compact?: boolean;
+  /** `dialog` = compact insert-image popup */
+  variant?: 'editor' | 'dialog';
 }) {
   const desktop = displayUrl(desktopUrl);
   const mobile = displayUrl(mobileUrl);
 
-  return (
-    <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">
-        Set a hero for desktop and optionally a different image for mobile. The public page uses responsive
-        images — you can reuse the same file for both.
-      </p>
+  const isDialog = variant === 'dialog';
 
-      <div className="grid gap-4 sm:grid-cols-2">
+  return (
+    <div className={cn('space-y-4', isDialog && 'space-y-3')}>
+      {!isDialog ? (
+        <p className="text-sm text-muted-foreground">
+          Set a hero for desktop and optionally a different image for mobile. The public page uses responsive
+          images — you can reuse the same file for both.
+        </p>
+      ) : null}
+
+      <div className={cn('grid gap-4', isDialog ? 'grid-cols-1 sm:grid-cols-2 gap-3' : 'sm:grid-cols-2')}>
         <DevicePicker
           device="desktop"
-          label="Desktop hero"
-          hint="Wide 16:10 hero for article header and email"
+          label={isDialog ? 'Desktop' : 'Desktop hero'}
+          hint={isDialog ? 'Wide image' : 'Wide 16:10 hero for article header and email'}
           value={desktopUrl}
           onChange={onDesktopChange}
           showLibrary={showLibrary}
-          compact={compact}
+          compact={compact || isDialog}
         />
         <DevicePicker
           device="mobile"
-          label="Mobile hero"
-          hint="Tall 9:16 crop for phones — optional; falls back to desktop"
+          label={isDialog ? 'Mobile' : 'Mobile hero'}
+          hint={isDialog ? 'Optional phone crop' : 'Tall 9:16 crop for phones — optional; falls back to desktop'}
           value={mobileUrl}
           onChange={onMobileChange}
           showLibrary={showLibrary}
-          compact={compact}
+          compact={compact || isDialog}
         />
       </div>
 
-      <div className="flex flex-wrap items-center gap-2">
+      {!isDialog ? (
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            disabled={!desktop}
+            onClick={() => onMobileChange(desktopUrl)}
+            className="rounded-lg border border-border px-3 py-2 text-xs font-semibold disabled:opacity-40 hover:border-brand-orange/40"
+          >
+            Use desktop image on mobile
+          </button>
+          <span className="text-xs text-muted-foreground">
+            {mobile ? 'Mobile-specific crop set' : desktop ? 'Mobile will fall back to desktop hero' : 'Add at least a desktop hero'}
+          </span>
+        </div>
+      ) : desktop && !mobile ? (
         <button
           type="button"
-          disabled={!desktop}
           onClick={() => onMobileChange(desktopUrl)}
-          className="rounded-lg border border-border px-3 py-2 text-xs font-semibold disabled:opacity-40 hover:border-brand-orange/40"
+          className="text-xs font-semibold text-brand-orange hover:underline"
         >
-          Use desktop image on mobile
+          Use desktop image for mobile too
         </button>
-        <span className="text-xs text-muted-foreground">
-          {mobile ? 'Mobile-specific crop set' : desktop ? 'Mobile will fall back to desktop hero' : 'Add at least a desktop hero'}
-        </span>
-      </div>
+      ) : null}
 
       {showAltText ? (
         <div>
-          <label className="mb-1.5 block text-sm font-semibold">Hero alt text</label>
+          <label className="mb-1.5 block text-sm font-semibold">
+            {isDialog ? 'Caption (optional)' : 'Hero alt text'}
+          </label>
           <input
             value={altText}
             onChange={(e) => onAltChange(e.target.value)}

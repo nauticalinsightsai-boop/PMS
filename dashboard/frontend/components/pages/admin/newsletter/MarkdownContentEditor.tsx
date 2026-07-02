@@ -53,17 +53,29 @@ const HEADING_LEVELS = [
   { level: 6, label: 'H6', prefix: '###### ' },
 ] as const;
 
+/** Keep textarea selection when toolbar buttons are clicked (prevents blur reset). */
+function toolbarMouseDown(event: React.MouseEvent) {
+  event.preventDefault();
+}
+
 export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Props>(function MarkdownContentEditor(
   { value, onChange, rows = 18, placeholder, className },
   ref,
 ) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const selectionRef = useRef<Selection>({ start: 0, end: 0 });
   const pendingSelection = useRef<Selection | null>(null);
   const historyRef = useRef<string[]>([value]);
   const historyIndexRef = useRef(0);
   const skipHistoryRef = useRef(false);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
   const [blockMode, setBlockMode] = useState<'p' | number>('p');
+
+  const rememberSelection = useCallback(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    selectionRef.current = { start: el.selectionStart, end: el.selectionEnd };
+  }, []);
 
   useEffect(() => {
     if (!pendingSelection.current || !textareaRef.current) return;
@@ -72,34 +84,41 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     const el = textareaRef.current;
     el.focus();
     el.setSelectionRange(start, end);
+    selectionRef.current = { start, end };
   }, [value]);
 
-  const pushHistory = useCallback(
-    (next: string) => {
-      if (skipHistoryRef.current) {
-        skipHistoryRef.current = false;
-        return;
-      }
-      const stack = historyRef.current.slice(0, historyIndexRef.current + 1);
-      stack.push(next);
-      if (stack.length > 50) stack.shift();
-      historyRef.current = stack;
-      historyIndexRef.current = stack.length - 1;
-    },
-    [],
-  );
+  useEffect(() => {
+    if (value === historyRef.current[historyIndexRef.current]) return;
+    historyRef.current = [value];
+    historyIndexRef.current = 0;
+  }, [value]);
+
+  const pushHistory = useCallback((next: string) => {
+    if (skipHistoryRef.current) {
+      skipHistoryRef.current = false;
+      return;
+    }
+    const stack = historyRef.current.slice(0, historyIndexRef.current + 1);
+    stack.push(next);
+    if (stack.length > 50) stack.shift();
+    historyRef.current = stack;
+    historyIndexRef.current = stack.length - 1;
+  }, []);
 
   const getSelection = useCallback((): Selection => {
     const el = textareaRef.current;
-    if (!el) return { start: value.length, end: value.length };
-    return { start: el.selectionStart, end: el.selectionEnd };
-  }, [value.length]);
+    if (el && document.activeElement === el) {
+      return { start: el.selectionStart, end: el.selectionEnd };
+    }
+    return selectionRef.current;
+  }, []);
 
   const commit = useCallback(
     (next: string, selection: Selection) => {
-    pendingSelection.current = selection;
+      pendingSelection.current = selection;
+      selectionRef.current = selection;
       pushHistory(next);
-    onChange(next);
+      onChange(next);
     },
     [onChange, pushHistory],
   );
@@ -108,14 +127,18 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     if (historyIndexRef.current <= 0) return;
     historyIndexRef.current -= 1;
     skipHistoryRef.current = true;
-    onChange(historyRef.current[historyIndexRef.current] ?? '');
+    const next = historyRef.current[historyIndexRef.current] ?? '';
+    selectionRef.current = { start: next.length, end: next.length };
+    onChange(next);
   };
 
   const redo = () => {
     if (historyIndexRef.current >= historyRef.current.length - 1) return;
     historyIndexRef.current += 1;
     skipHistoryRef.current = true;
-    onChange(historyRef.current[historyIndexRef.current] ?? '');
+    const next = historyRef.current[historyIndexRef.current] ?? '';
+    selectionRef.current = { start: next.length, end: next.length };
+    onChange(next);
   };
 
   const insertAtCursor = useCallback(
@@ -164,7 +187,8 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         let base = line;
         if (options?.stripHeading) base = base.replace(/^#{1,6}\s+/, '');
         base = base.replace(/^>\s+/, '');
-        return `${prefix}${base}`;
+        base = base.replace(/^(-|\d+\.)\s+/, '');
+        return prefix ? `${prefix}${base}` : base;
       })
       .join('\n');
     const next = value.slice(0, lineStart) + transformed + value.slice(blockEnd);
@@ -174,11 +198,13 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
   const applyHeading = (level: number) => {
     setBlockMode(level);
     prefixLines(`${'#'.repeat(level)} `, { stripHeading: true });
+    textareaRef.current?.focus();
   };
 
   const applyParagraph = () => {
     setBlockMode('p');
     prefixLines('', { stripHeading: true });
+    textareaRef.current?.focus();
   };
 
   const insertLink = () => {
@@ -191,9 +217,7 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
   };
 
   const insertTable = () => {
-    insertAtCursor(
-      '| Column 1 | Column 2 |\n| --- | --- |\n| Cell | Cell |',
-    );
+    insertAtCursor('| Column 1 | Column 2 |\n| --- | --- |\n| Cell | Cell |');
   };
 
   const insertFigure = (desktopUrl: string, mobileUrl: string, alt: string) => {
@@ -210,7 +234,10 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
 
   return (
     <div className={cn('overflow-hidden rounded-2xl border border-border bg-card shadow-sm', className)}>
-      <div className="flex flex-wrap items-center gap-0.5 border-b border-border bg-background px-2 py-2">
+      <div
+        className="flex flex-wrap items-center gap-0.5 border-b border-border bg-background px-2 py-2"
+        onMouseDown={toolbarMouseDown}
+      >
         <button type="button" title="Undo" aria-label="Undo" onClick={undo} className={iconBtn}>
           <Undo2 size={15} />
         </button>
@@ -259,26 +286,46 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
 
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
 
-        <button type="button" title="Bulleted list" onClick={() => prefixLines('- ', { stripHeading: true })} className={iconBtn}>
+        <button
+          type="button"
+          title="Bulleted list"
+          onClick={() => prefixLines('- ', { stripHeading: true })}
+          className={iconBtn}
+        >
           <List size={15} />
         </button>
-        <button type="button" title="Numbered list" onClick={() => prefixLines('1. ', { stripHeading: true })} className={iconBtn}>
+        <button
+          type="button"
+          title="Numbered list"
+          onClick={() => prefixLines('1. ', { stripHeading: true })}
+          className={iconBtn}
+        >
           <ListOrdered size={15} />
         </button>
-        <button type="button" title="Quote" onClick={() => insertAtCursor(buildQuoteBlock('Quote text').trim())} className={iconBtn}>
+        <button
+          type="button"
+          title="Quote"
+          onClick={() => insertAtCursor(buildQuoteBlock('Quote text').trim())}
+          className={iconBtn}
+        >
           <Quote size={15} />
         </button>
         <button type="button" title="Divider" onClick={() => insertAtCursor('\n---\n')} className={iconBtn}>
           <Minus size={15} />
         </button>
-        <button type="button" title="Center" onClick={() => insertAtCursor(buildCenterBlock('Centered text').trim())} className={iconBtn}>
+        <button
+          type="button"
+          title="Center"
+          onClick={() => insertAtCursor(buildCenterBlock('Centered text').trim())}
+          className={iconBtn}
+        >
           <AlignCenter size={15} />
         </button>
 
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
 
-            <button
-              type="button"
+        <button
+          type="button"
           title="Insert image"
           onClick={() => setImageDialogOpen(true)}
           className={iconBtn}
@@ -290,7 +337,7 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         </button>
         <button type="button" title="Table" onClick={insertTable} className={iconBtn}>
           <Table size={15} />
-            </button>
+        </button>
       </div>
 
       <FeaturedImageUploadDialog
@@ -302,14 +349,19 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
       <textarea
         ref={textareaRef}
         value={value}
+        onSelect={rememberSelection}
+        onKeyUp={rememberSelection}
+        onMouseUp={rememberSelection}
+        onClick={rememberSelection}
         onChange={(e) => {
+          rememberSelection();
           pushHistory(e.target.value);
           onChange(e.target.value);
         }}
         rows={rows}
         placeholder={placeholder}
         className="block w-full resize-y border-0 bg-background px-4 py-4 text-sm leading-relaxed outline-none placeholder:text-muted-foreground"
-        style={{ minHeight: '22rem' }}
+        style={{ minHeight: '16rem' }}
       />
     </div>
   );

@@ -47,6 +47,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
 
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '');
 
+  // Load once per post route — do not reset on registry/realtime refresh while editing.
   useEffect(() => {
     if (isLoading) return;
     if (postId) {
@@ -66,7 +67,8 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
     setTopicsInput('');
     setBaseline(serializePost(empty, ''));
     setSyncStatus('pending');
-  }, [getPostById, isLoading, postId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-init when route or load state changes
+  }, [isLoading, postId]);
 
   const canSave = useMemo(() => Boolean(post?.title.trim() && post?.slug.trim()), [post]);
 

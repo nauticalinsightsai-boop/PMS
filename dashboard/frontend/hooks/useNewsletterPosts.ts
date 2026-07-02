@@ -167,6 +167,11 @@ export function useNewsletterPosts() {
     [persist, registry.posts, isRegistryPublished],
   );
 
+  const getPostById = useCallback(
+    (id: string) => registry.posts.find((post) => post.id === id),
+    [registry.posts],
+  );
+
   return {
     posts: registry.posts,
     isLoading,
@@ -179,6 +184,6 @@ export function useNewsletterPosts() {
     publishRegistry,
     upsertPost,
     deletePost,
-    getPostById: (id: string) => registry.posts.find((post) => post.id === id),
+    getPostById,
   };
 }

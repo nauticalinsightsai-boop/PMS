@@ -32,24 +32,25 @@ export function FeaturedImageUploadDialog({
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4">
       <div
-        className="flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+        className="flex max-h-[50vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
         role="dialog"
         aria-labelledby="featured-image-dialog-title"
       >
-        <div className="flex shrink-0 items-center justify-between border-b border-border px-5 py-4">
+        <div className="flex shrink-0 items-center justify-between border-b border-border px-4 py-3">
           <div>
-            <h3 id="featured-image-dialog-title" className="text-base font-bold text-foreground">
+            <h3 id="featured-image-dialog-title" className="text-sm font-bold text-foreground">
               Insert image
             </h3>
-            <p className="text-sm text-muted-foreground">Upload desktop and mobile versions</p>
+            <p className="text-xs text-muted-foreground">Desktop + mobile (optional)</p>
           </div>
           <button type="button" onClick={handleClose} className="rounded-lg p-2 hover:bg-muted" aria-label="Close">
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto p-5 space-y-4">
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
           <NewsletterHeroMedia
+            variant="dialog"
             desktopUrl={desktopUrl}
             mobileUrl={mobileUrl}
             altText={alt}
@@ -59,7 +60,7 @@ export function FeaturedImageUploadDialog({
           />
         </div>
 
-        <div className="flex shrink-0 justify-end gap-2 border-t border-border px-5 py-4">
+        <div className="flex shrink-0 justify-end gap-2 border-t border-border px-4 py-3">
           <button
             type="button"
             onClick={handleClose}
