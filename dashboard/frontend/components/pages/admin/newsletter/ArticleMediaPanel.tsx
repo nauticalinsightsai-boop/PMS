@@ -106,7 +106,11 @@ function AudioUpload({
           e.target.value = '';
         }}
       />
-      {error ? <p className="mt-3 text-center text-xs text-destructive">{error}</p> : null}
+      {error ? (
+        <p className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs font-medium text-destructive">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }

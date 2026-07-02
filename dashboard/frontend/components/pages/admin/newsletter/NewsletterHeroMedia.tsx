@@ -186,7 +186,11 @@ function DevicePicker({
           placeholder="Or paste image URL"
           className="w-full rounded-xl border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
         />
-        {uploadError ? <p className="text-xs text-destructive">{uploadError}</p> : null}
+        {uploadError ? (
+          <p className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs font-medium text-destructive">
+            {uploadError}
+          </p>
+        ) : null}
       </div>
 
       <input

@@ -1,6 +1,8 @@
 'use client';
 
 import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
+import { isApiLoginEnabled } from '@/lib/auth/api-login-config';
+import { hasDashboardMutationAuth } from '@/lib/auth/dashboard-api-headers';
 
 export type MediaSource = 'upload' | 'site' | 'cms';
 
@@ -31,9 +33,37 @@ export type MediaSectionTab = {
   count: number;
 };
 
-import { isApiLoginEnabled } from '@/lib/auth/api-login-config';
+/** Dashboard_one login has no Supabase Auth JWT — uploads must use the admin API (service role). */
+function shouldUseMediaApi(): boolean {
+  if (typeof window !== 'undefined') {
+    if (process.env.NEXT_PUBLIC_DASHBOARD_BUNDLED === 'true') return true;
+    if (isApiLoginEnabled()) return true;
+    if (hasDashboardMutationAuth()) return true;
+    return false;
+  }
+  return isApiLoginEnabled();
+}
 
-const USE_MEDIA_API = isApiLoginEnabled();
+/** Vercel serverless request bodies are capped ~4.5MB; stay under that. */
+const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
+const MAX_AUDIO_BYTES = 20 * 1024 * 1024;
+
+function parseUploadError(res: Response, data: Record<string, unknown>): string {
+  const msg = typeof data.error === 'string' ? data.error : '';
+  if (res.status === 401) {
+    return msg || 'Session expired — sign out and log in again, then retry upload.';
+  }
+  if (res.status === 403) {
+    return msg || 'Upload blocked (origin/auth). Refresh the page and try again.';
+  }
+  if (res.status === 413) {
+    return msg || 'File is too large for the server (max 4MB for images).';
+  }
+  if (res.status === 503) {
+    return msg || 'Media storage is not configured on the server.';
+  }
+  return msg || `Upload failed (${res.status})`;
+}
 
 async function listFromSupabaseClient(): Promise<MediaItem[]> {
   const { supabase } = await import('@/lib/supabase');
@@ -63,7 +93,7 @@ export async function listMediaItems(): Promise<{
   counts: MediaCounts;
   sections: MediaSectionTab[];
 }> {
-  if (USE_MEDIA_API) {
+  if (shouldUseMediaApi()) {
     const res = await fetchDashboardApi('/api/cms/media', {
       credentials: 'include',
     });
@@ -101,12 +131,16 @@ export async function uploadMediaFile(
   options?: { replace?: string; cmsContext?: string; kind?: 'image' | 'audio' },
 ): Promise<MediaItem & { cmsUpdated?: boolean; message?: string }> {
   const isAudio = options?.kind === 'audio' || file.type.startsWith('audio/');
-  const maxBytes = isAudio ? 20 * 1024 * 1024 : 5 * 1024 * 1024;
+  const maxBytes = isAudio ? MAX_AUDIO_BYTES : MAX_IMAGE_BYTES;
   if (file.size > maxBytes) {
-    throw new Error(`File exceeds ${Math.round(maxBytes / (1024 * 1024))}MB limit`);
+    throw new Error(
+      isAudio
+        ? `Audio exceeds ${Math.round(maxBytes / (1024 * 1024))}MB limit`
+        : `Image exceeds ${Math.round(maxBytes / (1024 * 1024))}MB limit (use a smaller file or compress)`,
+    );
   }
 
-  if (USE_MEDIA_API) {
+  if (shouldUseMediaApi()) {
     const form = new FormData();
     form.append('file', file);
     form.append('filename', file.name);
@@ -123,8 +157,9 @@ export async function uploadMediaFile(
       cmsUpdated?: boolean;
       message?: string;
       error?: string;
+      success?: boolean;
     };
-    if (!res.ok) throw new Error(data.error || 'Upload failed');
+    if (!res.ok) throw new Error(parseUploadError(res, data));
     if (!data.url?.trim()) {
       throw new Error('Upload succeeded but no public URL was returned. Check Supabase URL env vars.');
     }
@@ -145,11 +180,17 @@ export async function uploadMediaFile(
   }
 
   const { supabase } = await import('@/lib/supabase');
-  const path = options?.replace?.trim() || `${Date.now()}-${file.name}`;
+  const path = options?.replace?.trim() || `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
   const { error } = await supabase.storage.from('site-media').upload(path, file, {
     upsert: Boolean(options?.replace),
   });
-  if (error) throw error;
+  if (error) {
+    throw new Error(
+      error.message.includes('row-level security') || error.message.includes('JWT')
+        ? 'Upload requires admin API login. Sign in at /admin/login and try again.'
+        : error.message,
+    );
+  }
   const { data: pub } = supabase.storage.from('site-media').getPublicUrl(path);
   return {
     name: path,
@@ -163,7 +204,7 @@ export async function uploadMediaFile(
 }
 
 export async function deleteMediaItem(name: string): Promise<void> {
-  if (USE_MEDIA_API) {
+  if (shouldUseMediaApi()) {
     const res = await fetchDashboardApi('/api/cms/media', {
       method: 'DELETE',
       credentials: 'include',

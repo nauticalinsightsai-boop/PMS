@@ -7,7 +7,7 @@ import { inferContentType } from '@/lib/storage/content-type';
 import { ensureSiteMediaBucket } from '@/lib/storage/ensure-supabase-bucket';
 
 const BUCKET = 'site-media';
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
 const MAX_AUDIO_BYTES = 20 * 1024 * 1024;
 
 const IMAGE_TYPES = new Set([
@@ -112,7 +112,12 @@ export async function POST(request: NextRequest) {
   const contentType = inferContentType(safeName, file.type);
   if (!isAllowedMediaType(contentType)) {
     return NextResponse.json(
-      { error: 'Only images (JPEG, PNG, WebP, GIF, SVG) or audio (MP3, M4A, WAV) are allowed' },
+      {
+        error:
+          contentType === 'application/octet-stream'
+            ? 'Unsupported image type. Use JPEG, PNG, WebP, GIF, or SVG (not HEIC).'
+            : 'Only images (JPEG, PNG, WebP, GIF, SVG) or audio (MP3, M4A, WAV) are allowed',
+      },
       { status: 400 },
     );
   }
