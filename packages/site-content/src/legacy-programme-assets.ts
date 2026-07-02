@@ -6,7 +6,7 @@ const LEGACY_PROGRAMME_ASSETS: Record<string, ProgrammeOfferingAssets> = {
     infographicUrl: '/programme/pmp-foundation-roadmap.png',
     guidePdfUrl: '/programme/pmp-foundation-program-guide.pdf',
     slidesPdfUrl: '/programme/pmp-foundation-session-slides.pdf',
-    videoUrl: '/videos/programme/pmp-foundation-orientation.mp4',
+    // Overview video is not bundled (large MP4s are gitignored) — upload to R2 via CMS.
   },
 };
 
@@ -43,15 +43,27 @@ export function getLegacyProgrammeAssets(
   return out;
 }
 
+function isClearedAssetValue(value: unknown): boolean {
+  return value === null || (typeof value === 'string' && !value.trim());
+}
+
 /** CMS registry values override bundled site files. */
 export function mergeProgrammeAssets(
   cms: ProgrammeOfferingAssets | undefined | null,
   legacy: ProgrammeOfferingAssets,
 ): ProgrammeOfferingAssets {
-  return {
+  const merged: ProgrammeOfferingAssets = {
     ...legacy,
     ...(cms ?? {}),
   };
+
+  for (const key of URL_KEYS) {
+    if (cms && key in cms && isClearedAssetValue(cms[key])) {
+      delete merged[key];
+    }
+  }
+
+  return merged;
 }
 
 export function effectiveProgrammeAssets(
@@ -79,7 +91,7 @@ export function isLegacyProgrammeAssetUrl(
   siteBaseUrl?: string,
 ): boolean {
   if (!url?.trim()) return false;
-  if (cms?.[urlKey]) return false;
+  if (cms && urlKey in cms) return false;
   const legacy = getLegacyProgrammeAssets(offeringId, siteBaseUrl);
   return legacy[urlKey] === url;
 }

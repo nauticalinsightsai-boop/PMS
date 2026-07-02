@@ -15,8 +15,9 @@ describe('pathway-programme-preview', () => {
     const slides = preview.panels.find((p) => p.id === 'slides');
     expect(slides?.slidesPdfSrc).toBe('/programme/pmp-foundation-session-slides.pdf');
     const video = preview.panels.find((p) => p.kind === 'video');
-    expect(video?.videoSrc).toBe('/videos/programme/pmp-foundation-orientation.mp4');
-    expect(programmePreviewHasVideo(preview)).toBe(true);
+    expect(video?.available).toBe(false);
+    expect(video?.videoSrc).toBeNull();
+    expect(programmePreviewHasVideo(preview)).toBe(false);
   });
 
   it('merges CMS Cloudflare R2 assets over static fallbacks', () => {

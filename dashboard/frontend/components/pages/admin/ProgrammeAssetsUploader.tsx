@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import {
   CheckCircle2,
   CircleDashed,
@@ -125,6 +125,7 @@ function AssetRow({
   const [uploadedToR2, setUploadedToR2] = useState(false);
   const [uploadLabel, setUploadLabel] = useState<string | null>(null);
   const [uploadPercent, setUploadPercent] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const url = displayAssets[row.urlKey] as string | undefined;
   const path = cmsAssets[row.pathKey] as string | undefined;
   const hasFile = Boolean(url);
@@ -136,6 +137,7 @@ function AssetRow({
     siteUrl,
   );
   const fileName = fileNameFromStorage(path, url);
+  const openUrl = url?.startsWith('/') ? `${siteUrl.replace(/\/$/, '')}${url}` : url;
   const Icon = row.Icon;
 
   const upload = async (file: File | null) => {
@@ -181,7 +183,14 @@ function AssetRow({
 
   const remove = async () => {
     if (isLegacy) {
-      setError('This file ships with the site. Upload a replacement to R2 to override it.');
+      if (!confirm(`Hide bundled ${row.label.toLowerCase()} for this tier? Upload a replacement anytime.`)) {
+        return;
+      }
+      onChange({
+        ...cmsAssets,
+        [row.urlKey]: '',
+        [row.pathKey]: '',
+      });
       return;
     }
     if (!confirm(`Remove ${row.label.toLowerCase()} for this tier?`)) return;
@@ -266,37 +275,42 @@ function AssetRow({
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
-        <label className="inline-flex cursor-pointer">
-          <span
-            className={cn(
-              'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-white',
-              busy ? 'cursor-wait bg-brand-orange/70' : 'bg-brand-orange hover:opacity-90',
-            )}
-          >
-            {busy ? (
-              <>
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                {uploadLabel ?? 'Uploading…'}
-              </>
-            ) : (
-              <>
-                <Upload className="h-3.5 w-3.5" />
-                {hasFile ? 'Replace' : 'Upload'}
-              </>
-            )}
-          </span>
-          <input
-            type="file"
-            accept={row.accept}
-            className="hidden"
-            disabled={busy}
-            onChange={(e) => void upload(e.target.files?.[0] ?? null)}
-          />
-        </label>
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => fileInputRef.current?.click()}
+          className={cn(
+            'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-white',
+            busy ? 'cursor-wait bg-brand-orange/70' : 'bg-brand-orange hover:opacity-90',
+          )}
+        >
+          {busy ? (
+            <>
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              {uploadLabel ?? 'Uploading…'}
+            </>
+          ) : (
+            <>
+              <Upload className="h-3.5 w-3.5" />
+              {hasFile ? 'Replace' : 'Upload'}
+            </>
+          )}
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept={row.accept}
+          className="sr-only"
+          disabled={busy}
+          onChange={(e) => {
+            void upload(e.target.files?.[0] ?? null);
+            e.target.value = '';
+          }}
+        />
         {hasFile ? (
           <>
             <a
-              href={url}
+              href={openUrl}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium hover:bg-muted"
@@ -307,8 +321,7 @@ function AssetRow({
             <button
               type="button"
               onClick={() => void remove()}
-              disabled={busy || isLegacy}
-              title={isLegacy ? 'Upload to R2 to replace bundled file' : undefined}
+              disabled={busy}
               className="inline-flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-red-600 hover:bg-red-500/10 disabled:opacity-50"
             >
               {busy ? <Loader2 className="h-3 w-3 animate-spin" /> : <Trash2 className="h-3 w-3" />}

@@ -8,7 +8,7 @@ Configured in `lib/pathway-programme-preview.ts`.
 |------|----------|
 | `pmp-foundation-orientation.mp4` | PMP Foundation: overview video panel |
 
-Large `.mp4` files are gitignored.
+Large `.mp4` files are gitignored and are **not** deployed. Upload overview videos to Cloudflare R2 via the admin certifications editor.
 
 ## Infographics & PDFs (`frontend/public/programme/`)
 
