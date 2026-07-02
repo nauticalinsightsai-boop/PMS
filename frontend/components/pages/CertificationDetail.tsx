@@ -28,7 +28,7 @@ import {
 import { useIsLgUp } from '@/hooks/useIsLgUp';
 import { LazyWhenVisible } from '@/components/LazyWhenVisible';
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
-import { FIELD_KEYS, parseCertificationsRegistry, type CertificationsRegistry } from "@pms/site-content";
+import { FIELD_KEYS, certificationsRegistrySchema, type CertificationsRegistry } from "@pms/site-content";
 import { resolveCertMarketing } from "@/lib/cert-detail";
 import {
   DossierBulletList,
@@ -104,7 +104,11 @@ export function CertificationDetail({
   const isLgUp = useIsLgUp();
   const { regionId, gccCountry } = useRegion();
   const { data: registry } = usePublishedSiteDocument(FIELD_KEYS.CERTIFICATIONS_REGISTRY, {
-    parse: (raw) => (raw ? parseCertificationsRegistry(raw) : null),
+    parse: (raw) => {
+      if (!raw) return null;
+      const result = certificationsRegistrySchema.safeParse(raw);
+      return result.success ? result.data : null;
+    },
     initialData: initialRegistry ?? emptyRegistry,
   });
   const siteCert = certifications.find((c) => c.id === certId) || certifications[0];

@@ -14,6 +14,8 @@ type Props = { params: Promise<{ id: string }> };
 
 const emptyRegistry: CertificationsRegistry = { version: 1, entries: [] };
 
+export const revalidate = 300;
+
 export function generateStaticParams() {
   return certifications.map((c) => ({ id: c.id }));
 }

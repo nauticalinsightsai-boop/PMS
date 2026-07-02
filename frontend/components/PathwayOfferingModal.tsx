@@ -17,6 +17,7 @@ import type { TierPathwayCta } from '@/lib/pathway-tier-cta';
 import type { ProgrammeOfferingAssets } from '@pms/site-content';
 import { effectiveProgrammeAssets } from '@pms/site-content';
 import { getProgrammePreviewContent } from '@/lib/pathway-programme-preview';
+import { usePublishedProgrammeAssets } from '@/lib/use-published-programme-assets';
 import {
   PathwayModalPreviewFlow,
   PathwayModalStepActions,
@@ -95,9 +96,19 @@ export function PathwayOfferingModal({
     onOpenChange(next);
   };
 
+  const { assets: publishedAssets, isLoading: assetsLoading } = usePublishedProgrammeAssets(
+    siteCertId,
+    offeringId,
+    open,
+  );
+
   const resolvedProgrammeAssets = React.useMemo(
-    () => effectiveProgrammeAssets(offeringId, programmeAssets ?? null),
-    [offeringId, programmeAssets],
+    () =>
+      effectiveProgrammeAssets(
+        offeringId,
+        publishedAssets ?? programmeAssets ?? null,
+      ),
+    [offeringId, publishedAssets, programmeAssets],
   );
 
   const preview = React.useMemo(
@@ -229,7 +240,12 @@ export function PathwayOfferingModal({
             ) : null}
           </div>
 
-          <PathwayModalPreviewFlow preview={preview} step={step} outcomes={outcomes} />
+          <PathwayModalPreviewFlow
+            preview={preview}
+            step={step}
+            outcomes={outcomes}
+            materialsLoading={assetsLoading && step === 'materials'}
+          />
         </DialogBody>
 
         <DialogFooter className="flex-col gap-2 sm:flex-col shrink-0">
