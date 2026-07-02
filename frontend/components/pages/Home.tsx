@@ -868,7 +868,7 @@ export function Home({
                 transition={{ delay: index * 0.1 }}
                 className={PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS}
               >
-                <Card className={cn(PATHWAY_MOBILE_CARD_SHELL_CLASS, 'h-full flex flex-col border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] p-4 bg-slate-50/50 dark:bg-slate-900/50')}>
+                <Card className={cn(PATHWAY_MOBILE_CARD_SHELL_CLASS, 'w-full h-full flex flex-col border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-300 rounded-[2rem] p-4 bg-slate-50/50 dark:bg-slate-900/50')}>
                   <CardHeader className="p-6 pb-4">
                     <div className="mb-4 flex items-center gap-4">
                       <div className={cn('shrink-0 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800', tool.color)}>

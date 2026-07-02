@@ -304,6 +304,11 @@ export function Membership({
         ? { ...tier, monthlyPriceUsd: cms.monthlyUsd, yearlyPriceUsd: cms.yearlyUsd }
         : tier;
     });
+  // Keep the pricing grid centered when CMS hides a tier (fewer than 3 visible).
+  const planColumnsClass =
+    tiers.length >= 3 ? 'md:grid-cols-3' : tiers.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-1';
+  const planGridMaxWidthClass =
+    tiers.length >= 3 ? 'max-w-7xl xl:max-w-[90rem]' : tiers.length === 2 ? 'max-w-3xl' : 'max-w-sm';
   const [billing, setBilling] = useState<BillingCycle>('monthly');
   const proRegional = getRegionalMembershipAmounts(
     effectivePricing.professional.monthlyUsd,
@@ -367,11 +372,12 @@ export function Membership({
       <LazyWhenVisible minHeightClassName="min-h-[28rem]">
       <section id="plans" className="pb-20 pt-16 md:pt-20 relative z-20">
         <div className="container mx-auto">
+          {/* Wrapper centers the width-capped grid on desktop; ResponsiveSnapScroll forces md:mx-0 internally. */}
+          <div className={cn(planGridMaxWidthClass, 'md:mx-auto')}>
           <ResponsiveSnapScroll
-            desktopLayoutClassName="md:grid-cols-3 items-stretch"
+            desktopLayoutClassName={cn(planColumnsClass, 'items-stretch')}
             gapClassName="gap-6 md:gap-8 lg:gap-10"
             mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
-            className="max-w-7xl xl:max-w-[90rem] mx-auto"
           >
             {tiers.map((tier, index) => {
               const display = getMembershipDisplayPrice(
@@ -494,6 +500,7 @@ export function Membership({
               );
             })}
           </ResponsiveSnapScroll>
+          </div>
         </div>
       </section>
 
