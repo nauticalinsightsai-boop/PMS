@@ -56,12 +56,14 @@ function DevicePicker({
   hint,
   value,
   onChange,
+  showLibrary = false,
 }: {
   device: Device;
   label: string;
   hint: string;
   value: string;
   onChange: (url: string) => void;
+  showLibrary?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -99,7 +101,33 @@ function DevicePicker({
       </div>
 
       <div className="my-4 flex flex-1 items-center justify-center">
-        <HeroImageFrame url={url} emptyLabel={emptyLabel} onClear={() => onChange('')} />
+        {device === 'mobile' ? (
+          <div
+            className="mx-auto w-full max-w-[160px] overflow-hidden rounded-xl border border-border bg-black/30 shadow-inner"
+            style={{ aspectRatio: `${MOBILE_FRAME_WIDTH}/${MOBILE_FRAME_HEIGHT}` }}
+          >
+            {url ? (
+              <div className="relative h-full w-full">
+                <img src={url} alt="" className="h-full w-full object-cover" />
+                <button
+                  type="button"
+                  onClick={() => onChange('')}
+                  className="absolute top-2 right-2 rounded-full bg-black/70 p-1.5 text-white hover:bg-red-500/90"
+                  aria-label="Remove image"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
+                <ImageIcon className="h-8 w-8 opacity-40" />
+                <span className="text-[11px] font-medium">{emptyLabel}</span>
+              </div>
+            )}
+          </div>
+        ) : (
+          <HeroImageFrame url={url} emptyLabel={emptyLabel} onClear={() => onChange('')} />
+        )}
       </div>
 
       <div className="mt-auto space-y-3">
@@ -111,22 +139,26 @@ function DevicePicker({
             className="inline-flex items-center gap-1.5 rounded-lg bg-brand-orange px-3 py-2 text-xs font-bold text-white hover:opacity-90 disabled:opacity-60"
           >
             {uploading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
-            Upload
+            Upload Image
           </button>
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="rounded-lg border border-border px-3 py-2 text-xs font-semibold hover:border-brand-orange/40"
-          >
-            Choose from library
-          </button>
-          <Link
-            href={dashboardHref('/dashboard/site-system/media-library')}
-            target="_blank"
-            className="rounded-lg border border-border px-3 py-2 text-xs font-semibold hover:border-brand-orange/40"
-          >
-            Open media library
-          </Link>
+          {showLibrary ? (
+            <>
+              <button
+                type="button"
+                onClick={() => setOpen(true)}
+                className="rounded-lg border border-border px-3 py-2 text-xs font-semibold hover:border-brand-orange/40"
+              >
+                Choose from library
+              </button>
+              <Link
+                href={dashboardHref('/dashboard/site-system/media-library')}
+                target="_blank"
+                className="rounded-lg border border-border px-3 py-2 text-xs font-semibold hover:border-brand-orange/40"
+              >
+                Open media library
+              </Link>
+            </>
+          ) : null}
         </div>
 
         <input
@@ -160,7 +192,7 @@ function DevicePicker({
         }}
       />
 
-      {open ? (
+      {showLibrary && open ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
           <div className="flex max-h-[85vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl">
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
@@ -192,6 +224,8 @@ export function NewsletterHeroMedia({
   onDesktopChange,
   onMobileChange,
   onAltChange,
+  showLibrary = false,
+  showAltText = true,
 }: {
   desktopUrl: string;
   mobileUrl: string;
@@ -199,6 +233,8 @@ export function NewsletterHeroMedia({
   onDesktopChange: (url: string) => void;
   onMobileChange: (url: string) => void;
   onAltChange: (alt: string) => void;
+  showLibrary?: boolean;
+  showAltText?: boolean;
 }) {
   const desktop = displayUrl(desktopUrl);
   const mobile = displayUrl(mobileUrl);
@@ -214,16 +250,18 @@ export function NewsletterHeroMedia({
         <DevicePicker
           device="desktop"
           label="Desktop hero"
-          hint="Wide hero for article header and email clients"
+          hint="Wide 16:10 hero for article header and email"
           value={desktopUrl}
           onChange={onDesktopChange}
+          showLibrary={showLibrary}
         />
         <DevicePicker
           device="mobile"
           label="Mobile hero"
-          hint="Optional — leave empty to use the desktop hero on mobile"
+          hint="Tall 9:16 crop for phones — optional; falls back to desktop"
           value={mobileUrl}
           onChange={onMobileChange}
+          showLibrary={showLibrary}
         />
       </div>
 
@@ -241,15 +279,17 @@ export function NewsletterHeroMedia({
         </span>
       </div>
 
-      <div>
-        <label className="mb-1.5 block text-sm font-semibold">Hero alt text</label>
-        <input
-          value={altText}
-          onChange={(e) => onAltChange(e.target.value)}
-          placeholder="Describe the hero image for accessibility and SEO"
-          className="w-full rounded-xl border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
-        />
-      </div>
+      {showAltText ? (
+        <div>
+          <label className="mb-1.5 block text-sm font-semibold">Hero alt text</label>
+          <input
+            value={altText}
+            onChange={(e) => onAltChange(e.target.value)}
+            placeholder="Describe the hero image for accessibility and SEO"
+            className="w-full rounded-xl border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand-orange"
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

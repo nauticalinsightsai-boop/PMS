@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import { CheckCircle2, ImageIcon, Loader2, Music, Upload, Video, X } from 'lucide-react';
-import { FeaturedImageUploader } from '@/components/pages/admin/newsletter/FeaturedImageUploader';
+import { CheckCircle2, ImageIcon, Loader2, Music, Upload, Video } from 'lucide-react';
+import { NewsletterHeroMedia } from '@/components/pages/admin/newsletter/NewsletterHeroMedia';
 import { uploadMediaFile } from '@/lib/cms/media-api';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -116,19 +116,23 @@ export function ArticleMediaPanel({
   youtubeUrl,
   featuredImageUrl,
   featuredImageMobileUrl,
+  heroImageAlt,
   onAudioChange,
   onYoutubeChange,
   onFeaturedChange,
   onFeaturedMobileChange,
+  onHeroAltChange,
 }: {
   audioUrl: string;
   youtubeUrl: string;
   featuredImageUrl: string;
   featuredImageMobileUrl: string;
+  heroImageAlt: string;
   onAudioChange: (url: string) => void;
   onYoutubeChange: (url: string) => void;
   onFeaturedChange: (url: string) => void;
   onFeaturedMobileChange: (url: string) => void;
+  onHeroAltChange: (alt: string) => void;
 }) {
   return (
     <div className="space-y-4">
@@ -146,15 +150,14 @@ export function ArticleMediaPanel({
         <p className="mt-2 text-xs text-muted-foreground">Enter YouTube video URL (optional)</p>
       </MediaSection>
 
-      <MediaSection icon={ImageIcon} title="Featured Image" subtitle="Upload Image">
-        <FeaturedImageUploader
-          imageUrl={featuredImageUrl}
-          onImageChange={onFeaturedChange}
-          onMobileSync={(url) => {
-            if (url || !featuredImageMobileUrl.trim() || featuredImageMobileUrl === featuredImageUrl) {
-              onFeaturedMobileChange(url);
-            }
-          }}
+      <MediaSection icon={ImageIcon} title="Featured Image" subtitle="Desktop and mobile hero frames">
+        <NewsletterHeroMedia
+          desktopUrl={featuredImageUrl}
+          mobileUrl={featuredImageMobileUrl}
+          altText={heroImageAlt}
+          onDesktopChange={onFeaturedChange}
+          onMobileChange={onFeaturedMobileChange}
+          onAltChange={onHeroAltChange}
         />
       </MediaSection>
     </div>

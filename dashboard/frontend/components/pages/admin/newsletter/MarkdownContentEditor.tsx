@@ -97,9 +97,9 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
 
   const commit = useCallback(
     (next: string, selection: Selection) => {
-      pendingSelection.current = selection;
+    pendingSelection.current = selection;
       pushHistory(next);
-      onChange(next);
+    onChange(next);
     },
     [onChange, pushHistory],
   );
@@ -196,8 +196,8 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     );
   };
 
-  const insertFigure = (url: string, alt: string) => {
-    insertAtCursor(buildFigureBlock(url, url, alt).trim());
+  const insertFigure = (desktopUrl: string, mobileUrl: string, alt: string) => {
+    insertAtCursor(buildFigureBlock(desktopUrl, mobileUrl, alt).trim());
   };
 
   const iconBtn =
@@ -277,8 +277,8 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
 
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
 
-        <button
-          type="button"
+            <button
+              type="button"
           title="Insert image"
           onClick={() => setImageDialogOpen(true)}
           className={iconBtn}
@@ -290,7 +290,7 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         </button>
         <button type="button" title="Table" onClick={insertTable} className={iconBtn}>
           <Table size={15} />
-        </button>
+            </button>
       </div>
 
       <FeaturedImageUploadDialog

@@ -35,14 +35,16 @@ export function NewsletterEditorWorkspace({ post, onChange }: Props) {
           youtubeUrl={post.youtubeUrl}
           featuredImageUrl={post.featuredImageUrl}
           featuredImageMobileUrl={post.featuredImageMobileUrl}
+          heroImageAlt={post.heroImageAlt}
           onAudioChange={(url) => onChange({ audioUrl: url })}
           onYoutubeChange={(url) => onChange({ youtubeUrl: url })}
           onFeaturedChange={(url) => onChange({ featuredImageUrl: url })}
           onFeaturedMobileChange={(url) => onChange({ featuredImageMobileUrl: url })}
+          onHeroAltChange={(alt) => onChange({ heroImageAlt: alt })}
         />
 
         <section className="rounded-2xl border border-border bg-card p-5 shadow-sm space-y-4">
-          <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
             <FileText size={18} className="text-emerald-600" />
             <h3 className="text-lg font-bold">Content</h3>
           </div>
