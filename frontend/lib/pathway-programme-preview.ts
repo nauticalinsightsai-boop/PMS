@@ -186,21 +186,23 @@ export function getProgrammePreviewContent(
 
   if (!cmsAssets) return base;
 
+  const hasGuide = Boolean(cmsAssets.guidePdfUrl?.trim());
+  const hasSlides = Boolean(cmsAssets.slidesPdfUrl?.trim());
+  const hasVideo = Boolean(cmsAssets.videoUrl?.trim() || cmsAssets.videoEmbedUrl?.trim());
+
   const panels = base.panels.map((panel) => {
-    if (panel.id === 'guide' && cmsAssets.guidePdfUrl) {
-      return { ...panel, available: true, pdfSrc: cmsAssets.guidePdfUrl };
+    if (panel.id === 'guide' && hasGuide) {
+      return { ...panel, available: true, pdfSrc: cmsAssets.guidePdfUrl! };
     }
-    if (panel.id === 'slides' && cmsAssets.slidesPdfUrl) {
-      return { ...panel, available: true, slidesPdfSrc: cmsAssets.slidesPdfUrl };
+    if (panel.id === 'slides' && hasSlides) {
+      return { ...panel, available: true, slidesPdfSrc: cmsAssets.slidesPdfUrl! };
     }
-    if (panel.id === 'video') {
-      const hasVideo = !!(cmsAssets.videoUrl || cmsAssets.videoEmbedUrl);
-      if (!hasVideo) return panel;
+    if (panel.id === 'video' && hasVideo) {
       return {
         ...panel,
         available: true,
-        videoSrc: cmsAssets.videoUrl ?? panel.videoSrc ?? null,
-        videoEmbedUrl: cmsAssets.videoEmbedUrl ?? panel.videoEmbedUrl ?? null,
+        videoSrc: cmsAssets.videoUrl?.trim() || panel.videoSrc || null,
+        videoEmbedUrl: cmsAssets.videoEmbedUrl?.trim() || panel.videoEmbedUrl || null,
       };
     }
     return panel;

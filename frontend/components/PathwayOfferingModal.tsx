@@ -15,6 +15,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { TierPathwayCta } from '@/lib/pathway-tier-cta';
 import type { ProgrammeOfferingAssets } from '@pms/site-content';
+import { effectiveProgrammeAssets } from '@pms/site-content';
 import { getProgrammePreviewContent } from '@/lib/pathway-programme-preview';
 import { ProgrammePreviewExplorer } from '@/components/ProgrammePreviewExplorer';
 import { openPathwayConsultationCalendly } from '@/lib/pathway-consultation-scheduling';
@@ -88,9 +89,14 @@ export function PathwayOfferingModal({
     onOpenChange(next);
   };
 
+  const resolvedProgrammeAssets = React.useMemo(
+    () => effectiveProgrammeAssets(offeringId, programmeAssets ?? null),
+    [offeringId, programmeAssets],
+  );
+
   const preview = React.useMemo(
-    () => getProgrammePreviewContent(offeringId, programmeTitle, programmeAssets),
-    [offeringId, programmeTitle, programmeAssets],
+    () => getProgrammePreviewContent(offeringId, programmeTitle, resolvedProgrammeAssets),
+    [offeringId, programmeTitle, resolvedProgrammeAssets],
   );
 
   const dualActions = pathwayCta.showConsultationInModal && pathwayCta.enrollHref;

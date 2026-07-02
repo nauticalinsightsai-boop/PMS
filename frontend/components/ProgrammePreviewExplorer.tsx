@@ -333,22 +333,27 @@ export function ProgrammePreviewExplorer({
   preview: ProgrammePreviewContent;
   className?: string;
 }) {
-  const [openPanel, setOpenPanel] = React.useState<string | undefined>(
+  const firstAvailablePanelId = React.useMemo(
     () => preview.panels.find((panel) => panel.available)?.id,
+    [preview.panels],
+  );
+  const [openPanel, setOpenPanel] = React.useState<string[]>(() =>
+    firstAvailablePanelId ? [firstAvailablePanelId] : [],
   );
   const [fullscreenPanelId, setFullscreenPanelId] = React.useState<string | undefined>(undefined);
+
+  React.useEffect(() => {
+    if (openPanel.length > 0) return;
+    if (firstAvailablePanelId) setOpenPanel([firstAvailablePanelId]);
+  }, [firstAvailablePanelId, openPanel.length]);
 
   const fullscreenPanel = React.useMemo(
     () => preview.panels.find((panel) => panel.id === fullscreenPanelId),
     [preview.panels, fullscreenPanelId],
   );
 
-  const handlePanelChange = React.useCallback((value: string | undefined) => {
-    setOpenPanel(value);
-  }, []);
-
   const openFullscreen = React.useCallback((panelId: string) => {
-    setOpenPanel(panelId);
+    setOpenPanel([panelId]);
     setFullscreenPanelId(panelId);
   }, []);
 
@@ -362,16 +367,8 @@ export function ProgrammePreviewExplorer({
           Open a section to preview here, or use fullscreen for easier reading and playback.
         </p>
         <Accordion
-          {...({
-            type: 'single',
-            collapsible: true,
-            value: openPanel,
-            onValueChange: (value: unknown) => {
-              const next =
-                value == null || Array.isArray(value) ? undefined : String(value);
-              handlePanelChange(next);
-            },
-          } as React.ComponentProps<typeof Accordion>)}
+          value={openPanel}
+          onValueChange={setOpenPanel}
           className="w-full rounded-2xl border border-slate-100 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden"
         >
           {preview.panels.map((panel) => {
