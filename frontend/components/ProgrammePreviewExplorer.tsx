@@ -1,9 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { createPortal } from 'react-dom';
 import Image from 'next/image';
-import { ExternalLink, FileText, Maximize2, PlayCircle, Presentation, XIcon } from 'lucide-react';
+import { ExternalLink, FileText, Maximize2, PlayCircle, Presentation } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -12,6 +11,10 @@ import {
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import {
+  EmbeddedPdf,
+  MaterialFullscreenDialog,
+} from '@/components/programme/ProgrammeMaterialViewer';
 import type {
   ProgrammeInfographicHero,
   ProgrammeInlineSection,
@@ -42,66 +45,6 @@ function panelOpenUrl(panel: ProgrammePreviewPanel): string | null {
   return null;
 }
 
-function MaterialFullscreenDialog({
-  open,
-  onOpenChange,
-  title,
-  description,
-  children,
-}: {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-}) {
-  React.useEffect(() => {
-    if (!open) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onOpenChange(false);
-    };
-    document.addEventListener('keydown', onKeyDown);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [open, onOpenChange]);
-
-  if (!open || typeof document === 'undefined') return null;
-
-  return createPortal(
-    <div className="fixed inset-0 z-[140] flex flex-col bg-slate-950" role="dialog" aria-modal="true" aria-label={title}>
-      <div className="shrink-0 flex items-start justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6">
-        <div className="min-w-0 pr-2">
-          <p className="text-sm font-bold text-white">{title}</p>
-          {description ? (
-            <p className="mt-0.5 text-xs font-medium text-slate-400">{description}</p>
-          ) : null}
-        </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-sm"
-          className="shrink-0 text-white hover:bg-white/10"
-          onClick={() => onOpenChange(false)}
-          aria-label="Close fullscreen view"
-        >
-          <XIcon className="h-4 w-4" />
-        </Button>
-      </div>
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-4 py-4 sm:px-6">
-        {children}
-      </div>
-      <p className="pointer-events-none shrink-0 pb-4 text-center text-xs font-medium text-slate-500">
-        Press Esc or close to return
-      </p>
-    </div>,
-    document.body,
-  );
-}
-
 function InlineSections({ sections }: { sections: ProgrammeInlineSection[] }) {
   return (
     <div className="space-y-4 rounded-xl border border-slate-100 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-950/40">
@@ -122,34 +65,6 @@ function InlineSections({ sections }: { sections: ProgrammeInlineSection[] }) {
           </ul>
         </div>
       ))}
-    </div>
-  );
-}
-
-function EmbeddedPdf({
-  src,
-  title,
-  variant = 'inline',
-}: {
-  src: string;
-  title: string;
-  variant?: 'inline' | 'fullscreen';
-}) {
-  return (
-    <div
-      className={cn(
-        'flex min-h-0 flex-1 overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900',
-        variant === 'fullscreen' && 'h-full border-white/10 bg-white',
-      )}
-    >
-      <iframe
-        title={title}
-        src={`${src}#toolbar=0&navpanes=0`}
-        className={cn(
-          'w-full',
-          variant === 'inline' ? 'h-[min(28rem,55vh)]' : 'min-h-[min(calc(100dvh-11rem),56rem)] flex-1',
-        )}
-      />
     </div>
   );
 }
@@ -211,7 +126,7 @@ function PanelBody({
 
   if (panel.kind === 'pdf') {
     if (panel.pdfSrc) {
-      return <EmbeddedPdf src={panel.pdfSrc} title={panel.title} variant={variant} />;
+      return <EmbeddedPdf src={panel.pdfSrc} title={panel.title} variant={variant} openUrl={panel.pdfSrc} />;
     }
     if (panel.inlineSections?.length) {
       return <InlineSections sections={panel.inlineSections} />;
@@ -220,7 +135,14 @@ function PanelBody({
 
   if (panel.kind === 'slides') {
     if (panel.slidesPdfSrc) {
-      return <EmbeddedPdf src={panel.slidesPdfSrc} title={panel.title} variant={variant} />;
+      return (
+        <EmbeddedPdf
+          src={panel.slidesPdfSrc}
+          title={panel.title}
+          variant={variant}
+          openUrl={panel.slidesPdfSrc}
+        />
+      );
     }
     if (panel.inlineSections?.length) {
       return <InlineSections sections={panel.inlineSections} />;

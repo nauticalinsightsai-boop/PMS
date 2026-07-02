@@ -13,7 +13,8 @@ describe('pathway-programme-preview', () => {
     const guide = preview.panels.find((p) => p.id === 'guide');
     expect(guide?.pdfSrc).toBe('/programme/pmp-foundation-program-guide.pdf');
     const slides = preview.panels.find((p) => p.id === 'slides');
-    expect(slides?.slidesPdfSrc).toBe('/programme/pmp-foundation-session-slides.pdf');
+    expect(slides?.available).toBe(false);
+    expect(slides?.slidesPdfSrc).toBeNull();
     const video = preview.panels.find((p) => p.kind === 'video');
     expect(video?.available).toBe(false);
     expect(video?.videoSrc).toBeNull();
@@ -24,9 +25,13 @@ describe('pathway-programme-preview', () => {
     const preview = getProgrammePreviewContent('pmp-preparation-foundation', 'PMP® Foundation', {
       videoUrl: 'https://pub-example.r2.dev/pmp/foundation/video-123.mp4',
       guidePdfUrl: 'https://pub-example.r2.dev/pmp/foundation/guide-123.pdf',
+      slidesPdfUrl: 'https://pub-example.r2.dev/pmp/foundation/slides-123.pdf',
     });
     const guide = preview.panels.find((p) => p.id === 'guide');
     expect(guide?.pdfSrc).toBe('https://pub-example.r2.dev/pmp/foundation/guide-123.pdf');
+    const slides = preview.panels.find((p) => p.id === 'slides');
+    expect(slides?.available).toBe(true);
+    expect(slides?.slidesPdfSrc).toBe('https://pub-example.r2.dev/pmp/foundation/slides-123.pdf');
     const video = preview.panels.find((p) => p.kind === 'video');
     expect(video?.videoSrc).toContain('r2.dev');
     expect(programmePreviewHasVideo(preview)).toBe(true);

@@ -94,8 +94,8 @@ const PROGRAMME_PREVIEW_BY_OFFERING: Partial<
         kind: 'slides',
         title: 'Session slides',
         description: 'D0: 2026 PMP Navigator deck (read in this window).',
-        available: true,
-        slidesPdfSrc: '/programme/pmp-foundation-session-slides.pdf',
+        available: false,
+        slidesPdfSrc: null,
       },
       {
         id: 'video',
@@ -192,11 +192,13 @@ export function getProgrammePreviewContent(
   const hasVideo = Boolean(assets.videoUrl?.trim() || assets.videoEmbedUrl?.trim());
 
   const panels = base.panels.map((panel) => {
-    if (panel.id === 'guide' && hasGuide) {
-      return { ...panel, available: true, pdfSrc: assets.guidePdfUrl! };
+    if (panel.id === 'guide') {
+      if (hasGuide) return { ...panel, available: true, pdfSrc: assets.guidePdfUrl! };
+      return { ...panel, available: false, pdfSrc: null };
     }
-    if (panel.id === 'slides' && hasSlides) {
-      return { ...panel, available: true, slidesPdfSrc: assets.slidesPdfUrl! };
+    if (panel.id === 'slides') {
+      if (hasSlides) return { ...panel, available: true, slidesPdfSrc: assets.slidesPdfUrl! };
+      return { ...panel, available: false, slidesPdfSrc: null };
     }
     if (panel.id === 'video' && hasVideo) {
       return {
@@ -205,6 +207,9 @@ export function getProgrammePreviewContent(
         videoSrc: assets.videoUrl?.trim() || panel.videoSrc || null,
         videoEmbedUrl: assets.videoEmbedUrl?.trim() || panel.videoEmbedUrl || null,
       };
+    }
+    if (panel.id === 'video') {
+      return { ...panel, available: false, videoSrc: null, videoEmbedUrl: null };
     }
     return panel;
   });

@@ -5,45 +5,41 @@ import React, {
   useCallback,
   useEffect,
   useImperativeHandle,
-  useMemo,
   useRef,
   useState,
 } from 'react';
 import {
   AlignCenter,
+  AlignLeft,
+  AlignRight,
   Bold,
-  Code,
-  Eye,
-  FileCode,
   ImagePlus,
   Italic,
   Link2,
   List,
   ListOrdered,
+  Loader2,
   Minus,
   Monitor,
   Quote,
   Redo2,
   Smartphone,
-  Strikethrough,
-  Table,
   Underline,
   Undo2,
 } from 'lucide-react';
-import {
-  type ArticleSegment,
-  buildCenterBlock,
-  buildFigureBlock,
-  buildQuoteBlock,
-  parseArticleSegments,
-  reassembleArticleMarkdown,
-} from '@pms/site-content/article-markdown';
 import { FeaturedImageUploadDialog } from '@/components/pages/admin/newsletter/FeaturedImageUploader';
-import { htmlToMarkdown, markdownToHtml, PROSE_EDITOR_CLASS } from '@/lib/article-editor-html';
+import { LinkInsertPopover } from '@/components/pages/admin/newsletter/LinkInsertPopover';
+import { isArticleHtmlContent } from '@pms/site-content/article-markdown';
+import { uploadMediaFile } from '@/lib/cms/media-api';
+import {
+  buildCenterHtml,
+  buildFigureHtml,
+  buildInlineImageHtml,
+  normalizeArticleContent,
+  PROSE_EDITOR_CLASS,
+  sanitizeEditorHtml,
+} from '@/lib/article-editor-html';
 import { cn } from '@/lib/utils';
-
-type Selection = { start: number; end: number };
-type EditorMode = 'visual' | 'source';
 
 export type MarkdownContentEditorHandle = {
   insertSnippet: (text: string) => void;
@@ -56,6 +52,12 @@ type Props = {
   rows?: number;
   placeholder?: string;
   className?: string;
+};
+
+type LinkPopupState = {
+  position: { top: number; left: number };
+  url: string;
+  savedRange: Range | null;
 };
 
 const HEADING_LEVELS = [
@@ -71,404 +73,249 @@ function toolbarMouseDown(event: React.MouseEvent) {
   event.preventDefault();
 }
 
-function VisualEditableBlock({
-  markdown,
-  onChange,
-  onFocus,
-  centered,
-  placeholder,
-}: {
-  markdown: string;
-  onChange: (markdown: string) => void;
-  onFocus: (el: HTMLElement) => void;
-  centered?: boolean;
-  placeholder?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const skipSync = useRef(false);
-  const lastEmitted = useRef(markdown);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    if (skipSync.current) {
-      skipSync.current = false;
-      return;
-    }
-    if (markdown === lastEmitted.current) return;
-    ref.current.innerHTML = markdownToHtml(markdown);
-    lastEmitted.current = markdown;
-  }, [markdown]);
-
-  useEffect(() => {
-    if (!ref.current || markdown) return;
-    ref.current.innerHTML = '<p><br></p>';
-  }, [markdown]);
-
-  const handleInput = () => {
-    if (!ref.current) return;
-    const next = htmlToMarkdown(ref.current.innerHTML);
-    skipSync.current = true;
-    lastEmitted.current = next;
-    onChange(next);
-  };
-
-  return (
-    <div
-      ref={ref}
-      contentEditable
-      suppressContentEditableWarning
-      role="textbox"
-      aria-multiline
-      data-placeholder={placeholder}
-      onFocus={() => ref.current && onFocus(ref.current)}
-      onInput={handleInput}
-      className={cn(
-        PROSE_EDITOR_CLASS,
-        'min-h-[3rem] w-full rounded-lg px-2 py-2 outline-none focus:ring-2 focus:ring-brand-orange/25',
-        centered && 'text-center [&_p]:text-center',
-        'empty:before:pointer-events-none empty:before:text-muted-foreground empty:before:content-[attr(data-placeholder)]',
-      )}
-    />
-  );
+function getSelectionRange(): Range | null {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) return null;
+  return selection.getRangeAt(0);
 }
 
-function FigureBlockCard({
-  segment,
-  onUpdate,
-  onRemove,
-}: {
-  segment: Extract<ArticleSegment, { type: 'figure' }>;
-  onUpdate: (patch: Partial<Extract<ArticleSegment, { type: 'figure' }>>) => void;
-  onRemove: () => void;
-}) {
-  const [editing, setEditing] = useState(false);
-  const mobileSrc = segment.mobile.trim() || segment.desktop;
+function restoreRange(range: Range | null) {
+  if (!range) return;
+  const selection = window.getSelection();
+  if (!selection) return;
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
 
-  return (
-    <div className="rounded-xl border border-dashed border-brand-orange/40 bg-muted/20 p-3">
-      <div className="mb-2 flex items-center justify-between gap-2">
-        <p className="text-xs font-bold text-foreground">
-          In-article image{segment.alt ? ` — ${segment.alt}` : ''}
-        </p>
-        <div className="flex gap-1">
-          <button
-            type="button"
-            onClick={() => setEditing(true)}
-            className="rounded-md border border-border px-2 py-1 text-[11px] font-semibold hover:bg-muted"
-          >
-            Edit
-          </button>
-          <button
-            type="button"
-            onClick={onRemove}
-            className="rounded-md border border-destructive/40 px-2 py-1 text-[11px] font-semibold text-destructive hover:bg-destructive/10"
-          >
-            Remove
-          </button>
-        </div>
-      </div>
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div>
-          <p className="mb-1 flex items-center gap-1 text-[11px] font-semibold text-muted-foreground">
-            <Monitor size={12} /> Desktop
-          </p>
-          <div className="aspect-[16/10] overflow-hidden rounded-lg border border-border bg-black/5">
-            <img src={segment.desktop} alt={segment.alt || 'Desktop'} className="h-full w-full object-cover" />
-          </div>
-        </div>
-        <div>
-          <p className="mb-1 flex items-center gap-1 text-[11px] font-semibold text-muted-foreground">
-            <Smartphone size={12} /> Mobile
-          </p>
-          <div className="aspect-[16/10] overflow-hidden rounded-lg border border-border bg-black/5">
-            <img src={mobileSrc} alt={segment.alt || 'Mobile'} className="h-full w-full object-cover" />
-          </div>
-        </div>
-      </div>
+function rangeRect(range: Range | null): DOMRect | null {
+  if (!range) return null;
+  const rects = range.getClientRects();
+  if (rects.length > 0) return rects[0] ?? null;
+  return range.getBoundingClientRect();
+}
 
-      <FeaturedImageUploadDialog
-        open={editing}
-        onClose={() => setEditing(false)}
-        onInsert={(desktop, mobile, alt) => {
-          onUpdate({ desktop, mobile, alt });
-          setEditing(false);
-        }}
-      />
-    </div>
-  );
+function isRangeInsideEditor(range: Range | null, editor: HTMLElement | null): boolean {
+  if (!range || !editor) return false;
+  return editor.contains(range.commonAncestorContainer);
 }
 
 export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Props>(function MarkdownContentEditor(
   { value, onChange, rows = 18, placeholder, className },
   ref,
 ) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const activeBlockRef = useRef<HTMLElement | null>(null);
-  const selectionRef = useRef<Selection>({ start: 0, end: 0 });
-  const pendingSelection = useRef<Selection | null>(null);
-  const historyRef = useRef<string[]>([value]);
-  const historyIndexRef = useRef(0);
-  const skipHistoryRef = useRef(false);
-  const [imageDialogOpen, setImageDialogOpen] = useState(false);
+  const editorRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const lastEmitted = useRef('');
+  const skipSync = useRef(false);
+  const savedLinkRange = useRef<Range | null>(null);
+
   const [blockMode, setBlockMode] = useState<'p' | number>('p');
-  const [editorMode, setEditorMode] = useState<EditorMode>('visual');
+  const [figureDialogOpen, setFigureDialogOpen] = useState(false);
+  const [linkPopup, setLinkPopup] = useState<LinkPopupState | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
 
-  const segments = useMemo(() => {
-    const parsed = parseArticleSegments(value);
-    return parsed.length > 0 ? parsed : [{ type: 'markdown' as const, content: '' }];
-  }, [value]);
+  const minHeight = `${Math.max(rows * 1.5, 16)}rem`;
 
-  const rememberSelection = useCallback(() => {
-    const el = textareaRef.current;
+  const emitChange = useCallback(() => {
+    const el = editorRef.current;
     if (!el) return;
-    selectionRef.current = { start: el.selectionStart, end: el.selectionEnd };
-  }, []);
+    const next = sanitizeEditorHtml(el.innerHTML);
+    skipSync.current = true;
+    lastEmitted.current = next;
+    onChange(next);
+  }, [onChange]);
 
   useEffect(() => {
-    if (!pendingSelection.current || !textareaRef.current) return;
-    const { start, end } = pendingSelection.current;
-    pendingSelection.current = null;
-    const el = textareaRef.current;
-    el.focus();
-    el.setSelectionRange(start, end);
-    selectionRef.current = { start, end };
-  }, [value]);
-
-  useEffect(() => {
-    if (value === historyRef.current[historyIndexRef.current]) return;
-    historyRef.current = [value];
-    historyIndexRef.current = 0;
-  }, [value]);
-
-  const pushHistory = useCallback((next: string) => {
-    if (skipHistoryRef.current) {
-      skipHistoryRef.current = false;
+    const el = editorRef.current;
+    if (!el) return;
+    if (skipSync.current) {
+      skipSync.current = false;
       return;
     }
-    const stack = historyRef.current.slice(0, historyIndexRef.current + 1);
-    stack.push(next);
-    if (stack.length > 50) stack.shift();
-    historyRef.current = stack;
-    historyIndexRef.current = stack.length - 1;
+    if (value === lastEmitted.current) return;
+    el.innerHTML = normalizeArticleContent(value);
+    lastEmitted.current = value;
+  }, [value]);
+
+  useEffect(() => {
+    const el = editorRef.current;
+    if (!el || value.trim()) return;
+    if (!el.innerHTML.trim()) el.innerHTML = '<p><br></p>';
+  }, [value]);
+
+  // Migrate legacy markdown to HTML on first load.
+  useEffect(() => {
+    if (!value.trim()) return;
+    if (isArticleHtmlContent(value)) return;
+    const html = normalizeArticleContent(value);
+    skipSync.current = true;
+    lastEmitted.current = html;
+    onChange(html);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-time migration
   }, []);
 
-  const getSelection = useCallback((): Selection => {
-    const el = textareaRef.current;
-    if (el && document.activeElement === el) {
-      return { start: el.selectionStart, end: el.selectionEnd };
-    }
-    return selectionRef.current;
+  const focusEditor = useCallback(() => {
+    editorRef.current?.focus();
   }, []);
 
-  const commit = useCallback(
-    (next: string, selection: Selection) => {
-      pendingSelection.current = selection;
-      selectionRef.current = selection;
-      pushHistory(next);
-      onChange(next);
+  const runCommand = useCallback(
+    (command: string, commandValue?: string) => {
+      focusEditor();
+      document.execCommand(command, false, commandValue);
+      emitChange();
     },
-    [onChange, pushHistory],
+    [emitChange, focusEditor],
   );
 
-  const undo = () => {
-    if (historyIndexRef.current <= 0) return;
-    historyIndexRef.current -= 1;
-    skipHistoryRef.current = true;
-    const next = historyRef.current[historyIndexRef.current] ?? '';
-    selectionRef.current = { start: next.length, end: next.length };
-    onChange(next);
-  };
-
-  const redo = () => {
-    if (historyIndexRef.current >= historyRef.current.length - 1) return;
-    historyIndexRef.current += 1;
-    skipHistoryRef.current = true;
-    const next = historyRef.current[historyIndexRef.current] ?? '';
-    selectionRef.current = { start: next.length, end: next.length };
-    onChange(next);
-  };
-
-  const insertAtCursor = useCallback(
-    (snippet: string) => {
-      const { start, end } = getSelection();
-      const before = value.slice(0, start);
-      const after = value.slice(end);
-      const trimmedSnippet = snippet.trim();
-      const needsGapBefore = before.length > 0 && !before.endsWith('\n\n');
-      const needsGapAfter = after.length > 0 && !after.startsWith('\n');
-      const block =
-        (needsGapBefore ? '\n\n' : '') + trimmedSnippet + (needsGapAfter ? '\n\n' : '');
-      const next = before + block + after;
-      const caret = before.length + block.length;
-      commit(next, { start: caret, end: caret });
+  const insertHtmlAtCursor = useCallback(
+    (html: string) => {
+      focusEditor();
+      document.execCommand('insertHTML', false, html);
+      emitChange();
     },
-    [commit, getSelection, value],
+    [emitChange, focusEditor],
   );
 
   useImperativeHandle(
     ref,
     () => ({
-      insertSnippet: (text: string) => insertAtCursor(text.trimStart()),
-      focus: () => {
-        if (editorMode === 'source') textareaRef.current?.focus();
-        else activeBlockRef.current?.focus();
+      insertSnippet: (text: string) => {
+        const html = normalizeArticleContent(text);
+        insertHtmlAtCursor(html);
       },
+      focus: focusEditor,
     }),
-    [editorMode, insertAtCursor],
+    [focusEditor, insertHtmlAtCursor],
   );
-
-  const updateSegments = useCallback(
-    (nextSegments: ArticleSegment[]) => {
-      const normalized =
-        nextSegments.length === 1 &&
-        nextSegments[0]?.type === 'markdown' &&
-        !nextSegments[0].content.trim()
-          ? ''
-          : reassembleArticleMarkdown(nextSegments);
-      commit(normalized, { start: normalized.length, end: normalized.length });
-    },
-    [commit],
-  );
-
-  const updateSegmentAt = useCallback(
-    (index: number, segment: ArticleSegment) => {
-      const next = segments.map((item, i) => (i === index ? segment : item));
-      updateSegments(next);
-    },
-    [segments, updateSegments],
-  );
-
-  const removeSegmentAt = useCallback(
-    (index: number) => {
-      const next = segments.filter((_, i) => i !== index);
-      updateSegments(next.length > 0 ? next : [{ type: 'markdown', content: '' }]);
-    },
-    [segments, updateSegments],
-  );
-
-  const runVisualCommand = useCallback((command: string, commandValue?: string) => {
-    const el = activeBlockRef.current;
-    if (!el) return;
-    el.focus();
-    document.execCommand(command, false, commandValue);
-    el.dispatchEvent(new Event('input', { bubbles: true }));
-  }, []);
-
-  const wrapInline = (marker: string, placeholderText: string, endMarker = marker) => {
-    if (editorMode === 'visual') {
-      if (marker === '**') runVisualCommand('bold');
-      else if (marker === '*') runVisualCommand('italic');
-      else if (marker === '<u>') runVisualCommand('underline');
-      else if (marker === '~~') runVisualCommand('strikeThrough');
-      else if (marker === '`') runVisualCommand('insertHTML', `<code>${placeholderText}</code>`);
-      return;
-    }
-    const { start, end } = getSelection();
-    const selected = value.slice(start, end) || placeholderText;
-    const next = value.slice(0, start) + marker + selected + endMarker + value.slice(end);
-    const cursorStart = start + marker.length;
-    commit(next, { start: cursorStart, end: cursorStart + selected.length });
-  };
-
-  const prefixLines = (prefix: string, options?: { stripHeading?: boolean }) => {
-    if (editorMode === 'visual') {
-      if (prefix === '- ') runVisualCommand('insertUnorderedList');
-      else if (prefix === '1. ') runVisualCommand('insertOrderedList');
-      return;
-    }
-    const { start, end } = getSelection();
-    const lineStart = value.lastIndexOf('\n', start - 1) + 1;
-    const lineEnd = value.indexOf('\n', end);
-    const blockEnd = lineEnd === -1 ? value.length : lineEnd;
-    const block = value.slice(lineStart, blockEnd);
-    const lines = block.split('\n');
-    const transformed = lines
-      .map((line) => {
-        let base = line;
-        if (options?.stripHeading) base = base.replace(/^#{1,6}\s+/, '');
-        base = base.replace(/^>\s+/, '');
-        base = base.replace(/^(-|\d+\.)\s+/, '');
-        return prefix ? `${prefix}${base}` : base;
-      })
-      .join('\n');
-    const next = value.slice(0, lineStart) + transformed + value.slice(blockEnd);
-    commit(next, { start: lineStart, end: lineStart + transformed.length });
-  };
 
   const applyHeading = (level: number, tag: string) => {
     setBlockMode(level);
-    if (editorMode === 'visual') {
-      runVisualCommand('formatBlock', tag);
-      return;
-    }
-    prefixLines(`${'#'.repeat(level)} `, { stripHeading: true });
-    textareaRef.current?.focus();
+    runCommand('formatBlock', tag);
   };
 
   const applyParagraph = () => {
     setBlockMode('p');
-    if (editorMode === 'visual') {
-      runVisualCommand('formatBlock', 'p');
-      return;
-    }
-    prefixLines('', { stripHeading: true });
-    textareaRef.current?.focus();
+    runCommand('formatBlock', 'p');
   };
 
-  const insertLink = () => {
-    if (editorMode === 'visual') {
-      const url = window.prompt('Link URL', 'https://');
-      if (!url) return;
-      runVisualCommand('createLink', url);
-      return;
+  const openLinkPopup = () => {
+    const range = getSelectionRange();
+    const editor = editorRef.current;
+    if (!isRangeInsideEditor(range, editor)) {
+      focusEditor();
     }
-    const { start, end } = getSelection();
-    const selected = value.slice(start, end) || 'link text';
-    const snippet = `[${selected}](https://)`;
-    const next = value.slice(0, start) + snippet + value.slice(end);
-    const urlStart = start + selected.length + 3;
-    commit(next, { start: urlStart, end: urlStart + 8 });
+    const activeRange = getSelectionRange();
+    if (!isRangeInsideEditor(activeRange, editor)) return;
+
+    savedLinkRange.current = activeRange?.cloneRange() ?? null;
+    const rect = rangeRect(activeRange);
+    if (!rect) return;
+
+    let existingUrl = 'https://';
+    const anchor =
+      activeRange?.commonAncestorContainer.nodeType === Node.ELEMENT_NODE
+        ? (activeRange.commonAncestorContainer as HTMLElement).closest('a')
+        : (activeRange?.commonAncestorContainer.parentElement?.closest('a') ?? null);
+    if (anchor?.getAttribute('href')) {
+      existingUrl = anchor.getAttribute('href') ?? existingUrl;
+    }
+
+    const popupWidth = 320;
+    const left = Math.min(Math.max(rect.left, 12), window.innerWidth - popupWidth - 12);
+    const top = Math.max(rect.top - 120, 12);
+
+    setLinkPopup({
+      position: { top, left },
+      url: existingUrl,
+      savedRange: savedLinkRange.current,
+    });
   };
 
-  const insertTable = () => {
-    insertAtCursor('| Column 1 | Column 2 |\n| --- | --- |\n| Cell | Cell |');
+  const closeLinkPopup = useCallback(() => {
+    setLinkPopup(null);
+    savedLinkRange.current = null;
+  }, []);
+
+  useEffect(() => {
+    if (!linkPopup) return;
+    const onPointerDown = (event: MouseEvent) => {
+      const target = event.target as Node | null;
+      if (target && (target as Element).closest?.('[aria-label="Insert link"]')) return;
+      closeLinkPopup();
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    return () => document.removeEventListener('mousedown', onPointerDown);
+  }, [linkPopup, closeLinkPopup]);
+
+  const applyLink = () => {
+    const url = linkPopup?.url.trim();
+    if (!url) return;
+    restoreRange(linkPopup?.savedRange ?? savedLinkRange.current);
+    runCommand('createLink', url);
+    closeLinkPopup();
   };
 
   const insertFigure = (desktopUrl: string, mobileUrl: string, alt: string) => {
-    insertAtCursor(buildFigureBlock(desktopUrl, mobileUrl, alt).trim());
+    insertHtmlAtCursor(buildFigureHtml(desktopUrl, mobileUrl, alt));
   };
 
-  const insertQuote = () => {
-    if (editorMode === 'visual') {
-      runVisualCommand('formatBlock', 'blockquote');
-      return;
+  const insertInlineImage = async (file: File) => {
+    setUploading(true);
+    try {
+      const item = await uploadMediaFile(file, { kind: 'image', cmsContext: 'newsletter-body' });
+      insertHtmlAtCursor(buildInlineImageHtml(item.url, file.name.replace(/\.[^.]+$/, '')));
+    } catch (error) {
+      console.error('Image upload failed:', error);
+    } finally {
+      setUploading(false);
     }
-    insertAtCursor(buildQuoteBlock('Quote text').trim());
   };
 
-  const insertDivider = () => {
-    if (editorMode === 'visual') {
-      runVisualCommand('insertHorizontalRule');
-      return;
+  const handleImageFiles = async (files: FileList | File[]) => {
+    const list = Array.from(files).filter((file) => file.type.startsWith('image/'));
+    if (list.length === 0) return;
+    for (const file of list) {
+      await insertInlineImage(file);
     }
-    insertAtCursor('\n---\n');
   };
 
-  const insertCenterBlock = () => {
-    insertAtCursor(buildCenterBlock('Centered text').trim());
+  const handlePaste = async (event: React.ClipboardEvent) => {
+    const items = event.clipboardData?.items;
+    if (!items) return;
+    const imageItems = Array.from(items).filter((item) => item.type.startsWith('image/'));
+    if (imageItems.length === 0) return;
+    event.preventDefault();
+    for (const item of imageItems) {
+      const file = item.getAsFile();
+      if (file) await insertInlineImage(file);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (!(event.metaKey || event.ctrlKey)) return;
+    const key = event.key.toLowerCase();
+    if (key === 'b') {
+      event.preventDefault();
+      runCommand('bold');
+    } else if (key === 'i') {
+      event.preventDefault();
+      runCommand('italic');
+    } else if (key === 'u') {
+      event.preventDefault();
+      runCommand('underline');
+    } else if (key === 'k') {
+      event.preventDefault();
+      openLinkPopup();
+    }
   };
 
   const iconBtn =
-    'inline-flex h-8 min-w-8 items-center justify-center rounded-md px-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground';
+    'inline-flex h-8 min-w-8 items-center justify-center rounded-md px-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-40';
   const headingBtn = (active: boolean) =>
     cn(
       'inline-flex h-8 min-w-[2rem] items-center justify-center rounded-md px-1.5 text-xs font-bold transition-colors',
       active ? 'bg-emerald-600 text-white' : 'text-muted-foreground hover:bg-muted hover:text-foreground',
-    );
-  const modeBtn = (active: boolean) =>
-    cn(
-      'inline-flex h-8 items-center gap-1 rounded-md px-2 text-xs font-semibold transition-colors',
-      active ? 'bg-brand-orange text-white' : 'text-muted-foreground hover:bg-muted hover:text-foreground',
     );
 
   return (
@@ -477,21 +324,10 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         className="flex flex-wrap items-center gap-0.5 border-b border-border bg-background px-2 py-2"
         onMouseDown={toolbarMouseDown}
       >
-        <button type="button" title="Visual editor" onClick={() => setEditorMode('visual')} className={modeBtn(editorMode === 'visual')}>
-          <Eye size={14} />
-          Visual
-        </button>
-        <button type="button" title="Markdown source" onClick={() => setEditorMode('source')} className={modeBtn(editorMode === 'source')}>
-          <FileCode size={14} />
-          Source
-        </button>
-
-        <span className="mx-1 h-5 w-px bg-border" aria-hidden />
-
-        <button type="button" title="Undo" aria-label="Undo" onClick={undo} className={iconBtn}>
+        <button type="button" title="Undo" aria-label="Undo" onClick={() => runCommand('undo')} className={iconBtn}>
           <Undo2 size={15} />
         </button>
-        <button type="button" title="Redo" aria-label="Redo" onClick={redo} className={iconBtn}>
+        <button type="button" title="Redo" aria-label="Redo" onClick={() => runCommand('redo')} className={iconBtn}>
           <Redo2 size={15} />
         </button>
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
@@ -513,119 +349,152 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
 
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
 
-        <button type="button" title="Bold" onClick={() => wrapInline('**', 'bold')} className={iconBtn}>
+        <button type="button" title="Bold (⌘B)" onClick={() => runCommand('bold')} className={iconBtn}>
           <Bold size={15} />
         </button>
-        <button type="button" title="Italic" onClick={() => wrapInline('*', 'italic')} className={iconBtn}>
+        <button type="button" title="Italic (⌘I)" onClick={() => runCommand('italic')} className={iconBtn}>
           <Italic size={15} />
         </button>
-        <button type="button" title="Underline" onClick={() => wrapInline('<u>', 'text', '</u>')} className={iconBtn}>
+        <button type="button" title="Underline (⌘U)" onClick={() => runCommand('underline')} className={iconBtn}>
           <Underline size={15} />
         </button>
-        <button type="button" title="Strikethrough" onClick={() => wrapInline('~~', 'text')} className={iconBtn}>
-          <Strikethrough size={15} />
-        </button>
-        <button type="button" title="Code" onClick={() => wrapInline('`', 'code')} className={iconBtn}>
-          <Code size={15} />
-        </button>
 
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
 
-        <button type="button" title="Bulleted list" onClick={() => prefixLines('- ', { stripHeading: true })} className={iconBtn}>
+        <button type="button" title="Bulleted list" onClick={() => runCommand('insertUnorderedList')} className={iconBtn}>
           <List size={15} />
         </button>
-        <button type="button" title="Numbered list" onClick={() => prefixLines('1. ', { stripHeading: true })} className={iconBtn}>
+        <button type="button" title="Numbered list" onClick={() => runCommand('insertOrderedList')} className={iconBtn}>
           <ListOrdered size={15} />
         </button>
-        <button type="button" title="Quote" onClick={insertQuote} className={iconBtn}>
+        <button type="button" title="Blockquote" onClick={() => runCommand('formatBlock', 'blockquote')} className={iconBtn}>
           <Quote size={15} />
         </button>
-        <button type="button" title="Divider" onClick={insertDivider} className={iconBtn}>
+        <button type="button" title="Horizontal rule" onClick={() => runCommand('insertHorizontalRule')} className={iconBtn}>
           <Minus size={15} />
-        </button>
-        <button type="button" title="Center block" onClick={insertCenterBlock} className={iconBtn}>
-          <AlignCenter size={15} />
         </button>
 
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
 
-        <button type="button" title="Insert image" onClick={() => setImageDialogOpen(true)} className={iconBtn}>
-          <ImagePlus size={15} />
+        <button type="button" title="Align left" onClick={() => runCommand('justifyLeft')} className={iconBtn}>
+          <AlignLeft size={15} />
         </button>
-        <button type="button" title="Link" onClick={insertLink} className={iconBtn}>
+        <button type="button" title="Align center" onClick={() => runCommand('justifyCenter')} className={iconBtn}>
+          <AlignCenter size={15} />
+        </button>
+        <button type="button" title="Align right" onClick={() => runCommand('justifyRight')} className={iconBtn}>
+          <AlignRight size={15} />
+        </button>
+        <button
+          type="button"
+          title="Center block"
+          onClick={() => insertHtmlAtCursor(buildCenterHtml('<p>Centered text</p>'))}
+          className={iconBtn}
+        >
+          <span className="text-[10px] font-bold">CTR</span>
+        </button>
+
+        <span className="mx-1 h-5 w-px bg-border" aria-hidden />
+
+        <button
+          type="button"
+          title="Insert image"
+          disabled={uploading}
+          onClick={() => fileInputRef.current?.click()}
+          className={iconBtn}
+        >
+          {uploading ? <Loader2 size={15} className="animate-spin" /> : <ImagePlus size={15} />}
+        </button>
+        <button
+          type="button"
+          title="Responsive image (desktop + mobile)"
+          onClick={() => setFigureDialogOpen(true)}
+          className={iconBtn}
+        >
+          <Monitor size={14} />
+          <Smartphone size={12} className="-ml-1" />
+        </button>
+        <button type="button" title="Link (⌘K)" onClick={openLinkPopup} className={iconBtn}>
           <Link2 size={15} />
         </button>
-        <button type="button" title="Table" onClick={insertTable} className={iconBtn}>
-          <Table size={15} />
-        </button>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(event) => {
+            const files = event.target.files;
+            if (files?.length) void handleImageFiles(files);
+            event.target.value = '';
+          }}
+        />
       </div>
 
       <FeaturedImageUploadDialog
-        open={imageDialogOpen}
-        onClose={() => setImageDialogOpen(false)}
+        open={figureDialogOpen}
+        onClose={() => setFigureDialogOpen(false)}
         onInsert={insertFigure}
       />
 
-      {editorMode === 'visual' ? (
-        <div className="min-h-[16rem] space-y-4 bg-background px-4 py-4" style={{ minHeight: '16rem' }}>
-          {segments.map((segment, index) => {
-            if (segment.type === 'markdown') {
-              return (
-                <VisualEditableBlock
-                  key={`md-${index}-${segment.content.slice(0, 24)}`}
-                  markdown={segment.content}
-                  placeholder={placeholder ?? 'Write your article…'}
-                  onFocus={(el) => {
-                    activeBlockRef.current = el;
-                  }}
-                  onChange={(content) => updateSegmentAt(index, { type: 'markdown', content })}
-                />
-              );
+      <LinkInsertPopover
+        open={Boolean(linkPopup)}
+        position={linkPopup?.position ?? null}
+        url={linkPopup?.url ?? ''}
+        onUrlChange={(url) => setLinkPopup((prev) => (prev ? { ...prev, url } : prev))}
+        onApply={applyLink}
+        onCancel={closeLinkPopup}
+      />
+
+      <div
+        className={cn(
+          'relative bg-background px-4 py-4 transition-colors',
+          dragOver && 'bg-brand-orange/5 ring-2 ring-inset ring-brand-orange/30',
+        )}
+        style={{ minHeight }}
+        onDragOver={(event) => {
+          if (Array.from(event.dataTransfer.types).includes('Files')) {
+            event.preventDefault();
+            setDragOver(true);
+          }
+        }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(event) => {
+          event.preventDefault();
+          setDragOver(false);
+          if (event.dataTransfer.files?.length) void handleImageFiles(event.dataTransfer.files);
+        }}
+      >
+        <div
+          ref={editorRef}
+          contentEditable
+          suppressContentEditableWarning
+          role="textbox"
+          aria-multiline
+          aria-label="Article body"
+          data-placeholder={placeholder ?? 'Write your article…'}
+          onInput={emitChange}
+          onKeyDown={handleKeyDown}
+          onPaste={handlePaste}
+          onFocus={() => {
+            if (editorRef.current && !editorRef.current.innerHTML.trim()) {
+              editorRef.current.innerHTML = '<p><br></p>';
             }
-            if (segment.type === 'center') {
-              return (
-                <div key={`center-${index}`} className="rounded-lg border border-border/60 bg-muted/10 px-2 py-1">
-                  <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Centered</p>
-                  <VisualEditableBlock
-                    markdown={segment.content}
-                    centered
-                    onFocus={(el) => {
-                      activeBlockRef.current = el;
-                    }}
-                    onChange={(content) => updateSegmentAt(index, { type: 'center', content })}
-                  />
-                </div>
-              );
-            }
-            return (
-              <FigureBlockCard
-                key={`fig-${index}-${segment.desktop}`}
-                segment={segment}
-                onUpdate={(patch) => updateSegmentAt(index, { ...segment, ...patch })}
-                onRemove={() => removeSegmentAt(index)}
-              />
-            );
-          })}
-        </div>
-      ) : (
-        <textarea
-          ref={textareaRef}
-          value={value}
-          onSelect={rememberSelection}
-          onKeyUp={rememberSelection}
-          onMouseUp={rememberSelection}
-          onClick={rememberSelection}
-          onChange={(e) => {
-            rememberSelection();
-            pushHistory(e.target.value);
-            onChange(e.target.value);
           }}
-          rows={rows}
-          placeholder={placeholder}
-          className="block w-full resize-y border-0 bg-background px-4 py-4 font-mono text-sm leading-relaxed outline-none placeholder:text-muted-foreground"
-          style={{ minHeight: '16rem' }}
+          className={cn(
+            PROSE_EDITOR_CLASS,
+            'min-h-[12rem] w-full outline-none focus:ring-0',
+            'empty:before:pointer-events-none empty:before:text-muted-foreground empty:before:content-[attr(data-placeholder)]',
+            '[&_.article-figure-block]:relative [&_.article-figure-block]:cursor-default',
+            '[&_.article-figure-block_img]:pointer-events-none',
+          )}
         />
-      )}
+        {dragOver ? (
+          <div className="pointer-events-none absolute inset-4 flex items-center justify-center rounded-xl border-2 border-dashed border-brand-orange/50 bg-brand-orange/5 text-sm font-semibold text-brand-orange">
+            Drop image to insert
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 });

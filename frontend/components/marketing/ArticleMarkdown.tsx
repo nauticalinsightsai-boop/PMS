@@ -75,10 +75,29 @@ function SegmentBlock({ segment, compact }: { segment: ArticleSegment; compact?:
   }
 
   if (segment.type === 'center') {
+    const centerSource = segment.content;
+    const isHtml = /<[a-z][\s\S]*>/i.test(centerSource);
+    if (isHtml) {
+      return (
+        <div
+          className={cn('my-6 text-center', compact && 'my-3 text-sm', proseClass, compact && 'prose-sm')}
+          dangerouslySetInnerHTML={{ __html: centerSource }}
+        />
+      );
+    }
     return (
       <div className={cn('my-6 text-center', compact && 'my-3 text-sm')}>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{segment.content}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{centerSource}</ReactMarkdown>
       </div>
+    );
+  }
+
+  if (segment.type === 'html') {
+    return (
+      <div
+        className={cn(proseClass, compact && 'prose-sm')}
+        dangerouslySetInnerHTML={{ __html: segment.content }}
+      />
     );
   }
 
@@ -148,10 +167,30 @@ export function ArticleMarkdownPreview({
           );
         }
         if (segment.type === 'center') {
+          const centerSource = segment.content;
+          const isHtml = /<[a-z][\s\S]*>/i.test(centerSource);
+          if (isHtml) {
+            return (
+              <div
+                key={`center-${index}`}
+                className={cn('my-3 text-center text-sm', proseClass, compact && 'prose-sm')}
+                dangerouslySetInnerHTML={{ __html: centerSource }}
+              />
+            );
+          }
           return (
             <div key={`center-${index}`} className="my-3 text-center text-sm">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{segment.content}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{centerSource}</ReactMarkdown>
             </div>
+          );
+        }
+        if (segment.type === 'html') {
+          return (
+            <div
+              key={`html-${index}`}
+              className={cn(proseClass, compact && 'prose-sm')}
+              dangerouslySetInnerHTML={{ __html: segment.content }}
+            />
           );
         }
         return (

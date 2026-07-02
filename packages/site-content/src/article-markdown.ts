@@ -1,9 +1,61 @@
 export type ArticleSegment =
   | { type: 'markdown'; content: string }
+  | { type: 'html'; content: string }
   | { type: 'figure'; desktop: string; mobile: string; alt: string }
   | { type: 'center'; content: string };
 
 const BLOCK_RE = /:::(figure|center)\n([\s\S]*?):::/g;
+const HTML_BLOCK_RE =
+  /(<figure\b[^>]*\bdata-article-figure\b[^>]*>[\s\S]*?<\/figure>|<div\b[^>]*\bdata-article-center\b[^>]*>[\s\S]*?<\/div>)/gi;
+
+/** True when stored content is semantic HTML (not legacy markdown). */
+export function isArticleHtmlContent(content: string): boolean {
+  const trimmed = content.trim();
+  if (!trimmed) return false;
+  if (/:::(figure|center)\n/.test(trimmed)) return false;
+  return /<(p|div|h[1-6]|ul|ol|li|blockquote|figure|hr|img|a)\b/i.test(trimmed);
+}
+
+function parseFigureHtml(html: string): { desktop: string; mobile: string; alt: string } {
+  const desktop = html.match(/\bdata-desktop="([^"]*)"/)?.[1]?.trim() ?? '';
+  const mobile = html.match(/\bdata-mobile="([^"]*)"/)?.[1]?.trim() ?? desktop;
+  const alt = html.match(/\bdata-alt="([^"]*)"/)?.[1]?.trim() ?? '';
+  const imgSrc = html.match(/<img[^>]+src="([^"]*)"/i)?.[1]?.trim() ?? '';
+  return { desktop: desktop || imgSrc, mobile: mobile || desktop || imgSrc, alt };
+}
+
+function parseCenterHtml(html: string): string {
+  return html.replace(/^<div\b[^>]*>/i, '').replace(/<\/div>$/i, '').trim();
+}
+
+function parseArticleHtmlSegments(raw: string): ArticleSegment[] {
+  const segments: ArticleSegment[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  HTML_BLOCK_RE.lastIndex = 0;
+  while ((match = HTML_BLOCK_RE.exec(raw)) !== null) {
+    if (match.index > lastIndex) {
+      const html = raw.slice(lastIndex, match.index).trim();
+      if (html) segments.push({ type: 'html', content: html });
+    }
+
+    const block = match[1] ?? '';
+    if (/data-article-figure/i.test(block)) {
+      const { desktop, mobile, alt } = parseFigureHtml(block);
+      if (desktop) segments.push({ type: 'figure', desktop, mobile, alt });
+    } else {
+      const text = parseCenterHtml(block);
+      if (text) segments.push({ type: 'center', content: text });
+    }
+    lastIndex = HTML_BLOCK_RE.lastIndex;
+  }
+
+  const tail = raw.slice(lastIndex).trim();
+  if (tail) segments.push({ type: 'html', content: tail });
+
+  return segments.length > 0 ? segments : [{ type: 'html', content: raw }];
+}
 
 function parseFigureBody(body: string): { desktop: string; mobile: string; alt: string } {
   const desktop = body.match(/^desktop:\s*(.+)$/m)?.[1]?.trim() ?? '';
@@ -12,10 +64,11 @@ function parseFigureBody(body: string): { desktop: string; mobile: string; alt: 
   return { desktop, mobile, alt };
 }
 
-/** Split markdown into standard segments and custom figure/center blocks. */
+/** Split article content into prose + custom figure/center blocks (markdown or HTML). */
 export function parseArticleSegments(raw: string): ArticleSegment[] {
   const trimmed = raw.trim();
   if (!trimmed) return [];
+  if (isArticleHtmlContent(trimmed)) return parseArticleHtmlSegments(trimmed);
 
   const segments: ArticleSegment[] = [];
   let lastIndex = 0;
@@ -61,11 +114,12 @@ export function buildQuoteBlock(text: string, attribution?: string): string {
   return `\n\n${lines.join('\n')}\n\n`;
 }
 
-/** Serialize parsed segments back to stored article markdown. */
+/** Serialize parsed segments back to stored article content. */
 export function reassembleArticleMarkdown(segments: ArticleSegment[]): string {
   const parts = segments
     .map((segment) => {
       if (segment.type === 'markdown') return segment.content.trim();
+      if (segment.type === 'html') return segment.content.trim();
       if (segment.type === 'center') return buildCenterBlock(segment.content).trim();
       if (segment.type === 'figure') {
         return buildFigureBlock(segment.desktop, segment.mobile, segment.alt).trim();
