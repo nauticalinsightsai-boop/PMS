@@ -39,6 +39,34 @@ export const InteractionService = {
     return data;
   },
 
+  async syncAllPendingToSheets() {
+    const response = await fetchDashboardApi('/api/interactions/sheets/sync-pending', {
+      method: 'POST',
+    });
+    const data = (await response.json().catch(() => ({}))) as {
+      error?: string;
+      total?: number;
+      synced?: number;
+      failed?: number;
+      errors?: { id: string; error: string }[];
+    };
+    if (!response.ok) throw new Error(data.error || 'Bulk sync failed');
+    return data;
+  },
+
+  async verifySheetsConnection() {
+    const response = await fetchDashboardApi('/api/interactions/sheets/verify', {
+      cache: 'no-store',
+    });
+    const data = (await response.json().catch(() => ({}))) as {
+      error?: string;
+      connection?: { ok: boolean; error?: string; spreadsheetTitle?: string; sheetTabs?: string[] };
+      sheetsEnv?: { configured?: boolean; hint?: string };
+    };
+    if (!response.ok) throw new Error(data.error || 'Verify failed');
+    return data;
+  },
+
   async exportCSV() {
     window.location.href = withBasePath('/api/interactions/export');
   },

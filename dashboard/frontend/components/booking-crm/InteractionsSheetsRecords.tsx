@@ -35,6 +35,7 @@ import { useInteractionBroadcast } from '@/hooks/useInteractionBroadcast';
 import { useDashboardApiAuth } from '@/hooks/useDashboardApiAuth';
 import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 import type { ClientSheetsEnvMeta } from '@/lib/google/sheets-env';
+import { InteractionService } from '@/services/InteractionService';
 import {
   sourceLabel,
   type SheetRecord,
@@ -220,6 +221,9 @@ export default function InteractionsSheetsRecords() {
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [exporting, setExporting] = useState<'csv' | 'xlsx' | null>(null);
   const [detail, setDetail] = useState<SheetRecord | null>(null);
+  const [syncing, setSyncing] = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [actionMessage, setActionMessage] = useState<string | null>(null);
 
   const load = useCallback(
     async (opts?: { silent?: boolean }) => {
@@ -270,6 +274,43 @@ export default function InteractionsSheetsRecords() {
   useEffect(() => {
     void load();
   }, [load]);
+
+  const handleSyncPending = useCallback(async () => {
+    setSyncing(true);
+    setActionMessage(null);
+    try {
+      const result = await InteractionService.syncAllPendingToSheets();
+      setActionMessage(
+        `Synced ${result.synced ?? 0} of ${result.total ?? 0} pending row(s)` +
+          ((result.failed ?? 0) > 0 ? ` · ${result.failed} failed` : ''),
+      );
+      await load({ silent: true });
+    } catch (err) {
+      setActionMessage(err instanceof Error ? err.message : 'Sync failed');
+    } finally {
+      setSyncing(false);
+    }
+  }, [load]);
+
+  const handleVerifyConnection = useCallback(async () => {
+    setVerifying(true);
+    setActionMessage(null);
+    try {
+      const result = await InteractionService.verifySheetsConnection();
+      const conn = result.connection;
+      if (conn?.ok) {
+        setActionMessage(
+          `Connected to “${conn.spreadsheetTitle ?? 'spreadsheet'}” · tabs: ${(conn.sheetTabs ?? []).join(', ') || 'none'}`,
+        );
+      } else {
+        setActionMessage(conn?.error ?? result.sheetsEnv?.hint ?? 'Connection check failed');
+      }
+    } catch (err) {
+      setActionMessage(err instanceof Error ? err.message : 'Verify failed');
+    } finally {
+      setVerifying(false);
+    }
+  }, []);
 
   useInteractionBroadcast(() => {
     void load({ silent: true });
@@ -390,6 +431,11 @@ export default function InteractionsSheetsRecords() {
           spreadsheetUrl={spreadsheetUrl}
           rowCount={records.length}
           hasRealtimeChannel={Boolean(process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL?.trim())}
+          syncing={syncing}
+          verifying={verifying}
+          actionMessage={actionMessage}
+          onSyncPending={() => void handleSyncPending()}
+          onVerifyConnection={() => void handleVerifyConnection()}
         />
       ) : null}
 

@@ -128,8 +128,8 @@ Restart `npm run dev` (or redeploy) after changing env.
 |---------|-----|
 | “Showing Supabase rows” | `GOOGLE_SHEETS_*` not set on dashboard API; restart server |
 | 502 / read error | Share sheet with service account; check spreadsheet ID and tab name `Submissions` |
-| Row in Supabase but not sheet | Inbox → retry sync; check dashboard API logs for `[interactions] Google Sheets` |
-| Old rows missing from sheet | Sync is append-only on submit; historical Supabase rows are not backfilled |
+| Row in Supabase but not sheet | Sheets Records → **Sync all pending**; or Inbox → retry; check Railway `GOOGLE_SHEETS_*` |
+| Old rows missing from sheet | Sheets Records → **Sync all pending** after connecting env; or `npm run sync:sheets` |
 
 ## Do not
 

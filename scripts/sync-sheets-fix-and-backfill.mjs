@@ -29,6 +29,19 @@ const HEADERS = SUBMISSIONS_HEADERS;
 const SPREADSHEET_ID = process.env.GOOGLE_SHEETS_SPREADSHEET_ID?.trim();
 const SA_PATH = path.resolve(ROOT, process.env.GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH || '.secrets/google-sheets-sa.json');
 
+function loadServiceAccountCreds() {
+  const b64 = process.env.GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64?.trim();
+  if (b64) {
+    const json = Buffer.from(b64, 'base64').toString('utf8').trim();
+    if (!json.startsWith('{')) throw new Error('GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64 is not valid JSON');
+    return JSON.parse(json);
+  }
+  if (!fs.existsSync(SA_PATH)) {
+    throw new Error(`Missing ${SA_PATH} and GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64`);
+  }
+  return JSON.parse(fs.readFileSync(SA_PATH, 'utf8'));
+}
+
 async function getToken(creds) {
   const client = new JWT({
     email: creds.client_email,
@@ -81,9 +94,8 @@ async function writeTab(token, tabName, headers, dataRows) {
 
 async function main() {
   if (!SPREADSHEET_ID) throw new Error('GOOGLE_SHEETS_SPREADSHEET_ID missing');
-  if (!fs.existsSync(SA_PATH)) throw new Error(`Missing ${SA_PATH}`);
 
-  const creds = JSON.parse(fs.readFileSync(SA_PATH, 'utf8'));
+  const creds = loadServiceAccountCreds();
   const token = await getToken(creds);
 
   const meta = await sheetsRequest(token, 'GET', '?fields=sheets.properties');
@@ -185,6 +197,16 @@ async function main() {
   for (const [i, row] of (verify.values ?? []).entries()) {
     console.log(`  ${i + 1}: ${row.slice(0, 4).join(' | ')}…`);
   }
+
+  const syncedAt = new Date().toISOString();
+  for (const row of rows ?? []) {
+    await supabase
+      .from('form_submissions')
+      .update({ sheets_synced_at: syncedAt, sheets_sync_error: null })
+      .eq('id', row.id);
+  }
+  console.log(`\nMarked ${(rows ?? []).length} Supabase rows as sheets-synced`);
+
   console.log('\nDone. Open:', process.env.GOOGLE_SHEETS_EDITOR_URL ?? `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit`);
 }
 

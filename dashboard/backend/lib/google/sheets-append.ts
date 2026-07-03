@@ -288,6 +288,41 @@ export async function appendRowToGoogleSheet(values: string[]): Promise<void> {
 
 const ensuredTabs = new Set<string>();
 
+async function ensureTabHeaders(
+  token: string,
+  spreadsheetId: string,
+  tabName: string,
+  headers: string[],
+): Promise<void> {
+  const readUrl = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(
+    spreadsheetId,
+  )}/values/${encodeURIComponent(`${tabName}!A1:1`)}`;
+  const readRes = await fetch(readUrl, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (readRes.ok) {
+    const json = (await readRes.json()) as { values?: string[][] };
+    const first = json.values?.[0] ?? [];
+    if (first.length >= headers.length && first[0]?.trim()) {
+      return;
+    }
+  }
+
+  const headerUrl = new URL(
+    `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(
+      spreadsheetId,
+    )}/values/${encodeURIComponent(`${tabName}!A1`)}`,
+  );
+  headerUrl.searchParams.set('valueInputOption', 'USER_ENTERED');
+  await fetch(headerUrl.toString(), {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ values: [headers] }),
+  });
+  log('info', 'ensureSheetTab: wrote headers', { tabName, columnCount: headers.length });
+}
+
 /** Ensures a sheet tab exists (creating it with an optional header row), then caches it. */
 export async function ensureSheetTabExists(tabName: string, headers?: string[]): Promise<void> {
   if (ensuredTabs.has(tabName)) return;
@@ -318,6 +353,9 @@ export async function ensureSheetTabExists(tabName: string, headers?: string[]):
     .filter((t): t is string => !!t);
 
   if (tabs.includes(tabName)) {
+    if (headers?.length) {
+      await ensureTabHeaders(token, spreadsheetId, tabName, headers);
+    }
     ensuredTabs.add(tabName);
     return;
   }

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { CheckCircle2, Circle, FileSpreadsheet, AlertCircle } from 'lucide-react';
+import { CheckCircle2, Circle, FileSpreadsheet, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import type { ClientSheetsEnvMeta } from '@/lib/google/sheets-env';
 import { DEFAULT_SHEET_HEADERS } from '@/lib/interactions/sheets-records';
@@ -13,6 +13,11 @@ type Props = {
   spreadsheetUrl: string | null;
   rowCount: number;
   hasRealtimeChannel?: boolean;
+  syncing?: boolean;
+  verifying?: boolean;
+  actionMessage?: string | null;
+  onSyncPending?: () => void;
+  onVerifyConnection?: () => void;
 };
 
 const FORM_SOURCES = [
@@ -23,6 +28,8 @@ const FORM_SOURCES = [
   '/go/* channel landing forms',
   'Engagement bookings (meeting_booking)',
 ] as const;
+
+const SHEET_TABS = ['Submissions', 'Records', 'Certification Forms', 'Payments'] as const;
 
 function Step({
   done,
@@ -48,6 +55,54 @@ function Step({
   );
 }
 
+function SyncActions({
+  syncing,
+  verifying,
+  actionMessage,
+  onSyncPending,
+  onVerifyConnection,
+  showSyncAll,
+}: {
+  syncing?: boolean;
+  verifying?: boolean;
+  actionMessage?: string | null;
+  onSyncPending?: () => void;
+  onVerifyConnection?: () => void;
+  showSyncAll?: boolean;
+}) {
+  if (!onSyncPending && !onVerifyConnection) return null;
+
+  return (
+    <div className="mt-4 flex flex-wrap items-center gap-2">
+      {onVerifyConnection ? (
+        <button
+          type="button"
+          disabled={verifying || syncing}
+          onClick={onVerifyConnection}
+          className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-body-sm font-semibold hover:bg-muted disabled:opacity-50"
+        >
+          {verifying ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
+          Test connection
+        </button>
+      ) : null}
+      {showSyncAll && onSyncPending ? (
+        <button
+          type="button"
+          disabled={syncing || verifying}
+          onClick={onSyncPending}
+          className="inline-flex items-center gap-2 rounded-md bg-brand-orange px-3 py-2 text-body-sm font-semibold text-white hover:bg-brand-orange/90 disabled:opacity-50"
+        >
+          {syncing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
+          Sync all pending to Google Sheets
+        </button>
+      ) : null}
+      {actionMessage ? (
+        <p className="w-full text-body-sm text-muted-foreground">{actionMessage}</p>
+      ) : null}
+    </div>
+  );
+}
+
 export function SheetsRecordsSetupPanel({
   sheetsEnv,
   dataSource,
@@ -55,8 +110,14 @@ export function SheetsRecordsSetupPanel({
   spreadsheetUrl,
   rowCount,
   hasRealtimeChannel = false,
+  syncing,
+  verifying,
+  actionMessage,
+  onSyncPending,
+  onVerifyConnection,
 }: Props) {
   const connected = dataSource === 'google_sheets' && Boolean(sheetsEnv?.configured);
+  const envConfigured = Boolean(sheetsEnv?.configured);
   const hasCredentials =
     sheetsEnv?.credentialSource === 'file' || sheetsEnv?.credentialSource === 'base64';
   const hasSpreadsheet = Boolean(sheetsEnv?.hasSpreadsheetId);
@@ -71,8 +132,10 @@ export function SheetsRecordsSetupPanel({
             <div>
               <h2 className="text-h5 text-foreground">Google Sheets connected</h2>
               <p className="text-body-sm text-muted-foreground mt-1">
-                All website forms append here automatically. This table mirrors the live sheet (
-                {rowCount} row{rowCount === 1 ? '' : 's'}).
+                New forms append to <strong>Submissions</strong>, <strong>Records</strong>, and{' '}
+                <strong>Certification Forms</strong> (cert leads only). Payments go to{' '}
+                <strong>Payments</strong>. This table mirrors the live sheet ({rowCount} row
+                {rowCount === 1 ? '' : 's'}).
               </p>
               <dl className="mt-3 grid gap-2 text-meta sm:grid-cols-2">
                 <div>
@@ -86,6 +149,14 @@ export function SheetsRecordsSetupPanel({
                   </div>
                 ) : null}
               </dl>
+              <SyncActions
+                syncing={syncing}
+                verifying={verifying}
+                actionMessage={actionMessage}
+                onSyncPending={onSyncPending}
+                onVerifyConnection={onVerifyConnection}
+                showSyncAll
+              />
             </div>
           </div>
           {spreadsheetUrl ? (
@@ -110,15 +181,15 @@ export function SheetsRecordsSetupPanel({
         <div className="min-w-0 flex-1">
           <h2 className="text-h5 text-foreground">Google Sheets — configure here</h2>
           <p className="text-body-sm text-muted-foreground mt-1">
-            This page is the dashboard view of your lead spreadsheet. Every public form, popup, and
-            detail fill-up on pmstructure.com posts to Supabase first, then appends one row to the
-            sheet when the server env is set.
+            This page is the dashboard view of your lead spreadsheet. Every public form posts to
+            Supabase first, then appends to Google Sheets tabs when the server env is set on Railway.
           </p>
 
           {dataSource === 'supabase' && rowCount > 0 ? (
             <p className="mt-2 text-body-sm text-amber-900 dark:text-amber-200">
-              Preview: showing {rowCount} row{rowCount === 1 ? '' : 's'} from Supabase until Google
-              Sheets is connected. Existing rows are not backfilled automatically.
+              Preview: showing {rowCount} row{rowCount === 1 ? '' : 's'} from Supabase. Set{' '}
+              <code className="text-foreground">GOOGLE_SHEETS_*</code> on the dashboard API service,
+              redeploy, then use <strong>Sync all pending</strong> below.
             </p>
           ) : null}
 
@@ -129,6 +200,15 @@ export function SheetsRecordsSetupPanel({
             </p>
           ) : null}
 
+          <SyncActions
+            syncing={syncing}
+            verifying={verifying}
+            actionMessage={actionMessage}
+            onSyncPending={envConfigured ? onSyncPending : undefined}
+            onVerifyConnection={onVerifyConnection}
+            showSyncAll={envConfigured}
+          />
+
           <div className="mt-4 grid gap-6 lg:grid-cols-2">
             <div>
               <h3 className="text-label text-foreground mb-2">Setup checklist</h3>
@@ -136,12 +216,12 @@ export function SheetsRecordsSetupPanel({
                 <Step
                   done={hasCredentials && !sheetsEnv?.parseError}
                   label="Service account JSON"
-                  detail="Local: GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH=.secrets/google-sheets-sa.json · Production: GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64"
+                  detail="Local: GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH · Production: GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64"
                 />
                 <Step
                   done={hasSpreadsheet}
                   label="Spreadsheet ID + range"
-                  detail="GOOGLE_SHEETS_SPREADSHEET_ID and GOOGLE_SHEETS_RANGE=Submissions!A:G"
+                  detail="GOOGLE_SHEETS_SPREADSHEET_ID and GOOGLE_SHEETS_RANGE=Submissions!A:W"
                 />
                 <Step
                   done={hasSaEmail}
@@ -153,14 +233,19 @@ export function SheetsRecordsSetupPanel({
                   }
                 />
                 <Step
-                  done={false}
+                  done={connected}
+                  label="Sheet tabs"
+                  detail={SHEET_TABS.join(' · ')}
+                />
+                <Step
+                  done={connected}
                   label="Submissions tab headers (row 1)"
-                  detail={DEFAULT_SHEET_HEADERS.join(' · ')}
+                  detail={DEFAULT_SHEET_HEADERS.slice(0, 6).join(' · ') + ' …'}
                 />
                 <Step
                   done={hasRealtimeChannel}
                   label="Optional: live dashboard refresh"
-                  detail="INTERACTIONS_REALTIME_CHANNEL + NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL (same value); restart npm run dev"
+                  detail="INTERACTIONS_REALTIME_CHANNEL + NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL"
                 />
               </ol>
             </div>

@@ -35,7 +35,7 @@ function ensureBase64InEnv() {
     'GOOGLE_SHEETS_SERVICE_ACCOUNT_PATH=.secrets/google-sheets-sa.json',
     `GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64=${b64}`,
     'GOOGLE_SHEETS_SPREADSHEET_ID=1HW8agZ2SlxjyDCz9rm6We7UWQJ_6Hoyq6_xo2a11FdI',
-    'GOOGLE_SHEETS_RANGE=Submissions!A:G',
+    'GOOGLE_SHEETS_RANGE=Submissions!A:W',
     'GOOGLE_SHEETS_EDITOR_URL=https://docs.google.com/spreadsheets/d/1HW8agZ2SlxjyDCz9rm6We7UWQJ_6Hoyq6_xo2a11FdI/edit',
   ];
 
@@ -115,7 +115,7 @@ function printRailwayChecklist() {
       '',
       `GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON_BASE64=${b64}`,
       'GOOGLE_SHEETS_SPREADSHEET_ID=1HW8agZ2SlxjyDCz9rm6We7UWQJ_6Hoyq6_xo2a11FdI',
-      'GOOGLE_SHEETS_RANGE=Submissions!A:G',
+      'GOOGLE_SHEETS_RANGE=Submissions!A:W',
       'GOOGLE_SHEETS_EDITOR_URL=https://docs.google.com/spreadsheets/d/1HW8agZ2SlxjyDCz9rm6We7UWQJ_6Hoyq6_xo2a11FdI/edit',
       '',
       'Also required if not set:',
