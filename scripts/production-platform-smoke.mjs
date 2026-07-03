@@ -121,17 +121,18 @@ await timed('form_submission', async () => {
   });
   const ok = res.status === 201 && json.success === true && json.id;
   const sheets =
-    json.sheetsSyncPending === true
-      ? 'sheets pending'
-      : json.sheetsSynced === true
-        ? 'sheets synced inline'
+    json.sheetsSynced === true
+      ? 'sheets synced'
+      : json.sheetsSyncPending === true
+        ? 'sheets pending'
         : 'sheets NOT configured';
   return { ok, detail: `id=${json.id ?? 'n/a'} ${sheets}` };
 });
 
 const failed = checks.filter((c) => !c.ok);
 const sheetsCheck = checks.find((c) => c.name === 'form_submission');
-const sheetsOk = sheetsCheck?.detail?.includes('sheets pending') || sheetsCheck?.detail?.includes('sheets synced');
+const sheetsOk =
+  sheetsCheck?.detail?.includes('sheets synced') || sheetsCheck?.detail?.includes('sheets pending');
 
 console.log('\n--- summary ---');
 console.log(`passed: ${checks.length - failed.length}/${checks.length}`);

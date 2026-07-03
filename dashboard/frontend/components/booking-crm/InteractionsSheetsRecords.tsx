@@ -410,8 +410,8 @@ export default function InteractionsSheetsRecords() {
         </h1>
         <p className="text-body-sm text-muted-foreground mt-2 max-w-3xl">
           Central view for all website lead submissions — contact forms, newsletters, roadmap popups,
-          waitlist modals, and channel forms. Rows sync from the live Google Sheet when configured;
-          until then, Supabase submissions appear here as a preview.
+          waitlist modals, and channel forms. When Google Sheets is configured, every new submission
+          appends to the sheet automatically; this page mirrors the live spreadsheet.
         </p>
         {range && dataSource === 'google_sheets' ? (
           <p className="text-meta text-muted-foreground mt-1 font-mono">{range}</p>

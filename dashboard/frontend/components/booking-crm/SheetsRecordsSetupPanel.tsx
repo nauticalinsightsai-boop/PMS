@@ -90,10 +90,10 @@ function SyncActions({
           type="button"
           disabled={syncing || verifying}
           onClick={onSyncPending}
-          className="inline-flex items-center gap-2 rounded-md bg-brand-orange px-3 py-2 text-body-sm font-semibold text-white hover:bg-brand-orange/90 disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-body-sm font-semibold hover:bg-muted disabled:opacity-50"
         >
           {syncing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-          Sync all pending to Google Sheets
+          Backfill older rows to Google Sheets
         </button>
       ) : null}
       {actionMessage ? (
@@ -132,7 +132,8 @@ export function SheetsRecordsSetupPanel({
             <div>
               <h2 className="text-h5 text-foreground">Google Sheets connected</h2>
               <p className="text-body-sm text-muted-foreground mt-1">
-                New forms append to <strong>Submissions</strong>, <strong>Records</strong>, and{' '}
+                New form submissions sync to Google Sheets automatically on submit — no manual step.
+                Rows append to <strong>Submissions</strong>, <strong>Records</strong>, and{' '}
                 <strong>Certification Forms</strong> (cert leads only). Payments go to{' '}
                 <strong>Payments</strong>. This table mirrors the live sheet ({rowCount} row
                 {rowCount === 1 ? '' : 's'}).
@@ -155,7 +156,6 @@ export function SheetsRecordsSetupPanel({
                 actionMessage={actionMessage}
                 onSyncPending={onSyncPending}
                 onVerifyConnection={onVerifyConnection}
-                showSyncAll
               />
             </div>
           </div>
@@ -189,7 +189,8 @@ export function SheetsRecordsSetupPanel({
             <p className="mt-2 text-body-sm text-amber-900 dark:text-amber-200">
               Preview: showing {rowCount} row{rowCount === 1 ? '' : 's'} from Supabase. Set{' '}
               <code className="text-foreground">GOOGLE_SHEETS_*</code> on the dashboard API service,
-              redeploy, then use <strong>Sync all pending</strong> below.
+              redeploy, then use <strong>Backfill older rows</strong> once for submissions saved before
+              Sheets was connected.
             </p>
           ) : null}
 
