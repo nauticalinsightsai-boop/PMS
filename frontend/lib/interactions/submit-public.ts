@@ -19,9 +19,25 @@ export type ClientInteractionBody = {
   company?: string;
 };
 
+export type SubmitPublicInteractionResult = {
+  ok: boolean;
+  error?: string;
+  /** True when the server appended the row to Google Sheets in the same request. */
+  sheetsSynced?: boolean;
+};
+
+type InteractionPostResponse = {
+  error?: string;
+  sheetsSynced?: boolean;
+  sheetsWarning?: string | null;
+};
+
+const SHEETS_SYNC_USER_ERROR =
+  'We received your details but could not sync them to our records system. Please try again in a moment or contact us directly.';
+
 export async function submitPublicInteraction(
   data: ClientInteractionBody,
-): Promise<{ ok: boolean; error?: string }> {
+): Promise<SubmitPublicInteractionResult> {
   try {
     const contextFields = data.formContext
       ? buildWebsiteFormContext(data.formContext)
@@ -47,11 +63,14 @@ export async function submitPublicInteraction(
         company: data.company ?? '',
       }),
     });
-    const json = (await res.json().catch(() => ({}))) as { error?: string };
+    const json = (await res.json().catch(() => ({}))) as InteractionPostResponse;
     if (!res.ok) {
       return { ok: false, error: typeof json.error === 'string' ? json.error : 'Submission failed' };
     }
-    return { ok: true };
+    if (typeof json.sheetsWarning === 'string' && json.sheetsWarning.trim()) {
+      return { ok: false, error: SHEETS_SYNC_USER_ERROR, sheetsSynced: false };
+    }
+    return { ok: true, sheetsSynced: json.sheetsSynced === true };
   } catch {
     return { ok: false, error: 'Network error' };
   }

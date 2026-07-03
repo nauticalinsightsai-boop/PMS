@@ -69,7 +69,7 @@ export function RegisterModal({ trigger, recoveryVariant = 'register_modal_parti
       const certLabel = certOptions.find((c) => c.siteCertId === certId)?.label ?? certId;
       const tierLabel = tierOptions.find((t) => t.offeringId === offeringId)?.tierLabel;
       const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined;
-      await submitPublicInteraction({
+      const res = await submitPublicInteraction({
         source: 'consultation',
         subject: `Pathway request: ${certLabel}${tierLabel ? ` · ${tierLabel}` : ''}`,
         email,
@@ -90,6 +90,7 @@ export function RegisterModal({ trigger, recoveryVariant = 'register_modal_parti
           message: `Pathway registration interest from ${regionLabel}`,
         },
       });
+      if (!res.ok) return;
       trackConversionEvent(CONVERSION_EVENTS.CONSULTATION_BOOK, {
         cert_id: certId,
         offering_id: offeringId,
