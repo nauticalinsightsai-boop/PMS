@@ -98,9 +98,17 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
   const skipSync = useRef(false);
   const savedSelectionRef = useRef<Range | null>(null);
   const savedLinkRange = useRef<Range | null>(null);
+  const savedInsertRangeRef = useRef<Range | null>(null);
 
   const persistSelection = useCallback(() => {
     savedSelectionRef.current = saveEditorSelection(editorRef.current);
+  }, []);
+
+  const persistInsertPoint = useCallback(() => {
+    const saved = saveEditorSelection(editorRef.current);
+    if (!saved) return;
+    savedSelectionRef.current = saved;
+    savedInsertRangeRef.current = saved.cloneRange();
   }, []);
 
   useEffect(() => {
@@ -179,7 +187,9 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     (html: string) => {
       const el = editorRef.current;
       if (!el) return;
-      execEditorCommand(el, 'insertHTML', savedSelectionRef.current, html);
+      const range = savedInsertRangeRef.current ?? savedSelectionRef.current;
+      execEditorCommand(el, 'insertHTML', range, html);
+      savedInsertRangeRef.current = null;
       savedSelectionRef.current = saveEditorSelection(el);
       emitChange();
     },
@@ -277,16 +287,20 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
 
     const popupWidth = 320;
     const popupHeight = 132;
+    const gap = 8;
+    const viewportPad = 12;
     const left = Math.min(
-      Math.max(rect.left + rect.width / 2 - popupWidth / 2, 12),
-      window.innerWidth - popupWidth - 12,
+      Math.max(rect.left + rect.width / 2 - popupWidth / 2, viewportPad),
+      window.innerWidth - popupWidth - viewportPad,
     );
-    const below = rect.bottom + 8;
-    const above = rect.top - popupHeight - 8;
+    const aboveTop = rect.top - popupHeight - gap;
+    const belowTop = rect.bottom + gap;
     const top =
-      below + popupHeight > window.innerHeight - 12
-        ? Math.max(above, 12)
-        : Math.max(below, 12);
+      aboveTop >= viewportPad
+        ? aboveTop
+        : belowTop + popupHeight <= window.innerHeight - viewportPad
+          ? belowTop
+          : Math.max(aboveTop, viewportPad);
 
     setLinkPopup({
       position: { top, left },
@@ -303,12 +317,19 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
   useEffect(() => {
     if (!linkPopup) return;
     const onPointerDown = (event: MouseEvent) => {
-      const target = event.target as Node | null;
-      if (target && (target as Element).closest?.('[aria-label="Insert link"]')) return;
+      const target = event.target as Element | null;
+      if (target?.closest('[data-link-popover]')) return;
+      if (target?.closest('[data-link-toolbar-trigger]')) return;
       closeLinkPopup();
     };
-    document.addEventListener('mousedown', onPointerDown);
-    return () => document.removeEventListener('mousedown', onPointerDown);
+    // Defer so the toolbar click that opened the popover does not immediately dismiss it.
+    const attachId = window.setTimeout(() => {
+      document.addEventListener('mousedown', onPointerDown);
+    }, 0);
+    return () => {
+      window.clearTimeout(attachId);
+      document.removeEventListener('mousedown', onPointerDown);
+    };
   }, [linkPopup, closeLinkPopup]);
 
   const applyLink = () => {
@@ -355,6 +376,7 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     const imageItems = Array.from(items).filter((item) => item.type.startsWith('image/'));
     if (imageItems.length === 0) return;
     event.preventDefault();
+    persistInsertPoint();
     for (const item of imageItems) {
       const file = item.getAsFile();
       if (file) await insertInlineImage(file);
@@ -464,8 +486,13 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
           type="button"
           title="Insert image"
           disabled={uploading}
+          data-image-toolbar-trigger
+          onMouseDown={(event) => {
+            event.preventDefault();
+            persistInsertPoint();
+          }}
           onClick={() => {
-            persistSelection();
+            persistInsertPoint();
             fileInputRef.current?.click();
           }}
           className={iconBtn()}
@@ -475,8 +502,13 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         <button
           type="button"
           title="Responsive image (desktop + mobile)"
+          data-image-toolbar-trigger
+          onMouseDown={(event) => {
+            event.preventDefault();
+            persistInsertPoint();
+          }}
           onClick={() => {
-            persistSelection();
+            persistInsertPoint();
             setFigureDialogOpen(true);
           }}
           className={iconBtn()}
@@ -487,11 +519,12 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         <button
           type="button"
           title="Link (⌘K)"
+          data-link-toolbar-trigger
           onMouseDown={(event) => {
             event.preventDefault();
             persistSelection();
-            openLinkPopup();
           }}
+          onClick={() => openLinkPopup()}
           className={iconBtn()}
         >
           <Link2 size={15} />

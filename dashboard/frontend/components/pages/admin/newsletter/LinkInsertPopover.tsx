@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 
 type Props = {
@@ -36,9 +37,10 @@ export function LinkInsertPopover({ open, position, url, onUrlChange, onApply, o
 
   if (!open || !position) return null;
 
-  return (
+  const popover = (
     <div
-      className="fixed z-[70] w-[min(20rem,calc(100vw-2rem))] rounded-xl border border-border bg-card p-3 shadow-xl"
+      data-link-popover
+      className="fixed z-[100] w-[min(20rem,calc(100vw-2rem))] rounded-xl border border-border bg-card p-3 shadow-xl"
       style={{ top: position.top, left: position.left }}
       role="dialog"
       aria-label="Insert link"
@@ -81,4 +83,7 @@ export function LinkInsertPopover({ open, position, url, onUrlChange, onApply, o
       </div>
     </div>
   );
+
+  if (typeof document === 'undefined') return null;
+  return createPortal(popover, document.body);
 }

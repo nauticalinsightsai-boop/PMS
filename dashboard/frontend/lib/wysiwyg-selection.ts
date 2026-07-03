@@ -38,9 +38,20 @@ export function restoreEditorSelection(editor: HTMLElement | null, saved: Range 
 
 export function rangeClientRect(range: Range | null): DOMRect | null {
   if (!range) return null;
-  const rects = range.getClientRects();
-  if (rects.length > 0) return rects[0] ?? null;
-  return range.getBoundingClientRect();
+  const rects = Array.from(range.getClientRects()).filter((r) => r.width > 0 || r.height > 0);
+  if (rects.length === 0) return range.getBoundingClientRect();
+
+  let left = rects[0].left;
+  let top = rects[0].top;
+  let right = rects[0].right;
+  let bottom = rects[0].bottom;
+  for (const r of rects.slice(1)) {
+    left = Math.min(left, r.left);
+    top = Math.min(top, r.top);
+    right = Math.max(right, r.right);
+    bottom = Math.max(bottom, r.bottom);
+  }
+  return new DOMRect(left, top, right - left, bottom - top);
 }
 
 const BLOCK_TAGS = new Set(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pre', 'div', 'li']);
