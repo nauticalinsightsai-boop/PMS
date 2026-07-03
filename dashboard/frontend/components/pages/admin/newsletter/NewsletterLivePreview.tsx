@@ -79,7 +79,9 @@ export function NewsletterLivePreview({ post }: Props) {
 
               {post.content.trim() ? (
                 <div className="border-t border-border pt-3">
-                  <ArticleMarkdownPreview content={post.content} device="desktop" compact />
+                  <div className="mx-auto w-full max-w-3xl">
+                    <ArticleMarkdownPreview content={post.content} device="desktop" />
+                  </div>
                 </div>
               ) : (
                 <p className="text-xs italic text-muted-foreground">

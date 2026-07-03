@@ -7,8 +7,7 @@ import {
 } from '@pms/site-content/article-markdown';
 import { cn } from '@/lib/utils';
 
-const proseClass =
-  'prose prose-slate dark:prose-invert max-w-none prose-p:font-medium prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-400 prose-headings:font-heading prose-a:text-brand-orange prose-strong:text-slate-900 dark:prose-strong:text-white prose-blockquote:border-brand-orange prose-blockquote:text-slate-700 dark:prose-blockquote:text-slate-300';
+const articleBodyClass = 'article-wysiwyg max-w-none';
 
 function ResponsiveFigure({
   desktop,
@@ -80,7 +79,7 @@ function SegmentBlock({ segment, compact }: { segment: ArticleSegment; compact?:
     if (isHtml) {
       return (
         <div
-          className={cn('my-6 text-center', compact && 'my-3 text-sm', proseClass, compact && 'prose-sm')}
+          className={cn('my-6 text-center', compact && 'my-3 text-sm', articleBodyClass)}
           dangerouslySetInnerHTML={{ __html: centerSource }}
         />
       );
@@ -95,14 +94,14 @@ function SegmentBlock({ segment, compact }: { segment: ArticleSegment; compact?:
   if (segment.type === 'html') {
     return (
       <div
-        className={cn(proseClass, compact && 'prose-sm')}
+        className={cn(articleBodyClass, compact && 'text-sm')}
         dangerouslySetInnerHTML={{ __html: segment.content }}
       />
     );
   }
 
   return (
-    <div className={cn(proseClass, compact && 'prose-sm')}>
+    <div className={cn(articleBodyClass, compact && 'text-sm')}>
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{segment.content}</ReactMarkdown>
     </div>
   );
@@ -145,8 +144,8 @@ export function ArticleMarkdownPreview({
   return (
     <div
       className={cn(
-        proseClass,
-        compact && 'prose-sm',
+        articleBodyClass,
+        compact && 'text-sm',
         device === 'mobile' && 'max-w-full text-[13px] leading-relaxed',
       )}
     >
@@ -173,7 +172,7 @@ export function ArticleMarkdownPreview({
             return (
               <div
                 key={`center-${index}`}
-                className={cn('my-3 text-center text-sm', proseClass, compact && 'prose-sm')}
+                className={cn('my-3 text-center text-sm', articleBodyClass, compact && 'text-sm')}
                 dangerouslySetInnerHTML={{ __html: centerSource }}
               />
             );
@@ -188,13 +187,13 @@ export function ArticleMarkdownPreview({
           return (
             <div
               key={`html-${index}`}
-              className={cn(proseClass, compact && 'prose-sm')}
+              className={cn(articleBodyClass, compact && 'text-sm')}
               dangerouslySetInnerHTML={{ __html: segment.content }}
             />
           );
         }
         return (
-          <div key={`md-${index}`}>
+          <div key={`md-${index}`} className={cn(articleBodyClass, compact && 'text-sm')}>
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{segment.content}</ReactMarkdown>
           </div>
         );

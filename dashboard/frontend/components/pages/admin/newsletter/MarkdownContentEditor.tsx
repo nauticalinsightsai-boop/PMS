@@ -32,18 +32,23 @@ import { LinkInsertPopover } from '@/components/pages/admin/newsletter/LinkInser
 import { isArticleHtmlContent } from '@pms/site-content/article-markdown';
 import { uploadMediaFile } from '@/lib/cms/media-api';
 import {
-  buildCenterHtml,
   buildFigureHtml,
   buildInlineImageHtml,
   normalizeArticleContent,
+  ARTICLE_READING_COLUMN_CLASS,
   PROSE_EDITOR_CLASS,
   sanitizeEditorHtml,
 } from '@/lib/article-editor-html';
 import { cn } from '@/lib/utils';
 import {
+  applyEditorBlockFormat,
+  applyEditorLink,
+  applyEditorList,
+  type EditorBlockMode,
   execEditorCommand,
-  formatBlockValue,
+  getActiveBlockTag,
   getSelectionRange,
+  insertEditorHorizontalRule,
   isRangeInsideEditor,
   rangeClientRect,
   restoreEditorSelection,
@@ -83,13 +88,6 @@ function toolbarMouseDown(event: React.MouseEvent, editor: HTMLElement | null, o
   event.preventDefault();
 }
 
-function applyFormatBlock(editor: HTMLElement, saved: Range | null, tag: string): boolean {
-  const value = formatBlockValue(tag);
-  restoreEditorSelection(editor, saved);
-  if (document.execCommand('formatBlock', false, value)) return true;
-  return document.execCommand('formatBlock', false, `<${value}>`);
-}
-
 export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Props>(function MarkdownContentEditor(
   { value, onChange, rows = 18, placeholder, className },
   ref,
@@ -109,12 +107,14 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     const onSelectionChange = () => {
       const saved = saveEditorSelection(editorRef.current);
       if (saved) savedSelectionRef.current = saved;
+      const active = getActiveBlockTag(editorRef.current);
+      if (active !== null) setBlockMode(active);
     };
     document.addEventListener('selectionchange', onSelectionChange);
     return () => document.removeEventListener('selectionchange', onSelectionChange);
   }, []);
 
-  const [blockMode, setBlockMode] = useState<'p' | number>('p');
+  const [blockMode, setBlockMode] = useState<EditorBlockMode>('p');
   const [figureDialogOpen, setFigureDialogOpen] = useState(false);
   const [linkPopup, setLinkPopup] = useState<LinkPopupState | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -190,8 +190,10 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     (tag: string) => {
       const el = editorRef.current;
       if (!el) return;
-      applyFormatBlock(el, savedSelectionRef.current, tag);
+      applyEditorBlockFormat(el, savedSelectionRef.current, tag);
       savedSelectionRef.current = saveEditorSelection(el);
+      const active = getActiveBlockTag(el);
+      if (active !== null) setBlockMode(active);
       emitChange();
     },
     [emitChange],
@@ -214,22 +216,50 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     runFormatBlock(tag);
   };
 
+  const runList = useCallback(
+    (ordered: boolean) => {
+      const el = editorRef.current;
+      if (!el) return;
+      applyEditorList(el, savedSelectionRef.current, ordered);
+      savedSelectionRef.current = saveEditorSelection(el);
+      const active = getActiveBlockTag(el);
+      if (active !== null) setBlockMode(active);
+      emitChange();
+    },
+    [emitChange],
+  );
+
+  const insertHorizontalRule = useCallback(() => {
+    const el = editorRef.current;
+    if (!el) return;
+    insertEditorHorizontalRule(el, savedSelectionRef.current);
+    savedSelectionRef.current = saveEditorSelection(el);
+    emitChange();
+  }, [emitChange]);
+
+  const applyBlockquote = () => {
+    setBlockMode('blockquote');
+    runFormatBlock('blockquote');
+  };
+
   const applyParagraph = () => {
     setBlockMode('p');
     runFormatBlock('p');
   };
 
-  const openLinkPopup = () => {
+  const openLinkPopup = useCallback(() => {
     const editor = editorRef.current;
-    persistSelection();
-    const activeRange = savedSelectionRef.current ?? getSelectionRange();
-    if (!isRangeInsideEditor(activeRange, editor)) {
-      if (!editor) return;
-      restoreEditorSelection(editor, null);
-      savedSelectionRef.current = saveEditorSelection(editor);
-    }
+    if (!editor) return;
 
-    const range = savedSelectionRef.current ?? getSelectionRange();
+    // Keep the range saved on toolbar mousedown — re-persisting here often loses the highlight.
+    let range = savedSelectionRef.current;
+    if (!isRangeInsideEditor(range, editor)) {
+      range = getSelectionRange();
+    }
+    if (!isRangeInsideEditor(range, editor)) {
+      restoreEditorSelection(editor, null);
+      range = saveEditorSelection(editor);
+    }
     if (!isRangeInsideEditor(range, editor)) return;
 
     savedLinkRange.current = range?.cloneRange() ?? null;
@@ -246,15 +276,24 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     }
 
     const popupWidth = 320;
-    const left = Math.min(Math.max(rect.left, 12), window.innerWidth - popupWidth - 12);
-    const top = Math.max(rect.top - 120, 12);
+    const popupHeight = 132;
+    const left = Math.min(
+      Math.max(rect.left + rect.width / 2 - popupWidth / 2, 12),
+      window.innerWidth - popupWidth - 12,
+    );
+    const below = rect.bottom + 8;
+    const above = rect.top - popupHeight - 8;
+    const top =
+      below + popupHeight > window.innerHeight - 12
+        ? Math.max(above, 12)
+        : Math.max(below, 12);
 
     setLinkPopup({
       position: { top, left },
       url: existingUrl,
       savedRange: savedLinkRange.current,
     });
-  };
+  }, []);
 
   const closeLinkPopup = useCallback(() => {
     setLinkPopup(null);
@@ -277,16 +316,7 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
     const el = editorRef.current;
     if (!url || !el) return;
     const range = linkPopup?.savedRange ?? savedLinkRange.current;
-    restoreEditorSelection(el, range);
-
-    const selection = window.getSelection();
-    const collapsed = !selection || selection.isCollapsed;
-    let applied = false;
-    if (!collapsed) {
-      applied = document.execCommand('createLink', false, url);
-    } else {
-      applied = document.execCommand('insertHTML', false, `<a href="${url.replace(/"/g, '&quot;')}">${url.replace(/</g, '&lt;')}</a>`);
-    }
+    const applied = applyEditorLink(el, range, url);
 
     if (applied) {
       savedSelectionRef.current = saveEditorSelection(el);
@@ -345,12 +375,16 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
       runCommand('underline');
     } else if (key === 'k') {
       event.preventDefault();
+      persistSelection();
       openLinkPopup();
     }
   };
 
-  const iconBtn =
-    'inline-flex h-8 min-w-8 items-center justify-center rounded-md px-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-40';
+  const iconBtn = (active = false) =>
+    cn(
+      'inline-flex h-8 min-w-8 items-center justify-center rounded-md px-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-40',
+      active && 'bg-emerald-600 text-white hover:bg-emerald-600 hover:text-white',
+    );
   const headingBtn = (active: boolean) =>
     cn(
       'inline-flex h-8 min-w-[2rem] items-center justify-center rounded-md px-1.5 text-xs font-bold transition-colors',
@@ -363,10 +397,10 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
         className="flex flex-wrap items-center gap-0.5 border-b border-border bg-background px-2 py-2"
         onMouseDown={(event) => toolbarMouseDown(event, editorRef.current, persistSelection)}
       >
-        <button type="button" title="Undo" aria-label="Undo" onClick={() => runCommand('undo')} className={iconBtn}>
+        <button type="button" title="Undo" aria-label="Undo" onClick={() => runCommand('undo')} className={iconBtn()}>
           <Undo2 size={15} />
         </button>
-        <button type="button" title="Redo" aria-label="Redo" onClick={() => runCommand('redo')} className={iconBtn}>
+        <button type="button" title="Redo" aria-label="Redo" onClick={() => runCommand('redo')} className={iconBtn()}>
           <Redo2 size={15} />
         </button>
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
@@ -388,51 +422,42 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
 
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
 
-        <button type="button" title="Bold (⌘B)" onClick={() => runCommand('bold')} className={iconBtn}>
+        <button type="button" title="Bold (⌘B)" onClick={() => runCommand('bold')} className={iconBtn()}>
           <Bold size={15} />
         </button>
-        <button type="button" title="Italic (⌘I)" onClick={() => runCommand('italic')} className={iconBtn}>
+        <button type="button" title="Italic (⌘I)" onClick={() => runCommand('italic')} className={iconBtn()}>
           <Italic size={15} />
         </button>
-        <button type="button" title="Underline (⌘U)" onClick={() => runCommand('underline')} className={iconBtn}>
+        <button type="button" title="Underline (⌘U)" onClick={() => runCommand('underline')} className={iconBtn()}>
           <Underline size={15} />
         </button>
 
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
 
-        <button type="button" title="Bulleted list" onClick={() => runCommand('insertUnorderedList')} className={iconBtn}>
+        <button type="button" title="Bulleted list" onClick={() => runList(false)} className={iconBtn(blockMode === 'ul')}>
           <List size={15} />
         </button>
-        <button type="button" title="Numbered list" onClick={() => runCommand('insertOrderedList')} className={iconBtn}>
+        <button type="button" title="Numbered list" onClick={() => runList(true)} className={iconBtn(blockMode === 'ol')}>
           <ListOrdered size={15} />
         </button>
-        <button type="button" title="Blockquote" onClick={() => runFormatBlock('blockquote')} className={iconBtn}>
+        <button type="button" title="Blockquote" onClick={applyBlockquote} className={iconBtn(blockMode === 'blockquote')}>
           <Quote size={15} />
         </button>
-        <button type="button" title="Horizontal rule" onClick={() => runCommand('insertHorizontalRule')} className={iconBtn}>
+        <button type="button" title="Horizontal rule" onClick={insertHorizontalRule} className={iconBtn()}>
           <Minus size={15} />
         </button>
 
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
 
-        <button type="button" title="Align left" onClick={() => runCommand('justifyLeft')} className={iconBtn}>
+        <button type="button" title="Align left" onClick={() => runCommand('justifyLeft')} className={iconBtn()}>
           <AlignLeft size={15} />
         </button>
-        <button type="button" title="Align center" onClick={() => runCommand('justifyCenter')} className={iconBtn}>
+        <button type="button" title="Align center" onClick={() => runCommand('justifyCenter')} className={iconBtn()}>
           <AlignCenter size={15} />
         </button>
-        <button type="button" title="Align right" onClick={() => runCommand('justifyRight')} className={iconBtn}>
+        <button type="button" title="Align right" onClick={() => runCommand('justifyRight')} className={iconBtn()}>
           <AlignRight size={15} />
         </button>
-        <button
-          type="button"
-          title="Center block"
-          onClick={() => insertHtmlAtCursor(buildCenterHtml('<p>Centered text</p>'))}
-          className={iconBtn}
-        >
-          <span className="text-[10px] font-bold">CTR</span>
-        </button>
-
         <span className="mx-1 h-5 w-px bg-border" aria-hidden />
 
         <button
@@ -443,7 +468,7 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
             persistSelection();
             fileInputRef.current?.click();
           }}
-          className={iconBtn}
+          className={iconBtn()}
         >
           {uploading ? <Loader2 size={15} className="animate-spin" /> : <ImagePlus size={15} />}
         </button>
@@ -454,12 +479,21 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
             persistSelection();
             setFigureDialogOpen(true);
           }}
-          className={iconBtn}
+          className={iconBtn()}
         >
           <Monitor size={14} />
           <Smartphone size={12} className="-ml-1" />
         </button>
-        <button type="button" title="Link (⌘K)" onClick={openLinkPopup} className={iconBtn}>
+        <button
+          type="button"
+          title="Link (⌘K)"
+          onMouseDown={(event) => {
+            event.preventDefault();
+            persistSelection();
+            openLinkPopup();
+          }}
+          className={iconBtn()}
+        >
           <Link2 size={15} />
         </button>
 
@@ -510,32 +544,34 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
           if (event.dataTransfer.files?.length) void handleImageFiles(event.dataTransfer.files);
         }}
       >
-        <div
-          ref={editorRef}
-          contentEditable
-          suppressContentEditableWarning
-          role="textbox"
-          aria-multiline
-          aria-label="Article body"
-          data-placeholder={placeholder ?? 'Write your article…'}
-          onInput={emitChange}
-          onKeyUp={persistSelection}
-          onMouseUp={persistSelection}
-          onKeyDown={handleKeyDown}
-          onPaste={handlePaste}
-          onFocus={() => {
-            if (editorRef.current && !editorRef.current.innerHTML.trim()) {
-              editorRef.current.innerHTML = '<p><br></p>';
-            }
-          }}
-          className={cn(
-            PROSE_EDITOR_CLASS,
-            'min-h-[12rem] w-full outline-none focus:ring-0',
-            'empty:before:pointer-events-none empty:before:text-muted-foreground empty:before:content-[attr(data-placeholder)]',
-            '[&_.article-figure-block]:relative [&_.article-figure-block]:cursor-default',
-            '[&_.article-figure-block_img]:pointer-events-none',
-          )}
-        />
+        <div className={ARTICLE_READING_COLUMN_CLASS}>
+          <div
+            ref={editorRef}
+            contentEditable
+            suppressContentEditableWarning
+            role="textbox"
+            aria-multiline
+            aria-label="Article body"
+            data-placeholder={placeholder ?? 'Write your article…'}
+            onInput={emitChange}
+            onKeyUp={persistSelection}
+            onMouseUp={persistSelection}
+            onKeyDown={handleKeyDown}
+            onPaste={handlePaste}
+            onFocus={() => {
+              if (editorRef.current && !editorRef.current.innerHTML.trim()) {
+                editorRef.current.innerHTML = '<p><br></p>';
+              }
+            }}
+            className={cn(
+              PROSE_EDITOR_CLASS,
+              'min-h-[12rem] w-full outline-none focus:ring-0',
+              'empty:before:pointer-events-none empty:before:text-muted-foreground empty:before:content-[attr(data-placeholder)]',
+              '[&_.article-figure-block]:relative [&_.article-figure-block]:cursor-default',
+              '[&_.article-figure-block_img]:pointer-events-none',
+            )}
+          />
+        </div>
         {dragOver ? (
           <div className="pointer-events-none absolute inset-4 flex items-center justify-center rounded-xl border-2 border-dashed border-brand-orange/50 bg-brand-orange/5 text-sm font-semibold text-brand-orange">
             Drop image to insert

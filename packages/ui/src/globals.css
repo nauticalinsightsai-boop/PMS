@@ -555,6 +555,98 @@
     letter-spacing: normal;
   }
 
+  /* Newsletter/article body — editor + published HTML (Medium-style blocks) */
+  .article-wysiwyg {
+    @apply text-base leading-relaxed text-foreground;
+  }
+
+  .article-wysiwyg > *:first-child {
+    @apply mt-0;
+  }
+
+  .article-wysiwyg p,
+  .article-wysiwyg div:not([data-article-center]) {
+    @apply mb-4 text-base font-medium leading-relaxed text-slate-600 dark:text-slate-400;
+  }
+
+  .article-wysiwyg h1 {
+    @apply mb-4 mt-8 font-heading text-4xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white;
+  }
+
+  .article-wysiwyg h2 {
+    @apply mb-3 mt-7 font-heading text-3xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white;
+  }
+
+  .article-wysiwyg h3 {
+    @apply mb-3 mt-6 font-heading text-2xl font-semibold leading-snug tracking-tight text-slate-900 dark:text-white;
+  }
+
+  .article-wysiwyg h4 {
+    @apply mb-2 mt-5 font-heading text-xl font-semibold leading-snug text-slate-900 dark:text-white;
+  }
+
+  .article-wysiwyg h5 {
+    @apply mb-2 mt-4 font-heading text-lg font-semibold leading-snug text-slate-900 dark:text-white;
+  }
+
+  .article-wysiwyg h6 {
+    @apply mb-2 mt-3 font-heading text-sm font-semibold uppercase tracking-wide text-slate-700 dark:text-slate-300;
+  }
+
+  .article-wysiwyg blockquote {
+    @apply my-5 rounded-r-lg border-l-4 border-brand-orange bg-brand-orange/5 py-3 pl-5 pr-4 text-lg italic leading-relaxed text-slate-700 dark:bg-brand-orange/10 dark:text-slate-200;
+  }
+
+  .article-wysiwyg blockquote p {
+    @apply mb-0 text-lg italic text-inherit;
+  }
+
+  .article-wysiwyg ul {
+    @apply my-4 list-outside list-disc space-y-2 pl-7;
+  }
+
+  .article-wysiwyg ol {
+    @apply my-4 list-outside list-decimal space-y-2 pl-7;
+  }
+
+  .article-wysiwyg li {
+    @apply pl-1 text-base font-medium leading-relaxed text-slate-600 dark:text-slate-400;
+  }
+
+  .article-wysiwyg li::marker {
+    @apply font-bold text-brand-orange;
+  }
+
+  .article-wysiwyg hr {
+    @apply my-8 border-0 border-t-2 border-dashed border-border;
+  }
+
+  .article-wysiwyg a {
+    @apply font-semibold text-brand-orange underline underline-offset-2;
+  }
+
+  .article-wysiwyg strong,
+  .article-wysiwyg b {
+    @apply font-bold text-slate-900 dark:text-white;
+  }
+
+  .article-wysiwyg em,
+  .article-wysiwyg i {
+    @apply italic;
+  }
+
+  .article-wysiwyg u {
+    @apply underline underline-offset-2;
+  }
+
+  .article-wysiwyg img {
+    @apply max-w-full rounded-xl;
+  }
+
+  .article-wysiwyg [data-article-center] {
+    @apply my-6 text-center;
+  }
+
   /* /go/website: match marketing home hero shell */
   .portal-website {
     background-color: transparent !important;

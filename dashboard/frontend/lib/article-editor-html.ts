@@ -6,8 +6,8 @@ import {
   type ArticleSegment,
 } from '@pms/site-content/article-markdown';
 
-const PROSE_EDITOR_CLASS =
-  'article-wysiwyg prose prose-slate dark:prose-invert max-w-none prose-p:font-medium prose-p:leading-relaxed prose-p:text-slate-600 dark:prose-p:text-slate-400 prose-headings:font-heading prose-a:text-brand-orange prose-a:underline prose-blockquote:border-l-4 prose-blockquote:border-brand-orange prose-blockquote:pl-4 prose-blockquote:italic prose-img:rounded-xl prose-hr:my-8';
+const PROSE_EDITOR_CLASS = 'article-wysiwyg max-w-none';
+const ARTICLE_READING_COLUMN_CLASS = 'mx-auto w-full max-w-3xl';
 
 let turndown: TurndownService | null = null;
 
@@ -182,4 +182,4 @@ export function isEditorEmpty(html: string): boolean {
   return !plain;
 }
 
-export { PROSE_EDITOR_CLASS };
+export { PROSE_EDITOR_CLASS, ARTICLE_READING_COLUMN_CLASS };
