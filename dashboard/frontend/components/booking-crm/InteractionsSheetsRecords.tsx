@@ -61,7 +61,7 @@ type SheetsResponse = {
 };
 
 const PAGE_SIZE = 75;
-const AUTO_REFRESH_MS = 45_000;
+const AUTO_REFRESH_MS = 15_000;
 
 function formatDate(iso: string): string {
   if (!iso.trim()) return '-';
@@ -317,6 +317,13 @@ export default function InteractionsSheetsRecords() {
   });
 
   useEffect(() => {
+    if (!apiAuth.ready || !configured) return;
+    const onFocus = () => void load({ silent: true });
+    window.addEventListener('focus', onFocus);
+    return () => window.removeEventListener('focus', onFocus);
+  }, [apiAuth.ready, configured, load]);
+
+  useEffect(() => {
     if (!autoRefresh || !apiAuth.ready || !configured) return;
     const id = window.setInterval(() => void load({ silent: true }), AUTO_REFRESH_MS);
     return () => window.clearInterval(id);
@@ -353,7 +360,9 @@ export default function InteractionsSheetsRecords() {
     const sorted = [...list].sort((a, b) => {
       const ta = Date.parse(a.createdAt) || 0;
       const tb = Date.parse(b.createdAt) || 0;
-      return orderAsc ? ta - tb : tb - ta;
+      const byDate = orderAsc ? ta - tb : tb - ta;
+      if (byDate !== 0) return byDate;
+      return orderAsc ? a.rowIndex - b.rowIndex : b.rowIndex - a.rowIndex;
     });
     return sorted;
   }, [records, q, sourceFilter, orderAsc]);

@@ -431,4 +431,41 @@ export async function readGoogleSheetValues(): Promise<string[][]> {
   return values;
 }
 
+/** Read one column from a tab (e.g. Submissions + W for Submission ID). */
+export async function readTabColumnValues(tabName: string, column: string): Promise<string[]> {
+  const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID?.trim();
+  if (!spreadsheetId) {
+    throw new Error('GOOGLE_SHEETS_SPREADSHEET_ID is not set.');
+  }
+
+  const creds = getParsedServiceAccountOrThrow();
+  const token = await getAccessToken(creds);
+  const range = `${tabName}!${column}:${column}`;
+
+  log('info', 'read: column request', { tabName, column });
+  const path = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(
+    spreadsheetId,
+  )}/values/${encodeURIComponent(range)}`;
+  const res = await fetch(path, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    let error = parseSheetsApiError(res.status, text);
+    if (res.status === 403) {
+      error = `${error} ${permissionHint(creds.client_email, spreadsheetId)}`;
+    }
+    log('error', 'read: column failed', { status: res.status, error });
+    throw new Error(error);
+  }
+
+  const json = (await res.json()) as { values?: string[][] };
+  const values = json.values ?? [];
+  return values
+    .map((row) => String(row[0] ?? '').trim())
+    .filter((value) => value.length > 0);
+}
+
 export { getGoogleSheetsEnvStatus, logGoogleSheetsEnvStatus, type GoogleSheetsEnvStatus };

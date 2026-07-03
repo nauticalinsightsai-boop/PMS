@@ -2,6 +2,7 @@ import {
   appendRowToTab,
   ensureSheetTabExists,
   isGoogleSheetsConfigured,
+  readTabColumnValues,
 } from '@/lib/interactions/google-sheets';
 import type { FormSubmissionRow } from '@/lib/interactions/types';
 import {
@@ -98,18 +99,34 @@ export function rowToSheetValues(row: SheetsSyncRow): string[] {
   return buildHumanSubmissionsRow(row as SheetSubmissionRow);
 }
 
+async function submissionIdExistsInTab(
+  tabName: string,
+  idColumn: string,
+  submissionId: string,
+): Promise<boolean> {
+  const ids = await readTabColumnValues(tabName, idColumn);
+  return ids.includes(submissionId);
+}
+
 async function appendHumanLeadRows(row: SheetsSyncRow): Promise<void> {
   const sheetRow = row as SheetSubmissionRow;
+  const submissionId = row.id;
 
   await ensureSheetTabExists(SUBMISSIONS_TAB, [...SUBMISSIONS_SHEET_HEADERS]);
-  await appendRowToTab(SUBMISSIONS_TAB, buildHumanSubmissionsRow(sheetRow));
+  if (!(await submissionIdExistsInTab(SUBMISSIONS_TAB, 'W', submissionId))) {
+    await appendRowToTab(SUBMISSIONS_TAB, buildHumanSubmissionsRow(sheetRow));
+  }
 
   await ensureSheetTabExists(RECORDS_TAB, [...RECORDS_SHEET_HEADERS]);
-  await appendRowToTab(RECORDS_TAB, buildRecordsRow(sheetRow));
+  if (!(await submissionIdExistsInTab(RECORDS_TAB, 'M', submissionId))) {
+    await appendRowToTab(RECORDS_TAB, buildRecordsRow(sheetRow));
+  }
 
   if (isCertificationSheetSubmission(sheetRow)) {
     await ensureSheetTabExists(CERTIFICATION_TAB, [...CERTIFICATION_SHEET_HEADERS]);
-    await appendRowToTab(CERTIFICATION_TAB, buildCertificationSheetRow(sheetRow));
+    if (!(await submissionIdExistsInTab(CERTIFICATION_TAB, 'M', submissionId))) {
+      await appendRowToTab(CERTIFICATION_TAB, buildCertificationSheetRow(sheetRow));
+    }
   }
 }
 

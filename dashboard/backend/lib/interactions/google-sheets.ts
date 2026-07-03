@@ -11,5 +11,6 @@ export {
   getGoogleSpreadsheetId,
   isGoogleSheetsConfigured,
   readGoogleSheetValues,
+  readTabColumnValues,
 } from '@/lib/google/sheets-append';
 export { getClientSheetsEnvMeta, type ClientSheetsEnvMeta } from '@/lib/google/sheets-env';

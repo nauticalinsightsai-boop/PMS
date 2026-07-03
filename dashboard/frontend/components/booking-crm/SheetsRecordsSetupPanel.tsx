@@ -138,6 +138,11 @@ export function SheetsRecordsSetupPanel({
                 <strong>Payments</strong>. This table mirrors the live sheet ({rowCount} row
                 {rowCount === 1 ? '' : 's'}).
               </p>
+              <p className="text-meta text-muted-foreground mt-2">
+                In Google Sheets: open the <strong>Submissions</strong> tab and scroll to the{' '}
+                <strong>bottom</strong> for the newest row. Refresh the sheet if you already had it
+                open.
+              </p>
               <dl className="mt-3 grid gap-2 text-meta sm:grid-cols-2">
                 <div>
                   <dt className="text-muted-foreground">Range</dt>
