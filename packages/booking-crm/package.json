@@ -16,6 +16,7 @@
     "./lead-attribution": "./src/channel-landing-pages/lead-attribution.ts",
     "./form-submissions": "./src/form-submissions.ts",
     "./sheets-human-row": "./src/sheets-human-row.ts",
+    "./sheets-legacy-tabs": "./src/sheets-legacy-tabs.ts",
     "./constants/channelGroups": "./src/constants/channelGroups.ts",
     "./repository": "./src/channel-landing-pages/repository.ts",
     "./channel-landing-pages/portalGoLinks": "./src/channel-landing-pages/portalGoLinks.ts",

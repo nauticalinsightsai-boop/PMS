@@ -10,9 +10,9 @@ export type InsertInteractionResult =
   | {
       ok: true;
       id: string;
-      /** True when the row was appended to Google Sheets during this request. */
+      /** True when sync finished inline (always false for public POST: sync runs in background). */
       sheetsSynced: boolean;
-      /** Legacy flag; always false now that sync runs inline before the response. */
+      /** True when a background Sheets append was queued. */
       sheetsSyncPending: boolean;
       sheetsError: string | null;
     }
@@ -48,7 +48,7 @@ export function scheduleGoogleSheetsSync(
 }
 
 /**
- * Persists a submission to Supabase (required), then appends to Google Sheets before returning.
+ * Persists a submission to Supabase (required), then queues Google Sheets sync without blocking the response.
  */
 export async function insertFormSubmission(params: {
   source: InteractionSource;
@@ -91,22 +91,13 @@ export async function insertFormSubmission(params: {
 
   const sheetsConfigured = isGoogleSheetsConfigured();
   if (sheetsConfigured) {
-    const sync = await syncRowToGoogleSheetsWithRetries(supabase, row.id, row);
-    if (sync.synced) {
-      console.info('[interactions] Google Sheets sync ok', { submissionId: row.id });
-    } else if (sync.error) {
-      console.error('[interactions] Google Sheets sync failed', {
-        submissionId: row.id,
-        error: sync.error,
-      });
-    }
-    pingInteractionSubscribers();
+    scheduleGoogleSheetsSync(supabase, row.id, row);
     return {
       ok: true,
       id: row.id,
-      sheetsSynced: sync.synced,
-      sheetsSyncPending: false,
-      sheetsError: sync.error,
+      sheetsSynced: false,
+      sheetsSyncPending: true,
+      sheetsError: null,
     };
   }
 
