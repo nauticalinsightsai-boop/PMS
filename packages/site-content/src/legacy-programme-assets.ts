@@ -5,7 +5,7 @@ const LEGACY_PROGRAMME_ASSETS: Record<string, ProgrammeOfferingAssets> = {
   'pmp-preparation-foundation': {
     infographicUrl: '/programme/pmp-foundation-roadmap.png',
     guidePdfUrl: '/programme/pmp-foundation-program-guide.pdf',
-    // Session slides (~150MB) are not bundled — upload via CMS to Cloudflare R2.
+    // Session slides (~150MB) are not bundled; upload via CMS to Cloudflare R2.
   },
 };
 

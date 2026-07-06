@@ -14,7 +14,7 @@ type Props = { params: Promise<{ id: string }> };
 
 const emptyRegistry: CertificationsRegistry = { version: 1, entries: [] };
 
-/** Fresh CMS registry (programme videos/PDFs) on each request — build-time static cache was missing uploads. */
+/** Fresh CMS registry (programme videos/PDFs) on each request; build-time static cache was missing uploads. */
 export const dynamic = 'force-dynamic';
 
 export function generateStaticParams() {
