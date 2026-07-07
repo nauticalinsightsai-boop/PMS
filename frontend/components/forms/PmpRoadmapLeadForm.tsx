@@ -34,6 +34,7 @@ import { resolveHomeHeroForm, type HomeHeroForm } from '@pms/site-content';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
 import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing';
 import { resolvePortalQuoteSurface } from '@/lib/channel-landing-pages/portalQuoteSurface';
+import { portalThemeToCssVars } from '@/lib/channel-landing-pages/resolvePortalTheme';
 import PortalButton from '@/components/channel-landing/portal/primitives/PortalButton';
 import PortalSectionHead from '@/components/channel-landing/portal/primitives/PortalSectionHead';
 
@@ -98,6 +99,28 @@ function portalFieldStyle(theme: PlatformPortalTheme): React.CSSProperties {
     color: theme.text,
   };
 }
+
+/** Dial-code listbox: portaled outside .portal-root, so carry full portal tokens on the popup. */
+function portalSelectContentStyle(theme: PlatformPortalTheme): React.CSSProperties {
+  return {
+    ...portalThemeToCssVars(theme),
+    backgroundColor: theme.surface,
+    color: theme.text,
+    border: `1px solid ${theme.cardBorder}`,
+    borderRadius: theme.radius,
+    boxShadow: '0 12px 40px rgb(0 0 0 / 0.45)',
+  };
+}
+
+const PORTAL_SELECT_CONTENT_CLASS =
+  'border shadow-xl ring-0 bg-[var(--portal-surface)] text-[var(--portal-text)] ' +
+  '[&_[data-slot=select-item]:focus]:bg-[var(--portal-surface-muted)] ' +
+  '[&_[data-slot=select-item]:focus]:text-[var(--portal-text)] ' +
+  '[&_[data-slot=select-item][data-highlighted]]:bg-[var(--portal-surface-muted)] ' +
+  '[&_[data-slot=select-item][data-highlighted]]:text-[var(--portal-text)] ' +
+  '[&_[data-slot=select-scroll-up-button]]:bg-[var(--portal-surface)] ' +
+  '[&_[data-slot=select-scroll-down-button]]:bg-[var(--portal-surface)] ' +
+  '[&_[data-slot=select-item]_svg]:text-[var(--portal-primary)]';
 
 function portalCtaBackground(theme: PlatformPortalTheme): string {
   const bg =
@@ -838,6 +861,7 @@ export function PmpRoadmapLeadForm({
                   className={cn(
                     '!h-full min-h-0 w-[6.75rem] shrink-0 self-stretch rounded-none border-0 border-r bg-transparent px-2 py-0 shadow-none focus-visible:ring-0 data-[size=default]:!h-full items-center *:data-[slot=select-value]:justify-center *:data-[slot=select-value]:text-center',
                     !isPortalThemed && 'border-input dark:bg-transparent',
+                    isPortalThemed && '[&_svg]:text-[var(--portal-text-muted)]',
                   )}
                   style={
                     isPortalThemed && portalTheme
@@ -851,12 +875,25 @@ export function PmpRoadmapLeadForm({
                   alignItemWithTrigger={false}
                   side="bottom"
                   align="start"
-                  className="!w-auto min-w-[18rem] max-h-[min(16rem,50vh)] max-w-[min(22rem,calc(100vw-2rem))] overflow-y-auto"
+                  className={cn(
+                    '!w-auto min-w-[18rem] max-h-[min(16rem,50vh)] max-w-[min(22rem,calc(100vw-2rem))] overflow-y-auto',
+                    isPortalThemed && PORTAL_SELECT_CONTENT_CLASS,
+                  )}
+                  style={
+                    isPortalThemed && portalTheme ? portalSelectContentStyle(portalTheme) : undefined
+                  }
                 >
                   {PMP_ROADMAP_DIAL_CODES.map((d) => (
                     <SelectItem key={d.value} value={d.value} className="py-2">
                       <span className="shrink-0 font-semibold tabular-nums">{formatDialPrefix(d)}</span>
-                      <span className={cn('truncate', !isPortalThemed && 'text-slate-500')}>{d.label}</span>
+                      <span
+                        className={cn('truncate', !isPortalThemed && 'text-slate-500')}
+                        style={
+                          isPortalThemed && portalTheme ? { color: portalTheme.textMuted } : undefined
+                        }
+                      >
+                        {d.label}
+                      </span>
                     </SelectItem>
                   ))}
                 </SelectContent>

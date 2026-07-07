@@ -190,5 +190,11 @@ export function portalThemeToCssVars(theme: PlatformPortalTheme): Record<string,
     '--foreground': theme.text,
     '--muted-foreground': theme.textMuted,
     '--card-foreground': theme.text,
+    /* Popovers portaled outside .portal-root (e.g. roadmap dial select) */
+    '--popover': theme.surface,
+    '--popover-foreground': theme.text,
+    '--accent': theme.surfaceMuted,
+    '--accent-foreground': theme.text,
+    '--border': theme.cardBorder,
   }
 }
