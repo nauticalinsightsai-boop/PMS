@@ -22,6 +22,7 @@ import ChannelPortalSocialFooter from '@/components/channel-landing/ChannelPorta
 import ChannelPortalPresenceStrip from '@/components/channel-landing/portal/ChannelPortalPresenceStrip'
 import ChannelPortalHeroHeader from '@/components/channel-landing/portal/ChannelPortalHeroHeader'
 import ChannelPortalContextSection from '@/components/channel-landing/portal/ChannelPortalContextSection'
+import ChannelPortalRoadmapForm from '@/components/channel-landing/portal/ChannelPortalRoadmapForm'
 import ChannelPortalWebinarMedia from '@/components/channel-landing/portal/ChannelPortalWebinarMedia'
 import ChannelPortalTiersSection from '@/components/channel-landing/portal/ChannelPortalTiersSection'
 import ChannelPortalTrustLine from '@/components/channel-landing/portal/ChannelPortalTrustLine'
@@ -130,6 +131,8 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
         return <ChannelPortalHeroHeader key={id} {...props} />
       case 'context':
         return <ChannelPortalContextSection key={id} {...props} />
+      case 'roadmap_form':
+        return <ChannelPortalRoadmapForm key={id} {...props} />
       case 'webinar_media':
         return isWebinarPortal ? <ChannelPortalWebinarMedia key={id} {...props} /> : null
       case 'featured_pathways':

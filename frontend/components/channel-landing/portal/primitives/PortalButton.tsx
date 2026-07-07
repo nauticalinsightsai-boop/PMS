@@ -12,6 +12,7 @@ type Props = {
   onClick?: () => void
   className?: string
   type?: 'button' | 'submit'
+  disabled?: boolean
 }
 
 function bgForVariant(theme: PlatformPortalTheme, variant: Variant): string {
@@ -30,6 +31,7 @@ export default function PortalButton({
   onClick,
   className = '',
   type = 'button',
+  disabled = false,
 }: Props) {
   const bg = bgForVariant(theme, variant)
   const fg =
@@ -43,7 +45,8 @@ export default function PortalButton({
     <button
       type={type}
       onClick={onClick}
-      className={`px-4 py-2.5 text-body-sm font-semibold hover:opacity-90 transition-opacity ${className}`.trim()}
+      disabled={disabled}
+      className={`px-4 py-2.5 text-body-sm font-semibold hover:opacity-90 transition-opacity disabled:pointer-events-none disabled:opacity-60 ${className}`.trim()}
       style={{
         borderRadius: theme.radius,
         background: variant === 'ghost' ? 'transparent' : bg,

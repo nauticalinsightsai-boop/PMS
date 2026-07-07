@@ -62,6 +62,7 @@ export type PortalSectionId =
   | 'presence'
   | 'hero'
   | 'context'
+  | 'roadmap_form'
   | 'webinar_media'
   | 'featured_pathways'
   | 'trust'
@@ -166,6 +167,7 @@ export const PROFESSIONAL_FLOW: PortalSectionId[] = [
   'presence',
   'hero',
   'context',
+  'roadmap_form',
   'webinar_media',
   'featured_pathways',
   'hero_card',

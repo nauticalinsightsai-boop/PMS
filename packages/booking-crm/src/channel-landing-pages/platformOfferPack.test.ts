@@ -312,9 +312,12 @@ describe('PROFESSIONAL_FLOW', () => {
     expect(tiers).toBeGreaterThan(trust)
   })
 
-  it('includes webinar_media after context and pathway_actions after faq', () => {
-    expect(PROFESSIONAL_FLOW.indexOf('webinar_media')).toBe(
+  it('includes roadmap_form after context, webinar_media after roadmap_form, pathway_actions after faq', () => {
+    expect(PROFESSIONAL_FLOW.indexOf('roadmap_form')).toBe(
       PROFESSIONAL_FLOW.indexOf('context') + 1
+    )
+    expect(PROFESSIONAL_FLOW.indexOf('webinar_media')).toBe(
+      PROFESSIONAL_FLOW.indexOf('roadmap_form') + 1
     )
     expect(PROFESSIONAL_FLOW.indexOf('pathway_actions')).toBe(
       PROFESSIONAL_FLOW.indexOf('faq') + 1

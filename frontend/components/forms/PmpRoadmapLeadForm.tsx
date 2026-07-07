@@ -31,6 +31,9 @@ import BrandIconMark from '@/components/BrandIconMark';
 import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { useFormPartialRecovery } from '@/components/conversion-recovery/useFormPartialRecovery';
 import { resolveHomeHeroForm, type HomeHeroForm } from '@pms/site-content';
+import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
+import { resolvePortalQuoteSurface } from '@/lib/channel-landing-pages/portalQuoteSurface';
+import PortalButton from '@/components/channel-landing/portal/primitives/PortalButton';
 
 export type PmpRoadmapFormPlacement =
   | 'home_hero_mobile'
@@ -41,7 +44,8 @@ export type PmpRoadmapFormPlacement =
   | 'cert_pmp_hero'
   | 'cert_pmp_mobile'
   | 'cert_hero'
-  | 'cert_mobile';
+  | 'cert_mobile'
+  | 'channel_portal';
 
 type PmpRoadmapLeadFormProps = {
   placement: PmpRoadmapFormPlacement;
@@ -51,6 +55,11 @@ type PmpRoadmapLeadFormProps = {
   certId?: string;
   certName?: string;
   familyId?: string;
+  /** Channel portal (/go/*): attribution on lead payload */
+  portalChannelId?: string;
+  portalLandingSlug?: string;
+  /** Portal page theme — styles the form to match /go/{slug} chrome */
+  portalTheme?: PlatformPortalTheme;
   /** Homepage hero / insights placements: CMS copy overrides */
   heroCopy?: HomeHeroForm | null;
 };
@@ -65,6 +74,7 @@ const PLACEMENT_LABELS: Record<PmpRoadmapFormPlacement, string> = {
   cert_pmp_mobile: 'PMP certification hero (mobile)',
   cert_hero: 'Certification hero',
   cert_mobile: 'Certification hero (mobile)',
+  channel_portal: 'Channel portal (/go)',
 };
 
 function placementLabel(placement: PmpRoadmapFormPlacement, certName?: string): string {
@@ -76,26 +86,91 @@ function PmsFormHeaderMark({ compact }: { compact: boolean }) {
   return <BrandIconMark size={compact ? 48 : 56} priority />;
 }
 
+function portalFieldStyle(theme: PlatformPortalTheme): React.CSSProperties {
+  return {
+    borderRadius: theme.radius,
+    border: `1px solid ${theme.cardBorder}`,
+    backgroundColor: theme.surface,
+    color: theme.text,
+  };
+}
+
+function portalChipStyle(theme: PlatformPortalTheme, selected: boolean): React.CSSProperties {
+  return selected
+    ? {
+        backgroundColor: theme.primary,
+        color: theme.primaryForeground,
+        border: `1px solid ${theme.primary}`,
+      }
+    : {
+        backgroundColor: theme.surface,
+        color: theme.text,
+        border: `1px solid ${theme.cardBorder}`,
+      };
+}
+
+function RoadmapChoiceChip({
+  selected,
+  onClick,
+  children,
+  portalTheme,
+  className,
+  ...aria
+}: {
+  selected: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+  portalTheme?: PlatformPortalTheme;
+  className?: string;
+  'aria-pressed': boolean;
+  'aria-expanded'?: boolean;
+}) {
+  const isPortal = Boolean(portalTheme);
+  return (
+    <button
+      type="button"
+      className={
+        isPortal
+          ? 'flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-body-sm font-bold transition-colors'
+          : className
+      }
+      style={portalTheme ? portalChipStyle(portalTheme, selected) : undefined}
+      onClick={onClick}
+      {...aria}
+    >
+      {children}
+    </button>
+  );
+}
+
 function FormPrivacyNotice({
   compact,
   privacyPrefix,
   privacyLinkLabel,
+  portalTheme,
 }: {
   compact: boolean;
   privacyPrefix?: string;
   privacyLinkLabel?: string;
+  portalTheme?: PlatformPortalTheme;
 }) {
   const prefix = privacyPrefix ?? 'By submitting, you agree to our';
   const linkLabel = privacyLinkLabel ?? 'Privacy Policy';
   return (
     <p
       className={cn(
-        '!mt-0 text-slate-500 dark:text-slate-400',
+        '!mt-0',
+        !portalTheme && 'text-slate-500 dark:text-slate-400',
         compact ? 'text-[10px] leading-snug' : 'text-[11px] leading-relaxed',
       )}
+      style={portalTheme ? { color: portalTheme.textMuted } : undefined}
     >
       {prefix}{' '}
-      <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
+      <Link
+        href="/legal/privacy"
+        className={cn('font-semibold hover:underline', !portalTheme && 'text-brand-orange')}
+        style={portalTheme ? { color: portalTheme.linkColor } : undefined}
+      >
         {linkLabel}
       </Link>
       .
@@ -110,6 +185,9 @@ export function PmpRoadmapLeadForm({
   certId,
   certName,
   familyId,
+  portalChannelId,
+  portalLandingSlug,
+  portalTheme,
   heroCopy,
 }: PmpRoadmapLeadFormProps) {
   const { regionId, gccCountry } = useRegion();
@@ -120,18 +198,23 @@ export function PmpRoadmapLeadForm({
     placement === 'home_insights' ||
     placement === 'certifications_hub_mobile' ||
     placement === 'certifications_hub_desktop';
+  const isPortalCertRoadmap = placement === 'channel_portal';
+  const isPortalThemed = isPortalCertRoadmap && Boolean(portalTheme);
+  const portalQuoteSurface = portalTheme ? resolvePortalQuoteSurface(portalTheme) : null;
+  const usesHomeRoadmapUi = isHomeForm || isPortalCertRoadmap;
+  const showsCertInterest = usesHomeRoadmapUi;
   const homeFormCopy =
     isHomeForm && (placement === 'home_hero_mobile' || placement === 'home_hero_desktop') && heroCopy
       ? resolveHomeHeroForm(heroCopy)
       : null;
   const certInterestOptions = homeFormCopy?.certOptions ?? HOME_CERT_INTEREST_OPTIONS;
-  const roadmapLabel = isHomeForm ? 'PM certification' : (certName ?? 'PMP®');
+  const roadmapLabel = showsCertInterest ? 'PM certification' : (certName ?? 'PMP®');
   const formTitle = homeFormCopy?.title
-    ?? (isHomeForm
+    ?? (showsCertInterest
       ? 'Build your PM certification roadmap'
       : `Build your ${roadmapLabel} roadmap`);
   const formSubtitle = homeFormCopy?.subtitle
-    ?? (isHomeForm
+    ?? (showsCertInterest
       ? "Share your experience: we'll map a study plan for you."
       : `Share your experience: we'll map a ${certName ? certName : 'PMP'} study plan for you.`);
 
@@ -155,7 +238,7 @@ export function PmpRoadmapLeadForm({
   const partialVariant: LeadRecoveryVariant =
     placement === 'home_insights'
       ? 'home_insights_partial'
-      : placement.startsWith('cert')
+      : placement.startsWith('cert') && certId
         ? 'cert_roadmap_partial'
         : 'home_roadmap_partial';
 
@@ -181,7 +264,11 @@ export function PmpRoadmapLeadForm({
       trackRoadmapFormStart({
         formPlacement: placement,
         regionGroup: mapRegionIdToAnalyticsRegion(regionId),
-        certification: certId === 'pmp' || certName?.includes('PMP') ? 'PMP' : certName,
+        certification: showsCertInterest
+          ? resolvedCertInterest || 'unknown'
+          : certId === 'pmp' || certName?.includes('PMP')
+            ? 'PMP'
+            : certName,
         buyerType: 'unknown',
         examRoute: 'unknown',
       });
@@ -189,12 +276,15 @@ export function PmpRoadmapLeadForm({
   };
 
   const shellClass = cn(
-    'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
-    (placement === 'home_hero_mobile' || placement === 'home_hero_desktop') &&
-      'min-h-[420px] sm:min-h-[440px]',
-    variant === 'cert'
-      ? 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800'
-      : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 shadow-slate-900/10 dark:shadow-black/30',
+    !isPortalThemed &&
+      cn(
+        'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
+        (placement === 'home_hero_mobile' || placement === 'home_hero_desktop') &&
+          'min-h-[420px] sm:min-h-[440px]',
+        variant === 'cert'
+          ? 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800'
+          : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 shadow-slate-900/10 dark:shadow-black/30',
+      ),
     className,
   );
 
@@ -211,6 +301,7 @@ export function PmpRoadmapLeadForm({
     placement === 'cert_pmp_mobile' ||
     placement === 'cert_mobile';
   const isExpandedForm = !isCompact && !isCertHeroDesktop;
+  const useHeroFormHeader = isExpandedForm || isPortalCertRoadmap;
   const labelClass = cn(
     'font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide',
     isCertHeroDesktop || isCertMobileForm ? 'text-[11px]' : 'text-[11px] sm:text-xs',
@@ -262,7 +353,7 @@ export function PmpRoadmapLeadForm({
   const certMobileSectionPad = isCertMobileForm ? 'pt-[10px]' : '';
   const legendClass = cn(
     labelClass,
-    isExpandedForm ? 'mb-2.5' : isCertMobileForm ? 'mb-2' : isCertHeroDesktop ? 'mb-1.5' : 'mb-1.5',
+    isPortalThemed ? 'mb-0' : isExpandedForm ? 'mb-2.5' : isCertMobileForm ? 'mb-2' : 'mb-1.5',
   );
   const certHeroBodyGap = 'gap-5';
   const certHeroContactGap = 'gap-4';
@@ -318,9 +409,10 @@ export function PmpRoadmapLeadForm({
     touchField();
   };
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isHomeForm) {
+    if (showsCertInterest) {
       if (!certInterest) {
         setError('Please select a certification or enter Other.');
         return;
@@ -341,19 +433,21 @@ export function PmpRoadmapLeadForm({
     const dialCode = dialOption.code;
     const phoneFull = `${dialCode} ${phone.trim()}`.trim();
     const res = await submitPublicInteraction({
-      source: certId ? 'cert_roadmap_lead' : 'pmp_roadmap_lead',
+      source: showsCertInterest && !certId ? 'pmp_roadmap_lead' : certId ? 'cert_roadmap_lead' : 'pmp_roadmap_lead',
       subject: `${roadmapLabel} roadmap: ${placementLabel(placement, certName)}`,
       email,
       website: honeypot,
       formContext: {
-        formId: certId ? 'cert_roadmap_lead' : 'pmp_roadmap_lead',
-        formLabel: isHomeForm ? 'PM certification roadmap' : `${certName ?? 'PMP'} roadmap`,
+        formId: showsCertInterest && !certId ? 'pmp_roadmap_lead' : certId ? 'cert_roadmap_lead' : 'pmp_roadmap_lead',
+        formLabel: showsCertInterest ? 'PM certification roadmap' : `${certName ?? 'PMP'} roadmap`,
         placement: placementLabel(placement, certName),
         pagePath,
         siteCertId: certId,
-        certName: isHomeForm ? undefined : (certName ?? 'PMP'),
-        certificationInterest: isHomeForm ? resolvedCertInterest : undefined,
+        certName: showsCertInterest ? undefined : (certName ?? 'PMP'),
+        certificationInterest: showsCertInterest ? resolvedCertInterest : undefined,
         regionId,
+        channelId: portalChannelId,
+        landingSlug: portalLandingSlug,
       },
       payload: {
         fullName,
@@ -362,17 +456,19 @@ export function PmpRoadmapLeadForm({
         phone,
         phoneFull,
         whatsapp: phoneFull,
-        role: isHomeForm ? undefined : role || undefined,
+        role: usesHomeRoadmapUi ? undefined : role || undefined,
         jobExperienceYears: jobExperience,
-        dailyStudyTime: isHomeForm ? undefined : dailyStudyTime || undefined,
-        certificationInterest: isHomeForm ? resolvedCertInterest : undefined,
-        certificationInterestType: isHomeForm ? certInterest : undefined,
+        dailyStudyTime: usesHomeRoadmapUi ? undefined : dailyStudyTime || undefined,
+        certificationInterest: showsCertInterest ? resolvedCertInterest : undefined,
+        certificationInterestType: showsCertInterest ? certInterest : undefined,
         certificationInterestOther:
-          isHomeForm && certInterest === 'other' ? certInterestOther.trim() : undefined,
+          showsCertInterest && certInterest === 'other' ? certInterestOther.trim() : undefined,
         placement,
         siteCertId: certId,
-        certName: certName ?? (isHomeForm ? undefined : 'PMP'),
+        certName: certName ?? (showsCertInterest ? undefined : 'PMP'),
         gccCountry: gccCountry ?? undefined,
+        channelId: portalChannelId,
+        landingSlug: portalLandingSlug,
       },
     });
 
@@ -381,7 +477,11 @@ export function PmpRoadmapLeadForm({
       trackRoadmapLeadSubmit({
         formPlacement: placement,
         regionGroup: mapRegionIdToAnalyticsRegion(regionId),
-        certification: certId === 'pmp' || certName?.includes('PMP') ? 'PMP' : certName,
+        certification: showsCertInterest
+          ? resolvedCertInterest || 'unknown'
+          : certId === 'pmp' || certName?.includes('PMP')
+            ? 'PMP'
+            : certName,
         buyerType: role?.toLowerCase().includes('corporate') ? 'corporate' : 'individual',
         examRoute: 'unknown',
       });
@@ -395,13 +495,23 @@ export function PmpRoadmapLeadForm({
   if (submitted) {
     return (
       <div className={cn(shellClass, 'p-8 sm:p-10')}>
-        <p className="text-base font-semibold text-green-700 dark:text-green-400">
+        <p
+          className={cn('text-base font-semibold', !isPortalThemed && 'text-green-700 dark:text-green-400')}
+          style={isPortalThemed && portalTheme ? { color: portalTheme.primary } : undefined}
+        >
           {homeFormCopy?.successMessage ??
             `Thanks: we received your details and will follow up with your ${roadmapLabel} roadmap.`}
         </p>
-        <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+        <p
+          className={cn('mt-3 text-sm', !isPortalThemed && 'text-slate-500 dark:text-slate-400')}
+          style={isPortalThemed && portalTheme ? { color: portalTheme.textMuted } : undefined}
+        >
           Questions?{' '}
-          <Link href="/contact" className="font-bold text-brand-orange hover:underline">
+          <Link
+            href="/contact"
+            className={cn('font-bold hover:underline', !isPortalThemed && 'text-brand-orange')}
+            style={isPortalThemed && portalTheme ? { color: portalTheme.linkColor } : undefined}
+          >
             Contact us
           </Link>
         </p>
@@ -410,32 +520,45 @@ export function PmpRoadmapLeadForm({
   }
 
   return (
-    <div className={cn(shellClass, isCertHeroDesktop && 'flex min-h-[756px] flex-col')}>
+    <div className={cn(shellClass, isCertHeroDesktop && 'flex min-h-[756px] flex-col')} data-portal-form={isPortalThemed || undefined}>
       <form
         onSubmit={handleSubmit}
         className={cn(
           'flex flex-col',
           isCertHeroDesktop && 'min-h-0 flex-1',
-          isExpandedForm && 'max-lg:max-h-none lg:max-h-[min(90vh,52rem)]',
+          isExpandedForm && !isPortalThemed && 'max-lg:max-h-none lg:max-h-[min(90vh,52rem)]',
         )}
         aria-labelledby={`${idPrefix}-title`}
       >
         <div
           className={cn(
-            formHeaderClass,
-            isCertHeroDesktop
-              ? 'px-5 py-4 sm:px-6'
-              : isCertMobileForm
-                ? 'px-5 py-5 sm:px-6'
-                : isCompact
-                  ? 'px-5 py-4 sm:px-6'
-                  : 'px-5 py-5 sm:px-6 sm:py-6',
+            'shrink-0 border-b',
+            !isPortalThemed && formHeaderClass,
+            isPortalThemed
+              ? 'px-5 sm:px-6 pt-0 pb-4 sm:pb-5'
+              : isCertHeroDesktop
+                ? 'px-5 py-4 sm:px-6'
+                : useHeroFormHeader
+                  ? 'px-5 py-5 sm:px-6 sm:py-6'
+                  : isCertMobileForm
+                    ? 'px-5 py-5 sm:px-6'
+                    : isCompact
+                      ? 'px-5 py-4 sm:px-6'
+                      : 'px-5 py-5 sm:px-6 sm:py-6',
           )}
+          style={
+            isPortalThemed && portalQuoteSurface
+              ? {
+                  backgroundColor: portalQuoteSurface.backgroundColor,
+                  borderColor: portalQuoteSurface.borderColor,
+                }
+              : undefined
+          }
         >
           <div className="flex items-start gap-3 sm:gap-4">
-            {!isMobilePlacement ? (
-              isHomeForm || !familyId ? (
-                <PmsFormHeaderMark compact={isCompact} />
+            {!isMobilePlacement && !isPortalThemed ? (
+              showsCertInterest || !familyId ? (
+                <PmsFormHeaderMark compact={!useHeroFormHeader} />
               ) : (
                 <div
                   className={cn(
@@ -460,18 +583,23 @@ export function PmpRoadmapLeadForm({
               <p
                 id={`${idPrefix}-title`}
                 className={cn(
-                  'font-heading font-bold tracking-tight text-slate-900 dark:text-white',
-                  isCompact ? 'text-base sm:text-lg' : 'text-lg sm:text-xl',
+                  'font-heading font-bold tracking-tight',
+                  !isPortalThemed && 'text-slate-900 dark:text-white',
+                  useHeroFormHeader ? 'text-lg sm:text-xl' : isCompact ? 'text-base sm:text-lg' : 'text-lg sm:text-xl',
                 )}
+                style={isPortalThemed && portalTheme ? { color: portalTheme.text } : undefined}
               >
                 {formTitle}
               </p>
               <p
                 className={cn(
-                  'mt-0.5 font-medium text-slate-500 dark:text-slate-400',
-                  isCompact ? 'text-xs sm:text-sm' : 'text-sm',
+                  'font-medium',
+                  !isPortalThemed && 'mt-0.5 text-slate-500 dark:text-slate-400',
+                  isPortalThemed && 'mt-0',
+                  useHeroFormHeader ? 'text-sm' : isCompact ? 'text-xs sm:text-sm' : 'text-sm',
                   placement === 'home_hero_mobile' ? 'hidden sm:block' : undefined,
                 )}
+                style={isPortalThemed && portalTheme ? { color: portalTheme.textMuted } : undefined}
               >
                 {formSubtitle}
               </p>
@@ -490,21 +618,27 @@ export function PmpRoadmapLeadForm({
                 ? 'space-y-4 px-5 py-6 sm:px-6'
                 : isCompact
                   ? 'space-y-2.5 px-5 py-4 sm:px-6'
-                  : cn(
-                    'px-5 py-6 sm:px-6 sm:py-7 space-y-5 sm:space-y-6',
-                    'lg:min-h-0 lg:flex-1 lg:overflow-y-auto',
-                  ),
+                  : isPortalThemed
+                    ? 'px-5 sm:px-6 pt-4 sm:pt-5 pb-0 space-y-5 sm:space-y-6'
+                    : cn(
+                      'px-5 py-6 sm:px-6 sm:py-7 space-y-5 sm:space-y-6',
+                      'lg:min-h-0 lg:flex-1 lg:overflow-y-auto',
+                    ),
           )}
         >
           <div
             className={cn(
               isCertHeroDesktop && cn('flex w-full shrink-0 flex-col', certHeroContactGap),
-              isExpandedForm && isHomeForm && 'flex flex-col gap-5 sm:gap-6',
-              !isCertHeroDesktop && !(isExpandedForm && isHomeForm) && 'contents',
+              isExpandedForm && usesHomeRoadmapUi && 'flex flex-col gap-5 sm:gap-6',
+              !isCertHeroDesktop && !(isExpandedForm && usesHomeRoadmapUi) && 'contents',
             )}
           >
           <div className={fieldGroupClass}>
-            <Label htmlFor={`${idPrefix}-name`} className={labelClass}>
+            <Label
+              htmlFor={`${idPrefix}-name`}
+              className={labelClass}
+              style={isPortalThemed && portalTheme ? { color: portalTheme.textMuted } : undefined}
+            >
               {homeFormCopy?.fullNameLabel ?? 'Full Name'}
             </Label>
             <Input
@@ -516,29 +650,45 @@ export function PmpRoadmapLeadForm({
                 touchField();
               }}
               placeholder={homeFormCopy?.fullNamePlaceholder ?? 'John Smith'}
-              className={fieldClass}
+              className={cn(fieldClass, isPortalThemed && 'text-body-sm shadow-none focus-visible:ring-1')}
+              style={isPortalThemed && portalTheme ? portalFieldStyle(portalTheme) : undefined}
             />
           </div>
 
           <div className={cn(fieldGroupClass, certMobileSectionPad)}>
-            <Label htmlFor={`${idPrefix}-phone`} className={labelClass}>
+            <Label
+              htmlFor={`${idPrefix}-phone`}
+              className={labelClass}
+              style={isPortalThemed && portalTheme ? { color: portalTheme.textMuted } : undefined}
+            >
               {homeFormCopy?.mobileLabel ?? 'Mobile Number'}
             </Label>
             <div
               className={cn(
-                'flex items-stretch overflow-hidden rounded-lg border border-input bg-transparent focus-within:border-brand-orange/50 focus-within:ring-3 focus-within:ring-brand-orange/30 dark:bg-input/30',
+                'flex items-stretch overflow-hidden rounded-lg border bg-transparent',
+                !isPortalThemed &&
+                  'border-input focus-within:border-brand-orange/50 focus-within:ring-3 focus-within:ring-brand-orange/30 dark:bg-input/30',
                 isCertHeroDesktop || isCertMobileForm
                   ? certHeroControlHeight
                   : isCompact
                     ? 'h-9'
                     : 'h-10',
               )}
+              style={isPortalThemed && portalTheme ? portalFieldStyle(portalTheme) : undefined}
             >
               <Select value={dialValue} onValueChange={(v) => v && setDialValue(v)}>
                 <SelectTrigger
                   id={`${idPrefix}-dial`}
                   aria-label="Country code"
-                  className="!h-full min-h-0 w-[6.75rem] shrink-0 self-stretch rounded-none border-0 border-r border-input bg-transparent px-2 py-0 shadow-none focus-visible:ring-0 dark:bg-transparent data-[size=default]:!h-full items-center *:data-[slot=select-value]:justify-center *:data-[slot=select-value]:text-center"
+                  className={cn(
+                    '!h-full min-h-0 w-[6.75rem] shrink-0 self-stretch rounded-none border-0 border-r bg-transparent px-2 py-0 shadow-none focus-visible:ring-0 data-[size=default]:!h-full items-center *:data-[slot=select-value]:justify-center *:data-[slot=select-value]:text-center',
+                    !isPortalThemed && 'border-input dark:bg-transparent',
+                  )}
+                  style={
+                    isPortalThemed && portalTheme
+                      ? { borderColor: portalTheme.cardBorder, color: portalTheme.text }
+                      : undefined
+                  }
                 >
                   <SelectValue>{formatDialPrefix(dialOption)}</SelectValue>
                 </SelectTrigger>
@@ -551,7 +701,7 @@ export function PmpRoadmapLeadForm({
                   {PMP_ROADMAP_DIAL_CODES.map((d) => (
                     <SelectItem key={d.value} value={d.value} className="py-2">
                       <span className="shrink-0 font-semibold tabular-nums">{formatDialPrefix(d)}</span>
-                      <span className="truncate text-slate-500">{d.label}</span>
+                      <span className={cn('truncate', !isPortalThemed && 'text-slate-500')}>{d.label}</span>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -566,13 +716,18 @@ export function PmpRoadmapLeadForm({
                   touchField();
                 }}
                 placeholder={homeFormCopy?.mobilePlaceholder ?? '50 123 4567'}
-                className="h-full min-w-0 flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0"
+                className="h-full min-w-0 flex-1 rounded-none border-0 bg-transparent text-body-sm shadow-none focus-visible:ring-0"
+                style={isPortalThemed && portalTheme ? { color: portalTheme.text } : undefined}
               />
             </div>
           </div>
 
           <div className={cn(fieldGroupClass, certMobileSectionPad)}>
-            <Label htmlFor={`${idPrefix}-email`} className={labelClass}>
+            <Label
+              htmlFor={`${idPrefix}-email`}
+              className={labelClass}
+              style={isPortalThemed && portalTheme ? { color: portalTheme.textMuted } : undefined}
+            >
               {homeFormCopy?.emailLabel ?? 'Email Address'}
             </Label>
             <Input
@@ -585,11 +740,12 @@ export function PmpRoadmapLeadForm({
                 touchField();
               }}
               placeholder={homeFormCopy?.emailPlaceholder ?? 'john@example.com'}
-              className={fieldClass}
+              className={cn(fieldClass, isPortalThemed && 'text-body-sm shadow-none focus-visible:ring-1')}
+              style={isPortalThemed && portalTheme ? portalFieldStyle(portalTheme) : undefined}
             />
           </div>
 
-          {!isHomeForm ? (
+          {!usesHomeRoadmapUi ? (
             <div className={cn(fieldGroupClass, certMobileSectionPad)}>
               <Label htmlFor={`${idPrefix}-role`} className={labelClass}>
                 Role / Job Title
@@ -605,34 +761,57 @@ export function PmpRoadmapLeadForm({
           ) : null}
           </div>
 
-          {isHomeForm ? (
-            <div className="space-y-0">
-              <fieldset className="m-0 min-w-0 border-0 p-0">
-                <legend className={legendClass}>
-                  {homeFormCopy?.certInterestLabel ?? 'Which certification are you interested in?'}{' '}
-                  <span className="text-brand-orange">*</span>
-                </legend>
-                <div className="flex flex-wrap gap-2.5 sm:gap-3" role="group" aria-label="Certification interest">
+          {usesHomeRoadmapUi ? (
+            <div className={cn(isPortalThemed ? 'flex flex-col gap-5 sm:gap-6' : 'space-y-0')}>
+              <fieldset
+                className={cn(
+                  'm-0 min-w-0 border-0 p-0',
+                  isPortalThemed && 'flex flex-col gap-2.5',
+                )}
+              >
+                {isPortalThemed ? (
+                  <legend className="contents">
+                    <span
+                      className={cn(labelClass, 'mb-0 block w-full pb-0 leading-none')}
+                      style={portalTheme ? { color: portalTheme.textMuted } : undefined}
+                    >
+                      {homeFormCopy?.certInterestLabel ?? 'Which certification are you interested in?'}{' '}
+                      <span style={portalTheme ? { color: portalTheme.primary } : undefined}>*</span>
+                    </span>
+                  </legend>
+                ) : (
+                  <legend className={legendClass}>
+                    {homeFormCopy?.certInterestLabel ?? 'Which certification are you interested in?'}{' '}
+                    <span className="text-brand-orange">*</span>
+                  </legend>
+                )}
+                <div
+                  className="flex flex-wrap gap-2.5 sm:gap-3"
+                  role="group"
+                  aria-label="Certification interest"
+                >
                   {certInterestOptions.map((o) => (
-                    <button
+                    <RoadmapChoiceChip
                       key={o.value}
-                      type="button"
+                      selected={certInterest === o.value}
+                      portalTheme={isPortalThemed ? portalTheme : undefined}
                       className={toggleOptionClass(certInterest === o.value)}
                       aria-pressed={certInterest === o.value}
                       onClick={() => toggleCertInterest(o.value as HomeCertInterestValue)}
                     >
                       {o.label}
-                    </button>
+                    </RoadmapChoiceChip>
                   ))}
-                  <button
-                    type="button"
+                  <RoadmapChoiceChip
+                    selected={certInterest === 'other'}
+                    portalTheme={isPortalThemed ? portalTheme : undefined}
                     className={toggleOptionClass(certInterest === 'other')}
                     aria-pressed={certInterest === 'other'}
                     aria-expanded={certInterest === 'other'}
                     onClick={() => toggleCertInterest('other')}
                   >
                     {homeFormCopy?.otherCertLabel ?? 'Other'}
-                  </button>
+                  </RoadmapChoiceChip>
                 </div>
                 {certInterest === 'other' ? (
                   <div className="mt-3">
@@ -644,7 +823,8 @@ export function PmpRoadmapLeadForm({
                       value={certInterestOther}
                       onChange={(e) => setCertInterestOther(e.target.value)}
                       placeholder={homeFormCopy?.otherCertPlaceholder ?? 'Specify another certification'}
-                      className={fieldClass}
+                      className={cn(fieldClass, isPortalThemed && 'text-body-sm shadow-none focus-visible:ring-1')}
+                      style={isPortalThemed && portalTheme ? portalFieldStyle(portalTheme) : undefined}
                       required
                     />
                   </div>
@@ -652,22 +832,46 @@ export function PmpRoadmapLeadForm({
               </fieldset>
 
               {certInterest ? (
-                <fieldset className={cn('m-0 mb-0 min-w-0 space-y-0 border-0 mt-6 sm:mt-8', experienceFieldsetPad)}>
-                  <legend className={cn(labelClass, 'mb-2.5')}>
-                    {homeFormCopy?.experienceLabel ?? 'Years of Total Job Experience'}{' '}
-                    <span className="text-brand-orange">*</span>
-                  </legend>
-                  <div className="flex flex-wrap gap-2.5 sm:gap-3" role="group" aria-label="Years of total job experience">
+                <fieldset
+                  className={cn(
+                    'm-0 mb-0 min-w-0 space-y-0 border-0 p-0 pb-0',
+                    !isPortalThemed && 'mt-6 sm:mt-8',
+                    !isPortalThemed && experienceFieldsetPad,
+                    isPortalThemed && 'flex flex-col gap-2.5',
+                  )}
+                >
+                  {isPortalThemed ? (
+                    <legend className="contents">
+                      <span
+                        className={cn(labelClass, 'mb-0 block w-full pb-0 leading-none')}
+                        style={portalTheme ? { color: portalTheme.textMuted } : undefined}
+                      >
+                        {homeFormCopy?.experienceLabel ?? 'Years of Total Job Experience'}{' '}
+                        <span style={portalTheme ? { color: portalTheme.primary } : undefined}>*</span>
+                      </span>
+                    </legend>
+                  ) : (
+                    <legend className={cn(labelClass, 'mb-2.5')}>
+                      {homeFormCopy?.experienceLabel ?? 'Years of Total Job Experience'}{' '}
+                      <span className="text-brand-orange">*</span>
+                    </legend>
+                  )}
+                  <div
+                    className="flex flex-wrap gap-2.5 sm:gap-3"
+                    role="group"
+                    aria-label="Years of total job experience"
+                  >
                     {PMP_JOB_EXPERIENCE_OPTIONS.map((o) => (
-                      <button
+                      <RoadmapChoiceChip
                         key={o.value}
-                        type="button"
+                        selected={jobExperience === o.value}
+                        portalTheme={isPortalThemed ? portalTheme : undefined}
                         className={toggleOptionClass(jobExperience === o.value)}
                         aria-pressed={jobExperience === o.value}
                         onClick={() => toggleJobExperience(o.value)}
                       >
                         {o.label}
-                      </button>
+                      </RoadmapChoiceChip>
                     ))}
                   </div>
                 </fieldset>
@@ -735,18 +939,27 @@ export function PmpRoadmapLeadForm({
             />
           </div>
 
-          {error ? <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p> : null}
+          {error ? (
+            <p
+              className={cn('text-sm font-medium', !isPortalThemed && 'text-red-600 dark:text-red-400')}
+              style={isPortalThemed && portalTheme ? { color: portalTheme.primary } : undefined}
+            >
+              {error}
+            </p>
+          ) : null}
 
           <FormPrivacyNotice
             compact={isCompact}
             privacyPrefix={homeFormCopy?.privacyPrefix}
             privacyLinkLabel={homeFormCopy?.privacyLinkLabel}
+            portalTheme={isPortalThemed ? portalTheme : undefined}
           />
         </div>
 
         <div
           className={cn(
-            'shrink-0 border-t border-slate-100 dark:border-slate-800 sm:px-6',
+            'shrink-0 border-t sm:px-6',
+            !isPortalThemed && 'border-slate-100 dark:border-slate-800',
             isCertHeroDesktop
               ? 'mt-auto px-5 py-4 sm:py-5'
               : isCertMobileForm
@@ -755,7 +968,18 @@ export function PmpRoadmapLeadForm({
                   ? 'px-5 py-3'
                   : 'px-5 py-5 sm:px-6',
           )}
+          style={isPortalThemed && portalTheme ? { borderColor: portalTheme.cardBorder } : undefined}
         >
+          {isPortalThemed && portalTheme ? (
+            <PortalButton
+              type="submit"
+              theme={portalTheme}
+              disabled={submitting}
+              className="w-full"
+            >
+              {submitting ? 'Submitting…' : homeFormCopy?.submitLabel ?? 'Get My PM Roadmap'}
+            </PortalButton>
+          ) : (
           <Button
             type="submit"
             disabled={submitting}
@@ -770,8 +994,9 @@ export function PmpRoadmapLeadForm({
                     : 'h-12 text-base',
             )}
           >
-            {submitting ? 'Submitting…' : homeFormCopy?.submitLabel ?? (isHomeForm ? 'Get My PM Roadmap' : 'Submit')}
+            {submitting ? 'Submitting…' : homeFormCopy?.submitLabel ?? (usesHomeRoadmapUi ? 'Get My PM Roadmap' : 'Submit')}
           </Button>
+          )}
         </div>
       </form>
     </div>
