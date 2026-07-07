@@ -32,8 +32,10 @@ import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRe
 import { useFormPartialRecovery } from '@/components/conversion-recovery/useFormPartialRecovery';
 import { resolveHomeHeroForm, type HomeHeroForm } from '@pms/site-content';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
+import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing';
 import { resolvePortalQuoteSurface } from '@/lib/channel-landing-pages/portalQuoteSurface';
 import PortalButton from '@/components/channel-landing/portal/primitives/PortalButton';
+import PortalSectionHead from '@/components/channel-landing/portal/primitives/PortalSectionHead';
 
 export type PmpRoadmapFormPlacement =
   | 'home_hero_mobile'
@@ -62,6 +64,8 @@ type PmpRoadmapLeadFormProps = {
   portalTheme?: PlatformPortalTheme;
   /** Homepage hero / insights placements: CMS copy overrides */
   heroCopy?: HomeHeroForm | null;
+  /** Channel portal: title/subtitle rendered outside the card by {@link ChannelPortalRoadmapForm} */
+  omitPortalSectionHead?: boolean;
 };
 
 const PLACEMENT_LABELS: Record<PmpRoadmapFormPlacement, string> = {
@@ -95,30 +99,79 @@ function portalFieldStyle(theme: PlatformPortalTheme): React.CSSProperties {
   };
 }
 
-function portalChipStyle(theme: PlatformPortalTheme, selected: boolean): React.CSSProperties {
-  return selected
-    ? {
-        backgroundColor: theme.primary,
-        color: theme.primaryForeground,
-        border: `1px solid ${theme.primary}`,
-      }
-    : {
-        backgroundColor: theme.surface,
-        color: theme.text,
-        border: `1px solid ${theme.cardBorder}`,
-      };
+function portalCtaBackground(theme: PlatformPortalTheme): string {
+  const bg =
+    typeof theme.recommendedBg === 'string' && !theme.recommendedBg.includes('gradient')
+      ? theme.recommendedBg
+      : theme.primary;
+  return bg;
 }
 
-const portalChoiceRowClass = 'grid grid-cols-4 gap-1 max-sm:gap-1 sm:flex sm:flex-wrap sm:gap-3';
+function portalChipStyle(theme: PlatformPortalTheme, selected: boolean): React.CSSProperties {
+  const accentBg = portalCtaBackground(theme);
+  const accentFg = theme.recommendedText ?? pickReadableForeground(accentBg);
+  const base = { borderRadius: theme.radius };
+  if (selected) {
+    return {
+      ...base,
+      backgroundColor: accentBg,
+      color: accentFg,
+      borderWidth: 0,
+      borderStyle: 'none',
+    };
+  }
+  return {
+    ...base,
+    backgroundColor: theme.surface,
+    color: theme.text,
+    borderWidth: 0,
+    borderStyle: 'none',
+  };
+}
+
+const portalChoiceRowClass = 'grid grid-cols-4 gap-2 max-sm:gap-2 sm:flex sm:flex-wrap sm:gap-3';
+const portalCertChoiceRowClass =
+  'grid grid-cols-3 gap-2 max-sm:gap-2 sm:flex sm:flex-wrap sm:gap-3';
+const portalExperienceChoiceRowClass =
+  'grid grid-cols-3 gap-2 max-sm:gap-2 sm:flex sm:flex-wrap sm:gap-3';
 const portalChoiceChipClass =
-  'flex min-w-0 w-full cursor-pointer items-center justify-center rounded-lg border font-bold transition-colors max-sm:px-1 max-sm:py-1.5 max-sm:text-[9px] max-sm:leading-none max-sm:whitespace-nowrap sm:flex-1 sm:px-3 sm:py-2.5 sm:text-body-sm';
+  'flex h-10 min-w-0 w-full cursor-pointer items-center justify-center rounded-lg border-none border-0 text-body-sm font-bold leading-none shadow-none transition-colors max-sm:px-2 max-sm:text-xs max-sm:whitespace-nowrap sm:flex-1 sm:px-3';
+
+/** Portal mobile: merge under-3 and 3-5 into one chip to fit one row. */
+const PORTAL_MOBILE_EXPERIENCE_OPTIONS = [
+  { value: 'under-5', label: '<3-5 yrs' },
+  { value: '5-10', label: '5-10 yrs' },
+  { value: '10-plus', label: '10+ yrs' },
+] as const;
 
 const PORTAL_EXPERIENCE_MOBILE_LABELS: Record<string, string> = {
-  'under-3': '<3 yrs',
-  '3-5': '3-5 yrs',
   '5-10': '5-10 yrs',
   '10-plus': '10+ yrs',
 };
+
+function isPortalMergedExperience(value: string) {
+  return value === 'under-3' || value === '3-5' || value === 'under-5';
+}
+
+function portalExperienceChipSelected(chipValue: string, jobExperience: string) {
+  if (chipValue === 'under-5') return isPortalMergedExperience(jobExperience);
+  return jobExperience === chipValue;
+}
+
+/** Tailwind `sm` — portal experience chips switch layout at this breakpoint. */
+function useIsSmUp() {
+  const [isSmUp, setIsSmUp] = React.useState(false);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia('(min-width: 640px)');
+    const sync = () => setIsSmUp(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  return isSmUp;
+}
 
 function ExperienceChipLabel({
   value,
@@ -136,6 +189,35 @@ function ExperienceChipLabel({
       <span className="sm:hidden">{short}</span>
       <span className="hidden sm:inline">{label}</span>
     </>
+  );
+}
+
+function PortalChoiceSectionLabel({
+  id,
+  mobileLabel,
+  desktopLabel,
+  portalTheme,
+  labelClass,
+}: {
+  id: string;
+  mobileLabel: string;
+  desktopLabel: string;
+  portalTheme?: PlatformPortalTheme;
+  labelClass: string;
+}) {
+  return (
+    <span
+      id={id}
+      className={cn(
+        labelClass,
+        'mb-0 block w-full pb-0 leading-none max-sm:text-[10px] max-sm:whitespace-nowrap',
+      )}
+      style={portalTheme ? { color: portalTheme.textMuted } : undefined}
+    >
+      <span className="sm:hidden">{mobileLabel}</span>
+      <span className="hidden sm:inline">{desktopLabel}</span>{' '}
+      <span style={portalTheme ? { color: portalTheme.primary } : undefined}>*</span>
+    </span>
   );
 }
 
@@ -161,7 +243,7 @@ function RoadmapChoiceChip({
   return (
     <button
       type="button"
-      className={compact ? portalChoiceChipClass : className}
+      className={compact ? cn(portalChoiceChipClass, className) : className}
       style={portalTheme ? portalChipStyle(portalTheme, selected) : undefined}
       onClick={onClick}
       {...aria}
@@ -217,6 +299,7 @@ export function PmpRoadmapLeadForm({
   portalLandingSlug,
   portalTheme,
   heroCopy,
+  omitPortalSectionHead = false,
 }: PmpRoadmapLeadFormProps) {
   const { regionId, gccCountry } = useRegion();
   const idPrefix = [placement, certId].filter(Boolean).join('-').replace(/[^a-z0-9]/gi, '-');
@@ -228,6 +311,8 @@ export function PmpRoadmapLeadForm({
     placement === 'certifications_hub_desktop';
   const isPortalCertRoadmap = placement === 'channel_portal';
   const isPortalThemed = isPortalCertRoadmap && Boolean(portalTheme);
+  const showPortalSectionHead = isPortalThemed && !omitPortalSectionHead;
+  const isSmUp = useIsSmUp();
   const portalQuoteSurface = portalTheme ? resolvePortalQuoteSurface(portalTheme) : null;
   const usesHomeRoadmapUi = isHomeForm || isPortalCertRoadmap;
   const showsCertInterest = usesHomeRoadmapUi;
@@ -236,15 +321,23 @@ export function PmpRoadmapLeadForm({
       ? resolveHomeHeroForm(heroCopy)
       : null;
   const certInterestOptions = homeFormCopy?.certOptions ?? HOME_CERT_INTEREST_OPTIONS;
+  const portalExperienceOptions =
+    isPortalCertRoadmap && !isSmUp ? PORTAL_MOBILE_EXPERIENCE_OPTIONS : PMP_JOB_EXPERIENCE_OPTIONS;
   const roadmapLabel = showsCertInterest ? 'PM certification' : (certName ?? 'PMP®');
   const formTitle = homeFormCopy?.title
     ?? (showsCertInterest
-      ? 'Build your PM certification roadmap'
+      ? 'Build your PM roadmap'
       : `Build your ${roadmapLabel} roadmap`);
   const formSubtitle = homeFormCopy?.subtitle
     ?? (showsCertInterest
       ? "Share your experience: we'll map a study plan for you."
       : `Share your experience: we'll map a ${certName ? certName : 'PMP'} study plan for you.`);
+  const portalCertInterestLabelDesktop =
+    homeFormCopy?.certInterestLabel ?? 'Which certification are you interested in?';
+  const portalCertInterestLabelMobile = 'Certification interest';
+  const portalExperienceLabelDesktop =
+    homeFormCopy?.experienceLabel ?? 'Years of Total Job Experience';
+  const portalExperienceLabelMobile = 'Years of experience';
 
   const [fullName, setFullName] = React.useState('');
   const [dialValue, setDialValue] = React.useState('us');
@@ -261,6 +354,12 @@ export function PmpRoadmapLeadForm({
   const [submitted, setSubmitted] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const formStartedRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (isPortalCertRoadmap && isSmUp && jobExperience === 'under-5') {
+      setJobExperience('');
+    }
+  }, [isPortalCertRoadmap, isSmUp, jobExperience]);
 
   const recovery = useLeadRecoveryOptional();
   const partialVariant: LeadRecoveryVariant =
@@ -418,7 +517,11 @@ export function PmpRoadmapLeadForm({
   };
 
   const toggleJobExperience = (value: string) => {
-    if (jobExperience === value) {
+    const selected =
+      isPortalCertRoadmap && value === 'under-5'
+        ? isPortalMergedExperience(jobExperience)
+        : jobExperience === value;
+    if (selected) {
       setJobExperience('');
       setDailyStudyTime('');
       touchField();
@@ -558,6 +661,7 @@ export function PmpRoadmapLeadForm({
         )}
         aria-labelledby={`${idPrefix}-title`}
       >
+        {!omitPortalSectionHead ? (
         <div
           className={cn(
             'shrink-0 border-b',
@@ -608,38 +712,55 @@ export function PmpRoadmapLeadForm({
               )
             ) : null}
             <div className="min-w-0 flex-1">
-              <p
-                id={`${idPrefix}-title`}
-                className={cn(
-                  'font-heading font-bold tracking-tight',
-                  !isPortalThemed && 'text-slate-900 dark:text-white',
-                  isPortalCertRoadmap
-                    ? 'max-sm:text-[13px] max-sm:leading-4 max-sm:whitespace-nowrap sm:text-xl sm:leading-normal sm:whitespace-normal'
-                    : useHeroFormHeader
-                      ? 'text-lg sm:text-xl'
-                      : isCompact
-                        ? 'text-base sm:text-lg'
-                        : 'text-lg sm:text-xl',
-                )}
-                style={isPortalThemed && portalTheme ? { color: portalTheme.text } : undefined}
-              >
-                {formTitle}
-              </p>
-              <p
-                className={cn(
-                  'font-medium',
-                  !isPortalThemed && 'mt-0.5 text-slate-500 dark:text-slate-400',
-                  isPortalThemed && 'mt-0',
-                  useHeroFormHeader ? 'text-sm' : isCompact ? 'text-xs sm:text-sm' : 'text-sm',
-                  placement === 'home_hero_mobile' ? 'hidden sm:block' : undefined,
-                )}
-                style={isPortalThemed && portalTheme ? { color: portalTheme.textMuted } : undefined}
-              >
-                {formSubtitle}
-              </p>
+              {showPortalSectionHead && portalTheme ? (
+                <PortalSectionHead
+                  theme={portalTheme}
+                  titleId={`${idPrefix}-title`}
+                  titleAs="p"
+                  title={formTitle}
+                  subtitle={
+                    isPortalCertRoadmap ? (
+                      <>
+                        <span className="sm:hidden">we&apos;ll map a study plan for you.</span>
+                        <span className="hidden sm:inline">{formSubtitle}</span>
+                      </>
+                    ) : (
+                      formSubtitle
+                    )
+                  }
+                  className="mb-0"
+                />
+              ) : !isPortalThemed ? (
+                <>
+                  <p
+                    id={`${idPrefix}-title`}
+                    className={cn(
+                      'font-heading font-bold tracking-tight',
+                      'text-slate-900 dark:text-white',
+                      useHeroFormHeader
+                        ? 'text-lg sm:text-xl'
+                        : isCompact
+                          ? 'text-base sm:text-lg'
+                          : 'text-lg sm:text-xl',
+                    )}
+                  >
+                    {formTitle}
+                  </p>
+                  <p
+                    className={cn(
+                      'font-medium mt-0.5 text-slate-500 dark:text-slate-400',
+                      useHeroFormHeader ? 'text-sm' : isCompact ? 'text-xs sm:text-sm' : 'text-sm',
+                      placement === 'home_hero_mobile' ? 'hidden sm:block' : undefined,
+                    )}
+                  >
+                    {formSubtitle}
+                  </p>
+                </>
+              ) : null}
             </div>
           </div>
         </div>
+        ) : null}
 
         <div
           className={cn(
@@ -653,7 +774,7 @@ export function PmpRoadmapLeadForm({
                 : isCompact
                   ? 'space-y-2.5 px-5 py-4 sm:px-6'
                   : isPortalThemed
-                    ? 'px-5 sm:px-6 pt-4 sm:pt-5 pb-0 space-y-5 sm:space-y-6'
+                    ? `${portalSpacing.portalFormInset} pt-4 sm:pt-5 pb-0 space-y-5 sm:space-y-6`
                     : cn(
                       'px-5 py-6 sm:px-6 sm:py-7 space-y-5 sm:space-y-6',
                       'lg:min-h-0 lg:flex-1 lg:overflow-y-auto',
@@ -797,31 +918,31 @@ export function PmpRoadmapLeadForm({
 
           {usesHomeRoadmapUi ? (
             <div className={cn(isPortalThemed ? 'flex flex-col gap-5 sm:gap-6' : 'space-y-0')}>
+              {isPortalThemed ? (
+                <PortalChoiceSectionLabel
+                  id={`${idPrefix}-cert-interest-label`}
+                  mobileLabel={portalCertInterestLabelMobile}
+                  desktopLabel={portalCertInterestLabelDesktop}
+                  portalTheme={portalTheme}
+                  labelClass={labelClass}
+                />
+              ) : null}
               <fieldset
                 className={cn(
                   'm-0 min-w-0 border-0 p-0',
                   isPortalThemed && 'flex flex-col gap-2.5',
                 )}
+                aria-labelledby={isPortalThemed ? `${idPrefix}-cert-interest-label` : undefined}
               >
-                {isPortalThemed ? (
-                  <legend className="contents">
-                    <span
-                      className={cn(labelClass, 'mb-0 block w-full pb-0 leading-none')}
-                      style={portalTheme ? { color: portalTheme.textMuted } : undefined}
-                    >
-                      {homeFormCopy?.certInterestLabel ?? 'Which certification are you interested in?'}{' '}
-                      <span style={portalTheme ? { color: portalTheme.primary } : undefined}>*</span>
-                    </span>
-                  </legend>
-                ) : (
+                {!isPortalThemed ? (
                   <legend className={legendClass}>
-                    {homeFormCopy?.certInterestLabel ?? 'Which certification are you interested in?'}{' '}
+                    {portalCertInterestLabelDesktop}{' '}
                     <span className="text-brand-orange">*</span>
                   </legend>
-                )}
+                ) : null}
                 <div
                   className={cn(
-                    isPortalCertRoadmap ? portalChoiceRowClass : 'flex flex-wrap gap-2.5 sm:gap-3',
+                    isPortalCertRoadmap ? portalCertChoiceRowClass : 'flex flex-wrap gap-2.5 sm:gap-3',
                   )}
                   role="group"
                   aria-label="Certification interest"
@@ -830,9 +951,11 @@ export function PmpRoadmapLeadForm({
                     <RoadmapChoiceChip
                       key={o.value}
                       selected={certInterest === o.value}
-                      portalTheme={isPortalThemed ? portalTheme : undefined}
+                      portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                       useCompactRow={isPortalCertRoadmap}
-                      className={toggleOptionClass(certInterest === o.value)}
+                      className={
+                        isPortalCertRoadmap && o.value === 'six-sigma' ? 'hidden sm:flex' : undefined
+                      }
                       aria-pressed={certInterest === o.value}
                       onClick={() => toggleCertInterest(o.value as HomeCertInterestValue)}
                     >
@@ -841,9 +964,8 @@ export function PmpRoadmapLeadForm({
                   ))}
                   <RoadmapChoiceChip
                     selected={certInterest === 'other'}
-                    portalTheme={isPortalThemed ? portalTheme : undefined}
+                    portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                     useCompactRow={isPortalCertRoadmap}
-                    className={toggleOptionClass(certInterest === 'other')}
                     aria-pressed={certInterest === 'other'}
                     aria-expanded={certInterest === 'other'}
                     onClick={() => toggleCertInterest('other')}
@@ -870,56 +992,74 @@ export function PmpRoadmapLeadForm({
               </fieldset>
 
               {certInterest ? (
-                <fieldset
-                  className={cn(
-                    'm-0 mb-0 min-w-0 space-y-0 border-0 p-0 pb-0',
-                    !isPortalThemed && 'mt-6 sm:mt-8',
-                    !isPortalThemed && experienceFieldsetPad,
-                    isPortalThemed && 'flex flex-col gap-2.5',
-                  )}
-                >
+                <>
                   {isPortalThemed ? (
-                    <legend className="contents">
-                      <span
-                        className={cn(labelClass, 'mb-0 block w-full pb-0 leading-none')}
-                        style={portalTheme ? { color: portalTheme.textMuted } : undefined}
-                      >
-                        {homeFormCopy?.experienceLabel ?? 'Years of Total Job Experience'}{' '}
-                        <span style={portalTheme ? { color: portalTheme.primary } : undefined}>*</span>
-                      </span>
-                    </legend>
-                  ) : (
-                    <legend className={cn(labelClass, 'mb-2.5')}>
-                      {homeFormCopy?.experienceLabel ?? 'Years of Total Job Experience'}{' '}
-                      <span className="text-brand-orange">*</span>
-                    </legend>
-                  )}
-                  <div
+                    <PortalChoiceSectionLabel
+                      id={`${idPrefix}-experience-label`}
+                      mobileLabel={portalExperienceLabelMobile}
+                      desktopLabel={portalExperienceLabelDesktop}
+                      portalTheme={portalTheme}
+                      labelClass={labelClass}
+                    />
+                  ) : null}
+                  <fieldset
                     className={cn(
-                      isPortalCertRoadmap ? portalChoiceRowClass : 'flex flex-wrap gap-2.5 sm:gap-3',
+                      'm-0 mb-0 min-w-0 space-y-0 border-0 p-0 pb-0',
+                      !isPortalThemed && 'mt-6 sm:mt-8',
+                      !isPortalThemed && experienceFieldsetPad,
+                      isPortalThemed && 'flex flex-col gap-2.5',
+                    )}
+                    aria-labelledby={isPortalThemed ? `${idPrefix}-experience-label` : undefined}
+                  >
+                    {!isPortalThemed ? (
+                      <legend className={cn(labelClass, 'mb-2.5')}>
+                        {portalExperienceLabelDesktop}{' '}
+                        <span className="text-brand-orange">*</span>
+                      </legend>
+                    ) : null}
+                    <div
+                    className={cn(
+                      isPortalCertRoadmap
+                        ? isSmUp
+                          ? portalChoiceRowClass
+                          : portalExperienceChoiceRowClass
+                        : 'flex flex-wrap gap-2.5 sm:gap-3',
                     )}
                     role="group"
                     aria-label="Years of total job experience"
                   >
-                    {PMP_JOB_EXPERIENCE_OPTIONS.map((o) => (
-                      <RoadmapChoiceChip
-                        key={o.value}
-                        selected={jobExperience === o.value}
-                        portalTheme={isPortalThemed ? portalTheme : undefined}
-                        useCompactRow={isPortalCertRoadmap}
-                        className={toggleOptionClass(jobExperience === o.value)}
-                        aria-pressed={jobExperience === o.value}
-                        onClick={() => toggleJobExperience(o.value)}
-                      >
-                        <ExperienceChipLabel
-                          value={o.value}
-                          label={o.label}
-                          portalCompact={isPortalCertRoadmap}
-                        />
-                      </RoadmapChoiceChip>
-                    ))}
+                    {portalExperienceOptions.map((o) => {
+                      const selected = isPortalCertRoadmap
+                        ? portalExperienceChipSelected(o.value, jobExperience)
+                        : jobExperience === o.value;
+                      return (
+                        <RoadmapChoiceChip
+                          key={o.value}
+                          selected={selected}
+                          portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
+                          useCompactRow={isPortalCertRoadmap}
+                          aria-pressed={selected}
+                          onClick={() => toggleJobExperience(o.value)}
+                        >
+                          {isPortalCertRoadmap ? (
+                            isSmUp ? (
+                              <ExperienceChipLabel
+                                value={o.value}
+                                label={o.label}
+                                portalCompact
+                              />
+                            ) : (
+                              o.label
+                            )
+                          ) : (
+                            o.label
+                          )}
+                        </RoadmapChoiceChip>
+                      );
+                    })}
                   </div>
                 </fieldset>
+                </>
               ) : null}
             </div>
           ) : (
@@ -1003,15 +1143,17 @@ export function PmpRoadmapLeadForm({
 
         <div
           className={cn(
-            'shrink-0 border-t sm:px-6',
+            'shrink-0 border-t',
             !isPortalThemed && 'border-slate-100 dark:border-slate-800',
-            isCertHeroDesktop
-              ? 'mt-auto px-5 py-4 sm:py-5'
-              : isCertMobileForm
-                ? 'px-5 py-5'
-                : isCompact
-                  ? 'px-5 py-3'
-                  : 'px-5 py-5 sm:px-6',
+            isPortalThemed
+              ? `${portalSpacing.portalFormInset} py-4 sm:py-5`
+              : isCertHeroDesktop
+                ? 'mt-auto px-5 py-4 sm:px-6 sm:py-5'
+                : isCertMobileForm
+                  ? 'px-5 py-5 sm:px-6'
+                  : isCompact
+                    ? 'px-5 py-3 sm:px-6'
+                    : 'px-5 py-5 sm:px-6',
           )}
           style={isPortalThemed && portalTheme ? { borderColor: portalTheme.cardBorder } : undefined}
         >

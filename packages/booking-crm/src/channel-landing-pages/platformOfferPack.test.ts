@@ -307,6 +307,12 @@ describe('PROFESSIONAL_FLOW', () => {
     expect(tiers).toBeGreaterThan(pathways)
   })
 
+  it('excludes retired sections (trust, hero_card, credibility, form)', () => {
+    for (const id of ['trust', 'hero_card', 'credibility', 'form'] as const) {
+      expect(PROFESSIONAL_FLOW).not.toContain(id)
+    }
+  })
+
   it('includes roadmap_form after context, webinar_media after roadmap_form, pathway_actions after faq', () => {
     expect(PROFESSIONAL_FLOW.indexOf('roadmap_form')).toBe(
       PROFESSIONAL_FLOW.indexOf('context') + 1

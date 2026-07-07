@@ -1,5 +1,5 @@
 import { IMPLEMENTATION_SCOPE_41 } from './platformBrandSources'
-import { TIER_SCHEDULING_LINES } from './channelPortalCopy'
+import { TIER_SCHEDULING_LINES } from './tierSchedulingLines'
 
 export type ChannelValueCard = { title: string; body: string }
 export type ChannelCredibilityTabLabels = { quotes: string; metrics: string }
@@ -60,6 +60,118 @@ function evidencePhrase(channelId: string, label: string): string {
 function buildValueCards(channelId: string, label: string): ChannelValueCard[] {
   const hint = evidencePhrase(channelId, label)
   const templates: Record<string, ChannelValueCard[]> = {
+    youtube: [
+      {
+        title: 'Video to exam plan',
+        body: `Turn a video or series you watched into a credential path. ${hint}.`,
+      },
+      {
+        title: 'Creator-friendly mentor intro',
+        body: 'Free orientation on PMP®, CAPM®, or PRINCE2® prep, or a paid block to lock your study cadence.',
+      },
+      {
+        title: 'Tuition before you enroll',
+        body: 'See regional pricing and membership discounts on PM Structure before or after your call.',
+      },
+    ],
+    tiktok: [
+      {
+        title: 'Clip to certification path',
+        body: `Move from a short clip to structured exam prep. ${hint}.`,
+      },
+      {
+        title: 'Mentor intro or depth',
+        body: 'Free mentor conversation for pathway fit, or a longer session for mocks and weekly rhythm.',
+      },
+      {
+        title: 'Program quality check',
+        body: 'Ask about cohort rhythm, materials, and how learners in your region price tuition.',
+      },
+    ],
+    substack: [
+      {
+        title: 'Read to exam plan',
+        body: `Connect the newsletter issue you read to structured prep. ${hint}.`,
+      },
+      {
+        title: 'Subscriber mentor time',
+        body: 'Charter-clear guidance on pathways, mocks, and weekly rhythm — not generic coaching scripts.',
+      },
+      {
+        title: 'Tuition for your region',
+        body: 'Understand scholarships and membership pricing before you pay for a cohort.',
+      },
+    ],
+    twitter: [
+      {
+        title: 'Thread to pathway',
+        body: `Turn a post or thread into a certification goal. ${hint}.`,
+      },
+      {
+        title: 'Timeline mentor intro',
+        body: 'Free orientation on credentials and prep, or a paid session to lock your exam track.',
+      },
+      {
+        title: 'Site-backed cohorts',
+        body: 'Explore pathways and tuition on PM Structure before or after your call.',
+      },
+    ],
+    facebook: [
+      {
+        title: 'Feed to certification plan',
+        body: `Connect a post or group thread to the right pathway. ${hint}.`,
+      },
+      {
+        title: 'Community mentor intro',
+        body: 'Free intro for pathway fit; paid session for study plan and exam window.',
+      },
+      {
+        title: 'Regional tuition clarity',
+        body: 'Membership and scholarships depend on your residence — we explain on the call.',
+      },
+    ],
+    reddit: [
+      {
+        title: 'Thread to study plan',
+        body: `Turn a subreddit referral into structured exam prep. ${hint}.`,
+      },
+      {
+        title: 'Mentor intro or depth',
+        body: 'Free orientation on pathways, or a paid block for mocks and weekly rhythm.',
+      },
+      {
+        title: 'Tuition before you commit',
+        body: 'See regional pricing and membership benefits on PM Structure.',
+      },
+    ],
+    spotify: [
+      {
+        title: 'Episode to exam plan',
+        body: `Connect the episode you heard to a credential path. ${hint}.`,
+      },
+      {
+        title: 'Listener mentor intro',
+        body: 'Free conversation on certification fit, or a paid session for prep depth.',
+      },
+      {
+        title: 'Program quality check',
+        body: 'Ask about cohort rhythm, materials, and regional tuition before you enroll.',
+      },
+    ],
+    'google-search': [
+      {
+        title: 'Search to pathway fit',
+        body: `Align what you searched with the right certification track. ${hint}.`,
+      },
+      {
+        title: 'Mentor intro first',
+        body: 'Free orientation on credentials and prep before you pay for a cohort.',
+      },
+      {
+        title: 'Regional pricing clarity',
+        body: 'Tuition and scholarships depend on your residence — we explain on the call.',
+      },
+    ],
     instagram: [
       {
         title: 'Reels to exam plan',

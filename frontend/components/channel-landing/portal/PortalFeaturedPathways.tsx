@@ -8,6 +8,7 @@ import { BRAND } from '@/lib/brand-voice';
 import { usesPortalWebsiteLayoutChrome } from '@/lib/channel-landing-pages/platformOfferPack';
 import { portalSpacing } from '@/lib/channel-landing-pages/portalSpacing';
 import PortalPathwayCard from '@/components/channel-landing/portal/PortalPathwayCard';
+import PortalSectionHead from '@/components/channel-landing/portal/primitives/PortalSectionHead';
 
 type Props = {
   page: ChannelLandingPage;
@@ -62,20 +63,12 @@ export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }
       style={{ order: sectionOrder }}
       aria-label="Featured certification pathways"
     >
-      <div className="portal-tier-section-head mb-4 space-y-1">
-        <h3
-          className="text-meta font-mono uppercase tracking-[0.2em]"
-          style={{ color: theme.textMuted, fontFamily: theme.fontFamily }}
-        >
-          Explore certifications
-        </h3>
-        <p
-          className="text-body-sm max-w-2xl leading-relaxed"
-          style={{ color: theme.textMuted, fontFamily: theme.fontFamily }}
-        >
-          {subtitle}
-        </p>
-      </div>
+      <PortalSectionHead
+        theme={theme}
+        title="Explore certifications"
+        subtitle={subtitle}
+        className="mb-4"
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 items-stretch">
         {featured.map((certId, index) => {

@@ -2,7 +2,7 @@
 
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 
-/** Credibility copy is rendered in {@link ChannelPortalSocialProof} (eyebrow + tabs). */
+/** Credibility tabs are rendered in {@link ChannelPortalSocialProof}. */
 export default function ChannelPortalCredibility(_: PortalSectionProps) {
   return null
 }

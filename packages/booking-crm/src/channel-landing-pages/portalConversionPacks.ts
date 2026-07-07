@@ -1,6 +1,7 @@
 import { ALL_CHANNELS } from '../constants/channelGroups'
 import { VERIFIED_PROOF_METRICS } from '../constants/data/verifiedProofMetrics'
 import { getChannelPortalCopy } from './channelPortalCopy'
+import { getChannelConversionOverride } from './portalChannelConversionOverrides'
 import { isFreeDiscoveryChannel } from './freeDiscovery'
 import { isCommunityDirectPortalChannel } from './messagingPortalTiers'
 import { isWritingPublishingPortalChannel } from './publishingPortalTiers'
@@ -23,6 +24,17 @@ import {
 import { BRAND_FULL_NAME } from './portalBrandConstants'
 
 export { getCredibilityTabLabels } from './portalLearnerCopy'
+
+function applyChannelValueCards(
+  channelId: string,
+  pack: PortalConversionContent
+): PortalConversionContent {
+  const channelOverride = getChannelConversionOverride(channelId)
+  if (channelOverride?.valueCards?.length) {
+    return { ...pack, valueCards: channelOverride.valueCards }
+  }
+  return pack
+}
 
 const WAVE_BY_CATEGORY: Record<string, 1 | 2 | 3> = {
   'Core / Owned Platform': 1,
@@ -203,7 +215,7 @@ function buildPack(channelId: string): PortalConversionContent {
   }
 
   if (isSocialDistributionPortalChannel(channelId)) {
-    return {
+    return applyChannelValueCards(channelId, {
       ...pack,
       valueCards: [
         {
@@ -230,11 +242,11 @@ function buildPack(channelId: string): PortalConversionContent {
       ),
       finalCtaHeading: 'Not sure which pathway fits?',
       finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
-    }
+    })
   }
 
   if (isVideoPlatformPortalChannel(channelId)) {
-    return {
+    return applyChannelValueCards(channelId, {
       ...pack,
       valueCards: [
         {
@@ -261,11 +273,11 @@ function buildPack(channelId: string): PortalConversionContent {
       ),
       finalCtaHeading: 'Not sure which pathway fits?',
       finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
-    }
+    })
   }
 
   if (isAudioPodcastPortalChannel(channelId)) {
-    return {
+    return applyChannelValueCards(channelId, {
       ...pack,
       valueCards: [
         {
@@ -292,11 +304,11 @@ function buildPack(channelId: string): PortalConversionContent {
       ),
       finalCtaHeading: 'Not sure which pathway fits?',
       finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
-    }
+    })
   }
 
   if (isCommunityDirectPortalChannel(channelId)) {
-    return {
+    return applyChannelValueCards(channelId, {
       ...pack,
       valueCards: [
         {
@@ -323,11 +335,11 @@ function buildPack(channelId: string): PortalConversionContent {
       ),
       finalCtaHeading: 'Not sure which pathway fits?',
       finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
-    }
+    })
   }
 
   if (isWritingPublishingPortalChannel(channelId)) {
-    return {
+    return applyChannelValueCards(channelId, {
       ...pack,
       valueCards: [
         {
@@ -354,11 +366,11 @@ function buildPack(channelId: string): PortalConversionContent {
       ),
       finalCtaHeading: 'Not sure which pathway fits?',
       finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
-    }
+    })
   }
 
   if (isSyndicatedPortalPackChannel(channelId)) {
-    return {
+    return applyChannelValueCards(channelId, {
       ...pack,
       valueCards: [
         {
@@ -385,10 +397,10 @@ function buildPack(channelId: string): PortalConversionContent {
       ),
       finalCtaHeading: 'Not sure which pathway fits?',
       finalCtaBody: `Start with the open mentor intro. Cite ${evidence} in your note. Book a longer session when you want a full study plan review.`,
-    }
+    })
   }
 
-  return pack
+  return applyChannelValueCards(channelId, pack)
 }
 
 export const PORTAL_CONVERSION_PACKS: Record<string, PortalConversionContent> = Object.fromEntries(

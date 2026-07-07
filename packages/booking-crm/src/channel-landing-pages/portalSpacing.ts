@@ -14,8 +14,10 @@ export const portalSpacing = {
   /** Social footer block. */
   footer: 'mt-6 pt-6 pb-0',
   footerBlock: 'mb-4',
-  /** Attribution, social chips, legal row (~0.6× body scale). */
-  footerCompact: 'text-[0.6em] leading-snug',
+  /** Attribution, social chips, legal row (matches portal section subtitles). */
+  footerCompact: 'text-body-sm leading-relaxed',
+  /** Horizontal inset for portal form fields + CTA (matches PortalCard). */
+  portalFormInset: 'px-4 sm:px-5',
   /** Glass / hero cards in the portal flow. */
   heroCard: 'p-5 sm:p-6 mb-3 sm:mb-4',
   /** Compact pathway summary row inside a card. */

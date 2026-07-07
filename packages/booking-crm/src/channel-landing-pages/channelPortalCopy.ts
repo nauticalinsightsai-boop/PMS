@@ -4,6 +4,13 @@
  */
 import { ALL_CHANNELS } from '../constants/channelGroups'
 import { normalizePortalCopyDeep, normalizePortalCopyString } from './copyNormalize'
+import {
+  getCertificationPortalSurface,
+  sanitizeCertificationCopyString,
+} from './portalCertificationCopy'
+import { TIER_SCHEDULING_LINES } from './tierSchedulingLines'
+
+export { TIER_SCHEDULING_LINES } from './tierSchedulingLines'
 
 export type ChannelPortalCopy = {
   scheduleTierCta: string
@@ -18,54 +25,6 @@ export type ChannelPortalCopy = {
   heroCardBody?: string
   /** One line under tier heading: strategic booking hint (not the button label). */
   tierSchedulingLine?: string
-}
-
-/** Per-channel tier intro line (shown under “Pick a session” / “Select consultation tier”). */
-export const TIER_SCHEDULING_LINES: Record<string, string> = {
-  webinar:
-    'Free mentor intro or paid pathway session. Cite the webinar title or replay in your booking note.',
-  website:
-    'Book mentor time for certification fit and prep. Cite the site page or asset when you reserve.',
-  medium: 'Turn the Medium piece into defense, audit, or strategy time. Reference the article in your note.',
-  substack:
-    'Continue the newsletter thread in a live block. Cite the post or issue when you book.',
-  beehiiv: 'Move from inbox to principal advisory. Align publication cadence with delivery capacity.',
-  ghost: 'Go beyond the post. Align publication themes with engineering and program reality.',
-  hashnode: 'Stress-test architecture and API choices from what you read. Link the article when you book.',
-  'notion-public': 'Translate docs into scoped decisions. Name the Notion page or view in your booking note.',
-  linkedin: 'Executive strategy and sponsor-ready next steps. Reference your LinkedIn context when you book.',
-  twitter: 'Expand a thread into structured guidance. Drop the post URL or topic in your note.',
-  instagram: 'Lock discovery or deep-dive time. Name the reel, story, or post when you reserve.',
-  facebook: 'Book from feed or group context. Share which post or group applies.',
-  reddit: 'Move from thread debate to a qualified call. Link the subreddit thread you came from.',
-  threads: 'Continue from Threads without losing context. Mention the post that prompted this booking.',
-  quora: 'Deepen the answer into structured advisory. Cite the Quora question or answer URL.',
-  bluesky: 'Book a focused block from the open network. Mention the post or thread that referred you.',
-  mastodon: 'Fediverse referral to principal time. Include your instance and the referring post.',
-  pinterest: 'Align visual research with delivery decisions. Note which pin or board led you here.',
-  youtube: 'Go deeper than the video. Name the channel video or series when you reserve.',
-  tiktok: 'Book rigor the clip cannot hold. Drop the TikTok link or hook in your booking note.',
-  snapchat: 'Reserve fast without leaving the flow. Tell us which Snap or story you came from.',
-  vimeo: 'Professional showcase to advisory depth. Reference the Vimeo title you watched.',
-  spotify: 'Translate the episode into scoped guidance. Name the episode when you book.',
-  'apple-podcasts': 'Listener depth after Apple Podcasts. Cite the show or episode in your note.',
-  'amazon-audible': 'Audible listener follow-up. Which title or episode referred you?',
-  'google-podcasts': 'Feed discovery to principal time. Share the episode link if you have it.',
-  podbean: 'Host-feed listeners. Reference the Podbean episode when you reserve.',
-  soundcloud: 'From stream to structured guidance. Link the track or playlist you came from.',
-  email: 'Inbox CTA to booked block. Note the email subject or campaign in your booking note.',
-  whatsapp: 'Channel broadcast to calendar. Mention the message or broadcast you saw.',
-  telegram: 'Telegram channel to live advisory. Which channel post referred you?',
-  discord: 'Server or thread referral. Name the channel or thread that linked you here.',
-  slack: 'Workspace referral with context intact. Which channel or workspace prompted this?',
-  'google-search': 'Honor search intent. State the query or result that brought you here.',
-  'youtube-search': 'YouTube SERP to live session. Which search result did you click?',
-  'podcast-directories': 'Directory discovery to advisory. Which listing referred you?',
-  'bing-search': 'Bing search to qualified call. Share the query or snippet that matched your need.',
-  'ai-visibility': 'Verify AI-surfaced fit in a human block. Note the prompt or surface if known.',
-  'rss-feeds': 'Syndicated feed to principal time. Cite the feed item or enclosure you read.',
-  'content-aggregators': 'Aggregator bundle to advisory. Name the bundle or source that linked you.',
-  'api-ai-fed': 'Machine-surfaced referral. Book human verification; name the API consumer if known.',
 }
 
 /** Hero scheduling card (shown on every /go/* portal). */
@@ -642,7 +601,19 @@ for (const ch of ALL_CHANNELS) {
 export function getChannelPortalCopy(channelId: string): ChannelPortalCopy | null {
   const raw = CHANNEL_PORTAL_COPY[channelId]
   if (!raw) return null
-  return normalizePortalCopyDeep(raw)
+  const cert = getCertificationPortalSurface(channelId)
+  return normalizePortalCopyDeep({
+    ...raw,
+    headline: cert.headline,
+    subheadline: cert.subheadline,
+    targetMessage: cert.targetMessage,
+    tierSchedulingLine: raw.tierSchedulingLine
+      ? sanitizeCertificationCopyString(raw.tierSchedulingLine)
+      : undefined,
+    heroCardBody: raw.heroCardBody
+      ? sanitizeCertificationCopyString(raw.heroCardBody)
+      : undefined,
+  })
 }
 
 /** Reject legacy breadcrumb CTAs (e.g. "Wiki → working session") in favor of pack defaults. */
@@ -662,13 +633,15 @@ export function resolveScheduleTierCta(channelId: string, stored?: string | null
 
 /** Strategic one-liner under tier section heading (not the tier button label). */
 export function getTierSchedulingLine(channelId: string): string {
-  const copy = CHANNEL_PORTAL_COPY[channelId]
+  const copy = getChannelPortalCopy(channelId)
   return normalizePortalCopyString(
     copy?.tierSchedulingLine ??
-      TIER_SCHEDULING_LINES[channelId] ??
+      (TIER_SCHEDULING_LINES[channelId]
+        ? sanitizeCertificationCopyString(TIER_SCHEDULING_LINES[channelId]!)
+        : undefined) ??
       copy?.targetMessage ??
       copy?.scheduleTierCta ??
-      'Reserve a focused advisory block. Cite what brought you here when you schedule.',
+      'Reserve a focused mentor block. Cite what brought you here when you schedule.',
   )
 }
 

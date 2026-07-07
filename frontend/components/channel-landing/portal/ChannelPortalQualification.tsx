@@ -41,15 +41,13 @@ export default function ChannelPortalQualification({
   page,
   theme,
   sectionOrder,
-  portalLayoutChrome,
 }: PortalSectionProps) {
   if (!isConversionEnabledForChannel(page.channelId)) return null
   const forList = page.conversion?.qualificationFor?.slice(0, 4)
   const notFor = page.conversion?.qualificationNotFor?.slice(0, 4)
-  const intro = portalLayoutChrome ? page.conversion?.credibilityBody : undefined
   const valueCards = page.conversion?.valueCards?.slice(0, MAX_VALUE_ITEMS)
   const riskLine = page.conversion?.riskReversal?.trim()
-  if (!forList?.length && !notFor?.length && !valueCards?.length && !intro && !riskLine) return null
+  if (!forList?.length && !notFor?.length && !valueCards?.length && !riskLine) return null
 
   return (
     <PortalExpandableSection
@@ -62,11 +60,6 @@ export default function ChannelPortalQualification({
       {riskLine ? (
         <p className="text-body-sm mb-4 leading-relaxed" style={{ color: theme.textMuted }}>
           {riskLine}
-        </p>
-      ) : null}
-      {intro ? (
-        <p className="text-body-sm mb-4 w-full leading-relaxed" style={{ color: theme.textMuted }}>
-          {intro}
         </p>
       ) : null}
       {valueCards?.length ? (

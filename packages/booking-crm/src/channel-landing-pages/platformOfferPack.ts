@@ -172,11 +172,9 @@ export const PROFESSIONAL_FLOW: PortalSectionId[] = [
   'featured_pathways',
   'tiers',
   'social_proof',
-  'credibility',
   'qualification',
   'faq',
   'pathway_actions',
-  'form',
   'final_cta',
   'social_footer',
 ]

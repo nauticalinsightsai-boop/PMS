@@ -14,6 +14,7 @@ import { isConversionEnabledForChannel } from '@/lib/channel-landing-pages/porta
 import { getLegalDocumentPath } from '@/constants/legal'
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
 import PortalAdvisoryServicesReveal from '@/components/channel-landing/portal/PortalAdvisoryServicesReveal'
+import PortalSectionHead from '@/components/channel-landing/portal/primitives/PortalSectionHead'
 
 type Props = PortalSectionProps & {
   tiers: ConsultationTier[]
@@ -83,19 +84,27 @@ export default function ChannelPortalTiersSection({
       className={`portal-tiers-section mt-2 sm:mt-4${isImpulseFlow ? ' portal-tiers-impulse' : ''}`}
       style={{ order: sectionOrder }}
     >
-      <div className="portal-tier-section-head mb-3 sm:mb-4 space-y-1">
-        <h3
-          className={`font-semibold tracking-wide${isImpulseFlow ? ' text-body w-full' : ' text-meta font-mono uppercase tracking-[0.2em]'}`}
-          style={{ color: isImpulseFlow ? theme.text : theme.textMuted }}
-        >
-          {tierHeading}
-        </h3>
-        {tierSchedulingLine ? (
-          <p className="text-body-sm w-full leading-relaxed" style={{ color: theme.textMuted }}>
-            {tierSchedulingLine}
-          </p>
-        ) : null}
-      </div>
+      {isImpulseFlow ? (
+        <div className="portal-tier-section-head mb-3 sm:mb-4 space-y-1">
+          <h3
+            className="font-semibold tracking-wide text-body w-full"
+            style={{ color: theme.text }}
+          >
+            {tierHeading}
+          </h3>
+          {tierSchedulingLine ? (
+            <p className="text-body-sm w-full leading-relaxed" style={{ color: theme.textMuted }}>
+              {tierSchedulingLine}
+            </p>
+          ) : null}
+        </div>
+      ) : (
+        <PortalSectionHead
+          theme={theme}
+          title={tierHeading}
+          subtitle={tierSchedulingLine || undefined}
+        />
+      )}
 
       {showConversionHints && showFormHint ? (
         <p className="text-meta w-full mb-4 sm:mb-6" style={{ color: theme.textMuted }}>
@@ -246,7 +255,7 @@ export default function ChannelPortalTiersSection({
       </ul>
 
       <p
-        className="text-[10px] sm:text-[11px] w-full mt-4 text-center leading-snug font-normal normal-case tracking-normal opacity-90"
+        className="text-[10px] sm:text-[11px] w-full mt-4 mb-4 sm:mb-6 text-center leading-snug font-normal normal-case tracking-normal opacity-90"
         style={{ color: theme.textMuted }}
       >
         Prices are indicative. Scheduling via Calendly. See{' '}
@@ -259,21 +268,6 @@ export default function ChannelPortalTiersSection({
         </a>
         .
       </p>
-
-      {showConversionHints && page.conversion?.paymentMicrocopy?.length ? (
-        <p
-          className="portal-booking-assurances text-[10px] sm:text-[11px] mt-4 sm:mt-5 mb-8 sm:mb-10 pt-3 border-t w-full text-center leading-snug font-normal normal-case tracking-normal opacity-90"
-          style={{ borderColor: theme.cardBorder, color: theme.textMuted }}
-          aria-label="Scheduling assurances"
-        >
-          {page.conversion.paymentMicrocopy.slice(0, 5).map((item, i) => (
-            <span key={item}>
-              {i > 0 ? <span className="mx-2 opacity-40" aria-hidden>·</span> : null}
-              {item}
-            </span>
-          ))}
-        </p>
-      ) : null}
     </section>
   )
 }

@@ -32,13 +32,14 @@ describe('portalConversionPacks', () => {
     const substack = getPortalConversionPack('substack')?.valueCards?.[0]?.title
     const linkedin = getPortalConversionPack('linkedin')?.valueCards?.[0]?.title
     expect(substack).toBe('Read to exam plan')
-    expect(linkedin).toBe('From content to pathway')
+    expect(linkedin).toBe('Professional pathway fit')
   })
 
-  it('withholds unverified learner-voice social proof on scope-41 channels', () => {
+  it('includes two learner-voice stories per scope-41 channel', () => {
     for (const channelId of IMPLEMENTATION_SCOPE_41) {
       const proof = getPortalConversionPack(channelId)?.socialProof
-      expect(proof?.length, channelId).toBe(0)
+      expect(proof?.length, channelId).toBe(2)
+      expect(proof?.[0]?.quote.length, channelId).toBeGreaterThan(20)
     }
   })
 

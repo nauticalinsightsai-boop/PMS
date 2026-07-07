@@ -25,17 +25,13 @@ import ChannelPortalContextSection from '@/components/channel-landing/portal/Cha
 import ChannelPortalRoadmapForm from '@/components/channel-landing/portal/ChannelPortalRoadmapForm'
 import ChannelPortalWebinarMedia from '@/components/channel-landing/portal/ChannelPortalWebinarMedia'
 import ChannelPortalTiersSection from '@/components/channel-landing/portal/ChannelPortalTiersSection'
-import ChannelPortalTrustLine from '@/components/channel-landing/portal/ChannelPortalTrustLine'
-import ChannelPortalBookingForm from '@/components/channel-landing/portal/ChannelPortalBookingForm'
 import ChannelPortalQualification from '@/components/channel-landing/portal/ChannelPortalQualification'
 import ChannelPortalSocialProof from '@/components/channel-landing/portal/ChannelPortalSocialProof'
-import ChannelPortalCredibility from '@/components/channel-landing/portal/ChannelPortalCredibility'
 import ChannelPortalFaq from '@/components/channel-landing/portal/ChannelPortalFaq'
 import ChannelPortalFinalCta from '@/components/channel-landing/portal/ChannelPortalFinalCta'
 import ChannelPortalStickyCta from '@/components/channel-landing/portal/ChannelPortalStickyCta'
 import PortalFeaturedPathways from '@/components/channel-landing/portal/PortalFeaturedPathways'
 import PortalPathwayActions from '@/components/channel-landing/portal/PortalPathwayActions'
-import ChannelPortalHeroCard from '@/components/channel-landing/portal/ChannelPortalHeroCard'
 import { scheduleTierClick } from '@/components/channel-landing/portal/scheduleTierClick'
 import type { PortalSectionProps } from '@/components/channel-landing/portal/types'
 import { preloadCalendlyPopupHostStyles } from '@/lib/calendly/popup-enhancements'
@@ -52,8 +48,9 @@ function flowSectionOrder(flow: PortalSectionId[], id: PortalSectionId): number 
 }
 
 /**
- * All scope-41 /go/{slug} portals: same PROFESSIONAL_FLOW + layout chrome (glass, footer chips).
- * Marketing gradient/orbs only on website/webinar. Per-slug theme and copy only.
+ * Instagram reference structure for all scope-41 /go/{slug} portals:
+ * presence → hero → context → roadmap form → pathways → tiers → credibility tabs →
+ * qualification → FAQ → final CTA → footer. Marketing gradient/orbs only on website/webinar.
  */
 export default function ChannelConsultationPortalView({ page, isPreview }: Props) {
   const { colorMode, setColorMode } = usePortalThemeMode(page.channelId)
@@ -97,10 +94,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   const bookDiscovery = useCallback(() => {
     if (discoveryTier) scheduleTierClick(page, discoveryTier, { theme, colorMode })
     else scrollToTiers()
-  }, [page, discoveryTier, scrollToTiers])
-
-  const isLeadHero = sectionOrder('hero') < sectionOrder('context')
-  const showHeroCard = sectionOrder('hero_card') < 99
+  }, [page, discoveryTier, scrollToTiers, theme, colorMode])
 
   const sectionProps: PortalSectionProps = {
     page,
@@ -111,7 +105,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
     isImpulseFlow: false,
     portalLayoutChrome,
     marketingAmbience,
-    isLeadHero,
+    isLeadHero: false,
     colorMode,
     onSetColorMode: setColorMode,
     onBookMentor: hasFreeIntroTier ? undefined : bookDiscovery,
@@ -137,10 +131,6 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
         return isWebinarPortal ? <ChannelPortalWebinarMedia key={id} {...props} /> : null
       case 'featured_pathways':
         return <PortalFeaturedPathways key={id} page={page} theme={theme} sectionOrder={order} />
-      case 'trust':
-        return <ChannelPortalTrustLine key={id} {...props} />
-      case 'hero_card':
-        return showHeroCard ? <ChannelPortalHeroCard key={id} {...props} /> : null
       case 'tiers':
         return (
           <div key={id} ref={tiersRef} style={{ order }}>
@@ -149,16 +139,12 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
         )
       case 'social_proof':
         return <ChannelPortalSocialProof key={id} {...props} />
-      case 'credibility':
-        return <ChannelPortalCredibility key={id} {...props} />
       case 'qualification':
         return <ChannelPortalQualification key={id} {...props} />
       case 'faq':
         return <ChannelPortalFaq key={id} {...props} />
       case 'pathway_actions':
         return <PortalPathwayActions key={id} page={page} theme={theme} sectionOrder={order} />
-      case 'form':
-        return <ChannelPortalBookingForm key={id} {...props} />
       case 'final_cta':
         return <ChannelPortalFinalCta key={id} {...props} />
       case 'social_footer':

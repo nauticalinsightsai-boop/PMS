@@ -179,7 +179,7 @@ export default function PortalPathwayCard({
   const badgeLabel = familyLabel ?? cert.familyId;
   const accent = cert.color?.trim() || theme.primary;
   const gradientBar = getCertGradientClassName(cert);
-  const { isOpen, badgeText } = getCohortEnrollmentDisplay(cert.id, regionId);
+  const { isOpen, nextCohortLabel } = getCohortEnrollmentDisplay(cert.id, regionId);
   const listing = getListingPriceForCert(cert.id, regionId, gccCountry);
   const duration = getCertDurationLabel(cert.id);
   const presentation = listing.active
@@ -230,7 +230,7 @@ export default function PortalPathwayCard({
             <div className="min-w-0 flex-1 flex flex-wrap sm:flex-nowrap items-center gap-x-2 gap-y-1.5">
               <div className="flex min-w-0 items-center gap-2 overflow-hidden">
                 <span
-                  className="shrink-0 text-[10px] font-mono uppercase tracking-[0.16em] px-2.5 py-1"
+                  className="hidden sm:inline-block shrink-0 text-[10px] font-mono uppercase tracking-[0.16em] px-2.5 py-1"
                   style={{
                     borderRadius: theme.radius,
                     backgroundColor: theme.surfaceMuted,
@@ -254,7 +254,7 @@ export default function PortalPathwayCard({
                     color: isOpen ? theme.primaryForeground : theme.textMuted,
                   }}
                 >
-                  {badgeText}
+                  {nextCohortLabel}
                 </span>
               </div>
               <div className="hidden sm:flex items-center gap-2 shrink-0 sm:ml-auto">
@@ -284,7 +284,7 @@ export default function PortalPathwayCard({
           ) : (
             <div className="min-w-0 flex-1 space-y-2">
               <span
-                className="text-[10px] font-mono uppercase tracking-[0.16em] px-2.5 py-1"
+                className="hidden sm:inline-block text-[10px] font-mono uppercase tracking-[0.16em] px-2.5 py-1"
                 style={{
                   borderRadius: theme.radius,
                   backgroundColor: theme.surfaceMuted,
@@ -302,7 +302,7 @@ export default function PortalPathwayCard({
                   color: isOpen ? theme.primaryForeground : theme.textMuted,
                 }}
               >
-                {badgeText}
+                {nextCohortLabel}
               </span>
               <h4
                 className="portal-tier-title leading-snug text-h4"
@@ -369,7 +369,7 @@ export default function PortalPathwayCard({
       <div className="portal-pathway-body flex flex-1 flex-col gap-3 pt-1">
         <div className="flex flex-wrap items-center gap-2">
           <span
-            className="inline-block text-[10px] font-mono uppercase tracking-[0.16em] px-2.5 py-1"
+            className="hidden sm:inline-block text-[10px] font-mono uppercase tracking-[0.16em] px-2.5 py-1"
             style={{
               borderRadius: theme.radius,
               backgroundColor: theme.surfaceMuted,
@@ -387,7 +387,7 @@ export default function PortalPathwayCard({
               color: isOpen ? theme.primaryForeground : theme.textMuted,
             }}
           >
-            {badgeText}
+            {nextCohortLabel}
           </span>
         </div>
         <h4 className="portal-tier-title text-h4 leading-snug" style={{ color: theme.text, fontFamily: theme.fontFamily }}>

@@ -13,6 +13,7 @@ import { resolveScheduleTierCta } from './channelPortalCopy'
 import { getPackConsultationTiers } from './platformOfferPack'
 import { mergePortalConversion } from './portalConversionPacks'
 import { getChannelPortalCopy } from './channelPortalCopy'
+import { getCertificationPortalSurface } from './portalCertificationCopy'
 import { usesPortalWebsiteLayoutChrome } from './platformOfferPack'
 
 const GENERIC_INTRO_CTAS = new Set([
@@ -73,13 +74,14 @@ export function enrichChannelLandingPage(page: ChannelLandingPage): ChannelLandi
     evidence
   )
   const channelCopy = getChannelPortalCopy(migrated.channelId)
+  const certSurface = getCertificationPortalSurface(migrated.channelId)
 
   return normalizePortalCopyDeep({
     ...migrated,
     contextLabel: migrated.contextLabel || channelCopy?.contextLabel || copy?.contextLabel || '',
-    headline: channelCopy?.headline ?? surface.headline,
-    subheadline: channelCopy?.subheadline ?? surface.subheadline,
-    targetMessage: channelCopy?.targetMessage ?? surface.targetMessage,
+    headline: certSurface.headline,
+    subheadline: certSurface.subheadline,
+    targetMessage: certSurface.targetMessage,
     showSyncBanner: migrated.showSyncBanner ?? false,
     syncBannerLabel: migrated.syncBannerLabel || '',
     availabilityLabel:
