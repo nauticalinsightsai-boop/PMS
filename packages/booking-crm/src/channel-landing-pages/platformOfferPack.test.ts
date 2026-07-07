@@ -298,18 +298,13 @@ describe('PROFESSIONAL_FLOW', () => {
     }
   })
 
-  it('places featured_pathways after context, hero_card before trust, tiers after hero_card', () => {
+  it('places featured_pathways after context and tiers after featured_pathways', () => {
     const ctx = PROFESSIONAL_FLOW.indexOf('context')
     const pathways = PROFESSIONAL_FLOW.indexOf('featured_pathways')
-    const trust = PROFESSIONAL_FLOW.indexOf('trust')
-    const heroCard = PROFESSIONAL_FLOW.indexOf('hero_card')
     const tiers = PROFESSIONAL_FLOW.indexOf('tiers')
 
     expect(pathways).toBeGreaterThan(ctx)
-    expect(heroCard).toBeGreaterThan(pathways)
-    expect(trust).toBeGreaterThan(heroCard)
-    expect(tiers).toBeGreaterThan(heroCard)
-    expect(tiers).toBeGreaterThan(trust)
+    expect(tiers).toBeGreaterThan(pathways)
   })
 
   it('includes roadmap_form after context, webinar_media after roadmap_form, pathway_actions after faq', () => {

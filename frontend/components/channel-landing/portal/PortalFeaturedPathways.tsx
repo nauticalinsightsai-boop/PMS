@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ChannelLandingPage } from '@/types/channelLandingPage';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
 import { certifications } from '@/data/siteData';
@@ -25,8 +25,24 @@ function portalPathwayTitle(certId: string, fallback: string) {
   return fallback;
 }
 
+/** Tailwind `sm` — desktop grid uses independent card expand state. */
+function useIsSmUp() {
+  const [isSmUp, setIsSmUp] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 640px)');
+    const sync = () => setIsSmUp(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  return isSmUp;
+}
+
 export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }: Props) {
-  const [expanded, setExpanded] = useState(false);
+  const isSmUp = useIsSmUp();
+  const [expandedCertId, setExpandedCertId] = useState<string | null>(null);
   const engagement = page.portalEngagement;
   const ids = engagement?.featuredCertIds?.length
     ? engagement.featuredCertIds
@@ -75,8 +91,12 @@ export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }
               layout="compact"
               collapsible
               className="flex h-full flex-col"
-              expanded={expanded}
-              onExpandedChange={setExpanded}
+              expanded={isSmUp ? undefined : expandedCertId === certId}
+              onExpandedChange={
+                isSmUp
+                  ? undefined
+                  : (next) => setExpandedCertId(next ? certId : null)
+              }
             />
           );
         })}

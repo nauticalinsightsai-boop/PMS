@@ -109,12 +109,43 @@ function portalChipStyle(theme: PlatformPortalTheme, selected: boolean): React.C
       };
 }
 
+const portalChoiceRowClass = 'grid grid-cols-4 gap-1 max-sm:gap-1 sm:flex sm:flex-wrap sm:gap-3';
+const portalChoiceChipClass =
+  'flex min-w-0 w-full cursor-pointer items-center justify-center rounded-lg border font-bold transition-colors max-sm:px-1 max-sm:py-1.5 max-sm:text-[9px] max-sm:leading-none max-sm:whitespace-nowrap sm:flex-1 sm:px-3 sm:py-2.5 sm:text-body-sm';
+
+const PORTAL_EXPERIENCE_MOBILE_LABELS: Record<string, string> = {
+  'under-3': '<3 yrs',
+  '3-5': '3-5 yrs',
+  '5-10': '5-10 yrs',
+  '10-plus': '10+ yrs',
+};
+
+function ExperienceChipLabel({
+  value,
+  label,
+  portalCompact,
+}: {
+  value: string;
+  label: string;
+  portalCompact: boolean;
+}) {
+  if (!portalCompact) return label;
+  const short = PORTAL_EXPERIENCE_MOBILE_LABELS[value] ?? label;
+  return (
+    <>
+      <span className="sm:hidden">{short}</span>
+      <span className="hidden sm:inline">{label}</span>
+    </>
+  );
+}
+
 function RoadmapChoiceChip({
   selected,
   onClick,
   children,
   portalTheme,
   className,
+  useCompactRow,
   ...aria
 }: {
   selected: boolean;
@@ -122,18 +153,15 @@ function RoadmapChoiceChip({
   children: React.ReactNode;
   portalTheme?: PlatformPortalTheme;
   className?: string;
+  useCompactRow?: boolean;
   'aria-pressed': boolean;
   'aria-expanded'?: boolean;
 }) {
-  const isPortal = Boolean(portalTheme);
+  const compact = useCompactRow || Boolean(portalTheme);
   return (
     <button
       type="button"
-      className={
-        isPortal
-          ? 'flex flex-1 cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-body-sm font-bold transition-colors'
-          : className
-      }
+      className={compact ? portalChoiceChipClass : className}
       style={portalTheme ? portalChipStyle(portalTheme, selected) : undefined}
       onClick={onClick}
       {...aria}
@@ -585,7 +613,13 @@ export function PmpRoadmapLeadForm({
                 className={cn(
                   'font-heading font-bold tracking-tight',
                   !isPortalThemed && 'text-slate-900 dark:text-white',
-                  useHeroFormHeader ? 'text-lg sm:text-xl' : isCompact ? 'text-base sm:text-lg' : 'text-lg sm:text-xl',
+                  isPortalCertRoadmap
+                    ? 'max-sm:text-[13px] max-sm:leading-4 max-sm:whitespace-nowrap sm:text-xl sm:leading-normal sm:whitespace-normal'
+                    : useHeroFormHeader
+                      ? 'text-lg sm:text-xl'
+                      : isCompact
+                        ? 'text-base sm:text-lg'
+                        : 'text-lg sm:text-xl',
                 )}
                 style={isPortalThemed && portalTheme ? { color: portalTheme.text } : undefined}
               >
@@ -786,7 +820,9 @@ export function PmpRoadmapLeadForm({
                   </legend>
                 )}
                 <div
-                  className="flex flex-wrap gap-2.5 sm:gap-3"
+                  className={cn(
+                    isPortalCertRoadmap ? portalChoiceRowClass : 'flex flex-wrap gap-2.5 sm:gap-3',
+                  )}
                   role="group"
                   aria-label="Certification interest"
                 >
@@ -795,6 +831,7 @@ export function PmpRoadmapLeadForm({
                       key={o.value}
                       selected={certInterest === o.value}
                       portalTheme={isPortalThemed ? portalTheme : undefined}
+                      useCompactRow={isPortalCertRoadmap}
                       className={toggleOptionClass(certInterest === o.value)}
                       aria-pressed={certInterest === o.value}
                       onClick={() => toggleCertInterest(o.value as HomeCertInterestValue)}
@@ -805,6 +842,7 @@ export function PmpRoadmapLeadForm({
                   <RoadmapChoiceChip
                     selected={certInterest === 'other'}
                     portalTheme={isPortalThemed ? portalTheme : undefined}
+                    useCompactRow={isPortalCertRoadmap}
                     className={toggleOptionClass(certInterest === 'other')}
                     aria-pressed={certInterest === 'other'}
                     aria-expanded={certInterest === 'other'}
@@ -857,7 +895,9 @@ export function PmpRoadmapLeadForm({
                     </legend>
                   )}
                   <div
-                    className="flex flex-wrap gap-2.5 sm:gap-3"
+                    className={cn(
+                      isPortalCertRoadmap ? portalChoiceRowClass : 'flex flex-wrap gap-2.5 sm:gap-3',
+                    )}
                     role="group"
                     aria-label="Years of total job experience"
                   >
@@ -866,11 +906,16 @@ export function PmpRoadmapLeadForm({
                         key={o.value}
                         selected={jobExperience === o.value}
                         portalTheme={isPortalThemed ? portalTheme : undefined}
+                        useCompactRow={isPortalCertRoadmap}
                         className={toggleOptionClass(jobExperience === o.value)}
                         aria-pressed={jobExperience === o.value}
                         onClick={() => toggleJobExperience(o.value)}
                       >
-                        {o.label}
+                        <ExperienceChipLabel
+                          value={o.value}
+                          label={o.label}
+                          portalCompact={isPortalCertRoadmap}
+                        />
                       </RoadmapChoiceChip>
                     ))}
                   </div>

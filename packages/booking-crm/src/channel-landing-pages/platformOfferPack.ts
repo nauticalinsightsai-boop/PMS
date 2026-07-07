@@ -170,8 +170,6 @@ export const PROFESSIONAL_FLOW: PortalSectionId[] = [
   'roadmap_form',
   'webinar_media',
   'featured_pathways',
-  'hero_card',
-  'trust',
   'tiers',
   'social_proof',
   'credibility',
