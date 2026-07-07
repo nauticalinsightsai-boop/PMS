@@ -58,7 +58,7 @@ type PmpRoadmapLeadFormProps = {
   /** Channel portal (/go/*): attribution on lead payload */
   portalChannelId?: string;
   portalLandingSlug?: string;
-  /** Portal page theme — styles the form to match /go/{slug} chrome */
+  /** Portal page theme: styles the form to match /go/{slug} chrome */
   portalTheme?: PlatformPortalTheme;
   /** Homepage hero / insights placements: CMS copy overrides */
   heroCopy?: HomeHeroForm | null;
