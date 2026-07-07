@@ -26,7 +26,7 @@ function portalPathwayTitle(certId: string, fallback: string) {
   return fallback;
 }
 
-/** Tailwind `sm` — desktop grid uses independent card expand state. */
+/** Tailwind `sm` breakpoint: desktop grid uses independent card expand state. */
 function useIsSmUp() {
   const [isSmUp, setIsSmUp] = useState(false);
 

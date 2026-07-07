@@ -181,7 +181,7 @@ function portalExperienceChipSelected(chipValue: string, jobExperience: string) 
   return jobExperience === chipValue;
 }
 
-/** Tailwind `sm` — portal experience chips switch layout at this breakpoint. */
+/** Tailwind `sm` breakpoint: portal experience chips switch layout at this breakpoint. */
 function useIsSmUp() {
   const [isSmUp, setIsSmUp] = React.useState(false);
 
