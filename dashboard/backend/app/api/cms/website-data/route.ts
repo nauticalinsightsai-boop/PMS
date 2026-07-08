@@ -7,6 +7,8 @@ type Body = {
   fieldKey?: string;
   content?: Record<string, unknown>;
   view?: 'draft' | 'published';
+  /** When true with saveDraft, marks the row live in one atomic upsert. */
+  publish?: boolean;
 };
 
 export async function GET(request: NextRequest) {
@@ -48,6 +50,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (body.action === 'saveDraft') {
+    const markPublished = body.publish === true;
     const { data: existing } = await admin
       .from('website_data')
       .select('is_published')
@@ -58,13 +61,13 @@ export async function POST(request: NextRequest) {
       {
         field_key: fieldKey,
         content: body.content ?? {},
-        is_published: existing?.is_published ?? false,
+        is_published: markPublished ? true : (existing?.is_published ?? false),
         updated_at: new Date().toISOString(),
       },
       { onConflict: 'field_key' },
     );
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, published: markPublished || Boolean(existing?.is_published) });
   }
 
   if (body.action === 'publish') {

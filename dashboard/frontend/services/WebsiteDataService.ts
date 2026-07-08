@@ -63,7 +63,12 @@ export const WebsiteDataService = {
     return result.data ?? [];
   },
 
-  async saveDraft(fieldKey: string, content: Record<string, unknown>) {
+  async saveDraft(
+    fieldKey: string,
+    content: Record<string, unknown>,
+    options?: { publish?: boolean },
+  ) {
+    const markPublished = options?.publish === true;
     if (!USE_CMS_API) {
       const { isSupabaseAuthConfigured, supabase } = await import('@/lib/supabase');
       if (!isSupabaseAuthConfigured) {
@@ -81,7 +86,7 @@ export const WebsiteDataService = {
           {
             field_key: fieldKey,
             content,
-            is_published: existing?.is_published ?? false,
+            is_published: markPublished ? true : (existing?.is_published ?? false),
             updated_at: new Date().toISOString(),
           },
           { onConflict: 'field_key' },
@@ -92,7 +97,7 @@ export const WebsiteDataService = {
 
     return cmsFetch('/api/cms/website-data', {
       method: 'POST',
-      body: JSON.stringify({ action: 'saveDraft', fieldKey, content }),
+      body: JSON.stringify({ action: 'saveDraft', fieldKey, content, publish: markPublished }),
     });
   },
 

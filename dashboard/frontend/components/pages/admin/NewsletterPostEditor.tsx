@@ -141,7 +141,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
       setPost(saved);
       setBaseline(nextBaseline);
       setLastSynced(new Date());
-      setLastSavedAsPublish(publish);
+      setLastSavedAsPublish(saved.status === 'published' || saved.status === 'scheduled');
       setSyncStatus('synced');
       if (!postId) {
         router.replace(WEBSITE_CMS_PATHS.newsletterEdit(saved.id));
@@ -273,7 +273,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
           <strong className="font-semibold">Not live yet.</strong> Status is{' '}
           <strong>Draft</strong>, so this post is hidden on{' '}
           <strong>pmstructure.com/newsletter</strong>. Click{' '}
-          <strong>Update &amp; publish</strong> below to make it visible (we set status to Active
+          <strong>Publish to site</strong> below to make it visible (status becomes Active
           automatically).
         </div>
       ) : null}
@@ -375,7 +375,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
                 <option value="scheduled">Scheduled</option>
               </select>
               <p className="mt-1 text-xs text-muted-foreground">
-                Draft keeps the post off the public site. Use <strong>Update &amp; publish</strong>{' '}
+                Draft keeps the post off the public site. Click <strong>Publish to site</strong>{' '}
                 to go live at <strong>/newsletter/{post.slug || 'your-slug'}</strong>.
               </p>
             </div>
@@ -407,7 +407,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
             onClick={() => void persist(true)}
           >
             {isSaving ? <Loader2 size={16} className="motion-safe:animate-spin [animation-duration:1.25s]" /> : <Save size={16} />}
-            {postId ? 'Update & publish' : 'Publish post'}
+            Publish to site
           </Button>
         </div>
       </div>

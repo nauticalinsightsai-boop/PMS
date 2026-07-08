@@ -9,12 +9,11 @@ import {
 } from '@pms/site-content/newsletter';
 import {
   NEWSLETTER_POSTS_FIELD_KEY,
-  publishedPostsFromRegistry,
-  parseNewsletterPostsRegistry,
   type NewsletterArticle,
 } from '@pms/site-content/newsletter-posts';
 import { CMS_TOPICS_FIELD_KEY } from '@pms/site-content/cms-posts';
 import { newsletterArticles as fileFallback } from '@/data/newsletterArticles';
+import { mergeCmsRegistryArticles } from '@/lib/newsletter/merge-cms-articles';
 import { buildNewsletterCategories } from '@/lib/newsletter/categories';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
 import { useWebsiteDataRealtime } from '@/hooks/useWebsiteDataRealtime';
@@ -37,12 +36,7 @@ function parseTopicNames(raw: unknown): string[] {
 }
 
 function mergeArticles(cmsRaw: unknown): NewsletterArticle[] {
-  const registry = parseNewsletterPostsRegistry(cmsRaw);
-  const cms = publishedPostsFromRegistry(registry);
-  if (cms.length === 0) return fileFallback;
-  const bySlug = new Map(fileFallback.map((a) => [a.slug, a]));
-  for (const article of cms) bySlug.set(article.slug, article);
-  return Array.from(bySlug.values());
+  return mergeCmsRegistryArticles(cmsRaw);
 }
 
 export function useNewsletterPageData(initial?: {
@@ -65,6 +59,7 @@ export function useNewsletterPageData(initial?: {
 
       if (hubRow?.content) setHub(parseNewsletterHubConfig(hubRow.content));
       if (postsRow?.content) setArticles(mergeArticles(postsRow.content));
+      else setArticles(fileFallback);
       if (topicsRow?.content) setTopicNames(parseTopicNames(topicsRow.content));
     } finally {
       setIsLoading(false);

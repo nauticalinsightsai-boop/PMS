@@ -1,22 +1,19 @@
 import { cache } from 'react';
 import {
-  mergeNewsletterArticles,
   NEWSLETTER_POSTS_FIELD_KEY,
-  newsletterPostToArticle,
-  parseNewsletterPostsRegistry,
-  publishedPostsFromRegistry,
   type NewsletterArticle,
 } from '@pms/site-content/newsletter-posts';
 import { newsletterArticles as fileArticles } from '@/data/newsletterArticles';
+import { mergeCmsRegistryArticles } from '@/lib/newsletter/merge-cms-articles';
 import { supabase } from '@/lib/supabase';
 
 export type { NewsletterArticle };
 export { getNewsletterArticleHref } from '@pms/site-content/newsletter-posts';
 
-async function fetchCmsArticles(): Promise<NewsletterArticle[]> {
+async function fetchPublishedArticles(): Promise<NewsletterArticle[]> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return [];
+  if (!url || !key) return fileArticles;
 
   try {
     const { data, error } = await supabase
@@ -26,19 +23,17 @@ async function fetchCmsArticles(): Promise<NewsletterArticle[]> {
       .eq('is_published', true)
       .maybeSingle();
 
-    if (error || !data?.content) return [];
+    if (error || !data?.content) return fileArticles;
 
-    const registry = parseNewsletterPostsRegistry(data.content);
-    return publishedPostsFromRegistry(registry).map(newsletterPostToArticle);
+    return mergeCmsRegistryArticles(data.content);
   } catch {
-    return [];
+    return fileArticles;
   }
 }
 
 /** Server: published CMS posts merged with file seed (CMS wins on slug conflict). */
 export const getPublishedNewsletterArticles = cache(async (): Promise<NewsletterArticle[]> => {
-  const cmsArticles = await fetchCmsArticles();
-  return mergeNewsletterArticles(fileArticles, cmsArticles);
+  return fetchPublishedArticles();
 });
 
 export async function getNewsletterArticle(slug: string): Promise<NewsletterArticle | undefined> {

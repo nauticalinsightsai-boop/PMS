@@ -78,11 +78,9 @@ export function useNewsletterPosts() {
       await WebsiteDataService.saveDraft(
         NEWSLETTER_POSTS_FIELD_KEY,
         next as unknown as Record<string, unknown>,
+        { publish },
       );
-      if (publish) {
-        await WebsiteDataService.publish(NEWSLETTER_POSTS_FIELD_KEY);
-        setIsRegistryPublished(true);
-      }
+      if (publish) setIsRegistryPublished(true);
       setRegistry(next);
     } catch (err) {
       console.error('Failed to save newsletter posts', err);
@@ -97,7 +95,11 @@ export function useNewsletterPosts() {
     setIsSaving(true);
     setError(null);
     try {
-      await WebsiteDataService.publish(NEWSLETTER_POSTS_FIELD_KEY);
+      await WebsiteDataService.saveDraft(
+        NEWSLETTER_POSTS_FIELD_KEY,
+        registry as unknown as Record<string, unknown>,
+        { publish: true },
+      );
       setIsRegistryPublished(true);
     } catch (err) {
       console.error('Failed to publish newsletter posts', err);
@@ -106,7 +108,7 @@ export function useNewsletterPosts() {
     } finally {
       setIsSaving(false);
     }
-  }, []);
+  }, [registry]);
 
   const syncFromSite = useCallback(async () => {
     setIsSaving(true);
@@ -144,14 +146,20 @@ export function useNewsletterPosts() {
     async (post: NewsletterPost, publish = false) => {
       const nextPosts = [...registry.posts];
       const index = nextPosts.findIndex((item) => item.id === post.id);
+      const now = new Date().toISOString();
       const updated: NewsletterPost = {
         ...post,
-        modifiedDate: new Date().toISOString(),
+        modifiedDate: now,
+        status: publish ? 'published' : post.status,
+        publishDate:
+          (publish || post.status === 'published' || post.status === 'scheduled') && !post.publishDate
+            ? now
+            : post.publishDate,
       };
       if (index >= 0) nextPosts[index] = updated;
       else nextPosts.unshift(updated);
       const shouldPublishRegistry =
-        publish || post.status === 'published' || post.status === 'scheduled';
+        publish || updated.status === 'published' || updated.status === 'scheduled';
       await persist({ version: 1, posts: nextPosts }, shouldPublishRegistry);
       return updated;
     },
