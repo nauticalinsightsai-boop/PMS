@@ -12,6 +12,7 @@ interface SyncStatusIndicatorProps {
   onManualSync?: () => void;
   errorDetail?: string | null;
   isManualSyncing?: boolean;
+  syncedLabel?: string;
 }
 
 export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
@@ -20,9 +21,14 @@ export const SyncStatusIndicator: React.FC<SyncStatusIndicatorProps> = ({
   onManualSync,
   errorDetail,
   isManualSyncing = false,
+  syncedLabel,
 }) => {
   const configs = {
-    synced: { icon: CloudCheck, text: 'Changes saved', class: 'text-emerald-600 dark:text-emerald-400' },
+    synced: {
+      icon: CloudCheck,
+      text: syncedLabel ?? 'Changes saved',
+      class: 'text-emerald-600 dark:text-emerald-400',
+    },
     syncing: { icon: RefreshCw, text: 'Saving…', class: 'text-brand-orange' },
     error: { icon: AlertCircle, text: 'Save failed', class: 'text-destructive' },
     pending: { icon: CloudOff, text: 'Unsaved changes', class: 'text-amber-600 dark:text-amber-400' },

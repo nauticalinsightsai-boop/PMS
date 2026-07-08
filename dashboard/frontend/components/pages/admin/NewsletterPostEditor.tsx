@@ -45,6 +45,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const [baseline, setBaseline] = useState('');
   const [syncStatus, setSyncStatus] = useState<SyncStatus>('synced');
   const [lastSynced, setLastSynced] = useState<Date | undefined>();
+  const [lastSavedAsPublish, setLastSavedAsPublish] = useState(false);
 
   const publicSiteUrl = siteUrl.replace(/\/$/, '');
 
@@ -140,6 +141,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
       setPost(saved);
       setBaseline(nextBaseline);
       setLastSynced(new Date());
+      setLastSavedAsPublish(publish);
       setSyncStatus('synced');
       if (!postId) {
         router.replace(WEBSITE_CMS_PATHS.newsletterEdit(saved.id));
@@ -175,10 +177,17 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const metaTitleCount = post.metaTitle.length;
   const metaDescriptionCount = post.metaDescription.length;
   const pageTitle = postId ? 'Edit Newsletter' : 'New Newsletter';
+  const isLiveOnSite = post.status === 'published' || post.status === 'scheduled';
   const publicPaths =
-    post.slug && (post.status === 'published' || post.status === 'scheduled')
+    post.slug && isLiveOnSite
       ? [{ label: 'Newsletter page', href: `${publicSiteUrl}/newsletter/${post.slug}` }]
       : [];
+  const syncedLabel =
+    syncStatus === 'synced'
+      ? lastSavedAsPublish && isLiveOnSite
+        ? 'Published on site'
+        : 'Draft saved (hidden on site)'
+      : undefined;
 
   return (
     <div className="space-y-6 pb-28">
@@ -252,8 +261,22 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
           status={syncStatus}
           lastSynced={lastSynced}
           errorDetail={saveError}
+          syncedLabel={syncedLabel}
         />
       </div>
+
+      {!isLiveOnSite ? (
+        <div
+          role="status"
+          className="rounded-2xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-foreground"
+        >
+          <strong className="font-semibold">Not live yet.</strong> Status is{' '}
+          <strong>Draft</strong>, so this post is hidden on{' '}
+          <strong>pmstructure.com/newsletter</strong>. Click{' '}
+          <strong>Update &amp; publish</strong> below to make it visible (we set status to Active
+          automatically).
+        </div>
+      ) : null}
 
       <div className="mx-auto max-w-6xl space-y-6">
         <SectionCard title="Basic Information" icon={Tag}>
@@ -351,6 +374,10 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
                 <option value="draft">Draft (hidden on site)</option>
                 <option value="scheduled">Scheduled</option>
               </select>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Draft keeps the post off the public site. Use <strong>Update &amp; publish</strong>{' '}
+                to go live at <strong>/newsletter/{post.slug || 'your-slug'}</strong>.
+              </p>
             </div>
           </div>
         </SectionCard>
