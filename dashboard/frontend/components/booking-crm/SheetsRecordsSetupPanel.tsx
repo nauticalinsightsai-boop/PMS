@@ -132,17 +132,16 @@ export function SheetsRecordsSetupPanel({
             <div>
               <h2 className="text-h5 text-foreground">Google Sheets connected</h2>
               <p className="text-body-sm text-muted-foreground mt-1">
-                New form submissions sync to Google Sheets automatically in the background — no manual
-                step. Every lead appends to <strong>Submissions</strong>, <strong>Records</strong>,{' '}
-                <strong>All Leads</strong>, and the matching ops tab (Contact, Newsletter, Waitlist,
-                etc.). Certification leads also go to <strong>Certification Forms</strong>. Payments go
-                to <strong>Payments</strong>. This table mirrors the live sheet ({rowCount} row
+                New form submissions sync to Google Sheets automatically on submit — no manual step.
+                Rows append to <strong>Submissions</strong>, <strong>Records</strong>, and{' '}
+                <strong>Certification Forms</strong> (cert leads only). Payments go to{' '}
+                <strong>Payments</strong>. This table mirrors the live sheet ({rowCount} row
                 {rowCount === 1 ? '' : 's'}).
               </p>
               <p className="text-meta text-muted-foreground mt-2">
-                In Google Sheets: check <strong>All Leads</strong> or the form-specific tab (e.g.{' '}
-                Newsletter), or <strong>Submissions</strong> for the full row. Refresh the browser tab
-                if the sheet was already open.
+                In Google Sheets: open the <strong>Submissions</strong> tab and scroll to the{' '}
+                <strong>bottom</strong> for the newest row. Refresh the sheet if you already had it
+                open.
               </p>
               <dl className="mt-3 grid gap-2 text-meta sm:grid-cols-2">
                 <div>

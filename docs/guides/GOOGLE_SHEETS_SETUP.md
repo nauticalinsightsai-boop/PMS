@@ -4,7 +4,7 @@ The **Sheets Records** page (`/admin/dashboard/booking-crm/interactions/sheets`)
 
 ## What syncs
 
-All marketing forms use `POST /api/interactions` → Supabase `form_submissions` → **background** Google Sheets append (fast 201 to the user):
+All marketing forms use `POST /api/interactions` → Supabase `form_submissions` → background Google Sheets append:
 
 - Contact, newsletter, waitlists
 - **PMP / certification roadmap forms** (home, cert pages, popups) — `pmp_roadmap_lead` / `cert_roadmap_lead`
@@ -20,10 +20,8 @@ Details (name, phone, message, etc.) live in dedicated columns — **no JSON**.
 
 | Tab | Purpose |
 |-----|---------|
-| **Submissions** | Every form — full human-readable columns (A–W) |
+| **Submissions** | Every form — human-readable columns (Date, Form Type, Email, Name, Phone, …) |
 | **Records** | Same leads in a shorter layout for daily ops |
-| **All Leads** | Master ops view (matches legacy workbook layout) |
-| **Contact**, **Newsletter**, **Waitlist**, **Roadmap Leads**, etc. | Form-type tabs (auto-append on submit) |
 | **Certification Forms** | Certification / pathway leads only |
 | **Payments** | Stripe purchases (separate layout) |
 

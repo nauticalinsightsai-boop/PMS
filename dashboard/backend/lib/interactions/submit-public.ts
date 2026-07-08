@@ -21,9 +21,11 @@ export type SubmitPublicInteractionResult = {
 type InteractionPostResponse = {
   error?: string;
   sheetsSynced?: boolean;
-  sheetsSyncPending?: boolean;
   sheetsWarning?: string | null;
 };
+
+const SHEETS_SYNC_USER_ERROR =
+  'We received your details but could not sync them to our records system. Please try again in a moment or contact us directly.';
 
 export async function submitPublicInteraction(
   data: ClientInteractionBody
@@ -44,6 +46,9 @@ export async function submitPublicInteraction(
     const json = (await res.json().catch(() => ({}))) as InteractionPostResponse;
     if (!res.ok) {
       return { ok: false, error: typeof json.error === 'string' ? json.error : 'Submission failed' };
+    }
+    if (typeof json.sheetsWarning === 'string' && json.sheetsWarning.trim()) {
+      return { ok: false, error: SHEETS_SYNC_USER_ERROR, sheetsSynced: false };
     }
     return { ok: true, sheetsSynced: json.sheetsSynced === true };
   } catch {
