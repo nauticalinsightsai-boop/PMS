@@ -20,7 +20,7 @@ import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { RefreshIcon } from '@/components/shared/RefreshIcon';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
 import { useNewsletterSubscribers } from '@/hooks/useNewsletterSubscribers';
-import { formatPostDate } from '@/lib/newsletter-posts';
+import { formatPostDate, type NewsletterPostStatus } from '@/lib/newsletter-posts';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 import { cn } from '@/lib/utils';
 
@@ -32,6 +32,18 @@ function formatDashboardDate(iso: string): string {
     month: '2-digit',
     year: 'numeric',
   });
+}
+
+function postStatusBadge(status: NewsletterPostStatus) {
+  const isLive = status === 'published' || status === 'scheduled';
+  return cn(
+    'inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide',
+    isLive ? 'bg-green-500/10 text-green-600' : 'bg-muted text-muted-foreground',
+  );
+}
+
+function postStatusLabel(status: NewsletterPostStatus) {
+  return status === 'published' || status === 'scheduled' ? 'Live on site' : 'Draft';
 }
 
 function StatCard({
@@ -197,6 +209,10 @@ export function NewsletterDashboard() {
         <section className="rounded-2xl border border-border bg-card shadow-sm">
           <div className="border-b border-border px-5 py-4">
             <h2 className="text-lg font-semibold">Recent Posts</h2>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Admin list only. Only posts marked <strong>Live on site</strong> appear on{' '}
+              <strong>pmstructure.com/newsletter</strong>.
+            </p>
           </div>
 
           {isLoading ? (
@@ -216,9 +232,13 @@ export function NewsletterDashboard() {
                   className="flex items-center justify-between gap-4 px-5 py-4"
                 >
                   <div className="min-w-0">
-                    <p className="truncate font-medium text-foreground">{post.title}</p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="truncate font-medium text-foreground">{post.title}</p>
+                      <span className={postStatusBadge(post.status)}>{postStatusLabel(post.status)}</span>
+                    </div>
                     <p className="text-xs text-muted-foreground">
                       {formatDashboardDate(post.publishDate || post.modifiedDate)}
+                      {post.slug ? ` · /newsletter/${post.slug}` : ''}
                     </p>
                   </div>
                   <div className="flex shrink-0 items-center gap-1">
@@ -299,9 +319,16 @@ export function NewsletterDashboard() {
 
           <section className="rounded-2xl border border-dashed border-border bg-muted/30 p-4 text-sm text-muted-foreground">
             <p>
-              Posts here sync with <strong>/newsletter</strong> on the public site. Use{' '}
-              <strong>Deploy Now</strong> to publish registry changes.
+              Posts here sync with <strong>/newsletter</strong> on the public site. Open a post and
+              click <strong>Update &amp; publish</strong>, or use <strong>Deploy Now</strong> if the
+              registry is still unpublished.
             </p>
+            {!isRegistryPublished ? (
+              <p className="mt-2 text-xs font-medium text-amber-700 dark:text-amber-400">
+                Registry not deployed yet — click <strong>Deploy Now</strong> above to push changes
+                live.
+              </p>
+            ) : null}
             {posts.length > 0 ? (
               <p className="mt-2 text-xs">
                 Latest update: {formatPostDate(posts[0]?.modifiedDate ?? posts[0]?.publishDate ?? '')}
