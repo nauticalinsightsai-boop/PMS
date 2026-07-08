@@ -102,12 +102,22 @@ export const WebsiteDataService = {
       if (!isSupabaseAuthConfigured) {
         throw new Error('Supabase is not configured.');
       }
-      const { data, error } = await supabase
+      const { data: existing, error: fetchError } = await supabase
+        .from('website_data')
+        .select('id')
+        .eq('field_key', fieldKey)
+        .maybeSingle();
+      if (fetchError) throw new Error(toErrorMessage(fetchError, 'Failed to load website data.'));
+      if (!existing) {
+        throw new Error('Nothing to publish. Save the draft first.');
+      }
+
+      const { error } = await supabase
         .from('website_data')
         .update({ is_published: true })
         .eq('field_key', fieldKey);
       if (error) throw new Error(toErrorMessage(error, 'Failed to publish.'));
-      return data;
+      return;
     }
 
     return cmsFetch('/api/cms/website-data', {

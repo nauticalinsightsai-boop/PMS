@@ -7,6 +7,8 @@ import {
 } from '@pms/site-content/newsletter';
 import {
   NEWSLETTER_POSTS_FIELD_KEY,
+  mergeNewsletterArticles,
+  newsletterPostToArticle,
   publishedPostsFromRegistry,
   parseNewsletterPostsRegistry,
   type NewsletterArticle,
@@ -28,11 +30,8 @@ function parseTopicNames(raw: unknown): string[] {
 
 function mergeArticles(cmsRaw: unknown): NewsletterArticle[] {
   const registry = parseNewsletterPostsRegistry(cmsRaw);
-  const cms = publishedPostsFromRegistry(registry);
-  if (cms.length === 0) return fileFallback;
-  const bySlug = new Map(fileFallback.map((a) => [a.slug, a]));
-  for (const article of cms) bySlug.set(article.slug, article);
-  return Array.from(bySlug.values());
+  const cmsArticles = publishedPostsFromRegistry(registry).map(newsletterPostToArticle);
+  return mergeNewsletterArticles(fileFallback, cmsArticles);
 }
 
 export const getNewsletterPageData = cache(async () => {

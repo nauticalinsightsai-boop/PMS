@@ -68,6 +68,19 @@ export async function POST(request: NextRequest) {
   }
 
   if (body.action === 'publish') {
+    const { data: existing, error: fetchError } = await admin
+      .from('website_data')
+      .select('id')
+      .eq('field_key', fieldKey)
+      .maybeSingle();
+    if (fetchError) return NextResponse.json({ error: fetchError.message }, { status: 500 });
+    if (!existing) {
+      return NextResponse.json(
+        { error: 'Nothing to publish. Save the draft first.' },
+        { status: 400 },
+      );
+    }
+
     const { error } = await admin
       .from('website_data')
       .update({ is_published: true, updated_at: new Date().toISOString() })

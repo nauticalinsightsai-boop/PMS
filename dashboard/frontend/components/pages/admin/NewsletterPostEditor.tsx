@@ -219,6 +219,15 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
               <h1 className="text-3xl font-bold tracking-tight font-heading">{pageTitle}</h1>
               <p className="text-sm text-muted-foreground">
                 Edits sync to <strong>/newsletter</strong> when you publish.
+                {post.slug ? (
+                  <>
+                    {' '}
+                    Live URL:{' '}
+                    <strong>
+                      /newsletter/{post.slug}
+                    </strong>
+                  </>
+                ) : null}
               </p>
             </div>
           </div>

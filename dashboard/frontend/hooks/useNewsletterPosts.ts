@@ -150,7 +150,9 @@ export function useNewsletterPosts() {
       };
       if (index >= 0) nextPosts[index] = updated;
       else nextPosts.unshift(updated);
-      await persist({ version: 1, posts: nextPosts }, publish);
+      const shouldPublishRegistry =
+        publish || post.status === 'published' || post.status === 'scheduled';
+      await persist({ version: 1, posts: nextPosts }, shouldPublishRegistry);
       return updated;
     },
     [persist, registry.posts],

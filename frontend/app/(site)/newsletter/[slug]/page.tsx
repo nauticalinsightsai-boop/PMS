@@ -6,12 +6,10 @@ import { getNewsletterArticle, getPublishedNewsletterArticles } from '@/lib/news
 import { buildPageMetadata } from '@/lib/site-metadata';
 import { BRAND } from '@/lib/brand-voice';
 
-type Props = { params: Promise<{ slug: string }> };
+/** Always read Supabase on request so newly published slugs are not stuck as cached 404s. */
+export const dynamic = 'force-dynamic';
 
-export async function generateStaticParams() {
-  const articles = await getPublishedNewsletterArticles();
-  return articles.map((a) => ({ slug: a.slug }));
-}
+type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
