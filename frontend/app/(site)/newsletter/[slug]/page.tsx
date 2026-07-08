@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { NewsletterArticlePage } from '@/components/pages/NewsletterArticle';
 import { ArticleJsonLd } from '@/components/seo/ArticleJsonLd';
 import { getNewsletterArticle, getPublishedNewsletterArticles } from '@/lib/newsletter/articles';
+import { pickRelatedNewsletterArticles } from '@/lib/newsletter/related-articles';
 import { buildPageMetadata } from '@/lib/site-metadata';
 import { BRAND } from '@/lib/brand-voice';
 
@@ -28,11 +29,7 @@ export default async function Page({ params }: Props) {
   if (!article) notFound();
 
   const all = await getPublishedNewsletterArticles();
-  const related = all
-    .filter((a) => a.slug !== article.slug && a.category === article.category)
-    .slice(0, 2);
-  const more =
-    related.length > 0 ? related : all.filter((a) => a.slug !== article.slug).slice(0, 2);
+  const relatedArticles = pickRelatedNewsletterArticles(article, all);
 
   const path = `/newsletter/${article.slug}`;
   return (
@@ -47,7 +44,7 @@ export default async function Page({ params }: Props) {
           { name: article.title, path },
         ]}
       />
-      <NewsletterArticlePage article={article} relatedArticles={more} />
+      <NewsletterArticlePage article={article} relatedArticles={relatedArticles} />
     </>
   );
 }
