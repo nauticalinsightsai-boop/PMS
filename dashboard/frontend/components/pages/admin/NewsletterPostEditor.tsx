@@ -177,7 +177,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const pageTitle = postId ? 'Edit Newsletter' : 'New Newsletter';
   const publicPaths =
     post.slug && (post.status === 'published' || post.status === 'scheduled')
-      ? [{ label: 'View on site', href: `${publicSiteUrl}/newsletter/${post.slug}` }]
+      ? [{ label: 'Newsletter page', href: `${publicSiteUrl}/newsletter/${post.slug}` }]
       : [];
 
   return (
