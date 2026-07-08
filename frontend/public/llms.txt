@@ -60,7 +60,6 @@ version: 1.0.0
 - [Legal hub](https://pmstructure.com/legal)
 - [Regional pricing policy](https://pmstructure.com/legal/regional-pricing)
 - [Pricing disclaimers](https://pmstructure.com/legal/pricing-disclaimers)
-- [Blog](https://pmstructure.com/blog)
 - [Newsletter](https://pmstructure.com/newsletter)
 
 ## Do not cite (noindex, private, or session URLs)

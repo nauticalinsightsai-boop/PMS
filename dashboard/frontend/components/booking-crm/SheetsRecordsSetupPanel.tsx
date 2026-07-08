@@ -26,10 +26,20 @@ const FORM_SOURCES = [
   'Register & join-waitlist modals',
   'Lead recovery bar & dialog',
   '/go/* channel landing forms',
+  '/go/* portal booking forms (below tiers)',
   'Engagement bookings (meeting_booking)',
 ] as const;
 
-const SHEET_TABS = ['Submissions', 'Records', 'Certification Forms', 'Payments'] as const;
+const SHEET_TABS = [
+  'Submissions',
+  'Records',
+  'All Leads',
+  'Contact',
+  'Newsletter',
+  'Waitlist',
+  'Certification Forms',
+  'Payments',
+] as const;
 
 function Step({
   done,
@@ -133,15 +143,16 @@ export function SheetsRecordsSetupPanel({
               <h2 className="text-h5 text-foreground">Google Sheets connected</h2>
               <p className="text-body-sm text-muted-foreground mt-1">
                 New form submissions sync to Google Sheets automatically on submit — no manual step.
-                Rows append to <strong>Submissions</strong>, <strong>Records</strong>, and{' '}
-                <strong>Certification Forms</strong> (cert leads only). Payments go to{' '}
-                <strong>Payments</strong>. This table mirrors the live sheet ({rowCount} row
+                Every lead appends to <strong>Submissions</strong>, <strong>Records</strong>,{' '}
+                <strong>All Leads</strong>, and the matching ops tab (Contact, Newsletter, Waitlist,
+                etc.). Certification leads also go to <strong>Certification Forms</strong>. Payments go
+                to <strong>Payments</strong>. This table mirrors the live sheet ({rowCount} row
                 {rowCount === 1 ? '' : 's'}).
               </p>
               <p className="text-meta text-muted-foreground mt-2">
-                In Google Sheets: open the <strong>Submissions</strong> tab and scroll to the{' '}
-                <strong>bottom</strong> for the newest row. Refresh the sheet if you already had it
-                open.
+                In Google Sheets: check <strong>All Leads</strong> or the form-specific tab (e.g.{' '}
+                Newsletter), or <strong>Submissions</strong> for the full row. Refresh the browser tab
+                if the sheet was already open.
               </p>
               <dl className="mt-3 grid gap-2 text-meta sm:grid-cols-2">
                 <div>

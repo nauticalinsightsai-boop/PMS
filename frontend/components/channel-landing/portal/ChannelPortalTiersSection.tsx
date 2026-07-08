@@ -15,6 +15,7 @@ import { getLegalDocumentPath } from '@/constants/legal'
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
 import PortalAdvisoryServicesReveal from '@/components/channel-landing/portal/PortalAdvisoryServicesReveal'
 import PortalSectionHead from '@/components/channel-landing/portal/primitives/PortalSectionHead'
+import ChannelPortalBookingForm from '@/components/channel-landing/portal/ChannelPortalBookingForm'
 
 type Props = PortalSectionProps & {
   tiers: ConsultationTier[]
@@ -268,6 +269,8 @@ export default function ChannelPortalTiersSection({
         </a>
         .
       </p>
+
+      <ChannelPortalBookingForm page={page} theme={theme} sectionOrder={sectionOrder} />
     </section>
   )
 }

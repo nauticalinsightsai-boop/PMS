@@ -14,6 +14,12 @@ import {
   SUBMISSIONS_SHEET_HEADERS,
   type SheetSubmissionRow,
 } from '@pms/booking-crm/sheets-human-row';
+import {
+  ALL_LEADS_TAB,
+  buildAllLeadsLegacyRow,
+  buildLegacyFilteredTabRow,
+  legacyTabsToUpdate,
+} from '@pms/booking-crm/sheets-legacy-tabs';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 const SUBMISSIONS_TAB = 'Submissions';
@@ -93,6 +99,14 @@ async function appendHumanLeadRows(row: SheetsSyncRow): Promise<void> {
   if (isCertificationSheetSubmission(sheetRow)) {
     await ensureSheetTabExists(CERTIFICATION_TAB, [...CERTIFICATION_SHEET_HEADERS]);
     await appendRowToTab(CERTIFICATION_TAB, buildCertificationSheetRow(sheetRow));
+  }
+
+  for (const tabName of legacyTabsToUpdate(row.source)) {
+    const values =
+      tabName === ALL_LEADS_TAB
+        ? buildAllLeadsLegacyRow(sheetRow)
+        : buildLegacyFilteredTabRow(tabName, sheetRow);
+    await appendRowToTab(tabName, values);
   }
 }
 

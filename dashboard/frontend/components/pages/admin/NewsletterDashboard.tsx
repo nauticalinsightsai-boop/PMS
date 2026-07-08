@@ -299,8 +299,8 @@ export function NewsletterDashboard() {
 
           <section className="rounded-2xl border border-dashed border-border bg-muted/30 p-4 text-sm text-muted-foreground">
             <p>
-              Posts here sync with <strong>/newsletter</strong> and <strong>/blog</strong> on the
-              public site. Use <strong>Deploy Now</strong> to publish registry changes.
+              Posts here sync with <strong>/newsletter</strong> on the public site. Use{' '}
+              <strong>Deploy Now</strong> to publish registry changes.
             </p>
             {posts.length > 0 ? (
               <p className="mt-2 text-xs">

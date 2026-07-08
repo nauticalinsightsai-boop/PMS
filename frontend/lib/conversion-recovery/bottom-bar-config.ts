@@ -12,7 +12,6 @@ export function resolvePageGroup(pathname: string): BottomBarPageGroup {
   if (pathname.startsWith('/community')) return 'community';
   if (pathname.startsWith('/membership')) return 'membership';
   if (
-    pathname.startsWith('/blog') ||
     pathname.startsWith('/newsletter') ||
     pathname.startsWith('/topics') ||
     pathname.startsWith('/answers')

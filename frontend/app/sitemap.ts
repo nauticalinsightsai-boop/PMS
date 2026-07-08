@@ -1,7 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { certifications } from '@/data/siteData';
 import { getPublishedNewsletterArticles } from '@/lib/newsletter/articles';
-import { getPublishedBlogArticles } from '@/lib/blog/posts';
 import { DYNAMIC_LEGAL_SLUGS } from '@/content/legal/registry';
 import { PRIVACY_REGION_OPTIONS, GCC_COUNTRY_SLUGS } from '@/content/legal';
 import { buildSitemapEntry } from '@/lib/sitemap/helpers';
@@ -42,14 +41,6 @@ function entriesFromSpecs(specs: RouteSpec[]): MetadataRoute.Sitemap {
 async function safeNewsletterArticles() {
   try {
     return await getPublishedNewsletterArticles();
-  } catch {
-    return [];
-  }
-}
-
-async function safeBlogArticles() {
-  try {
-    return await getPublishedBlogArticles();
   } catch {
     return [];
   }
@@ -178,9 +169,6 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     .map((n) => safeEntry(`/newsletter/${n.slug}`, 0.6, 'monthly'))
     .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
-  // Blog hub is noindex until substantive content ships (G4 default).
-  const blog: MetadataRoute.Sitemap = [];
-
   // /go/* channel portals are noindex and omitted from the XML sitemap (GSC crawl budget).
   return dedupeSitemap([
     ...entriesFromSpecs(MARKETING_ROUTES),
@@ -192,6 +180,5 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     ...buildTopicEntries(),
     ...buildLegalEntries(),
     ...newsletter,
-    ...blog,
   ]);
 }

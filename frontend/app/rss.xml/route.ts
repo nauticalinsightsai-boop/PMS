@@ -1,4 +1,3 @@
-import { getPublishedBlogArticles } from '@/lib/blog/posts';
 import { getPublishedNewsletterArticles } from '@/lib/newsletter/articles';
 import { PMS_SITE_URL } from '@/config/pms-site';
 
@@ -11,23 +10,13 @@ function escapeXml(value: string): string {
 }
 
 export async function GET() {
-  const [blog, newsletter] = await Promise.all([
-    getPublishedBlogArticles(),
-    getPublishedNewsletterArticles(),
-  ]);
+  const newsletter = await getPublishedNewsletterArticles();
 
-  const items = [
-    ...blog.map((a) => ({
-      title: a.title,
-      link: `${PMS_SITE_URL}/blog/${a.slug}`,
-      description: a.excerpt,
-    })),
-    ...newsletter.map((a) => ({
-      title: a.title,
-      link: `${PMS_SITE_URL}/newsletter/${a.slug}`,
-      description: a.excerpt,
-    })),
-  ];
+  const items = newsletter.map((a) => ({
+    title: a.title,
+    link: `${PMS_SITE_URL}/newsletter/${a.slug}`,
+    description: a.excerpt,
+  }));
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">

@@ -55,7 +55,6 @@ const MARKETING_HUB_PATHS = [
   '/pm-service',
   '/about',
   '/contact',
-  '/blog',
   '/sitemap',
 ] as const;
 
@@ -521,7 +520,6 @@ export function shouldIncludeInHtmlSitemap(config: PageIndexationConfig): boolea
   if (path.startsWith('/admin') || path.startsWith('/api')) return false;
   if (ENROLL_NOINDEX_PATTERN.test(path)) return false;
   if (path.startsWith('/legal/privacy/') && path !== '/legal/privacy') return false;
-  if (/^\/blog\/[^/]+$/.test(path)) return false;
   if (/^\/newsletter\/[^/]+$/.test(path)) return false;
   if (/^\/answers\/[^/]+$/.test(path) && !P0_COMMERCIAL_PATHS.has(path)) return false;
   if (/^\/topics\/[^/]+$/.test(path) && !P0_COMMERCIAL_PATHS.has(path)) return false;

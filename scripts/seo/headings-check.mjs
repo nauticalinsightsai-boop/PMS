@@ -18,7 +18,7 @@ const pages = [
   'components/pages/Compare.tsx',
   'components/pages/About.tsx',
   'components/pages/Contact.tsx',
-  'components/pages/Blog.tsx',
+  'components/pages/Newsletter.tsx',
   'components/pages/Membership.tsx',
   'components/pages/PMService.tsx',
   'components/faq/FaqServerHeading.tsx',

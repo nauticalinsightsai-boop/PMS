@@ -11,7 +11,6 @@ import {
   Eye,
   Trash2,
   Loader2,
-  ExternalLink,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NavLinkButton } from '@/components/ui/nav-link-button';
@@ -88,7 +87,7 @@ export function NewsletterPostsList() {
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            Manage newsletter posts — published items appear on <strong>/newsletter</strong> and <strong>/blog</strong>.
+            Manage newsletter posts — published items appear on <strong>/newsletter</strong>.
           </p>
         </div>
 
@@ -173,34 +172,22 @@ export function NewsletterPostsList() {
                         >
                           <Pencil size={16} />
                         </NavLinkButton>
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          aria-label={`View newsletter ${post.title}`}
-                          render={
-                            <a
-                              href={`${publicSiteUrl.replace(/\/$/, '')}/newsletter/${post.slug}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            />
-                          }
-                        >
-                          <Eye size={16} />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          aria-label={`View blog ${post.title}`}
-                          render={
-                            <a
-                              href={`${publicSiteUrl.replace(/\/$/, '')}/blog/${post.slug}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            />
-                          }
-                        >
-                          <ExternalLink size={16} />
-                        </Button>
+                        {(post.status === 'published' || post.status === 'scheduled') ? (
+                          <Button
+                            variant="ghost"
+                            size="icon-sm"
+                            aria-label={`View ${post.title} on site`}
+                            render={
+                              <a
+                                href={`${publicSiteUrl.replace(/\/$/, '')}/newsletter/${post.slug}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              />
+                            }
+                          >
+                            <Eye size={16} />
+                          </Button>
+                        ) : null}
                         <Button
                           variant="ghost"
                           size="icon-sm"

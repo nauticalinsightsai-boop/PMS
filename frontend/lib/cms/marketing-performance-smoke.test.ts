@@ -59,7 +59,6 @@ describe('marketing performance — content preservation smoke', () => {
   it('Marketing pages do not import useWebsiteData', () => {
     const pages = [
       'About.tsx',
-      'Blog.tsx',
       'Contact.tsx',
       'Compare.tsx',
       'FAQ.tsx',

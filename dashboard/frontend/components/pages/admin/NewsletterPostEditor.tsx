@@ -129,10 +129,15 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const persist = async (publish: boolean) => {
     const payload = buildPayload();
     if (!payload) return;
+    const toSave =
+      publish && payload.status === 'draft'
+        ? { ...payload, status: 'published' as const }
+        : payload;
     setSyncStatus('syncing');
     try {
-      const saved = await upsertPost(payload, publish);
+      const saved = await upsertPost(toSave, publish);
       const nextBaseline = JSON.stringify({ ...saved, topics: saved.topics });
+      setPost(saved);
       setBaseline(nextBaseline);
       setLastSynced(new Date());
       setSyncStatus('synced');
@@ -170,12 +175,10 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const metaTitleCount = post.metaTitle.length;
   const metaDescriptionCount = post.metaDescription.length;
   const pageTitle = postId ? 'Edit Newsletter' : 'New Newsletter';
-  const publicPaths = post.slug
-    ? [
-        { label: 'Newsletter page', href: `${publicSiteUrl}/newsletter/${post.slug}` },
-        { label: 'Blog page', href: `${publicSiteUrl}/blog/${post.slug}` },
-      ]
-    : [];
+  const publicPaths =
+    post.slug && (post.status === 'published' || post.status === 'scheduled')
+      ? [{ label: 'View on site', href: `${publicSiteUrl}/newsletter/${post.slug}` }]
+      : [];
 
   return (
     <div className="space-y-6 pb-28">
@@ -215,7 +218,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
             <div>
               <h1 className="text-3xl font-bold tracking-tight font-heading">{pageTitle}</h1>
               <p className="text-sm text-muted-foreground">
-                Edits sync to <strong>/newsletter</strong> and <strong>/blog</strong> when you publish.
+                Edits sync to <strong>/newsletter</strong> when you publish.
               </p>
             </div>
           </div>
@@ -368,7 +371,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
             onClick={() => void persist(true)}
           >
             {isSaving ? <Loader2 size={16} className="motion-safe:animate-spin [animation-duration:1.25s]" /> : <Save size={16} />}
-            {postId ? 'Update Post' : 'Publish Post'}
+            {postId ? 'Update & publish' : 'Publish post'}
           </Button>
         </div>
       </div>

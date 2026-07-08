@@ -9,14 +9,13 @@ const ROUTES = [
   { path: '/certifications', mustInclude: ['Find your', 'pathway'] },
   { path: '/certifications/pmp', mustInclude: ['PMP', 'Certification'] },
   { path: '/membership', mustInclude: ['Membership'] },
-  { path: '/newsletter', mustInclude: ['Newsletter'] },
+  { path: '/newsletter', mustInclude: ['Structure Report', 'Newsletter'] },
   { path: '/community', mustInclude: ['Community'] },
   { path: '/community?view=store', mustInclude: ['store', 'Resource'] },
   { path: '/about', mustInclude: ['Mission'] },
   { path: '/contact', mustInclude: ['Contact'] },
   { path: '/faq', mustInclude: ['FAQ'] },
   { path: '/certifications/compare', mustInclude: ['Compare'] },
-  { path: '/blog', mustInclude: ['Blog'] },
   { path: '/pm-service', mustInclude: ['Services'] },
 ];
 

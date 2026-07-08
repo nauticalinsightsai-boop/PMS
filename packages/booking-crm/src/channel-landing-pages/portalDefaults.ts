@@ -54,7 +54,7 @@ export function buildPortalDefaults(btn: CtaPlatformButton): Partial<ChannelLand
     syncBannerLabel: 'Sync system',
     availabilityLabel: copy.availabilityLabel,
     consultationTiers: tiers,
-    showBookingForm: false,
+    showBookingForm: true,
     primaryAction: 'booking_form',
     primaryButtonText: getScheduleTierCta(btn.channelId),
   }
@@ -96,7 +96,7 @@ export function enrichChannelLandingPage(page: ChannelLandingPage): ChannelLandi
     webinarAbout: migrated.webinarAbout,
     webinarVideoUrl: migrated.webinarVideoUrl,
     conversion: mergePortalConversion(migrated.channelId, migrated.conversion),
-    showBookingForm: migrated.showBookingForm ?? false,
+    showBookingForm: migrated.showBookingForm ?? true,
   })
 }
 
@@ -171,7 +171,7 @@ export function mergeChannelLandingPage(
       primaryButtonText: getScheduleTierCta(btn.channelId),
       primaryAction: 'booking_form',
       contactService: 'Advisory',
-      showBookingForm: false,
+      showBookingForm: true,
       collectCompany: false,
       theme: 'brand',
       showLogo: true,
@@ -197,7 +197,7 @@ export function mergeChannelLandingPage(
       page.channelId
     ),
     conversion: mergePortalConversion(page.channelId, page.conversion),
-    showBookingForm: page.showBookingForm ?? false,
+    showBookingForm: page.showBookingForm ?? true,
     primaryButtonText: resolveScheduleTierCta(page.channelId, page.primaryButtonText),
   })
 }

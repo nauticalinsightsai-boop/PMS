@@ -4,7 +4,7 @@ The **Sheets Records** page (`/admin/dashboard/booking-crm/interactions/sheets`)
 
 ## What syncs
 
-All marketing forms use `POST /api/interactions` → Supabase `form_submissions` → background Google Sheets append:
+All marketing forms use `POST /api/interactions` → Supabase `form_submissions` → Google Sheets append on submit:
 
 - Contact, newsletter, waitlists
 - **PMP / certification roadmap forms** (home, cert pages, popups) — `pmp_roadmap_lead` / `cert_roadmap_lead`
@@ -22,6 +22,8 @@ Details (name, phone, message, etc.) live in dedicated columns — **no JSON**.
 |-----|---------|
 | **Submissions** | Every form — human-readable columns (Date, Form Type, Email, Name, Phone, …) |
 | **Records** | Same leads in a shorter layout for daily ops |
+| **All Leads** | Master ops view (matches legacy workbook layout) |
+| **Contact**, **Newsletter**, **Waitlist**, **Roadmap Leads**, etc. | Form-type tabs (auto-append on submit) |
 | **Certification Forms** | Certification / pathway leads only |
 | **Payments** | Stripe purchases (separate layout) |
 
@@ -128,10 +130,10 @@ Restart `npm run dev` (or redeploy) after changing env.
 |---------|-----|
 | “Showing Supabase rows” | `GOOGLE_SHEETS_*` not set on dashboard API; restart server |
 | 502 / read error | Share sheet with service account; check spreadsheet ID and tab name `Submissions` |
-| Row in Supabase but not sheet | Sheets Records → **Sync all pending**; or Inbox → retry; check Railway `GOOGLE_SHEETS_*` |
-| Old rows missing from sheet | Sheets Records → **Sync all pending** after connecting env; or `npm run sync:sheets` |
+| Row in Supabase but not sheet | Sheets Records → **Backfill older rows**; or Inbox → retry; check Railway `GOOGLE_SHEETS_*` |
+| Old rows missing from sheet | Sheets Records → **Backfill older rows** after connecting env; or `npm run sync:sheets` |
 
 ## Do not
 
 - Put service account JSON in git or inline in `.env` (use path or base64 var).
-- Block public form `201` responses on Sheets failures (by design, sync is background).
+- Expect rows only on **All Leads** without **Submissions** — both update on every lead form (except payments).

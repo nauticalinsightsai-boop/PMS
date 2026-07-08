@@ -118,6 +118,16 @@ const nextConfig: NextConfig = {
         destination: '/go/website',
         permanent: true,
       },
+      {
+        source: '/blog',
+        destination: '/newsletter',
+        permanent: true,
+      },
+      {
+        source: '/blog/:slug',
+        destination: '/newsletter/:slug',
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

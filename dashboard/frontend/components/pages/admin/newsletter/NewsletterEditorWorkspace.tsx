@@ -88,7 +88,7 @@ export function NewsletterEditorWorkspace({ post, onChange }: Props) {
           </p>
           <p className="pt-1 text-[11px] leading-relaxed">
             Audio, YouTube, featured image, and body content publish to{' '}
-            <strong>/newsletter/[slug]</strong> and <strong>/blog/[slug]</strong> when you update the post.
+            <strong>/newsletter/[slug]</strong> when you update the post.
           </p>
         </div>
       </aside>

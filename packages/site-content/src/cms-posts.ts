@@ -200,5 +200,5 @@ export function mergeBlogArticles(
 }
 
 export function getBlogArticleHref(article: Pick<BlogArticle, 'slug'>): string {
-  return `/blog/${article.slug}`;
+  return `/newsletter/${article.slug}`;
 }
