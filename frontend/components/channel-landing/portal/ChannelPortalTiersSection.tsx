@@ -15,7 +15,6 @@ import { getLegalDocumentPath } from '@/constants/legal'
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes'
 import PortalAdvisoryServicesReveal from '@/components/channel-landing/portal/PortalAdvisoryServicesReveal'
 import PortalSectionHead from '@/components/channel-landing/portal/primitives/PortalSectionHead'
-import ChannelPortalBookingForm from '@/components/channel-landing/portal/ChannelPortalBookingForm'
 
 type Props = PortalSectionProps & {
   tiers: ConsultationTier[]
@@ -76,8 +75,6 @@ export default function ChannelPortalTiersSection({
         : 'Select consultation tier'
   const cardLayout = isImpulseFlow ? 'portal-tier-card portal-tier-card--stacked' : 'portal-tier-card'
   const showConversionHints = isConversionEnabledForChannel(page.channelId)
-  const showFormHint =
-    showConversionHints && page.showBookingForm && page.primaryAction === 'booking_form'
   const tierSchedulingLine = showConversionHints ? getTierSchedulingLine(page.channelId) : ''
 
   return (
@@ -106,12 +103,6 @@ export default function ChannelPortalTiersSection({
           subtitle={tierSchedulingLine || undefined}
         />
       )}
-
-      {showConversionHints && showFormHint ? (
-        <p className="text-meta w-full mb-4 sm:mb-6" style={{ color: theme.textMuted }}>
-          Prefer email intake? Use the form below.
-        </p>
-      ) : null}
 
       <ul className="space-y-4">
         {tiers.map((tier) => (
@@ -269,8 +260,6 @@ export default function ChannelPortalTiersSection({
         </a>
         .
       </p>
-
-      <ChannelPortalBookingForm page={page} theme={theme} sectionOrder={sectionOrder} />
     </section>
   )
 }

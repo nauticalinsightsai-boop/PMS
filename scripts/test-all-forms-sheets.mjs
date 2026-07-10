@@ -284,23 +284,6 @@ const cases = [
       },
     },
   },
-  {
-    name: 'channel_portal_booking',
-    component: 'ChannelPortalBookingForm',
-    body: {
-      source: 'meeting_booking',
-      subject: `Audit: channel portal booking ${stamp}`,
-      email: testEmail,
-      payload: {
-        formId: 'channel_portal_booking',
-        formLabel: 'Channel portal booking',
-        placement: 'audit',
-        pagePath: '/go/linkedin',
-        fullName: 'Forms Audit',
-        phoneFull: '+971 50 000 0010',
-      },
-    },
-  },
 ];
 
 /** Not Sheets-backed lead forms (payment / Stripe). */
