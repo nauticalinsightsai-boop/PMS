@@ -160,7 +160,7 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
 
   return (
     <div
-      className={`portal-root relative z-10 ${portalSpacing.root}${marketingAmbience ? ' portal-website selection:bg-brand-orange selection:text-white' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}`}
+      className={`portal-root relative z-10 ${portalSpacing.root}${marketingAmbience ? ' portal-website selection:bg-brand-orange selection:text-white' : ''}${isWebinarPortal ? ' portal-webinar' : ''}${page.channelId === 'beehiiv' ? ' portal-beehiiv' : ''}${page.channelId === 'linkedin' ? ' portal-linkedin' : ''}`}
       style={{
         fontFamily: marketingAmbience ? undefined : theme.fontFamily,
         backgroundColor: marketingAmbience ? undefined : theme.background,

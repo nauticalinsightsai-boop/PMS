@@ -266,7 +266,7 @@ function RoadmapChoiceChip({
   return (
     <button
       type="button"
-      className={compact ? cn(portalChoiceChipClass, className) : className}
+      className={cn(compact && portalChoiceChipClass, className)}
       style={portalTheme ? portalChipStyle(portalTheme, selected) : undefined}
       onClick={onClick}
       {...aria}
@@ -990,9 +990,10 @@ export function PmpRoadmapLeadForm({
                       selected={certInterest === o.value}
                       portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                       useCompactRow={isPortalCertRoadmap}
-                      className={
-                        isPortalCertRoadmap && o.value === 'six-sigma' ? 'hidden sm:flex' : undefined
-                      }
+                      className={cn(
+                        !isPortalCertRoadmap && toggleOptionClass(certInterest === o.value),
+                        isPortalCertRoadmap && o.value === 'six-sigma' ? 'hidden sm:flex' : undefined,
+                      )}
                       aria-pressed={certInterest === o.value}
                       onClick={() => toggleCertInterest(o.value as HomeCertInterestValue)}
                     >
@@ -1003,6 +1004,7 @@ export function PmpRoadmapLeadForm({
                     selected={certInterest === 'other'}
                     portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                     useCompactRow={isPortalCertRoadmap}
+                    className={!isPortalCertRoadmap ? toggleOptionClass(certInterest === 'other') : undefined}
                     aria-pressed={certInterest === 'other'}
                     aria-expanded={certInterest === 'other'}
                     onClick={() => toggleCertInterest('other')}
@@ -1075,6 +1077,7 @@ export function PmpRoadmapLeadForm({
                           selected={selected}
                           portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                           useCompactRow={isPortalCertRoadmap}
+                          className={!isPortalCertRoadmap ? toggleOptionClass(selected) : undefined}
                           aria-pressed={selected}
                           onClick={() => toggleJobExperience(o.value)}
                         >

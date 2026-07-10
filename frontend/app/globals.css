@@ -158,3 +158,14 @@
     }
   }
 }
+
+/* LinkedIn portal: flat feed-style cards, no glass elevation */
+.portal-root.portal-linkedin [data-portal-glass],
+.portal-root[data-platform='linkedin'] [data-portal-glass] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.portal-root.portal-linkedin .portal-presence-linkedin {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}

@@ -1,10 +1,8 @@
 export async function register() {
-  if (process.env.NEXT_RUNTIME !== 'nodejs') return;
-
-  try {
-    const { logGoogleSheetsEnvStatus } = await import('@/lib/google/sheets-append');
-    logGoogleSheetsEnvStatus();
-  } catch (error) {
-    console.warn('[instrumentation] Google Sheets env check skipped', error);
+  // Keep Node-only imports inside this branch so Edge instrumentation does not
+  // try to resolve builtins like `fs` (see Next.js instrumentation guide).
+  if (process.env.NEXT_RUNTIME === 'nodejs') {
+    const { registerNodeInstrumentation } = await import('./instrumentation-node');
+    await registerNodeInstrumentation();
   }
 }

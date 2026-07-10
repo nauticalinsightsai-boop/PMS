@@ -17,18 +17,33 @@ export default function ChannelPortalPresenceStrip({
   onSetColorMode,
 }: PortalSectionProps) {
   const isInstagram = channelId === 'instagram'
-  const useStoryRing = isInstagram || layoutVariant === 'bold'
+  const isLinkedIn = channelId === 'linkedin'
+  // LinkedIn uses a square brand mark (no story ring), matching LinkedIn nav chrome
+  const useStoryRing = !isLinkedIn && (isInstagram || layoutVariant === 'bold')
   const presenceLabel = theme.presenceTag === 'Site' ? 'official website' : theme.presenceTag
   const customMark = hasChannelMark(channelId)
   const storyRingInnerStyle = resolvePortalStoryRingInnerStyle(theme)
 
+  const stripBg = isLinkedIn
+    ? colorMode === 'dark'
+      ? theme.background
+      : theme.surface
+    : theme.surface
+  const stripBorder = isLinkedIn
+    ? colorMode === 'dark'
+      ? 'rgba(255,255,255,0.08)'
+      : theme.cardBorder
+    : theme.cardBorder
+
   return (
     <div
-      className={`portal-presence-strip sticky top-0 z-[60] shrink-0 border-b py-3${isInstagram ? ' portal-presence-instagram' : ''}`}
+      className={`portal-presence-strip sticky top-0 z-[60] shrink-0 border-b${
+        isLinkedIn ? ' portal-presence-linkedin py-2' : ' py-3'
+      }${isInstagram ? ' portal-presence-instagram' : ''}`}
       style={{
         order: sectionOrder,
-        backgroundColor: theme.surface,
-        borderColor: theme.cardBorder,
+        backgroundColor: stripBg,
+        borderColor: stripBorder,
       }}
     >
       <div
@@ -65,26 +80,33 @@ export default function ChannelPortalPresenceStrip({
             <AdminChannelMark
               channelId={channelId}
               fallbackIcon={theme.iconName}
-              size={40}
+              size={isLinkedIn ? 34 : 40}
               colorScheme={colorMode}
               pill={{
                 backgroundColor: theme.primary,
                 color: theme.primaryForeground,
-                borderRadius: theme.radius,
-                iconSize: 22,
+                // LinkedIn logo tile is a rounded square, not a circle/pill
+                borderRadius: isLinkedIn ? '0.25rem' : theme.radius,
+                iconSize: isLinkedIn ? 20 : 22,
               }}
             />
           )}
           <div className="min-w-0">
             <p
-              className="text-meta font-semibold tracking-wide"
+              className={`font-semibold tracking-wide ${isLinkedIn ? 'text-sm' : 'text-meta'}`}
               style={{ color: theme.text }}
             >
               {presenceLabel}
             </p>
-            <p className="text-[11px] mt-0.5" style={{ color: theme.textMuted }}>
-              Mentor-led certification prep
-            </p>
+            {!isLinkedIn ? (
+              <p className="text-[11px] mt-0.5" style={{ color: theme.textMuted }}>
+                Mentor-led certification prep
+              </p>
+            ) : (
+              <p className="text-[11px] mt-0.5 hidden sm:block" style={{ color: theme.textMuted }}>
+                Professional network referral
+              </p>
+            )}
           </div>
         </a>
 
