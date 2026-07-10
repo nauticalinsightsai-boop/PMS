@@ -29,6 +29,7 @@ import {
 } from '@/content/seo/keyword-redirect-map';
 import { resolveKeywordLeadPopupCopy } from '@/lib/seo/keyword-lead-popup-copy';
 import {
+  PMP_JOB_EXPERIENCE_OPTIONS,
   PMP_ROADMAP_DIAL_CODES,
   formatDialPrefix,
   resolveDialOption,
@@ -40,6 +41,7 @@ import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
 import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 import { getPmsWhatsAppChatUrl } from '@/config/pms-site';
 import { useRegion } from '@/contexts/RegionContext';
+import { cn } from '@/lib/utils';
 
 const STORAGE_KEY = 'pms_keyword_lead_popup_dismissed_at';
 const SESSION_SHOWN_KEY = 'pms_keyword_lead_popup_shown';
@@ -101,6 +103,7 @@ export function KeywordLeadPopup() {
   const [dialValue, setDialValue] = React.useState('us');
   const dialOption = resolveDialOption(dialValue);
   const [phone, setPhone] = React.useState('');
+  const [jobExperience, setJobExperience] = React.useState('');
   const [message, setMessage] = React.useState('');
   const [honeypot, setHoneypot] = React.useState('');
   const [submitting, setSubmitting] = React.useState(false);
@@ -195,6 +198,10 @@ export function KeywordLeadPopup() {
       setError('Please enter your name, email, and phone number.');
       return;
     }
+    if (!jobExperience) {
+      setError('Please select your years of experience.');
+      return;
+    }
     setError(null);
     setSubmitting(true);
     trackFunnelEvent(FUNNEL_EVENTS.CTA_CLICK, {
@@ -207,7 +214,8 @@ export function KeywordLeadPopup() {
       from_slug: fromSlug || null,
     });
 
-    const phoneFull = `${dialOption.code} ${phone.trim()}`.trim();
+    const dialCode = dialOption.code;
+    const phoneFull = `${dialCode} ${phone.trim()}`.trim();
     const pagePath = typeof window !== 'undefined' ? window.location.pathname : pathname;
 
     const res = await submitPublicInteraction({
@@ -224,12 +232,19 @@ export function KeywordLeadPopup() {
       },
       payload: {
         fullName: fullName.trim(),
-        phone: phoneFull,
+        phoneCountryCode: dialCode,
+        phoneCountryPrefix: dialOption.prefix,
+        phone: phone.trim(),
+        phoneFull,
+        whatsapp: phoneFull,
+        jobExperienceYears: jobExperience,
         message: message.trim() || undefined,
         keyword: row?.keyword,
         intent: row?.intent,
         fromSlug: fromSlug || undefined,
         contentType: row?.contentType,
+        formId: 'keyword_lead_popup',
+        formLabel: 'Keyword lead popup',
       },
     });
 
@@ -320,16 +335,50 @@ export function KeywordLeadPopup() {
                   />
                 </div>
               </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="kw-lead-message">Message</Label>
-                <Textarea
-                  id="kw-lead-message"
-                  rows={3}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="What do you want help with?"
-                />
-              </div>
+              <fieldset className="space-y-1.5">
+                <legend className="text-sm font-medium leading-none">
+                  Years of experience <span className="text-brand-orange">*</span>
+                </legend>
+                <div
+                  className="grid grid-cols-2 gap-2"
+                  role="group"
+                  aria-label="Years of experience"
+                >
+                  {PMP_JOB_EXPERIENCE_OPTIONS.map((opt) => {
+                    const selected = jobExperience === opt.value;
+                    return (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        aria-pressed={selected}
+                        onClick={() => setJobExperience(opt.value)}
+                        className={cn(
+                          'h-8 rounded-lg border px-2 text-xs font-medium transition-colors',
+                          selected
+                            ? 'border-brand-orange bg-brand-orange/10 text-brand-orange'
+                            : 'border-border bg-background text-foreground hover:bg-muted',
+                        )}
+                      >
+                        {opt.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </fieldset>
+              {jobExperience ? (
+                <div className="space-y-1.5">
+                  <Label htmlFor="kw-lead-message">
+                    Message <span className="font-normal text-muted-foreground">(optional)</span>
+                  </Label>
+                  <Textarea
+                    id="kw-lead-message"
+                    rows={2}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="What do you want help with?"
+                  />
+                </div>
+              ) : null}
               <input
                 type="text"
                 name="website"
@@ -353,12 +402,24 @@ export function KeywordLeadPopup() {
               <Button type="submit" className="w-full" disabled={submitting}>
                 {submitting ? 'Sending…' : copy.submitLabel}
               </Button>
-              <Button type="button" variant="secondary" className="w-full" onClick={handleWhatsApp}>
-                {copy.whatsappLabel}
-              </Button>
-              <Button type="button" variant="outline" className="w-full" onClick={handleSchedule}>
-                {copy.scheduleLabel}
-              </Button>
+              <div className="grid w-full grid-cols-2 gap-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full border-transparent bg-[#25D366] text-white hover:bg-[#20bd5a] hover:text-white focus-visible:border-[#25D366] focus-visible:ring-[#25D366]/40"
+                  onClick={handleWhatsApp}
+                >
+                  {copy.whatsappLabel}
+                </Button>
+                <Button
+                  type="button"
+                  variant="brand"
+                  className="w-full"
+                  onClick={handleSchedule}
+                >
+                  {copy.scheduleLabel}
+                </Button>
+              </div>
             </DialogFooter>
           </form>
         )}

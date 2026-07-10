@@ -1,0 +1,202 @@
+{
+  "base": "https://pmstructure.com",
+  "testEmail": "forms-audit+1783693109525@pmstructure.com",
+  "capturedAt": "2026-07-10T14:19:11.736Z",
+  "results": [
+    {
+      "form": "keyword_lead_popup",
+      "component": "KeywordLeadPopup",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "15538394-2e35-439f-9428-6ccd39fb3b1e",
+      "detail": "id=15538394-2e35-439f-9428-6ccd39fb3b1e sheets=synced"
+    },
+    {
+      "form": "pmp_roadmap_lead",
+      "component": "PmpRoadmapLeadForm (home/PMP)",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "af33d920-16fb-40da-bb25-78242f99290b",
+      "detail": "id=af33d920-16fb-40da-bb25-78242f99290b sheets=synced"
+    },
+    {
+      "form": "cert_roadmap_lead",
+      "component": "PmpRoadmapLeadForm (cert page)",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "637b47ac-abde-4c2e-b30c-900b00234bdf",
+      "detail": "id=637b47ac-abde-4c2e-b30c-900b00234bdf sheets=synced"
+    },
+    {
+      "form": "contact_page",
+      "component": "Contact",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "8e90202c-93d5-45b2-9d9a-4614fa35ed4a",
+      "detail": "id=8e90202c-93d5-45b2-9d9a-4614fa35ed4a sheets=synced"
+    },
+    {
+      "form": "newsletter_hero_signup",
+      "component": "NewsletterHeroSubscribeForm",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "d375380e-70c3-4708-8044-90425c08aa4d",
+      "detail": "id=d375380e-70c3-4708-8044-90425c08aa4d sheets=synced"
+    },
+    {
+      "form": "newsletter_subscribe",
+      "component": "NewsletterSubscribeForm",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "270f9d52-06d2-4985-8f7d-af39a751f886",
+      "detail": "id=270f9d52-06d2-4985-8f7d-af39a751f886 sheets=synced"
+    },
+    {
+      "form": "community_waitlist",
+      "component": "CommunityWaitlistForm",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "bd7c1658-4313-40a8-9d5a-f1ce9c521c67",
+      "detail": "id=bd7c1658-4313-40a8-9d5a-f1ce9c521c67 sheets=synced"
+    },
+    {
+      "form": "pathway_waitlist",
+      "component": "JoinWaitlistDialog / WaitlistForm",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "a41e29ed-a676-474b-aef3-f0e640c60b37",
+      "detail": "id=a41e29ed-a676-474b-aef3-f0e640c60b37 sheets=synced"
+    },
+    {
+      "form": "store_product_waitlist",
+      "component": "JoinWaitlistDialog (store)",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "b7dcbc4e-e03e-4280-b14a-4a4c646428ce",
+      "detail": "id=b7dcbc4e-e03e-4280-b14a-4a4c646428ce sheets=synced"
+    },
+    {
+      "form": "pm_service_advisory",
+      "component": "PmServiceAdvisoryLeadForm",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "a84037a0-e243-4833-9fb8-eff6991bcc90",
+      "detail": "id=a84037a0-e243-4833-9fb8-eff6991bcc90 sheets=synced"
+    },
+    {
+      "form": "mastery_consultation",
+      "component": "MasteryConsultationForm",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "505e9d28-8f3a-4659-af4a-b4148f01a3a8",
+      "detail": "id=505e9d28-8f3a-4659-af4a-b4148f01a3a8 sheets=synced"
+    },
+    {
+      "form": "register_modal",
+      "component": "RegisterModal / RegisterNowDialog",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "73c1ea58-ab5a-4f24-8408-e5fe4e149f6a",
+      "detail": "id=73c1ea58-ab5a-4f24-8408-e5fe4e149f6a sheets=synced"
+    },
+    {
+      "form": "scholarship_review",
+      "component": "ScholarshipReviewForm",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "d3541f98-03b8-4f05-ab02-23977805868c",
+      "detail": "id=d3541f98-03b8-4f05-ab02-23977805868c sheets=synced (retried after rate-limit window)"
+    },
+    {
+      "form": "lead_recovery",
+      "component": "LeadRecoveryDialog / BottomCtaRotator",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "307b454d-c4c5-4e87-aab7-b1f65bf76e5c",
+      "detail": "id=307b454d-c4c5-4e87-aab7-b1f65bf76e5c sheets=synced (retried after rate-limit window)"
+    },
+    {
+      "form": "channel_landing",
+      "component": "ChannelLandingPublicView",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "f0ab4b8f-8151-4421-acd7-9f237cbd1194",
+      "detail": "id=f0ab4b8f-8151-4421-acd7-9f237cbd1194 sheets=synced (retried after rate-limit window)"
+    },
+    {
+      "form": "channel_portal_booking",
+      "component": "ChannelPortalBookingForm",
+      "ok": true,
+      "status": 201,
+      "sheets": "synced",
+      "sheetsSynced": true,
+      "sheetsSyncPending": false,
+      "id": "b0ad7476-8434-42bb-83e1-117e633b5d49",
+      "detail": "id=b0ad7476-8434-42bb-83e1-117e633b5d49 sheets=synced (retried after rate-limit window)"
+    }
+  ],
+  "excluded": [
+    {
+      "name": "CheckoutForm",
+      "reason": "Stripe checkout session — not a lead form; no /api/interactions"
+    },
+    {
+      "name": "ProgramEnrollmentForm / StripeEmbeddedSeatCheckout",
+      "reason": "Stripe seat deposit / tuition — payment pipeline, not Sheets leads"
+    }
+  ],
+  "summary": {
+    "accepted": 16,
+    "total": 16,
+    "sheetsOk": 16,
+    "sheetsMissing": [],
+    "failed": []
+  },
+  "retriedAt": "2026-07-10T14:42:25.515Z",
+  "note": "All 16 marketing form sources posted to production /api/interactions with sheetsSynced=true. Checkout/enrollment excluded (Stripe)."
+}
