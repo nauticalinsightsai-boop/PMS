@@ -6,6 +6,10 @@ export const WEBSITE_CMS_PATHS = {
   newsletterNew: '/dashboard/site-system/newsletter/new',
   newsletterSubscribers: '/dashboard/site-system/newsletter/subscribers',
   newsletterEdit: (id: string) => `/dashboard/site-system/newsletter/${id}/edit`,
+  newsletterAuthors: '/dashboard/site-system/newsletter/authors',
+  newsletterAuthorNew: '/dashboard/site-system/newsletter/authors/new',
+  newsletterAuthorEdit: (id: string) =>
+    `/dashboard/site-system/newsletter/authors/${id}/edit`,
   analytics: '/dashboard/site-system/analytics',
 } as const;
 

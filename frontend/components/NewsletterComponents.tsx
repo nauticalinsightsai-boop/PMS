@@ -123,12 +123,13 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
               <div className="flex items-center gap-3">
                 <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
                   <img
-                    src={resolveNewsletterAuthorAvatar(article.author)}
+                    src={article.authorImage?.trim() || resolveNewsletterAuthorAvatar(article.author)}
                     alt={article.author}
                     width={36}
                     height={36}
                     className="h-full w-full object-cover"
                     loading="lazy"
+                    referrerPolicy="no-referrer"
                   />
                 </div>
                 <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{article.author}</span>
@@ -198,16 +199,18 @@ export const FeaturedPost: React.FC<{ article: NewsletterArticle; storyHref?: st
             <div className="flex items-center gap-3">
               <div className="h-12 w-12 rounded-full bg-slate-100 border border-slate-200 overflow-hidden">
                 <img
-                  src={resolveNewsletterAuthorAvatar(article.author)}
+                  src={article.authorImage?.trim() || resolveNewsletterAuthorAvatar(article.author)}
                   alt={article.author}
                   width={48}
                   height={48}
                   loading="lazy"
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
                 />
               </div>
               <div>
                 <div className="font-bold text-slate-900 dark:text-white">{article.author}</div>
-                <div className="text-xs text-muted-foreground">Senior Editor</div>
+                <div className="text-xs text-muted-foreground">{article.authorTitle || 'PM Structure'}</div>
               </div>
             </div>
             <Link href={href} className="inline-flex items-center text-brand-purple font-bold text-lg group p-0 hover:underline">

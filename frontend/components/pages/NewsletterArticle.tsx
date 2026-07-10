@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { ArticleCard, CTABanner } from '@/components/NewsletterComponents';
 import { ArticleMarkdown } from '@/components/marketing/ArticleMarkdown';
@@ -7,6 +7,40 @@ import { youtubeEmbedUrl } from '@pms/site-content/youtube';
 import { PAGE_HERO_PADDING, SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import type { NewsletterArticle } from '@pms/site-content/newsletter-posts';
 import { resolveNewsletterArticleImage } from '@pms/site-content/newsletter-posts';
+import { resolveNewsletterAuthorAvatar } from '@/lib/marketing-stock-images';
+
+function articleAuthorAvatar(article: NewsletterArticle): string {
+  return article.authorImage?.trim() || resolveNewsletterAuthorAvatar(article.author);
+}
+
+function AuthorByline({ article }: { article: NewsletterArticle }) {
+  const content = (
+    <>
+      <span className="h-7 w-7 shrink-0 overflow-hidden rounded-full border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={articleAuthorAvatar(article)}
+          alt={article.author}
+          className="h-full w-full object-cover"
+          referrerPolicy="no-referrer"
+        />
+      </span>
+      <span className="font-semibold text-slate-700 dark:text-slate-200">{article.author}</span>
+    </>
+  );
+
+  if (article.authorSlug) {
+    return (
+      <Link
+        href={`/newsletter/author/${article.authorSlug}`}
+        className="inline-flex items-center gap-2 transition-colors hover:text-brand-purple"
+      >
+        {content}
+      </Link>
+    );
+  }
+  return <span className="inline-flex items-center gap-2">{content}</span>;
+}
 
 export function NewsletterArticlePage({
   article,
@@ -39,6 +73,7 @@ export function NewsletterArticlePage({
             {article.excerpt}
           </p>
           <div className="flex flex-wrap items-center gap-4 text-sm font-medium text-slate-500">
+            <AuthorByline article={article} />
             <span className="inline-flex items-center gap-1.5">
               <Calendar className="h-4 w-4 text-brand-orange" aria-hidden />
               {article.date}
@@ -46,10 +81,6 @@ export function NewsletterArticlePage({
             <span className="inline-flex items-center gap-1.5">
               <Clock className="h-4 w-4" aria-hidden />
               {article.readTime}
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <User className="h-4 w-4" aria-hidden />
-              {article.author}
             </span>
           </div>
         </div>
@@ -93,6 +124,50 @@ export function NewsletterArticlePage({
         ) : null}
 
         <ArticleMarkdown body={article.body} markdown={article.markdown} />
+
+        {article.authorBio || article.authorSlug ? (
+          <div className="mt-12 flex flex-col gap-4 rounded-2xl border border-slate-200 p-6 dark:border-slate-800 sm:flex-row sm:items-start">
+            <span className="h-16 w-16 shrink-0 overflow-hidden rounded-full border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={articleAuthorAvatar(article)}
+                alt={article.author}
+                className="h-full w-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </span>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-brand-purple">
+                {article.authorTitle || 'Author'}
+              </p>
+              {article.authorSlug ? (
+                <Link
+                  href={`/newsletter/author/${article.authorSlug}`}
+                  className="font-heading text-xl font-bold text-slate-900 hover:text-brand-purple dark:text-white"
+                >
+                  {article.author}
+                </Link>
+              ) : (
+                <p className="font-heading text-xl font-bold text-slate-900 dark:text-white">
+                  {article.author}
+                </p>
+              )}
+              {article.authorBio ? (
+                <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                  {article.authorBio}
+                </p>
+              ) : null}
+              {article.authorSlug ? (
+                <Link
+                  href={`/newsletter/author/${article.authorSlug}`}
+                  className="mt-3 inline-block text-sm font-bold text-brand-orange hover:underline"
+                >
+                  View all articles by {article.author}
+                </Link>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
 
         <div className="mt-12 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/50">
           <p className="text-sm text-slate-600 dark:text-slate-400 font-medium leading-relaxed">

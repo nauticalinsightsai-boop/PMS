@@ -28,6 +28,7 @@ export const newsletterPostSchema = z.object({
   publishDate: z.string(),
   modifiedDate: z.string(),
   author: z.string(),
+  authorId: z.string().default(''),
   topics: z.array(z.string()),
   youtubeUrl: z.string(),
   featuredImageUrl: z.string(),
@@ -60,6 +61,15 @@ export type NewsletterArticle = {
   category: string;
   date: string;
   author: string;
+  /** Author profile fields resolved from the authors registry (optional). */
+  authorId?: string;
+  authorSlug?: string;
+  authorTitle?: string;
+  authorBio?: string;
+  authorImage?: string;
+  authorLinkedinUrl?: string;
+  authorTwitterUrl?: string;
+  authorWebsiteUrl?: string;
   readTime: string;
   image: string;
   imageMobile?: string;
@@ -146,6 +156,7 @@ export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle
     category: post.topics[0] || 'Insights',
     date: formatNewsletterPostDate(post.publishDate),
     author: post.author || 'PM Structure Editorial',
+    authorId: post.authorId || undefined,
     readTime: estimateReadTime(post.content),
     image,
     imageMobile,
@@ -190,6 +201,7 @@ export function defaultNewsletterPostsRegistry(): NewsletterPostsRegistry {
         publishDate: '2026-01-01T00:00:00.000Z',
         modifiedDate: now,
         author: 'Badar Javed',
+        authorId: '',
         topics: ['Safety'],
         youtubeUrl: '',
         featuredImageUrl: '/images/marketing/mentorship-circle-900.webp',
@@ -224,6 +236,7 @@ export function defaultNewsletterPostsRegistry(): NewsletterPostsRegistry {
         publishDate: now,
         modifiedDate: now,
         author: 'PM Structure Editorial',
+        authorId: '',
         topics: ['Certification'],
         youtubeUrl: '',
         featuredImageUrl: '',
@@ -261,6 +274,7 @@ export function createEmptyNewsletterPost(): NewsletterPost {
     publishDate: now,
     modifiedDate: now,
     author: '',
+    authorId: '',
     topics: [],
     youtubeUrl: '',
     featuredImageUrl: '',
@@ -329,6 +343,7 @@ export function newsletterArticleToPost(
     publishDate,
     modifiedDate: now,
     author: article.author,
+    authorId: article.authorId ?? '',
     topics: [article.category],
     youtubeUrl: '',
     featuredImageUrl: article.image,
@@ -371,6 +386,7 @@ export function cmsPostToNewsletterPost(
     publishDate: post.publishDate || now,
     modifiedDate: post.modifiedDate || now,
     author: post.author || 'PM Structure Editorial',
+    authorId: '',
     topics: topics.length > 0 ? topics : ['Insights'],
     youtubeUrl: '',
     featuredImageUrl: post.featuredImageUrl,

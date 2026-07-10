@@ -22,6 +22,7 @@ import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 import { dashboardHref } from '@/lib/base-path';
 import { siteUrl } from '@/lib/site-config';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
+import { useNewsletterAuthors } from '@/hooks/useNewsletterAuthors';
 import {
   createEmptyPost,
   slugifyTitle,
@@ -40,6 +41,7 @@ function serializePost(post: NewsletterPost, topicsInput: string): string {
 export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const router = useRouter();
   const { getPostById, upsertPost, isLoading, isSaving, error: saveError } = useNewsletterPosts();
+  const { authors } = useNewsletterAuthors();
   const [post, setPost] = useState<NewsletterPost | null>(null);
   const [topicsInput, setTopicsInput] = useState('');
   const [baseline, setBaseline] = useState('');
@@ -284,6 +286,39 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
             <div>
               <FieldLabel required>Newsletter name</FieldLabel>
               <Input value={post.title} onChange={(event) => handleTitleChange(event.target.value)} />
+            </div>
+            <div>
+              <FieldLabel>Author</FieldLabel>
+              <select
+                value={post.authorId || ''}
+                onChange={(event) => {
+                  const selected = authors.find((a) => a.id === event.target.value);
+                  updatePost({
+                    authorId: selected?.id ?? '',
+                    author: selected?.name ?? post.author,
+                  });
+                }}
+                aria-label="Post author"
+                className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm"
+              >
+                <option value="">
+                  {post.author ? `Unlinked: ${post.author}` : 'No author selected'}
+                </option>
+                {authors.map((author) => (
+                  <option key={author.id} value={author.id}>
+                    {author.name}
+                    {author.title ? ` — ${author.title}` : ''}
+                    {author.status !== 'active' ? ' (draft)' : ''}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Manage profiles under{' '}
+                <Link href={WEBSITE_CMS_PATHS.newsletterAuthors} className="font-semibold hover:underline">
+                  Newsletter → Authors
+                </Link>
+                . The author photo, role, and profile page come from there.
+              </p>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <div>

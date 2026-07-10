@@ -12,6 +12,13 @@ import {
   type NewsletterArticle,
 } from '@pms/site-content/newsletter-posts';
 import { CMS_TOPICS_FIELD_KEY } from '@pms/site-content/cms-posts';
+import {
+  NEWSLETTER_AUTHORS_FIELD_KEY,
+  attachAuthorToArticle,
+  parseNewsletterAuthorsRegistry,
+  publishedAuthorsFromRegistry,
+  type NewsletterAuthor,
+} from '@pms/site-content/newsletter-authors';
 import { newsletterArticles as fileFallback } from '@/data/newsletterArticles';
 import { mergeCmsRegistryArticles } from '@/lib/newsletter/merge-cms-articles';
 import { buildNewsletterCategories } from '@/lib/newsletter/categories';
@@ -22,6 +29,7 @@ const BATCH_KEYS = [
   FIELD_KEYS.NEWSLETTER_HUB_CONFIG,
   NEWSLETTER_POSTS_FIELD_KEY,
   CMS_TOPICS_FIELD_KEY,
+  NEWSLETTER_AUTHORS_FIELD_KEY,
 ] as const;
 
 type TopicRow = { id: string; name: string; status: string };
@@ -35,8 +43,10 @@ function parseTopicNames(raw: unknown): string[] {
     .map((t) => t.name);
 }
 
-function mergeArticles(cmsRaw: unknown): NewsletterArticle[] {
-  return mergeCmsRegistryArticles(cmsRaw);
+function mergeArticles(cmsRaw: unknown, authors: NewsletterAuthor[]): NewsletterArticle[] {
+  const articles = mergeCmsRegistryArticles(cmsRaw);
+  if (authors.length === 0) return articles;
+  return articles.map((article) => attachAuthorToArticle(article, authors));
 }
 
 export function useNewsletterPageData(initial?: {
@@ -56,9 +66,13 @@ export function useNewsletterPageData(initial?: {
       const hubRow = rows.find((r) => r.field_key === FIELD_KEYS.NEWSLETTER_HUB_CONFIG);
       const postsRow = rows.find((r) => r.field_key === NEWSLETTER_POSTS_FIELD_KEY);
       const topicsRow = rows.find((r) => r.field_key === CMS_TOPICS_FIELD_KEY);
+      const authorsRow = rows.find((r) => r.field_key === NEWSLETTER_AUTHORS_FIELD_KEY);
+      const authors = authorsRow?.content
+        ? publishedAuthorsFromRegistry(parseNewsletterAuthorsRegistry(authorsRow.content))
+        : [];
 
       if (hubRow?.content) setHub(parseNewsletterHubConfig(hubRow.content));
-      if (postsRow?.content) setArticles(mergeArticles(postsRow.content));
+      if (postsRow?.content) setArticles(mergeArticles(postsRow.content, authors));
       else setArticles(fileFallback);
       if (topicsRow?.content) setTopicNames(parseTopicNames(topicsRow.content));
     } finally {

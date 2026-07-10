@@ -3,6 +3,7 @@ import {
   Map,
   Newspaper,
   Users,
+  UserCircle,
   FileText,
   Home,
   Settings,
@@ -58,6 +59,7 @@ const EDITOR_NEWSLETTER_NAV: DashboardNavSection = {
   items: [
     { name: 'Newsletter', path: WEBSITE_CMS_PATHS.newsletter, icon: Newspaper },
     { name: 'All posts', path: WEBSITE_CMS_PATHS.newsletterPosts, icon: FileText },
+    { name: 'Authors', path: WEBSITE_CMS_PATHS.newsletterAuthors, icon: UserCircle },
     { name: 'Subscribers', path: WEBSITE_CMS_PATHS.newsletterSubscribers, icon: Users },
   ],
 };

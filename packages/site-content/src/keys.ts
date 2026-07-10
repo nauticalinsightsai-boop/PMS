@@ -13,6 +13,7 @@ export const FIELD_KEYS = {
   CMS_POSTS_REGISTRY: 'cms_posts_registry',
   CMS_TOPICS_REGISTRY: 'cms_topics_registry',
   NEWSLETTER_POSTS_REGISTRY: 'newsletter_posts_registry',
+  NEWSLETTER_AUTHORS_REGISTRY: 'newsletter_authors_registry',
   SITE_SETTINGS: 'site_settings',
 } as const;
 

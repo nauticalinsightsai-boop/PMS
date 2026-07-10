@@ -5,6 +5,7 @@ import {
 } from '@pms/site-content/newsletter-posts';
 import { newsletterArticles as fileArticles } from '@/data/newsletterArticles';
 import { mergeCmsRegistryArticles } from '@/lib/newsletter/merge-cms-articles';
+import { enrichArticlesWithAuthors, getPublishedNewsletterAuthors } from '@/lib/newsletter/authors';
 import { supabase } from '@/lib/supabase';
 
 export type { NewsletterArticle };
@@ -33,7 +34,11 @@ async function fetchPublishedArticles(): Promise<NewsletterArticle[]> {
 
 /** Server: published CMS posts merged with file seed (CMS wins on slug conflict). */
 export const getPublishedNewsletterArticles = cache(async (): Promise<NewsletterArticle[]> => {
-  return fetchPublishedArticles();
+  const [articles, authors] = await Promise.all([
+    fetchPublishedArticles(),
+    getPublishedNewsletterAuthors(),
+  ]);
+  return enrichArticlesWithAuthors(articles, authors);
 });
 
 export async function getNewsletterArticle(slug: string): Promise<NewsletterArticle | undefined> {

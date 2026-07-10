@@ -8,6 +8,7 @@ import { NEWSLETTER_POSTS_FIELD_KEY } from '@pms/site-content/newsletter-posts';
 import { CMS_TOPICS_FIELD_KEY } from '@pms/site-content/cms-posts';
 import { newsletterArticles as fileFallback } from '@/data/newsletterArticles';
 import { mergeCmsRegistryArticles } from '@/lib/newsletter/merge-cms-articles';
+import { enrichArticlesWithAuthors, getPublishedNewsletterAuthors } from '@/lib/newsletter/authors';
 import { fetchPublishedDocuments } from '@/lib/cms/fetch-published-document';
 
 type TopicRow = { id: string; name: string; status: string };
@@ -23,17 +24,22 @@ function parseTopicNames(raw: unknown): string[] {
 
 export const getNewsletterPageData = cache(async () => {
   const keys = [FIELD_KEYS.NEWSLETTER_HUB_CONFIG, NEWSLETTER_POSTS_FIELD_KEY, CMS_TOPICS_FIELD_KEY];
-  const rows = await fetchPublishedDocuments(keys);
+  const [rows, authors] = await Promise.all([
+    fetchPublishedDocuments(keys),
+    getPublishedNewsletterAuthors(),
+  ]);
 
   const hubRow = rows.find((r) => r.field_key === FIELD_KEYS.NEWSLETTER_HUB_CONFIG);
   const postsRow = rows.find((r) => r.field_key === NEWSLETTER_POSTS_FIELD_KEY);
   const topicsRow = rows.find((r) => r.field_key === CMS_TOPICS_FIELD_KEY);
 
+  const articles = postsRow?.content ? mergeCmsRegistryArticles(postsRow.content) : fileFallback;
+
   return {
     hub: hubRow?.content
       ? parseNewsletterHubConfig(hubRow.content)
       : defaultNewsletterHubConfig(),
-    articles: postsRow?.content ? mergeCmsRegistryArticles(postsRow.content) : fileFallback,
+    articles: enrichArticlesWithAuthors(articles, authors),
     topicNames: topicsRow?.content ? parseTopicNames(topicsRow.content) : [],
   };
 });
