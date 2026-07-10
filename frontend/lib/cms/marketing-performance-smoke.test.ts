@@ -78,6 +78,7 @@ describe('marketing performance — content preservation smoke', () => {
     expect(shell).toContain('BottomCtaRotator');
     expect(shell).toContain('SupportChatWidget');
     expect(shell).toContain('LeadRecoveryDialog');
+    expect(shell).toContain('KeywordLeadPopup');
     expect(shell).toContain('LeadRecoveryProvider');
     expect(shell).toMatch(/requestIdleCallback|setTimeout/);
   });

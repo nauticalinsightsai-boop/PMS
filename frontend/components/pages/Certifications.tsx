@@ -22,6 +22,7 @@ import { CERTIFICATIONS_COPY, CTAS } from "@/lib/brand-voice";
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
 import { LazyWhenVisible } from '@/components/LazyWhenVisible';
 import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
+import { Breadcrumbs } from "@/components/navigation/Breadcrumbs";
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
 import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
@@ -227,6 +228,13 @@ export function Certifications({
         </div>
         
         <div className="container relative z-10 mx-auto w-full">
+          <Breadcrumbs
+            items={[
+              { label: 'Home', href: '/' },
+              { label: 'Certifications' },
+            ]}
+            className="mb-6 text-left"
+          />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start lg:items-center">
             <m.div
               initial={false}

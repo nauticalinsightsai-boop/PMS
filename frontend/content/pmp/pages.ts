@@ -337,9 +337,10 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-study-plan-2026',
     path: '/pmp-study-plan-2026',
-    title: 'PMP study plan 2026: structured preparation',
-    description: 'A structured weekly PMP study plan outline for 2026 candidates.',
-    h1: 'PMP study plan for 2026',
+    title: 'PMP Study Plan 2026 | Weekly Prep Structure | PM Structure',
+    description:
+      'Use a structured PMP study plan for 2026: weekly outline, mock cadence, and pathway links. Talk to a mentor when you need a personalised roadmap.',
+    h1: 'PMP study plan 2026',
     directAnswer:
       'A typical structured plan runs 6-12 weeks depending on weekly hours and experience. Foundation weeks cover ECO mapping; middle weeks add scenario drills; final weeks simulate full mocks and review weak domains.',
     sections: [

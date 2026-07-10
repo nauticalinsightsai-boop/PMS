@@ -1,0 +1,11 @@
+Ads_URL,Ads_Path,Workbook_Or_Alias,Destination_Hub,Redirect_Type,Intent,Notes,Implementation_Status
+https://pmstructure.com/all-courses,/all-courses,/all-courses,/certifications,301 permanent,Commercial + Transactional,Keyword Plan row 70,Implemented
+https://pmstructure.com/pmp-certification-training,/pmp-certification-training,Ads alias (ADS-021),/certifications/pmp,301 permanent,Transactional,No workbook row — maps to PMP money page,Implemented
+https://pmstructure.com/corporate-training,/corporate-training,Ads alias (ADS-022),/pm-service,301 permanent,B2B Transactional,Canonical workbook slug /corporate-project-management-training also 301s here,Implemented
+https://pmstructure.com/corporate-project-management-training,/corporate-project-management-training,/corporate-project-management-training,/pm-service,301 permanent,B2B Transactional,Keyword Plan,Implemented
+https://pmstructure.com/project-management-training-for-companies,/project-management-training-for-companies,/project-management-training-for-companies,/pm-service,301 permanent,B2B Transactional,Keyword Plan,Implemented
+https://pmstructure.com/corporate-pmp-training,/corporate-pmp-training,/corporate-pmp-training,/pm-service,301 permanent,B2B Transactional,Keyword Plan,Implemented
+https://pmstructure.com/project-management-workshops,/project-management-workshops,/project-management-workshops,/pm-service,301 permanent,B2B Commercial,Keyword Plan,Implemented
+https://pmstructure.com/project-management-services,/project-management-services,Legacy alias (P0-024),/pm-service,301 permanent,B2B Transactional,Keep /pm-service as canonical; do not build /project-management-services,Implemented
+https://pmstructure.com/pmp-exam-fees,/pmp-exam-fees,Ads shorthand,/certifications/pmp,301 via fee geo slugs,Commercial Investigation,Prefer workbook fee slugs (*-uae/-egypt/etc.) which already 301 to /certifications/pmp,Documented
+https://pmstructure.com/online-pmp-course,/online-pmp-course,/online-pmp-course,/certifications/pmp,301 permanent,Transactional,Keyword Plan,Implemented

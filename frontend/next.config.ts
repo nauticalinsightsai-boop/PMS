@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 import path from 'path';
 import { getGoSlugRedirects } from './lib/go-slug-redirects';
+import { getKeywordSeoRedirects } from './content/seo/keyword-redirect-map';
 
 const { loadMonorepoEnv } = require('../scripts/load-monorepo-env.cjs');
 loadMonorepoEnv(__dirname);
@@ -58,6 +59,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       ...getGoSlugRedirects(),
+      ...getKeywordSeoRedirects(),
       {
         source: '/store',
         destination: '/community?view=store',

@@ -6,6 +6,7 @@ import { PMP_COURSE_PATHS } from '@/content/pmp/courses';
 import { PMP_CLUSTER_PATHS } from '@/content/pmp/pages';
 import { PMP_SERVICE_PATHS } from '@/content/pmp/services';
 import { getPublishedTopicPaths } from '@/content/topics';
+import { getKeywordRedirectPathMap } from '@/content/seo/keyword-redirect-map';
 import { PMS_SITE_URL } from '@/config/pms-site';
 import { certifications } from '@/data/siteData';
 import { isIndexablePath, normalizePath } from '@/lib/indexing-metadata';
@@ -116,6 +117,7 @@ const P0_COMMERCIAL_PATHS = new Set([
 const REDIRECT_PATHS: Record<string, string> = {
   '/compare': '/certifications/compare',
   '/store': '/community?view=store',
+  ...getKeywordRedirectPathMap(),
 };
 
 const NOT_IN_REPO_SPEC_PATHS = [

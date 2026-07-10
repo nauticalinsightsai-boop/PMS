@@ -39,6 +39,13 @@ const LeadRecoveryDialog = dynamic(
     })),
   { ssr: false },
 );
+const KeywordLeadPopup = dynamic(
+  () =>
+    import('@/components/seo/KeywordLeadPopup').then((m) => ({
+      default: m.KeywordLeadPopup,
+    })),
+  { ssr: false },
+);
 
 /** Matches Navbar inner `h-16`: keep main padding and fixed subnav offset in sync */
 export const PUBLIC_NAVBAR_HEIGHT_CLASS = 'pt-16';
@@ -94,6 +101,9 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
             <Footer />
             <ScrollToTop />
             <CookieConsent />
+            <Suspense fallback={null}>
+              <KeywordLeadPopup />
+            </Suspense>
             {deferWidgets ? (
               <>
                 <BottomCtaRotator />

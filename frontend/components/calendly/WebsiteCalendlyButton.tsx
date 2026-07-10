@@ -23,7 +23,7 @@ export type WebsiteCalendlyButtonProps = Omit<ButtonProps, 'onClick' | 'type'> &
   onBeforeOpen?: () => void;
 };
 
-/** Themed proxy href — rebuilds when light/dark changes (C5). */
+/** Themed proxy href - rebuilds when light/dark changes (C5). */
 function buildThemedProxyHref(
   tier: WebsiteCalendlyTier,
   theme: 'light' | 'dark',

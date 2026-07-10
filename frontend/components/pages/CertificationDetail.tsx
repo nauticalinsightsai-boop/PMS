@@ -25,6 +25,8 @@ import {
   PUBLIC_NAVBAR_TOP_CLASS,
   PUBLIC_SUBNAV_SPACER_CLASS,
 } from "@/components/PublicShell";
+import { Breadcrumbs } from "@/components/navigation/Breadcrumbs";
+import { getCertBreadcrumbItems } from "@/content/site-architecture/routes";
 import { useIsLgUp } from '@/hooks/useIsLgUp';
 import { LazyWhenVisible } from '@/components/LazyWhenVisible';
 import { usePublishedSiteDocument } from "@/lib/usePublishedSiteDocument";
@@ -215,6 +217,10 @@ export function CertificationDetail({
         </div>
 
         <div className="container relative z-10 mx-auto">
+          <Breadcrumbs
+            items={getCertBreadcrumbItems(cert.id, certName)}
+            className="mb-8"
+          />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <m.div
               initial={false}
