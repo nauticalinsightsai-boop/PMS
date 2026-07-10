@@ -43,6 +43,8 @@ COPY --from=builder /app/packages /app/packages
 COPY --from=builder /app/frontend/package.json ./
 COPY --from=builder /app/frontend/next.config.ts ./
 COPY --from=builder /app/frontend/lib ./lib
+# next.config.ts imports keyword SEO redirects from content/seo at runtime
+COPY --from=builder /app/frontend/content ./content
 COPY --from=builder /app/scripts /app/scripts
 COPY --from=builder /app/dashboard ./dashboard
 COPY --from=builder /app/backend ./backend
