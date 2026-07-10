@@ -37,4 +37,20 @@ describe('resolvePortalTheme spotify contrast', () => {
     expect(webinarDark.cardBg).toBe(websiteDark.cardBg)
     expect(webinarDark.presenceTag).toBe('Webinar')
   })
+
+  it('linkedin dark matches LinkedIn homepage charcoal chrome', () => {
+    const dark = resolvePortalTheme('linkedin', 'dark')
+    expect(dark.background).toBe('#000000')
+    expect(dark.cardBg).toBe('#1B1F23')
+    expect(dark.surface).toBe('#1B1F23')
+    expect(dark.primary).toBe('#0A66C2')
+    expect(dark.linkColor).toBe('#70B5F9')
+    expect(contrastRatio(dark.text, dark.background)).toBeGreaterThanOrEqual(4.5)
+    expect(contrastRatio(dark.text, dark.cardBg)).toBeGreaterThanOrEqual(4.5)
+
+    const light = resolvePortalTheme('linkedin', 'light')
+    expect(light.background.toLowerCase()).toBe('#f4f2ee')
+    expect(light.cardBg).toBe('#FFFFFF')
+    expect(light.primary).toBe('#0A66C2')
+  })
 })

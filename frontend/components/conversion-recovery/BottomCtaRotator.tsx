@@ -61,12 +61,16 @@ function openBottomBarCalendly(action: BottomBarAction): void {
     void openCalendlyThemedPopup(getWebsiteCalendlyUrl(action.tier), {
       funnelLabel: `bottom_bar_calendly_${action.tier}`,
       utm: { utm_source: 'pmstructure', utm_medium: 'bottom_bar', utm_campaign: action.tier },
+      channelId: 'website',
+      useProxy: true,
     });
     return;
   }
   void openCalendlyThemedPopup(getWebsiteHeroConsultationCalendlyUrl(), {
     funnelLabel: 'bottom_bar_calendly',
     utm: { utm_source: 'pmstructure', utm_medium: 'bottom_bar', utm_campaign: 'recovery' },
+    channelId: 'website',
+    useProxy: true,
   });
 }
 

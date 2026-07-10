@@ -9,7 +9,7 @@ import { notifyCalendlyClosed } from '@/lib/conversion-recovery/calendly-bridge'
  * Ensures backdrop click and a visible × close the widget via Calendly's API.
  */
 const CLOSE_BTN_SIZE = 44;
-const IFRAME_SCROLLBAR_GUTTER_PX = 10;
+/** Hide duplicate host-panel scrollbars only; keep the iframe’s native right-edge bar visible (Calendly-native). */
 const HIDDEN_SCROLLBAR_CLASS = 'sh3ikh-calendly-scroll-host';
 const HIDDEN_SCROLLBAR_STYLE_ID = 'sh3ikh-calendly-hidden-scrollbar-style';
 const CALENDLY_OVERLAY_THEME_CLASS = 'sh3ikh-calendly-overlay';
@@ -354,16 +354,11 @@ function enforcePopupContainment(overlay: HTMLElement): void {
 
  popup.querySelectorAll<HTMLElement>('iframe').forEach((iframe) => {
   /**
-   * Calendly renders the booking flow in a cross-origin iframe, so host CSS
-   * cannot directly style its native scrollbar. Clip the iframe's right gutter
-   * and compensate width so content layout remains unchanged while the bar is hidden.
+   * Leave the iframe at full panel width so Calendly’s native right-edge
+   * scrollbar stays visible (matches the official embed layout).
    */
-  iframe.style.setProperty(
-   'width',
-   `calc(100% + ${IFRAME_SCROLLBAR_GUTTER_PX}px)`,
-   'important'
-  );
-  iframe.style.setProperty('max-width', 'none', 'important');
+  iframe.style.setProperty('width', '100%', 'important');
+  iframe.style.setProperty('max-width', '100%', 'important');
   iframe.style.setProperty('height', '100%', 'important');
   iframe.style.setProperty('display', 'block', 'important');
   iframe.style.setProperty('min-height', '0', 'important');
@@ -372,7 +367,7 @@ function enforcePopupContainment(overlay: HTMLElement): void {
   iframe.style.setProperty('outline', 'none', 'important');
   iframe.style.setProperty('box-shadow', 'none', 'important');
   iframe.style.removeProperty('margin-right');
-  iframe.style.setProperty('transform', `translateX(${Math.round(IFRAME_SCROLLBAR_GUTTER_PX / 2)}px)`, 'important');
+  iframe.style.removeProperty('transform');
   iframe.style.removeProperty('clip-path');
  });
 }
@@ -457,12 +452,14 @@ function bindOverlay(overlay: HTMLElement): void {
  glyph.style.marginTop = '-2px';
  btn.appendChild(glyph);
 
- /** Top-right of the Calendly modal card (inset), viewport coordinates: not above it (avoids overlay clip). */
+ /** Top-right of the visible Calendly card (iframe), not the full-viewport shell. */
  const positionCloseBtn = () => {
   const popupEl = overlay.querySelector('.calendly-popup') as HTMLElement | null;
   if (!popupEl) return;
   enforceContainment();
-  const pr = popupEl.getBoundingClientRect();
+  const iframe = popupEl.querySelector('iframe') as HTMLElement | null;
+  const target = iframe && iframe.getBoundingClientRect().width > 0 ? iframe : popupEl;
+  const pr = target.getBoundingClientRect();
   const inset = 12;
   const top = Math.max(8, pr.top + inset);
   const right = Math.max(8, window.innerWidth - pr.right + inset);
@@ -573,7 +570,11 @@ function bindOverlay(overlay: HTMLElement): void {
   attributes: true,
   attributeFilter: ['class'],
  });
- const portalRoot = document.querySelector('.portal-root');
+ const portalRoot = (() => {
+  const roots = Array.from(document.querySelectorAll<HTMLElement>('.portal-root'));
+  if (!roots.length) return null;
+  return roots.find((el) => el.offsetParent !== null) ?? roots[0] ?? null;
+ })();
  if (portalRoot) {
   themeObserver.observe(portalRoot, {
    attributes: true,

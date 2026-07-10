@@ -74,7 +74,7 @@ export function compositeCssColorOver(foreground: string, underlay: string): str
   const bottom = parseCssRgb(underlay)
   if (!top) {
     const underHex = parseHexColor(underlay)
-    return underHex ?? DARK_ON_LIGHT
+    return underHex ? rgbToHex(underHex.r, underHex.g, underHex.b) : DARK_ON_LIGHT
   }
   if (!bottom) return rgbToHex(top.r, top.g, top.b)
   if (top.a >= 0.999) return rgbToHex(top.r, top.g, top.b)

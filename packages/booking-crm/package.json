@@ -24,7 +24,9 @@
     "./calendly/live-scheduling-urls": "./src/calendly/live-scheduling-urls.ts",
     "./calendly/scheduling-urls": "./src/calendly/scheduling-urls.ts",
     "./channel-landing-pages/channelMarkAssets": "./src/channel-landing-pages/channelMarkAssets.ts",
-    "./channel-landing-pages/portalStoryRing": "./src/channel-landing-pages/portalStoryRing.ts"
+    "./channel-landing-pages/portalStoryRing": "./src/channel-landing-pages/portalStoryRing.ts",
+    "./channel-landing-pages/resolveSchedulerChrome": "./src/channel-landing-pages/resolveSchedulerChrome.ts",
+    "./channel-landing-pages/resolvePortalTheme": "./src/channel-landing-pages/resolvePortalTheme.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

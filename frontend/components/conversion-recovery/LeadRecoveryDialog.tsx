@@ -91,6 +91,8 @@ export function LeadRecoveryDialog() {
         utm_campaign: dialogContext.variant ?? 'pathway_exit',
         ...(dialogContext.siteCertId ? { utm_content: dialogContext.siteCertId } : {}),
       },
+      channelId: 'website',
+      useProxy: true,
     });
   };
 

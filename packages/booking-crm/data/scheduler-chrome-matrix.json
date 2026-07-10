@@ -1,0 +1,2795 @@
+{
+  "generatedAt": "2026-07-10T11:29:37.870Z",
+  "slugCount": 41,
+  "entries": [
+    {
+      "slug": "ai-visibility",
+      "channelId": "ai-visibility",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "1E1B4B",
+        "primary": "8B5CF6",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "F5F3FF",
+        "dateLabel": "8B5CF6",
+        "dateSelectedFill": "8B5CF6",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F5F3FF",
+        "timeLabel": "8B5CF6",
+        "timeBorder": "DDD6FE",
+        "timeSelectedFill": "8B5CF6",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "6B7280",
+        "fieldText": "1E1B4B",
+        "submitFill": "8B5CF6",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "ai-visibility",
+      "channelId": "ai-visibility",
+      "mode": "dark",
+      "shell": {
+        "background": "0F0A1A",
+        "text": "F5F3FF",
+        "primary": "8B5CF6",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "251A38",
+        "dateLabel": "8B5CF6",
+        "dateSelectedFill": "8B5CF6",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "251A38",
+        "timeLabel": "8B5CF6",
+        "timeBorder": "3B2D5C",
+        "timeSelectedFill": "8B5CF6",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "C4B5FD",
+        "fieldText": "0F172A",
+        "submitFill": "8B5CF6",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "amazon-audible",
+      "channelId": "amazon-audible",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "141414",
+        "primary": "FF9900",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "FFF8EE",
+        "dateLabel": "141414",
+        "dateSelectedFill": "FF9900",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "FFF8EE",
+        "timeLabel": "141414",
+        "timeBorder": "FFE8C2",
+        "timeSelectedFill": "FF9900",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "565656",
+        "fieldText": "141414",
+        "submitFill": "FF9900",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "amazon-audible",
+      "channelId": "amazon-audible",
+      "mode": "dark",
+      "shell": {
+        "background": "141414",
+        "text": "FFFFFF",
+        "primary": "FF9900",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "282828",
+        "dateLabel": "FF9900",
+        "dateSelectedFill": "FF9900",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "282828",
+        "timeLabel": "FF9900",
+        "timeBorder": "333333",
+        "timeSelectedFill": "FF9900",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "B3B3B3",
+        "fieldText": "0F172A",
+        "submitFill": "FF9900",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "api-ai-fed",
+      "channelId": "api-ai-fed",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "064E3B",
+        "primary": "10B981",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "ECFDF5",
+        "dateLabel": "064E3B",
+        "dateSelectedFill": "10B981",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "ECFDF5",
+        "timeLabel": "064E3B",
+        "timeBorder": "A7F3D0",
+        "timeSelectedFill": "10B981",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "047857",
+        "fieldText": "064E3B",
+        "submitFill": "10B981",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "api-ai-fed",
+      "channelId": "api-ai-fed",
+      "mode": "dark",
+      "shell": {
+        "background": "0A1612",
+        "text": "ECFDF5",
+        "primary": "10B981",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "143326",
+        "dateLabel": "10B981",
+        "dateSelectedFill": "10B981",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "143326",
+        "timeLabel": "10B981",
+        "timeBorder": "1F4D3A",
+        "timeSelectedFill": "10B981",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "6EE7B7",
+        "fieldText": "0F172A",
+        "submitFill": "10B981",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "apple-podcasts",
+      "channelId": "apple-podcasts",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "1C1C1E",
+        "primary": "9933CC",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F5F0FA",
+        "dateLabel": "9933CC",
+        "dateSelectedFill": "9933CC",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F5F0FA",
+        "timeLabel": "9933CC",
+        "timeBorder": "E8DDF2",
+        "timeSelectedFill": "9933CC",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "636366",
+        "fieldText": "1C1C1E",
+        "submitFill": "9933CC",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "apple-podcasts",
+      "channelId": "apple-podcasts",
+      "mode": "dark",
+      "shell": {
+        "background": "000000",
+        "text": "FFFFFF",
+        "primary": "9933CC",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "2C2C2E",
+        "dateLabel": "FFFFFF",
+        "dateSelectedFill": "9933CC",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "2C2C2E",
+        "timeLabel": "FFFFFF",
+        "timeBorder": "38383A",
+        "timeSelectedFill": "9933CC",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "AEAEB2",
+        "fieldText": "0F172A",
+        "submitFill": "9933CC",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "beehiiv",
+      "channelId": "beehiiv",
+      "mode": "light",
+      "shell": {
+        "background": "F6F8FF",
+        "text": "0F172A",
+        "primary": "2F6BFF",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "FFFFFF",
+        "dateLabel": "2F6BFF",
+        "dateSelectedFill": "2F6BFF",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "FFFFFF",
+        "timeLabel": "2F6BFF",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "2F6BFF",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "475569",
+        "fieldText": "0F172A",
+        "submitFill": "2F6BFF",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "beehiiv",
+      "channelId": "beehiiv",
+      "mode": "dark",
+      "shell": {
+        "background": "070B16",
+        "text": "EEF3FF",
+        "primary": "2F6BFF",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "162246",
+        "dateLabel": "2F6BFF",
+        "dateSelectedFill": "2F6BFF",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "162246",
+        "timeLabel": "2F6BFF",
+        "timeBorder": "3F3F46",
+        "timeSelectedFill": "2F6BFF",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "A9BCE4",
+        "fieldText": "0F172A",
+        "submitFill": "2F6BFF",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "bing-search",
+      "channelId": "bing-search",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "1A1A1A",
+        "primary": "008373",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F0FAF8",
+        "dateLabel": "008373",
+        "dateSelectedFill": "008373",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F0FAF8",
+        "timeLabel": "008373",
+        "timeBorder": "CCE8E3",
+        "timeSelectedFill": "008373",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "5C5C5C",
+        "fieldText": "1A1A1A",
+        "submitFill": "008373",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "bing-search",
+      "channelId": "bing-search",
+      "mode": "dark",
+      "shell": {
+        "background": "1A1A1A",
+        "text": "FFFFFF",
+        "primary": "008373",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "303030",
+        "dateLabel": "FFFFFF",
+        "dateSelectedFill": "008373",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "303030",
+        "timeLabel": "FFFFFF",
+        "timeBorder": "3A3A3A",
+        "timeSelectedFill": "008373",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "B0B0B0",
+        "fieldText": "0F172A",
+        "submitFill": "008373",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "bluesky",
+      "channelId": "bluesky",
+      "mode": "light",
+      "shell": {
+        "background": "F0F7FF",
+        "text": "0B1F33",
+        "primary": "0085FF",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "FFFFFF",
+        "dateLabel": "0085FF",
+        "dateSelectedFill": "0085FF",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "FFFFFF",
+        "timeLabel": "0085FF",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "0085FF",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "3D5A73",
+        "fieldText": "0B1F33",
+        "submitFill": "0085FF",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "bluesky",
+      "channelId": "bluesky",
+      "mode": "dark",
+      "shell": {
+        "background": "0B1A2E",
+        "text": "E8F4FF",
+        "primary": "0085FF",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "1A3352",
+        "dateLabel": "0085FF",
+        "dateSelectedFill": "0085FF",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "1A3352",
+        "timeLabel": "0085FF",
+        "timeBorder": "2A4A6E",
+        "timeSelectedFill": "0085FF",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "8BB8E8",
+        "fieldText": "0F172A",
+        "submitFill": "0085FF",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "content-aggregators",
+      "channelId": "content-aggregators",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "111827",
+        "primary": "6B7280",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F3F4F6",
+        "dateLabel": "6B7280",
+        "dateSelectedFill": "6B7280",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F3F4F6",
+        "timeLabel": "6B7280",
+        "timeBorder": "E5E7EB",
+        "timeSelectedFill": "6B7280",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "6B7280",
+        "fieldText": "111827",
+        "submitFill": "6B7280",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "content-aggregators",
+      "channelId": "content-aggregators",
+      "mode": "dark",
+      "shell": {
+        "background": "111827",
+        "text": "F9FAFB",
+        "primary": "6B7280",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "374151",
+        "dateLabel": "F9FAFB",
+        "dateSelectedFill": "6B7280",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "374151",
+        "timeLabel": "F9FAFB",
+        "timeBorder": "4B5563",
+        "timeSelectedFill": "6B7280",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "9CA3AF",
+        "fieldText": "0F172A",
+        "submitFill": "6B7280",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "discord",
+      "channelId": "discord",
+      "mode": "light",
+      "shell": {
+        "background": "313338",
+        "text": "F2F3F5",
+        "primary": "5865F2",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "2B2D31",
+        "dateLabel": "F2F3F5",
+        "dateSelectedFill": "5865F2",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "2B2D31",
+        "timeLabel": "F2F3F5",
+        "timeBorder": "3F4147",
+        "timeSelectedFill": "5865F2",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "B5BAC1",
+        "fieldText": "0F172A",
+        "submitFill": "5865F2",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "discord",
+      "channelId": "discord",
+      "mode": "dark",
+      "shell": {
+        "background": "313338",
+        "text": "F2F3F5",
+        "primary": "5865F2",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "1E1F22",
+        "dateLabel": "5865F2",
+        "dateSelectedFill": "5865F2",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "1E1F22",
+        "timeLabel": "5865F2",
+        "timeBorder": "3F4147",
+        "timeSelectedFill": "5865F2",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "B5BAC1",
+        "fieldText": "0F172A",
+        "submitFill": "5865F2",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "email",
+      "channelId": "email",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "1A1A1A",
+        "primary": "4A90A4",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "F4F8FA",
+        "dateLabel": "4A90A4",
+        "dateSelectedFill": "4A90A4",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F4F8FA",
+        "timeLabel": "4A90A4",
+        "timeBorder": "D6E4EA",
+        "timeSelectedFill": "4A90A4",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "5C6B73",
+        "fieldText": "1A1A1A",
+        "submitFill": "4A90A4",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "email",
+      "channelId": "email",
+      "mode": "dark",
+      "shell": {
+        "background": "1A1A1A",
+        "text": "F5F5F5",
+        "primary": "4A90A4",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "2E2E2E",
+        "dateLabel": "4A90A4",
+        "dateSelectedFill": "4A90A4",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "2E2E2E",
+        "timeLabel": "4A90A4",
+        "timeBorder": "3A3A3A",
+        "timeSelectedFill": "4A90A4",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "A3A3A3",
+        "fieldText": "0F172A",
+        "submitFill": "4A90A4",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "facebook",
+      "channelId": "facebook",
+      "mode": "light",
+      "shell": {
+        "background": "F0F2F5",
+        "text": "050505",
+        "primary": "1877F2",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "FFFFFF",
+        "dateLabel": "1877F2",
+        "dateSelectedFill": "1877F2",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "FFFFFF",
+        "timeLabel": "1877F2",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "1877F2",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "65676B",
+        "fieldText": "050505",
+        "submitFill": "1877F2",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "facebook",
+      "channelId": "facebook",
+      "mode": "dark",
+      "shell": {
+        "background": "18191A",
+        "text": "E4E6EB",
+        "primary": "1877F2",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "3A3B3C",
+        "dateLabel": "E4E6EB",
+        "dateSelectedFill": "1877F2",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "3A3B3C",
+        "timeLabel": "E4E6EB",
+        "timeBorder": "3E4042",
+        "timeSelectedFill": "1877F2",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "B0B3B8",
+        "fieldText": "0F172A",
+        "submitFill": "1877F2",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "ghost",
+      "channelId": "ghost",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "15171A",
+        "primary": "15171A",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F4F5F6",
+        "dateLabel": "15171A",
+        "dateSelectedFill": "15171A",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F4F5F6",
+        "timeLabel": "15171A",
+        "timeBorder": "E1E4E8",
+        "timeSelectedFill": "15171A",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "5B6570",
+        "fieldText": "15171A",
+        "submitFill": "15171A",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "ghost",
+      "channelId": "ghost",
+      "mode": "dark",
+      "shell": {
+        "background": "15171A",
+        "text": "E7E9EA",
+        "primary": "15171A",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "262B30",
+        "dateLabel": "E7E9EA",
+        "dateSelectedFill": "15171A",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "262B30",
+        "timeLabel": "E7E9EA",
+        "timeBorder": "2E353D",
+        "timeSelectedFill": "15171A",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "9BA3AF",
+        "fieldText": "0F172A",
+        "submitFill": "15171A",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "google-podcasts",
+      "channelId": "google-podcasts",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "202124",
+        "primary": "4285F4",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "F8F9FA",
+        "dateLabel": "4285F4",
+        "dateSelectedFill": "4285F4",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F8F9FA",
+        "timeLabel": "4285F4",
+        "timeBorder": "DADCE0",
+        "timeSelectedFill": "4285F4",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "5F6368",
+        "fieldText": "202124",
+        "submitFill": "4285F4",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "google-podcasts",
+      "channelId": "google-podcasts",
+      "mode": "dark",
+      "shell": {
+        "background": "121212",
+        "text": "E8EAED",
+        "primary": "4285F4",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "2A2A2A",
+        "dateLabel": "4285F4",
+        "dateSelectedFill": "4285F4",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "2A2A2A",
+        "timeLabel": "4285F4",
+        "timeBorder": "3C4043",
+        "timeSelectedFill": "4285F4",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "9AA0A6",
+        "fieldText": "0F172A",
+        "submitFill": "4285F4",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "google-search",
+      "channelId": "google-search",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "202124",
+        "primary": "4285F4",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "F8FAFF",
+        "dateLabel": "4285F4",
+        "dateSelectedFill": "4285F4",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F8FAFF",
+        "timeLabel": "4285F4",
+        "timeBorder": "DADCE0",
+        "timeSelectedFill": "4285F4",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "5F6368",
+        "fieldText": "202124",
+        "submitFill": "4285F4",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "google-search",
+      "channelId": "google-search",
+      "mode": "dark",
+      "shell": {
+        "background": "202124",
+        "text": "E8EAED",
+        "primary": "4285F4",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "35363A",
+        "dateLabel": "4285F4",
+        "dateSelectedFill": "4285F4",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "35363A",
+        "timeLabel": "4285F4",
+        "timeBorder": "3C4043",
+        "timeSelectedFill": "4285F4",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "9AA0A6",
+        "fieldText": "0F172A",
+        "submitFill": "4285F4",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "hashnode",
+      "channelId": "hashnode",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "0F172A",
+        "primary": "2962FF",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F0F4FF",
+        "dateLabel": "2962FF",
+        "dateSelectedFill": "2962FF",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F0F4FF",
+        "timeLabel": "2962FF",
+        "timeBorder": "D6E4FF",
+        "timeSelectedFill": "2962FF",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "64748B",
+        "fieldText": "0F172A",
+        "submitFill": "2962FF",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "hashnode",
+      "channelId": "hashnode",
+      "mode": "dark",
+      "shell": {
+        "background": "0F1419",
+        "text": "E6EDF3",
+        "primary": "2962FF",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "1F2937",
+        "dateLabel": "E6EDF3",
+        "dateSelectedFill": "2962FF",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "1F2937",
+        "timeLabel": "E6EDF3",
+        "timeBorder": "30363D",
+        "timeSelectedFill": "2962FF",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "8B949E",
+        "fieldText": "0F172A",
+        "submitFill": "2962FF",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "instagram",
+      "channelId": "instagram",
+      "mode": "light",
+      "shell": {
+        "background": "FAFAFA",
+        "text": "262626",
+        "primary": "E4405F",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "FFFFFF",
+        "dateLabel": "E4405F",
+        "dateSelectedFill": "E4405F",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "FFFFFF",
+        "timeLabel": "E4405F",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "E4405F",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "262626",
+        "fieldText": "262626",
+        "submitFill": "E4405F",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "instagram",
+      "channelId": "instagram",
+      "mode": "dark",
+      "shell": {
+        "background": "000000",
+        "text": "FAFAFA",
+        "primary": "E4405F",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "1C1C1C",
+        "dateLabel": "E4405F",
+        "dateSelectedFill": "E4405F",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "1C1C1C",
+        "timeLabel": "E4405F",
+        "timeBorder": "363636",
+        "timeSelectedFill": "E4405F",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "A8A8A8",
+        "fieldText": "0F172A",
+        "submitFill": "E4405F",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "linkedin",
+      "channelId": "linkedin",
+      "mode": "light",
+      "shell": {
+        "background": "F4F2EE",
+        "text": "000000",
+        "primary": "0A66C2",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "FFFFFF",
+        "dateLabel": "0A66C2",
+        "dateSelectedFill": "0A66C2",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "FFFFFF",
+        "timeLabel": "0A66C2",
+        "timeBorder": "E0E0E0",
+        "timeSelectedFill": "0A66C2",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "666666",
+        "fieldText": "000000",
+        "submitFill": "0A66C2",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "linkedin",
+      "channelId": "linkedin",
+      "mode": "dark",
+      "shell": {
+        "background": "000000",
+        "text": "FFFFFF",
+        "primary": "0A66C2",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "2C2F33",
+        "dateLabel": "FFFFFF",
+        "dateSelectedFill": "0A66C2",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "2C2F33",
+        "timeLabel": "FFFFFF",
+        "timeBorder": "38434F",
+        "timeSelectedFill": "0A66C2",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "B0B3B8",
+        "fieldText": "0F172A",
+        "submitFill": "0A66C2",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "mastodon",
+      "channelId": "mastodon",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "1F2328",
+        "primary": "6364FF",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "F0F0FF",
+        "dateLabel": "6364FF",
+        "dateSelectedFill": "6364FF",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F0F0FF",
+        "timeLabel": "6364FF",
+        "timeBorder": "D8D9FF",
+        "timeSelectedFill": "6364FF",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "656D76",
+        "fieldText": "1F2328",
+        "submitFill": "6364FF",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "mastodon",
+      "channelId": "mastodon",
+      "mode": "dark",
+      "shell": {
+        "background": "191919",
+        "text": "E7E9EA",
+        "primary": "6364FF",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "2F2F3A",
+        "dateLabel": "6364FF",
+        "dateSelectedFill": "6364FF",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "2F2F3A",
+        "timeLabel": "6364FF",
+        "timeBorder": "3D3D4D",
+        "timeSelectedFill": "6364FF",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "9BA3AF",
+        "fieldText": "0F172A",
+        "submitFill": "6364FF",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "medium",
+      "channelId": "medium",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "242424",
+        "primary": "000000",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F7F7F7",
+        "dateLabel": "000000",
+        "dateSelectedFill": "000000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F7F7F7",
+        "timeLabel": "000000",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "000000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "6B6B6B",
+        "fieldText": "242424",
+        "submitFill": "000000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "medium",
+      "channelId": "medium",
+      "mode": "dark",
+      "shell": {
+        "background": "121212",
+        "text": "F2F2F2",
+        "primary": "000000",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "242424",
+        "dateLabel": "F2F2F2",
+        "dateSelectedFill": "000000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "242424",
+        "timeLabel": "F2F2F2",
+        "timeBorder": "333333",
+        "timeSelectedFill": "000000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "9E9E9E",
+        "fieldText": "0F172A",
+        "submitFill": "000000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "notion",
+      "channelId": "notion-public",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "37352F",
+        "primary": "000000",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F7F7F5",
+        "dateLabel": "000000",
+        "dateSelectedFill": "000000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F7F7F5",
+        "timeLabel": "000000",
+        "timeBorder": "E9E9E7",
+        "timeSelectedFill": "000000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "37352F",
+        "fieldText": "37352F",
+        "submitFill": "000000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "notion",
+      "channelId": "notion-public",
+      "mode": "dark",
+      "shell": {
+        "background": "191919",
+        "text": "E8E8E6",
+        "primary": "000000",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "2A2A2A",
+        "dateLabel": "E8E8E6",
+        "dateSelectedFill": "000000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "2A2A2A",
+        "timeLabel": "E8E8E6",
+        "timeBorder": "373737",
+        "timeSelectedFill": "000000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "9B9A97",
+        "fieldText": "0F172A",
+        "submitFill": "000000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "pinterest",
+      "channelId": "pinterest",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "111111",
+        "primary": "E60023",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F5F5F5",
+        "dateLabel": "E60023",
+        "dateSelectedFill": "E60023",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F5F5F5",
+        "timeLabel": "E60023",
+        "timeBorder": "E9E9E9",
+        "timeSelectedFill": "E60023",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "5F5F5F",
+        "fieldText": "111111",
+        "submitFill": "E60023",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "pinterest",
+      "channelId": "pinterest",
+      "mode": "dark",
+      "shell": {
+        "background": "111111",
+        "text": "FFFFFF",
+        "primary": "E60023",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "262626",
+        "dateLabel": "E60023",
+        "dateSelectedFill": "E60023",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "262626",
+        "timeLabel": "E60023",
+        "timeBorder": "333333",
+        "timeSelectedFill": "E60023",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "A8A8A8",
+        "fieldText": "0F172A",
+        "submitFill": "E60023",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "podbean",
+      "channelId": "podbean",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "212529",
+        "primary": "28A745",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "F0FAF3",
+        "dateLabel": "212529",
+        "dateSelectedFill": "28A745",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F0FAF3",
+        "timeLabel": "212529",
+        "timeBorder": "C8E6CF",
+        "timeSelectedFill": "28A745",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "6C757D",
+        "fieldText": "212529",
+        "submitFill": "28A745",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "podbean",
+      "channelId": "podbean",
+      "mode": "dark",
+      "shell": {
+        "background": "121212",
+        "text": "F5F5F5",
+        "primary": "28A745",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "242424",
+        "dateLabel": "28A745",
+        "dateSelectedFill": "28A745",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "242424",
+        "timeLabel": "28A745",
+        "timeBorder": "333333",
+        "timeSelectedFill": "28A745",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "A3A3A3",
+        "fieldText": "0F172A",
+        "submitFill": "28A745",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "podcast-directories",
+      "channelId": "podcast-directories",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "111827",
+        "primary": "6B7280",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F3F4F6",
+        "dateLabel": "6B7280",
+        "dateSelectedFill": "6B7280",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F3F4F6",
+        "timeLabel": "6B7280",
+        "timeBorder": "E5E7EB",
+        "timeSelectedFill": "6B7280",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "6B7280",
+        "fieldText": "111827",
+        "submitFill": "6B7280",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "podcast-directories",
+      "channelId": "podcast-directories",
+      "mode": "dark",
+      "shell": {
+        "background": "111827",
+        "text": "F9FAFB",
+        "primary": "6B7280",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "374151",
+        "dateLabel": "F9FAFB",
+        "dateSelectedFill": "6B7280",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "374151",
+        "timeLabel": "F9FAFB",
+        "timeBorder": "4B5563",
+        "timeSelectedFill": "6B7280",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "9CA3AF",
+        "fieldText": "0F172A",
+        "submitFill": "6B7280",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "quora",
+      "channelId": "quora",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "282829",
+        "primary": "B92B27",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F7F7F8",
+        "dateLabel": "B92B27",
+        "dateSelectedFill": "B92B27",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F7F7F8",
+        "timeLabel": "B92B27",
+        "timeBorder": "E2E2E2",
+        "timeSelectedFill": "B92B27",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "636466",
+        "fieldText": "282829",
+        "submitFill": "B92B27",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "quora",
+      "channelId": "quora",
+      "mode": "dark",
+      "shell": {
+        "background": "2E2E2E",
+        "text": "FFFFFF",
+        "primary": "B92B27",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "444444",
+        "dateLabel": "FFFFFF",
+        "dateSelectedFill": "B92B27",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "444444",
+        "timeLabel": "FFFFFF",
+        "timeBorder": "4A4A4A",
+        "timeSelectedFill": "B92B27",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "B0B0B0",
+        "fieldText": "0F172A",
+        "submitFill": "B92B27",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "reddit",
+      "channelId": "reddit",
+      "mode": "light",
+      "shell": {
+        "background": "DAE0E6",
+        "text": "0F172A",
+        "primary": "FF4500",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "FFFFFF",
+        "dateLabel": "FF4500",
+        "dateSelectedFill": "FF4500",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "FFFFFF",
+        "timeLabel": "FF4500",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "FF4500",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "475569",
+        "fieldText": "0F172A",
+        "submitFill": "FF4500",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "reddit",
+      "channelId": "reddit",
+      "mode": "dark",
+      "shell": {
+        "background": "1A1A1B",
+        "text": "D7DADC",
+        "primary": "FF4500",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "343536",
+        "dateLabel": "FF4500",
+        "dateSelectedFill": "FF4500",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "343536",
+        "timeLabel": "FF4500",
+        "timeBorder": "474748",
+        "timeSelectedFill": "FF4500",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "818384",
+        "fieldText": "0F172A",
+        "submitFill": "FF4500",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "rss-feeds",
+      "channelId": "rss-feeds",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "1A1A1A",
+        "primary": "F26522",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "FFF7F2",
+        "dateLabel": "1A1A1A",
+        "dateSelectedFill": "F26522",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "FFF7F2",
+        "timeLabel": "1A1A1A",
+        "timeBorder": "FFDCC8",
+        "timeSelectedFill": "F26522",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "5C5C5C",
+        "fieldText": "1A1A1A",
+        "submitFill": "F26522",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "rss-feeds",
+      "channelId": "rss-feeds",
+      "mode": "dark",
+      "shell": {
+        "background": "1A120E",
+        "text": "FFF7F2",
+        "primary": "F26522",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "332218",
+        "dateLabel": "F26522",
+        "dateSelectedFill": "F26522",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "332218",
+        "timeLabel": "F26522",
+        "timeBorder": "4A3020",
+        "timeSelectedFill": "F26522",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "D4A88A",
+        "fieldText": "0F172A",
+        "submitFill": "F26522",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "slack",
+      "channelId": "slack",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "1D1C1D",
+        "primary": "4A154B",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F8F4F9",
+        "dateLabel": "4A154B",
+        "dateSelectedFill": "4A154B",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F8F4F9",
+        "timeLabel": "4A154B",
+        "timeBorder": "E8DEEE",
+        "timeSelectedFill": "4A154B",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "616061",
+        "fieldText": "1D1C1D",
+        "submitFill": "4A154B",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "slack",
+      "channelId": "slack",
+      "mode": "dark",
+      "shell": {
+        "background": "1A1D21",
+        "text": "D1D2D3",
+        "primary": "E01E5A",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "2C2D30",
+        "dateLabel": "D1D2D3",
+        "dateSelectedFill": "E01E5A",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "2C2D30",
+        "timeLabel": "D1D2D3",
+        "timeBorder": "393A3D",
+        "timeSelectedFill": "E01E5A",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "ABABAD",
+        "fieldText": "0F172A",
+        "submitFill": "E01E5A",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "snapchat",
+      "channelId": "snapchat",
+      "mode": "light",
+      "shell": {
+        "background": "FFFC00",
+        "text": "000000",
+        "primary": "000000",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "FFFFFF",
+        "dateLabel": "000000",
+        "dateSelectedFill": "000000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "FFFFFF",
+        "timeLabel": "000000",
+        "timeBorder": "000000",
+        "timeSelectedFill": "000000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "333333",
+        "fieldText": "000000",
+        "submitFill": "000000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "snapchat",
+      "channelId": "snapchat",
+      "mode": "dark",
+      "shell": {
+        "background": "000000",
+        "text": "FFFFFF",
+        "primary": "FFFC00",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "1A1A1A",
+        "dateLabel": "FFFC00",
+        "dateSelectedFill": "FFFC00",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "1A1A1A",
+        "timeLabel": "FFFC00",
+        "timeBorder": "333333",
+        "timeSelectedFill": "FFFC00",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "B8B8B8",
+        "fieldText": "0F172A",
+        "submitFill": "FFFC00",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "soundcloud",
+      "channelId": "soundcloud",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "333333",
+        "primary": "FF5500",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "FFF5F0",
+        "dateLabel": "333333",
+        "dateSelectedFill": "FF5500",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "FFF5F0",
+        "timeLabel": "333333",
+        "timeBorder": "FFD9C7",
+        "timeSelectedFill": "FF5500",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "666666",
+        "fieldText": "333333",
+        "submitFill": "FF5500",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "soundcloud",
+      "channelId": "soundcloud",
+      "mode": "dark",
+      "shell": {
+        "background": "121212",
+        "text": "FFFFFF",
+        "primary": "FF5500",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "242424",
+        "dateLabel": "FF5500",
+        "dateSelectedFill": "FF5500",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "242424",
+        "timeLabel": "FF5500",
+        "timeBorder": "333333",
+        "timeSelectedFill": "FF5500",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "B3B3B3",
+        "fieldText": "0F172A",
+        "submitFill": "FF5500",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "spotify",
+      "channelId": "spotify",
+      "mode": "light",
+      "shell": {
+        "background": "121212",
+        "text": "FFFFFF",
+        "primary": "1DB954",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "181818",
+        "dateLabel": "1DB954",
+        "dateSelectedFill": "1DB954",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "181818",
+        "timeLabel": "1DB954",
+        "timeBorder": "282828",
+        "timeSelectedFill": "1DB954",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "B3B3B3",
+        "fieldText": "0F172A",
+        "submitFill": "1DB954",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "spotify",
+      "channelId": "spotify",
+      "mode": "dark",
+      "shell": {
+        "background": "000000",
+        "text": "FFFFFF",
+        "primary": "1DB954",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "181818",
+        "dateLabel": "1DB954",
+        "dateSelectedFill": "1DB954",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "181818",
+        "timeLabel": "1DB954",
+        "timeBorder": "282828",
+        "timeSelectedFill": "1DB954",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "B3B3B3",
+        "fieldText": "0F172A",
+        "submitFill": "1DB954",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "substack",
+      "channelId": "substack",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "1A1A1A",
+        "primary": "FF6719",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "F7F5F2",
+        "dateLabel": "1A1A1A",
+        "dateSelectedFill": "FF6719",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "F7F5F2",
+        "timeLabel": "1A1A1A",
+        "timeBorder": "E8E4DF",
+        "timeSelectedFill": "FF6719",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "6B6B6B",
+        "fieldText": "1A1A1A",
+        "submitFill": "FF6719",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "substack",
+      "channelId": "substack",
+      "mode": "dark",
+      "shell": {
+        "background": "1A1A1A",
+        "text": "F5F5F5",
+        "primary": "FF6719",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "2E2E2E",
+        "dateLabel": "FF6719",
+        "dateSelectedFill": "FF6719",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "2E2E2E",
+        "timeLabel": "FF6719",
+        "timeBorder": "3A3A3A",
+        "timeSelectedFill": "FF6719",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "A3A3A3",
+        "fieldText": "0F172A",
+        "submitFill": "FF6719",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "telegram",
+      "channelId": "telegram",
+      "mode": "light",
+      "shell": {
+        "background": "E8F5FB",
+        "text": "0F172A",
+        "primary": "0088CC",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "FFFFFF",
+        "dateLabel": "0088CC",
+        "dateSelectedFill": "0088CC",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "FFFFFF",
+        "timeLabel": "0088CC",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "0088CC",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "475569",
+        "fieldText": "0F172A",
+        "submitFill": "0088CC",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "telegram",
+      "channelId": "telegram",
+      "mode": "dark",
+      "shell": {
+        "background": "0E1621",
+        "text": "FFFFFF",
+        "primary": "0088CC",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "242F3D",
+        "dateLabel": "0088CC",
+        "dateSelectedFill": "0088CC",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "242F3D",
+        "timeLabel": "0088CC",
+        "timeBorder": "2B5278",
+        "timeSelectedFill": "0088CC",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "8BA3BE",
+        "fieldText": "0F172A",
+        "submitFill": "0088CC",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "threads",
+      "channelId": "threads",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "000000",
+        "primary": "000000",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "F5F5F5",
+        "dateLabel": "000000",
+        "dateSelectedFill": "000000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F5F5F5",
+        "timeLabel": "000000",
+        "timeBorder": "DBDBDB",
+        "timeSelectedFill": "000000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "737373",
+        "fieldText": "000000",
+        "submitFill": "000000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "threads",
+      "channelId": "threads",
+      "mode": "dark",
+      "shell": {
+        "background": "000000",
+        "text": "FAFAFA",
+        "primary": "000000",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "1A1A1A",
+        "dateLabel": "FAFAFA",
+        "dateSelectedFill": "000000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "1A1A1A",
+        "timeLabel": "FAFAFA",
+        "timeBorder": "262626",
+        "timeSelectedFill": "000000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "A8A8A8",
+        "fieldText": "0F172A",
+        "submitFill": "000000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "tiktok",
+      "channelId": "tiktok",
+      "mode": "light",
+      "shell": {
+        "background": "000000",
+        "text": "FFFFFF",
+        "primary": "000000",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "1A1A1A",
+        "dateLabel": "FFFFFF",
+        "dateSelectedFill": "000000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "1A1A1A",
+        "timeLabel": "FFFFFF",
+        "timeBorder": "333333",
+        "timeSelectedFill": "000000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "A1A1A1",
+        "fieldText": "0F172A",
+        "submitFill": "000000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "tiktok",
+      "channelId": "tiktok",
+      "mode": "dark",
+      "shell": {
+        "background": "000000",
+        "text": "FFFFFF",
+        "primary": "000000",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "1F1F1F",
+        "dateLabel": "FFFFFF",
+        "dateSelectedFill": "000000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "1F1F1F",
+        "timeLabel": "FFFFFF",
+        "timeBorder": "333333",
+        "timeSelectedFill": "000000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "A1A1A1",
+        "fieldText": "0F172A",
+        "submitFill": "000000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "vimeo",
+      "channelId": "vimeo",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "1A1A1A",
+        "primary": "1AB7EA",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "F4FBFE",
+        "dateLabel": "1A1A1A",
+        "dateSelectedFill": "1AB7EA",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "F4FBFE",
+        "timeLabel": "1A1A1A",
+        "timeBorder": "D4EEF8",
+        "timeSelectedFill": "1AB7EA",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "4E5A5F",
+        "fieldText": "1A1A1A",
+        "submitFill": "1AB7EA",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "vimeo",
+      "channelId": "vimeo",
+      "mode": "dark",
+      "shell": {
+        "background": "0D0D0D",
+        "text": "FFFFFF",
+        "primary": "1AB7EA",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "262626",
+        "dateLabel": "1AB7EA",
+        "dateSelectedFill": "1AB7EA",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "262626",
+        "timeLabel": "1AB7EA",
+        "timeBorder": "333333",
+        "timeSelectedFill": "1AB7EA",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "A8B0B4",
+        "fieldText": "0F172A",
+        "submitFill": "1AB7EA",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "webinar",
+      "channelId": "webinar",
+      "mode": "light",
+      "shell": {
+        "background": "ffffff",
+        "text": "0b0b2a",
+        "primary": "ff4a38",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "f7f7fa",
+        "dateLabel": "ff4a38",
+        "dateSelectedFill": "ff4a38",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "f7f7fa",
+        "timeLabel": "ff4a38",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "ff4a38",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "434855",
+        "fieldText": "0b0b2a",
+        "submitFill": "ff4a38",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "webinar",
+      "channelId": "webinar",
+      "mode": "dark",
+      "shell": {
+        "background": "07071c",
+        "text": "f7f7fa",
+        "primary": "ff4a38",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "262a33",
+        "dateLabel": "ff4a38",
+        "dateSelectedFill": "ff4a38",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "262a33",
+        "timeLabel": "ff4a38",
+        "timeBorder": "3F3F46",
+        "timeSelectedFill": "ff4a38",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "94a3b8",
+        "fieldText": "0F172A",
+        "submitFill": "ff4a38",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "website",
+      "channelId": "website",
+      "mode": "light",
+      "shell": {
+        "background": "ffffff",
+        "text": "0b0b2a",
+        "primary": "ff4a38",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "f7f7fa",
+        "dateLabel": "ff4a38",
+        "dateSelectedFill": "ff4a38",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "f7f7fa",
+        "timeLabel": "ff4a38",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "ff4a38",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "434855",
+        "fieldText": "0b0b2a",
+        "submitFill": "ff4a38",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "website",
+      "channelId": "website",
+      "mode": "dark",
+      "shell": {
+        "background": "07071c",
+        "text": "f7f7fa",
+        "primary": "ff4a38",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "262a33",
+        "dateLabel": "ff4a38",
+        "dateSelectedFill": "ff4a38",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "262a33",
+        "timeLabel": "ff4a38",
+        "timeBorder": "3F3F46",
+        "timeSelectedFill": "ff4a38",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "94a3b8",
+        "fieldText": "0F172A",
+        "submitFill": "ff4a38",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "whatsapp",
+      "channelId": "whatsapp",
+      "mode": "light",
+      "shell": {
+        "background": "E7F8EE",
+        "text": "0F172A",
+        "primary": "25D366",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "FFFFFF",
+        "dateLabel": "0F172A",
+        "dateSelectedFill": "25D366",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "FFFFFF",
+        "timeLabel": "0F172A",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "25D366",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "475569",
+        "fieldText": "0F172A",
+        "submitFill": "25D366",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "whatsapp",
+      "channelId": "whatsapp",
+      "mode": "dark",
+      "shell": {
+        "background": "0B141A",
+        "text": "E9EDEF",
+        "primary": "25D366",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "1F2C34",
+        "dateLabel": "25D366",
+        "dateSelectedFill": "25D366",
+        "dateSelectedLabel": "0F172A",
+        "timeFill": "1F2C34",
+        "timeLabel": "25D366",
+        "timeBorder": "2A3942",
+        "timeSelectedFill": "25D366",
+        "timeSelectedLabel": "0F172A"
+      },
+      "form": {
+        "label": "8696A0",
+        "fieldText": "0F172A",
+        "submitFill": "25D366",
+        "submitLabel": "0F172A"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "x",
+      "channelId": "twitter",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "0F1419",
+        "primary": "000000",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "EFF3F4",
+        "dateLabel": "000000",
+        "dateSelectedFill": "000000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "EFF3F4",
+        "timeLabel": "000000",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "000000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "536471",
+        "fieldText": "0F1419",
+        "submitFill": "000000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "x",
+      "channelId": "twitter",
+      "mode": "dark",
+      "shell": {
+        "background": "000000",
+        "text": "E7E9EA",
+        "primary": "000000",
+        "primaryForeground": "F4F4F5"
+      },
+      "slots": {
+        "dateFill": "1E2732",
+        "dateLabel": "E7E9EA",
+        "dateSelectedFill": "000000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "1E2732",
+        "timeLabel": "E7E9EA",
+        "timeBorder": "2F3336",
+        "timeSelectedFill": "000000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "71767B",
+        "fieldText": "0F172A",
+        "submitFill": "000000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "youtube",
+      "channelId": "youtube",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "0F0F0F",
+        "primary": "FF0000",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "F9F9F9",
+        "dateLabel": "FF0000",
+        "dateSelectedFill": "FF0000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F9F9F9",
+        "timeLabel": "FF0000",
+        "timeBorder": "E2E8F0",
+        "timeSelectedFill": "FF0000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "606060",
+        "fieldText": "0F0F0F",
+        "submitFill": "FF0000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "youtube",
+      "channelId": "youtube",
+      "mode": "dark",
+      "shell": {
+        "background": "0F0F0F",
+        "text": "F1F1F1",
+        "primary": "FF0000",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "303030",
+        "dateLabel": "FF0000",
+        "dateSelectedFill": "FF0000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "303030",
+        "timeLabel": "FF0000",
+        "timeBorder": "3F3F3F",
+        "timeSelectedFill": "FF0000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "AAAAAA",
+        "fieldText": "0F172A",
+        "submitFill": "FF0000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "youtube-search",
+      "channelId": "youtube-search",
+      "mode": "light",
+      "shell": {
+        "background": "FFFFFF",
+        "text": "0F0F0F",
+        "primary": "FF0000",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "F9F9F9",
+        "dateLabel": "FF0000",
+        "dateSelectedFill": "FF0000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "F9F9F9",
+        "timeLabel": "FF0000",
+        "timeBorder": "E5E5E5",
+        "timeSelectedFill": "FF0000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "606060",
+        "fieldText": "0F0F0F",
+        "submitFill": "FF0000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    },
+    {
+      "slug": "youtube-search",
+      "channelId": "youtube-search",
+      "mode": "dark",
+      "shell": {
+        "background": "0F0F0F",
+        "text": "F1F1F1",
+        "primary": "FF0000",
+        "primaryForeground": "0F172A"
+      },
+      "slots": {
+        "dateFill": "303030",
+        "dateLabel": "FF0000",
+        "dateSelectedFill": "FF0000",
+        "dateSelectedLabel": "FFFFFF",
+        "timeFill": "303030",
+        "timeLabel": "FF0000",
+        "timeBorder": "3F3F3F",
+        "timeSelectedFill": "FF0000",
+        "timeSelectedLabel": "FFFFFF"
+      },
+      "form": {
+        "label": "AAAAAA",
+        "fieldText": "0F172A",
+        "submitFill": "FF0000",
+        "submitLabel": "FFFFFF"
+      },
+      "gates": {
+        "shellOk": true,
+        "darkFillOk": true,
+        "contrastOk": true,
+        "formLabelOk": true
+      }
+    }
+  ],
+  "failures": []
+}

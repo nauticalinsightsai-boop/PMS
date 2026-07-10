@@ -15,6 +15,18 @@ export {
   getPublishedGoChannelSlugs,
 } from './channel-landing-pages/goSlugRedirects';
 export {
+  resolveSchedulerChrome,
+  schedulerChromeToQueryParams,
+  schedulerHex,
+  type SchedulerChrome,
+  type SchedulerShell,
+  type SchedulerSlots,
+  type SchedulerFormChrome,
+} from './channel-landing-pages/resolveSchedulerChrome';
+export { resolvePortalTheme, portalThemeToCssVars } from './channel-landing-pages/resolvePortalTheme';
+export type { PlatformPortalTheme } from './channel-landing-pages/platformThemes';
+export type { PortalColorMode } from './channel-landing-pages/platformThemeModes';
+export {
   buildGoPathForChannelId,
   getScope41PortalGoLinks,
   groupPortalGoLinksByCategory,

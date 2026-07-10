@@ -3,18 +3,22 @@ import {
  getCalendlyEmbedTheme,
  isGoPortalCalendlyPath,
  platformPortalThemeToCalendlyPalette,
- rethemeCalendlyWidgetUrl,
  resolveCalendlyPaletteForPage,
+ resolveGoPortalChannelId,
+ rethemeCalendlyWidgetUrl,
  type CalendlyPortalPalette,
  type CalendlyUtmParams,
 } from '@/lib/calendly/embed-url';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
+import { resolvePortalTheme } from '@/lib/channel-landing-pages/resolvePortalTheme';
 import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
 import { attachCalendlyPopupEnhancements } from '@/lib/calendly/popup-enhancements';
+import { openProxiedCalendlyPopup } from '@/lib/calendly/proxied-popup';
 import { trackBookingClick } from '@/lib/analytics/track-booking-click';
 import type { BookingType } from '@/lib/analytics/pms-events';
 import { beginCalendlySession } from '@/lib/conversion-recovery/calendly-bridge';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
+import type { SchedulerChrome } from '@pms/booking-crm/channel-landing-pages/resolveSchedulerChrome';
 
 type CalendlyGlobal = {
  initPopupWidget: (opts: { url: string }) => void;
@@ -30,6 +34,8 @@ declare global {
 }
 
 let calendlyScriptPromise: Promise<void> | null = null;
+/** Unpatched Calendly.initPopupWidget — used for proxy-error fallback (avoid re-proxy loop). */
+let calendlyOriginalInitPopupWidget: ((opts: { url: string }) => void) | null = null;
 
 function isCalendlySchedulingUrl(rawUrl: string): boolean {
  try {
@@ -38,6 +44,10 @@ function isCalendlySchedulingUrl(rawUrl: string): boolean {
  } catch {
   return false;
  }
+}
+
+function isProxiedSchedulerUrl(url: string): boolean {
+ return /\/api\/calendly\/scheduler/i.test(url);
 }
 
 function openCalendlyFallbackUrl(url: string): void {
@@ -65,11 +75,15 @@ function isCalendlyWidgetReady(): boolean {
 
 function patchCalendlyInitPopupWidget(): void {
  if (!window.Calendly?.initPopupWidget || window.Calendly.__sh3ikhPatched) return;
- const original = window.Calendly.initPopupWidget.bind(window.Calendly);
+ calendlyOriginalInitPopupWidget = window.Calendly.initPopupWidget.bind(window.Calendly);
  window.Calendly.initPopupWidget = (opts) => {
   const url = rethemeCalendlyWidgetUrl(opts.url);
+  if (isProxiedSchedulerUrl(url)) {
+   openProxiedCalendlyPopup(url);
+   return;
+  }
   attachCalendlyPopupEnhancements();
-  original({ ...opts, url });
+  calendlyOriginalInitPopupWidget?.({ ...opts, url });
   attachCalendlyPopupEnhancements();
  };
  window.Calendly.__sh3ikhPatched = true;
@@ -181,6 +195,8 @@ function isPmpFunnelLabel(funnelLabel?: string): boolean {
 
 /**
  * Open Calendly popup with app light/dark embed colors + shared close/backdrop UX.
+ * When channelId is known (portals or website marketing), opens same-origin proxied iframe
+ * so slot CSS can match resolveSchedulerChrome.
  */
 export async function openCalendlyThemedPopup(
  rawSchedulingUrl: string,
@@ -190,11 +206,15 @@ export async function openCalendlyThemedPopup(
   theme?: 'dark' | 'light';
   portalTheme?: PlatformPortalTheme;
   portalPalette?: CalendlyPortalPalette;
+  channelId?: string;
+  schedulerChrome?: SchedulerChrome;
+  /** Default true when channelId/chrome present. */
+  useProxy?: boolean;
  }
 ): Promise<void> {
  const trimmed = rawSchedulingUrl?.trim() || getWebsiteCalendlyUrl('discovery');
  if (!trimmed || typeof window === 'undefined') return;
- if (!isCalendlySchedulingUrl(trimmed)) {
+ if (!isCalendlySchedulingUrl(trimmed) && !isProxiedSchedulerUrl(trimmed)) {
   console.warn('[calendly] Ignoring non-Calendly scheduling URL:', trimmed);
   openCalendlyFallbackUrl(getWebsiteCalendlyUrl('discovery'));
   return;
@@ -202,21 +222,38 @@ export async function openCalendlyThemedPopup(
 
  const colorMode = opts?.theme ?? getCalendlyEmbedTheme();
  const pathname = window.location.pathname;
+ const channelId =
+  opts?.channelId ??
+  resolveGoPortalChannelId(pathname) ??
+  (isGoPortalCalendlyPath(pathname) ? undefined : 'website');
+
  const portalPalette: CalendlyPortalPalette | null | undefined =
   opts?.portalPalette ??
   (opts?.portalTheme
    ? platformPortalThemeToCalendlyPalette(opts.portalTheme)
-   : isGoPortalCalendlyPath(pathname)
-     ? resolveCalendlyPaletteForPage(pathname, colorMode)
-     : undefined);
+   : channelId
+     ? platformPortalThemeToCalendlyPalette(resolvePortalTheme(channelId, colorMode))
+     : isGoPortalCalendlyPath(pathname)
+       ? resolveCalendlyPaletteForPage(pathname, colorMode)
+       : undefined);
 
- const themedPopupUrl = buildCalendlyPopupWidgetUrl(trimmed, {
-  host: window.location.host,
-  theme: colorMode,
-  utm: opts?.utm,
-  pathname,
-  portalPalette,
- });
+ const themedPopupUrl = isProxiedSchedulerUrl(trimmed)
+  ? rethemeCalendlyWidgetUrl(trimmed, {
+     theme: colorMode,
+     pathname,
+     portalPalette,
+     channelId,
+    })
+  : buildCalendlyPopupWidgetUrl(trimmed, {
+     host: window.location.host,
+     theme: colorMode,
+     utm: opts?.utm,
+     pathname,
+     portalPalette,
+     channelId,
+     schedulerChrome: opts?.schedulerChrome,
+     useProxy: opts?.useProxy,
+    });
 
  trackBookingClick({
   bookingType: inferCalendlyBookingType(opts?.funnelLabel, trimmed),
@@ -237,6 +274,11 @@ export async function openCalendlyThemedPopup(
  }
  beginCalendlySession({ funnelLabel, siteCertId, tierId });
 
+ if (isProxiedSchedulerUrl(themedPopupUrl)) {
+  openProxiedCalendlyPopup(themedPopupUrl, pathname);
+  return;
+ }
+
  try {
   await loadCalendlyWidget();
   ensureCalendlyWidgetReadyAndPatched();
@@ -250,5 +292,48 @@ export async function openCalendlyThemedPopup(
  } catch (error) {
   console.error('Unable to load Calendly popup widget:', error);
   openCalendlyFallbackUrl(themedPopupUrl);
+ }
+}
+
+/**
+ * Official Calendly popup (calendly.com URL, shell colors only) — no same-origin proxy.
+ * Used when the proxy HTML fails so we do not re-enter openProxiedCalendlyPopup.
+ */
+export async function openDirectCalendlyPopupWidget(calendlyEventUrl: string): Promise<void> {
+ if (typeof window === 'undefined') return;
+ const cleaned = calendlyEventUrl?.trim();
+ if (!cleaned || !isCalendlySchedulingUrl(cleaned)) {
+  openCalendlyFallbackUrl(getWebsiteCalendlyUrl('discovery'));
+  return;
+ }
+
+ const colorMode = getCalendlyEmbedTheme();
+ const pathname = window.location.pathname;
+ const channelId =
+  resolveGoPortalChannelId(pathname) ??
+  (isGoPortalCalendlyPath(pathname) ? undefined : 'website');
+
+ const themedOfficialUrl = buildCalendlyPopupWidgetUrl(cleaned, {
+  host: window.location.host,
+  theme: colorMode,
+  pathname,
+  channelId,
+  useProxy: false,
+ });
+
+ try {
+  await loadCalendlyWidget();
+  ensureCalendlyWidgetReadyAndPatched();
+  attachCalendlyPopupEnhancements();
+  const open = calendlyOriginalInitPopupWidget ?? window.Calendly?.initPopupWidget;
+  if (open) {
+   open({ url: themedOfficialUrl });
+   attachCalendlyPopupEnhancements();
+   return;
+  }
+  openCalendlyFallbackUrl(themedOfficialUrl);
+ } catch (error) {
+  console.error('Unable to open direct Calendly popup:', error);
+  openCalendlyFallbackUrl(themedOfficialUrl);
  }
 }

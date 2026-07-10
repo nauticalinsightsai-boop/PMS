@@ -60,6 +60,8 @@ export function SupportChatWidget() {
     void openCalendlyThemedPopup(getWebsiteCalendlyUrl('mentor'), {
       funnelLabel: 'support_chat_schedule_call',
       utm: { utm_source: 'pmstructure', utm_medium: 'support_chat', utm_campaign: 'talk_to_mentor' },
+      channelId: 'website',
+      useProxy: true,
     });
   };
 

@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { meetsContrast } from '@/lib/channel-landing-pages/contrastUtils';
 import {
+  applySchedulerShellToCalendlyEventUrl,
+  buildCalendlyPopupWidgetUrl,
   embedBgMatchesCalendlyMode,
   finalizeCalendlyEmbedColorParams,
   isProConsultationPortalCalendlyPath,
@@ -13,11 +15,12 @@ import {
   resolveMarketingCalendlyOverlayScrim,
   resolveWebsitePortalCalendlyPalette,
   platformPortalThemeToCalendlyPalette,
-  SNAPCHAT_PORTAL_CALENDLY_OVERLAY_SCRIM_LIGHT,
+  rethemeCalendlyWidgetUrl,
   syncCalendlyEmbedColorsWithCloseButton,
   WEBSITE_MARKETING_CALENDLY_SURFACE,
 } from '@/lib/calendly/embed-url';
 import { resolvePortalTheme } from '@/lib/channel-landing-pages/resolvePortalTheme';
+import { resolveSchedulerChrome } from '@pms/booking-crm/channel-landing-pages/resolveSchedulerChrome';
 
 describe('Calendly embed color contrast', () => {
   it('prefers TikTok accent over black primary on dark surface', () => {
@@ -141,34 +144,40 @@ describe('Calendly embed color contrast', () => {
     expect(isProConsultationPortalCalendlyPath('/go/beehiiv')).toBe(false);
   });
 
-  it('uses Snapchat yellow overlay scrim on /go/snapchat light mode only', () => {
-    expect(resolveCalendlyOverlayScrimForRoute('/go/snapchat', 'light')).toBe(
-      SNAPCHAT_PORTAL_CALENDLY_OVERLAY_SCRIM_LIGHT
-    );
-    expect(resolveCalendlyOverlayScrimForRoute('/go/snapchat', 'dark')).toBe(
-      'rgba(0, 0, 0, 0.82)'
+  it('derives Snapchat overlay scrim from portal theme (no override table)', () => {
+    const lightScrim = resolveCalendlyOverlayScrimForRoute('/go/snapchat', 'light');
+    expect(lightScrim).toMatch(/^rgba\(255,\s*252,\s*0,\s*0\.58\)$/);
+    expect(resolveCalendlyOverlayScrimForRoute('/go/snapchat', 'dark')).toMatch(
+      /^rgba\(0,\s*0,\s*0,\s*0\.82\)$/,
     );
     expect(resolveCalendlyOverlayScrimForRoute('/go/tiktok', 'light')).toBe(
-      WEBSITE_MARKETING_CALENDLY_SURFACE.light.scrim
+      WEBSITE_MARKETING_CALENDLY_SURFACE.light.scrim,
     );
   });
 
-  it('uses Snapchat Calendly iframe colors on /go/snapchat in light and dark mode', () => {
+  it('uses Snapchat Calendly iframe colors from resolvePortalTheme', () => {
+    const lightTheme = resolvePortalTheme('snapchat', 'light');
     const light = resolveCalendlyEmbedColorsForPath('/go/snapchat', 'light');
+    expect(light.primary.toLowerCase()).toBe(lightTheme.primary.replace('#', '').toLowerCase());
+    expect(light.text.toLowerCase()).toBe(lightTheme.text.replace('#', '').toLowerCase());
+    // Light Snapchat page bg is brand yellow
     expect(light.background.toLowerCase()).toBe('fffc00');
-    expect(light.text.toLowerCase()).toBe('000000');
-    expect(light.primary.toLowerCase()).toBe('000000');
 
+    const darkTheme = resolvePortalTheme('snapchat', 'dark');
     const dark = resolveCalendlyEmbedColorsForPath('/go/snapchat', 'dark');
-    expect(dark.background.toLowerCase()).toBe('111111');
-    expect(dark.text.toLowerCase()).toBe('ffffff');
-    expect(dark.primary.toLowerCase()).toBe('fffc00');
+    expect(dark.primary.toLowerCase()).toBe(darkTheme.primary.replace('#', '').toLowerCase());
+    expect(dark.text.toLowerCase()).toBe(darkTheme.text.replace('#', '').toLowerCase());
+    // Opaque surface may differ from raw page bg; must stay dark (not white)
+    expect(dark.background.toLowerCase()).not.toBe('ffffff');
+    expect(dark.background.length).toBe(6);
   });
 
-  it('uses Snapchat close pill colors on /go/snapchat light mode', () => {
-    const lightClose = resolveCalendlyCloseButtonColors('/go/snapchat');
-    expect(lightClose.closeBg.toLowerCase()).toBe('#000000');
-    expect(lightClose.closeFg.toLowerCase()).toBe('#fffc00');
+  it('uses Snapchat close pill colors from resolveSchedulerChrome (no override table)', () => {
+    const close = resolveCalendlyCloseButtonColors('/go/snapchat');
+    // Mode follows document/html class in browser; in node tests default is light.
+    const chrome = resolveSchedulerChrome('snapchat', 'light');
+    expect(close.closeBg.toLowerCase()).toBe(`#${chrome.shell.primary}`.toLowerCase());
+    expect(close.closeFg.toLowerCase()).toBe(`#${chrome.shell.primaryForeground}`.toLowerCase());
   });
 
   it('uses portal body text for Calendly iframe text_color on portal slugs (light and dark)', () => {
@@ -251,5 +260,116 @@ describe('Calendly embed color contrast', () => {
     const close = resolveCalendlyCloseButtonColors(pathname);
     expect(synced.text.toLowerCase()).toBe(close.closeFg.replace('#', '').toLowerCase());
     expect(synced.primary.toLowerCase()).toBe(close.closeBg.replace('#', '').toLowerCase());
+  });
+});
+
+describe('Calendly proxy nested shell + retheme', () => {
+  it('nested url primary/bg/text === chrome.shell for linkedin dark', () => {
+    const chrome = resolveSchedulerChrome('linkedin', 'dark');
+    const proxy = buildCalendlyPopupWidgetUrl('https://calendly.com/pm-structure/so-discovery-mentorship', {
+      host: 'localhost:3050',
+      theme: 'dark',
+      channelId: 'linkedin',
+      useProxy: true,
+    });
+    const outer = new URL(proxy, 'http://localhost:3050');
+    expect(outer.searchParams.get('primary_color')?.toLowerCase()).toBe(chrome.shell.primary.toLowerCase());
+    expect(outer.searchParams.get('background_color')?.toLowerCase()).toBe(
+      chrome.shell.background.toLowerCase(),
+    );
+    expect(outer.searchParams.get('text_color')?.toLowerCase()).toBe(chrome.shell.text.toLowerCase());
+    const nested = new URL(outer.searchParams.get('url')!);
+    expect(nested.searchParams.get('primary_color')?.toLowerCase()).toBe(chrome.shell.primary.toLowerCase());
+    expect(nested.searchParams.get('background_color')?.toLowerCase()).toBe(
+      chrome.shell.background.toLowerCase(),
+    );
+    expect(nested.searchParams.get('text_color')?.toLowerCase()).toBe(chrome.shell.text.toLowerCase());
+  });
+
+  it('retheme from instagram proxy with channelId=linkedin rewrites nested primary', () => {
+    const ig = resolveSchedulerChrome('instagram', 'dark');
+    const li = resolveSchedulerChrome('linkedin', 'dark');
+    expect(ig.shell.primary.toLowerCase()).not.toBe(li.shell.primary.toLowerCase());
+
+    const staleNested = applySchedulerShellToCalendlyEventUrl(
+      'https://calendly.com/pm-structure/so-discovery-mentorship',
+      ig,
+      { host: 'localhost:3050' },
+    );
+    const staleProxy = `/api/calendly/scheduler?${new URLSearchParams({
+      url: staleNested,
+      pms_channel: 'instagram',
+      pms_mode: 'dark',
+      primary_color: ig.shell.primary,
+      background_color: ig.shell.background,
+      text_color: ig.shell.text,
+    }).toString()}`;
+
+    // jsdom/window for retheme proxy branch
+    const prev = globalThis.window;
+    // @ts-expect-error test shim
+    globalThis.window = {
+      location: { origin: 'http://localhost:3050', host: 'localhost:3050', pathname: '/go/linkedin' },
+    };
+    try {
+      const next = rethemeCalendlyWidgetUrl(staleProxy, {
+        channelId: 'linkedin',
+        theme: 'dark',
+      });
+      const outer = new URL(next, 'http://localhost:3050');
+      expect(outer.searchParams.get('pms_channel')).toBe('linkedin');
+      expect(outer.searchParams.get('primary_color')?.toLowerCase()).toBe(li.shell.primary.toLowerCase());
+      const nested = new URL(outer.searchParams.get('url')!);
+      expect(nested.searchParams.get('primary_color')?.toLowerCase()).toBe(li.shell.primary.toLowerCase());
+      expect(nested.searchParams.get('primary_color')?.toLowerCase()).not.toBe(
+        ig.shell.primary.toLowerCase(),
+      );
+    } finally {
+      // @ts-expect-error restore
+      globalThis.window = prev;
+    }
+  });
+
+  it('retheme opts.theme=light beats stale pms_mode=dark on URL', () => {
+    const dark = resolveSchedulerChrome('website', 'dark');
+    const light = resolveSchedulerChrome('website', 'light');
+    const nested = applySchedulerShellToCalendlyEventUrl(
+      'https://calendly.com/pm-structure/talk-to-mentor',
+      dark,
+      { host: 'localhost:3050' },
+    );
+    const staleProxy = `/api/calendly/scheduler?${new URLSearchParams({
+      url: nested,
+      pms_channel: 'website',
+      pms_mode: 'dark',
+      primary_color: dark.shell.primary,
+      background_color: dark.shell.background,
+      text_color: dark.shell.text,
+    }).toString()}`;
+
+    const prev = globalThis.window;
+    // @ts-expect-error test shim
+    globalThis.window = {
+      location: { origin: 'http://localhost:3050', host: 'localhost:3050', pathname: '/' },
+      document: { documentElement: { classList: { contains: () => false } } },
+    };
+    try {
+      const next = rethemeCalendlyWidgetUrl(staleProxy, {
+        channelId: 'website',
+        theme: 'light',
+      });
+      const outer = new URL(next, 'http://localhost:3050');
+      expect(outer.searchParams.get('pms_mode')).toBe('light');
+      expect(outer.searchParams.get('background_color')?.toLowerCase()).toBe(
+        light.shell.background.toLowerCase(),
+      );
+      const nestedUrl = new URL(outer.searchParams.get('url')!);
+      expect(nestedUrl.searchParams.get('background_color')?.toLowerCase()).toBe(
+        light.shell.background.toLowerCase(),
+      );
+    } finally {
+      // @ts-expect-error restore
+      globalThis.window = prev;
+    }
   });
 });

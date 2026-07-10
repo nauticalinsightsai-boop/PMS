@@ -24,6 +24,8 @@ export function OnboardingCalendlyCta({
       getOnboardingCalendlyUrl(offeringId, { utmSource, utmMedium }),
       {
         funnelLabel: offeringId?.trim() ? `onboarding:${offeringId.trim()}` : 'onboarding',
+        channelId: 'website',
+        useProxy: true,
       },
     );
   };

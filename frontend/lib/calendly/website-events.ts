@@ -23,7 +23,7 @@ export function openWebsiteCalendly(
   opts?: { utm?: CalendlyUtmParams; funnelLabel?: string },
 ): void {
   void (async () => {
-    const [{ getCalendlyEmbedTheme, isGoPortalCalendlyPath }, { openCalendlyThemedPopup }, { resolvePortalTheme }] =
+    const [{ getCalendlyEmbedTheme }, { openCalendlyThemedPopup }, { resolvePortalTheme }] =
       await Promise.all([
         import('@/lib/calendly/embed-url'),
         import('@/lib/calendly/open-themed-popup'),
@@ -31,12 +31,12 @@ export function openWebsiteCalendly(
       ]);
 
     const mode = getCalendlyEmbedTheme();
-    const pathname = typeof window !== 'undefined' ? window.location.pathname : '/';
-    const onWebsitePortal = isGoPortalCalendlyPath(pathname) && /^\/go\/website\/?$/i.test(pathname);
     void openCalendlyThemedPopup(getWebsiteCalendlyUrl(tier), {
       ...opts,
       theme: mode,
-      ...(onWebsitePortal ? { portalTheme: resolvePortalTheme('website', mode) } : {}),
+      channelId: 'website',
+      portalTheme: resolvePortalTheme('website', mode),
+      useProxy: true,
     });
   })();
 }

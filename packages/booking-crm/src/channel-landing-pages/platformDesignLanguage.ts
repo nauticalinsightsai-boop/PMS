@@ -29,7 +29,7 @@ export const PLATFORM_DESIGN_LANGUAGE: Record<string, PlatformDesignLanguage> = 
   ghost: { cornerStyle: 'sharp', typographyClass: 'brand-sans', cardStyle: 'flat', heroTreatment: 'dark-block' },
   hashnode: { cornerStyle: 'medium', typographyClass: 'brand-sans', cardStyle: 'elevated', heroTreatment: 'solid' },
   'notion-public': { cornerStyle: 'sharp', typographyClass: 'system', cardStyle: 'flat', heroTreatment: 'dark-block' },
-  linkedin: { cornerStyle: 'sharp', typographyClass: 'system', cardStyle: 'elevated', heroTreatment: 'solid' },
+  linkedin: { cornerStyle: 'sharp', typographyClass: 'system', cardStyle: 'flat', heroTreatment: 'solid' },
   twitter: { cornerStyle: 'soft', typographyClass: 'system', cardStyle: 'flat', heroTreatment: 'dark-block' },
   instagram: { cornerStyle: 'soft', typographyClass: 'system', cardStyle: 'elevated', heroTreatment: 'gradient' },
   facebook: { cornerStyle: 'sharp', typographyClass: 'system', cardStyle: 'elevated', heroTreatment: 'solid' },

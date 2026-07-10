@@ -1,18 +1,18 @@
 # Portal theme matrix (41 slugs)
 
-Generated: 2026-05-29T10:14:08.385Z
+Generated: 2026-07-10T09:52:18.123Z
 
 | # | Slug | L tier | Dark | Light primary | Dark bg | Corner | Font |
 |---|------|--------|------|---------------|---------|--------|------|
 | 1 | website | Full | brand-override | #ff4a38 | #07071c | pill | var(--font-sans |
-| 2 | webinar | Full | brand-override | #000000 | #0A0A0A | medium | system-ui |
+| 2 | webinar | Full | brand-override | #ff4a38 | #07071c | pill | var(--font-sans |
 | 3 | medium | Full | brand-override | #000000 | #121212 | sharp | charter |
 | 4 | substack | Extended | brand-extended | #FF6719 | #1A1A1A | sharp | "SF Pro Text" |
 | 5 | beehiiv | Full | brand-override | #2F6BFF | #070B16 | medium | "Inter" |
 | 6 | ghost | Extended | brand-extended | #15171A | #15171A | sharp | Inter |
 | 7 | hashnode | Extended | brand-extended | #2962FF | #0F1419 | medium | Inter |
 | 8 | notion-public | Extended | brand-extended | #000000 | #191919 | sharp | "ui-sans-serif" |
-| 9 | linkedin | Full | brand-override | #0A66C2 | #1B1F23 | medium | -apple-system |
+| 9 | linkedin | Full | brand-override | #0A66C2 | #000000 | medium | -apple-system |
 | 10 | twitter | Full | brand-override | #000000 | #000000 | soft | system-ui |
 | 11 | instagram | Full | brand-override | #E4405F | #000000 | soft | -apple-system |
 | 12 | facebook | Full | brand-override | #1877F2 | #18191A | medium | system-ui |

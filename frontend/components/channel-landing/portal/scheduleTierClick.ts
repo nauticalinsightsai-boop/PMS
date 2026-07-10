@@ -43,5 +43,7 @@ export function scheduleTierClick(
     funnelLabel: `${page.channelId}:${tier.id}`,
     theme: ctx.colorMode,
     portalTheme: ctx.theme,
+    channelId: page.channelId,
+    useProxy: true,
   })
 }

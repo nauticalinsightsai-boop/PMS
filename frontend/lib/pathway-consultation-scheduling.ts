@@ -32,13 +32,24 @@ export function openPathwayConsultationCalendly(
   offeringId: string,
 ): void {
   const url = getPathwayConsultationCalendlyUrl(siteCertId, tierId);
-  void openCalendlyThemedPopup(url, {
-    utm: {
-      utm_source: 'pathway',
-      utm_medium: 'certification',
-      utm_campaign: siteCertId,
-      utm_content: offeringId,
-    },
-    funnelLabel: `pathway:${siteCertId}:${tierId}`,
-  });
+  void (async () => {
+    const [{ getCalendlyEmbedTheme }, { resolvePortalTheme }] = await Promise.all([
+      import('@/lib/calendly/embed-url'),
+      import('@/lib/channel-landing-pages/resolvePortalTheme'),
+    ]);
+    const mode = getCalendlyEmbedTheme();
+    void openCalendlyThemedPopup(url, {
+      utm: {
+        utm_source: 'pathway',
+        utm_medium: 'certification',
+        utm_campaign: siteCertId,
+        utm_content: offeringId,
+      },
+      funnelLabel: `pathway:${siteCertId}:${tierId}`,
+      theme: mode,
+      channelId: 'website',
+      portalTheme: resolvePortalTheme('website', mode),
+      useProxy: true,
+    });
+  })();
 }

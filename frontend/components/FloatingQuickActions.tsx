@@ -62,6 +62,8 @@ export function FloatingQuickActions() {
     void openCalendlyThemedPopup(getWebsiteCalendlyUrl('mentor'), {
       funnelLabel: 'fab_schedule_call',
       utm: { utm_source: 'pmstructure', utm_medium: 'fab', utm_campaign: 'talk_to_mentor' },
+      channelId: 'website',
+      useProxy: true,
     });
   };
 
