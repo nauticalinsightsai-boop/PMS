@@ -69,7 +69,7 @@ create table if not exists dashboard_one.auth_audit_log (
 
 create index if not exists idx_auth_audit_log_created
   on dashboard_one.auth_audit_log (created_at desc);
-
+          
 create table if not exists dashboard_one.trusted_login_fingerprints (
   id uuid primary key default gen_random_uuid(),
   email text not null,
