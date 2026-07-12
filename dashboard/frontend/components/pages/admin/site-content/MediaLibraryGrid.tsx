@@ -158,7 +158,7 @@ export function MediaLibraryGrid({ onSelect, compact }: Props) {
             </span>
             <input
               type="file"
-              accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+              accept="image/jpeg,image/png,image/webp,image/gif"
               className="hidden"
               onChange={onUpload}
               disabled={uploading}
@@ -167,7 +167,7 @@ export function MediaLibraryGrid({ onSelect, compact }: Props) {
           <input
             ref={replaceInputRef}
             type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+            accept="image/jpeg,image/png,image/webp,image/gif"
             className="hidden"
             onChange={onReplacePick}
             disabled={uploading}

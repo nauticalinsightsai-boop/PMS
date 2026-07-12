@@ -36,11 +36,21 @@ export const Login: React.FC = () => {
   const searchParams = useSearchParams();
 
   const postLoginPath = (): string => {
-    const fromQuery = searchParams.get('next')?.trim();
-    if (fromQuery?.startsWith('/')) return withBasePath(fromQuery);
-    const fromStorage = sessionStorage.getItem('redirect_after_login');
+    const safeInternal = (path: string | null | undefined): string | null => {
+      const value = path?.trim();
+      if (!value) return null;
+      // Block open redirects: protocol-relative (//evil), schemes, backslashes.
+      if (!value.startsWith('/') || value.startsWith('//') || value.includes('://') || value.includes('\\')) {
+        return null;
+      }
+      return withBasePath(value);
+    };
+
+    const fromQuery = safeInternal(searchParams.get('next'));
+    if (fromQuery) return fromQuery;
+    const fromStorage = safeInternal(sessionStorage.getItem('redirect_after_login'));
     sessionStorage.removeItem('redirect_after_login');
-    if (fromStorage?.startsWith('/')) return withBasePath(fromStorage);
+    if (fromStorage) return fromStorage;
     return withBasePath('/dashboard');
   };
 

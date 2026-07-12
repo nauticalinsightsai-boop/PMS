@@ -115,7 +115,7 @@ function FrameSlot({ label, device, value, onChange, onError }: SlotProps) {
       <input
         ref={fileRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,.jpg,.jpeg,.png,.webp,.gif,.svg"
+        accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif"
         className="hidden"
         onChange={(e) => {
           const file = e.target.files?.[0];

@@ -16,7 +16,6 @@ const SITE_MEDIA: BucketSpec = {
     'image/png',
     'image/webp',
     'image/gif',
-    'image/svg+xml',
     'audio/mpeg',
     'audio/mp3',
     'audio/wav',
