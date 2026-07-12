@@ -254,7 +254,7 @@ export function Newsletter({
             <div className="flex flex-col flex-1 min-h-0 p-8 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
               <h3 className="font-heading text-2xl font-bold mb-6 shrink-0">Editor&apos;s Picks</h3>
               <div className="flex flex-1 flex-col justify-center gap-8 min-h-0">
-                {articles.slice(4, 6).map((article) => (
+                {articles.slice(4, 8).map((article) => (
                   <ArticleCard key={article.slug} article={article} variant="horizontal" />
                 ))}
               </div>
