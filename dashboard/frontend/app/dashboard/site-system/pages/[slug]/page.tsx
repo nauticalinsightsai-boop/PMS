@@ -8,6 +8,7 @@ import { MembershipPageEditor } from '@/components/pages/admin/MembershipPageEdi
 import { CertificationsHubEditor } from '@/components/pages/admin/CertificationsHubEditor';
 import { StoreCatalogEditor } from '@/components/pages/admin/StoreCatalogEditor';
 import { FaqPageEditor } from '@/components/pages/admin/FaqPageEditor';
+import { AboutPageEditor } from '@/components/pages/admin/AboutPageEditor';
 
 const SPECIALIZED_EDITORS: Partial<Record<WebsitePageSlug, ComponentType>> = {
   'pm-service': ServicesPageEditor,
@@ -16,6 +17,7 @@ const SPECIALIZED_EDITORS: Partial<Record<WebsitePageSlug, ComponentType>> = {
   certifications: CertificationsHubEditor,
   store: StoreCatalogEditor,
   faq: FaqPageEditor,
+  about: AboutPageEditor,
 };
 
 export default async function SitePageEditor({

@@ -1,5 +1,6 @@
-import { PlaceholderPage } from '@/components/PlaceholderPage';
+import { permanentRedirect } from 'next/navigation';
 
+/** Legacy stub — Booking CRM users module redirects to CTA Management. */
 export default function Page() {
-  return <PlaceholderPage title="Users & Leads" />;
+  permanentRedirect('/dashboard/booking-crm/cta');
 }

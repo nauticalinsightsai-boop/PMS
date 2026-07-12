@@ -26,6 +26,7 @@ export function About({
   });
   const hero = pageConfig?.hero ?? fallback.hero;
   const mission = pageConfig?.mission ?? fallback.mission;
+  const story = pageConfig?.story ?? fallback.story;
 
   return (
     <LazyMotion features={domAnimation} strict>
@@ -45,7 +46,9 @@ export function About({
                 {hero.title || globalContentString(globalContent, 'mission_title', 'Structured project management education and advisory')}
               </h1>
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                {mission.subtitle || globalContentString(globalContent, 'mission_subtitle', BRAND_LINES.positioning)}
+                {hero.subtitle ||
+                  mission.subtitle ||
+                  globalContentString(globalContent, 'mission_subtitle', BRAND_LINES.positioning)}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
                 <PmpRoadmapCtaLink
@@ -105,14 +108,24 @@ export function About({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="font-heading text-3xl md:text-5xl font-bold mb-8 tracking-tight dark:text-white">
-                {globalContentString(globalContent, 'story_title', 'Our Story')}
+                {story.title || globalContentString(globalContent, 'story_title', 'Our Story')}
               </h2>
               <div className="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed font-medium text-lg">
                 <p>
-                  {globalContentString(globalContent, 'story_text_1', `${BRAND.name} began as a structured study circle for busy project professionals preparing for PMI exams. The gap was never lack of material: it was lack of pathway, accountability, and readiness measurement.`)}
+                  {story.text1 ||
+                    globalContentString(
+                      globalContent,
+                      'story_text_1',
+                      `${BRAND.name} began as a structured study circle for busy project professionals preparing for PMI exams. The gap was never lack of material: it was lack of pathway, accountability, and readiness measurement.`,
+                    )}
                 </p>
                 <p>
-                  {globalContentString(globalContent, 'story_text_2', `Today we support learners and teams across regions with independent exam-preparation pathways, advisory services, and practical tools. Our focus remains certification readiness, governance thinking, and delivery discipline.`)}
+                  {story.text2 ||
+                    globalContentString(
+                      globalContent,
+                      'story_text_2',
+                      `Today we support learners and teams across regions with independent exam-preparation pathways, advisory services, and practical tools. Our focus remains certification readiness, governance thinking, and delivery discipline.`,
+                    )}
                 </p>
               </div>
             </div>

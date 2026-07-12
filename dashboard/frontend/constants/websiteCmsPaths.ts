@@ -2,6 +2,7 @@
 export const WEBSITE_CMS_PATHS = {
   mediaLibrary: '/dashboard/site-system/media-library',
   newsletter: '/dashboard/site-system/newsletter',
+  newsletterHub: '/dashboard/site-system/newsletter/hub',
   newsletterPosts: '/dashboard/site-system/newsletter/posts',
   newsletterNew: '/dashboard/site-system/newsletter/new',
   newsletterSubscribers: '/dashboard/site-system/newsletter/subscribers',

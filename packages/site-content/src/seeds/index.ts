@@ -10,6 +10,7 @@ import { defaultMembershipPageConfig } from '../membership-page';
 import { defaultAboutPageConfig } from '../about';
 import { defaultFaqPageConfig } from '../faq';
 import { defaultNewsletterHubConfig } from '../newsletter';
+import { defaultSiteSettings } from '../site-settings';
 import bundledRegistry from '../../data/certifications-registry.json';
 
 /** Full registry from siteData (27 certs): regenerate via npm run build:cert-registry */
@@ -34,5 +35,6 @@ export function buildAllSeedDocuments(): SeedDocument[] {
     { field_key: FIELD_KEYS.ABOUT_PAGE_CONFIG, content: defaultAboutPageConfig() as unknown as Record<string, unknown> },
     { field_key: FIELD_KEYS.FAQ_PAGE_CONFIG, content: defaultFaqPageConfig() as unknown as Record<string, unknown> },
     { field_key: FIELD_KEYS.NEWSLETTER_HUB_CONFIG, content: defaultNewsletterHubConfig() as unknown as Record<string, unknown> },
+    { field_key: FIELD_KEYS.SITE_SETTINGS, content: defaultSiteSettings() as unknown as Record<string, unknown> },
   ];
 }

@@ -11,6 +11,7 @@ import {
   BarChart3,
   Search,
   Wrench,
+  LayoutTemplate,
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
@@ -58,6 +59,7 @@ const EDITOR_NEWSLETTER_NAV: DashboardNavSection = {
   title: 'Newsletter',
   items: [
     { name: 'Newsletter', path: WEBSITE_CMS_PATHS.newsletter, icon: Newspaper },
+    { name: 'Hub / hero', path: WEBSITE_CMS_PATHS.newsletterHub, icon: LayoutTemplate },
     { name: 'All posts', path: WEBSITE_CMS_PATHS.newsletterPosts, icon: FileText },
     { name: 'Authors', path: WEBSITE_CMS_PATHS.newsletterAuthors, icon: UserCircle },
     { name: 'Subscribers', path: WEBSITE_CMS_PATHS.newsletterSubscribers, icon: Users },

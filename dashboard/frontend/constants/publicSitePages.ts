@@ -72,7 +72,7 @@ export const PUBLIC_SITE_PAGES: PublicSitePage[] = [
     path: '/about',
     icon: Info,
     inMainNav: false,
-    editorDescription: 'About page mission hero and intro copy on /about.',
+    editorDescription: 'About page hero, mission, and story sections shown on /about.',
   },
   {
     slug: 'compare',

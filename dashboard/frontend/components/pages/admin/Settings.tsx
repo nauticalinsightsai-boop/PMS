@@ -1,15 +1,34 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Settings as SettingsIcon, User, Bell, Shield, Save } from 'lucide-react';
+import Link from 'next/link';
+import { Settings as SettingsIcon, User, Bell, Shield, Save, Loader2 } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { CTAButton } from '@/components/ui/CTAButton';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  FIELD_KEYS,
+  defaultSiteSettings,
+  parseSiteSettings,
+  type SiteSettings,
+} from '@pms/site-content';
+import { useSiteDocumentDraft } from '@/hooks/useSiteDocumentDraft';
+import { WebsiteDataService } from '@/services/WebsiteDataService';
+import { withBasePath } from '@/lib/base-path';
+
+const inputClass =
+  'w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:ring-1 focus:ring-brand-orange outline-none';
 
 export const Settings: React.FC = () => {
   const [activeTab, setActiveTab] = useState('general');
+  const [saving, setSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
+  const { config, setConfig, setBaseline, isLoading, loadError, updatedAt } =
+    useSiteDocumentDraft(FIELD_KEYS.SITE_SETTINGS, defaultSiteSettings, parseSiteSettings);
 
   const tabs = [
     { id: 'general', label: 'General', icon: SettingsIcon },
@@ -18,11 +37,86 @@ export const Settings: React.FC = () => {
     { id: 'security', label: 'Security', icon: Shield },
   ];
 
+  const patchGeneral = (patch: Partial<SiteSettings['general']>) => {
+    setConfig((c) => ({ ...c, general: { ...c.general, ...patch } }));
+  };
+
+  const patchProfile = (patch: Partial<SiteSettings['profile']>) => {
+    setConfig((c) => ({ ...c, profile: { ...c.profile, ...patch } }));
+  };
+
+  const patchNotifications = (key: keyof SiteSettings['notifications'], value: boolean) => {
+    setConfig((c) => ({
+      ...c,
+      notifications: { ...c.notifications, [key]: value },
+    }));
+  };
+
+  const handleSave = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setSaving(true);
+    setSaveMessage(null);
+    setSaveError(null);
+    try {
+      await WebsiteDataService.saveDraft(
+        FIELD_KEYS.SITE_SETTINGS,
+        config as unknown as Record<string, unknown>,
+        { publish: true },
+      );
+      setBaseline(JSON.stringify(config));
+      setSaveMessage('Settings saved and published.');
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : 'Failed to save settings');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const Toggle = ({
+    on,
+    onToggle,
+  }: {
+    on: boolean;
+    onToggle: () => void;
+  }) => (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      onClick={onToggle}
+      className={cn(
+        'relative h-6 w-12 rounded-full shadow-inner transition-colors',
+        on ? 'bg-brand-orange' : 'bg-white/20',
+      )}
+    >
+      <span
+        className={cn(
+          'absolute top-1 h-4 w-4 rounded-full bg-white transition-all',
+          on ? 'right-1' : 'left-1',
+        )}
+      />
+    </button>
+  );
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <Loader2 className="h-4 w-4 animate-spin" /> Loading settings…
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       <header>
         <h1 className="text-4xl font-black tracking-tight">Platform Configuration</h1>
-        <p className="text-muted-foreground mt-2">Manage your system preferences and administrative profile.</p>
+        <p className="mt-2 text-muted-foreground">
+          Manage public platform identity and admin preferences.
+          {updatedAt ? (
+            <span className="ml-2 text-xs">Last synced: {new Date(updatedAt).toLocaleString()}</span>
+          ) : null}
+        </p>
+        {loadError ? <p className="mt-2 text-sm text-red-400">{loadError}</p> : null}
       </header>
 
       <Tabs
@@ -33,10 +127,7 @@ export const Settings: React.FC = () => {
       >
         <div className="shrink-0 lg:w-64">
           <GlassCard className="p-2" variant="surface">
-            <TabsList
-              variant="line"
-              className="flex h-auto w-full flex-col gap-1 bg-transparent p-0"
-            >
+            <TabsList variant="line" className="flex h-auto w-full flex-col gap-1 bg-transparent p-0">
               {tabs.map((tab) => (
                 <TabsTrigger
                   key={tab.id}
@@ -65,112 +156,187 @@ export const Settings: React.FC = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <GlassCard className="p-8" variant="raised">
-                <form className="space-y-8">
-                  {tab.id === 'general' && (
-                    <div className="space-y-6">
-                      <h3 className="text-xl font-bold border-b border-white/5 pb-4">General Settings</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Platform Name</label>
-                          <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:ring-1 focus:ring-brand-orange outline-none" defaultValue="PMS.OS" />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Domain</label>
-                          <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:ring-1 focus:ring-brand-orange outline-none" defaultValue="platform.abdullah.dev" />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                         <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Public Description</label>
-                         <textarea className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:ring-1 focus:ring-brand-orange outline-none h-32" defaultValue="Personal platform operating system and brand hub." />
-                      </div>
-                    </div>
-                  )}
-
-                  {tab.id === 'profile' && (
-                    <div className="space-y-6">
-                       <h3 className="text-xl font-bold border-b border-white/5 pb-4">Admin Profile</h3>
-                       <div className="flex items-center gap-6 mb-8">
-                         <div className="w-24 h-24 rounded-3xl bg-brand-orange flex items-center justify-center text-3xl font-black text-white premium-shadow">SA</div>
-                         <div>
-                           <CTAButton variant="secondary" size="sm">Change Avatar</CTAButton>
-                           <p className="text-[10px] text-muted-foreground mt-2 uppercase font-bold tracking-widest">JPG, PNG or GIF. Max 800KB.</p>
-                         </div>
-                       </div>
-                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Display Name</label>
-                          <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:ring-1 focus:ring-brand-orange outline-none" defaultValue="Sheikh Abdullah" />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Professional Title</label>
-                          <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:ring-1 focus:ring-brand-orange outline-none" defaultValue="Founder & CEO" />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {tab.id === 'notifications' && (
-                    <div className="space-y-6">
-                      <h3 className="text-xl font-bold border-b border-white/5 pb-4">Communication</h3>
-                      <div className="space-y-4">
-                        {[
-                          { id: 'email_alerts', label: 'Email Notifications', desc: 'Receive daily summary of interactions and revenue.' },
-                          { id: 'sms_otp', label: 'SMS Security Codes', desc: 'Required for administrative actions and logins.' },
-                          { id: 'system_logs', label: 'System Audit Logs', desc: 'Log every administrative interaction to the database.' },
-                        ].map((item) => (
-                          <div key={item.id} className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5 transition-colors hover:border-brand-orange/20">
-                            <div>
-                              <p className="text-sm font-bold">{item.label}</p>
-                              <p className="text-xs text-muted-foreground mt-1">{item.desc}</p>
+                    <form className="space-y-8" onSubmit={handleSave}>
+                      {tab.id === 'general' && (
+                        <div className="space-y-6">
+                          <h3 className="border-b border-white/5 pb-4 text-xl font-bold">
+                            General Settings
+                          </h3>
+                          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <div className="space-y-2">
+                              <label className="ml-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                Platform Name
+                              </label>
+                              <input
+                                type="text"
+                                className={inputClass}
+                                value={config.general.platformName}
+                                onChange={(e) => patchGeneral({ platformName: e.target.value })}
+                              />
                             </div>
-                            <div className="w-12 h-6 bg-brand-orange rounded-full relative cursor-pointer shadow-inner">
-                              <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full transition-all" />
+                            <div className="space-y-2">
+                              <label className="ml-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                Domain
+                              </label>
+                              <input
+                                type="text"
+                                className={inputClass}
+                                value={config.general.domain}
+                                onChange={(e) => patchGeneral({ domain: e.target.value })}
+                              />
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {tab.id === 'security' && (
-                    <div className="space-y-6">
-                       <h3 className="text-xl font-bold border-b border-white/5 pb-4">Account Security</h3>
-                       <div className="space-y-6">
-                          <div className="p-6 bg-yellow-500/10 border border-yellow-500/20 rounded-2xl">
-                             <h4 className="flex items-center gap-2 text-yellow-500 text-sm font-bold mb-2">
-                               <Shield size={16} /> TWO-FACTOR AUTHENTICATION
-                             </h4>
-                             <p className="text-xs text-muted-foreground leading-relaxed">
-                               Your account is currently protected by standard password auth. We recommend enabling SMS or App-based 2FA to prevent unauthorized access to the platform OS.
-                             </p>
-                             <CTAButton variant="primary" size="sm" className="mt-4 bg-yellow-500 hover:bg-yellow-600 shadow-yellow-500/20">ENABLE 2FA</CTAButton>
-                          </div>
-
                           <div className="space-y-2">
-                             <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Current Password</label>
-                             <input type="password" placeholder="••••••••" className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:ring-1 focus:ring-brand-orange outline-none" />
+                            <label className="ml-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                              Public Description
+                            </label>
+                            <textarea
+                              className={cn(inputClass, 'h-32')}
+                              value={config.general.publicDescription}
+                              onChange={(e) => patchGeneral({ publicDescription: e.target.value })}
+                            />
                           </div>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                              <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">New Password</label>
-                              <input type="password" placeholder="••••••••" className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:ring-1 focus:ring-brand-orange outline-none" />
-                            </div>
-                            <div className="space-y-2">
-                              <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Confirm Password</label>
-                              <input type="password" placeholder="••••••••" className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:ring-1 focus:ring-brand-orange outline-none" />
-                            </div>
-                          </div>
-                       </div>
-                    </div>
-                  )}
+                        </div>
+                      )}
 
-                  <div className="pt-8 border-t border-white/5 flex justify-end">
-                    <CTAButton type="submit">
-                      <Save size={18} className="mr-2" /> SAVE CHANGES
-                    </CTAButton>
-                  </div>
-                </form>
-              </GlassCard>
+                      {tab.id === 'profile' && (
+                        <div className="space-y-6">
+                          <h3 className="border-b border-white/5 pb-4 text-xl font-bold">
+                            Admin Profile
+                          </h3>
+                          <div className="mb-8 flex items-center gap-6">
+                            <div className="premium-shadow flex h-24 w-24 items-center justify-center rounded-3xl bg-brand-orange text-3xl font-black text-white">
+                              {(config.profile.displayName || 'SA')
+                                .split(/\s+/)
+                                .map((p) => p[0])
+                                .join('')
+                                .slice(0, 2)
+                                .toUpperCase()}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              Display name is used in admin UI. Author photos for newsletter are
+                              managed under Newsletter → Authors.
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <div className="space-y-2">
+                              <label className="ml-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                Display Name
+                              </label>
+                              <input
+                                type="text"
+                                className={inputClass}
+                                value={config.profile.displayName}
+                                onChange={(e) => patchProfile({ displayName: e.target.value })}
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="ml-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                Professional Title
+                              </label>
+                              <input
+                                type="text"
+                                className={inputClass}
+                                value={config.profile.professionalTitle}
+                                onChange={(e) =>
+                                  patchProfile({ professionalTitle: e.target.value })
+                                }
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {tab.id === 'notifications' && (
+                        <div className="space-y-6">
+                          <h3 className="border-b border-white/5 pb-4 text-xl font-bold">
+                            Communication
+                          </h3>
+                          <div className="space-y-4">
+                            {(
+                              [
+                                {
+                                  key: 'emailAlerts' as const,
+                                  label: 'Email Notifications',
+                                  desc: 'Receive daily summary of interactions and revenue.',
+                                },
+                                {
+                                  key: 'smsOtp' as const,
+                                  label: 'SMS Security Codes',
+                                  desc: 'Required for administrative actions and logins.',
+                                },
+                                {
+                                  key: 'systemLogs' as const,
+                                  label: 'System Audit Logs',
+                                  desc: 'Log every administrative interaction to the database.',
+                                },
+                              ] as const
+                            ).map((item) => (
+                              <div
+                                key={item.key}
+                                className="flex items-center justify-between rounded-2xl border border-white/5 bg-white/5 p-4 transition-colors hover:border-brand-orange/20"
+                              >
+                                <div>
+                                  <p className="text-sm font-bold">{item.label}</p>
+                                  <p className="mt-1 text-xs text-muted-foreground">{item.desc}</p>
+                                </div>
+                                <Toggle
+                                  on={config.notifications[item.key]}
+                                  onToggle={() =>
+                                    patchNotifications(item.key, !config.notifications[item.key])
+                                  }
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {tab.id === 'security' && (
+                        <div className="space-y-6">
+                          <h3 className="border-b border-white/5 pb-4 text-xl font-bold">
+                            Account Security
+                          </h3>
+                          <div className="rounded-2xl border border-yellow-500/20 bg-yellow-500/10 p-6">
+                            <h4 className="mb-2 flex items-center gap-2 text-sm font-bold text-yellow-500">
+                              <Shield size={16} /> LOGIN &amp; 2FA
+                            </h4>
+                            <p className="text-xs leading-relaxed text-muted-foreground">
+                              Password reset, phone OTP, and login security settings live on the
+                              dedicated Security page — not in this form.
+                            </p>
+                            <Link
+                              href={withBasePath('/dashboard/site-system/security')}
+                              className="mt-4 inline-flex"
+                            >
+                              <CTAButton type="button" variant="primary" size="sm">
+                                Open Security settings
+                              </CTAButton>
+                            </Link>
+                          </div>
+                        </div>
+                      )}
+
+                      {tab.id !== 'security' ? (
+                        <div className="flex items-center justify-end gap-4 border-t border-white/5 pt-8">
+                          {saveError ? (
+                            <p className="text-sm text-red-400">{saveError}</p>
+                          ) : null}
+                          {saveMessage ? (
+                            <p className="text-sm text-emerald-400">{saveMessage}</p>
+                          ) : null}
+                          <CTAButton type="submit" disabled={saving}>
+                            {saving ? (
+                              <Loader2 size={18} className="mr-2 animate-spin" />
+                            ) : (
+                              <Save size={18} className="mr-2" />
+                            )}
+                            SAVE CHANGES
+                          </CTAButton>
+                        </div>
+                      ) : null}
+                    </form>
+                  </GlassCard>
                 </motion.div>
               </AnimatePresence>
             </TabsContent>

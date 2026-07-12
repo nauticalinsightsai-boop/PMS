@@ -1,5 +1,5 @@
-import { PlaceholderPage } from '@/components/PlaceholderPage';
+import { permanentRedirect } from 'next/navigation';
 
 export default function Page() {
-  return <PlaceholderPage title="CTA Engine" />;
+  permanentRedirect('/dashboard/booking-crm/cta');
 }

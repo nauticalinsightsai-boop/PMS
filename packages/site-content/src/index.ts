@@ -13,6 +13,7 @@ export * from './newsletter';
 export * from './newsletter-posts';
 export * from './article-markdown';
 export * from './sanitize-html';
+export * from './site-settings';
 export * from './media-sections';
 export * from './seeds/index';
 export { FIELD_KEYS as SITE_CONTENT_FIELD_KEYS } from './keys';
@@ -26,6 +27,7 @@ import { membershipPageConfigSchema } from './membership-page';
 import { aboutPageConfigSchema } from './about';
 import { faqPageConfigSchema } from './faq';
 import { newsletterHubConfigSchema } from './newsletter';
+import { siteSettingsSchema } from './site-settings';
 import { FIELD_KEYS } from './keys';
 import type { z } from 'zod';
 
@@ -40,6 +42,7 @@ const schemaByKey: Record<string, z.ZodTypeAny> = {
   [FIELD_KEYS.ABOUT_PAGE_CONFIG]: aboutPageConfigSchema,
   [FIELD_KEYS.FAQ_PAGE_CONFIG]: faqPageConfigSchema,
   [FIELD_KEYS.NEWSLETTER_HUB_CONFIG]: newsletterHubConfigSchema,
+  [FIELD_KEYS.SITE_SETTINGS]: siteSettingsSchema,
 };
 
 export function getSchemaForFieldKey(fieldKey: string): z.ZodTypeAny | undefined {
