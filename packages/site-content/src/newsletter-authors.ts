@@ -1,5 +1,9 @@
 import { z } from 'zod';
-import type { NewsletterArticle } from './newsletter-posts';
+import {
+  CANONICAL_NEWSLETTER_AUTHOR,
+  normalizeNewsletterAuthorName,
+  type NewsletterArticle,
+} from './newsletter-posts';
 
 export const NEWSLETTER_AUTHORS_FIELD_KEY = 'newsletter_authors_registry';
 
@@ -84,10 +88,10 @@ export function defaultNewsletterAuthorsRegistry(): NewsletterAuthorsRegistry {
     version: 1,
     authors: [
       seed(
-        'author-pm-structure-editorial',
-        'PM Structure Editorial',
-        'Editorial Team',
-        'The PM Structure editorial team publishes structured guidance on project management certification, exam strategy, and delivery leadership.',
+        'author-sheikh-m-abdullah',
+        'Sheikh M. Abdullah',
+        'Founder',
+        'Sheikh M. Abdullah leads PM Structure with practical guidance on project management certification, exam strategy, and delivery leadership.',
       ),
     ],
   };
@@ -136,11 +140,16 @@ export function attachAuthorToArticle(
   article: NewsletterArticle,
   authors: NewsletterAuthor[],
 ): NewsletterArticle {
-  const author = findAuthorForArticle(article, authors);
-  if (!author) return article;
+  const author =
+    findAuthorForArticle(article, authors) ??
+    authors.find((row) => row.name.trim().toLowerCase() === CANONICAL_NEWSLETTER_AUTHOR.toLowerCase());
+  const canonicalName = normalizeNewsletterAuthorName(author?.name || article.author);
+  if (!author) {
+    return { ...article, author: canonicalName };
+  }
   return {
     ...article,
-    author: author.name || article.author,
+    author: canonicalName,
     authorId: author.id,
     authorSlug: author.slug,
     authorTitle: author.title || article.authorTitle,

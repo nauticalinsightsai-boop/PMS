@@ -13,7 +13,7 @@ export const newsletterArticles: NewsletterArticle[] = [
       'A deep dive into the new Exam Content Outline (ECO) and how it impacts your study strategy for the coming year.',
     category: 'Exam Strategies',
     date: 'Oct 12, 2025',
-    author: 'Dr. Robert Chen',
+    author: 'Sheikh M. Abdullah',
     readTime: '8 min read',
     image: '/images/marketing/community-collab-600.webp',
     body: [
@@ -29,7 +29,7 @@ export const newsletterArticles: NewsletterArticle[] = [
       "Why the 'Waterfall vs Agile' debate is dead, and how the most successful PMOs are blending both for maximum efficiency.",
     category: 'Agile',
     date: 'Oct 10, 2025',
-    author: 'Sarah Jenkins',
+    author: 'Sheikh M. Abdullah',
     readTime: '12 min read',
     image: '/images/marketing/community-workshop-600.webp',
     body: [
@@ -45,7 +45,7 @@ export const newsletterArticles: NewsletterArticle[] = [
       "Advanced techniques for identifying 'Black Swan' events in complex infrastructure projects.",
     category: 'Risk',
     date: 'Oct 08, 2025',
-    author: 'Marcus Thorne',
+    author: 'Sheikh M. Abdullah',
     readTime: '10 min read',
     image: '/images/marketing/community-mentor-600.webp',
     body: [
@@ -77,7 +77,7 @@ export const newsletterArticles: NewsletterArticle[] = [
       "Key takeaways from the latest update to the world's most popular project management methodology.",
     category: 'PRINCE2',
     date: 'Oct 02, 2025',
-    author: 'James Wilson',
+    author: 'Sheikh M. Abdullah',
     readTime: '7 min read',
     image: '/images/marketing/about-workshop-800.webp',
     body: [
@@ -93,7 +93,7 @@ export const newsletterArticles: NewsletterArticle[] = [
       'A step-by-step guide to establishing governance, standards, and value delivery in a growing organization.',
     category: 'PMO',
     date: 'Sep 28, 2025',
-    author: 'Linda Wu',
+    author: 'Sheikh M. Abdullah',
     readTime: '20 min read',
     image: '/images/marketing/about-session-800.webp',
     body: [

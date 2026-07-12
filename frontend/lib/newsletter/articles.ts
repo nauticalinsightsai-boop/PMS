@@ -1,5 +1,6 @@
 import { cache } from 'react';
 import {
+  CANONICAL_NEWSLETTER_AUTHOR,
   NEWSLETTER_POSTS_FIELD_KEY,
   type NewsletterArticle,
 } from '@pms/site-content/newsletter-posts';
@@ -10,6 +11,14 @@ import { supabase } from '@/lib/supabase';
 
 export type { NewsletterArticle };
 export { getNewsletterArticleHref } from '@pms/site-content/newsletter-posts';
+
+function withCanonicalAuthor(articles: NewsletterArticle[]): NewsletterArticle[] {
+  return articles.map((article) =>
+    article.author === CANONICAL_NEWSLETTER_AUTHOR
+      ? article
+      : { ...article, author: CANONICAL_NEWSLETTER_AUTHOR },
+  );
+}
 
 async function fetchPublishedArticles(): Promise<NewsletterArticle[]> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -38,7 +47,7 @@ export const getPublishedNewsletterArticles = cache(async (): Promise<Newsletter
     fetchPublishedArticles(),
     getPublishedNewsletterAuthors(),
   ]);
-  return enrichArticlesWithAuthors(articles, authors);
+  return withCanonicalAuthor(enrichArticlesWithAuthors(articles, authors));
 });
 
 export async function getNewsletterArticle(slug: string): Promise<NewsletterArticle | undefined> {

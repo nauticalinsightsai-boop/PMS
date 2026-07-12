@@ -42,7 +42,7 @@ export const CONTENT_SNIPPETS = [
   {
     id: 'quote',
     label: 'Pull quote',
-    text: '\n\n> "The best project leaders treat safety and delivery as one system—not competing priorities."\n> — PM Structure Editorial\n',
+    text: '\n\n> "The best project leaders treat safety and delivery as one system—not competing priorities."\n> — Sheikh M. Abdullah\n',
   },
   {
     id: 'divider',

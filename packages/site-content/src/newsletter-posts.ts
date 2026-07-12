@@ -6,6 +6,29 @@ export { newsletterFileSeedArticles };
 
 export const NEWSLETTER_POSTS_FIELD_KEY = 'newsletter_posts_registry';
 
+/** Single public byline for all newsletter articles. */
+export const CANONICAL_NEWSLETTER_AUTHOR = 'Sheikh M. Abdullah';
+
+const NEWSLETTER_AUTHOR_ALIASES = new Set([
+  '',
+  'badar javed',
+  'badr javed',
+  'pm structure',
+  'pm structure editorial',
+  'editorial',
+  'editorial team',
+]);
+
+/** Map placeholder / legacy bylines to the canonical author. */
+export function normalizeNewsletterAuthorName(name?: string | null): string {
+  const trimmed = name?.trim() ?? '';
+  if (!trimmed || NEWSLETTER_AUTHOR_ALIASES.has(trimmed.toLowerCase())) {
+    return CANONICAL_NEWSLETTER_AUTHOR;
+  }
+  // Public site uses one author brand-wide.
+  return CANONICAL_NEWSLETTER_AUTHOR;
+}
+
 export const newsletterPostStatusSchema = z.enum(['published', 'draft', 'scheduled']);
 
 export const newsletterEditorMetaSchema = z.object({
@@ -149,13 +172,19 @@ export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle
     ? mobileRaw
     : image;
 
+  const rawExcerpt = post.description || post.metaDescription || post.title;
+  const excerpt = rawExcerpt
+    .replace(/Expert auditor\s+Bad[ar]+ Javed/gi, CANONICAL_NEWSLETTER_AUTHOR)
+    .replace(/Bad[ar]+ Javed/gi, CANONICAL_NEWSLETTER_AUTHOR)
+    .replace(/PM Structure Editorial/gi, CANONICAL_NEWSLETTER_AUTHOR);
+
   return {
     slug: post.slug,
     title: post.title,
-    excerpt: post.description || post.metaDescription || post.title,
+    excerpt,
     category: post.topics[0] || 'Insights',
     date: formatNewsletterPostDate(post.publishDate),
-    author: post.author || 'PM Structure Editorial',
+    author: normalizeNewsletterAuthorName(post.author),
     authorId: post.authorId || undefined,
     readTime: estimateReadTime(post.content),
     image,
@@ -191,16 +220,16 @@ export function defaultNewsletterPostsRegistry(): NewsletterPostsRegistry {
         slug: 'moral-legal-financial-reasons-managing-safety',
         title: 'Moral, Legal, and Financial Reasons for Managing Health and Safety',
         description:
-          'Why manage safety? Expert auditor Badr Javed explains the three pillars: moral duty, legal compliance, and financial benefit.',
+          'Why manage safety? Sheikh M. Abdullah explains the three pillars: moral duty, legal compliance, and financial benefit.',
         metaTitle: 'Moral, Legal, and Financial Reasons for Managing Health and Safety',
         metaDescription:
-          'Why manage safety? Expert auditor Badr Javed explains the 3 pillars: Moral duty, Legal compliance, and Financial benefit. Essential reading for HSE pros.',
+          'Why manage safety? Sheikh M. Abdullah explains the 3 pillars: Moral duty, Legal compliance, and Financial benefit. Essential reading for HSE pros.',
         keywords:
           'Moral Legal Financial reasons, managing health and safety, cost of accidents, safety management justification, HSE compliance',
         status: 'published',
         publishDate: '2026-01-01T00:00:00.000Z',
         modifiedDate: now,
-        author: 'Badar Javed',
+        author: CANONICAL_NEWSLETTER_AUTHOR,
         authorId: '',
         topics: ['Safety'],
         youtubeUrl: '',
@@ -235,7 +264,7 @@ export function defaultNewsletterPostsRegistry(): NewsletterPostsRegistry {
         status: 'draft',
         publishDate: now,
         modifiedDate: now,
-        author: 'PM Structure Editorial',
+        author: CANONICAL_NEWSLETTER_AUTHOR,
         authorId: '',
         topics: ['Certification'],
         youtubeUrl: '',
@@ -385,7 +414,7 @@ export function cmsPostToNewsletterPost(
     status: post.status === 'active' ? 'published' : 'draft',
     publishDate: post.publishDate || now,
     modifiedDate: post.modifiedDate || now,
-    author: post.author || 'PM Structure Editorial',
+    author: normalizeNewsletterAuthorName(post.author),
     authorId: '',
     topics: topics.length > 0 ? topics : ['Insights'],
     youtubeUrl: '',

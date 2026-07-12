@@ -46,38 +46,32 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
   const linkHref = href ?? getNewsletterArticleHref(article);
 
   if (variant === "horizontal") {
+    // No motion here: article pages are outside the hub LazyMotion tree, and
+    // opacity:0 + whileInView left Related Articles looking empty.
     return (
-      <LazyMotion features={domAnimation}>
-        <m.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
-        >
-          <Link href={linkHref} className="flex gap-6 group">
-          <div className="w-1/3 aspect-[4/3] rounded-2xl overflow-hidden shrink-0">
-            <img 
-              src={resolveNewsletterArticleImage(article.slug, article.image)} 
-              alt={article.title} 
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              referrerPolicy="no-referrer"
-            />
+      <Link href={linkHref} className="flex gap-6 group">
+        <div className="w-1/3 aspect-[4/3] rounded-2xl overflow-hidden shrink-0">
+          <img
+            src={resolveNewsletterArticleImage(article.slug, article.image)}
+            alt={article.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+        <div className="flex flex-col justify-center">
+          <Badge variant="outline" className="w-fit mb-2 border-brand-purple/20 text-brand-purple bg-brand-purple/5">
+            {article.category}
+          </Badge>
+          <h3 className="text-xl font-bold font-heading leading-tight group-hover:text-brand-purple transition-colors mb-2">
+            {article.title}
+          </h3>
+          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {article.date}</span>
+            <span>•</span>
+            <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {article.readTime}</span>
           </div>
-          <div className="flex flex-col justify-center">
-            <Badge variant="outline" className="w-fit mb-2 border-brand-purple/20 text-brand-purple bg-brand-purple/5">
-              {article.category}
-            </Badge>
-            <h3 className="text-xl font-bold font-heading leading-tight group-hover:text-brand-purple transition-colors mb-2">
-              {article.title}
-            </h3>
-            <div className="flex items-center gap-3 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {article.date}</span>
-              <span>•</span>
-              <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {article.readTime}</span>
-            </div>
-          </div>
-          </Link>
-        </m.div>
-      </LazyMotion>
+        </div>
+      </Link>
     );
   }
 
