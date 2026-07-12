@@ -20,6 +20,7 @@
     "./newsletter-posts": "./src/newsletter-posts.ts",
     "./newsletter-authors": "./src/newsletter-authors.ts",
     "./article-markdown": "./src/article-markdown.ts",
+    "./sanitize-html": "./src/sanitize-html.ts",
     "./public-site-url": "./src/public-site-url.ts",
     "./youtube": "./src/youtube.ts",
     "./cms-posts": "./src/cms-posts.ts",

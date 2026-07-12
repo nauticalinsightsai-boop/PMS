@@ -103,3 +103,23 @@ create index if not exists idx_login_otp_challenges_email
 grant usage on schema dashboard_one to service_role;
 grant all on all tables in schema dashboard_one to service_role;
 alter default privileges in schema dashboard_one grant all on tables to service_role;
+
+-- Lock down: enable RLS (deny-all for anon/authenticated; service_role bypasses).
+-- Do NOT expose dashboard_one in Data API schemas.
+do $$
+declare
+  r record;
+begin
+  for r in
+    select tablename
+    from pg_tables
+    where schemaname = 'dashboard_one'
+  loop
+    execute format('alter table dashboard_one.%I enable row level security', r.tablename);
+    execute format('alter table dashboard_one.%I force row level security', r.tablename);
+  end loop;
+end $$;
+
+revoke all on schema dashboard_one from anon, authenticated;
+revoke all on all tables in schema dashboard_one from anon, authenticated;
+

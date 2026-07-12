@@ -3,5 +3,5 @@
 project_id = "vmuwflogvpaahgjjdlmr"
 
 [api]
-schemas = ["public", "storage", "graphql_public", "dashboard_one"]
+schemas = ["public", "storage", "graphql_public"]
 extra_search_path = ["public", "extensions"]

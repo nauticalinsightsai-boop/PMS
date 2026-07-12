@@ -325,23 +325,22 @@ grant usage on schema dashboard_one to service_role;
 grant all on all tables in schema dashboard_one to service_role;
 alter default privileges in schema dashboard_one grant all on tables to service_role;
 
--- ── 6) Expose dashboard_one to Supabase Data API ─────────────
--- (Also add dashboard_one in Dashboard → Settings → API → Exposed schemas)
+-- ── 6) Lock dashboard_one (do NOT expose on Data API) ────────
 do $$
 declare
-  schemas text;
+  r record;
 begin
-  begin
-    schemas := current_setting('pgrst.db_schemas', true);
-  exception when others then
-    schemas := 'public';
-  end;
-  if schemas is null or schemas = '' then
-    schemas := 'public';
-  end if;
-  if schemas not like '%dashboard_one%' then
-    perform set_config('pgrst.db_schemas', schemas || ', dashboard_one', true);
-  end if;
+  for r in
+    select tablename
+    from pg_tables
+    where schemaname = 'dashboard_one'
+  loop
+    execute format('alter table dashboard_one.%I enable row level security', r.tablename);
+    execute format('alter table dashboard_one.%I force row level security', r.tablename);
+  end loop;
 end $$;
+
+revoke all on schema dashboard_one from anon, authenticated;
+revoke all on all tables in schema dashboard_one from anon, authenticated;
 
 notify pgrst, 'reload config';

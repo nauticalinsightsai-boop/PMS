@@ -1,9 +1,14 @@
+import type { NextRequest } from 'next/server';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
+import { requireAdminRoute } from '@/lib/auth/admin-route-auth';
 
 export async function PATCH(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const auth = await requireAdminRoute(request);
+  if (auth instanceof Response) return auth;
+
   const { id } = await params;
   if (!isSupabaseConfigured) {
     return Response.json({ error: 'Database not configured' }, { status: 503 });
@@ -23,6 +28,7 @@ export async function PATCH(
     ...(existing.metadata as Record<string, unknown>),
     approvalStatus: 'approved',
     approvedAt: new Date().toISOString(),
+    approvedBy: auth.email,
   };
 
   const { error } = await supabaseAdmin

@@ -3,8 +3,12 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { assertSameOrigin } from '@/lib/auth/csrf-origin';
 import { isKnownAdminEmail } from '@/lib/auth/known-users';
-import { getSessionSecret, verifySignedSessionToken, parseSignedSessionToken } from '@/lib/auth/session-token';
+import { getSessionSecret, verifySignedSessionToken } from '@/lib/auth/session-token';
 
+/**
+ * Only HMAC-signed dashboard session tokens are accepted as Bearer auth.
+ * Never decode unsigned JWT payloads — that enabled admin session forgery.
+ */
 export function getBearerSessionEmail(request: NextRequest): string | null {
   const auth = request.headers.get('authorization');
   if (!auth?.startsWith('Bearer ')) return null;
@@ -12,26 +16,8 @@ export function getBearerSessionEmail(request: NextRequest): string | null {
   if (!token) return null;
 
   const secret = getSessionSecret();
-  if (secret) {
-    const signedEmail = verifySignedSessionToken(token, secret);
-    if (signedEmail) return signedEmail;
-  }
-
-  return decodeJwtEmail(token);
-}
-
-function decodeJwtEmail(token: string): string | null {
-  try {
-    const parsed = parseSignedSessionToken(token);
-    const payload = parsed?.payload ?? token.split('.')[1];
-    if (!payload) return null;
-    const data = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as {
-      email?: string;
-    };
-    return typeof data.email === 'string' ? data.email.trim().toLowerCase() : null;
-  } catch {
-    return null;
-  }
+  if (!secret) return null;
+  return verifySignedSessionToken(token, secret);
 }
 
 export function readDashboardSessionEmailFromRequest(request: NextRequest): string | null {
@@ -70,10 +56,6 @@ export async function requireDashboardMutationAuth(
         return null;
       }
     }
-  }
-
-  if (process.env.NODE_ENV === 'development' && !getSessionSecret() && assertSameOrigin(request)) {
-    return null;
   }
 
   return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });

@@ -12,6 +12,7 @@ export * from './faq';
 export * from './newsletter';
 export * from './newsletter-posts';
 export * from './article-markdown';
+export * from './sanitize-html';
 export * from './media-sections';
 export * from './seeds/index';
 export { FIELD_KEYS as SITE_CONTENT_FIELD_KEYS } from './keys';

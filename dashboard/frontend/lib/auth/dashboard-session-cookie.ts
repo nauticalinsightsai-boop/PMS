@@ -5,6 +5,10 @@ import { getSessionSecret, verifySignedSessionToken } from '@/lib/auth/session-t
 
 const SESSION_MAX_AGE = 7 * 24 * 60 * 60;
 
+/**
+ * Only HMAC-verified `gw_dashboard_session` counts as an API admin session.
+ * Demo cookies are never trusted for authorization.
+ */
 export function readDashboardSessionEmail(request: NextRequest): string | null {
   const secret = getSessionSecret();
   const token = request.cookies.get(GW_DASHBOARD_SESSION)?.value?.trim();
@@ -13,9 +17,8 @@ export function readDashboardSessionEmail(request: NextRequest): string | null {
     if (email) return email;
   }
 
-  const demo = request.cookies.get(DEMO_SESSION_KEY)?.value?.trim();
-  if (demo && demo.includes('@')) return demo.toLowerCase();
-
+  // Explicitly ignore DEMO_SESSION_KEY for auth decisions.
+  void DEMO_SESSION_KEY;
   return null;
 }
 

@@ -3,6 +3,7 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { parseArticleSegments } from '@pms/site-content/article-markdown';
+import { sanitizeArticleHtml } from '@pms/site-content/sanitize-html';
 import { cn } from '@/lib/utils';
 
 const articleBodyClass = 'article-wysiwyg max-w-none';
@@ -53,7 +54,7 @@ export function ArticleMarkdownPreview({
               <div
                 key={`center-${index}`}
                 className={cn('my-3 text-center text-sm', articleBodyClass, compact && 'text-sm')}
-                dangerouslySetInnerHTML={{ __html: centerSource }}
+                dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(centerSource) }}
               />
             );
           }
@@ -68,7 +69,7 @@ export function ArticleMarkdownPreview({
             <div
               key={`html-${index}`}
               className={cn(articleBodyClass, compact && 'text-sm')}
-              dangerouslySetInnerHTML={{ __html: segment.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeArticleHtml(segment.content) }}
             />
           );
         }

@@ -15,7 +15,6 @@ const IMAGE_TYPES = new Set([
   'image/png',
   'image/webp',
   'image/gif',
-  'image/svg+xml',
 ]);
 
 const AUDIO_TYPES = new Set([

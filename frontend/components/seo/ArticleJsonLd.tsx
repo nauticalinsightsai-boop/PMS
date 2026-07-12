@@ -1,4 +1,5 @@
 import { buildArticleSchema, buildBreadcrumbSchema, buildWebPageSchema } from '@/lib/schema';
+import { escapeJsonForScript } from '@pms/site-content/sanitize-html';
 
 export function ArticleJsonLd({
   path,
@@ -21,7 +22,9 @@ export function ArticleJsonLd({
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }),
+        __html: escapeJsonForScript(
+          JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }),
+        ),
       }}
     />
   );

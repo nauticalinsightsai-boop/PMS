@@ -3,9 +3,13 @@ import { getSupabaseAuthUser } from '@/lib/auth/get-supabase-auth-user';
 import { assertSameOrigin } from '@/lib/auth/csrf-origin';
 import { readDashboardSessionEmail } from '@/lib/auth/dashboard-session-cookie';
 import { isKnownAdminEmail } from '@/lib/auth/known-users';
-import { getSessionSecret, verifySignedSessionToken, parseSignedSessionToken } from '@/lib/auth/session-token';
+import { getSessionSecret, verifySignedSessionToken } from '@/lib/auth/session-token';
 import { DEMO_SESSION_KEY } from '@/lib/demo-auth';
 
+/**
+ * Only HMAC-signed dashboard session tokens are accepted as Bearer auth.
+ * Never decode unsigned JWT payloads — that enabled admin session forgery.
+ */
 export function getBearerSessionEmail(request: NextRequest): string | null {
   const auth = request.headers.get('authorization');
   if (!auth?.startsWith('Bearer ')) return null;
@@ -13,26 +17,8 @@ export function getBearerSessionEmail(request: NextRequest): string | null {
   if (!token) return null;
 
   const secret = getSessionSecret();
-  if (secret) {
-    const signedEmail = verifySignedSessionToken(token, secret);
-    if (signedEmail) return signedEmail;
-  }
-
-  return decodeJwtEmail(token);
-}
-
-function decodeJwtEmail(token: string): string | null {
-  try {
-    const parsed = parseSignedSessionToken(token);
-    const payload = parsed?.payload ?? token.split('.')[1];
-    if (!payload) return null;
-    const data = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as {
-      email?: string;
-    };
-    return typeof data.email === 'string' ? data.email.trim().toLowerCase() : null;
-  } catch {
-    return null;
-  }
+  if (!secret) return null;
+  return verifySignedSessionToken(token, secret);
 }
 
 /** Layer 4. CMS / mutation POST guard. */
@@ -50,7 +36,7 @@ export async function requireDashboardMutationAuth(
   if (bearerEmail && isKnownAdminEmail(bearerEmail)) return null;
 
   const demo = request.cookies.get(DEMO_SESSION_KEY)?.value;
-  if (demo === '1' || demo === 'true') {
+  if (demo) {
     return NextResponse.json(
       { success: false, error: 'Demo login cannot mutate. Sign in with a real admin account.' },
       { status: 401 },
@@ -62,10 +48,6 @@ export async function requireDashboardMutationAuth(
     if (user?.email && isKnownAdminEmail(user.email)) return null;
   } catch {
     /* fall through */
-  }
-
-  if (process.env.NODE_ENV === 'development' && !getSessionSecret() && assertSameOrigin(request)) {
-    return null;
   }
 
   return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
