@@ -26,7 +26,11 @@ function seededShuffle<T>(items: T[], seed: number): T[] {
   return arr;
 }
 
-/** Pick related newsletter articles: same category first, then recent/random from the rest. */
+/** Pick related newsletter articles.
+ * - Same-category first
+ * - Then recent/deterministic random from the remaining pool
+ * - Never returns empty when `all` contains other articles
+ */
 export function pickRelatedNewsletterArticles(
   article: NewsletterArticle,
   all: NewsletterArticle[],
@@ -38,24 +42,37 @@ export function pickRelatedNewsletterArticles(
   const picked: NewsletterArticle[] = [];
   const seen = new Set<string>();
 
-  for (const match of others.filter((candidate) => candidate.category === article.category)) {
+  const sameCategory = others.filter(
+    (candidate) => candidate.category === article.category,
+  );
+
+  for (const match of sameCategory) {
     if (picked.length >= limit) break;
+    if (seen.has(match.slug)) continue;
     picked.push(match);
     seen.add(match.slug);
   }
 
   if (picked.length < limit) {
-    const recentPool = others
+    const fallbackPool = others
       .filter((candidate) => !seen.has(candidate.slug))
       .sort((a, b) => articleTimestamp(b) - articleTimestamp(a))
       .slice(0, Math.max(limit * 2, 8));
 
-    for (const match of seededShuffle(recentPool, seedFromSlug(article.slug))) {
+    const shuffled = seededShuffle(fallbackPool, seedFromSlug(article.slug));
+    for (const match of shuffled) {
       if (picked.length >= limit) break;
+      if (seen.has(match.slug)) continue;
       picked.push(match);
       seen.add(match.slug);
     }
   }
 
+  // Final guard: if we somehow didn’t pick anything (e.g. unexpected data), still return something.
+  if (picked.length === 0) {
+    return seededShuffle(others, seedFromSlug(article.slug)).slice(0, limit);
+  }
+
   return picked;
 }
+
