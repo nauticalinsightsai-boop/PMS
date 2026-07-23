@@ -120,8 +120,9 @@ export function defaultCertificationsHubConfig(): CertificationsHubConfig {
     version: 1,
     hero: {
       badge: 'Certification pathways',
-      title: 'Find your certification pathway',
-      subtitle: 'Structured readiness across PMI, PRINCE2, and Lean Six Sigma.',
+      title: 'Project Management Courses',
+      subtitle:
+        'Explore PMP, Agile, Primavera P6, risk management and Microsoft Project training with live classes and expert support.',
     },
     listing: {
       title: 'All pathways',

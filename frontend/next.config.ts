@@ -130,6 +130,11 @@ const nextConfig: NextConfig = {
         destination: '/newsletter/:slug',
         permanent: true,
       },
+      {
+        source: '/pmp-professional-1',
+        destination: '/pmp-professional',
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

@@ -76,10 +76,10 @@ const services: PmpServiceContent[] = [
     slug: 'pmp-mock-exam',
     path: '/pmp-mock-exam',
     kind: 'mock',
-    title: 'PMP Mock Exam Practice | Timed Prep | PM Structure',
+    title: 'PMP Mock Exam | PM Structure',
     description:
-      'Practice with PMP mock exams and timed review. Build exam stamina, log weak domains, and get mentor guidance via WhatsApp or a scheduled call.',
-    h1: 'PMP mock exam practice',
+      'PMP Mock Exam: practice realistic PMP questions, review weak areas, improve exam timing and get guidance for stronger PMP exam readiness. Start today.',
+    h1: 'PMP Mock Exam',
     directAnswer:
       'Mock exams simulate pacing and stamina for the PMP test. Use them after core content review, log errors by domain, and repeat on a schedule: not only once before test day.',
     sections: [

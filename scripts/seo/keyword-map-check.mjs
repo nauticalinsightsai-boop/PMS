@@ -138,9 +138,38 @@ writeReport('keyword-redirect-map-check', {
   issues: redirectIssues,
 });
 
-const allIssues = [...issues, ...redirectIssues];
+const h1MetaIssues = [];
+const h1MetaPath = path.join(repoRoot, 'frontend/content/seo/keyword-h1-meta.ts');
+if (!fs.existsSync(h1MetaPath)) {
+  h1MetaIssues.push({ severity: 'high', issue: 'keyword-h1-meta.ts missing' });
+} else {
+  const h1Src = fs.readFileSync(h1MetaPath, 'utf8');
+  const h1Sources = [...h1Src.matchAll(/source:\s*'(\/[^']+)'/g)].map((m) => m[1]);
+  if (h1Sources.length < 70) {
+    h1MetaIssues.push({
+      severity: 'high',
+      issue: `expected at least 70 H1/meta sources, found ${h1Sources.length}`,
+    });
+  }
+  if (!h1Sources.includes('/all-courses')) {
+    h1MetaIssues.push({ severity: 'high', issue: 'keyword-h1-meta missing /all-courses' });
+  }
+  if (!h1Src.includes("primaryKeyword: 'project management courses'")) {
+    h1MetaIssues.push({
+      severity: 'high',
+      issue: 'keyword-h1-meta missing project management courses primary keyword',
+    });
+  }
+  writeReport('keyword-h1-meta-check', {
+    pass: h1MetaIssues.length === 0,
+    issues: h1MetaIssues,
+    sourceCount: h1Sources.length,
+  });
+}
+
+const allIssues = [...issues, ...redirectIssues, ...h1MetaIssues];
 if (allIssues.length) {
   console.error('keyword-map-check FAIL', allIssues);
   process.exit(1);
 }
-console.log('keyword-map-check OK (phase-2 + keyword redirects)');
+console.log('keyword-map-check OK (phase-2 + keyword redirects + h1/meta)');

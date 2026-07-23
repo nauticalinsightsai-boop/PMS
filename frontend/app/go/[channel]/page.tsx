@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { getPublishedGoChannelSlugs } from '@pms/booking-crm';
 import { resolveChannelLandingPageForGo } from '@pms/booking-crm/repository';
 import ChannelConsultationPortalView from '@/components/channel-landing/ChannelConsultationPortalView';
-import { ROBOTS_INDEX_FOLLOW, ROBOTS_NOINDEX_NOFOLLOW } from '@/lib/indexing-metadata';
+import { ROBOTS_NOINDEX_NOFOLLOW } from '@/lib/indexing-metadata';
 import { buildPageMetadata } from '@/lib/site-metadata';
 
 type Props = {
@@ -26,7 +26,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     title: page.headline,
     description: page.subheadline || page.headline,
     path: `/go/${channel}`,
-    robots: isPreview ? ROBOTS_NOINDEX_NOFOLLOW : ROBOTS_INDEX_FOLLOW,
+    robots: isPreview ? ROBOTS_NOINDEX_NOFOLLOW : undefined,
   });
 }
 

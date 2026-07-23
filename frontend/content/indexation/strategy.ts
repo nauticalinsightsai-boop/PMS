@@ -198,6 +198,23 @@ function configForPublicPath(path: string, pageType: string, notes?: string): Pa
   let ownerApproval = 'Not required';
   let implementationStatus = 'Implemented';
 
+  if (!isIndexablePath(normalized) && !REDIRECT_PATHS[normalized]) {
+    return baseRow({
+      path: normalized,
+      pageType,
+      decision: 'noindex',
+      index: false,
+      follow: false,
+      includeInSitemap: false,
+      priority: priorityForPath(normalized),
+      reason: 'GSC crawled-not-indexed drilldown: owner requested noindex/nofollow 2026-07-24',
+      dataSource: 'GSC Coverage Drilldown 2026-07-24',
+      ownerApproval: 'Owner approved noindex 2026-07-24',
+      implementationStatus: 'Implemented',
+      notes,
+    });
+  }
+
   if (REDIRECT_PATHS[normalized]) {
     return baseRow({
       path: normalized,
@@ -261,8 +278,25 @@ function configForPublicPath(path: string, pageType: string, notes?: string): Pa
 }
 
 function configForPortalPath(slug: string): PageIndexationConfig {
+  const path = `/go/${slug}`;
+  if (!isIndexablePath(path)) {
+    return baseRow({
+      path,
+      pageType: 'Portal page',
+      decision: 'noindex',
+      index: false,
+      follow: false,
+      includeInSitemap: false,
+      priority: 'P2',
+      reason: 'GSC crawled-not-indexed drilldown: owner requested noindex/nofollow 2026-07-24',
+      dataSource: 'GSC Coverage Drilldown 2026-07-24',
+      ownerApproval: 'Owner approved noindex 2026-07-24',
+      implementationStatus: 'Implemented',
+      notes: 'Omitted from XML sitemap',
+    });
+  }
   return baseRow({
-    path: `/go/${slug}`,
+    path,
     pageType: 'Portal page',
     decision: 'index',
     index: true,

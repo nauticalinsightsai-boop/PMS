@@ -189,11 +189,11 @@ export const CERTIFICATIONS_COPY = {
 
   heroBadge: 'Certification pathways',
 
-  heroTitle: 'Find your pathway',
+  heroTitle: 'Project Management Courses',
 
   heroSubtitle:
 
-    'Compare PMI, PRINCE2, and Six Sigma. Match timeline and study capacity to the right tier.',
+    'Explore PMP, Agile, Primavera P6, risk management and Microsoft Project training with live classes and expert support.',
 
   listingSubtitle:
 

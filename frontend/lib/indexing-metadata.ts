@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { isGscSoftNoindexPath } from '@/content/indexation/gsc-crawled-not-indexed-noindex';
 
 /** Explicit index,follow for public authority pages. */
 export const ROBOTS_INDEX_FOLLOW: NonNullable<Metadata['robots']> = {
@@ -39,6 +40,7 @@ export function normalizePath(path: string): string {
 
 export function isIndexablePath(path: string): boolean {
   const p = normalizePath(path);
+  if (isGscSoftNoindexPath(p)) return false;
   for (const exact of NOINDEX_EXACT_PATHS) {
     if (p === exact) return false;
   }

@@ -27,6 +27,7 @@ import {
   getKeywordRedirectRowByFromSlug,
   isKeywordLeadHubPath,
 } from '@/content/seo/keyword-redirect-map';
+import { getKeywordH1MetaByFromSlug, getKeywordH1MetaBySource } from '@/content/seo/keyword-h1-meta';
 import { resolveKeywordLeadPopupCopy } from '@/lib/seo/keyword-lead-popup-copy';
 import {
   PMP_JOB_EXPERIENCE_OPTIONS,
@@ -91,6 +92,9 @@ export function KeywordLeadPopup() {
 
   const fromSlug = (searchParams.get('from') ?? '').trim();
   const row = fromSlug ? getKeywordRedirectRowByFromSlug(fromSlug) : undefined;
+  const h1Meta =
+    (fromSlug ? getKeywordH1MetaByFromSlug(fromSlug) : undefined) ??
+    (pathname === '/pmp-mock-exam' ? getKeywordH1MetaBySource('/pmp-mock-exam') : undefined);
   const onHub = isKeywordLeadHubPath(pathname);
   const isMockExamDirect = pathname === '/pmp-mock-exam' && !fromSlug;
 
@@ -114,6 +118,7 @@ export function KeywordLeadPopup() {
   const copy = resolveKeywordLeadPopupCopy({
     intent: row?.intent ?? (isMockExamDirect ? 'Lead Magnet' : 'Commercial'),
     keyword: row?.keyword ?? (isMockExamDirect ? 'pmp mock exam' : undefined),
+    h1Meta,
   });
 
   React.useEffect(() => {

@@ -132,12 +132,21 @@ async function runRepoChecks() {
   check(getIndexationDecisionForPath('/store') === 'redirect', '/store must be redirect decision');
   check(getIndexationDecisionForPath('/go/website') === 'index', '/go/website must be index decision');
   check(isIndexablePath('/go/website'), '/go/website must be indexable in indexing-metadata.ts');
+  check(!isIndexablePath('/go/tiktok'), '/go/tiktok must be noindex after GSC soft-noindex list');
+  check(getIndexationDecisionForPath('/go/tiktok') === 'noindex', '/go/tiktok must be noindex decision');
 
   const goRows = getAllIndexationStrategyRows().filter((row) => row.path.startsWith('/go/'));
   check(goRows.length > 0, 'expected at least one /go/* strategy row');
   for (const row of goRows) {
-    check(row.decision === 'index', `${row.path} strategy decision must be index (got ${row.decision})`);
-    check(row.includeInSitemap === true, `${row.path} must have includeInSitemap=true`);
+    const expectIndex = isIndexablePath(row.path);
+    check(
+      row.decision === (expectIndex ? 'index' : 'noindex'),
+      `${row.path} strategy decision must be ${expectIndex ? 'index' : 'noindex'} (got ${row.decision})`,
+    );
+    check(
+      row.includeInSitemap === expectIndex,
+      `${row.path} must have includeInSitemap=${expectIndex}`,
+    );
   }
 
   if (ok) console.log('audit-indexation-strategy repo checks OK');
