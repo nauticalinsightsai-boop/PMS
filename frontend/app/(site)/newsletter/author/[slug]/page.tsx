@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const author = await getNewsletterAuthor(slug);
   if (!author) return { title: `Author | ${BRAND.name}` };
   return buildPageMetadata({
-    title: `${author.name}${author.title ? ` — ${author.title}` : ''}`,
+    title: `${author.name}${author.title ? `: ${author.title}` : ''}`,
     description: author.bio || `Articles by ${author.name} on The Structure Report.`,
     path: `/newsletter/author/${slug}`,
   });

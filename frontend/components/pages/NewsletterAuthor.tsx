@@ -97,7 +97,7 @@ export function NewsletterAuthorPage({
             </div>
           ) : (
             <p className="text-muted-foreground">
-              Check back soon — new articles from this author will appear here.
+              Check back soon: new articles from this author will appear here.
             </p>
           )}
         </div>
