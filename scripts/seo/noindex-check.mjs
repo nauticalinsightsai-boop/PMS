@@ -9,7 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '../..');
 
 const sitemap = fs.readFileSync(path.join(root, 'frontend/app/sitemap.ts'), 'utf8');
-const forbidden = ['/checkout', '/admin', '/enroll', '/go/'];
+const forbidden = ['/checkout', '/admin', '/enroll'];
 
 for (const segment of forbidden) {
   if (sitemap.includes(`'${segment}`) || sitemap.includes(`"${segment}`)) {

@@ -9,6 +9,7 @@ import { PMP_CLUSTER_PATHS } from '@/content/pmp/pages';
 import { PMP_SERVICE_PATHS } from '@/content/pmp/services';
 import { getPublishedAnswerPaths } from '@/content/answers';
 import { getPublishedTopicPaths } from '@/content/topics';
+import { getPublishedGoChannelSlugs } from '@pms/booking-crm';
 
 type SitemapFreq = MetadataRoute.Sitemap[0]['changeFrequency'];
 
@@ -169,7 +170,12 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     .map((n) => safeEntry(`/newsletter/${n.slug}`, 0.6, 'monthly'))
     .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
-  // /go/* channel portals are noindex and omitted from the XML sitemap (GSC crawl budget).
+  const goChannels = safePathsToEntries(
+    getPublishedGoChannelSlugs().map((slug) => `/go/${slug}`),
+    0.6,
+    'monthly',
+  );
+
   return dedupeSitemap([
     ...entriesFromSpecs(MARKETING_ROUTES),
     ...buildCertEntries(),
@@ -180,5 +186,6 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     ...buildTopicEntries(),
     ...buildLegalEntries(),
     ...newsletter,
+    ...goChannels,
   ]);
 }

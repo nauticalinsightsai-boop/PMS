@@ -21,8 +21,10 @@ export const NOINDEX_PATH_PREFIXES = [
   '/api',
   '/compare',
   '/store',
-  '/go',
 ] as const;
+
+/** Exact paths that redirect or are not organic landings (children may still index). */
+export const NOINDEX_EXACT_PATHS = ['/go'] as const;
 
 /** Regex patterns for noindex routes (enrollment flows, etc.). */
 export const NOINDEX_PATH_PATTERNS = [
@@ -37,6 +39,9 @@ export function normalizePath(path: string): string {
 
 export function isIndexablePath(path: string): boolean {
   const p = normalizePath(path);
+  for (const exact of NOINDEX_EXACT_PATHS) {
+    if (p === exact) return false;
+  }
   for (const prefix of NOINDEX_PATH_PREFIXES) {
     if (p === prefix || p.startsWith(`${prefix}/`)) return false;
   }

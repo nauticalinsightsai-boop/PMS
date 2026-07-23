@@ -18,7 +18,7 @@ const P0_SUBMISSION_PATHS = [
   '/newsletter',
 ];
 
-const forbidden = /checkout|payment|success|cancel|thank-you|login|account|dashboard|admin|\/go\/|utm_|currency=|region=/i;
+const forbidden = /checkout|payment|success|cancel|thank-you|login|account|dashboard|admin|utm_|currency=|region=/i;
 const urls = P0_SUBMISSION_PATHS.map((p) => `${base}${p}`).filter((u) => !forbidden.test(u));
 
 ensureReportsDir();

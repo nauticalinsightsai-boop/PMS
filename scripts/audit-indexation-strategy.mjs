@@ -34,10 +34,11 @@ const SITEMAP_BLOCKED_PREFIXES = [
   '/api',
   '/compare',
   '/store',
-  '/go',
 ];
 
-const NOINDEX_PORTAL_PATHS = ['/go/website'];
+const SITEMAP_BLOCKED_EXACT = ['/go'];
+
+const INDEXABLE_PORTAL_PATHS = ['/go/website'];
 
 function read(rel) {
   return fs.readFileSync(path.join(frontend, rel), 'utf8');
@@ -90,11 +91,11 @@ async function runRepoChecks() {
   const indexingMeta = read('lib/indexing-metadata.ts');
   check(indexingMeta.includes("'/checkout'"), 'indexing-metadata must noindex /checkout prefix');
   check(indexingMeta.includes("'/admin'"), 'indexing-metadata must noindex /admin prefix');
-  check(indexingMeta.includes("'/go'"), 'indexing-metadata must noindex /go prefix');
+  check(indexingMeta.includes("NOINDEX_EXACT_PATHS"), 'indexing-metadata must define NOINDEX_EXACT_PATHS');
+  check(indexingMeta.includes("'/go'"), 'indexing-metadata must keep exact /go redirect noindex');
 
   const sitemapSrc = read('app/sitemap.ts');
-  check(!sitemapSrc.includes('getPublishedPortalSitemapPaths'), 'sitemap.ts must not import portal sitemap paths');
-  check(!sitemapSrc.includes('portalEntries'), 'sitemap.ts must not include portalEntries');
+  check(sitemapSrc.includes('getPublishedGoChannelSlugs'), 'sitemap.ts must include published /go channel slugs');
 
   const sitemapHelpers = read('lib/sitemap/helpers.ts');
   check(sitemapHelpers.includes('assertIndexable'), 'sitemap helpers must define assertIndexable');
@@ -123,16 +124,20 @@ async function runRepoChecks() {
   for (const prefix of SITEMAP_BLOCKED_PREFIXES) {
     check(!isIndexablePath(prefix), `sitemap guard: ${prefix} must not be indexable`);
   }
+  for (const exact of SITEMAP_BLOCKED_EXACT) {
+    check(!isIndexablePath(exact), `sitemap guard: ${exact} must not be indexable`);
+  }
 
   check(getIndexationDecisionForPath('/compare') === 'redirect', '/compare must be redirect decision');
   check(getIndexationDecisionForPath('/store') === 'redirect', '/store must be redirect decision');
-  check(getIndexationDecisionForPath('/go/website') === 'noindex', '/go/website must be noindex decision');
+  check(getIndexationDecisionForPath('/go/website') === 'index', '/go/website must be index decision');
+  check(isIndexablePath('/go/website'), '/go/website must be indexable in indexing-metadata.ts');
 
   const goRows = getAllIndexationStrategyRows().filter((row) => row.path.startsWith('/go/'));
   check(goRows.length > 0, 'expected at least one /go/* strategy row');
   for (const row of goRows) {
-    check(row.decision === 'noindex', `${row.path} strategy decision must be noindex (got ${row.decision})`);
-    check(row.includeInSitemap === false, `${row.path} must have includeInSitemap=false`);
+    check(row.decision === 'index', `${row.path} strategy decision must be index (got ${row.decision})`);
+    check(row.includeInSitemap === true, `${row.path} must have includeInSitemap=true`);
   }
 
   if (ok) console.log('audit-indexation-strategy repo checks OK');
@@ -183,7 +188,7 @@ async function runLiveChecks(base) {
     }
   }
 
-  for (const path of NOINDEX_PORTAL_PATHS) {
+  for (const path of INDEXABLE_PORTAL_PATHS) {
     const url = `${base}${path}`;
     const { status, body, error } = fetchBody(url);
     if (error) {
@@ -192,8 +197,8 @@ async function runLiveChecks(base) {
     }
     check(status >= 200 && status < 400, `${path}: HTTP ${status || 'unknown'}`);
     if (status >= 200 && status < 400) {
-      check(hasNoindexRobotsMeta(body), `${path}: portal must contain noindex meta robots`);
-      if (hasNoindexRobotsMeta(body)) console.log(`OK   ${path} portal noindex (HTTP ${status})`);
+      check(!hasNoindexRobotsMeta(body), `${path}: portal must not contain noindex meta robots`);
+      if (!hasNoindexRobotsMeta(body)) console.log(`OK   ${path} portal indexable (HTTP ${status})`);
     }
   }
 

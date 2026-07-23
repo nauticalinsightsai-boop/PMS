@@ -24,7 +24,7 @@ export function GoogleAnalytics() {
 
   return (
     <>
-      <Script id="ga4-init" strategy="lazyOnload">
+      <Script id="ga4-init" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -36,7 +36,7 @@ export function GoogleAnalytics() {
       <Script
         id="ga4-script"
         src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onLoad={() => setGaReady(true)}
       />
     </>

@@ -264,16 +264,16 @@ function configForPortalPath(slug: string): PageIndexationConfig {
   return baseRow({
     path: `/go/${slug}`,
     pageType: 'Portal page',
-    decision: 'noindex',
-    index: false,
-    follow: false,
-    includeInSitemap: false,
+    decision: 'index',
+    index: true,
+    follow: true,
+    includeInSitemap: true,
     priority: 'P2',
-    reason: 'Channel portal: lead-gen only, not an organic landing page (GSC crawl budget)',
-    dataSource: 'Route inventory + owner decision R05 closed',
-    ownerApproval: 'Owner approved noindex 2026-06-20',
+    reason: 'Published channel portal: indexable lead landing in XML sitemap',
+    dataSource: 'Route inventory + owner request to index /go channels',
+    ownerApproval: 'Owner approved index 2026-07-23',
     implementationStatus: 'Implemented',
-    notes: 'Omitted from XML sitemap; reachable via social/direct links only',
+    notes: 'Included in XML sitemap; HTML sitemap stays lean without full /go list',
   });
 }
 
@@ -315,7 +315,6 @@ export function getIndexationDecisionForPath(path: string): IndexationDecision {
   if (REDIRECT_PATHS[normalized]) return 'redirect';
   if (!isIndexablePath(normalized)) return 'noindex';
   if (NOT_IN_REPO_SPEC_PATHS.includes(normalized)) return 'needs_review';
-  if (normalized.startsWith('/go/') || normalized === '/go') return 'noindex';
   if (['/community', '/membership', '/pm-service'].includes(normalized)) return 'needs_review';
   return 'index';
 }

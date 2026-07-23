@@ -46,7 +46,7 @@ const priorityPaths = [
   '/sitemap.xml',
 ];
 
-const forbidden = /checkout|payment|success|cancel|thank-you|login|account|dashboard|admin|\/go\//i;
+const forbidden = /checkout|payment|success|cancel|thank-you|login|account|dashboard|admin/i;
 const urlList = priorityPaths
   .map((p) => `${base}${p}`)
   .filter((u) => !forbidden.test(u));

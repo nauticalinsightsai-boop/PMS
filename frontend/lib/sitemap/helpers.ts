@@ -3,7 +3,7 @@ import { PMS_SITE_URL } from '@/config/pms-site';
 import { isIndexablePath, normalizePath } from '@/lib/indexing-metadata';
 import { buildCanonicalPath } from '@/lib/canonical';
 
-export { NOINDEX_PATH_PREFIXES, NOINDEX_PATH_PATTERNS } from '@/lib/indexing-metadata';
+export { NOINDEX_PATH_PREFIXES, NOINDEX_PATH_PATTERNS, NOINDEX_EXACT_PATHS } from '@/lib/indexing-metadata';
 
 export function assertIndexable(path: string): void {
   if (!isIndexablePath(path)) {

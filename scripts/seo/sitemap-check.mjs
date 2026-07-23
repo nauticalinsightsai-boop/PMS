@@ -16,11 +16,14 @@ const NOINDEX_PREFIXES = [
   '/api',
   '/compare',
   '/store',
-  '/go',
 ];
+const NOINDEX_EXACT = ['/go'];
 const NOINDEX_PATTERN = /\/certifications\/[^/]+\/[^/]+\/enroll/;
 
 function isIndexable(pathname) {
+  for (const exact of NOINDEX_EXACT) {
+    if (pathname === exact) return false;
+  }
   for (const prefix of NOINDEX_PREFIXES) {
     if (pathname === prefix || pathname.startsWith(`${prefix}/`)) return false;
   }

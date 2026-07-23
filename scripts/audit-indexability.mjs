@@ -54,7 +54,7 @@ const NOINDEX_UTILITY_PATHS = [
   '/admin',
 ];
 
-const NOINDEX_PORTAL_PATHS = ['/go/website'];
+const INDEXABLE_PORTAL_PATHS = ['/go/website'];
 
 function fetchWithHeaders(url) {
   try {
@@ -187,7 +187,7 @@ for (const path of NOINDEX_UTILITY_PATHS) {
   passed += 1;
 }
 
-for (const path of NOINDEX_PORTAL_PATHS) {
+for (const path of INDEXABLE_PORTAL_PATHS) {
   const url = `${base}${path}`;
   const { status, body } = fetchBody(url);
   if (status >= 500) {
@@ -195,12 +195,12 @@ for (const path of NOINDEX_PORTAL_PATHS) {
     failed = true;
     continue;
   }
-  if (status >= 200 && status < 400 && !hasNoindexRobotsMeta(body)) {
-    console.error(`FAIL ${path}: portal must have noindex meta robots (status ${status})`);
+  if (status >= 200 && status < 400 && hasNoindexRobotsMeta(body)) {
+    console.error(`FAIL ${path}: portal must not have noindex meta robots (status ${status})`);
     failed = true;
     continue;
   }
-  console.log(`OK   ${path} portal noindex (${status})`);
+  console.log(`OK   ${path} portal indexable (${status})`);
   passed += 1;
 }
 
@@ -236,11 +236,11 @@ if (sitemapRes.status >= 200 && sitemapRes.status < 400) {
     passed += 1;
   }
   if (sitemapRes.body.includes('/go/')) {
-    console.error('FAIL sitemap.xml: must not contain /go/ portal URLs');
-    failed = true;
-  } else {
-    console.log('OK   sitemap.xml excludes /go/ portal URLs');
+    console.log('OK   sitemap.xml includes /go/ portal URLs');
     passed += 1;
+  } else {
+    console.error('FAIL sitemap.xml: must contain /go/ portal URLs');
+    failed = true;
   }
 } else {
   console.error(`FAIL sitemap.xml body: HTTP ${sitemapRes.status || 'unknown'}`);
