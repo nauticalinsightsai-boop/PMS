@@ -40,7 +40,7 @@ Visitor → PMP 2026 page → roadmap CTA → roadmap form → lead → booking/
 
 Implementation: [`frontend/components/analytics/GoogleAnalytics.tsx`](../../frontend/components/analytics/GoogleAnalytics.tsx), [`frontend/lib/analytics/ga-config.ts`](../../frontend/lib/analytics/ga-config.ts).
 
-Page views: owned by the single `@next/third-parties` Google Analytics installation. Manual SPA `page_view` calls are disabled to avoid duplication.
+Page views: `send_page_view: false` on gtag config + manual SPA `page_view` on route change.
 
 ---
 
@@ -49,9 +49,9 @@ Page views: owned by the single `@next/third-parties` Google Analytics installat
 | Risk | Status | Mitigation |
 |------|--------|------------|
 | GTM + direct GA4 double pageviews | Not present | Do not add GTM GA4 tag without disabling direct gtag |
-| Auto + manual `page_view` | Controlled | One Google Analytics installation owns pageviews; manual helper is a no-op |
-| Lead conversions across public forms | Controlled | Shared interaction helper fires once after authoritative `201` persistence |
-| Browser Pixel + CAPI `Lead` | Controlled | Same opaque client submission ID is used as `event_id` |
+| Auto + manual `page_view` | Controlled | `send_page_view: false` |
+| Lead on submit + thank-you page | Controlled | Roadmap uses inline success; events fire in submit handler only |
+| `generate_lead` + `pms_roadmap_form_submit` | Intentional | Both fire once on successful submit |
 | Direct visit to success URL | Partial | `purchase` gated on `verifyCheckoutSession` + `trackPurchaseOnce` dedup |
 | Legacy `conversion-events.ts` vs `pms-events.ts` | Coexist | Phase 14 micro-events (`view_pmp_*`, `click_enroll_*`) are supporting; primary funnel uses `pms-events.ts` |
 
@@ -62,12 +62,10 @@ Page views: owned by the single `@next/third-parties` Google Analytics installat
 | Event | Meaning | GA4 Key Event? |
 |-------|---------|----------------|
 | `pms_roadmap_cta_click` | User clicks PMP roadmap CTA | No |
-| `pmp_roadmap_form_start` | User starts roadmap form | No |
-| `pmp_roadmap_fit_complete` | Candidate completes fit diagnostics once per form session | No |
-| `pmp_roadmap_eligibility_complete` | Candidate completes eligibility diagnostics once per form session | No |
+| `pms_roadmap_form_start` | User starts roadmap form | No |
 | `generate_lead` | Lead form successfully submitted | Yes |
-| `select_content` | User clicks a booking/schedule CTA | No |
-| `booking_confirmed` | Trusted appointment confirmation | Yes |
+| `pms_roadmap_form_submit` | PMP roadmap form successfully submitted | Yes |
+| `pms_booking_click` | User clicks booking/schedule link | Yes if primary action |
 | `pms_contact_click` | User clicks email/WhatsApp/phone/contact | Maybe |
 | `begin_checkout` | User starts live checkout | Yes if payment live |
 | `purchase` | Verified payment success | Yes |
@@ -84,9 +82,7 @@ Transport: [`frontend/lib/analytics/push-event.ts`](../../frontend/lib/analytics
 
 ## Consent / Cookie Behavior
 
-- GA4 loads only after analytics consent; Meta Pixel/CAPI and ad click-ID capture require marketing consent ([`CookieConsent.tsx`](../../frontend/components/CookieConsent.tsx), [`consent.ts`](../../frontend/lib/legal/consent.ts)).
-- UTMs remain contextual attribution. `fbclid`, `gclid`, `gbraid`, `wbraid`, and `msclkid` are stored and submitted only with marketing consent.
-- Withdrawal clears pending Meta events, marketing click-ID storage, and related cookies.
+- Analytics scripts load **only after** visitor accepts optional analytics cookies ([`CookieConsent.tsx`](../../frontend/components/CookieConsent.tsx), [`consent.ts`](../../frontend/lib/legal/consent.ts)).
 - **Google Consent Mode v2 is not implemented** — owner/legal decision required before adding.
 - Do not bypass consent or fire analytics before acceptance.
 
@@ -104,7 +100,7 @@ PII keys stripped in [`push-event.ts`](../../frontend/lib/analytics/push-event.t
 
 ## Offline Conversion Feasibility
 
-**Today (browser → CRM):** consent-gated `ga_client_id`, consent-gated ad click IDs, contextual UTMs, landing page, and consent flags via [`lead-tracking-context.ts`](../../frontend/lib/analytics/lead-tracking-context.ts).
+**Today (browser → CRM):** `ga_client_id`, gclid/gbraid/wbraid, UTMs, landing_page, consent flags via [`lead-tracking-context.ts`](../../frontend/lib/analytics/lead-tracking-context.ts).
 
 **Not implemented:** Measurement Protocol, Google Ads offline import automation, qualification workflow events.
 
@@ -122,7 +118,7 @@ Template: [`pmstructure-offline-conversion-template.csv`](pmstructure-offline-co
 4. Mark relevant events as key events.
 5. Do not mark events until they fire correctly.
 
-**Candidates:** `generate_lead`, `booking_confirmed`, `begin_checkout`, `purchase`, `qualify_lead`, `close_convert_lead`.
+**Candidates:** `generate_lead`, `pms_roadmap_form_submit`, `pms_booking_click`, `begin_checkout`, `purchase`, `qualify_lead`, `close_convert_lead`.
 
 ---
 

@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Search, HelpCircle, Mail, MessageCircle } from 'lucide-react';
 import { globalContentString, type GlobalContentMap } from '@/lib/cms/global-content';
 import { CTAS } from '@/lib/brand-voice';
@@ -16,10 +17,11 @@ import { PricingComplianceNote } from '@/components/PricingComplianceNote';
 import {
   FAQ_CLUSTERS,
   FAQ_HUB_SECTIONS,
-  getVisibleFaqPageEntries,
+  getAllFaqs,
+  getFaqsByCluster,
 } from '@/content/faq';
 import type { FaqClusterId, FaqEntry } from '@/content/faq';
-import { type FaqPageConfig } from '@pms/site-content';
+import { type FaqPageConfig, visibleFaqItems } from '@pms/site-content';
 import { FaqAccordionList } from '@/components/faq/FaqAccordionList';
 import { PageHeroWithImage } from '@/components/marketing/PageMarketingImage';
 import { MARKETING_PAGE_IMAGES } from '@/lib/marketing-stock-images';
@@ -29,33 +31,40 @@ const DEFAULT_TAB = FAQ_HUB_SECTIONS[0]?.id ?? 'about-pathways';
 export function FAQ({
   globalContent,
   faqConfig,
-  initialTab,
 }: {
   globalContent?: GlobalContentMap;
   faqConfig?: FaqPageConfig | null;
-  initialTab?: string;
 }) {
-  const visibleFaqs = React.useMemo(
-    () => getVisibleFaqPageEntries(faqConfig),
+  const searchParams = useSearchParams();
+  const tabFromUrl = searchParams.get('tab');
+
+  const customFaqs = React.useMemo<FaqEntry[]>(
+    () =>
+      visibleFaqItems(faqConfig).map((item) => ({
+        id: `cms-${item.id}`,
+        clusterId: 'about' as FaqClusterId,
+        question: item.question,
+        answer: item.answer,
+      })),
     [faqConfig],
   );
-  const customFaqs = React.useMemo<FaqEntry[]>(
-    () => visibleFaqs.filter((entry) => entry.id.startsWith('cms-')),
-    [visibleFaqs],
-  );
   const customSectionTitle = faqConfig?.sectionTitle?.trim() || 'Common questions';
+  const hiddenBuiltInIds = React.useMemo(
+    () => new Set(faqConfig?.hiddenBuiltInIds ?? []),
+    [faqConfig?.hiddenBuiltInIds],
+  );
   const [activeTab, setActiveTab] = React.useState(
-    FAQ_HUB_SECTIONS.some((s) => s.id === initialTab) ? initialTab! : DEFAULT_TAB,
+    FAQ_HUB_SECTIONS.some((s) => s.id === tabFromUrl) ? tabFromUrl! : DEFAULT_TAB,
   );
   const [query, setQuery] = React.useState('');
   const q = query.trim().toLowerCase();
   const isSearching = q.length > 0;
 
   React.useEffect(() => {
-    if (initialTab && FAQ_HUB_SECTIONS.some((s) => s.id === initialTab)) {
-      setActiveTab(initialTab);
+    if (tabFromUrl && FAQ_HUB_SECTIONS.some((s) => s.id === tabFromUrl)) {
+      setActiveTab(tabFromUrl);
     }
-  }, [initialTab]);
+  }, [tabFromUrl]);
 
   React.useEffect(() => {
     if (typeof window === 'undefined' || !window.location.hash.startsWith('#faq-')) return;
@@ -66,11 +75,11 @@ export function FAQ({
 
   const searchResults = React.useMemo(() => {
     if (!isSearching) return [] as FaqEntry[];
-    return visibleFaqs.filter(
+    return [...customFaqs, ...getAllFaqs().filter((f) => !hiddenBuiltInIds.has(f.id))].filter(
       (f) =>
         f.question.toLowerCase().includes(q) || f.answer.toLowerCase().includes(q),
     );
-  }, [isSearching, q, visibleFaqs]);
+  }, [isSearching, q, customFaqs, hiddenBuiltInIds]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -172,7 +181,9 @@ export function FAQ({
                     {section.clusterIds.map((clusterId) => {
                       const cluster = FAQ_CLUSTERS.find((c) => c.id === clusterId);
                       if (!cluster) return null;
-                      const items = visibleFaqs.filter((f) => f.clusterId === clusterId);
+                      const items = getFaqsByCluster(clusterId).filter(
+                        (f) => !hiddenBuiltInIds.has(f.id),
+                      );
                       if (items.length === 0) return null;
                       return (
                         <section key={clusterId} id={`faq-${clusterId}`} className="scroll-mt-24">

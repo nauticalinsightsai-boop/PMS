@@ -21,7 +21,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'pmp-exam-change-2026',
     question: 'Is the PMP exam changing in 2026?',
     answer:
-      'The PMP exam was updated on 9 July 2026. This is now the current exam. Confirm current ECO and domain weights on PMI.org before scheduling. See [/pmp-exam-2026](/pmp-exam-2026).',
+      'PMI has communicated an updated PMP exam experience with a transition around 9 July 2026. Confirm dates and scope on PMI.org before scheduling. See [/pmp-exam-2026](/pmp-exam-2026).',
     relatedPage: '/pmp-exam-2026',
     sourceUrl: 'https://www.pmi.org',
     sourceTodo: 'Verify current PMI announcement wording and dates.',
@@ -31,7 +31,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'pmp-exam-change-2026',
     question: 'When does the new PMP exam start?',
     answer:
-      'The updated PMP exam launched 9 July 2026. This is now the current exam for all candidates. Always verify on PMI.org and Pearson VUE before booking.',
+      'PM Structure orients candidates to a key transition date of 9 July 2026 for the updated format. Always verify on PMI.org and Pearson VUE before booking.',
     relatedPage: '/pmp-exam-timeline-2026',
   }),
   pmp({
@@ -39,7 +39,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'pmp-exam-change-2026',
     question: 'What is the PMP 2026 transition timeline?',
     answer:
-      'The transition occurred on 9 July 2026. Use the historical timeline for context, then prepare with the current guide at [/pmp-exam-2026](/pmp-exam-2026).',
+      'Use our timeline page to map study windows against before/after July dates. See [/pmp-exam-timeline-2026](/pmp-exam-timeline-2026) and [/pmp-current-vs-new-exam](/pmp-current-vs-new-exam).',
     relatedPage: '/pmp-exam-timeline-2026',
   }),
   pmp({
@@ -56,7 +56,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     pmpCategory: 'pmp-exam-change-2026',
     question: 'Does PM Structure teach the 2026 PMP exam?',
     answer:
-      'Yes: our PMP pathways cover concepts relevant to the current exam introduced in July 2026. We are an independent prep platform, not PMI or an ATP unless formally stated elsewhere.',
+      'Yes: our PMP pathways cover concepts relevant to current and transitioning exam narratives. We are an independent prep platform, not PMI or an ATP unless formally stated elsewhere.',
     relatedPage: '/pmp',
     complianceRisk: 'medium',
   }),
@@ -100,27 +100,27 @@ export const PMP_2026_FAQS: FaqEntry[] = [
     relatedPage: '/pmp-exam-2026',
   }),
 
-  // Previous Exam Before 9 July 2026 (historical, 5)
+  // Current Exam Before 8 July 2026 (5)
   pmp({
     id: 'pmp26-before-01',
     pmpCategory: 'current-exam-before-july-2026',
     question: 'Should I take the PMP before 8 July 2026?',
     answer:
-      'Historical: The previous exam format is no longer offered (last available 8 July 2026). Prepare for the current exam using [/pmp-exam-2026](/pmp-exam-2026).',
-    relatedPage: '/pmp-after-9-july-2026',
+      'If you are exam-ready and want to sit the current format, testing before the transition may reduce uncertainty. See [/pmp-before-8-july-2026](/pmp-before-8-july-2026).',
+    relatedPage: '/pmp-before-8-july-2026',
   }),
   pmp({
     id: 'pmp26-before-02',
     pmpCategory: 'current-exam-before-july-2026',
-    question: 'What should candidates do now that the July 2026 PMP transition has passed?',
+    question: 'Who benefits from sitting PMP before the July 2026 transition?',
     answer:
-      'Use current PMI materials, replace pre-transition mocks, and benchmark readiness against the exam now in force. Follow the current preparation reset guide.',
-    relatedPage: '/pmp-after-9-july-2026',
+      'Candidates with strong mock scores, completed ECO review, and a clear Pearson VUE slot before mid-2026 often prefer the current format.',
+    relatedPage: '/pmp-before-8-july-2026',
   }),
   pmp({
     id: 'pmp26-before-03',
     pmpCategory: 'current-exam-before-july-2026',
-    question: 'How do I build a compressed PMP study plan for the current exam?',
+    question: 'How do I prepare quickly for PMP before July 2026?',
     answer:
       'Use a compressed study plan, daily mocks, and Professional or Mastery tiers for scenario practice. See [/pmp-study-plan-2026](/pmp-study-plan-2026).',
     relatedPage: '/pmp-study-plan-2026',
@@ -129,41 +129,41 @@ export const PMP_2026_FAQS: FaqEntry[] = [
   pmp({
     id: 'pmp26-before-04',
     pmpCategory: 'current-exam-before-july-2026',
-    question: 'Which PMP exam format can I book now?',
+    question: 'Can I still book the current PMP exam format?',
     answer:
-      'PMI’s July 2026 PMP exam is the current format. Confirm test-centre or online-proctored availability through PMI and Pearson VUE before scheduling.',
+      'Availability depends on PMI and Pearson VUE scheduling in your region. Confirm seat availability and format at booking time.',
     sourceUrl: 'https://www.pearsonvue.com/pmi',
   }),
   pmp({
     id: 'pmp26-before-05',
     pmpCategory: 'current-exam-before-july-2026',
-    question: 'What if my study plan still targets the pre-July exam?',
+    question: 'What if I am not ready before July 2026?',
     answer:
-      'Reset the plan against the published July 2026 ECO and current situational-judgement emphasis. Use the [current preparation guide](/pmp-after-9-july-2026).',
+      'Plan for the post-transition format and align practice to situational judgment. See [/pmp-after-9-july-2026](/pmp-after-9-july-2026).',
     relatedPage: '/pmp-after-9-july-2026',
   }),
 
-  // Current Exam From 9 July 2026 (5)
+  // New Exam From 9 July 2026 (5)
   pmp({
     id: 'pmp26-after-01',
     pmpCategory: 'new-exam-from-july-2026',
-    question: 'Should I prepare for the PMP exam (updated July 2026)?',
+    question: 'Should I prepare for the new PMP exam after 9 July 2026?',
     answer:
-      'Yes. Prepare for the current PMP exam, which launched 9 July 2026. See [/pmp-exam-2026](/pmp-exam-2026) for current preparation routes.',
-    relatedPage: '/pmp-exam-2026',
+      'If you need more study time or miss the pre-transition window, prepare for the updated experience. See [/pmp-after-9-july-2026](/pmp-after-9-july-2026).',
+    relatedPage: '/pmp-after-9-july-2026',
   }),
   pmp({
     id: 'pmp26-after-02',
     pmpCategory: 'new-exam-from-july-2026',
-    question: 'How is the current PMP exam different from the previous exam?',
+    question: 'How is the new PMP exam different?',
     answer:
-      'The current exam (launched July 2026) uses revised domain weights and updated content emphasis. Compare at [/pmp-current-vs-new-exam](/pmp-current-vs-new-exam).',
+      'Expect continued emphasis on situational judgment, professional responsibility, and modern delivery contexts. Compare narratives on [/pmp-current-vs-new-exam](/pmp-current-vs-new-exam).',
     relatedPage: '/pmp-current-vs-new-exam',
   }),
   pmp({
     id: 'pmp26-after-03',
     pmpCategory: 'new-exam-from-july-2026',
-    question: 'Does the current PMP exam include more agile content?',
+    question: 'Does the new PMP exam include more agile content?',
     answer:
       'Agile, hybrid, and predictive contexts remain part of PMP preparation. See [/pmp-agile-hybrid-predictive](/pmp-agile-hybrid-predictive).',
     relatedPage: '/pmp-agile-hybrid-predictive',
@@ -171,7 +171,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
   pmp({
     id: 'pmp26-after-04',
     pmpCategory: 'new-exam-from-july-2026',
-    question: 'Can AI topics appear on the current PMP exam?',
+    question: 'Will AI topics appear on the new PMP exam?',
     answer:
       'AI and emerging themes may appear in updated materials. Treat specifics as orientation until confirmed in PMI publications. See [/pmp-ai-sustainability-value-delivery](/pmp-ai-sustainability-value-delivery).',
     relatedPage: '/pmp-ai-sustainability-value-delivery',
@@ -180,7 +180,7 @@ export const PMP_2026_FAQS: FaqEntry[] = [
   pmp({
     id: 'pmp26-after-05',
     pmpCategory: 'new-exam-from-july-2026',
-    question: 'How long should I study for the current PMP exam?',
+    question: 'How long should I study for the post-July 2026 PMP exam?',
     answer:
       'Most candidates need several weeks to months depending on experience. Use [/pmp-readiness-diagnostic](/pmp-readiness-diagnostic) and [/pmp-study-plan-2026](/pmp-study-plan-2026).',
     relatedPage: '/pmp-study-plan-2026',
@@ -666,17 +666,17 @@ export const PMP_2026_FAQS: FaqEntry[] = [
   pmp({
     id: 'pmp26-gap-01',
     pmpCategory: 'pmp-exam-change-2026',
-    question: 'How should I reset a pre-July PMP study plan?',
+    question: 'Should I rush to take PMP before 8 July 2026?',
     answer:
-      'Remove obsolete pre-transition assumptions, map your materials to the published July 2026 ECO, and use the [current preparation reset guide](/pmp-after-9-july-2026) before booking Pearson VUE.',
-    relatedPage: '/pmp-after-9-july-2026',
+      'Rushing is risky if you are not exam-ready. Use [/pmp-before-8-july-2026](/pmp-before-8-july-2026) and your diagnostic before booking Pearson VUE.',
+    relatedPage: '/pmp-before-8-july-2026',
   }),
   pmp({
     id: 'pmp26-gap-02',
     pmpCategory: 'new-exam-from-july-2026',
-    question: 'How should I update a study plan created before July 2026?',
+    question: 'Should I wait for the new PMP exam after July 2026?',
     answer:
-      'Replace pre-transition assumptions with the current ECO, current domain weights, and current mocks. See [/pmp-exam-2026](/pmp-exam-2026).',
+      'Waiting can make sense if you prefer the updated ECO narrative: but timelines and eligibility are personal. See [/pmp-after-9-july-2026](/pmp-after-9-july-2026).',
     relatedPage: '/pmp-after-9-july-2026',
   }),
   pmp({
@@ -718,9 +718,9 @@ export const PMP_2026_FAQS: FaqEntry[] = [
   pmp({
     id: 'pmp26-gap-07',
     pmpCategory: 'pmp-current-vs-new-exam',
-    question: 'Is the current PMP exam harder than the previous exam?',
+    question: 'Is the new PMP exam harder than the current exam?',
     answer:
-      'Difficulty is subjective and ECO-dependent. Compare the previous and current formats at [/pmp-current-vs-new-exam](/pmp-current-vs-new-exam) and verify the current ECO on PMI.org.',
+      'Difficulty is subjective and ECO-dependent. Compare narratives at [/pmp-current-vs-new-exam](/pmp-current-vs-new-exam) and verify on PMI.org.',
     relatedPage: '/pmp-current-vs-new-exam',
     sourceTodo: 'Avoid claiming universal harder/easier without PMI source.',
   }),
@@ -744,10 +744,10 @@ export const PMP_2026_FAQS: FaqEntry[] = [
   }),
   pmp({
     id: 'pmp26-gap-10',
-    pmpCategory: 'pmp-exam-change-2026',
+    pmpCategory: 'pmp-exam-timeline-2026',
     question: 'What milestones are on the PMP 2026 exam timeline?',
     answer:
-      'The previous exam ended on 8 July 2026 and the current exam launched on 9 July 2026. See the historical timeline at [/pmp-exam-timeline-2026](/pmp-exam-timeline-2026), then use the current guide.',
+      'Key planning dates include the transition around 9 July 2026. Map your study window at [/pmp-exam-timeline-2026](/pmp-exam-timeline-2026).',
     relatedPage: '/pmp-exam-timeline-2026',
     sourceTodo: 'Confirm timeline on PMI.org before booking.',
   }),
@@ -771,16 +771,16 @@ export const PMP_2026_FAQS: FaqEntry[] = [
   }),
   pmp({
     id: 'pmp26-gap-13',
-    pmpCategory: 'pmp-exam-change-2026',
+    pmpCategory: 'pmp-exam-timeline-2026',
     question: 'When should I book Pearson VUE for a 2026 PMP slot?',
     answer:
-      'Book when your mocks and domain coverage support the current exam, and verify live availability in PMI and Pearson VUE. See [/pmp-exam-2026](/pmp-exam-2026).',
-    relatedPage: '/pmp-exam-2026',
+      'Book when your mocks and domain coverage support your target format (before or after July). See [/pmp-exam-timeline-2026](/pmp-exam-timeline-2026).',
+    relatedPage: '/pmp-exam-timeline-2026',
   }),
   pmp({
     id: 'pmp26-gap-14',
     pmpCategory: 'agile-hybrid-predictive',
-    question: 'Are hybrid approaches emphasized on the current PMP exam?',
+    question: 'Are hybrid approaches tested more on the new PMP exam?',
     answer:
       'Situational items may emphasize choosing the right approach. Study [/pmp-agile-hybrid-predictive](/pmp-agile-hybrid-predictive) without assuming official weight changes.',
     relatedPage: '/pmp-agile-hybrid-predictive',

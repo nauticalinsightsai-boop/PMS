@@ -2,9 +2,7 @@ import { cache } from 'react';
 import {
   NEWSLETTER_AUTHORS_FIELD_KEY,
   attachAuthorToArticle,
-  defaultNewsletterAuthorsRegistry,
   findAuthorForArticle,
-  mergeNewsletterAuthorProfiles,
   parseNewsletterAuthorsRegistry,
   publishedAuthorsFromRegistry,
   type NewsletterAuthor,
@@ -13,7 +11,7 @@ import type { NewsletterArticle } from '@pms/site-content/newsletter-posts';
 import { resolveNewsletterAuthorAvatar } from '@/lib/marketing-stock-images';
 import { supabase } from '@/lib/supabase';
 
-async function fetchAuthorProfiles(): Promise<NewsletterAuthor[]> {
+async function fetchPublishedAuthors(): Promise<NewsletterAuthor[]> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return [];
@@ -27,7 +25,7 @@ async function fetchAuthorProfiles(): Promise<NewsletterAuthor[]> {
       .maybeSingle();
 
     if (error || !data?.content) return [];
-    return parseNewsletterAuthorsRegistry(data.content).authors;
+    return publishedAuthorsFromRegistry(parseNewsletterAuthorsRegistry(data.content));
   } catch {
     return [];
   }
@@ -35,12 +33,7 @@ async function fetchAuthorProfiles(): Promise<NewsletterAuthor[]> {
 
 /** Server: published newsletter authors from Supabase. */
 export const getPublishedNewsletterAuthors = cache(async (): Promise<NewsletterAuthor[]> => {
-  const seedAuthors = publishedAuthorsFromRegistry(defaultNewsletterAuthorsRegistry());
-  const cmsAuthors = await fetchAuthorProfiles();
-  return publishedAuthorsFromRegistry({
-    version: 1,
-    authors: mergeNewsletterAuthorProfiles(seedAuthors, cmsAuthors),
-  });
+  return fetchPublishedAuthors();
 });
 
 export async function getNewsletterAuthor(slug: string): Promise<NewsletterAuthor | undefined> {

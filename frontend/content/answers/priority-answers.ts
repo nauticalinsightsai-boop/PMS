@@ -5,22 +5,22 @@ export const PMP_HUB_PRIORITY_ANSWERS: PriorityAnswerLink[] = [
   {
     href: '/answers/is-the-pmp-exam-changing-in-2026',
     label: 'Is the PMP exam changing in 2026?',
-    description: 'What changed in July 2026 and how to verify current PMI guidance.',
+    description: 'Transition timeline and how to verify official PMI guidance.',
   },
   {
     href: '/answers/when-does-the-new-pmp-exam-start',
     label: 'When does the new PMP exam start?',
-    description: 'The launch date, current status, and booking checklist.',
+    description: 'July 2026 planning anchor and booking checklist.',
   },
   {
-    href: '/pmp-after-9-july-2026',
-    label: 'How should I prepare for the current PMP exam?',
-    description: 'Post-launch study reset and readiness guidance.',
+    href: '/answers/should-i-take-pmp-before-8-july-2026',
+    label: 'Should I take PMP before 8 July 2026?',
+    description: 'Pre-transition timing decision guide.',
   },
   {
     href: '/answers/should-i-prepare-for-new-pmp-after-9-july-2026',
-    label: 'How should I prepare for the current PMP exam?',
-    description: 'Current-exam study alignment and readiness guidance.',
+    label: 'Should I prepare after 9 July 2026?',
+    description: 'Post-transition study window guidance.',
   },
   {
     href: '/answers/what-is-pmp-readiness',
@@ -30,7 +30,7 @@ export const PMP_HUB_PRIORITY_ANSWERS: PriorityAnswerLink[] = [
   {
     href: '/answers/how-to-prepare-for-pmp-in-2026',
     label: 'How to prepare for PMP in 2026',
-    description: 'Study plan aligned to the current exam.',
+    description: 'Study plan aligned to the transition year.',
   },
   {
     href: '/answers/is-pm-structure-an-official-pmi-atp',
@@ -66,8 +66,8 @@ export const PMP_EXAM_2026_PRIORITY_ANSWERS: PriorityAnswerLink[] = [
   },
   {
     href: '/answers/current-pmp-exam-vs-new-pmp-exam',
-    label: 'Previous vs current PMP exam',
-    description: 'Historical comparison and current preparation implications.',
+    label: 'Current vs new PMP exam',
+    description: 'Format comparison before and after July 2026.',
   },
   {
     href: '/answers/what-are-the-pmp-2026-domain-weights',

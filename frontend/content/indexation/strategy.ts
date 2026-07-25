@@ -6,7 +6,7 @@ import { PMP_COURSE_PATHS } from '@/content/pmp/courses';
 import { PMP_CLUSTER_PATHS } from '@/content/pmp/pages';
 import { PMP_SERVICE_PATHS } from '@/content/pmp/services';
 import { getPublishedTopicPaths } from '@/content/topics';
-import { getKeywordCanonicalizePathMap } from '@/content/seo/keyword-redirect-map';
+import { getKeywordRedirectPathMap } from '@/content/seo/keyword-redirect-map';
 import { PMS_SITE_URL } from '@/config/pms-site';
 import { certifications } from '@/data/siteData';
 import { isIndexablePath, normalizePath } from '@/lib/indexing-metadata';
@@ -110,38 +110,28 @@ const P0_COMMERCIAL_PATHS = new Set([
   '/certifications/pmp',
   '/certifications/compare',
   '/answers/is-the-pmp-exam-changing-in-2026',
-  '/pmp-exam-2026',
+  '/topics/pmp-exam-2026',
   '/faq',
 ]);
 
 const REDIRECT_PATHS: Record<string, string> = {
   '/compare': '/certifications/compare',
   '/store': '/community?view=store',
-  '/go': '/go/website',
-  '/pmp-certification': '/certifications/pmp',
-  '/pmp-exam': '/pmp-exam-2026',
-  '/topics/pmp-exam-2026': '/pmp-exam-2026',
-  '/pmp-before-8-july-2026': '/pmp-after-9-july-2026',
-  '/answers/should-i-rush-pmp-before-july-2026': '/pmp-after-9-july-2026',
-  '/answers/should-i-take-pmp-before-july-2026': '/pmp-after-9-july-2026',
-  '/answers/should-i-take-pmp-before-8-july-2026': '/pmp-after-9-july-2026',
-  '/answers/should-i-take-the-pmp-before-8-july-2026': '/pmp-after-9-july-2026',
-  '/corporate/pmp-2026-readiness': '/pm-service',
-  '/payment': '/checkout',
-  '/payments': '/checkout',
-  '/thank-you': '/booking-confirmed',
-  '/thanks': '/booking-confirmed',
-};
-
-/** Keyword soft landers: pretty URL stays; equity consolidates via hub canonical. */
-const KEYWORD_CANONICALIZE_PATHS: Record<string, string> = {
-  ...getKeywordCanonicalizePathMap(),
+  ...getKeywordRedirectPathMap(),
 };
 
 const NOT_IN_REPO_SPEC_PATHS = [
-  '/account',
-  '/cancel',
+  '/payment',
+  '/payments',
+  '/thank-you',
+  '/thanks',
   '/success',
+  '/cancel',
+  '/account',
+  '/pmp-certification',
+  '/pmp-exam',
+  '/answers/should-i-take-pmp-before-july-2026',
+  '/corporate/pmp-2026-readiness',
 ];
 
 const UTILITY_NOINDEX_PATHS = [
@@ -205,14 +195,10 @@ function configForPublicPath(path: string, pageType: string, notes?: string): Pa
   const normalized = normalizePath(path);
   let decision: IndexationDecision = 'index';
   let reason = 'Public canonical page';
-  const ownerApproval = 'Not required';
-  const implementationStatus = 'Implemented';
+  let ownerApproval = 'Not required';
+  let implementationStatus = 'Implemented';
 
-  if (
-    !isIndexablePath(normalized) &&
-    !REDIRECT_PATHS[normalized] &&
-    !KEYWORD_CANONICALIZE_PATHS[normalized]
-  ) {
+  if (!isIndexablePath(normalized) && !REDIRECT_PATHS[normalized]) {
     return baseRow({
       path: normalized,
       pageType,
@@ -226,25 +212,6 @@ function configForPublicPath(path: string, pageType: string, notes?: string): Pa
       ownerApproval: 'Owner approved noindex 2026-07-24',
       implementationStatus: 'Implemented',
       notes,
-    });
-  }
-
-  if (KEYWORD_CANONICALIZE_PATHS[normalized]) {
-    return baseRow({
-      path: normalized,
-      pageType,
-      decision: 'canonicalize',
-      index: false,
-      follow: true,
-      includeInSitemap: false,
-      canonicalPath: KEYWORD_CANONICALIZE_PATHS[normalized],
-      priority: 'Utility',
-      reason:
-        'Keyword soft lander: middleware rewrites to hub; rel=canonical consolidates ranking on hub',
-      dataSource: 'Keyword H1 Meta workbook + soft-lander architecture',
-      ownerApproval,
-      implementationStatus,
-      notes: notes ?? 'Not a hard 301; public URL stays keyword slug',
     });
   }
 
@@ -281,24 +248,10 @@ function configForPublicPath(path: string, pageType: string, notes?: string): Pa
     });
   }
 
-  if (normalized === '/membership' || normalized === '/pm-service') {
-    return baseRow({
-      path: normalized,
-      pageType,
-      decision: 'index',
-      index: true,
-      follow: true,
-      includeInSitemap: true,
-      canonicalPath: normalized,
-      priority: priorityForPath(normalized),
-      reason:
-        normalized === '/membership'
-          ? 'Membership commercial page: index + sitemap (GSC FIX 2026-07-25)'
-          : 'PM Service commercial page: index + sitemap (GSC FIX 2026-07-25)',
-      dataSource: 'GSC Coverage triage 2026-07-25',
-      ownerApproval: 'Owner approved keep-index 2026-07-25',
-      implementationStatus,
-    });
+  if (['/community', '/membership', '/pm-service'].includes(normalized)) {
+    decision = 'needs_review';
+    reason = 'Public marketing page: index if content quality confirmed';
+    ownerApproval = 'Owner review';
   }
 
   if (normalized === '/pmp') {
@@ -326,21 +279,35 @@ function configForPublicPath(path: string, pageType: string, notes?: string): Pa
 
 function configForPortalPath(slug: string): PageIndexationConfig {
   const path = `/go/${slug}`;
+  if (!isIndexablePath(path)) {
+    return baseRow({
+      path,
+      pageType: 'Portal page',
+      decision: 'noindex',
+      index: false,
+      follow: false,
+      includeInSitemap: false,
+      priority: 'P2',
+      reason: 'GSC crawled-not-indexed drilldown: owner requested noindex/nofollow 2026-07-24',
+      dataSource: 'GSC Coverage Drilldown 2026-07-24',
+      ownerApproval: 'Owner approved noindex 2026-07-24',
+      implementationStatus: 'Implemented',
+      notes: 'Omitted from XML sitemap',
+    });
+  }
   return baseRow({
     path,
     pageType: 'Portal page',
-    decision: 'noindex',
-    index: false,
-    follow: false,
-    includeInSitemap: false,
+    decision: 'index',
+    index: true,
+    follow: true,
+    includeInSitemap: true,
     priority: 'P2',
-    reason:
-      'Channel attribution portal: direct-response route must not compete with canonical destination pages',
-    dataSource: 'SEO Packet 04C index-containment decision 2026-07-25',
-    ownerApproval: 'Owner approved /go/* noindex,nofollow containment 2026-07-25',
+    reason: 'Published channel portal: indexable lead landing in XML sitemap',
+    dataSource: 'Route inventory + owner request to index /go channels',
+    ownerApproval: 'Owner approved index 2026-07-23',
     implementationStatus: 'Implemented',
-    notes:
-      'Omitted from XML and HTML sitemaps; direct destination and first-party attribution remain active',
+    notes: 'Included in XML sitemap; HTML sitemap stays lean without full /go list',
   });
 }
 
@@ -379,11 +346,10 @@ function configForNotInRepo(path: string): PageIndexationConfig {
 
 export function getIndexationDecisionForPath(path: string): IndexationDecision {
   const normalized = normalizePath(path);
-  if (KEYWORD_CANONICALIZE_PATHS[normalized]) return 'canonicalize';
   if (REDIRECT_PATHS[normalized]) return 'redirect';
   if (!isIndexablePath(normalized)) return 'noindex';
   if (NOT_IN_REPO_SPEC_PATHS.includes(normalized)) return 'needs_review';
-  if (normalized === '/community') return 'needs_review';
+  if (['/community', '/membership', '/pm-service'].includes(normalized)) return 'needs_review';
   return 'index';
 }
 
@@ -485,10 +451,6 @@ export function getAllIndexationStrategyRows(): IndexationStrategyRow[] {
     add(configForPublicPath(path, 'Legacy redirect'));
   }
 
-  for (const path of Object.keys(KEYWORD_CANONICALIZE_PATHS)) {
-    add(configForPublicPath(path, 'Keyword soft lander'));
-  }
-
   for (const path of NOT_IN_REPO_SPEC_PATHS) {
     add(configForNotInRepo(path));
   }
@@ -588,7 +550,6 @@ export function shouldIncludeInHtmlSitemap(config: PageIndexationConfig): boolea
   const path = normalizePath(config.path);
   if (!config.index || config.decision === 'redirect' || config.decision === 'noindex') return false;
   if (config.implementationStatus === 'Not in repo') return false;
-  // Channel-attribution portals are direct-response routes, not organic sitemap entries.
   if (path.startsWith('/go/') || path === '/go') return false;
   if (path.startsWith('/checkout') || path.startsWith('/membership/checkout')) return false;
   if (path.startsWith('/admin') || path.startsWith('/api')) return false;

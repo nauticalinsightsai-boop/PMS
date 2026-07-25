@@ -47,21 +47,22 @@ const hubs: TopicHubContent[] = [
     resources: [
       { href: '/certifications/pmp', label: 'PMP 2026 Readiness Pathway' },
       { href: '/pmp-exam-2026', label: 'Main 2026 guide' },
-      { href: '/pmp-current-vs-new-exam', label: 'Previous vs current exam (historical)' },
-      { href: '/pmp-exam-timeline-2026', label: 'Timeline (historical)' },
-      { href: '/pmp-after-9-july-2026', label: 'Current exam preparation' },
-      { href: '/pmp-after-9-july-2026', label: 'Current exam preparation' },
+      { href: '/pmp-current-vs-new-exam', label: 'Current vs new exam' },
+      { href: '/pmp-exam-timeline-2026', label: 'Timeline' },
+      { href: '/pmp-before-8-july-2026', label: 'Before 8 July' },
+      { href: '/pmp-after-9-july-2026', label: 'After 9 July' },
       { href: '/faq', label: 'PM Structure FAQ' },
       { href: '/certifications/compare', label: 'Compare certification pathways' },
     ],
     relatedAnswers: [
-      { href: '/answers/is-the-pmp-exam-changing-in-2026', label: 'Did the exam change?' },
-      { href: '/answers/when-does-the-new-pmp-exam-start', label: 'When did the current exam launch?' },
-      { href: '/answers/should-i-prepare-for-new-pmp-after-9-july-2026', label: 'Preparing for current exam' },
+      { href: '/answers/is-the-pmp-exam-changing-in-2026', label: 'Is the exam changing?' },
+      { href: '/answers/when-does-the-new-pmp-exam-start', label: 'When does the new exam start?' },
+      { href: '/answers/should-i-take-pmp-before-8-july-2026', label: 'Should I take PMP before 8 July 2026?' },
+      { href: '/answers/should-i-rush-pmp-before-july-2026', label: 'Should I rush before July?' },
     ],
     howExamReadiness:
-      'Study planning implications: domain emphasis and mock selection must match the current exam (launched July 2026). Key dates: verify the effective date of the updated exam, final exam content outline, and eligibility language, all on PMI.org. Domain / ECO overview: use the latest PMI Exam Content Outline; verify domain weights (People 33%, Process 41%, Business Environment 26%).',
-    sourceTodo: 'Confirm PMP transition dates and ECO updates on PMI.org.',
+      'Study planning implications: key dates, domain emphasis, and mock selection must match the exam version you will sit. Key dates to verify include the effective date of the updated exam, final exam content outline, and eligibility language, all on PMI.org. Domain / ECO overview: do not rely on invented domain weights; verify the latest PMI Exam Content Outline before publishing percentages.',
+    sourceTodo: 'Confirm PMP transition dates and ECO updates on PMI.org before treating any third-party summary as final.',
     references: [
       { label: 'PMI.org: PMP certification', href: 'https://www.pmi.org/certifications/project-management-pmp' },
       {

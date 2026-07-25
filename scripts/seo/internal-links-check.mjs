@@ -33,29 +33,15 @@ const footerPmpNav = fs.readFileSync(
   'utf8',
 );
 const footerLinks = footer + footerPmpNav;
-const hubRenderedLinks = hub + pages;
 
-const hubLinks = [
-  '/answers',
-  '/topics',
-  '/pmp-exam-2026',
-  '/pmp-readiness-diagnostic',
-  '/pmp-enrollment',
-];
-const homeRequiredLinks = ['/answers', '/topics', '/pmp-exam-2026'];
+const hubLinks = ['/answers', '/topics', '/pmp-readiness-diagnostic', '/pmp-enrollment'];
+const homeRequiredLinks = ['/answers', '/topics', '/pmp-exam-2026', '/topics/pmp-exam-2026'];
 const footerRequiredLinks = ['/pmp-exam-2026'];
-const obsoleteConsolidatedLinks = ['/topics/pmp-exam-2026'];
-const liveLinkSurfaces = [
-  ['PMP hub', hub],
-  ['PMP cluster pages', pages],
-  ['Home', homeLinks],
-  ['Footer', footerLinks],
-];
 
 let failed = false;
 
 for (const href of hubLinks) {
-  if (!hubRenderedLinks.includes(href)) {
+  if (!hub.includes(href)) {
     console.error(`internal-links-check FAIL: PmpHubPage missing link to ${href}`);
     failed = true;
   }
@@ -77,17 +63,6 @@ for (const href of footerRequiredLinks) {
   if (!footerLinks.includes(href)) {
     console.error(`internal-links-check FAIL: Footer missing link to ${href}`);
     failed = true;
-  }
-}
-
-for (const obsoleteHref of obsoleteConsolidatedLinks) {
-  for (const [surfaceName, source] of liveLinkSurfaces) {
-    if (source.includes(obsoleteHref)) {
-      console.error(
-        `internal-links-check FAIL: ${surfaceName} contains obsolete consolidated link ${obsoleteHref}; use /pmp-exam-2026`,
-      );
-      failed = true;
-    }
   }
 }
 

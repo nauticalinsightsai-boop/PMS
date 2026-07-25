@@ -39,7 +39,7 @@ const compareCerts: RelatedLink = {
 };
 
 const topicHub: RelatedLink = {
-  href: '/pmp-exam-2026',
+  href: '/topics/pmp-exam-2026',
   label: 'PMP Exam 2026 Guide',
 };
 
@@ -77,8 +77,8 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
       { href: '/pm-service', label: 'Project Management Advisory Services' },
       { href: '/answers', label: 'PMP and certification answers' },
       { href: '/topics', label: 'Project management topic guides' },
-      { href: '/pmp-exam-2026', label: 'PMP Exam 2026 Guide' },
-      { href: '/pmp-after-9-july-2026', label: 'Current PMP preparation reset' },
+      { href: '/topics/pmp-exam-2026', label: 'PMP Exam 2026 Guide' },
+      { href: '/pmp-exam-2026', label: 'PMP exam 2026 deep guide' },
     ],
   },
   '/certifications': {
@@ -215,7 +215,7 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     funnelStage: 'Consideration',
     title: 'PMP Readiness Diagnostic | PM Structure',
     description:
-      'Structured PMP readiness diagnostic: pathway fit, current exam readiness, study capacity, and recommended Foundation, Professional, or Mastery pathway.',
+      'Structured PMP readiness diagnostic: pathway fit, exam timing before or after July 2026, study capacity, and recommended Foundation, Professional, or Mastery pathway.',
     h1: 'PMP readiness diagnostic',
     canonicalPath: '/pmp-readiness-diagnostic',
     regionFocus: ['Global'],
@@ -253,10 +253,10 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     ],
     searchIntent: 'Commercial investigation',
     funnelStage: 'Consideration',
-    title: 'Compare PMP, PRINCE2 & Project Certifications | PM Structure',
+    title: 'Compare Project Management Certifications | PMP, PRINCE2, PMI-RMP & Six Sigma',
     description:
       'Compare PMP, PRINCE2, PMI-RMP, Lean Six Sigma, and other project management certification pathways by role fit, intent, difficulty, and next step.',
-    h1: 'Compare PMP, PRINCE2, and project management certifications',
+    h1: 'Compare project management certifications',
     canonicalPath: '/certifications/compare',
     regionFocus: ['Global'],
   },
@@ -426,7 +426,7 @@ export const PHASE_2_RELATED_BLOCKS: Record<string, RelatedLinkBlock> = {
         href: '/answers/is-the-pmp-exam-changing-in-2026',
         label: 'PMP exam change in 2026',
       },
-      { href: '/pmp-exam-2026', label: 'PMP exam 2026 guide' },
+      { href: '/topics/pmp-exam-2026', label: 'PMP exam 2026 topic hub' },
       { href: '/faq', label: 'PMP eligibility and training-hour FAQ' },
       compareCerts,
     ],

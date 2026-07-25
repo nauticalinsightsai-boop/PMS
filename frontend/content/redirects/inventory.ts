@@ -271,7 +271,7 @@ const EXAMPLE_ONLY_DEAD_URLS: RedirectMapRow[] = [
     sourceUrl: `${PMS_SITE_URL}/pmp-exam-2026`,
     sourcePath: '/pmp-exam-2026',
     currentTarget: 'TBD',
-    recommendedTarget: `${PMS_SITE_URL}/pmp-exam-2026`,
+    recommendedTarget: `${PMS_SITE_URL}/topics/pmp-exam-2026`,
     currentStatus: 'TBD',
     recommendedStatus: '301',
     redirectType: 'Old PMP 2026 URL',

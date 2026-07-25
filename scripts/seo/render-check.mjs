@@ -30,6 +30,11 @@ const checks = [
     mustInclude: ['<h1', 'changing', 'short answer'],
   },
   {
+    label: 'topics-pmp-2026',
+    file: path.join('topics', 'pmp-exam-2026.html'),
+    mustInclude: ['<h1', 'pmp'],
+  },
+  {
     label: 'certifications-compare',
     file: path.join('certifications', 'compare.html'),
     mustInclude: ['compare project management certifications'],

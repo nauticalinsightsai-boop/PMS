@@ -16,7 +16,6 @@ import { publicInteractionBodySchema } from '@/lib/interactions/schema';
 import {
   jsonByteLength,
   sanitizeInteractionPayload,
-  sanitizeTrustedInteractionTracking,
 } from '@/lib/interactions/payload-sanitize';
 import { insertFormSubmission } from '@/lib/interactions/service';
 import { isGoogleSheetsConfigured } from '@/lib/interactions/google-sheets';
@@ -26,7 +25,6 @@ import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 export const dynamic = 'force-dynamic';
 
 const MAX_PAYLOAD_BYTES = 48_000;
-const CLIENT_SUBMISSION_ID_PATTERN = /^[A-Za-z0-9._:-]{16,128}$/;
 
 type InteractionListRow = Record<string, unknown> & {
   sheets_synced_at?: string | null;
@@ -71,22 +69,6 @@ export async function POST(request: NextRequest) {
   }
 
   const body = parsed.data;
-  const headerIdempotencyKey = request.headers.get('idempotency-key')?.trim();
-  if (
-    headerIdempotencyKey &&
-    !CLIENT_SUBMISSION_ID_PATTERN.test(headerIdempotencyKey)
-  ) {
-    return NextResponse.json({ error: 'Invalid submission key' }, { status: 400 });
-  }
-  if (
-    headerIdempotencyKey &&
-    body.clientSubmissionId &&
-    headerIdempotencyKey !== body.clientSubmissionId
-  ) {
-    return NextResponse.json({ error: 'Invalid submission key' }, { status: 400 });
-  }
-  const clientSubmissionId = body.clientSubmissionId ?? headerIdempotencyKey;
-
   if ((body.website?.trim() ?? '') || (body.company?.trim() ?? '')) {
     return NextResponse.json(
       {
@@ -94,15 +76,13 @@ export async function POST(request: NextRequest) {
         id: 'honeypot',
         sheetsSynced: false,
         sheetsSyncPending: false,
+        sheetsWarning: null,
       },
       { status: 201 },
     );
   }
 
-  const payload = {
-    ...sanitizeInteractionPayload(body.payload),
-    ...sanitizeTrustedInteractionTracking(body.tracking),
-  };
+  const payload = sanitizeInteractionPayload(body.payload);
   if (jsonByteLength(payload) > MAX_PAYLOAD_BYTES) {
     return NextResponse.json({ error: 'Payload too large' }, { status: 413 });
   }
@@ -110,7 +90,6 @@ export async function POST(request: NextRequest) {
   const email = body.email.trim().toLowerCase();
   const metadata = {
     ...collectInteractionRequestMetadata(request),
-    ...(clientSubmissionId ? { clientSubmissionId } : {}),
   };
 
   const result = await insertFormSubmission({
@@ -119,7 +98,6 @@ export async function POST(request: NextRequest) {
     email,
     payload,
     metadata,
-    clientSubmissionId,
   });
 
   if (!result.ok) {
@@ -131,11 +109,8 @@ export async function POST(request: NextRequest) {
       success: true,
       id: result.id,
       sheetsSynced: result.sheetsSynced,
-      // The detailed Sheets error remains in operations storage/logs. Public
-      // callers only need to know that secondary synchronization is pending.
-      sheetsSyncPending:
-        result.sheetsSyncPending || Boolean(result.sheetsError),
-      idempotentReplay: result.idempotentReplay,
+      sheetsSyncPending: result.sheetsSyncPending,
+      sheetsWarning: result.sheetsError,
     },
     { status: 201 },
   );

@@ -6,15 +6,8 @@ export { newsletterFileSeedArticles };
 
 export const NEWSLETTER_POSTS_FIELD_KEY = 'newsletter_posts_registry';
 
-/** Founder byline retained for legacy aliases and unknown names. */
+/** Single public byline for all newsletter articles. */
 export const CANONICAL_NEWSLETTER_AUTHOR = 'Sheikh M. Abdullah';
-
-/** Replaceable public bylines: keep in sync with newsletter-author-profiles.json. */
-export const NEWSLETTER_BYLINE_AUTHORS = [
-  'Sheikh M. Abdullah',
-  'PMP Readiness Mentor',
-  'PMO & Transformation Mentor',
-] as const;
 
 const NEWSLETTER_AUTHOR_ALIASES = new Set([
   '',
@@ -26,16 +19,14 @@ const NEWSLETTER_AUTHOR_ALIASES = new Set([
   'editorial team',
 ]);
 
-/** Preserve known replaceable profiles; map blank/legacy aliases to the founder. */
+/** Map placeholder / legacy bylines to the canonical author. */
 export function normalizeNewsletterAuthorName(name?: string | null): string {
   const trimmed = name?.trim() ?? '';
   if (!trimmed || NEWSLETTER_AUTHOR_ALIASES.has(trimmed.toLowerCase())) {
     return CANONICAL_NEWSLETTER_AUTHOR;
   }
-  const known = NEWSLETTER_BYLINE_AUTHORS.find(
-    (author) => author.toLowerCase() === trimmed.toLowerCase(),
-  );
-  return known ?? CANONICAL_NEWSLETTER_AUTHOR;
+  // Public site uses one author brand-wide.
+  return CANONICAL_NEWSLETTER_AUTHOR;
 }
 
 export const newsletterPostStatusSchema = z.enum(['published', 'draft', 'scheduled']);
@@ -90,15 +81,8 @@ export type NewsletterArticle = {
   slug: string;
   title: string;
   excerpt: string;
-  /** SEO fields retained from the CMS/draft registry. */
-  metaTitle?: string;
-  metaDescription?: string;
-  keywords?: string;
   category: string;
   date: string;
-  /** Raw source timestamps retained for metadata and schema output. */
-  datePublished?: string;
-  dateModified?: string;
   author: string;
   /** Author profile fields resolved from the authors registry (optional). */
   authorId?: string;
@@ -109,9 +93,6 @@ export type NewsletterArticle = {
   authorLinkedinUrl?: string;
   authorTwitterUrl?: string;
   authorWebsiteUrl?: string;
-  authorBylineType?: 'person' | 'editorial_role';
-  authorPersonSchemaEligible?: boolean;
-  authorProfilePending?: boolean;
   readTime: string;
   image: string;
   imageMobile?: string;
@@ -119,9 +100,6 @@ export type NewsletterArticle = {
   body: string[];
   /** Full markdown source when mapped from CMS (preferred for rendering). */
   markdown?: string;
-  /** Article-specific conversion action retained from the registry. */
-  ctaLabel?: string;
-  ctaUrl?: string;
   audioUrl?: string;
   youtubeUrl?: string;
 };
@@ -142,14 +120,6 @@ export function formatNewsletterPostDate(iso: string): string {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-function validNewsletterSourceDate(value: string): string | undefined {
-  const trimmed = value.trim();
-  const isoCompatible =
-    /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,9})?)?(?:Z|[+-]\d{2}:\d{2})?)?$/i;
-  if (!isoCompatible.test(trimmed) || Number.isNaN(Date.parse(trimmed))) return undefined;
-  return trimmed;
-}
-
 export function estimateReadTime(content: string): string {
   const plain = content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   const words = plain.split(/\s+/).filter(Boolean).length;
@@ -164,11 +134,6 @@ export function contentToBodyParagraphs(content: string): string[] {
     .split(/\n{2,}/)
     .map((p) => p.trim())
     .filter(Boolean);
-}
-
-/** The article template owns the single visible H1, so remove only a leading Markdown H1. */
-export function stripLeadingMarkdownH1(content: string): string {
-  return content.replace(/^\s*#\s+[^\r\n]+(?:\r?\n)+/, '').trimStart();
 }
 
 export function isPublicNewsletterPost(post: NewsletterPost, now = new Date()): boolean {
@@ -212,31 +177,21 @@ export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle
     .replace(/Expert auditor\s+Bad[ar]+ Javed/gi, CANONICAL_NEWSLETTER_AUTHOR)
     .replace(/Bad[ar]+ Javed/gi, CANONICAL_NEWSLETTER_AUTHOR)
     .replace(/PM Structure Editorial/gi, CANONICAL_NEWSLETTER_AUTHOR);
-  const renderableContent = stripLeadingMarkdownH1(post.content);
-  const datePublished = validNewsletterSourceDate(post.publishDate);
-  const dateModified = validNewsletterSourceDate(post.modifiedDate);
 
   return {
     slug: post.slug,
     title: post.title,
     excerpt,
-    metaTitle: post.metaTitle?.trim() || post.title,
-    metaDescription: post.metaDescription?.trim() || excerpt,
-    keywords: post.keywords?.trim() || undefined,
     category: post.topics[0] || 'Insights',
     date: formatNewsletterPostDate(post.publishDate),
-    datePublished,
-    dateModified,
     author: normalizeNewsletterAuthorName(post.author),
     authorId: post.authorId || undefined,
     readTime: estimateReadTime(post.content),
     image,
     imageMobile,
     heroImageAlt: post.heroImageAlt?.trim() || post.title,
-    body: contentToBodyParagraphs(renderableContent),
-    markdown: renderableContent.trim() || undefined,
-    ctaLabel: post.ctaLabel?.trim() || undefined,
-    ctaUrl: post.ctaUrl?.trim() || undefined,
+    body: contentToBodyParagraphs(post.content),
+    markdown: post.content.trim() || undefined,
     audioUrl: post.audioUrl?.trim() || undefined,
     youtubeUrl: post.youtubeUrl?.trim() || undefined,
   };
@@ -410,9 +365,9 @@ export function newsletterArticleToPost(
     slug: article.slug,
     title: article.title,
     description: article.excerpt,
-    metaTitle: article.metaTitle?.trim() || article.title,
-    metaDescription: article.metaDescription?.trim() || article.excerpt,
-    keywords: article.keywords?.trim() || article.category,
+    metaTitle: article.title,
+    metaDescription: article.excerpt,
+    keywords: article.category,
     status,
     publishDate,
     modifiedDate: now,
@@ -425,8 +380,8 @@ export function newsletterArticleToPost(
     heroImageAlt: article.heroImageAlt?.trim() || article.title,
     emailSubject: '',
     emailPreheader: '',
-    ctaLabel: article.ctaLabel?.trim() || '',
-    ctaUrl: article.ctaUrl?.trim() || '',
+    ctaLabel: '',
+    ctaUrl: '',
     editorMeta: {
       tone: 'informative',
       template: 'news_roundup',
@@ -508,4 +463,3 @@ export function registryFromNewsletterArticles(
     posts: articles.map((article) => newsletterArticleToPost(article)),
   };
 }
-export { newsletterDraftRegistry } from './newsletter-draft-registry';

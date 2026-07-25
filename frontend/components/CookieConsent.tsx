@@ -178,8 +178,8 @@ export function CookieConsent() {
               themed && portalTheme ? { color: portalTheme.textMuted || portalTheme.text } : undefined
             }
           >
-            With your permission, we use Google Analytics and Meta measurement tools to understand
-            site usage and advertising results. They stay off when you reject optional cookies. See our{' '}
+            We also use Google Analytics to measure site usage, including when you reject optional
+            cookies. See our{' '}
             <Link href="/legal/cookies" className={linkClass} style={linkStyle}>
               Cookie Policy
             </Link>{' '}

@@ -2,18 +2,6 @@ import { sendAuthEmail, isEmailConfigured } from '@/lib/auth/send-email';
 import { FORM_SOURCE_LABELS } from '@/lib/interactions/types';
 import type { InteractionSource } from '@/lib/interactions/types';
 
-type InteractionAdminEmailParams = {
-  source: InteractionSource;
-  subject: string;
-  email: string;
-  metadata: Record<string, unknown>;
-  idempotencyKey?: string;
-};
-
-export type InteractionAdminEmailResult =
-  | { delivered: true; error: null }
-  | { delivered: false; error: string };
-
 export function resolveInteractionsAdminEmail(): string | null {
   const candidates = [
     process.env.INTERACTIONS_ADMIN_EMAIL,
@@ -28,20 +16,28 @@ export function resolveInteractionsAdminEmail(): string | null {
   return null;
 }
 
-/** Deliver an admin ping and return an operations-safe result. */
-export async function sendInteractionAdminEmail(
-  params: InteractionAdminEmailParams,
-): Promise<InteractionAdminEmailResult> {
-  if (params.metadata.booking_id) {
-    return { delivered: false, error: 'booking_bridge_notification_skipped' };
-  }
+/** Fire-and-forget admin ping when a new lead is stored. Skips engagement booking bridge rows. */
+export function scheduleInteractionAdminEmail(params: {
+  source: InteractionSource;
+  subject: string;
+  email: string;
+  metadata: Record<string, unknown>;
+}): void {
+  if (params.metadata.booking_id) return;
   if (!isEmailConfigured()) {
-    return { delivered: false, error: 'admin_email_not_configured' };
+    if (process.env.NODE_ENV === 'development') {
+      console.info('[interactions] Admin email not configured — skipping lead ping', {
+        source: params.source,
+        email: params.email,
+      });
+    }
+    return;
   }
 
   const adminTo = resolveInteractionsAdminEmail();
   if (!adminTo) {
-    return { delivered: false, error: 'admin_email_recipient_not_configured' };
+    console.warn('[interactions] No admin inbox resolved — set INTERACTIONS_ADMIN_EMAIL or SMTP_USER');
+    return;
   }
 
   const label = FORM_SOURCE_LABELS[params.source] ?? params.source;
@@ -56,22 +52,7 @@ export async function sendInteractionAdminEmail(
     'View in Interaction Inbox: /admin/dashboard/booking-crm/interactions/inbox',
   ].join('\n');
 
-  try {
-    await sendAuthEmail({
-      to: adminTo,
-      subject: mailSubject,
-      text,
-      idempotencyKey: params.idempotencyKey,
-    });
-    return { delivered: true, error: null };
-  } catch {
-    return { delivered: false, error: 'admin_email_delivery_failed' };
-  }
-}
-
-/** Compatibility fire-and-forget wrapper for non-outbox callers. */
-export function scheduleInteractionAdminEmail(
-  params: InteractionAdminEmailParams,
-): void {
-  void sendInteractionAdminEmail(params);
+  void sendAuthEmail({ to: adminTo, subject: mailSubject, text }).catch((err) => {
+    console.error('[interactions] Admin lead ping failed', err);
+  });
 }

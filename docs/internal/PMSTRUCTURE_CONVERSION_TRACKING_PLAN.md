@@ -25,10 +25,9 @@ This is an internal technical and marketing document. Do not publish it as a pub
 
 | Event                     | Meaning                                      | Mark as GA4 Key Event?             |
 | ------------------------- | -------------------------------------------- | ---------------------------------- |
-| `pmp_roadmap_form_start`  | First interaction with PMP roadmap form      | No                                 |
-| `generate_lead`           | Public lead persisted by interactions API    | Yes                                |
-| `select_content`          | User clicks booking/schedule CTA              | No                                 |
-| `booking_confirmed`       | Trusted appointment confirmation              | Yes                                |
+| `generate_lead`           | Roadmap/contact form successfully submitted  | Yes                                |
+| `pms_roadmap_form_submit` | PMP 2026 roadmap form successfully submitted | Yes                                |
+| `pms_booking_click`       | User clicks booking/schedule link            | Yes if booking is a primary action |
 | `begin_checkout`          | User starts live checkout                    | Yes if payment is live             |
 | `purchase`                | Payment success confirmed                    | Yes                                |
 | `qualify_lead`            | Lead becomes qualified after review          | Yes                                |
@@ -41,8 +40,7 @@ This is an internal technical and marketing document. Do not publish it as a pub
 | Event                     | Meaning                                              |
 | ------------------------- | ---------------------------------------------------- |
 | `pms_roadmap_cta_click`   | User clicks roadmap CTA                              |
-| `pmp_roadmap_fit_complete` | User completes the fit diagnostic once per session  |
-| `pmp_roadmap_eligibility_complete` | User completes eligibility diagnostics once per session |
+| `pms_roadmap_form_start`  | User starts roadmap form                             |
 | `pms_contact_click`       | User clicks email, WhatsApp, phone, or other contact |
 | `pms_waitlist_join`       | User joins a secondary pathway/resource waitlist     |
 | `pms_membership_interest` | User shows membership interest                       |
@@ -138,7 +136,8 @@ After implementation, mark these as key events in GA4 where relevant:
 
 ```
 generate_lead
-booking_confirmed
+pms_roadmap_form_submit
+pms_booking_click
 begin_checkout
 purchase
 qualify_lead
@@ -174,10 +173,9 @@ After deployment:
 4. Start the roadmap form.
 5. Submit a test lead only if allowed.
 6. Confirm `pms_roadmap_cta_click` fires.
-7. Confirm `pmp_roadmap_form_start` fires once.
+7. Confirm `pms_roadmap_form_start` fires once.
 8. Confirm `generate_lead` fires only after successful submission.
-9. Confirm `generate_lead` fires once only after an authoritative `201` response.
-10. Confirm booking CTA clicks use `select_content` and trusted confirmations use `booking_confirmed`.
+9. Confirm `pms_roadmap_form_submit` fires only after successful submission.
 10. Confirm no PII appears in event parameters.
 11. Confirm no duplicate events fire.
 12. Confirm GA4 DebugView receives the events.

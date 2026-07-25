@@ -14,8 +14,8 @@ const P0_SUBMISSION_PATHS = [
   '/faq',
   '/certifications/compare',
   '/answers/is-the-pmp-exam-changing-in-2026',
-  '/membership',
-  '/pm-service',
+  '/topics/pmp-exam-2026',
+  '/newsletter',
 ];
 
 const forbidden = /checkout|payment|success|cancel|thank-you|login|account|dashboard|admin|utm_|currency=|region=/i;

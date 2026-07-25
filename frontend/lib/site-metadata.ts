@@ -37,9 +37,7 @@ function ogImageUrl(imagePath: string): string {
 
 export function buildPageMetadata(input: BuildPageMetadataInput): Metadata {
   const description = input.description ?? PMS_SITE_DESCRIPTION;
-  // Prevent double suffix: if title already contains the brand, skip appending
-  const alreadyHasSuffix = input.title.includes(`| ${PMS_SITE_NAME}`);
-  const fullTitle = input.noSuffix || alreadyHasSuffix ? input.title : `${input.title} | ${PMS_SITE_NAME}`;
+  const fullTitle = input.noSuffix ? input.title : `${input.title} | ${PMS_SITE_NAME}`;
   const canonical = absoluteUrl(input.path);
   const ogImage = ogImageUrl(input.ogImage ?? PMS_OG_IMAGE_PATH);
   const robots = input.robots ?? robotsForPath(input.path);

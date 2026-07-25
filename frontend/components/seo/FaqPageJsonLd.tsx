@@ -3,14 +3,9 @@ import { getFaqsForSchemaByPath } from '@/content/faq';
 import { breadcrumbItemsToSchema } from '@/components/navigation/breadcrumb-schema';
 import { getFaqBreadcrumbs } from '@/content/site-architecture/routes';
 import { buildFaqPageSchema, buildWebPageSchema } from '@/lib/schema';
-import type { FaqPageConfig } from '@pms/site-content';
 
-export function FaqPageJsonLd({
-  faqConfig,
-}: {
-  faqConfig?: FaqPageConfig | null;
-}) {
-  const items = getFaqsForSchemaByPath('/faq', faqConfig);
+export function FaqPageJsonLd() {
+  const items = getFaqsForSchemaByPath('/faq');
   const graph = [
     buildWebPageSchema({
       path: '/faq',

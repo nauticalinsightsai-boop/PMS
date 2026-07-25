@@ -130,10 +130,18 @@ export function Newsletter({
               </p>
             </div>
             <div className="space-y-6 w-full max-w-md mx-auto lg:max-w-none">
-              <NewsletterHeroSubscribeForm
-                placement="newsletter_hero_desktop"
-                topicOptions={topicOptions}
-              />
+              <div className="lg:hidden">
+                <NewsletterHeroSubscribeForm
+                  placement="newsletter_hero_mobile"
+                  topicOptions={topicOptions}
+                />
+              </div>
+              <div className="hidden lg:block">
+                <NewsletterHeroSubscribeForm
+                  placement="newsletter_hero_desktop"
+                  topicOptions={topicOptions}
+                />
+              </div>
             </div>
           </div>
         </div>

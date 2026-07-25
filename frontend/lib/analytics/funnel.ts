@@ -1,28 +1,10 @@
-import { trackGaEvent } from '@/lib/analytics/send-ga-event';
-import { hasMarketingConsent } from '@/lib/legal/consent';
+import { trackEvent } from '@/lib/analytics/gtag';
 
 function pathnameToPageIdentifier(pathname: string): string | null {
   const path = pathname.replace(/^\/+|\/+$/g, '') || 'home';
   if (path === '' || path === 'home') return 'home';
   if (path.startsWith('go/')) return 'channel-portal';
   return path.split('/')[0] ?? null;
-}
-
-/** GA4 params for published `/go/{slug}` portals (pageviews + conversions). */
-export function goPortalParamsFromPath(pagePath: string): {
-  channel: string;
-  go_slug: string;
-  content_group: 'go_portal';
-} | null {
-  const pathOnly = (pagePath.split('?')[0] || '/').replace(/\/+$/, '') || '/';
-  const match = pathOnly.match(/^\/go\/([^/]+)$/);
-  if (!match?.[1]) return null;
-  const slug = match[1];
-  return {
-    channel: slug,
-    go_slug: slug,
-    content_group: 'go_portal',
-  };
 }
 
 export type FunnelStage = 'awareness' | 'interest' | 'consideration' | 'action';
@@ -137,22 +119,7 @@ export function captureUtmFromLocation(): void {
 /** Persist ad click IDs from the current URL. */
 export function captureClickIdsFromLocation(): void {
   if (typeof window === 'undefined') return;
-  if (!hasMarketingConsent()) {
-    clearMarketingAttributionStorage();
-    return;
-  }
   persistFirstLastTouch(parseClickIdsFromSearch(window.location.search), CLICK_FIRST_TOUCH_KEY, CLICK_LAST_TOUCH_KEY);
-}
-
-/** Remove ad-network click identifiers when marketing consent is absent or withdrawn. */
-export function clearMarketingAttributionStorage(): void {
-  if (typeof sessionStorage === 'undefined') return;
-  try {
-    sessionStorage.removeItem(CLICK_FIRST_TOUCH_KEY);
-    sessionStorage.removeItem(CLICK_LAST_TOUCH_KEY);
-  } catch {
-    // Ignore blocked storage.
-  }
 }
 
 function captureLandingPage(): void {
@@ -169,10 +136,6 @@ function captureLandingPage(): void {
 /** Last-touch click IDs for lead payloads (offline conversion import). */
 export function getClickIdsForLead(): Record<string, string> {
   if (typeof window === 'undefined') return {};
-  if (!hasMarketingConsent()) {
-    clearMarketingAttributionStorage();
-    return {};
-  }
   const out: Record<string, string> = {};
   try {
     const firstRaw = sessionStorage.getItem(CLICK_FIRST_TOUCH_KEY);
@@ -253,28 +216,28 @@ export function trackFunnelEvent(eventName: string, params?: Record<string, unkn
   const ctx = getPageContext(
     typeof params?.page_path === 'string' ? String(params.page_path) : undefined
   );
-  const goParams = goPortalParamsFromPath(ctx.page_path);
-  const flat: Record<string, string | number | boolean | null | undefined> = {
+  trackEvent(eventName, {
     ...getUtmParamsForEvents(),
     page_path: ctx.page_path,
     page_identifier: ctx.page_identifier,
-    ...(goParams ?? {}),
-  };
-  if (params) {
-    for (const [key, value] of Object.entries(params)) {
-      if (value === undefined || value === null) continue;
-      if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-        flat[key] = value;
-      }
-    }
-  }
-  trackGaEvent(eventName, flat);
+    ...params,
+  });
 }
 
-/**
- * Manual SPA page_view disabled — `@next/third-parties` GoogleAnalytics owns pageviews.
- * Kept as a no-op so legacy call sites do not double-count.
- */
-export function trackPageView(_pagePath: string, _pageLocation: string, _pageTitle: string): void {
+/** Standard lead conversion event. */
+export function trackGenerateLead(params: Record<string, unknown>): void {
+  trackFunnelEvent(FUNNEL_EVENTS.GENERATE_LEAD, params);
+}
+
+/** SPA page_view with UTM + page identifier. */
+export function trackPageView(pagePath: string, pageLocation: string, pageTitle: string): void {
   ensureAttributionCapture();
+  const pathOnly = pagePath.split('?')[0] || '/';
+  trackEvent(FUNNEL_EVENTS.PAGE_VIEW, {
+    ...getUtmParamsForEvents(),
+    page_path: pagePath,
+    page_location: pageLocation,
+    page_title: pageTitle,
+    page_identifier: pathnameToPageIdentifier(pathOnly),
+  });
 }

@@ -35,11 +35,7 @@ function waitlistContactHref(certId: string): string {
   return `/contact?topic=waitlist&offering=${encodeURIComponent(certId)}`;
 }
 
-function CompareInteractiveFallback() {
-  return <div className="min-h-[32rem] bg-white dark:bg-slate-950" aria-hidden />;
-}
-
-function CompareInteractive() {
+export function Compare({ globalContent }: { globalContent?: GlobalContentMap }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const compareable = React.useMemo(() => getCompareableCertifications(), []);
@@ -88,54 +84,6 @@ function CompareInteractive() {
   );
 
   return (
-    <>
-      <section className={sectionSurface('soft', 'py-16 md:py-20 border-b border-slate-100 dark:border-slate-800')}>
-        <SectionAmbience tone="soft" />
-        <div className="container relative z-10 mx-auto">
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
-            Select certifications to compare
-          </h2>
-          <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-2xl font-medium">
-            Start with the{' '}
-            <Link href="/certifications/pmp" className="font-bold text-brand-orange hover:underline">
-              PMP 2026 Readiness Pathway
-            </Link>{' '}
-            if you are preparing for the updated PMP exam (live since 9 July 2026), then add other pathways for side-by-side review.
-          </p>
-          <CompareCertPicker
-            certifications={compareable}
-            selectedIds={selectedIds}
-            onChange={handleSelectionChange}
-          />
-        </div>
-      </section>
-
-      <section className={sectionSurface('soft', 'py-24')}>
-        <SectionAmbience tone="soft" />
-        <div className="container relative z-10 mx-auto">
-          {compareCerts.length === 0 ? (
-            <div className="text-center py-20 rounded-[2.5rem] border border-dashed border-slate-200 dark:border-slate-700">
-              <p className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                Select at least one certification
-              </p>
-              <p className="text-slate-500 dark:text-slate-400 font-medium">
-                Use the picker above to add up to three programmes to your comparison matrix.
-              </p>
-            </div>
-          ) : (
-            <>
-              <h2 className="sr-only">Comparison matrix</h2>
-              <CompareComparisonMatrix certs={compareCerts} />
-            </>
-          )}
-        </div>
-      </section>
-    </>
-  );
-}
-
-export function Compare({ globalContent }: { globalContent?: GlobalContentMap }) {
-  return (
     <div className="flex flex-col min-h-screen">
       <section
         className={sectionSurface(
@@ -165,9 +113,47 @@ export function Compare({ globalContent }: { globalContent?: GlobalContentMap })
         </div>
       </section>
 
-      <React.Suspense fallback={<CompareInteractiveFallback />}>
-        <CompareInteractive />
-      </React.Suspense>
+      <section className={sectionSurface('soft', 'py-16 md:py-20 border-b border-slate-100 dark:border-slate-800')}>
+        <SectionAmbience tone="soft" />
+        <div className="container relative z-10 mx-auto">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
+            Select certifications to compare
+          </h2>
+          <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-2xl font-medium">
+            Start with the{' '}
+            <Link href="/certifications/pmp" className="font-bold text-brand-orange hover:underline">
+              PMP 2026 Readiness Pathway
+            </Link>{' '}
+            if you are planning for the July 2026 exam transition, then add other pathways for side-by-side review.
+          </p>
+          <CompareCertPicker
+            certifications={compareable}
+            selectedIds={selectedIds}
+            onChange={handleSelectionChange}
+          />
+        </div>
+      </section>
+
+      <section className={sectionSurface('soft', 'py-24')}>
+        <SectionAmbience tone="soft" />
+        <div className="container relative z-10 mx-auto">
+          {compareCerts.length === 0 ? (
+            <div className="text-center py-20 rounded-[2.5rem] border border-dashed border-slate-200 dark:border-slate-700">
+              <p className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                Select at least one certification
+              </p>
+              <p className="text-slate-500 dark:text-slate-400 font-medium">
+                Use the picker above to add up to three programmes to your comparison matrix.
+              </p>
+            </div>
+          ) : (
+            <>
+              <h2 className="sr-only">Comparison matrix</h2>
+              <CompareComparisonMatrix certs={compareCerts} />
+            </>
+          )}
+        </div>
+      </section>
 
       <section
         className={sectionSurface('warm', 'py-24 border-t border-sandstone/60 dark:border-slate-800')}

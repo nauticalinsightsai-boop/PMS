@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: page.title,
     description: page.description,
     path: page.path,
-    noSuffix: titleNeedsNoSuffix(page.title),
+    noSuffix: page.title.includes('| PM Structure'),
     ...(page.status && !isAnswerPublished(page) ? { robots: { index: false, follow: false } } : {}),
   });
 }

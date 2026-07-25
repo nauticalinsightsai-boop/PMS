@@ -64,11 +64,6 @@ const NEWSLETTER_AUTHOR_AVATAR_BY_NAME: Record<string, NewsletterAuthorAvatarKey
   'Sheikh Abdullah': 'founder',
 };
 
-const NEWSLETTER_PLACEHOLDER_AUTHOR_AVATARS: Record<string, string> = {
-  'PMP Readiness Mentor': '/images/marketing/author-avatar-pmp-readiness.svg',
-  'PMO & Transformation Mentor': '/images/marketing/author-avatar-pmo-transformation.svg',
-};
-
 const NEWSLETTER_AUTHOR_AVATAR_SRC: Record<NewsletterAuthorAvatarKey, string> = {
   ...MARKETING_PMP_AVATARS,
   founder: MARKETING_FOUNDER_AVATAR,
@@ -77,8 +72,6 @@ const NEWSLETTER_AUTHOR_AVATAR_SRC: Record<NewsletterAuthorAvatarKey, string> = 
 /** Newsletter byline avatar — explicit author map, then deterministic fallback. */
 export function resolveNewsletterAuthorAvatar(author: string): string {
   const trimmed = author.trim();
-  const placeholder = NEWSLETTER_PLACEHOLDER_AUTHOR_AVATARS[trimmed];
-  if (placeholder) return placeholder;
   const mapped = NEWSLETTER_AUTHOR_AVATAR_BY_NAME[trimmed];
   if (mapped) return NEWSLETTER_AUTHOR_AVATAR_SRC[mapped];
   if (/sheikh/i.test(trimmed) && /abdullah/i.test(trimmed)) {

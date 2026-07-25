@@ -1,6 +1,6 @@
 import { pingInteractionSubscribers } from '@/lib/interactions/broadcast';
 import { isGoogleSheetsConfigured } from '@/lib/interactions/google-sheets';
-import { enqueueInteractionOperations } from '@/lib/interactions/outbox';
+import { scheduleInteractionAdminEmail } from '@/lib/interactions/notify-admin-email';
 import { syncRowToGoogleSheetsWithRetries, type SheetsSyncRow } from '@/lib/interactions/sheets-sync';
 import type { InteractionSource } from '@/lib/interactions/types';
 import { getSupabaseAdmin, isSupabaseConfigured } from '@/lib/supabase/client';
@@ -10,64 +10,45 @@ export type InsertInteractionResult =
   | {
       ok: true;
       id: string;
-      /** True when Google Sheets delivery has already completed. */
+      /** True when the row was appended to Google Sheets during this request. */
       sheetsSynced: boolean;
-      /** True while the durable outbox owns a pending Sheets delivery. */
+      /** Legacy flag; always false now that sync runs inline before the response. */
       sheetsSyncPending: boolean;
       sheetsError: string | null;
-      /** True when an existing row satisfied the same client submission key. */
-      idempotentReplay: boolean;
     }
   | { ok: false; error: string };
 
-type ExistingSubmissionRow = {
-  id: string;
-  sheets_synced_at: string | null;
-  sheets_sync_error: string | null;
-};
-
-function isUniqueViolation(error: unknown): boolean {
-  return Boolean(
-    error &&
-      typeof error === 'object' &&
-      'code' in error &&
-      (error as { code?: unknown }).code === '23505',
-  );
-}
-
-async function findSubmissionByClientKey(
+/**
+ * Queue Google Sheets append after Supabase insert. Never throws: errors are logged and stored on the row.
+ */
+export function scheduleGoogleSheetsSync(
   supabase: SupabaseClient,
-  clientSubmissionId: string,
-): Promise<ExistingSubmissionRow | null> {
-  const { data, error } = await supabase
-    .from('form_submissions')
-    .select('id, sheets_synced_at, sheets_sync_error')
-    .eq('metadata->>clientSubmissionId', clientSubmissionId)
-    .maybeSingle();
-
-  if (error) {
-    console.error('[interactions] idempotency lookup', {
-      code: error.code,
+  rowId: string,
+  row: SheetsSyncRow
+): void {
+  void syncRowToGoogleSheetsWithRetries(supabase, rowId, row)
+    .then((sync) => {
+      if (sync.synced) {
+        console.info('[interactions] Google Sheets background sync ok', { submissionId: rowId });
+      } else if (sync.error) {
+        console.error('[interactions] Google Sheets background sync failed', {
+          submissionId: rowId,
+          error: sync.error,
+        });
+      }
+      pingInteractionSubscribers();
+    })
+    .catch((e) => {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.error('[interactions] Google Sheets background sync error', {
+        submissionId: rowId,
+        error: msg,
+      });
     });
-    return null;
-  }
-  return (data as ExistingSubmissionRow | null) ?? null;
-}
-
-function replayResult(row: ExistingSubmissionRow): InsertInteractionResult {
-  return {
-    ok: true,
-    id: row.id,
-    sheetsSynced: Boolean(row.sheets_synced_at),
-    sheetsSyncPending: !row.sheets_synced_at && !row.sheets_sync_error,
-    sheetsError: row.sheets_sync_error,
-    idempotentReplay: true,
-  };
 }
 
 /**
- * Persists a submission to Supabase (required), then enqueues secondary
- * deliveries. The protected outbox worker is the only automatic consumer.
+ * Persists a submission to Supabase (required), then appends to Google Sheets before returning.
  */
 export async function insertFormSubmission(params: {
   source: InteractionSource;
@@ -75,23 +56,12 @@ export async function insertFormSubmission(params: {
   email: string;
   payload: Record<string, unknown>;
   metadata: Record<string, unknown>;
-  clientSubmissionId?: string;
 }): Promise<InsertInteractionResult> {
   if (!isSupabaseConfigured()) {
     return { ok: false, error: 'Supabase is not configured.' };
   }
 
   const supabase = getSupabaseAdmin();
-  if (params.clientSubmissionId) {
-    const existing = await findSubmissionByClientKey(
-      supabase,
-      params.clientSubmissionId,
-    );
-    if (existing) {
-      return replayResult(existing);
-    }
-  }
-
   const { data, error } = await supabase
     .from('form_submissions')
     .insert({
@@ -105,40 +75,51 @@ export async function insertFormSubmission(params: {
     .single();
 
   if (error || !data) {
-    if (params.clientSubmissionId && isUniqueViolation(error)) {
-      const existing = await findSubmissionByClientKey(
-        supabase,
-        params.clientSubmissionId,
-      );
-      if (existing) {
-        return replayResult(existing);
-      }
-    }
-    console.error('[interactions] insert', {
-      code:
-        error && typeof error === 'object' && 'code' in error
-          ? (error as { code?: unknown }).code
-          : undefined,
-    });
+    console.error('[interactions] insert', error);
     return { ok: false, error: 'Could not store submission.' };
   }
 
   const row = data as SheetsSyncRow;
 
   pingInteractionSubscribers();
-  await enqueueInteractionOperations(
-    supabase,
-    row.id,
-    !params.metadata.booking_id,
-  );
+  scheduleInteractionAdminEmail({
+    source: params.source,
+    subject: params.subject,
+    email: params.email,
+    metadata: params.metadata,
+  });
+
+  const sheetsConfigured = isGoogleSheetsConfigured();
+  if (sheetsConfigured) {
+    const sync = await syncRowToGoogleSheetsWithRetries(supabase, row.id, row);
+    if (sync.synced) {
+      console.info('[interactions] Google Sheets sync ok', { submissionId: row.id });
+    } else if (sync.error) {
+      console.error('[interactions] Google Sheets sync failed', {
+        submissionId: row.id,
+        error: sync.error,
+      });
+    }
+    pingInteractionSubscribers();
+    return {
+      ok: true,
+      id: row.id,
+      sheetsSynced: sync.synced,
+      sheetsSyncPending: false,
+      sheetsError: sync.error,
+    };
+  }
+
+    console.warn('[interactions] Google Sheets not configured: row saved to Supabase only', {
+      submissionId: row.id,
+    });
 
   return {
     ok: true,
     id: row.id,
     sheetsSynced: false,
-    sheetsSyncPending: true,
+    sheetsSyncPending: false,
     sheetsError: null,
-    idempotentReplay: false,
   };
 }
 

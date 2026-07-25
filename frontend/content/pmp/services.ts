@@ -9,16 +9,16 @@ const services: PmpServiceContent[] = [
     kind: 'diagnostic',
     title: 'PMP readiness diagnostic: pathway fit & timing',
     description:
-      'Free structured PMP readiness diagnostic: target exam month, current-exam study alignment, weekly capacity, and recommended Foundation, Professional, or Mastery pathway.',
+      'Free structured PMP readiness diagnostic: target exam month, before/after July 2026, study hours, and recommended Foundation, Professional, or Mastery pathway.',
     h1: 'PMP readiness diagnostic',
     directAnswer:
-      'The readiness diagnostic helps you choose a PMP pathway and exam timing by reviewing your experience, study capacity, and alignment with the current PMP exam introduced in July 2026.',
+      'The readiness diagnostic helps you choose a PMP pathway and exam timing by reviewing your experience, study capacity, and whether you plan to sit before or after the July 2026 transition.',
     sections: [
       {
         id: 'questions',
         heading: 'What the diagnostic covers',
         body:
-          'Target exam month or quarter · Experience leading projects · Hours available per week · Alignment of current materials and mocks to the July 2026 exam · Comfort with scenario-style questions · Prior mock exam scores (if any) · Whether you need structured cohort support or self-paced LMS access',
+          'Target exam month or quarter · Experience leading projects · Hours available per week · Whether you plan to test before 8 July 2026 or after 9 July 2026 · Comfort with scenario-style questions · Prior mock exam scores (if any) · Whether you need structured cohort support or self-paced LMS access',
       },
       {
         id: 'pathway-fit',
@@ -53,7 +53,7 @@ const services: PmpServiceContent[] = [
       'Scenario-based PMP practice aligned to ECO themes: people, process, business environment, agile/hybrid contexts, and professional responsibility.',
     h1: 'PMP scenario practice',
     directAnswer:
-      'Scenario practice trains situational judgment for the current PMP exam. PM Structure provides practice within Professional and Mastery pathways.',
+      'Scenario practice trains situational judgment: the skill most PMP candidates need for both current and post-July 2026 exam formats. PM Structure provides practice within Professional and Mastery pathways.',
     sections: [
       {
         id: 'categories',

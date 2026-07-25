@@ -38,15 +38,7 @@ const SERVICE_COLORS = [
   { color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-900/10" },
   { color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-900/10" },
 ];
-export function PMService({
-  initialPageConfig,
-  overrideH1,
-  overrideSubtitle,
-}: {
-  initialPageConfig?: ServicesPageConfig;
-  overrideH1?: string;
-  overrideSubtitle?: string;
-}) {
+export function PMService({ initialPageConfig }: { initialPageConfig?: ServicesPageConfig }) {
   const fallback = defaultServicesPageConfig();
   const { data: pageConfig } = usePublishedSiteDocument(FIELD_KEYS.SERVICES_PAGE_CONFIG, {
     parse: (raw) => (raw ? parseServicesPageConfig(raw) : null),
@@ -75,10 +67,10 @@ export function PMService({
                 {hero.badge || SERVICES_COPY.heroBadge}
               </Badge>
               <h1 className="font-heading text-hero font-bold tracking-tight leading-tight text-slate-900 dark:text-white mb-8">
-                {overrideH1?.trim() || hero.title || SERVICES_COPY.heroTitle}
+                {hero.title || SERVICES_COPY.heroTitle}
               </h1>
               <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-2xl font-medium md:mx-0 mx-auto">
-                {overrideSubtitle?.trim() || hero.subtitle || SERVICES_COPY.heroSubtitle}
+                {hero.subtitle || SERVICES_COPY.heroSubtitle}
               </p>
               <div className="flex flex-col lg:flex-row gap-4 justify-center md:justify-start">
                 <WebsiteCalendlyButton
@@ -113,9 +105,17 @@ export function PMService({
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.7 }}
-                className="relative z-30 isolate"
+                className="relative z-20 lg:hidden"
               >
-                <PmServiceAdvisoryLeadForm placement="pm_service_hero" />
+                <PmServiceAdvisoryLeadForm placement="pm_service_hero_mobile" />
+              </m.div>
+              <m.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                className="relative z-30 isolate hidden lg:block"
+              >
+                <PmServiceAdvisoryLeadForm placement="pm_service_hero_desktop" />
               </m.div>
             </div>
           </div>

@@ -1,8 +1,8 @@
-/** GA4 Measurement ID from public env (no hardcoded production fallback in client logic). */
+/** GA4 Measurement ID (public — baked into client bundle at build). */
+export const GA4_MEASUREMENT_ID_DEFAULT = 'G-E9QRM0GQ1W';
 
 export function getGaMeasurementId(): string | undefined {
-  const id = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
-  return id || undefined;
+  return process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() || GA4_MEASUREMENT_ID_DEFAULT;
 }
 
 export function isGaConfigured(): boolean {

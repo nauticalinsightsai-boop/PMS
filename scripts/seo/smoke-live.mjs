@@ -20,6 +20,7 @@ const checks = [
   { path: '/faq', needH1: true, needCanonical: true },
   { path: '/pmp-exam-2026', needH1: true, needCanonical: true },
   { path: '/answers/is-the-pmp-exam-changing-in-2026', needH1: true, needCanonical: true, needText: 'short answer' },
+  { path: '/topics/pmp-exam-2026', needH1: true, needCanonical: true },
   { path: '/certifications/pmp', needH1: true, needCanonical: true },
   { path: '/sitemap.xml', needH1: false, needCanonical: false },
   { path: '/robots.txt', needH1: false, needCanonical: false },

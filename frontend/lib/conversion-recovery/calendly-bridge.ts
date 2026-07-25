@@ -1,7 +1,6 @@
 import type { LeadRecoveryContext } from './types';
 import { homeCalendlyVariant, pathwayCalendlyVariant, tierIdFromPathwayTier } from './copy';
 import { markLeadConverted } from './session-state';
-import { issueBookingConfirmation } from '@/lib/analytics/booking-confirmation';
 
 export type CalendlySessionState = {
   openedAt: number;
@@ -90,27 +89,10 @@ export function installCalendlyBookedListener(): void {
 
   window.addEventListener('message', (e) => {
     if (e.origin !== 'https://calendly.com') return;
-    const data = e.data as {
-      event?: string;
-      payload?: { invitee?: { uri?: string }; event?: { uri?: string } };
-    };
+    const data = e.data as { event?: string };
     if (data?.event === 'calendly.event_scheduled') {
       markCalendlyBooked();
       markLeadConverted();
-      const inviteeUri = data.payload?.invitee?.uri;
-      const inviteeUuid = inviteeUri?.split('/').filter(Boolean).pop();
-      if (inviteeUuid && !window.location.pathname.startsWith('/booking-confirmed')) {
-        let token = '';
-        try {
-          token = issueBookingConfirmation(inviteeUuid, sessionStorage);
-        } catch {
-          return;
-        }
-        const url =
-          `/booking-confirmed?invitee_uuid=${encodeURIComponent(inviteeUuid)}` +
-          `&booking_token=${encodeURIComponent(token)}`;
-        window.location.assign(url);
-      }
     }
   });
 }

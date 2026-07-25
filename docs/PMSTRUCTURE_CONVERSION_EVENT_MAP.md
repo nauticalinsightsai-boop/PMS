@@ -8,18 +8,16 @@
 | Event | Surface | Params (non-PII) |
 |-------|---------|------------------|
 | `pms_roadmap_cta_click` | Roadmap CTAs (nav, hero, cert, footer bar) | cta_text, cta_location, offer_id, page_path |
-| `pmp_roadmap_form_start` | `PmpRoadmapLeadForm` first interaction | form_id, form_placement, region_group |
-| `pmp_roadmap_fit_complete` | Roadmap fit step completed once per form session | form_id, lead_field, lead_objective |
-| `pmp_roadmap_eligibility_complete` | Roadmap eligibility step completed once per form session | form_id, education_band, experience_band, training_status, exam_timeline |
-| `generate_lead` | Any public lead persisted by the interaction API (`201`) | form_id, lead_source, form_placement, region_group |
-| `select_content` | Booking CTA click | content_type, booking_type, destination, item_id |
-| `booking_confirmed` | Trusted appointment confirmation | booking_status, content_type, event_id |
+| `pms_roadmap_form_start` | `PmpRoadmapLeadForm` first interaction | form_id, form_placement, region |
+| `generate_lead` | Roadmap form success, recovery submit | form_id, lead_type, offer_id, region |
+| `pms_roadmap_form_submit` | Roadmap form success | same as generate_lead |
+| `pms_booking_click` | Calendly / schedule buttons | booking_type, destination, cta_text |
 | `pms_contact_click` | mailto, WhatsApp (high-intent surfaces) | contact_method, contact_context |
 | `pms_waitlist_join` | `WaitlistForm` success | waitlist_type, offer_name |
 | `begin_checkout` | Live checkout / Stripe embed | offering_id, package_type, items |
 | `purchase` | Verified Stripe success pages | transaction_id, package_type, items |
 
-**Lead source of truth:** shared public-interaction helper after authoritative `201` persistence. Browser and Meta use the same opaque event ID for deduplication.
+**Lead source of truth:** form handler on `res.ok` — not thank-you UI alone.
 
 ---
 
@@ -42,6 +40,7 @@
 | `click_enroll_pmp_professional` | Professional enroll CTA | link_href |
 | `click_enroll_pmp_mastery` | Mastery enroll CTA | link_href |
 | `view_pmp_pathway` | `/certifications/pmp` page view | page_path |
+| `consultation_book` | Register modal submit (legacy) | cert_id, offering_id, source |
 | `region_select` | Region selector confirm | region_id, gcc_country |
 
 **Validation:** `npm run seo:conversion-check`

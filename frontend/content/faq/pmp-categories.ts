@@ -37,9 +37,9 @@ export type PmpFaqCategory = {
 
 export const PMP_FAQ_CATEGORIES: PmpFaqCategory[] = [
   { id: 'pmp-exam-change-2026', label: 'PMP Exam Change 2026', hubH2: 'PMP exam change 2026', order: 1 },
-  { id: 'current-exam-before-july-2026', label: 'Previous Exam Before 9 July 2026', hubH2: 'PMP exam change 2026', order: 2 },
-  { id: 'new-exam-from-july-2026', label: 'Current Exam From 9 July 2026', hubH2: 'PMP exam change 2026', order: 3 },
-  { id: 'pmp-current-vs-new-exam', label: 'Previous vs Current PMP Exam', hubH2: 'PMP exam change 2026', order: 4 },
+  { id: 'current-exam-before-july-2026', label: 'Current Exam Before 8 July 2026', hubH2: 'PMP exam change 2026', order: 2 },
+  { id: 'new-exam-from-july-2026', label: 'New Exam From 9 July 2026', hubH2: 'PMP exam change 2026', order: 3 },
+  { id: 'pmp-current-vs-new-exam', label: 'PMP Current vs New Exam', hubH2: 'PMP exam change 2026', order: 4 },
   { id: 'pmp-exam-content-outline', label: 'PMP Exam Content Outline', hubH2: 'Exam content & domains', order: 5 },
   { id: 'pmp-domain-weighting', label: 'PMP Domain Weighting', hubH2: 'Exam content & domains', order: 6 },
   { id: 'pmp-people-domain', label: 'PMP People Domain', hubH2: 'Exam content & domains', order: 7 },

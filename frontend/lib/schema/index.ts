@@ -185,29 +185,9 @@ export function buildArticleSchema(input: {
   path: string;
   headline: string;
   description: string;
-  image?: string;
-  datePublished?: string;
   dateModified?: string;
-  author?: {
-    name: string;
-    url?: string;
-    personSchemaEligible?: boolean;
-  };
-}): Record<string, unknown> {
+}) {
   const url = `${PMS_SITE_URL}${input.path}`;
-  const image = absoluteSchemaUrl(input.image);
-  const datePublished = validSchemaDate(input.datePublished);
-  const dateModified = validSchemaDate(input.dateModified);
-  const authorName = input.author?.name.trim();
-  const authorUrl = absoluteSchemaUrl(input.author?.url);
-  const author =
-    input.author?.personSchemaEligible === true && authorName
-      ? {
-          '@type': 'Person',
-          name: authorName,
-          ...(authorUrl ? { url: authorUrl } : {}),
-        }
-      : { '@id': organizationId() };
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -215,28 +195,8 @@ export function buildArticleSchema(input: {
     headline: input.headline,
     description: input.description,
     url,
-    ...(image ? { image } : {}),
-    ...(datePublished ? { datePublished } : {}),
-    ...(dateModified ? { dateModified } : {}),
-    author,
+    ...(input.dateModified ? { dateModified: input.dateModified } : {}),
     publisher: { '@id': organizationId() },
     mainEntityOfPage: { '@id': `${url}#webpage` },
   };
-}
-
-function absoluteSchemaUrl(value?: string): string | undefined {
-  const trimmed = value?.trim();
-  if (!trimmed) return undefined;
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  return `${PMS_SITE_URL}/${trimmed.replace(/^\/+/, '')}`;
-}
-
-function validSchemaDate(value?: string): string | undefined {
-  const trimmed = value?.trim();
-  const isoCompatible =
-    /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,9})?)?(?:Z|[+-]\d{2}:\d{2})?)?$/i;
-  if (!trimmed || !isoCompatible.test(trimmed) || Number.isNaN(Date.parse(trimmed))) {
-    return undefined;
-  }
-  return trimmed;
 }

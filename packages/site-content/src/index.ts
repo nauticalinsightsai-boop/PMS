@@ -11,7 +11,6 @@ export * from './about';
 export * from './faq';
 export * from './newsletter';
 export * from './newsletter-posts';
-export * from './newsletter-draft-registry';
 export * from './article-markdown';
 export * from './sanitize-html';
 export * from './site-settings';

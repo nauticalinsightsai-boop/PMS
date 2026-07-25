@@ -28,6 +28,7 @@ const paths = [
   { slug: 'cert-compare', path: '/certifications/compare', formFactor: 'mobile' },
   { slug: 'answers-hub', path: '/answers', formFactor: 'mobile' },
   { slug: 'topics-hub', path: '/topics', formFactor: 'mobile' },
+  { slug: 'topics-pmp-2026', path: '/topics/pmp-exam-2026', formFactor: 'mobile' },
   { slug: 'pmp-hub', path: '/pmp', formFactor: 'mobile' },
   { slug: 'pmp-exam-2026', path: '/pmp-exam-2026', formFactor: 'mobile' },
   { slug: 'go-website', path: '/go/website', formFactor: 'mobile' },

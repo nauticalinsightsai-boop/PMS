@@ -85,7 +85,7 @@ export function PmpCoursePage({ course }: { course: PmpCourseContent }) {
             </section>
 
             <section className="mb-10">
-              <h2 className="text-xl font-bold mb-3">Alignment to the current PMP exam</h2>
+              <h2 className="text-xl font-bold mb-3">Current vs new PMP exam relevance</h2>
               <p className="text-slate-600 dark:text-slate-400">{course.examRelevance}</p>
               <p className="mt-3 text-sm">
                 <Link href="/pmp-exam-2026" className="text-brand-orange hover:underline">

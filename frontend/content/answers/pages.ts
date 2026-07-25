@@ -7,15 +7,15 @@ const pages: AnswerPageContent[] = [
     question: 'Is the PMP exam changing in 2026?',
     title: 'Is the PMP Exam Changing in 2026? | PM Structure',
     description:
-      'The PMP exam changed in July 2026. Learn what changed, how to prepare for the current exam, and where to verify official PMI guidance.',
+      'Yes. The PMP exam changes in July 2026. Learn what the change means, whether to prepare for the current or updated exam, and how to plan your PMP route.',
     shortAnswer:
-      'The updated PMP exam launched on 9 July 2026. This is now the current exam for all candidates. Confirm dates and scope on PMI.org before scheduling.',
+      'Yes. The updated PMP exam launches on 9 July 2026. Candidates planning to take the current PMP exam version need to sit before 8 July 2026. Confirm dates and scope on PMI.org before scheduling.',
     detailedAnswer:
-      'The PMP credential itself is not going away, but PMI completed a transition to an updated exam experience on 9 July 2026. Download the current PMP handbook and Exam Content Outline from PMI.org to map your study plan.',
-    whoApplies: 'Anyone planning PMP readiness in 2026, especially new candidates starting preparation.',
+      'The PMP credential itself is not going away, but PMI has described a transition to an updated exam experience. Third-party summaries: including this page: are orientation only. Download the current PMP handbook and Exam Content Outline from PMI.org, then map your study plan to the format you will actually sit.',
+    whoApplies: 'Anyone planning PMP readiness in 2026, especially candidates deciding whether to test before or after mid-2026.',
     nextSteps: [
       'Read the PM Structure PMP 2026 guide at /pmp-exam-2026',
-      'Compare the previous and current exam at /pmp-current-vs-new-exam',
+      'Compare current vs new narratives at /pmp-current-vs-new-exam',
       'Verify official PMI dates before booking Pearson VUE',
     ],
     relatedCourses: [
@@ -24,14 +24,14 @@ const pages: AnswerPageContent[] = [
     ],
     relatedPages: [
       { href: '/certifications/pmp', label: 'PMP 2026 Readiness Pathway' },
-      { href: '/pmp-exam-2026', label: 'PMP exam 2026 guide' },
+      { href: '/topics/pmp-exam-2026', label: 'PMP exam 2026 guide' },
       { href: '/faq', label: 'PM Structure FAQ' },
       { href: '/pmp-exam-2026', label: 'PMP exam 2026 hub guide' },
       { href: '/pmp-exam-timeline-2026', label: '2026 timeline' },
     ],
     relatedAnswers: [
       { href: '/answers/when-does-the-new-pmp-exam-start', label: 'When does the new PMP exam start?' },
-      { href: '/pmp-after-9-july-2026', label: 'How should I prepare for the current PMP exam?' },
+      { href: '/answers/should-i-take-pmp-before-8-july-2026', label: 'Should I take PMP before 8 July 2026?' },
     ],
     dateModified: '2026-06-19',
     references: [
@@ -59,15 +59,15 @@ const pages: AnswerPageContent[] = [
     question: 'When does the new PMP exam start?',
     title: 'When does the new PMP exam start?',
     description:
-      'The updated PMP exam launched 9 July 2026 and is now the current exam. Verify scheduling with PMI and Pearson VUE.',
+      'Answer on the July 2026 PMP transition date and how to confirm scheduling with PMI and Pearson VUE.',
     shortAnswer:
-      'The updated PMP exam launched 9 July 2026. This is now the current exam for all candidates booking on PMI.org.',
+      'PM Structure orients candidates to a key transition date of 9 July 2026 for the updated PMP format. Always confirm on PMI.org before you book.',
     detailedAnswer:
-      'Exam transition dates are set by PMI. The updated format launched 9 July 2026 and is now the standard PMP exam. Verify the live handbook and Pearson VUE scheduling screens for your region before booking.',
-    whoApplies: 'All PMP candidates scheduling exams in 2026 and beyond.',
+      'Exam transition dates can be updated by PMI. Treat 9 July 2026 as the planning anchor used across PM Structure guides, then verify the live handbook and Pearson VUE scheduling screens for your region. If you are nearly ready, testing before the transition may reduce uncertainty; if you need more time, plan for the post-transition experience.',
+    whoApplies: 'Candidates choosing an exam window in the second half of 2026.',
     nextSteps: [
       'Review /pmp-exam-timeline-2026',
-      'Use /pmp-after-9-july-2026 to reset your preparation for the current exam',
+      'Decide before vs after July using /pmp-before-8-july-2026 and /pmp-after-9-july-2026',
       'Confirm seat availability at Pearson VUE',
     ],
     relatedCourses: [{ href: '/pmp-professional', label: 'PMP Professional pathway' }],
@@ -82,16 +82,16 @@ const pages: AnswerPageContent[] = [
     slug: 'should-i-take-pmp-before-8-july-2026',
     path: '/answers/should-i-take-pmp-before-8-july-2026',
     question: 'Should I take the PMP before 8 July 2026?',
-    title: 'Should I take the PMP before 8 July 2026? (Historical)',
+    title: 'Should I take the PMP before 8 July 2026?',
     description:
-      'Historical timing guidance for candidates who considered the previous PMP format before the July 2026 transition.',
+      'Decision guide for candidates considering the current PMP format before the July 2026 transition.',
     shortAnswer:
-      'Historical: This question applied before 9 July 2026. The previous exam is no longer offered. Prepare for the current exam using the [PMP 2026 guide](/pmp-exam-2026).',
+      'Consider testing before the transition if you are already exam-ready, have strong mock scores, and can secure a Pearson VUE slot before mid-2026.',
     detailedAnswer:
-      'This was a timing decision for candidates eligible before mid-2026. Candidates who had completed ECO coverage, strong mock scores, and could secure slots before the transition often preferred the pre-transition window. This option is no longer available. Current candidates should prepare for the updated exam (launched July 2026).',
-    whoApplies: 'Historical reference: no longer applicable for current candidates.',
+      'This is a timing decision, not a quality judgment. Candidates who have completed ECO coverage, score consistently on timed mocks, and want to avoid format uncertainty often prefer the pre-transition window. If you still have major domain gaps or limited study hours per week, preparing for the post-transition exam may be less risky than rushing.',
+    whoApplies: 'PMP applicants approved by PMI who can realistically sit before mid-2026.',
     nextSteps: [
-      'Read /pmp-after-9-july-2026',
+      'Read /pmp-before-8-july-2026',
       'Run /pmp-readiness-diagnostic',
       'Book only after two solid timed mocks',
     ],
@@ -99,7 +99,7 @@ const pages: AnswerPageContent[] = [
       { href: '/pmp-professional', label: 'PMP Professional' },
       { href: '/pmp-mastery', label: 'PMP Mastery' },
     ],
-    relatedPages: [{ href: '/pmp-after-9-july-2026', label: 'Current PMP preparation guide' }],
+    relatedPages: [{ href: '/pmp-before-8-july-2026', label: 'Before 8 July guide' }],
     relatedAnswers: [
       { href: '/answers/should-i-prepare-for-new-pmp-after-9-july-2026', label: 'Prepare after 9 July 2026?' },
     ],
@@ -110,14 +110,14 @@ const pages: AnswerPageContent[] = [
     slug: 'should-i-prepare-for-new-pmp-after-9-july-2026',
     path: '/answers/should-i-prepare-for-new-pmp-after-9-july-2026',
     question: 'Should I prepare for the new PMP after 9 July 2026?',
-    title: 'Preparing for the current PMP exam (updated July 2026)',
+    title: 'Should I prepare for the new PMP after 9 July 2026?',
     description:
-      'How to prepare for the current PMP exam using the updated exam content outline (from 9 July 2026).',
+      'When it makes sense to target the post-July 2026 PMP exam and how to align practice.',
     shortAnswer:
-      'Prepare for the current PMP exam, which launched 9 July 2026. Align preparation to the updated exam content outline and revised domain weights.',
+      'Yes: if you need more study time, missed the pre-transition window, or want to align preparation to the updated exam narrative PMI describes for post-9 July 2026.',
     detailedAnswer:
-      'Current PMP preparation should emphasize situational judgment, professional responsibility, and modern delivery contexts (including agile, hybrid, and emerging themes referenced in updated PMI materials). Use scenario practice and mocks rather than memorization-only study.',
-    whoApplies: 'All current PMP candidates scheduling exams in 2026 and beyond.',
+      'Post-transition preparation should emphasize situational judgment, professional responsibility, and modern delivery contexts (including agile, hybrid, and emerging themes referenced in updated PMI materials). Use scenario practice and mocks rather than memorization-only study.',
+    whoApplies: 'Candidates scheduling on or after the transition window who are not yet exam-ready.',
     nextSteps: [
       'Read /pmp-after-9-july-2026',
       'Use /pmp-study-plan-2026 for weekly structure',
@@ -125,11 +125,11 @@ const pages: AnswerPageContent[] = [
     ],
     relatedCourses: [{ href: '/pmp-mastery', label: 'PMP Mastery pathway' }],
     relatedPages: [
-      { href: '/pmp-after-9-july-2026', label: 'Current exam preparation guide' },
+      { href: '/pmp-after-9-july-2026', label: 'After 9 July guide' },
       { href: '/pmp-agile-hybrid-predictive', label: 'Agile, hybrid & predictive' },
     ],
     relatedAnswers: [
-      { href: '/pmp-after-9-july-2026', label: 'Prepare for the current PMP exam' },
+      { href: '/answers/should-i-take-pmp-before-8-july-2026', label: 'Take PMP before 8 July?' },
     ],
     ctaHref: '/pmp-professional',
     ctaLabel: 'Explore Professional pathway',
@@ -170,9 +170,9 @@ const pages: AnswerPageContent[] = [
     description:
       'Step-by-step PMP 2026 preparation: timing, ECO mapping, pathways, mocks, and official verification.',
     shortAnswer:
-      'Confirm eligibility, use the current PMI handbook and Exam Content Outline, map the ECO to a weekly plan, pick a pathway tier, and use mocks plus scenario practice before Pearson VUE.',
+      'Confirm eligibility, choose pre- or post-July timing, map the ECO to a weekly plan, pick a pathway tier, and use mocks plus scenario practice before Pearson VUE.',
     detailedAnswer:
-      'Start with official PMI eligibility and current handbook rules. Build a weekly schedule that covers all current exam domains, includes timed mocks, and logs weak areas. PM Structure pathways (Foundation, Professional, Mastery) provide structure but do not replace official registration or exam delivery.',
+      'Start with official PMI eligibility and handbook rules. Then decide exam timing using the July 2026 transition guides. Build a weekly schedule that covers all domains, includes timed mocks, and logs weak areas. PM Structure pathways (Foundation, Professional, Mastery) provide structure but do not replace official registration or exam delivery.',
     whoApplies: 'New and experienced project managers targeting PMP in calendar year 2026.',
     nextSteps: [
       'Start at /pmp-exam-2026',
@@ -253,7 +253,7 @@ const pages: AnswerPageContent[] = [
     description:
       'Explanation of situational PMP practice and how it fits Foundation, Professional, and Mastery tiers.',
     shortAnswer:
-      'Scenario practice trains how you apply PM concepts in exam-style situations: a core skill for the current PMP exam.',
+      'Scenario practice trains how you apply PM concepts in exam-style situations: the skill tested on current and transitioning PMP formats.',
     detailedAnswer:
       'Instead of isolated definitions, scenarios present a project situation and ask what you should do next. Effective practice tags mistakes by domain (People, Process, Business Environment) and revisits weak ECO tasks. PM Structure provides scenario sets within Professional and Mastery pathways.',
     whoApplies: 'Candidates who understand theory but miss application-style questions on mocks.',
@@ -283,7 +283,7 @@ const pages: AnswerPageContent[] = [
     shortAnswer:
       'The ECO is PMI’s published list of domains and tasks used to build the PMP exam. Download the current version from PMI.org and map every study week to it.',
     detailedAnswer:
-      'Third-party summaries cannot replace the official ECO PDF. Use the current version to build a coverage checklist, allocate hours by domain, and audit mock mistakes. Replace any pre-transition 2026 material that no longer matches the current outline.',
+      'Third-party summaries cannot replace the official ECO PDF. Use it to build a coverage checklist, allocate hours by domain, and audit mock mistakes. When PMI updates the outline, refresh your plan: especially around 2026 transition messaging.',
     whoApplies: 'Every PMP candidate at the start of preparation.',
     nextSteps: [
       'Download the ECO from PMI.org',
@@ -665,7 +665,7 @@ const pages: AnswerPageContent[] = [
     title: 'What are the PMP 2026 domain weights?',
     description: 'Orientation on PMP domain weighting for 2026 exam planning.',
     shortAnswer:
-      'Current PMP exam (launched 9 July 2026): People 33%, Process 41%, Business Environment 26%. The previous exam used People 42%, Process 50%, Business Environment 8%. Verify the latest official ECO on PMI.org before booking.',
+      'Updated PMP exam (from 9 July 2026): People 33%, Process 41%, Business Environment 26%. Current exam: People 42%, Process 50%, Business Environment 8%. Verify on PMI.org before booking.',
     detailedAnswer:
       'Domain weights guide study time allocation. Per PMI’s 2026 Exam Content Outline, the updated exam shifts emphasis toward Business Environment. PM Structure summarizes orientation at /pmp-new-exam-domain-weighting; always confirm against the latest Exam Content Outline.',
     whoApplies: 'Candidates building a 2026 study plan.',
@@ -680,17 +680,17 @@ const pages: AnswerPageContent[] = [
   {
     slug: 'current-pmp-exam-vs-new-pmp-exam',
     path: '/answers/current-pmp-exam-vs-new-pmp-exam',
-    question: 'What is the difference between the previous and current PMP exams?',
-    title: 'Previous PMP exam vs current PMP exam',
-    description: 'Compare the previous PMP exam with the current exam launched in July 2026.',
+    question: 'What is the difference between the current PMP exam and the new PMP exam?',
+    title: 'Current PMP exam vs new PMP exam',
+    description: 'Compare pre- and post-July 2026 PMP exam narratives.',
     shortAnswer:
-      'The current PMP exam launched on 9 July 2026 with revised domain weights and updated ECO emphasis. Use the comparison to replace obsolete materials, and verify the latest documents on PMI.org.',
+      'The transition around 9 July 2026 shifts emphasis in exam narratives and ECO tasks. Compare guides on PM Structure and verify on PMI.org.',
     detailedAnswer:
-      'The previous exam is no longer offered. Current candidates should use the comparison only to identify outdated assumptions, then prepare against the current exam at /pmp-exam-2026.',
-    whoApplies: 'Current candidates reviewing study material created before July 2026.',
-    nextSteps: ['/pmp-exam-2026', '/pmp-after-9-july-2026', '/pmp-readiness-diagnostic'],
+      'Neither format is inherently easier: readiness and timing matter more than labels. Use /pmp-current-vs-new-exam for a structured comparison.',
+    whoApplies: 'Candidates choosing when to sit PMP in 2026.',
+    nextSteps: ['/pmp-current-vs-new-exam', '/pmp-before-8-july-2026', '/pmp-after-9-july-2026'],
     relatedCourses: [{ href: '/pmp-professional', label: 'PMP Professional' }],
-    relatedPages: [{ href: '/pmp-current-vs-new-exam', label: 'Previous vs current exam' }],
+    relatedPages: [{ href: '/pmp-current-vs-new-exam', label: 'Current vs new hub' }],
     relatedAnswers: [{ href: '/answers/is-the-pmp-exam-changing-in-2026', label: 'Is PMP changing in 2026?' }],
     ctaHref: '/pmp-readiness-diagnostic',
     ctaLabel: 'Readiness diagnostic',
@@ -775,8 +775,8 @@ const pages: AnswerPageContent[] = [
     slug: 'is-the-new-pmp-exam-harder',
     path: '/answers/is-the-new-pmp-exam-harder',
     question: 'Is the new PMP exam harder?',
-    title: 'Is the current PMP exam harder than the previous exam?',
-    description: 'Independent answer on whether the current PMP exam launched in July 2026 is harder than the previous format.',
+    title: 'Is the new PMP exam harder?',
+    description: 'Independent answer on whether the post-2026 PMP format is harder than the current exam.',
     shortAnswer:
       'Neither format is universally harder: difficulty depends on your experience, study approach, and how well you match the updated Exam Content Outline.',
     detailedAnswer:
@@ -786,7 +786,7 @@ const pages: AnswerPageContent[] = [
     nextSteps: ['/pmp-current-vs-new-exam', '/answers/current-pmp-exam-vs-new-pmp-exam', '/pmp-readiness-diagnostic'],
     relatedCourses: [{ href: '/pmp-professional', label: 'PMP Professional' }],
     relatedPages: [{ href: '/pmp-exam-2026', label: 'PMP 2026 guide' }],
-    relatedAnswers: [{ href: '/answers/current-pmp-exam-vs-new-pmp-exam', label: 'Previous vs current exam' }],
+    relatedAnswers: [{ href: '/answers/current-pmp-exam-vs-new-pmp-exam', label: 'Current vs new exam' }],
     ctaHref: '/pmp-readiness-diagnostic',
     ctaLabel: 'Assess readiness',
   },
@@ -794,18 +794,17 @@ const pages: AnswerPageContent[] = [
     slug: 'should-i-rush-pmp-before-july-2026',
     path: '/answers/should-i-rush-pmp-before-july-2026',
     question: 'Should I rush PMP before July 2026?',
-    title: 'Should I rush PMP before July 2026? (Historical)',
-    description:
-      'Historical timing guidance about rushing before the PMP transition (no longer applicable).',
+    title: 'Should I rush PMP before July 2026?',
+    description: 'When rushing before the PMP transition helps: and when it hurts.',
     shortAnswer:
-      'Historical: This question applied before 9 July 2026. The previous exam is no longer offered. Prepare for the current exam without rushing.',
+      'Rush only if you are already exam-ready with strong timed mocks and a booked Pearson VUE slot; otherwise prepare properly for the post-transition format.',
     detailedAnswer:
-      'This was timing guidance for candidates considering whether to rush before the July 2026 transition. Rushing to beat a calendar date without readiness often led to failed attempts and lost fees. This decision is no longer relevant. Current candidates should prepare properly for the updated exam (launched July 2026) without artificial deadline pressure.',
-    whoApplies: 'Historical reference: no longer applicable for current candidates.',
-    nextSteps: ['/pmp-after-9-july-2026', '/pmp-exam-2026', '/pmp-readiness-diagnostic'],
+      'Rushing to beat a calendar date without readiness often leads to failed attempts and lost fees. If you still have major domain gaps or inconsistent mock scores, extending prep is usually safer than cramming.',
+    whoApplies: 'PMI-eligible candidates considering a pre-July 2026 test date.',
+    nextSteps: ['/answers/should-i-take-pmp-before-8-july-2026', '/pmp-before-8-july-2026', '/pmp-readiness-diagnostic'],
     relatedCourses: [{ href: '/pmp-mastery', label: 'PMP Mastery' }],
-    relatedPages: [{ href: '/pmp-after-9-july-2026', label: 'Current PMP preparation guide' }],
-    relatedAnswers: [{ href: '/answers/how-to-prepare-for-pmp-in-2026', label: 'How to prepare for PMP in 2026' }],
+    relatedPages: [{ href: '/pmp-before-8-july-2026', label: 'Before 8 July guide' }],
+    relatedAnswers: [{ href: '/answers/should-i-take-pmp-before-8-july-2026', label: 'Take PMP before 8 July?' }],
     ctaHref: '/pmp-readiness-diagnostic',
     ctaLabel: 'Readiness diagnostic',
   },
@@ -877,7 +876,7 @@ const pages: AnswerPageContent[] = [
     shortAnswer:
       'PMP can help construction and infrastructure professionals who already manage scope, contractors, safety interfaces, and staged delivery show structured project leadership, especially when the role expands beyond pure technical delivery.',
     detailedAnswer:
-      'Capital projects, utilities, transport, and built-environment roles often include phased delivery, multi-disciplinary coordination, and stakeholder governance. PMP does not replace engineering depth or site experience. It can support credibility when you need a recognized project leadership framework for promotions, client-facing roles, or PMO transitions. Verify PMI eligibility and current exam rules before applying; align study materials to the exam introduced in July 2026.',
+      'Capital projects, utilities, transport, and built-environment roles often include phased delivery, multi-disciplinary coordination, and stakeholder governance. PMP does not replace engineering depth or site experience. It can support credibility when you need a recognized project leadership framework for promotions, client-facing roles, or PMO transitions. Verify PMI eligibility and exam rules before applying; align study to your realistic exam date (current vs updated PMP from July 2026).',
     whoApplies:
       'Construction managers, infrastructure project leads, planners, and engineers moving into broader delivery or PMO-facing roles in GCC and global markets.',
     nextSteps: [
@@ -927,7 +926,7 @@ const pages: AnswerPageContent[] = [
     nextSteps: [
       'Compare pathways at /certifications/compare',
       'Read the PMP 2026 guide at /pmp-exam-2026',
-      'Review the PMP readiness pathway at /certifications/pmp',
+      'Review considerations at /certifications/pmp#pmp-considerations',
     ],
     relatedCourses: [{ href: '/pmp-foundation', label: 'PMP Foundation pathway' }],
     relatedPages: [
@@ -948,9 +947,9 @@ const pages: AnswerPageContent[] = [
     question: 'How can teams plan corporate PMP 2026 readiness?',
     title: 'Corporate PMP 2026 Readiness for Teams | PM Structure',
     description:
-      'Orientation for PMOs and delivery leaders aligning team PMP readiness to the current July 2026 exam without pass guarantees.',
+      'Orientation for PMOs and delivery leaders planning team PMP readiness around the July 2026 exam transition without pass guarantees.',
     shortAnswer:
-      'Team PMP readiness is a delivery capability issue: align roles and materials to the current exam, verify individual eligibility, structure mock review cadence, and avoid bulk certificate chasing without governance context.',
+      'Team PMP readiness is a delivery capability issue: align roles to exam routes (current vs updated from July 2026), verify individual eligibility, structure mock review cadence, and avoid bulk certificate chasing without governance context.',
     detailedAnswer:
       'Organizations often ask for PMP coverage without mapping who needs certification versus who needs delivery coaching. A sensible team plan identifies target roles, exam timelines, study structure, and mock accountability, then verifies each candidate against PMI eligibility. PM Structure can support structured readiness conversations for PMOs and delivery leads. We do not guarantee passes, issue PMI credentials, or replace your internal performance management.',
     whoApplies: 'PMO leads, HR L&D partners, and delivery directors planning 2026 certification support.',

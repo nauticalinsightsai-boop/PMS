@@ -14,12 +14,9 @@ import {
 import type { PmpPageContent } from '@/content/pmp/types';
 
 export function PmpPageJsonLd({ page }: { page: PmpPageContent }) {
-  const relatedFaqs =
-    page.path === '/pmp-exam-2026'
-      ? []
-      : getFaqsForPmpSurface(page.path, undefined, 5)
-          .filter(isFaqSchemaEligible)
-          .map((f) => ({ question: f.question, answer: resolveFaqShortAnswer(f) }));
+  const relatedFaqs = getFaqsForPmpSurface(page.path, undefined, 8)
+    .filter(isFaqSchemaEligible)
+    .map((f) => ({ question: f.question, answer: resolveFaqShortAnswer(f) }));
   const inlineFaqs = page.faqs ?? [];
   const faqSchemaItems = [
     ...inlineFaqs,
