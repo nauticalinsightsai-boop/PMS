@@ -2,8 +2,50 @@ import { describe, expect, it } from 'vitest';
 import {
   resolveQualificationOutcome,
   getOutcomeMessage,
+  WORK_FIELD_OPTIONS,
+  NEEDS_OBJECTIVE_OPTIONS,
+  EDUCATION_OPTIONS,
+  FORM_VERSION,
   type QualificationAnswers,
 } from '@/lib/pmp-qualification-options';
+
+describe('qualification options lite surface', () => {
+  it('uses the lite form version', () => {
+    expect(FORM_VERSION).toBe('p0.5-qualification-lite');
+  });
+
+  it('exposes short industry chips without compound role strings', () => {
+    expect(WORK_FIELD_OPTIONS.map((o) => o.label)).toEqual([
+      'Project Management / PMO',
+      'Construction',
+      'Energy',
+      'IT / Technology',
+      'Operations',
+      'Other',
+    ]);
+  });
+
+  it('caps needs objectives at five including prepare_exam', () => {
+    expect(NEEDS_OBJECTIVE_OPTIONS).toHaveLength(5);
+    expect(NEEDS_OBJECTIVE_OPTIONS.map((o) => o.value)).toEqual([
+      'check_eligibility',
+      'join_cohort',
+      'prepare_exam',
+      'team_training',
+      'exploring',
+    ]);
+  });
+
+  it('drops secondary education', () => {
+    expect(EDUCATION_OPTIONS.map((o) => o.value)).not.toContain('secondary');
+    expect(EDUCATION_OPTIONS.map((o) => o.value)).toEqual([
+      'associate',
+      'bachelor_plus',
+      'gac_accredited',
+      'unsure',
+    ]);
+  });
+});
 
 describe('resolveQualificationOutcome', () => {
   const baseAnswers: QualificationAnswers = {
@@ -79,16 +121,6 @@ describe('resolveQualificationOutcome', () => {
       expect(resolveQualificationOutcome(answers)).toBe('likely_ready');
     });
 
-    it('returns likely_ready for secondary education with 5+ years and completed training', () => {
-      const answers: QualificationAnswers = {
-        ...baseAnswers,
-        education: 'secondary',
-        pmExperience: '5_plus',
-        trainingStatus: 'completed',
-      };
-      expect(resolveQualificationOutcome(answers)).toBe('likely_ready');
-    });
-
     it('returns likely_ready for associate degree with 4+ years and completed training', () => {
       const answers: QualificationAnswers = {
         ...baseAnswers,
@@ -106,16 +138,6 @@ describe('resolveQualificationOutcome', () => {
         ...baseAnswers,
         education: 'bachelor_plus',
         pmExperience: '2_to_3',
-        trainingStatus: 'completed',
-      };
-      expect(resolveQualificationOutcome(answers)).toBe('needs_verification');
-    });
-
-    it('returns needs_verification for secondary with only 3-4 years (needs 5+)', () => {
-      const answers: QualificationAnswers = {
-        ...baseAnswers,
-        education: 'secondary',
-        pmExperience: '3_to_4',
         trainingStatus: 'completed',
       };
       expect(resolveQualificationOutcome(answers)).toBe('needs_verification');

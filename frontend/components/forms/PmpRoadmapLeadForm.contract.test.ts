@@ -15,8 +15,6 @@ describe('PmpRoadmapLeadForm component contract', () => {
       'experience',
       'training',
       'timeline',
-      'channel',
-      'window',
     ];
     expect(source.match(/\srole="radiogroup"/g)).toHaveLength(groups.length);
     expect(source.match(/aria-required="true"/g)).toHaveLength(groups.length);

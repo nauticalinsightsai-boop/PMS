@@ -585,8 +585,8 @@ export function Home({
               <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-6 sm:mb-8 tracking-tight leading-tight">
                 {homeCms.insightsBand?.title ?? (
                   <>
-                    Insights for the Future of{' '}
-                    <span className="text-pms-gradient-orange">Project Leadership</span>
+                    Insights for{' '}
+                    <span className="text-pms-gradient-orange">project leaders</span>
                   </>
                 )}
               </h2>
@@ -743,7 +743,7 @@ export function Home({
                   <LayoutGrid className="h-6 w-6" />
                   <span className="font-bold uppercase tracking-widest text-[10px]">{BRAND.name} Network</span>
                 </div>
-                <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-5 tracking-tight leading-tight">Join the Global <span className="text-brand-orange">PM Network</span></h2>
+                <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-5 tracking-tight leading-tight">Join the <span className="text-brand-orange">PM network</span></h2>
                 <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed font-medium">
                   {T169_SUPPORT_COPY.community}
                 </p>
@@ -993,7 +993,7 @@ export function Home({
             
             <div className="relative z-10 max-w-4xl mx-auto">
               <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 sm:mb-8 tracking-tight leading-tight text-balance">
-                {finalCtaTitle ?? <>Ready to Start Your <span className="text-brand-orange">Journey?</span></>}
+                {finalCtaTitle ?? <>Ready to <span className="text-brand-orange">begin?</span></>}
               </h2>
               <p className="text-slate-400 text-base sm:text-lg md:text-xl mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
                 {finalCta?.description ||

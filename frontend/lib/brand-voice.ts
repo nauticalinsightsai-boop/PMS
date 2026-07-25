@@ -146,7 +146,7 @@ export const HOME_COPY = {
 
   heroBadge: 'PMP 2026 readiness',
 
-  heroTitle: 'Project management\nguidance',
+  heroTitle: 'PMP 2026 preparation\nand certification guidance',
 
   heroTitleAccents: [
     'PM membership',

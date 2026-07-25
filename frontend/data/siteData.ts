@@ -96,7 +96,7 @@ export const certifications: CertificationSummary[] = [
     id: "pmp",
     name: "PMP®",
     familyId: "PMI",
-    desc: "Project Management Professional: structured PMI exam-preparation support for experienced project leaders.",
+    desc: "Structured PMI exam-prep support for experienced project leaders.",
     outputValue: "Core flagship / strongest broad PM value",
     pricing: {
       Foundation: { duration: "2 wks", price: 250 },

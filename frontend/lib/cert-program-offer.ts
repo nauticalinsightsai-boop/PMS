@@ -17,10 +17,10 @@ export type CertProgramOffer = {
   highlights: readonly CertProgramHighlight[];
 };
 
-const PREPARATION_WINDOW_HEADLINE = 'Support through your planned exam-preparation window';
+const PREPARATION_WINDOW_HEADLINE = 'Support through your prep window';
 
 function preparationWindowSubline(certName: string): string {
-  return `Structured coaching, accountability, and readiness tracking: support to prepare with structure, practice, and review through your ${certName} preparation cycle, not just until checkout.`;
+  return `Structured coaching and readiness tracking through your ${certName} preparation cycle, not just until checkout.`;
 }
 
 function roadmapCtaLabel(certName: string): string {

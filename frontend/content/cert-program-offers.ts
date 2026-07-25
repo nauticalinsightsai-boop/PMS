@@ -6,7 +6,7 @@ import {
   PMP_UNTIL_YOU_PASS_SUBLINE,
 } from '@/content/pmp/program-offer';
 
-const PREPARATION_WINDOW_HEADLINE = 'Support through your planned exam-preparation window';
+const PREPARATION_WINDOW_HEADLINE = 'Support through your prep window';
 const FINAL_CTA_SUBTITLE =
   'Share your experience in the form above: or enroll directly when cohort seats are open.';
 

@@ -109,7 +109,7 @@ const GROUP_ROTATIONS: Partial<Record<BottomBarPageGroup, BottomBarRotation[]>> 
   community: [
     {
       id: 'comm-r1',
-      headline: 'Join the Global PM Network',
+      headline: 'Join the PM network',
       body: 'Connect with professionals in structured study circles.',
       primary: { type: 'link', href: PMS_SKOOL_COMMUNITY_JOIN_URL, label: 'Explore community' },
       secondary: { type: 'calendly_hero' },

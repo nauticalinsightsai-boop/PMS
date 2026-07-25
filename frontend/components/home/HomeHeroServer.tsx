@@ -21,7 +21,13 @@ function resolveHeroSlide(config?: HomePageConfigV2) {
 /** Visible server-rendered hero copy for LCP (no client hydration delay). */
 export function HomeHeroServer({ config }: { config?: HomePageConfigV2 }) {
   const slide = resolveHeroSlide(config);
-  const title = slide.heading || HOME_COPY.heroTitle;
+  const cmsHeading = slide.heading?.trim() ?? '';
+  // Prefer PMP/certification intent H1 when CMS still has legacy generic headings.
+  const legacyGeneric =
+    !cmsHeading ||
+    /^project management(\s+guidance)?$/i.test(cmsHeading.replace(/\n/g, ' ').trim()) ||
+    /^preparation into progress$/i.test(cmsHeading);
+  const title = legacyGeneric ? HOME_COPY.heroTitle : cmsHeading;
   const headingLines = resolveHomeHeroHeadingLines(title);
 
   return (

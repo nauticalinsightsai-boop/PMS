@@ -7,9 +7,9 @@ export const PMP_ROADMAP_FORM_ANCHOR = 'pmp-roadmap-form';
 
 export const PMP_PROGRAM_CTA_LABEL = 'Get My PMP Roadmap';
 
-export const PMP_UNTIL_YOU_PASS_HEADLINE = 'Support through your planned exam-preparation window';
+export const PMP_UNTIL_YOU_PASS_HEADLINE = 'Support through your prep window';
 export const PMP_UNTIL_YOU_PASS_SUBLINE =
-  'Structured coaching, accountability, and readiness tracking: support to prepare with structure, practice, and review through your planned preparation cycle, not just until checkout.';
+  'Structured coaching and readiness tracking through your preparation cycle, not just until checkout.';
 
 export const PMP_PROGRAM_HIGHLIGHTS = [
   {

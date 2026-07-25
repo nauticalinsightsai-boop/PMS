@@ -1,6 +1,4 @@
 import type {
-  ContactChannelValue,
-  ContactWindowValue,
   EducationValue,
   ExamTimelineValue,
   NeedsObjectiveValue,
@@ -21,8 +19,6 @@ export type PmpQualificationFormValues = {
   fullName: string;
   phone: string;
   email: string;
-  contactChannel: ContactChannelValue | '';
-  contactWindow: ContactWindowValue | '';
 };
 
 export type PmpQualificationValidationIssue = {
@@ -35,9 +31,7 @@ export type PmpQualificationValidationIssue = {
     | 'examTimeline'
     | 'fullName'
     | 'phone'
-    | 'email'
-    | 'contactChannel'
-    | 'contactWindow';
+    | 'email';
   message: string;
 };
 
@@ -49,7 +43,7 @@ export function validatePmpQualificationStep(
 ): PmpQualificationValidationIssue | null {
   if (step === 'fit') {
     if (!values.workField) {
-      return { field: 'workField', message: 'Please select your current work field.' };
+      return { field: 'workField', message: 'Please select your industry.' };
     }
     if (!values.needsObjective) {
       return { field: 'needsObjective', message: 'Please select what you need help with.' };
@@ -82,18 +76,6 @@ export function validatePmpQualificationStep(
   }
   if (!EMAIL_PATTERN.test(values.email.trim())) {
     return { field: 'email', message: 'Please enter a valid email address.' };
-  }
-  if (!values.contactChannel) {
-    return {
-      field: 'contactChannel',
-      message: 'Please select your preferred contact channel.',
-    };
-  }
-  if (!values.contactWindow) {
-    return {
-      field: 'contactWindow',
-      message: 'Please select your preferred contact window.',
-    };
   }
   return null;
 }
@@ -160,8 +142,6 @@ export function buildPmpQualificationSubmissionPayload(input: {
     pmExperience: values.pmExperience,
     trainingStatus: values.trainingStatus,
     examTimeline: values.examTimeline,
-    preferredContactChannel: values.contactChannel,
-    preferredContactWindow: values.contactWindow,
     qualificationOutcome: input.qualificationOutcome,
     placement: input.placement,
     siteCertId: input.siteCertId,

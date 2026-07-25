@@ -26,8 +26,6 @@ import {
   PM_EXPERIENCE_OPTIONS,
   TRAINING_STATUS_OPTIONS,
   EXAM_TIMELINE_OPTIONS,
-  CONTACT_CHANNEL_OPTIONS,
-  CONTACT_WINDOW_OPTIONS,
   resolveQualificationOutcome,
   getOutcomeMessage,
   type WorkFieldValue,
@@ -36,8 +34,6 @@ import {
   type PmExperienceValue,
   type TrainingStatusValue,
   type ExamTimelineValue,
-  type ContactChannelValue,
-  type ContactWindowValue,
 } from '@/lib/pmp-qualification-options';
 import {
   createClientSubmissionId,
@@ -388,8 +384,6 @@ export function PmpRoadmapLeadForm({
   const dialOption = resolveDialOption(dialValue);
   const [phone, setPhone] = React.useState('');
   const [email, setEmail] = React.useState('');
-  const [contactChannel, setContactChannel] = React.useState<ContactChannelValue | ''>('');
-  const [contactWindow, setContactWindow] = React.useState<ContactWindowValue | ''>('');
 
   const [honeypot, setHoneypot] = React.useState('');
   const [submitting, setSubmitting] = React.useState(false);
@@ -431,8 +425,6 @@ export function PmpRoadmapLeadForm({
     fullName,
     phone,
     email,
-    contactChannel,
-    contactWindow,
   };
   const hasPartialData = hasPmpQualificationPartialData(formValues);
 
@@ -534,8 +526,6 @@ export function PmpRoadmapLeadForm({
       fullName: 'name',
       phone: 'phone',
       email: 'email',
-      contactChannel: 'channel-options',
-      contactWindow: 'window-options',
     };
     requestAnimationFrame(() => {
       const target = document.getElementById(`${idPrefix}-${targetSuffix[issue.field]}`);
@@ -700,7 +690,7 @@ export function PmpRoadmapLeadForm({
           className={cn('mt-3 text-sm', !isPortalThemed && 'text-slate-500 dark:text-slate-400')}
           style={isPortalThemed && portalTheme ? { color: portalTheme.textMuted } : undefined}
         >
-          We'll follow up via your preferred contact channel soon. Questions?{' '}
+          We'll follow up soon. Questions?{' '}
           <Link
             href="/contact"
             className={cn('font-bold hover:underline', !isPortalThemed && 'text-brand-orange')}
@@ -890,11 +880,11 @@ export function PmpRoadmapLeadForm({
                     portalTheme={portalTheme}
                     labelClass={labelClass}
                   >
-                    Which field best describes your current work?
+                    Industry
                   </PortalChoiceSectionLabel>
                 ) : (
                   <legend id={`${idPrefix}-work-field-label`} className={cn(labelClass, 'mb-2.5')}>
-                    Which field best describes your current work? <span className="text-brand-orange">*</span>
+                    Industry <span className="text-brand-orange">*</span>
                   </legend>
                 )}
                 <div
@@ -1314,105 +1304,6 @@ export function PmpRoadmapLeadForm({
                 />
               </div>
 
-              <fieldset
-                className={cn(
-                  'm-0 min-w-0 border-0 p-0',
-                  isPortalThemed && 'flex flex-col gap-2.5',
-                )}
-              >
-                {isPortalThemed ? (
-                  <PortalChoiceSectionLabel
-                    id={`${idPrefix}-channel-label`}
-                    portalTheme={portalTheme}
-                    labelClass={labelClass}
-                  >
-                    Preferred contact channel
-                  </PortalChoiceSectionLabel>
-                ) : (
-                  <legend id={`${idPrefix}-channel-label`} className={cn(labelClass, 'mb-2.5')}>
-                    Preferred contact channel <span className="text-brand-orange">*</span>
-                  </legend>
-                )}
-                <div
-                  id={`${idPrefix}-channel-options`}
-                  className={choiceGroupClass}
-                  role="radiogroup"
-                  aria-labelledby={`${idPrefix}-channel-label`}
-                  aria-required="true"
-                >
-                  {CONTACT_CHANNEL_OPTIONS.map((opt, optionIndex) => (
-                    <RoadmapChoiceChip
-                      key={opt.value}
-                      selected={contactChannel === opt.value}
-                      portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
-                      useCompactRow={isPortalCertRoadmap}
-                      className={!isPortalCertRoadmap ? toggleOptionClass(contactChannel === opt.value) : undefined}
-                      aria-checked={contactChannel === opt.value}
-                      tabIndex={getPmpChoiceTabIndex(
-                        contactChannel === opt.value,
-                        Boolean(contactChannel),
-                        optionIndex,
-                      )}
-                      onClick={() => {
-                        setContactChannel(opt.value);
-                        touchField();
-                      }}
-                    >
-                      {opt.label}
-                    </RoadmapChoiceChip>
-                  ))}
-                </div>
-              </fieldset>
-
-              <fieldset
-                className={cn(
-                  'm-0 min-w-0 border-0 p-0',
-                  isPortalThemed && 'flex flex-col gap-2.5',
-                )}
-              >
-                {isPortalThemed ? (
-                  <PortalChoiceSectionLabel
-                    id={`${idPrefix}-window-label`}
-                    portalTheme={portalTheme}
-                    labelClass={labelClass}
-                  >
-                    Preferred contact window
-                  </PortalChoiceSectionLabel>
-                ) : (
-                  <legend id={`${idPrefix}-window-label`} className={cn(labelClass, 'mb-2.5')}>
-                    Preferred contact window <span className="text-brand-orange">*</span>
-                  </legend>
-                )}
-                <div
-                  id={`${idPrefix}-window-options`}
-                  className={choiceGroupClass}
-                  role="radiogroup"
-                  aria-labelledby={`${idPrefix}-window-label`}
-                  aria-required="true"
-                >
-                  {CONTACT_WINDOW_OPTIONS.map((opt, optionIndex) => (
-                    <RoadmapChoiceChip
-                      key={opt.value}
-                      selected={contactWindow === opt.value}
-                      portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
-                      useCompactRow={isPortalCertRoadmap}
-                      className={!isPortalCertRoadmap ? toggleOptionClass(contactWindow === opt.value) : undefined}
-                      aria-checked={contactWindow === opt.value}
-                      tabIndex={getPmpChoiceTabIndex(
-                        contactWindow === opt.value,
-                        Boolean(contactWindow),
-                        optionIndex,
-                      )}
-                      onClick={() => {
-                        setContactWindow(opt.value);
-                        touchField();
-                      }}
-                    >
-                      {opt.label}
-                    </RoadmapChoiceChip>
-                  ))}
-                </div>
-              </fieldset>
             </div>
           )}
 
