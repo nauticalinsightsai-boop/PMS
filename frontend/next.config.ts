@@ -132,6 +132,41 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/newsletter/2026-pmp-exam-changes',
+        destination: '/newsletter/post-transition-pmp-reset-july-2026',
+        permanent: true,
+      },
+      {
+        source: '/newsletter/hybrid-methodologies-enterprise',
+        destination: '/newsletter/hybrid-governance-gcc-transformation-portfolios',
+        permanent: true,
+      },
+      {
+        source: '/newsletter/risk-beyond-probability-matrix',
+        destination: '/topics/risk-management',
+        permanent: true,
+      },
+      {
+        source: '/newsletter/ai-augmented-project-manager',
+        destination: '/newsletter/ai-augmented-project-manager-governance-checklist-2026',
+        permanent: true,
+      },
+      {
+        source: '/newsletter/prince2-7th-edition-practitioner',
+        destination: '/topics/prince2-preparation',
+        permanent: true,
+      },
+      {
+        source: '/newsletter/building-high-performance-pmo',
+        destination: '/newsletter/gcc-pmo-pmp-cohort-playbook',
+        permanent: true,
+      },
+      {
+        source: '/newsletter/moral-legal-financial-reasons-managing-safety',
+        destination: '/topics/risk-management',
+        permanent: true,
+      },
+      {
         source: '/pmp-professional-1',
         destination: '/pmp-professional',
         permanent: true,

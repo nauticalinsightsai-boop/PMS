@@ -223,7 +223,7 @@ export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle
     metaTitle: post.metaTitle?.trim() || post.title,
     metaDescription: post.metaDescription?.trim() || excerpt,
     keywords: post.keywords?.trim() || undefined,
-    category: post.topics[0] || 'Insights',
+    category: post.topics[0]?.replace(/^["']|["']$/g, '') || 'Insights',
     date: formatNewsletterPostDate(post.publishDate),
     datePublished,
     dateModified,

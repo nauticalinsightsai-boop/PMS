@@ -2,17 +2,35 @@ import { cache } from 'react';
 import {
   NEWSLETTER_POSTS_FIELD_KEY,
   type NewsletterArticle,
+  mergeNewsletterArticles,
   newsletterPostToArticle,
   normalizeNewsletterAuthorName,
 } from '@pms/site-content/newsletter-posts';
 import { newsletterDraftRegistry } from '@pms/site-content/newsletter-draft-registry';
 import { newsletterArticles as fileArticles } from '@/data/newsletterArticles';
+import {
+  LEGACY_THIN_NEWSLETTER_SLUGS,
+  publishedLongFormNewsletterPosts,
+} from '@/content/newsletter/publication';
 import { mergeCmsRegistryArticles } from '@/lib/newsletter/merge-cms-articles';
 import { enrichArticlesWithAuthors, getPublishedNewsletterAuthors } from '@/lib/newsletter/authors';
 import { supabase } from '@/lib/supabase';
 
 export type { NewsletterArticle };
 export { getNewsletterArticleHref } from '@pms/site-content/newsletter-posts';
+
+const publishedLongFormArticles = publishedLongFormNewsletterPosts.map(newsletterPostToArticle);
+
+function withoutLegacyThinArticles(articles: NewsletterArticle[]): NewsletterArticle[] {
+  return articles.filter((article) => !LEGACY_THIN_NEWSLETTER_SLUGS.has(article.slug));
+}
+
+function mergePublishedLongFormArticles(articles: NewsletterArticle[]): NewsletterArticle[] {
+  return mergeNewsletterArticles(
+    withoutLegacyThinArticles(articles),
+    publishedLongFormArticles,
+  );
+}
 
 function withNormalizedAuthors(articles: NewsletterArticle[]): NewsletterArticle[] {
   return articles.map((article) => ({
@@ -24,7 +42,7 @@ function withNormalizedAuthors(articles: NewsletterArticle[]): NewsletterArticle
 async function fetchPublishedArticles(): Promise<NewsletterArticle[]> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return fileArticles;
+  if (!url || !key) return mergePublishedLongFormArticles(fileArticles);
 
   try {
     const { data, error } = await supabase
@@ -34,11 +52,11 @@ async function fetchPublishedArticles(): Promise<NewsletterArticle[]> {
       .eq('is_published', true)
       .maybeSingle();
 
-    if (error || !data?.content) return fileArticles;
+    if (error || !data?.content) return mergePublishedLongFormArticles(fileArticles);
 
-    return mergeCmsRegistryArticles(data.content);
+    return mergePublishedLongFormArticles(mergeCmsRegistryArticles(data.content));
   } catch {
-    return fileArticles;
+    return mergePublishedLongFormArticles(fileArticles);
   }
 }
 
