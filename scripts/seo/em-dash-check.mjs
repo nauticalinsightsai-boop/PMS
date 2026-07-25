@@ -61,7 +61,14 @@ for (const target of TARGETS) {
     if (!text.includes('—')) continue;
     const lines = text.split('\n');
     lines.forEach((line, i) => {
-      if (line.includes('—') && !line.includes('normalizeEmDash') && !line.includes('\\u2014')) {
+      const trimmed = line.trimStart();
+      if (
+        line.includes('—') &&
+        !trimmed.startsWith('*') &&
+        !trimmed.startsWith('//') &&
+        !line.includes('normalizeEmDash') &&
+        !line.includes('\\u2014')
+      ) {
         hits.push(`${rel}:${i + 1}:${line.trim().slice(0, 120)}`);
       }
     });

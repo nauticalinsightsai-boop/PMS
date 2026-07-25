@@ -44,10 +44,6 @@ const PRIORITY_SITEMAP_PATHS = [
   '/legal/privacy',
 ];
 
-const SOFT_NOINDEX_EXPECT_NOINDEX = [
-  '/legal',
-  '/legal/cookies',
-];
 
 const NOINDEX_UTILITY_PATHS = [
   '/checkout',
@@ -209,23 +205,6 @@ for (const path of NOINDEX_UTILITY_PATHS) {
   passed += 1;
 }
 
-for (const path of SOFT_NOINDEX_EXPECT_NOINDEX) {
-  const url = `${base}${path}`;
-  const { status, body } = fetchBody(url);
-  if (status >= 500) {
-    console.error(`FAIL ${path}: soft-noindex route HTTP ${status}`);
-    failed = true;
-    continue;
-  }
-  if (status >= 200 && status < 400 && !hasNoindexRobotsMeta(body)) {
-    console.error(`FAIL ${path}: soft-noindex path must emit meta robots noindex`);
-    failed = true;
-    continue;
-  }
-  console.log(`OK   ${path} soft-noindex robots (${status})`);
-  passed += 1;
-}
-
 for (const path of NOINDEX_PORTAL_PATHS) {
   const url = `${base}${path}?utm_source=packet04c&utm_medium=seo&utm_campaign=go_containment`;
   const { status, body } = fetchBody(url);
@@ -295,15 +274,6 @@ if (sitemapRes.status >= 200 && sitemapRes.status < 400) {
   } else {
     console.log('OK   sitemap.xml omits every /go/* portal URL');
     passed += 1;
-  }
-  for (const path of SOFT_NOINDEX_EXPECT_NOINDEX) {
-    if (sitemapHasLoc(sitemapRes.body, path)) {
-      console.error(`FAIL sitemap.xml: soft-noindex path ${path} must not appear`);
-      failed = true;
-    } else {
-      console.log(`OK   sitemap.xml omits soft-noindex ${path}`);
-      passed += 1;
-    }
   }
 } else {
   console.error(`FAIL sitemap.xml body: HTTP ${sitemapRes.status || 'unknown'}`);

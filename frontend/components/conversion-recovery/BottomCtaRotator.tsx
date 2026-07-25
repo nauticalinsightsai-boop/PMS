@@ -26,7 +26,7 @@ import type { BottomBarAction, BottomBarRotation } from '@/lib/conversion-recove
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
 import { getWebsiteHeroConsultationCalendlyUrl } from '@/lib/calendly/embed-url';
 import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
-import { trackFunnelEvent, FUNNEL_EVENTS, trackGenerateLead } from '@/lib/analytics/funnel';
+import { trackFunnelEvent, FUNNEL_EVENTS } from '@/lib/analytics/funnel';
 import { trackRoadmapCtaClick } from '@/lib/analytics/track-roadmap-cta';
 import { PMP_ROADMAP_CTA_LABEL } from '@/lib/pmp-roadmap-cta';
 import { CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
@@ -255,12 +255,6 @@ export function BottomCtaRotator() {
     });
     if (res.ok) {
       notifyConverted();
-      trackGenerateLead({
-        source: 'lead_recovery',
-        surface: 'bottom_bar',
-        variant: rotation?.variant ?? 'bottom_bar_r4',
-        page_path: pathname,
-      });
       dismiss(false);
       setBarPaused(60_000);
     }
@@ -318,7 +312,7 @@ export function BottomCtaRotator() {
                   event={
                     primary.href.includes('diagnostic')
                       ? CONVERSION_EVENTS.CLICK_PMP_DIAGNOSTIC
-                      : CONVERSION_EVENTS.CONSULTATION_BOOK
+                      : CONVERSION_EVENTS.SELECT_CONTENT
                   }
                   className="w-full sm:w-auto"
                   onClick={() => {

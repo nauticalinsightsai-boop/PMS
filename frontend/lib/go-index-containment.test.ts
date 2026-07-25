@@ -1,4 +1,8 @@
+import { readFileSync } from 'node:fs';
+import * as React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import SitemapPage from '@/app/(site)/sitemap/page';
 import { generateMetadata } from '@/app/go/[channel]/page';
 import sitemap from '@/app/sitemap';
 import {
@@ -126,5 +130,20 @@ describe('/go/* sitemap containment', () => {
       .flatMap((section) => section.links)
       .filter((entry) => entry.href.startsWith('/go/'));
     expect(goLinks).toEqual([]);
+  });
+
+  it('emits no literal or rendered clickable /go/* anchor in the full HTML sitemap page', async () => {
+    const source = readFileSync(
+      new URL('../app/(site)/sitemap/page.tsx', import.meta.url),
+      'utf8',
+    );
+    expect(source).not.toMatch(
+      /<(?:Link|a)\b[^>]*\bhref\s*=\s*["']\/go\/[^"']+["'][^>]*>/i,
+    );
+
+    vi.stubGlobal('React', React);
+    const html = renderToStaticMarkup(await SitemapPage());
+    expect(html).not.toMatch(/<a\b[^>]*\bhref=["']\/go\/[^"']+["'][^>]*>/i);
+    expect(html).toContain('<code class="font-semibold text-brand-purple">/go/*</code>');
   });
 });

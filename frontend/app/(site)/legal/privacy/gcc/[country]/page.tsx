@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { LegalPrivacyGccCountryPage } from '@/components/pages/legal/LegalPrivacyPage';
 import { GCC_COUNTRY_SLUGS, type GccCountryLegalSlug } from '@/content/legal';
-import { BRAND } from '@/lib/brand-voice';
+import { buildPageMetadata } from '@/lib/site-metadata';
 
 export async function generateMetadata({
   params,
@@ -10,7 +10,12 @@ export async function generateMetadata({
   params: Promise<{ country: string }>;
 }): Promise<Metadata> {
   const { country } = await params;
-  return { title: `Privacy Policy (GCC: ${country.toUpperCase()}) | ${BRAND.name}` };
+  const code = country.toUpperCase();
+  return buildPageMetadata({
+    title: `Privacy Policy (GCC: ${code})`,
+    description: `Privacy policy details for GCC country code ${code}.`,
+    path: `/legal/privacy/gcc/${country.toLowerCase()}`,
+  });
 }
 
 export default async function Page({ params }: { params: Promise<{ country: string }> }) {

@@ -2,26 +2,14 @@
 
 Deployment: Railway `PMS` service `82e54d29-6d8c-4feb-a5d2-547fb7b3eecf` — **SUCCESS**
 
-## Policy update (2026-07-25)
-
-**Published `/go/{slug}` portals are indexable again** and included in XML sitemap (scope-41 via `getPublishedGoChannelSlugs()`).
-
-| Surface | Robots | XML sitemap |
-|---------|--------|-------------|
-| Published `/go/{slug}` | `index,follow` | Yes (priority 0.6) |
-| `/go` exact | redirect → `/go/website`; exact path stays noindex | No |
-| `?preview=1` / draft portals | `noindex,nofollow` | No (not in published slug list) |
-
-June 20 blanket noindex for `/go/*` is **reversed**. Soft-noindex rows for published portals were removed from `gsc-crawled-not-indexed-noindex.ts`. HTML sitemap stays lean (no full `/go` list).
-
-## Code changes shipped (2026-06-20 — historical)
+## Code changes shipped
 
 - `/go/*` removed from XML sitemap (~41 URLs)
 - `/go/*` pages emit `noindex, nofollow`
 - Indexation strategy matrix updated (222 rows; 0 portal rows in sitemap)
 - P0 submission list: `reports/seo/google-priority-urls.txt` (9 URLs)
 
-## Live audit results (post-deploy 2026-06-20)
+## Live audit results (post-deploy)
 
 | Check | Result |
 |-------|--------|
@@ -29,7 +17,7 @@ June 20 blanket noindex for `/go/*` is **reversed**. Soft-noindex rows for publi
 | `seo:audit-indexability` | 26 passed |
 | `seo:audit-indexation-strategy --base=...` | Repo + live OK |
 | `seo:production-check` | OK (6 URLs) |
-| `/go/website` noindex | OK (at that time) |
+| `/go/website` noindex | OK |
 | `sitemap.xml` excludes `/go/` | OK (0 matches) |
 | `sitemap.xml` URL count | **161** `<loc>` entries |
 
@@ -42,9 +30,9 @@ June 20 blanket noindex for `/go/*` is **reversed**. Soft-noindex rows for publi
    - https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026
    - https://pmstructure.com/faq
 
-2. **Resubmit sitemap** — GSC → Sitemaps → `sitemap.xml` only (after 2026-07-25: expect ~+41 `/go/*` URLs)
+2. **Resubmit sitemap** — GSC → Sitemaps → `sitemap.xml` only
 
-3. **Request indexing** — P0 list in `reports/seo/google-priority-urls.txt` (max ~10/day); optionally sample published portals (`/go/website`, `/go/linkedin`, `/go/youtube`)
+3. **Request indexing** — P0 list in `reports/seo/google-priority-urls.txt` (max ~10/day)
 
 4. **Export Pages report** → update `docs/internal/pmstructure-indexation-control-matrix.csv` `Current_Status`
 
@@ -69,4 +57,4 @@ June 20 blanket noindex for `/go/*` is **reversed**. Soft-noindex rows for publi
 ## Notes
 
 - `www.pmstructure.com` returns Cloudflare 403 from this environment; apex `https://pmstructure.com` is canonical and healthy.
-- Success criteria (updated 2026-07-25): P0 indexed in 2–4 weeks; published `/go/*` → index + sitemap; draft/preview stay noindex.
+- Success criteria: P0 indexed in 2–4 weeks; `/go/*` → Excluded by noindex; sitemap discovered ~161 URLs.

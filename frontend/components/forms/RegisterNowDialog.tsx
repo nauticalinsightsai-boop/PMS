@@ -29,7 +29,6 @@ import {
   formatDialPrefix,
   resolveDialOption,
 } from '@/lib/pmp-roadmap-form-options';
-import { trackGenerateLead } from '@/lib/analytics/funnel';
 
 export type RegisterNowContext = {
   headline: string;
@@ -137,12 +136,6 @@ export function RegisterNowDialog({ open, onOpenChange, context }: RegisterNowDi
       return;
     }
 
-    trackGenerateLead({
-      source: 'register_modal',
-      surface: 'community_event',
-      event_title: context.headline,
-      page_path: pagePath,
-    });
     onSuccess();
     setDone(true);
   };

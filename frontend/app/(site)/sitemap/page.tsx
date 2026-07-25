@@ -112,9 +112,9 @@ export default async function SitemapPage() {
 
           <p className="mt-10 text-center text-sm text-slate-500 dark:text-slate-400">
             Channel landing pages under{' '}
-            <Link href="/go/website" className="font-semibold text-brand-purple hover:underline">
+            <code className="font-semibold text-brand-purple">
               /go/*
-            </Link>{' '}
+            </code>{' '}
             and checkout flows are intentionally omitted from this human sitemap and the{' '}
             <a href={xmlSitemapUrl} className="font-semibold text-brand-purple hover:underline">
               XML sitemap

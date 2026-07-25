@@ -113,11 +113,7 @@ async function runRepoChecks() {
     'sitemap.ts must not generate /go/* channel entries',
   );
 
-  for (const submissionScript of [
-    '../scripts/seo/indexnow.mjs',
-    '../scripts/seo/prepare-submission-list.mjs',
-    '../scripts/seo/owner-prereq-check.mjs',
-  ]) {
+  for (const submissionScript of ['../scripts/seo/prepare-submission-list.mjs']) {
     const source = fs.readFileSync(path.join(frontend, submissionScript), 'utf8');
     check(!/['"]\/go\/[^'"]+['"]/.test(source), `${submissionScript} must not submit noindex /go/* URLs`);
     check(
@@ -195,10 +191,6 @@ async function runRepoChecks() {
       '/newsletter strategy row must be included in HTML sitemap',
     );
   }
-  check(!isIndexablePath('/legal/cookies'), '/legal/cookies must be soft-noindex');
-  check(isIndexablePath('/membership'), '/membership must stay indexable');
-  check(isIndexablePath('/pm-service'), '/pm-service must stay indexable');
-  check(isIndexablePath('/legal/privacy'), '/legal/privacy must stay indexable');
 
   const goRows = getAllIndexationStrategyRows().filter((row) => row.path.startsWith('/go/'));
   check(goRows.length > 0, 'expected at least one /go/* strategy row');

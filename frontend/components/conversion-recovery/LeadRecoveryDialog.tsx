@@ -33,7 +33,7 @@ import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { resolveRecoveryCopy } from '@/lib/conversion-recovery/copy';
 import type { LeadRecoveryContext, RecoveryTierId } from '@/lib/conversion-recovery/types';
 import { useLeadRecovery } from '@/components/conversion-recovery/LeadRecoveryProvider';
-import { trackFunnelEvent, FUNNEL_EVENTS, trackGenerateLead } from '@/lib/analytics/funnel';
+import { trackFunnelEvent, FUNNEL_EVENTS } from '@/lib/analytics/funnel';
 import { isLeadRecoveryEnabled } from '@/lib/conversion-recovery/enabled';
 import { isExcludedPath } from '@/lib/conversion-recovery/anti-annoyance';
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
@@ -151,14 +151,6 @@ export function LeadRecoveryDialog() {
       trackFunnelEvent(FUNNEL_EVENTS.RECOVERY_SUBMITTED, {
         variant: ctx.variant,
         page_path: pagePath,
-      });
-      trackGenerateLead({
-        source: 'lead_recovery',
-        variant: ctx.variant,
-        page_path: pagePath,
-        tier_id: ctx.tierId,
-        cert_id: ctx.siteCertId,
-        offering_id: ctx.offeringId,
       });
     } else {
       setError(res.error ?? 'Submission failed. Try again.');

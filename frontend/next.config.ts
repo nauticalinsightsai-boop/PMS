@@ -136,22 +136,6 @@ const nextConfig: NextConfig = {
         destination: '/pmp-professional',
         permanent: true,
       },
-      // Orphan / legacy URLs from indexation NOT_IN_REPO + common GSC 404 candidates
-      {
-        source: '/pmp-certification',
-        destination: '/certifications/pmp',
-        permanent: true,
-      },
-      {
-        source: '/pmp-exam',
-        destination: '/pmp-exam-2026',
-        permanent: true,
-      },
-      {
-        source: '/answers/should-i-take-pmp-before-july-2026',
-        destination: '/pmp-after-9-july-2026',
-        permanent: true,
-      },
       {
         source: '/topics/pmp-exam-2026',
         destination: '/pmp-exam-2026',
@@ -168,6 +152,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/answers/should-i-take-pmp-before-july-2026',
+        destination: '/pmp-after-9-july-2026',
+        permanent: true,
+      },
+      {
         source: '/answers/should-i-take-pmp-before-8-july-2026',
         destination: '/pmp-after-9-july-2026',
         permanent: true,
@@ -175,31 +164,6 @@ const nextConfig: NextConfig = {
       {
         source: '/answers/should-i-take-the-pmp-before-8-july-2026',
         destination: '/pmp-after-9-july-2026',
-        permanent: true,
-      },
-      {
-        source: '/corporate/pmp-2026-readiness',
-        destination: '/pm-service',
-        permanent: true,
-      },
-      {
-        source: '/payment',
-        destination: '/checkout',
-        permanent: true,
-      },
-      {
-        source: '/payments',
-        destination: '/checkout',
-        permanent: true,
-      },
-      {
-        source: '/thank-you',
-        destination: '/booking-confirmed',
-        permanent: true,
-      },
-      {
-        source: '/thanks',
-        destination: '/booking-confirmed',
         permanent: true,
       },
     ];

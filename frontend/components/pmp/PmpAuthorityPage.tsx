@@ -99,25 +99,19 @@ function MarkdownBlock({
   );
 }
 
-export function PmpAuthorityPage({
-  page,
-  overrideH1,
-}: {
-  page: PmpPageContent;
-  overrideH1?: string;
-}) {
+export function PmpAuthorityPage({ page }: { page: PmpPageContent }) {
   const viewEvent =
     page.slug === 'pmp-exam-2026' ? CONVERSION_EVENTS.VIEW_PMP_EXAM_2026 : null;
   const breadcrumbs = getPmpPageBreadcrumbs(page);
 
   return (
     <>
-      <PmpViewContentTracker
-        contentName={overrideH1?.trim() || page.h1}
-        contentIds={['pmp', page.slug]}
-      />
       {viewEvent ? <ConversionViewTracker event={viewEvent} /> : null}
       <PmpPageJsonLd page={page} />
+      <PmpViewContentTracker
+        contentName={page.h1}
+        contentIds={['pmp', page.slug]}
+      />
       {page.slug === 'pmp-exam-2026' || page.slug.includes('2026') ? <PmpExam2026LiveBanner /> : null}
       <section className={cn(sectionSurface('purple', 'py-16 sm:py-20'))}>
         <SectionAmbience tone="purple" />
@@ -125,7 +119,7 @@ export function PmpAuthorityPage({
             <Breadcrumbs items={breadcrumbs} />
 
             <h1 className="font-heading text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-6">
-              {overrideH1?.trim() || page.h1}
+              {page.h1}
             </h1>
 
             <div className="rounded-xl border border-brand-purple/20 bg-brand-purple/5 p-5 mb-6">

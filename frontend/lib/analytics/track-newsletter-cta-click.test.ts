@@ -8,15 +8,15 @@
  * - No duplicate tags
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach, type MockInstance } from 'vitest';
 import { trackNewsletterCtaClick } from './track-newsletter-cta-click';
 import * as pushEvent from './push-event';
 
 describe('trackNewsletterCtaClick', () => {
-  let pushSpy: ReturnType<typeof vi.spyOn>;
+  let pushSpy: MockInstance<typeof pushEvent.pushAnalyticsEvent>;
 
   beforeEach(() => {
-    pushSpy = vi.spyOn(pushEvent, 'pushAnalyticsEvent').mockImplementation(() => {});
+    pushSpy = vi.spyOn(pushEvent, 'pushAnalyticsEvent').mockImplementation(() => false);
   });
 
   afterEach(() => {

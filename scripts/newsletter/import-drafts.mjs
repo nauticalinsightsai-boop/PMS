@@ -67,6 +67,7 @@ function resolveCliPath(value) {
 
 export function parseCliArgs(argv) {
   let manifestPath = DEFAULT_MANIFEST_PATH;
+  let qaOutputPath = DEFAULT_QA_OUTPUT_PATH;
   let help = false;
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -92,10 +93,27 @@ export function parseCliArgs(argv) {
       manifestPath = resolveCliPath(value);
       continue;
     }
+    if (argument === '--qa-output') {
+      const value = argv[index + 1];
+      if (!value || value.startsWith('--')) {
+        throw new Error('--qa-output requires a file path');
+      }
+      qaOutputPath = resolveCliPath(value);
+      index += 1;
+      continue;
+    }
+    if (argument.startsWith('--qa-output=')) {
+      const value = argument.slice('--qa-output='.length);
+      if (!value) {
+        throw new Error('--qa-output requires a file path');
+      }
+      qaOutputPath = resolveCliPath(value);
+      continue;
+    }
     throw new Error(`Unknown argument: ${argument}`);
   }
 
-  return { manifestPath, help };
+  return { manifestPath, qaOutputPath, help };
 }
 
 /**
@@ -652,23 +670,24 @@ export async function importNewsletterDrafts({
 
 async function main() {
   try {
-    const { manifestPath, help } = parseCliArgs(process.argv.slice(2));
+    const { manifestPath, qaOutputPath, help } = parseCliArgs(process.argv.slice(2));
     if (help) {
       console.log(
-        'Usage: node scripts/newsletter/import-drafts.mjs [--manifest <path>]\n\n' +
-          `Default manifest: ${DEFAULT_MANIFEST_PATH}`,
+        'Usage: node scripts/newsletter/import-drafts.mjs [--manifest <path>] [--qa-output <path>]\n\n' +
+          `Default manifest: ${DEFAULT_MANIFEST_PATH}\n` +
+          `Default QA output: ${DEFAULT_QA_OUTPUT_PATH}`,
       );
       return;
     }
 
     console.log('\nNewsletter Draft Import — all 13 consolidated articles\n');
 
-    await importNewsletterDrafts({ manifestPath });
+    const result = await importNewsletterDrafts({ manifestPath, qaOutputPath });
 
     console.log('Import complete.\n');
     console.log('Files updated:');
     console.log('   - packages/site-content/src/newsletter-draft-registry.ts');
-    console.log('   - docs/internal/gsc-coverage-2026-07-25/newsletter-priority-qa-2026-07-25.md');
+    console.log(`   - ${result.qaOutputPath}`);
   } catch (err) {
     console.error('\nImport failed:', err.message);
     console.error(err.stack);

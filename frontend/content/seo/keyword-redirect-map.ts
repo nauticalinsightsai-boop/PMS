@@ -1,8 +1,7 @@
 /**
- * Keyword Plan SEO URL → hub soft landers (70 workbook rows).
- * KEEP rows are live pages. All others soft-rewrite to hubs via middleware
- * (pretty slug stays in the address bar; canonical remains the hub).
- * Destination hubs show KeywordLeadPopup when arrival cookie/header/`?from=` is present.
+ * Keyword Plan SEO URL → hub redirects (70 workbook rows).
+ * KEEP rows are live pages (no 301). All others are permanent redirects.
+ * Destination hubs show KeywordLeadPopup when `?from={slug}` is present.
  */
 
 export type KeywordIntent =
@@ -529,7 +528,7 @@ export const KEYWORD_REDIRECT_ROWS: readonly KeywordRedirectRow[] = [
   },
 ] as const;
 
-/** Ads / legacy aliases that are not in the 70-row Keyword Plan but soft-rewrite to hubs. */
+/** Ads / legacy aliases that are not in the 70-row Keyword Plan but must 301 to hubs. */
 export const KEYWORD_ALIAS_REDIRECT_ROWS: readonly KeywordRedirectRow[] = [
   {
     source: '/project-management-services',
@@ -573,58 +572,31 @@ export function getKeywordRedirectRowByFromSlug(slug: string): KeywordRedirectRo
   return BY_FROM_SLUG.get(slug.replace(/^\//, ''));
 }
 
-/**
- * Hard 301s for next.config - intentionally empty.
- * Soft landers are handled by middleware rewrites (see getKeywordSeoRewrites).
- */
+/** Permanent 301 entries for next.config (excludes KEEP pages). */
 export function getKeywordSeoRedirects(): Array<{
   source: string;
   destination: string;
   permanent: true;
 }> {
-  return [];
+  return ALL_REDIRECT_ROWS.filter((row) => !row.keep).map((row) => {
+    const fromSlug = row.source.replace(/^\//, '');
+    const sep = row.destination.includes('?') ? '&' : '?';
+    return {
+      source: row.source,
+      destination: `${row.destination}${sep}from=${encodeURIComponent(fromSlug)}`,
+      permanent: true as const,
+    };
+  });
 }
 
-/** Soft-rewrite map for middleware: keyword/alias source → hub (excludes KEEP). */
-export function getKeywordSeoRewrites(): Array<{
-  source: string;
-  destination: string;
-  slug: string;
-}> {
-  return ALL_REDIRECT_ROWS.filter((row) => !row.keep).map((row) => ({
-    source: row.source,
-    destination: row.destination.split('?')[0] || row.destination,
-    slug: row.source.replace(/^\//, ''),
-  }));
-}
-
-const KEYWORD_REWRITE_BY_SOURCE = new Map(
-  getKeywordSeoRewrites().map((row) => [row.source, row]),
-);
-
-export function getKeywordRewriteByPath(pathname: string): {
-  source: string;
-  destination: string;
-  slug: string;
-} | undefined {
-  const normalized = pathname.replace(/\/$/, '') || '/';
-  const withSlash = normalized.startsWith('/') ? normalized : `/${normalized}`;
-  return KEYWORD_REWRITE_BY_SOURCE.get(withSlash);
-}
-
-/** Path → hub (no query) for indexation canonicalize targets. */
+/** Path → hub (no query) for indexation / REDIRECT_PATHS. */
 export function getKeywordRedirectPathMap(): Record<string, string> {
   const map: Record<string, string> = {};
   for (const row of ALL_REDIRECT_ROWS) {
     if (row.keep) continue;
-    map[row.source] = row.destination.split('?')[0] || row.destination;
+    map[row.source] = row.destination;
   }
   return map;
-}
-
-/** Alias for soft-lander canonicalize map (same paths as redirect map historically). */
-export function getKeywordCanonicalizePathMap(): Record<string, string> {
-  return getKeywordRedirectPathMap();
 }
 
 export function isKeywordLeadHubPath(pathname: string): pathname is KeywordLeadHubPath {

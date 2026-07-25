@@ -36,7 +36,7 @@ import {
   resolveDialOption,
 } from '@/lib/pmp-roadmap-form-options';
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
-import { trackFunnelEvent, FUNNEL_EVENTS, trackGenerateLead } from '@/lib/analytics/funnel';
+import { trackFunnelEvent, FUNNEL_EVENTS } from '@/lib/analytics/funnel';
 import { trackEvent } from '@/lib/analytics/gtag';
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup';
 import { getWebsiteCalendlyUrl } from '@/lib/calendly/website-events';
@@ -257,11 +257,6 @@ export function KeywordLeadPopup() {
     if (res.ok) {
       setSubmitted(true);
       markDismissed();
-      trackGenerateLead({
-        surface: 'keyword_lead_popup',
-        from_slug: fromSlug || null,
-        keyword: row?.keyword ?? null,
-      });
       trackFunnelEvent(FUNNEL_EVENTS.RECOVERY_SUBMITTED, {
         surface: 'keyword_lead_popup',
         from_slug: fromSlug || null,

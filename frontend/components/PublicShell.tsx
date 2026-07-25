@@ -45,13 +45,6 @@ const KeywordLeadPopup = dynamic(
     })),
   { ssr: false },
 );
-const KeywordArrivalRegionBridge = dynamic(
-  () =>
-    import('@/components/seo/KeywordArrivalRegionBridge').then((m) => ({
-      default: m.KeywordArrivalRegionBridge,
-    })),
-  { ssr: false },
-);
 
 /** Matches Navbar inner `h-16`: keep main padding and fixed subnav offset in sync */
 export const PUBLIC_NAVBAR_HEIGHT_CLASS = 'pt-16';
@@ -105,7 +98,6 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
             <ScrollToTop />
             <CookieConsent />
             <Suspense fallback={null}>
-              <KeywordArrivalRegionBridge />
               <KeywordLeadPopup />
             </Suspense>
             {deferWidgets ? (

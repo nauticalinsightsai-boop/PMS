@@ -29,7 +29,6 @@ import {
   getRegisterOfferingsForCert,
 } from '@/lib/register-catalogue-options';
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
-import { trackConversionEvent, CONVERSION_EVENTS } from '@/lib/analytics/conversion-events';
 import { CTAS } from '@/lib/brand-voice';
 import { useLeadRecoveryOptional } from '@/components/conversion-recovery/LeadRecoveryProvider';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
@@ -91,12 +90,6 @@ export function RegisterModal({ trigger, recoveryVariant = 'register_modal_parti
         },
       });
       if (!res.ok) return;
-      trackConversionEvent(CONVERSION_EVENTS.CONSULTATION_BOOK, {
-        cert_id: certId,
-        offering_id: offeringId,
-        region_id: regionId,
-        source: 'register_modal',
-      });
       recovery?.notifyConverted();
     }
     setSubmitted(true);

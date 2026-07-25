@@ -11,20 +11,13 @@ import { PmpRelatedFaqs } from '@/components/pmp/PmpRelatedFaqs';
 import { PmpViewContentTracker } from '@/components/analytics/PmpViewContentTracker';
 import { cn } from '@/lib/utils';
 
-export function PmpServicePage({
-  service,
-  overrideH1,
-}: {
-  service: PmpServiceContent;
-  overrideH1?: string;
-}) {
+export function PmpServicePage({ service }: { service: PmpServiceContent }) {
   const isEnrollment = service.kind === 'enrollment';
-  const h1 = overrideH1?.trim() || service.h1;
 
   return (
     <>
       <PmpViewContentTracker
-        contentName={h1}
+        contentName={service.h1}
         contentIds={['pmp', service.slug]}
       />
       <PmpServiceJsonLd service={service} />
@@ -36,10 +29,10 @@ export function PmpServicePage({
                 PMP
               </Link>
               <span className="mx-2">/</span>
-              <span>{h1}</span>
+              <span>{service.h1}</span>
             </nav>
 
-            <h1 className="font-heading text-3xl sm:text-4xl font-bold mb-6">{h1}</h1>
+            <h1 className="font-heading text-3xl sm:text-4xl font-bold mb-6">{service.h1}</h1>
 
             <div className="rounded-xl border border-brand-orange/20 bg-brand-orange/5 p-5 mb-10">
               <h2 className="text-sm font-bold uppercase tracking-wider text-brand-orange mb-2">
