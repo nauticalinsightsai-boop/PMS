@@ -20,8 +20,8 @@ export function PmpHubPage() {
             PMP exam preparation hub
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 max-w-2xl">
-            Independent guides for the 2026 PMP exam transition, domain focus areas, study planning,
-            and pathway selection on PM Structure.
+            Independent guides for the current PMP exam, domain focus areas, study planning, and
+            pathway selection on PM Structure.
           </p>
 
           <div className="grid sm:grid-cols-2 gap-4 mb-10">

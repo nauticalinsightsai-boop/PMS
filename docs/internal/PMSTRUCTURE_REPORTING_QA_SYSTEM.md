@@ -56,9 +56,10 @@ Priority query groups: PMP 2026, PMP exam 2026, PMP exam changing 2026, PMP read
 - organic sessions
 - priority page views
 - roadmap CTA clicks (`pms_roadmap_cta_click`)
-- form starts (`pms_roadmap_form_start`)
-- lead submissions (`generate_lead`, `pms_roadmap_form_submit`)
-- booking clicks (`pms_booking_click`)
+- form starts (`pmp_roadmap_form_start`)
+- lead submissions (`generate_lead`)
+- booking clicks (`select_content`)
+- confirmed bookings (`booking_confirmed`)
 - contact clicks (`pms_contact_click`)
 - checkout/purchase events if live (`begin_checkout`, `purchase`)
 

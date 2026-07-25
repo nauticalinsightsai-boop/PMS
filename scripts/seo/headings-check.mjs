@@ -16,14 +16,16 @@ const pages = [
   'components/certifications/CertificationsHeroServer.tsx',
   'components/certifications/CertificationDetailHeroServer.tsx',
   'components/pages/Compare.tsx',
+  'components/pages/FAQ.tsx',
   'components/pages/About.tsx',
   'components/pages/Contact.tsx',
   'components/pages/Newsletter.tsx',
   'components/pages/Membership.tsx',
   'components/pages/PMService.tsx',
-  'components/faq/FaqServerHeading.tsx',
 ];
 
+// The active compare component is checked here and the route is checked against raw HTTP
+// by compare-ssr-h1-check.mjs. Do not substitute an unused server helper.
 
 for (const rel of pages) {
   const filePath = path.join(frontend, rel);

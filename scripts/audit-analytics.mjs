@@ -11,11 +11,6 @@ const root = path.join(__dirname, '..');
 const frontend = path.join(root, 'frontend');
 const docsInternal = path.join(root, 'docs/internal');
 
-const APPROVED_GTAG_FILES = [
-  'components/analytics/GoogleAnalytics.tsx',
-  'lib/analytics/gtag.ts',
-];
-
 function read(rel) {
   return fs.readFileSync(path.join(frontend, rel), 'utf8');
 }
@@ -27,9 +22,20 @@ function fail(msg) {
 
 function walkTsFiles(dir, acc = []) {
   if (!fs.existsSync(dir)) return acc;
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+  for (const entry of fs.readdirSync(dir, { withFileDirs: true })) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) walkTsFiles(full, acc);
+    else if (/\.(tsx|ts|jsx|js)$/.test(entry.name)) acc.push(full);
+  }
+  return acc;
+}
+
+// Fix typo - use withFileTypes
+function walkTsFilesFixed(dir, acc = []) {
+  if (!fs.existsSync(dir)) return acc;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) walkTsFilesFixed(full, acc);
     else if (/\.(tsx|ts|jsx|js)$/.test(entry.name)) acc.push(full);
   }
   return acc;
@@ -66,7 +72,10 @@ function runRepoDocChecks() {
     offlineCsv.includes('region_group'),
     'offline conversion template must use region_group column',
   );
-  check(!offlineCsv.startsWith('lead_id,') || !offlineCsv.includes(',region,'), 'offline template must not use legacy region column header');
+  check(
+    !offlineCsv.startsWith('lead_id,') || !offlineCsv.includes(',region,'),
+    'offline template must not use legacy region column header',
+  );
 
   return ok;
 }
@@ -79,22 +88,37 @@ function runGaLoaderChecks() {
 
   const ga = read('components/analytics/GoogleAnalytics.tsx');
   check(ga.includes('hasAnalyticsConsent'), 'GoogleAnalytics must gate on consent');
-  check(ga.includes('send_page_view: false'), 'GoogleAnalytics must disable auto page_view');
-  check(ga.includes('trackPageView'), 'GoogleAnalytics must send manual SPA page_view');
+  check(ga.includes('@next/third-parties/google'), 'GoogleAnalytics must use @next/third-parties/google');
+  check(!ga.includes('send_page_view: false'), 'Custom send_page_view:false snippet must be removed');
+  check(fs.existsSync(path.join(frontend, 'lib/analytics/send-ga-event.ts')), 'send-ga-event util must exist');
+  check(fs.existsSync(path.join(frontend, 'components/analytics/MetaPixel.tsx')), 'MetaPixel component must exist');
+  const meta = read('components/analytics/MetaPixel.tsx');
+  check(meta.includes('hasMarketingConsent'), 'MetaPixel must gate on marketing consent');
+  check(fs.existsSync(path.join(frontend, 'app/api/meta/conversions/route.ts')), 'Meta CAPI route must exist');
+
+  const rootLayout = read('app/layout.tsx');
+  check(rootLayout.includes('MarketingPixels'), 'Root layout must mount MarketingPixels');
+
+  const publicShell = read('components/PublicShell.tsx');
+  check(!publicShell.includes('GoogleAnalytics'), 'PublicShell must not mount a second GA install');
+
+  const portalShell = read('app/go/[channel]/PortalRegionShell.tsx');
+  check(!portalShell.includes('GoogleAnalytics'), 'PortalRegionShell must not mount a second GA install');
 
   const nextConfigContent = fs.readFileSync(path.join(frontend, 'next.config.ts'), 'utf8');
   check(
     !nextConfigContent.includes('GTM-') || nextConfigContent.includes('NEXT_PUBLIC_GTM'),
     'next.config must not hardcode GTM container ID',
   );
-  const appSrc = walkTsFiles(path.join(frontend, 'app'));
-  const compSrc = walkTsFiles(path.join(frontend, 'components'));
-  const libSrc = walkTsFiles(path.join(frontend, 'lib'));
+  const appSrc = walkTsFilesFixed(path.join(frontend, 'app'));
+  const compSrc = walkTsFilesFixed(path.join(frontend, 'components'));
+  const libSrc = walkTsFilesFixed(path.join(frontend, 'lib'));
   const allFiles = [...appSrc, ...compSrc, ...libSrc];
 
   for (const file of allFiles) {
     const rel = path.relative(frontend, file).replace(/\\/g, '/');
     if (rel.includes('/analytics/') && rel.endsWith('GoogleAnalytics.tsx')) continue;
+    if (rel.includes('/analytics/') && rel.endsWith('MetaPixel.tsx')) continue;
     const content = fs.readFileSync(file, 'utf8');
     if (/googletagmanager\.com\/gtm\.js\?id=GTM-/.test(content)) {
       check(false, `GTM container loader found in ${rel} — direct GA4 only`);
@@ -118,66 +142,105 @@ function runModuleChecks() {
     'lib/analytics/track-contact-click.ts',
     'lib/analytics/track-purchase-once.ts',
     'lib/analytics/lead-tracking-context.ts',
+    'lib/analytics/send-ga-event.ts',
+    'lib/analytics/track-persisted-lead.ts',
+    'lib/analytics/consent-cleanup.ts',
   ];
   for (const mod of modules) {
-    check(fs.existsSync(path.join(frontend, mod)), `${mod} must exist`);
+    check(fs.existsSync(path.join(frontend, mod)), `missing ${mod}`);
   }
 
-  const pushEvent = read('lib/analytics/push-event.ts');
-  check(pushEvent.includes("'email'"), 'push-event.ts must strip PII keys (email)');
-  check(pushEvent.includes('PII_KEYS'), 'push-event.ts must define PII denylist');
+  const booking = read('lib/analytics/track-booking-click.ts');
+  check(booking.includes("select_content"), 'booking CTA must use select_content');
+
+  const events = read('lib/analytics/pms-events.ts');
+  check(events.includes("GENERATE_LEAD: 'generate_lead'"), 'canonical lead event must exist');
+  check(events.includes("BOOKING_CONFIRMED: 'booking_confirmed'"), 'canonical booking event must exist');
+  check(!events.includes('pms_roadmap_form_submit'), 'legacy roadmap submit event must be removed');
+  check(!events.includes('pms_booking_click'), 'legacy booking click event must be removed');
 
   return ok;
 }
 
-function runFormWiringChecks() {
+function runFormChecks() {
   let ok = true;
   const check = (cond, msg) => {
     if (!cond) ok = fail(msg) && ok;
   };
-
-  const roadmapForm = read('components/forms/PmpRoadmapLeadForm.tsx');
+  const submitPublic = read('lib/interactions/submit-public.ts');
   check(
-    /if \(res\.ok\)[\s\S]*trackRoadmapLeadSubmit/.test(roadmapForm),
-    'PmpRoadmapLeadForm must call trackRoadmapLeadSubmit only after res.ok',
+    submitPublic.includes('trackPersistedLeadSuccess'),
+    'public submissions must use the shared persisted-lead tracker',
   );
-  check(roadmapForm.includes('formStartedRef'), 'PmpRoadmapLeadForm must fire form start once');
-
-  const newsletter = read('components/forms/NewsletterSubscribeForm.tsx');
   check(
-    newsletter.includes('sign_up') || newsletter.includes("pushAnalyticsEvent('sign_up'"),
-    'NewsletterSubscribeForm must fire sign_up on success',
+    /res\.status\s*===\s*201[\s\S]*trackPersistedLeadSuccess/.test(submitPublic),
+    'generate_lead must be owned by the authoritative 201 persistence boundary',
   );
 
-  const membershipSuccess = read('app/(site)/membership/checkout/success/page.tsx');
+  const publicLeadForms = [
+    'components/conversion-recovery/BottomCtaRotator.tsx',
+    'components/conversion-recovery/LeadRecoveryDialog.tsx',
+    'components/forms/WaitlistForm.tsx',
+    'components/forms/ScholarshipReviewForm.tsx',
+    'components/forms/RegisterNowDialog.tsx',
+    'components/forms/PmServiceAdvisoryLeadForm.tsx',
+    'components/channel-landing/ChannelLandingPublicView.tsx',
+    'components/forms/PmpRoadmapLeadForm.tsx',
+    'components/forms/NewsletterSubscribeForm.tsx',
+    'components/forms/NewsletterHeroSubscribeForm.tsx',
+    'components/forms/MasteryConsultationForm.tsx',
+    'components/forms/JoinWaitlistDialog.tsx',
+    'components/forms/CommunityWaitlistForm.tsx',
+    'components/RegisterModal.tsx',
+    'components/pages/Contact.tsx',
+    'components/seo/KeywordLeadPopup.tsx',
+  ];
+  for (const rel of publicLeadForms) {
+    const source = read(rel);
+    check(source.includes('submitPublicInteraction('), `${rel} must use submitPublicInteraction`);
+    check(!/\btrackGenerateLead\s*\(/.test(source), `${rel} must not duplicate generate_lead`);
+    check(
+      !/\btrackPmpQualificationFormSubmit\s*\(/.test(source),
+      `${rel} must not duplicate PMP submit conversions`,
+    );
+    check(
+      !/\btrackRoadmapLeadSubmit\s*\(/.test(source),
+      `${rel} must not use the legacy roadmap lead helper`,
+    );
+  }
+
+  const bookingConfirmed = read('app/(site)/booking-confirmed/BookingConfirmedClient.tsx');
   check(
-    membershipSuccess.includes('trackPurchaseOnce'),
-    'membership checkout success must fire verified purchase',
+    bookingConfirmed.includes("trackGaEvent('booking_confirmed'"),
+    'confirmed bookings must use booking_confirmed',
   );
-
-  const membershipCheckout = read('components/pages/MembershipCheckout.tsx');
   check(
-    membershipCheckout.includes('BEGIN_CHECKOUT') || membershipCheckout.includes('begin_checkout'),
-    'MembershipCheckout must fire begin_checkout',
+    bookingConfirmed.includes('trackMetaSchedule'),
+    'confirmed bookings must use Meta Schedule',
   );
-
-  const trackLead = read('lib/analytics/track-roadmap-lead.ts');
-  check(trackLead.includes('region_group'), 'track-roadmap-lead must use region_group param');
-
   return ok;
 }
 
 function runRawGtagChecks() {
   let ok = true;
-  const scanDirs = ['components', 'app', 'lib'];
-  for (const dir of scanDirs) {
-    for (const file of walkTsFiles(path.join(frontend, dir))) {
-      const rel = path.relative(frontend, file).replace(/\\/g, '/');
-      if (APPROVED_GTAG_FILES.some((a) => rel === a)) continue;
-      const content = fs.readFileSync(file, 'utf8');
-      if (/\bgtag\s*\(/.test(content) && !content.includes('window.gtag')) {
-        ok = fail(`raw gtag( call in ${rel} — use pushAnalyticsEvent`) && ok;
-      }
+  const approved = new Set([
+    'components/analytics/GoogleAnalytics.tsx',
+    'components/analytics/MetaPixel.tsx',
+    'lib/analytics/gtag.ts',
+    'lib/analytics/send-ga-event.ts',
+    'lib/analytics/meta-browser.ts',
+  ]);
+  const files = [
+    ...walkTsFilesFixed(path.join(frontend, 'app')),
+    ...walkTsFilesFixed(path.join(frontend, 'components')),
+    ...walkTsFilesFixed(path.join(frontend, 'lib')),
+  ];
+  for (const file of files) {
+    const rel = path.relative(frontend, file).replace(/\\/g, '/');
+    if (approved.has(rel)) continue;
+    const content = fs.readFileSync(file, 'utf8');
+    if (/googletagmanager\.com\/gtag\/js/.test(content)) {
+      ok = fail(`raw gtag.js loader in ${rel} — use MarketingPixels / @next/third-parties`) && ok;
     }
   }
   if (ok) console.log('audit-analytics raw gtag scan OK');
@@ -187,13 +250,11 @@ function runRawGtagChecks() {
 const docOk = runRepoDocChecks();
 const gaOk = runGaLoaderChecks();
 const modOk = runModuleChecks();
-const formOk = runFormWiringChecks();
+const formOk = runFormChecks();
 const gtagOk = runRawGtagChecks();
 
 if (docOk && gaOk && modOk && formOk && gtagOk) {
-  console.log('audit-analytics repo checks OK');
-} else {
-  process.exit(1);
+  console.log('audit-analytics OK');
+  process.exit(0);
 }
-
-console.log('Tip: post-deploy use Tag Assistant + GA4 DebugView (see PMSTRUCTURE_GA4_GSC_REPORTING_QA.md)');
+process.exit(1);

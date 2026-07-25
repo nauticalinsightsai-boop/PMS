@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { montserrat } from '@/lib/fonts';
 import { defaultSiteMetadata } from '@/lib/site-metadata';
+import { MarketingPixels } from '@/components/analytics/MarketingPixels';
 import './globals.css';
 
 export const metadata: Metadata = defaultSiteMetadata;
@@ -22,7 +24,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${montserrat.className} antialiased`}>{children}</body>
+      <body className={`${montserrat.className} antialiased`}>
+        {children}
+        <Suspense fallback={null}>
+          <MarketingPixels />
+        </Suspense>
+      </body>
     </html>
   );
 }

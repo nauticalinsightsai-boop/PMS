@@ -96,7 +96,7 @@ export const AI_TEST_QUERIES = [
 
   // G10: FAQ / answers / topics (10)
   { group: 'G10', query: 'PMP exam preparation FAQs', expected: 'https://pmstructure.com/pmp-faq' },
-  { group: 'G10', query: 'PMP exam 2026 topic hub', expected: 'https://pmstructure.com/topics/pmp-exam-2026' },
+  { group: 'G10', query: 'PMP exam 2026 topic hub', expected: 'https://pmstructure.com/pmp-exam-2026' },
   { group: 'G10', query: 'PMP readiness topic hub', expected: 'https://pmstructure.com/topics/pmp-readiness' },
   { group: 'G10', query: 'PMP scenario practice topic', expected: 'https://pmstructure.com/topics/pmp-scenario-practice' },
   { group: 'G10', query: 'Project management certification overview', expected: 'https://pmstructure.com/answers/what-is-project-management-certification' },

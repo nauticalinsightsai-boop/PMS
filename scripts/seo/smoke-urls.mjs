@@ -28,7 +28,6 @@ const paths = [
   '/topics',
   '/answers/is-the-pmp-exam-changing-in-2026',
   '/answers/what-are-the-pmp-eligibility-requirements',
-  '/topics/pmp-exam-2026',
   '/topics/exam-readiness',
   '/pmp-foundation',
   '/legal/pricing-disclaimers',

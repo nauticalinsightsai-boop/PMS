@@ -17,7 +17,7 @@ const PRIORITY_PATHS = [
   '/certifications',
   '/certifications/pmp',
   '/answers/is-the-pmp-exam-changing-in-2026',
-  '/topics/pmp-exam-2026',
+  '/pmp-exam-2026',
   '/faq',
   '/certifications/compare',
   '/community',
@@ -33,7 +33,7 @@ const PRIORITY_SITEMAP_PATHS = [
   '/certifications',
   '/certifications/pmp',
   '/answers/is-the-pmp-exam-changing-in-2026',
-  '/topics/pmp-exam-2026',
+  '/pmp-exam-2026',
   '/faq',
   '/certifications/compare',
   '/community',
@@ -42,6 +42,11 @@ const PRIORITY_SITEMAP_PATHS = [
   '/pm-service',
   '/legal/terms',
   '/legal/privacy',
+];
+
+const SOFT_NOINDEX_EXPECT_NOINDEX = [
+  '/legal',
+  '/legal/cookies',
 ];
 
 const NOINDEX_UTILITY_PATHS = [
@@ -54,7 +59,14 @@ const NOINDEX_UTILITY_PATHS = [
   '/admin',
 ];
 
-const INDEXABLE_PORTAL_PATHS = ['/go/website'];
+const NOINDEX_PORTAL_PATHS = [
+  '/go/instagram',
+  '/go/linkedin',
+  '/go/facebook',
+  '/go/snapchat',
+  '/go/whatsapp',
+  '/go/telegram',
+];
 
 function fetchWithHeaders(url) {
   try {
@@ -101,6 +113,11 @@ function hasNoindexRobotsMeta(html) {
   return matches.some((tag) => /noindex/i.test(tag));
 }
 
+function hasNofollowRobotsMeta(html) {
+  const matches = html.match(/<meta[^>]+name=["']robots["'][^>]*>/gi) ?? [];
+  return matches.some((tag) => /nofollow/i.test(tag));
+}
+
 function pickCanonical(html) {
   const m =
     html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i) ??
@@ -119,6 +136,11 @@ function sitemapHasLoc(body, path) {
   }
   return body.includes(`<loc>${CANONICAL_HOST}${path}</loc>`);
 }
+
+function countOccurrences(body, pattern) {
+  return body.split(pattern).length - 1;
+}
+
 let failed = false;
 let passed = 0;
 
@@ -187,20 +209,41 @@ for (const path of NOINDEX_UTILITY_PATHS) {
   passed += 1;
 }
 
-for (const path of INDEXABLE_PORTAL_PATHS) {
+for (const path of SOFT_NOINDEX_EXPECT_NOINDEX) {
   const url = `${base}${path}`;
+  const { status, body } = fetchBody(url);
+  if (status >= 500) {
+    console.error(`FAIL ${path}: soft-noindex route HTTP ${status}`);
+    failed = true;
+    continue;
+  }
+  if (status >= 200 && status < 400 && !hasNoindexRobotsMeta(body)) {
+    console.error(`FAIL ${path}: soft-noindex path must emit meta robots noindex`);
+    failed = true;
+    continue;
+  }
+  console.log(`OK   ${path} soft-noindex robots (${status})`);
+  passed += 1;
+}
+
+for (const path of NOINDEX_PORTAL_PATHS) {
+  const url = `${base}${path}?utm_source=packet04c&utm_medium=seo&utm_campaign=go_containment`;
   const { status, body } = fetchBody(url);
   if (status >= 500) {
     console.error(`FAIL ${path}: portal route HTTP ${status}`);
     failed = true;
     continue;
   }
-  if (status >= 200 && status < 400 && hasNoindexRobotsMeta(body)) {
-    console.error(`FAIL ${path}: portal must not have noindex meta robots (status ${status})`);
+  if (
+    status >= 200 &&
+    status < 400 &&
+    (!hasNoindexRobotsMeta(body) || !hasNofollowRobotsMeta(body))
+  ) {
+    console.error(`FAIL ${path}: portal must emit noindex,nofollow (status ${status})`);
     failed = true;
     continue;
   }
-  console.log(`OK   ${path} portal indexable (${status})`);
+  console.log(`OK   ${path} portal noindex,nofollow with query handoff (${status})`);
   passed += 1;
 }
 
@@ -235,15 +278,91 @@ if (sitemapRes.status >= 200 && sitemapRes.status < 400) {
     console.log(`OK   sitemap.xml includes ${PRIORITY_SITEMAP_PATHS.length} priority URLs`);
     passed += 1;
   }
-  if (sitemapRes.body.includes('/go/')) {
-    console.log('OK   sitemap.xml includes /go/ portal URLs');
+  const newsletterLoc = `<loc>${CANONICAL_HOST}/newsletter</loc>`;
+  const newsletterLocCount = countOccurrences(sitemapRes.body, newsletterLoc);
+  if (newsletterLocCount === 1) {
+    console.log('OK   sitemap.xml contains /newsletter exactly once');
     passed += 1;
   } else {
-    console.error('FAIL sitemap.xml: must contain /go/ portal URLs');
+    console.error(
+      `FAIL sitemap.xml: expected exactly one ${newsletterLoc}, found ${newsletterLocCount}`,
+    );
     failed = true;
+  }
+  if (/<loc>[^<]*\/go\/[^<]*<\/loc>/i.test(sitemapRes.body)) {
+    console.error('FAIL sitemap.xml: /go/* portal URLs must be omitted');
+    failed = true;
+  } else {
+    console.log('OK   sitemap.xml omits every /go/* portal URL');
+    passed += 1;
+  }
+  for (const path of SOFT_NOINDEX_EXPECT_NOINDEX) {
+    if (sitemapHasLoc(sitemapRes.body, path)) {
+      console.error(`FAIL sitemap.xml: soft-noindex path ${path} must not appear`);
+      failed = true;
+    } else {
+      console.log(`OK   sitemap.xml omits soft-noindex ${path}`);
+      passed += 1;
+    }
   }
 } else {
   console.error(`FAIL sitemap.xml body: HTTP ${sitemapRes.status || 'unknown'}`);
+  failed = true;
+}
+
+const newsletterRes = fetchBody(`${base}/newsletter`);
+if (newsletterRes.status >= 200 && newsletterRes.status < 400) {
+  const h1Count = (newsletterRes.body.match(/<h1(?:\s|>)/gi) ?? []).length;
+  const articleLinkCount = (
+    newsletterRes.body.match(/href=["']\/newsletter\/[^"'?#/]+["']/gi) ?? []
+  ).length;
+  if (h1Count === 1) {
+    console.log('OK   /newsletter raw HTML contains exactly one H1');
+    passed += 1;
+  } else {
+    console.error(`FAIL /newsletter raw HTML: expected one H1, found ${h1Count}`);
+    failed = true;
+  }
+  if (articleLinkCount > 0) {
+    console.log(`OK   /newsletter raw HTML contains ${articleLinkCount} initial article links`);
+    passed += 1;
+  } else {
+    console.error('FAIL /newsletter raw HTML: no initial article links found');
+    failed = true;
+  }
+} else {
+  console.error(`FAIL /newsletter raw HTML: HTTP ${newsletterRes.status || 'unknown'}`);
+  failed = true;
+}
+
+const htmlSitemapRes = fetchBody(`${base}/sitemap`);
+if (htmlSitemapRes.status >= 200 && htmlSitemapRes.status < 400) {
+  const mainHtml =
+    htmlSitemapRes.body.match(/<main\b[^>]*>[\s\S]*?<\/main>/i)?.[0] ?? '';
+  const newsletterHrefCount = (
+    mainHtml.match(/<a[^>]*href=["']\/newsletter["'][^>]*>/gi) ?? []
+  ).length;
+  if (newsletterHrefCount === 1) {
+    console.log('OK   HTML sitemap contains /newsletter exactly once');
+    passed += 1;
+  } else {
+    console.error(
+      `FAIL HTML sitemap: expected one href="/newsletter", found ${newsletterHrefCount}`,
+    );
+    failed = true;
+  }
+  const goHrefCount = (
+    mainHtml.match(/<a[^>]*href=["']\/go\/[^"'?#]+["'][^>]*>/gi) ?? []
+  ).length;
+  if (goHrefCount === 0) {
+    console.log('OK   HTML sitemap omits every /go/* portal URL');
+    passed += 1;
+  } else {
+    console.error(`FAIL HTML sitemap: found ${goHrefCount} /go/* portal links`);
+    failed = true;
+  }
+} else {
+  console.error(`FAIL HTML sitemap: HTTP ${htmlSitemapRes.status || 'unknown'}`);
   failed = true;
 }
 

@@ -23,7 +23,7 @@ const checks = [
     h1Text: 'PMP 2026 Readiness Pathway',
     links: [
       '/answers/is-the-pmp-exam-changing-in-2026',
-      '/topics/pmp-exam-2026',
+      '/pmp-exam-2026',
       '/faq',
       '/certifications/compare',
     ],
@@ -31,11 +31,11 @@ const checks = [
   {
     path: '/answers/is-the-pmp-exam-changing-in-2026',
     h1Text: 'Is the PMP exam changing in 2026',
-    links: ['/certifications/pmp', '/topics/pmp-exam-2026', '/faq'],
+    links: ['/certifications/pmp', '/pmp-exam-2026', '/faq'],
   },
   {
-    path: '/topics/pmp-exam-2026',
-    h1Text: 'PMP Exam 2026 Guide',
+    path: '/pmp-exam-2026',
+    h1Text: 'PMP Exam 2026',
     links: ['/certifications/pmp', '/answers/is-the-pmp-exam-changing-in-2026', '/certifications/compare'],
   },
   {

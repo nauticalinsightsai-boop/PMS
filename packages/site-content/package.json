@@ -18,6 +18,7 @@
     "./about": "./src/about.ts",
     "./newsletter": "./src/newsletter.ts",
     "./newsletter-posts": "./src/newsletter-posts.ts",
+    "./newsletter-draft-registry": "./src/newsletter-draft-registry.ts",
     "./newsletter-authors": "./src/newsletter-authors.ts",
     "./site-settings": "./src/site-settings.ts",
     "./article-markdown": "./src/article-markdown.ts",

@@ -12,7 +12,6 @@ const CookieConsent = dynamic(
   { ssr: false },
 );
 import { LeadRecoveryProvider } from '@/components/conversion-recovery/LeadRecoveryProvider';
-import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 import { syncBrandFavicon } from '@/lib/brand/site-logo';
 import { initAttributionCapture } from '@/lib/analytics/funnel';
@@ -43,6 +42,13 @@ const KeywordLeadPopup = dynamic(
   () =>
     import('@/components/seo/KeywordLeadPopup').then((m) => ({
       default: m.KeywordLeadPopup,
+    })),
+  { ssr: false },
+);
+const KeywordArrivalRegionBridge = dynamic(
+  () =>
+    import('@/components/seo/KeywordArrivalRegionBridge').then((m) => ({
+      default: m.KeywordArrivalRegionBridge,
     })),
   { ssr: false },
 );
@@ -89,9 +95,6 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
 
   return (
     <RegionProvider>
-      <Suspense fallback={null}>
-        <GoogleAnalytics />
-      </Suspense>
       <OrganizationJsonLd />
       <RegionGate>
         <LeadRecoveryProvider>
@@ -102,6 +105,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
             <ScrollToTop />
             <CookieConsent />
             <Suspense fallback={null}>
+              <KeywordArrivalRegionBridge />
               <KeywordLeadPopup />
             </Suspense>
             {deferWidgets ? (

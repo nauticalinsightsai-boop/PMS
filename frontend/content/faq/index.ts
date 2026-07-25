@@ -2,6 +2,10 @@ import { FAQ_CLUSTERS, FAQ_ENTRIES } from './data';
 import type { FaqClusterId, FaqEntry } from './types';
 import type { PmpCategoryId } from './pmp-categories';
 import { LEGACY_PMP_CATEGORY_MAP } from './pmp-categories';
+import {
+  visibleFaqItems,
+  type FaqPageConfig,
+} from '@pms/site-content';
 
 export * from './types';
 export * from './pmp-categories';
@@ -12,12 +16,43 @@ export type { FaqHubSection } from './hub-sections';
 
 const PMP_FAQ_CANONICAL = 'https://pmstructure.com/pmp-faq';
 
+function normalizeFaqQuestion(question: string): string {
+  return question.trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
+function dedupeFaqEntries(entries: FaqEntry[]): FaqEntry[] {
+  const seen = new Set<string>();
+  return entries.filter((entry) => {
+    const key = normalizeFaqQuestion(entry.question);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+const DEDUPED_FAQ_ENTRIES = dedupeFaqEntries(FAQ_ENTRIES);
+
 export function getAllFaqs(): FaqEntry[] {
-  return FAQ_ENTRIES;
+  return DEDUPED_FAQ_ENTRIES;
 }
 
 export function getFaqsByCluster(clusterId: FaqClusterId): FaqEntry[] {
-  return FAQ_ENTRIES.filter((f) => f.clusterId === clusterId);
+  return DEDUPED_FAQ_ENTRIES.filter((f) => f.clusterId === clusterId);
+}
+
+/** Authoritative visible FAQ list for /faq, including CMS overrides and built-in visibility. */
+export function getVisibleFaqPageEntries(
+  config: FaqPageConfig | null | undefined,
+): FaqEntry[] {
+  const customEntries: FaqEntry[] = visibleFaqItems(config).map((item) => ({
+    id: `cms-${item.id}`,
+    clusterId: 'about',
+    question: item.question,
+    answer: item.answer,
+  }));
+  const hiddenBuiltInIds = new Set(config?.hiddenBuiltInIds ?? []);
+  const builtInEntries = FAQ_ENTRIES.filter((entry) => !hiddenBuiltInIds.has(entry.id));
+  return dedupeFaqEntries([...customEntries, ...builtInEntries]);
 }
 
 export function isFaqPublished(entry: FaqEntry): boolean {
@@ -59,7 +94,7 @@ export function resolvePmpCategoryId(entry: FaqEntry): PmpCategoryId | undefined
 }
 
 export function getPmpFaqs(): FaqEntry[] {
-  return FAQ_ENTRIES.filter((f) => f.clusterId === 'pmp2026');
+  return dedupeFaqEntries(FAQ_ENTRIES.filter((f) => f.clusterId === 'pmp2026'));
 }
 
 export function getPmpFaqsPublished(): FaqEntry[] {
@@ -71,26 +106,30 @@ export function getFaqsByPmpCategory(categoryId: PmpCategoryId): FaqEntry[] {
 }
 
 export function getFaqForSchema(): { question: string; answer: string }[] {
-  return FAQ_ENTRIES.filter(isFaqSchemaEligible).map((f) => ({
+  return DEDUPED_FAQ_ENTRIES.filter(isFaqSchemaEligible).map((f) => ({
     question: f.question,
     answer: stripMarkdownLinks(resolveFaqFullAnswer(f)),
   }));
 }
 
-export function getFaqsForSchemaByPath(path: string): { question: string; answer: string }[] {
+function faqEntriesToSchema(
+  entries: FaqEntry[],
+): { question: string; answer: string }[] {
+  return entries.filter(isFaqSchemaEligible).map((f) => ({
+    question: f.question,
+    answer: stripMarkdownLinks(resolveFaqShortAnswer(f)),
+  }));
+}
+
+export function getFaqsForSchemaByPath(
+  path: string,
+  faqPageConfig?: FaqPageConfig | null,
+): { question: string; answer: string }[] {
   if (path === '/pmp-faq') {
-    return getPmpFaqsPublished()
-      .filter(isFaqSchemaEligible)
-      .map((f) => ({
-        question: f.question,
-        answer: stripMarkdownLinks(resolveFaqShortAnswer(f)),
-      }));
+    return faqEntriesToSchema(getPmpFaqsPublished());
   }
   if (path === '/faq') {
-    return FAQ_ENTRIES.filter(isFaqSchemaEligible).map((f) => ({
-      question: f.question,
-      answer: stripMarkdownLinks(resolveFaqShortAnswer(f)),
-    }));
+    return faqEntriesToSchema(getVisibleFaqPageEntries(faqPageConfig));
   }
   return getFaqForSchema();
 }
@@ -116,13 +155,16 @@ export function getFaqsForPmpSurface(
   limit = 5,
 ): FaqEntry[] {
   const seen = new Set<string>();
+  const seenQuestions = new Set<string>();
   const merged: FaqEntry[] = [];
   for (const entry of [
     ...getFaqsByRelatedPage(relatedPage),
     ...(relatedCourse ? getFaqsByRelatedCourse(relatedCourse) : []),
   ]) {
-    if (seen.has(entry.id)) continue;
+    const questionKey = normalizeFaqQuestion(entry.question);
+    if (seen.has(entry.id) || seenQuestions.has(questionKey)) continue;
     seen.add(entry.id);
+    seenQuestions.add(questionKey);
     merged.push(entry);
     if (merged.length >= limit) break;
   }

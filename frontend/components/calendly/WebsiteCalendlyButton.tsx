@@ -1,7 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { buttonVariants, type ButtonProps } from '@/components/ui/button';
+import type { VariantProps } from 'class-variance-authority';
+import { buttonVariants } from '@/components/ui/button';
 import type { CalendlyUtmParams } from '@/lib/calendly/embed-types';
 import {
   buildCalendlyPopupWidgetUrl,
@@ -13,10 +14,15 @@ import {
   type WebsiteCalendlyTier,
 } from '@/lib/calendly/scheduling-href';
 import { openWebsiteCalendly } from '@/lib/calendly/website-events';
+import { mergeCalendlyUtmWithInbound } from '@/lib/analytics/utm-calendly';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 import { cn } from '@/lib/utils';
 
-export type WebsiteCalendlyButtonProps = Omit<ButtonProps, 'onClick' | 'type'> & {
+export type WebsiteCalendlyButtonProps = Omit<
+  React.ComponentPropsWithoutRef<'a'>,
+  'href' | 'onClick'
+> &
+  VariantProps<typeof buttonVariants> & {
   tier?: WebsiteCalendlyTier;
   funnelLabel?: string;
   utm?: CalendlyUtmParams;
@@ -26,11 +32,11 @@ export type WebsiteCalendlyButtonProps = Omit<ButtonProps, 'onClick' | 'type'> &
 /** Themed proxy href - rebuilds when light/dark changes (C5). */
 function buildThemedProxyHref(
   tier: WebsiteCalendlyTier,
+  host: string,
   theme: 'light' | 'dark',
   utm?: CalendlyUtmParams,
 ): string {
   try {
-    const host = typeof window !== 'undefined' ? window.location.host : 'localhost';
     return (
       buildCalendlyPopupWidgetUrl(getWebsiteCalendlyUrl(tier), {
         host,
@@ -57,11 +63,12 @@ export function WebsiteCalendlyButton({
   size = 'default',
   ...rest
 }: WebsiteCalendlyButtonProps) {
-  const [theme, setTheme] = React.useState<'light' | 'dark'>(() =>
-    typeof window !== 'undefined' ? getCalendlyEmbedTheme() : 'dark',
-  );
+  const [host, setHost] = React.useState('localhost');
+  const [theme, setTheme] = React.useState<'light' | 'dark'>('dark');
+  const [resolvedUtm, setResolvedUtm] = React.useState<CalendlyUtmParams | undefined>(utm);
 
   React.useEffect(() => {
+    setHost(window.location.host);
     const sync = () => setTheme(getCalendlyEmbedTheme());
     sync();
     const mo = new MutationObserver(sync);
@@ -73,7 +80,20 @@ export function WebsiteCalendlyButton({
     return () => mo.disconnect();
   }, []);
 
-  const href = React.useMemo(() => buildThemedProxyHref(tier, theme, utm), [tier, theme, utm]);
+  React.useEffect(() => {
+    setResolvedUtm(mergeCalendlyUtmWithInbound(utm));
+  }, [
+    utm?.utm_source,
+    utm?.utm_medium,
+    utm?.utm_campaign,
+    utm?.utm_content,
+    utm?.utm_term,
+  ]);
+
+  const href = React.useMemo(
+    () => buildThemedProxyHref(tier, host, theme, resolvedUtm),
+    [tier, host, theme, resolvedUtm],
+  );
 
   const openPopup = React.useCallback(
     (event?: React.MouseEvent<HTMLAnchorElement>) => {

@@ -116,7 +116,7 @@ const courses: PmpCourseContent[] = [
     outcomes: resolvePathwayTierOutcomes('pmp', 'mastery'),
     modules: masteryModules,
     examRelevance:
-      'Mastery focuses on exam-week execution: pacing, stamina, and domain remediation aligned to the format you will sit (before or after July 2026).',
+      'Mastery focuses on current exam-week execution: pacing, stamina, and domain remediation aligned to the PMP exam in force since 9 July 2026.',
     enrollPath: enrollPath('pmp', 'mastery'),
     faqs: tierFaqs('Mastery'),
   },

@@ -12,8 +12,8 @@ const clusterLinks = (current: string): PmpPageContent['relatedLinks'] => [
   { href: '/pmp', label: 'PMP hub' },
   { href: '/pmp-2026-pathway', label: 'PMP 2026 readiness pathway' },
   { href: '/pmp-exam-2026', label: 'PMP exam 2026 guide' },
-  { href: '/pmp-current-vs-new-exam', label: 'Current vs new exam' },
-  { href: '/pmp-exam-timeline-2026', label: '2026 timeline' },
+  { href: '/pmp-after-9-july-2026', label: 'Current exam preparation reset' },
+  { href: '/pmp-current-vs-new-exam', label: 'Previous vs current exam' },
   { href: '/certifications/pmp', label: 'PMP certification pathway' },
   { href: '/pmp-faq', label: 'PMP FAQ' },
   { href: '/faq', label: 'All FAQs' },
@@ -29,22 +29,17 @@ export const PMP_HUB_CARDS: PmpHubCard[] = [
   {
     path: '/pmp-exam-2026',
     title: 'PMP exam 2026',
-    description: 'Main authority guide to the 2026 PMP exam transition.',
+    description: 'Main authority guide to the PMP exam now in force.',
   },
   {
     path: '/pmp-current-vs-new-exam',
-    title: 'Current vs new exam',
-    description: 'Compare the pre-9 July and post-9 July 2026 exam experience.',
-  },
-  {
-    path: '/pmp-before-8-july-2026',
-    title: 'Before 8 July 2026',
-    description: 'Guidance if you plan to sit the current exam format.',
+    title: 'Previous vs current exam',
+    description: 'Compare the exam before 9 July with the current exam.',
   },
   {
     path: '/pmp-after-9-july-2026',
-    title: 'After 9 July 2026',
-    description: 'How to prepare for the updated exam from 9 July 2026.',
+    title: 'Current PMP exam preparation',
+    description: 'How to reset your materials and prepare for the exam now in force.',
   },
   {
     path: '/pmp-exam-timeline-2026',
@@ -126,41 +121,41 @@ const pages: PmpPageContent[] = [
       { href: PMP_PATHWAY_PAGE.path, label: PMP_PATHWAY_PAGE.shortLabel },
       ...clusterLinks('/pmp-exam-2026'),
       { href: '/answers/is-the-pmp-exam-changing-in-2026', label: 'Is the PMP exam changing in 2026?' },
-      { href: '/answers/current-pmp-exam-vs-new-pmp-exam', label: 'Current vs new PMP exam' },
-      { href: '/answers/should-i-rush-pmp-before-july-2026', label: 'Should I rush before July 2026?' },
-      { href: '/topics/pmp-exam-2026', label: 'PMP exam 2026 topic hub' },
+      { href: '/answers/current-pmp-exam-vs-new-pmp-exam', label: 'Previous vs current PMP exam' },
+      { href: '/pmp-after-9-july-2026', label: 'Reset preparation for the current exam' },
+      { href: '/pmp-exam-2026', label: 'PMP exam 2026 guide' },
     ],
   },
   {
     slug: 'pmp-current-vs-new-exam',
     path: '/pmp-current-vs-new-exam',
-    title: 'PMP current vs new exam (2026 comparison)',
+    title: 'Previous vs current PMP exam (2026 comparison)',
     description:
-      'Compare the current PMP exam experience with the post-9 July 2026 format. Independent preparation guidance from PM Structure.',
-    h1: 'PMP current exam vs new exam: 2026 comparison',
+      'Compare the previous PMP exam with the current exam launched on 9 July 2026. Independent preparation guidance from PM Structure.',
+    h1: 'Previous vs current PMP exam: 2026 comparison',
     directAnswer:
-      'The main decision is which exam version you will face on your test date. The current experience reflects today’s ECO until PMI’s published transition; the new experience applies from 9 July 2026 onward per PMI communications. Preparation depth and scenario practice matter for both.',
+      'The updated PMP exam launched on 9 July 2026 and is now the current exam. Use this comparison to identify obsolete pre-transition materials, then prepare against the current PMI handbook and Exam Content Outline.',
     sections: [
       {
         id: 'comparison-table',
         heading: 'Comparison at a glance',
         body:
-          '| Factor | Current exam (before transition) | New exam (from 9 July 2026) |\n|--------|-------------------------------|----------------------------|\n| Timing | Schedule while current format is offered | Plan for post-transition ECO emphasis |\n| Study focus | Today’s ECO + situational items | Updated ECO themes incl. modern delivery contexts |\n| Official source | PMI handbook + Pearson VUE | PMI handbook + Pearson VUE |\n| PM Structure role | Independent prep pathways | Independent prep pathways |\n\n' +
+          '| Factor | Previous exam (before 9 July 2026) | Current exam (from 9 July 2026) |\n|--------|-----------------------------------------|------------------------------------|\n| Status | Historical; no longer offered | Active exam for current candidates |\n| Study focus | Previous ECO and domain balance | Current ECO, revised domains, and modern delivery contexts |\n| Official source | Historical PMI materials | Current PMI handbook + Pearson VUE |\n| PM Structure role | Historical comparison only | Independent preparation pathways |\n\n' +
           PMP_SOURCE_TODO,
       },
       {
         id: 'prep-implications',
         heading: 'Preparation implications',
         body:
-          'Scenario practice, timed mocks, and domain-level review remain central. Swap emphasis only after you confirm which exam version you will sit.',
+          'Scenario practice, timed mocks, and domain-level review remain central. Replace pre-transition materials and confirm that every study resource maps to the current PMI Exam Content Outline.',
       },
       {
         id: 'timing-guides',
         heading: 'Next steps',
         body: [
-          '- [Current vs new exam](/pmp-current-vs-new-exam)',
-          '- [Before 8 July 2026](/pmp-before-8-july-2026)',
-          '- [After 9 July 2026](/pmp-after-9-july-2026)',
+          '- [Current PMP exam facts](/pmp-exam-2026)',
+          '- [Current exam preparation reset](/pmp-after-9-july-2026)',
+          '- [Previous vs current exam reference](/pmp-current-vs-new-exam)',
         ].join('\n'),
       },
     ],
@@ -169,37 +164,43 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-before-8-july-2026',
     path: '/pmp-before-8-july-2026',
-    title: 'PMP exam before 8 July 2026: candidate guidance',
+    title: 'PMP exam before 8 July 2026: historical guidance',
     description:
-      'Should you take the PMP exam before 8 July 2026? Independent timing and preparation guidance.',
-    h1: 'Preparing to sit PMP before 8 July 2026',
+      'Historical timing guidance for candidates who sat the PMP exam before the 8 July 2026 transition.',
+    h1: 'PMP before 8 July 2026 (historical)',
     directAnswer:
-      'If you are already exam-ready and can schedule before the transition window, sitting the current format may avoid adapting to a new ECO emphasis. Confirm seat availability and PMI rules before committing.',
+      '**Historical:** This page provided timing guidance for candidates considering the previous PMP exam format before 9 July 2026. The previous exam is no longer offered. For current exam preparation, see the [PMP exam 2026 guide](/pmp-exam-2026).',
     sections: [
       {
         id: 'when-it-makes-sense',
-        heading: 'When testing before July makes sense',
+        heading: 'When testing before July made sense (historical)',
         body:
-          'You have completed a structured study plan, scored consistently on timed mocks, and can schedule with Pearson VUE in time. Rushing only to beat a date rarely improves outcomes.',
+          'Candidates who had completed a structured study plan, scored consistently on timed mocks, and could schedule with Pearson VUE before the transition. Rushing only to beat a date rarely improved outcomes.',
       },
       {
         id: 'risks',
-        heading: 'Risks of rushing',
+        heading: 'Risks of rushing (historical)',
         body:
-          'Under-preparing to hit a calendar date can increase retake costs. Official exam fees and scheduling policies are set by PMI, not PM Structure.',
+          'Under-preparing to hit a calendar date increased retake costs. This timing decision is no longer relevant as the previous exam is not offered.',
+      },
+      {
+        id: 'current-guidance',
+        heading: 'Current exam preparation',
+        body:
+          'Prepare for the current PMP exam (updated July 2026) using the latest ECO and domain weights. See [PMP exam 2026 guide](/pmp-exam-2026) for current preparation routes.',
       },
     ],
-    relatedLinks: clusterLinks('/pmp-before-8-july-2026'),
+    relatedLinks: clusterLinks('/pmp-after-9-july-2026'),
   },
   {
     slug: 'pmp-after-9-july-2026',
     path: '/pmp-after-9-july-2026',
-    title: 'PMP exam after 9 July 2026: preparation guide',
+    title: 'Current PMP exam preparation guide (July 2026 update)',
     description:
-      'How to prepare for the PMP exam from 9 July 2026 onward. Independent readiness guidance.',
-    h1: 'Preparing for PMP after 9 July 2026',
+      'How to prepare for the current PMP exam launched on 9 July 2026. Independent readiness guidance.',
+    h1: 'Preparing for the current PMP exam',
     directAnswer:
-      'Candidates sitting on or after 9 July 2026 should align mocks and study plans to PMI’s updated exam content outline once published. Build scenario judgment skills and review Business Environment, People, and Process themes with official materials.',
+      'Candidates should align mocks and study plans to PMI’s published July 2026 examination content outline. Build scenario judgement skills and allocate practice across People (33%), Process (41%), and Business Environment (26%) using current official materials.',
     sections: [
       {
         id: 'study-shift',
@@ -213,17 +214,17 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-exam-timeline-2026',
     path: '/pmp-exam-timeline-2026',
-    title: 'PMP exam timeline 2026: key dates',
-    description: '2026 PMP exam transition timeline and decision milestones for candidates.',
-    h1: 'PMP exam timeline 2026',
+    title: 'PMP exam timeline 2026: key dates (historical)',
+    description: '2026 PMP exam transition timeline and decision milestones (historical reference).',
+    h1: 'PMP exam timeline 2026 (historical)',
     directAnswer:
-      'Treat 8 July 2026 and 9 July 2026 as the planning boundary communicated in PMI transition materials. Build your study plan backward from your target test month and application approval window.',
+      'The PMP exam transition occurred on 9 July 2026. This historical timeline shows the planning milestones for that transition. For current exam preparation, use the [PMP 2026 guide](/pmp-exam-2026).',
     sections: [
       {
         id: 'milestones',
-        heading: 'Suggested milestones',
+        heading: 'Historical milestones (2026 transition)',
         body:
-          '1) Confirm PMI application eligibility and hours. 2) Choose exam version based on readiness. 3) Complete 6-12 weeks structured study (pace varies). 4) Schedule Pearson VUE slot. 5) Run final mocks under timed conditions.',
+          '8 July 2026: Last day for previous exam format.\n9 July 2026: Updated PMP exam launched.\n\nFor current candidates: Build your study plan around PMI application approval timeline and readiness checkpoints.',
       },
     ],
     relatedLinks: clusterLinks('/pmp-exam-timeline-2026'),
@@ -231,10 +232,10 @@ const pages: PmpPageContent[] = [
   {
     slug: 'pmp-new-exam-domain-weighting',
     path: '/pmp-new-exam-domain-weighting',
-    title: 'PMP new exam domain weighting: what to verify',
+    title: 'Current PMP exam domain weighting: what to verify',
     description:
       'Orientation on PMP ECO domain weighting for 2026. Verify all percentages with official PMI sources.',
-    h1: 'PMP new exam domain weighting (verify with PMI)',
+    h1: 'Current PMP exam domain weighting (verify with PMI)',
     directAnswer:
       'Domain weights are defined by PMI in the official Exam Content Outline. Do not rely on third-party percentages for scheduling decisions. Download the current ECO from PMI and map your study hours proportionally.',
     sections: [

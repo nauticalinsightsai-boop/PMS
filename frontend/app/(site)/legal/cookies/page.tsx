@@ -1,10 +1,12 @@
-import type { Metadata } from 'next';
 import { LegalCookiesPage } from '@/components/pages/legal/LegalCookiesPage';
-import { BRAND } from '@/lib/brand-voice';
+import { cookiesDocument } from '@/content/legal/cookies';
+import { buildPageMetadata } from '@/lib/site-metadata';
 
-export const metadata: Metadata = {
-  title: `Cookie Policy | ${BRAND.name}`,
-};
+export const metadata = buildPageMetadata({
+  title: cookiesDocument.title,
+  description: cookiesDocument.jurisdictionNote,
+  path: '/legal/cookies',
+});
 
 export default function Page() {
   return <LegalCookiesPage />;

@@ -198,10 +198,18 @@ export function NewsletterArticlePage({
       ) : null}
 
       <CTABanner
-        title="Stay ahead of the curve"
-        description="Get weekly insights on certification strategy, agile leadership, and career growth."
-        buttonText="View all articles"
-        buttonHref="/newsletter"
+        title={article.ctaLabel ? 'Take the next structured step' : 'Stay ahead of the curve'}
+        description={
+          article.ctaLabel
+            ? 'Use this article as a decision aid, then speak with PM Structure about your pathway and readiness.'
+            : 'Get weekly insights on certification strategy, agile leadership, and career growth.'
+        }
+        buttonText={article.ctaLabel || 'View all articles'}
+        buttonHref={article.ctaUrl || '/newsletter'}
+        tracking={{
+          slug: article.slug,
+          pageLocation: 'newsletter-article-footer',
+        }}
       />
     </article>
   );

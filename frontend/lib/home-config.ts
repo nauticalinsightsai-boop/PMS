@@ -9,10 +9,21 @@ import {
   type HomePageConfigV2,
 } from '@pms/site-content';
 import { useWebsiteDataRealtime } from '@/hooks/useWebsiteDataRealtime';
+import { isSupabaseConfigured } from '@/lib/supabase';
 
 const HOME_CONFIG_KEY = FIELD_KEYS.HOME_PAGE_CONFIG;
 export const HOME_PREVIEW_KEY = 'home_page_preview_config_v1';
 const HOME_PREVIEW_MESSAGE = 'pms:home-preview-config';
+
+function formatLoadError(err: unknown): string {
+  if (err instanceof Error) return err.message;
+  if (typeof err === 'string') return err;
+  try {
+    return JSON.stringify(err);
+  } catch {
+    return String(err);
+  }
+}
 
 function readPreviewConfig(): HomePageConfigV2 | null {
   if (typeof window === 'undefined') return null;
@@ -39,12 +50,13 @@ export function useHomePageConfig(initialConfig?: HomePageConfigV2 | null) {
   );
 
   const refresh = useCallback(async () => {
+    if (!isSupabaseConfigured()) return;
     try {
       WebsiteDataService.invalidatePublishedCache([HOME_CONFIG_KEY]);
       const row = await WebsiteDataService.getPublishedByFieldKey(HOME_CONFIG_KEY);
       setConfig(normalizeHomeConfigV1ToV2(row?.content));
     } catch (err) {
-      console.error('Failed to load home page config', err);
+      console.error('Failed to load home page config:', formatLoadError(err));
     }
   }, []);
 
@@ -58,12 +70,13 @@ export function useHomePageConfig(initialConfig?: HomePageConfigV2 | null) {
 
     if (initialConfig) {
       setConfig(initialConfig);
+      return;
     }
 
     void refresh();
   }, [initialConfig, refresh]);
 
-  useWebsiteDataRealtime(HOME_CONFIG_KEY, refresh, isPreview);
+  useWebsiteDataRealtime(HOME_CONFIG_KEY, refresh, !isPreview && isSupabaseConfigured());
 
   useEffect(() => {
     if (!isPreviewRequest()) return;

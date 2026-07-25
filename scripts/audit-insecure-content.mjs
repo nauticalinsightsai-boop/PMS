@@ -57,7 +57,7 @@ const LIVE_PRIORITY_PATHS = [
   '/certifications',
   '/certifications/pmp',
   '/answers/is-the-pmp-exam-changing-in-2026',
-  '/topics/pmp-exam-2026',
+  '/pmp-exam-2026',
   '/faq',
   '/certifications/compare',
   '/community',

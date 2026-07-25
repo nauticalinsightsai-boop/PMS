@@ -3,6 +3,7 @@ type SendParams = {
   subject: string;
   text: string;
   html?: string;
+  idempotencyKey?: string;
 };
 
 const SMTP_TIMEOUT_MS = 30_000;
@@ -162,6 +163,9 @@ async function sendViaResend(params: SendParams): Promise<void> {
       headers: {
         Authorization: `Bearer ${key}`,
         'Content-Type': 'application/json',
+        ...(params.idempotencyKey
+          ? { 'Idempotency-Key': params.idempotencyKey }
+          : {}),
       },
       body: JSON.stringify({
         from,

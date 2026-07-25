@@ -47,10 +47,10 @@ Acceptable evidence:
 | GA4 tag fires once per pageview | Pending | TBD | Mahaa |  |
 | GTM/GA4 duplicate tracking checked | Pending | TBD | Mahaa |  |
 | pms_roadmap_cta_click fires | Pending | TBD | Mahaa |  |
-| pms_roadmap_form_start fires once | Pending | TBD | Mahaa |  |
+| pmp_roadmap_form_start fires once | Pending | TBD | Mahaa |  |
 | generate_lead fires only after successful submit | Pending | TBD | Mahaa |  |
-| pms_roadmap_form_submit fires only after successful submit | Pending | TBD | Mahaa |  |
-| pms_booking_click fires | Pending | TBD | Mahaa |  |
+| generate_lead fires once only after authoritative 201 persistence | Pending | TBD | Mahaa |  |
+| booking CTA uses select_content and confirmed booking uses booking_confirmed | Pending | TBD | Mahaa |  |
 | pms_contact_click fires | Pending | TBD | Mahaa |  |
 | No PII sent to GA4 | Pending | TBD | Mahaa |  |
 | Key events marked in GA4 after testing | Pending | TBD | Mahaa |  |

@@ -37,13 +37,82 @@ if (!fs.existsSync(conversionEvents)) {
     'view_answer_page',
     'view_topic_hub',
     'start_checkout',
-    'consultation_book',
     'region_select',
     'view_pmp_pathway',
   ]) {
     if (!ce.includes(ev)) {
       issues.push({ severity: 'medium', issue: `conversion-events missing ${ev}` });
     }
+  }
+  if (ce.includes('consultation_book')) {
+    issues.push({ severity: 'high', issue: 'conversion-events contains obsolete consultation_book' });
+  }
+}
+
+const pmsEvents = path.join(frontend, 'lib/analytics/pms-events.ts');
+if (!fs.existsSync(pmsEvents)) {
+  issues.push({ severity: 'medium', issue: 'missing pms-events.ts' });
+} else {
+  const events = fs.readFileSync(pmsEvents, 'utf8');
+  if (!events.includes("GENERATE_LEAD: 'generate_lead'")) {
+    issues.push({ severity: 'high', issue: 'canonical generate_lead event is missing' });
+  }
+  if (!events.includes("SELECT_CONTENT: 'select_content'")) {
+    issues.push({ severity: 'high', issue: 'canonical select_content event is missing' });
+  }
+  if (!events.includes("BOOKING_CONFIRMED: 'booking_confirmed'")) {
+    issues.push({ severity: 'high', issue: 'canonical booking_confirmed event is missing' });
+  }
+  if (events.includes('consultation_book')) {
+    issues.push({ severity: 'high', issue: 'pms-events contains obsolete consultation_book' });
+  }
+}
+
+const bookingClickFile = path.join(frontend, 'lib/analytics/track-booking-click.ts');
+if (!fs.existsSync(bookingClickFile)) {
+  issues.push({ severity: 'medium', issue: 'missing booking CTA tracker' });
+} else {
+  const bookingClick = fs.readFileSync(bookingClickFile, 'utf8');
+  if (!/pushAnalyticsEvent\(\s*['"]select_content['"]/.test(bookingClick)) {
+    issues.push({ severity: 'high', issue: 'booking CTA must use select_content' });
+  }
+  if (/pushAnalyticsEvent\(\s*['"](?:generate_lead|booking_confirmed)['"]/.test(bookingClick)) {
+    issues.push({ severity: 'high', issue: 'booking CTA click must remain distinct from lead and confirmed booking events' });
+  }
+}
+
+const submitPublicFile = path.join(frontend, 'lib/interactions/submit-public.ts');
+if (!fs.existsSync(submitPublicFile)) {
+  issues.push({ severity: 'medium', issue: 'missing public interaction submitter' });
+} else {
+  const submitPublic = fs.readFileSync(submitPublicFile, 'utf8');
+  if (
+    !submitPublic.includes('trackPersistedLeadSuccess') ||
+    !/res\.status\s*===\s*201[\s\S]*trackPersistedLeadSuccess/.test(submitPublic)
+  ) {
+    issues.push({
+      severity: 'high',
+      issue: 'generate_lead must fire from the authoritative 201 persistence boundary',
+    });
+  }
+}
+
+const bookingConfirmedFile = path.join(
+  frontend,
+  'app/(site)/booking-confirmed/BookingConfirmedClient.tsx',
+);
+if (!fs.existsSync(bookingConfirmedFile)) {
+  issues.push({ severity: 'medium', issue: 'missing confirmed booking tracker' });
+} else {
+  const bookingConfirmed = fs.readFileSync(bookingConfirmedFile, 'utf8');
+  if (!bookingConfirmed.includes("trackGaEvent('booking_confirmed'")) {
+    issues.push({ severity: 'high', issue: 'confirmed booking must use booking_confirmed' });
+  }
+  if (!bookingConfirmed.includes('trackMetaSchedule')) {
+    issues.push({ severity: 'high', issue: 'confirmed booking must use Meta Schedule' });
+  }
+  if (bookingConfirmed.includes('generate_lead')) {
+    issues.push({ severity: 'high', issue: 'confirmed booking must remain distinct from lead events' });
   }
 }
 
