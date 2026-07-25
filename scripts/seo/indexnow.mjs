@@ -41,8 +41,8 @@ const priorityPaths = [
   '/faq',
   '/certifications/compare',
   '/answers/is-the-pmp-exam-changing-in-2026',
-  '/topics/pmp-exam-2026',
-  '/newsletter',
+  '/membership',
+  '/pm-service',
   '/sitemap.xml',
 ];
 

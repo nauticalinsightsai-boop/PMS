@@ -50,6 +50,13 @@ for (const target of TARGETS) {
   walk(target, files);
   for (const file of files) {
     const rel = path.relative(root, file);
+    // Imported editorial drafts keep source punctuation; validate separately via word-count.
+    if (
+      rel.replace(/\\/g, '/').includes('newsletter-draft-registry') ||
+      rel.replace(/\\/g, '/').includes('content/newsletter/drafts/')
+    ) {
+      continue;
+    }
     const text = fs.readFileSync(file, 'utf8');
     if (!text.includes('—')) continue;
     const lines = text.split('\n');

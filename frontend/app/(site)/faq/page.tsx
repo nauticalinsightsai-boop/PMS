@@ -1,7 +1,4 @@
-import { Suspense } from 'react';
 import { FAQ } from '@/components/pages/FAQ';
-import { FaqCrawlableContent } from '@/components/faq/FaqCrawlableContent';
-import { FaqServerHeading } from '@/components/faq/FaqServerHeading';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { FaqPageJsonLd } from '@/components/seo/FaqPageJsonLd';
 import { RelatedGuidesLinks } from '@/components/seo/RelatedGuidesLinks';
@@ -30,7 +27,13 @@ export async function generateMetadata() {
   });
 }
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string | string[] }>;
+}) {
+  const rawTab = (await searchParams).tab;
+  const initialTab = Array.isArray(rawTab) ? rawTab[0] : rawTab;
   const [globalContent, faqConfig] = await Promise.all([
     fetchPublishedGlobalContent(),
     fetchPublishedDocument(
@@ -42,15 +45,11 @@ export default async function Page() {
 
   return (
     <>
-      <FaqPageJsonLd />
-      <FaqServerHeading />
+      <FaqPageJsonLd faqConfig={faqConfig} />
       <div className="container mx-auto max-w-3xl px-4 pt-8">
         <Breadcrumbs items={faqBreadcrumbs} />
       </div>
-      <FaqCrawlableContent />
-      <Suspense fallback={null}>
-        <FAQ globalContent={globalContent} faqConfig={faqConfig} />
-      </Suspense>
+      <FAQ globalContent={globalContent} faqConfig={faqConfig} initialTab={initialTab} />
       {faqSeo.relatedLinks?.length ? (
         <div className="container mx-auto max-w-3xl px-4 pb-16">
           <RelatedGuidesLinks

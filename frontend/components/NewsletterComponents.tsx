@@ -13,6 +13,7 @@ import {
   resolveNewsletterArticleImage,
 } from "@pms/site-content/newsletter-posts";
 import { resolveNewsletterAuthorAvatar } from '@/lib/marketing-stock-images';
+import { trackNewsletterCtaClick } from '@/lib/analytics/track-newsletter-cta-click';
 
 interface CategoryChipProps {
   label: string;
@@ -227,7 +228,18 @@ export const CTABanner: React.FC<{
   buttonText: string;
   buttonHref?: string;
   variant?: "orange" | "purple";
-}> = ({ title, description, buttonText, buttonHref = "/newsletter", variant = "orange" }) => {
+  tracking?: {
+    slug: string;
+    pageLocation?: string;
+  };
+}> = ({
+  title,
+  description,
+  buttonText,
+  buttonHref = "/newsletter",
+  variant = "orange",
+  tracking,
+}) => {
   const variants = {
     orange: "bg-pms-gradient-orange",
     purple: "bg-pms-gradient-blue-purple",
@@ -246,7 +258,19 @@ export const CTABanner: React.FC<{
         <div className="relative z-10 max-w-3xl mx-auto min-w-0">
           <h3 className="font-heading text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-6 text-balance">{title}</h3>
           <p className="text-base sm:text-lg md:text-xl text-white/90 mb-10 leading-relaxed">{description}</p>
-          <Link href={buttonHref} className="inline-flex w-full sm:w-auto justify-center">
+          <Link
+            href={buttonHref}
+            className="inline-flex w-full sm:w-auto justify-center"
+            onClick={() => {
+              if (!tracking) return;
+              trackNewsletterCtaClick({
+                slug: tracking.slug,
+                ctaLabel: buttonText,
+                destination: buttonHref,
+                pageLocation: tracking.pageLocation,
+              });
+            }}
+          >
             <Button
               size="lg"
               className="w-full min-h-14 h-auto whitespace-normal rounded-2xl bg-white px-6 py-3 text-base font-bold text-slate-900 shadow-xl hover:bg-slate-100 sm:w-auto sm:px-10 sm:py-0 sm:text-lg"

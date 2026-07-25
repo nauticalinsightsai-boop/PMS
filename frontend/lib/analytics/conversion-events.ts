@@ -16,7 +16,7 @@ export const CONVERSION_EVENTS = {
   VIEW_PMP_FAQ: 'view_pmp_faq',
   VIEW_ANSWER_PAGE: 'view_answer_page',
   VIEW_TOPIC_HUB: 'view_topic_hub',
-  CONSULTATION_BOOK: 'consultation_book',
+  SELECT_CONTENT: 'select_content',
   REGION_SELECT: 'region_select',
 } as const;
 

@@ -20,8 +20,8 @@ function escape(v) {
 let added = 0;
 for (const row of [...KEYWORD_REDIRECT_ROWS, ...KEYWORD_ALIAS_REDIRECT_ROWS]) {
   if (existing.has(row.source)) continue;
-  const status = row.keep ? 'Implemented' : 'Redirect';
-  const action = row.keep ? 'Keep live + popup' : '301 to hub + popup';
+  const status = row.keep ? 'Implemented' : 'Soft lander';
+  const action = row.keep ? 'Keep live + popup' : 'Soft rewrite to hub + adapted H1/meta + popup';
   csv +=
     '\n' +
     [
@@ -37,7 +37,7 @@ for (const row of [...KEYWORD_REDIRECT_ROWS, ...KEYWORD_ALIAS_REDIRECT_ROWS]) {
       'High',
       action,
       status,
-      row.keep ? 'KEEP live page' : 'Keyword redirect; see pmstructure-keyword-redirect-map.csv',
+      row.keep ? 'KEEP live page' : 'Keyword soft lander; see pmstructure-keyword-redirect-map.csv',
     ]
       .map(escape)
       .join(',');

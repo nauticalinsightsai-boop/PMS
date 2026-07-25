@@ -2,16 +2,19 @@
 
 export const PMS_EVENTS = {
   ROADMAP_CTA_CLICK: 'pms_roadmap_cta_click',
-  ROADMAP_FORM_START: 'pms_roadmap_form_start',
-  ROADMAP_FORM_SUBMIT: 'pms_roadmap_form_submit',
-  BOOKING_CLICK: 'pms_booking_click',
   CONTACT_CLICK: 'pms_contact_click',
   WAITLIST_JOIN: 'pms_waitlist_join',
   MEMBERSHIP_INTEREST: 'pms_membership_interest',
   RESOURCE_INTEREST: 'pms_resource_interest',
   GENERATE_LEAD: 'generate_lead',
+  SELECT_CONTENT: 'select_content',
+  BOOKING_CONFIRMED: 'booking_confirmed',
   BEGIN_CHECKOUT: 'begin_checkout',
   PURCHASE: 'purchase',
+  // P0.4 qualification-first roadmap events (no PII in params)
+  PMP_ROADMAP_FORM_START: 'pmp_roadmap_form_start',
+  PMP_ROADMAP_FIT_COMPLETE: 'pmp_roadmap_fit_complete',
+  PMP_ROADMAP_ELIGIBILITY_COMPLETE: 'pmp_roadmap_eligibility_complete',
 } as const;
 
 export type PmsEventName = (typeof PMS_EVENTS)[keyof typeof PMS_EVENTS];

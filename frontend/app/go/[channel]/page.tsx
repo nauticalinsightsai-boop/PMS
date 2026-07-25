@@ -26,7 +26,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     title: page.headline,
     description: page.subheadline || page.headline,
     path: `/go/${channel}`,
-    robots: isPreview ? ROBOTS_NOINDEX_NOFOLLOW : undefined,
+    robots: ROBOTS_NOINDEX_NOFOLLOW,
   });
 }
 

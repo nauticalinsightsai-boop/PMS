@@ -1,44 +1,27 @@
 'use client';
 
-import Script from 'next/script';
+import { GoogleAnalytics as NextGoogleAnalytics } from '@next/third-parties/google';
 import { useEffect, useState } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { getGaMeasurementId, isGaConfigured } from '@/lib/analytics/ga-config';
-import { trackPageView } from '@/lib/analytics/funnel';
+import { hasAnalyticsConsent } from '@/lib/legal/consent';
 
-/** GA4 site measurement: loads whenever a measurement ID is configured. */
+/**
+ * Single GA4 install via `@next/third-parties/google`.
+ * Loads only after analytics cookie consent. Pageviews are handled by the
+ * third-parties component (no custom send_page_view:false snippet).
+ */
 export function GoogleAnalytics() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const measurementId = getGaMeasurementId();
-  const [gaReady, setGaReady] = useState(false);
+  const [allowed, setAllowed] = useState(false);
+  const gaId = getGaMeasurementId();
 
   useEffect(() => {
-    if (!gaReady) return;
-    const qs = searchParams.toString();
-    const path = qs ? `${pathname}?${qs}` : pathname;
-    trackPageView(path, window.location.href, document.title);
-  }, [gaReady, pathname, searchParams]);
+    const sync = () => setAllowed(hasAnalyticsConsent());
+    sync();
+    window.addEventListener('legal-consent-updated', sync);
+    return () => window.removeEventListener('legal-consent-updated', sync);
+  }, []);
 
-  if (!measurementId || !isGaConfigured()) return null;
+  if (!allowed || !gaId || !isGaConfigured()) return null;
 
-  return (
-    <>
-      <Script id="ga4-init" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = window.gtag || gtag;
-          gtag('js', new Date());
-          gtag('config', '${measurementId}', { send_page_view: false });
-        `}
-      </Script>
-      <Script
-        id="ga4-script"
-        src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
-        strategy="afterInteractive"
-        onLoad={() => setGaReady(true)}
-      />
-    </>
-  );
+  return <NextGoogleAnalytics gaId={gaId} />;
 }

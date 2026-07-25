@@ -5,7 +5,7 @@ import {
   getLandingPageForLead,
   getUtmParamsForLead,
 } from '@/lib/analytics/funnel';
-import { hasAnalyticsConsent } from '@/lib/legal/consent';
+import { hasAnalyticsConsent, hasMarketingConsent } from '@/lib/legal/consent';
 
 const GA_CLIENT_ID_TIMEOUT_MS = 800;
 
@@ -38,9 +38,10 @@ export async function collectLeadTrackingContext(): Promise<Record<string, strin
 
   const gaClientId = await readGaClientId();
   const utm = getUtmParamsForLead();
-  const clickIds = getClickIdsForLead();
   const landingPage = getLandingPageForLead();
   const consentAnalytics = hasAnalyticsConsent();
+  const consentMarketing = hasMarketingConsent();
+  const clickIds = consentMarketing ? getClickIdsForLead() : {};
 
   return {
     ...(gaClientId ? { ga_client_id: gaClientId } : {}),
@@ -48,6 +49,6 @@ export async function collectLeadTrackingContext(): Promise<Record<string, strin
     ...utm,
     ...(landingPage ? { landing_page: landingPage } : {}),
     consent_analytics: consentAnalytics,
-    consent_marketing: false,
+    consent_marketing: consentMarketing,
   };
 }

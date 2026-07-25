@@ -114,17 +114,30 @@ if (!fs.existsSync(redirectMapPath)) {
   if (!nextConfig.includes('getKeywordSeoRedirects')) {
     redirectIssues.push({
       severity: 'high',
-      issue: 'next.config.ts does not wire getKeywordSeoRedirects()',
+      issue: 'next.config.ts does not reference getKeywordSeoRedirects() (may be empty; keep import for registry)',
+    });
+  }
+  if (!redirectSrc.includes('getKeywordSeoRewrites')) {
+    redirectIssues.push({
+      severity: 'high',
+      issue: 'keyword-redirect-map.ts missing getKeywordSeoRewrites()',
+    });
+  }
+  const middleware = fs.readFileSync(path.join(repoRoot, 'frontend/middleware.ts'), 'utf8');
+  if (!middleware.includes('getKeywordRewriteByPath') || !middleware.includes('NextResponse.rewrite')) {
+    redirectIssues.push({
+      severity: 'high',
+      issue: 'middleware.ts does not soft-rewrite keyword SEO slugs',
     });
   }
   const strategy = fs.readFileSync(
     path.join(repoRoot, 'frontend/content/indexation/strategy.ts'),
     'utf8',
   );
-  if (!strategy.includes('getKeywordRedirectPathMap')) {
+  if (!strategy.includes('getKeywordCanonicalizePathMap') && !strategy.includes('KEYWORD_CANONICALIZE')) {
     redirectIssues.push({
       severity: 'high',
-      issue: 'indexation strategy does not merge getKeywordRedirectPathMap()',
+      issue: 'indexation strategy does not merge keyword canonicalize map',
     });
   }
   const csvPath = path.join(repoRoot, 'docs/internal/pmstructure-keyword-redirect-map.csv');

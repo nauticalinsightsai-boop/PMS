@@ -45,14 +45,13 @@ import {
   CERT_ROADMAP_FORM_ANCHOR,
   getCertProgramOffer,
 } from '@/lib/cert-program-offer';
-import { PmpConsiderationsSection } from '@/components/pmp/PmpConsiderationsSection';
 import { PmpExam2026LiveBanner } from '@/components/pmp/PmpExam2026LiveBanner';
 import { EnrollReturnRecovery } from '@/components/conversion-recovery/EnrollReturnRecovery';
 import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnrollTrackedLink';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
-import { T176_SCHOLARSHIP_SAFE_BLOCK } from '@/content/t176-claims';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
+import { PmpViewContentTracker } from '@/components/analytics/PmpViewContentTracker';
 
 const PmpRoadmapLeadForm = dynamic(
   () =>
@@ -152,6 +151,7 @@ export function CertificationDetail({
 
   return (
     <LazyMotion features={domAnimation} strict>
+    {cert.id === 'pmp' ? <PmpViewContentTracker /> : null}
     <div
       className={cn(
         'flex flex-col min-h-screen selection:bg-brand-orange selection:text-white',
@@ -285,25 +285,6 @@ export function CertificationDetail({
           </div>
         </div>
       </section>
-
-      {cert.id === 'pmp' && (regionId === 'gcc' || regionId === 'india' || regionId === 'pakistan') ? (
-        <section className={sectionSurface('cool', 'py-16 border-b border-slate-100 dark:border-slate-800')}>
-          <SectionAmbience tone="cool" />
-          <div className="container relative z-10 mx-auto max-w-3xl text-center">
-            <h2 className="font-heading text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
-              {regionId === 'gcc' ? 'GCC readiness positioning' : 'Career mobility positioning'}
-            </h2>
-            <p className="text-base font-medium leading-relaxed text-slate-600 dark:text-slate-400">
-              {regionId === 'gcc'
-                ? 'For GCC-based project professionals, PMP 2026 preparation should be structured around exam readiness, project-delivery context, and career mobility. PM Structure helps candidates build a readiness roadmap before choosing a study path or exam date.'
-                : 'For South Asian project professionals targeting GCC or international opportunities, PMP 2026 readiness should be planned as a career-mobility step, not just a low-cost course purchase.'}
-            </p>
-            {regionId === 'india' || regionId === 'pakistan' ? (
-              <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">{T176_SCHOLARSHIP_SAFE_BLOCK}</p>
-            ) : null}
-          </div>
-        </section>
-      ) : null}
 
       {/* Pathway Component */}
       <section className={sectionSurface('soft', 'pt-10 pb-32')}>
@@ -464,8 +445,6 @@ export function CertificationDetail({
         </div>
       </section>
       </LazyWhenVisible>
-
-      {cert.id === 'pmp' ? <PmpConsiderationsSection /> : null}
 
       {/* Final CTA */}
       <section className={sectionSurface('soft', 'py-32')}>

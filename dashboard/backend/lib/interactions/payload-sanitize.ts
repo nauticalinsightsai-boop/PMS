@@ -1,6 +1,22 @@
 const MAX_KEYS = 48;
 const MAX_KEY_LEN = 80;
 const MAX_STRING_LEN = 8000;
+const TRUSTED_TRACKING_KEYS = new Set([
+  'consent_analytics',
+  'consent_marketing',
+  'ga_client_id',
+  'landing_page',
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_term',
+  'utm_content',
+  'gclid',
+  'gbraid',
+  'wbraid',
+  'fbclid',
+  'msclkid',
+]);
 
 export function sanitizeInteractionPayload(input: unknown): Record<string, unknown> {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
@@ -12,6 +28,7 @@ export function sanitizeInteractionPayload(input: unknown): Record<string, unkno
   for (const [k, v] of Object.entries(o)) {
     if (n >= MAX_KEYS) break;
     if (k.length > MAX_KEY_LEN) continue;
+    if (TRUSTED_TRACKING_KEYS.has(k)) continue;
     if (typeof v === 'string') {
       out[k] = v.length > MAX_STRING_LEN ? v.slice(0, MAX_STRING_LEN) : v;
     } else if (typeof v === 'number' && Number.isFinite(v)) {
@@ -22,6 +39,61 @@ export function sanitizeInteractionPayload(input: unknown): Record<string, unkno
       out[k] = null;
     }
     n++;
+  }
+  return out;
+}
+
+const UTM_KEYS = [
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_term',
+  'utm_content',
+] as const;
+const CLICK_ID_KEYS = ['gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid'] as const;
+
+function trackingString(
+  input: Record<string, unknown>,
+  key: string,
+  max = 500,
+): string | null {
+  const value = input[key];
+  if (typeof value !== 'string') return null;
+  const clean = value.trim();
+  return clean && clean.length <= max ? clean : null;
+}
+
+/**
+ * Accept only the dedicated top-level tracking object. Consent gates
+ * pseudonymous identifiers, and the server merges these fields last.
+ */
+export function sanitizeTrustedInteractionTracking(
+  input: unknown,
+): Record<string, string | boolean> {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) return {};
+  const raw = input as Record<string, unknown>;
+  const analyticsConsent = raw.consent_analytics === true;
+  const marketingConsent = raw.consent_marketing === true;
+  const out: Record<string, string | boolean> = {
+    consent_analytics: analyticsConsent,
+    consent_marketing: marketingConsent,
+  };
+
+  const landingPage = trackingString(raw, 'landing_page');
+  if (landingPage) out.landing_page = landingPage;
+  for (const key of UTM_KEYS) {
+    const value = trackingString(raw, key);
+    if (value) out[key] = value;
+  }
+  if (analyticsConsent) {
+    const gaClientId = trackingString(raw, 'ga_client_id', 255);
+    if (gaClientId) out.ga_client_id = gaClientId;
+  }
+  if (marketingConsent) {
+    for (const key of CLICK_ID_KEYS) {
+      const value = trackingString(raw, key);
+      if (value) out[key] = value;
+    }
   }
   return out;
 }

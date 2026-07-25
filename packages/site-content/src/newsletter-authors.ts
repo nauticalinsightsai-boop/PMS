@@ -1,6 +1,6 @@
 import { z } from 'zod';
+import authorProfilesPacketRaw from '../data/newsletter-author-profiles.json';
 import {
-  CANONICAL_NEWSLETTER_AUTHOR,
   normalizeNewsletterAuthorName,
   type NewsletterArticle,
 } from './newsletter-posts';
@@ -8,6 +8,7 @@ import {
 export const NEWSLETTER_AUTHORS_FIELD_KEY = 'newsletter_authors_registry';
 
 export const newsletterAuthorStatusSchema = z.enum(['active', 'draft']);
+export const newsletterAuthorBylineTypeSchema = z.enum(['person', 'editorial_role']);
 
 export const newsletterAuthorSchema = z.object({
   id: z.string(),
@@ -23,6 +24,17 @@ export const newsletterAuthorSchema = z.object({
   websiteUrl: z.string().default(''),
   email: z.string().default(''),
   modifiedDate: z.string(),
+  /** Explicitly distinguishes a real person from a transparent organisation/editorial byline. */
+  bylineType: newsletterAuthorBylineTypeSchema.default('person'),
+  /**
+   * When false, do not emit schema.org Person for this byline.
+   * Editorial roles must always remain false and use the PM Structure organisation fallback.
+   */
+  personSchemaEligible: z.boolean().default(false),
+  /** True only when a real-person profile is incomplete and must block publication. */
+  profilePending: z.boolean().default(false),
+  /** Initials for neutral branded avatar fallbacks. */
+  initials: z.string().default(''),
 });
 
 export const newsletterAuthorsRegistrySchema = z.object({
@@ -31,8 +43,44 @@ export const newsletterAuthorsRegistrySchema = z.object({
 });
 
 export type NewsletterAuthorStatus = z.infer<typeof newsletterAuthorStatusSchema>;
+export type NewsletterAuthorBylineType = z.infer<typeof newsletterAuthorBylineTypeSchema>;
 export type NewsletterAuthor = z.infer<typeof newsletterAuthorSchema>;
 export type NewsletterAuthorsRegistry = z.infer<typeof newsletterAuthorsRegistrySchema>;
+
+const authorProfilesPacketSchema = z.object({
+  version: z.literal(1),
+  profiles: z.array(newsletterAuthorSchema),
+  allocationByPriority: z.record(z.string()),
+});
+
+const authorProfilesPacket = authorProfilesPacketSchema.parse(authorProfilesPacketRaw);
+
+/** Replaceable seed profiles: change the JSON registry, not article bodies. */
+export const NEWSLETTER_AUTHOR_PROFILE_SEED: NewsletterAuthor[] = authorProfilesPacket.profiles;
+
+/** Priority → authorId allocation for the 13-draft import. */
+export const NEWSLETTER_DRAFT_AUTHOR_ALLOCATION: Readonly<Record<number, string>> = Object.fromEntries(
+  Object.entries(authorProfilesPacket.allocationByPriority).map(([priority, authorId]) => [
+    Number(priority),
+    authorId,
+  ]),
+);
+
+export function getNewsletterAuthorProfileById(id: string): NewsletterAuthor | undefined {
+  return NEWSLETTER_AUTHOR_PROFILE_SEED.find((author) => author.id === id);
+}
+
+export function resolveDraftAuthorProfile(priority: number): NewsletterAuthor {
+  const authorId = NEWSLETTER_DRAFT_AUTHOR_ALLOCATION[priority];
+  if (!authorId) {
+    throw new Error(`No author allocation for newsletter priority ${priority}`);
+  }
+  const profile = getNewsletterAuthorProfileById(authorId);
+  if (!profile) {
+    throw new Error(`Missing newsletter author profile for id ${authorId}`);
+  }
+  return profile;
+}
 
 export function slugifyAuthorName(name: string): string {
   return name
@@ -62,39 +110,25 @@ export function parseNewsletterAuthorsRegistry(raw: unknown): NewsletterAuthorsR
 }
 
 export function defaultNewsletterAuthorsRegistry(): NewsletterAuthorsRegistry {
-  const now = new Date().toISOString();
-  const seed = (
-    id: string,
-    name: string,
-    title: string,
-    bio: string,
-    avatarUrl = '',
-  ): NewsletterAuthor => ({
-    id,
-    slug: slugifyAuthorName(name),
-    name,
-    title,
-    bio,
-    avatarUrl,
-    status: 'active',
-    linkedinUrl: '',
-    twitterUrl: '',
-    websiteUrl: '',
-    email: '',
-    modifiedDate: now,
-  });
-
   return {
     version: 1,
-    authors: [
-      seed(
-        'author-sheikh-m-abdullah',
-        'Sheikh M. Abdullah',
-        'Founder',
-        'Sheikh M. Abdullah leads PM Structure with practical guidance on project management certification, exam strategy, and delivery leadership.',
-      ),
-    ],
+    authors: NEWSLETTER_AUTHOR_PROFILE_SEED.map((author) => ({ ...author })),
   };
+}
+
+/**
+ * Merge persisted author profiles over the replaceable seed registry by stable ID.
+ * Seed profiles remain available when a partial CMS registry omits them.
+ */
+export function mergeNewsletterAuthorProfiles(
+  seeds: NewsletterAuthor[],
+  persisted: NewsletterAuthor[],
+): NewsletterAuthor[] {
+  const byId = new Map(seeds.map((author) => [author.id, { ...author }]));
+  for (const author of persisted) {
+    byId.set(author.id, { ...author });
+  }
+  return Array.from(byId.values());
 }
 
 export function createEmptyNewsletterAuthor(): NewsletterAuthor {
@@ -112,6 +146,10 @@ export function createEmptyNewsletterAuthor(): NewsletterAuthor {
     websiteUrl: '',
     email: '',
     modifiedDate: now,
+    bylineType: 'person',
+    personSchemaEligible: false,
+    profilePending: false,
+    initials: '',
   };
 }
 
@@ -126,10 +164,10 @@ export function findAuthorForArticle(
   article: Pick<NewsletterArticle, 'authorId' | 'author'>,
   authors: NewsletterAuthor[],
 ): NewsletterAuthor | undefined {
-  const byId = article.authorId
-    ? authors.find((author) => author.id === article.authorId)
-    : undefined;
-  if (byId) return byId;
+  const authorId = article.authorId?.trim();
+  if (authorId) {
+    return authors.find((author) => author.id === authorId);
+  }
   const name = article.author?.trim().toLowerCase();
   if (!name) return undefined;
   return authors.find((author) => author.name.trim().toLowerCase() === name);
@@ -140,13 +178,16 @@ export function attachAuthorToArticle(
   article: NewsletterArticle,
   authors: NewsletterAuthor[],
 ): NewsletterArticle {
-  const author =
-    findAuthorForArticle(article, authors) ??
-    authors.find((row) => row.name.trim().toLowerCase() === CANONICAL_NEWSLETTER_AUTHOR.toLowerCase());
-  const canonicalName = normalizeNewsletterAuthorName(author?.name || article.author);
+  const author = findAuthorForArticle(article, authors);
   if (!author) {
-    return { ...article, author: canonicalName };
+    return {
+      ...article,
+      author: article.authorId
+        ? article.author
+        : normalizeNewsletterAuthorName(article.author),
+    };
   }
+  const canonicalName = normalizeNewsletterAuthorName(author.name);
   return {
     ...article,
     author: canonicalName,
@@ -158,5 +199,8 @@ export function attachAuthorToArticle(
     authorLinkedinUrl: author.linkedinUrl || article.authorLinkedinUrl,
     authorTwitterUrl: author.twitterUrl || article.authorTwitterUrl,
     authorWebsiteUrl: author.websiteUrl || article.authorWebsiteUrl,
+    authorBylineType: author.bylineType,
+    authorPersonSchemaEligible: author.personSchemaEligible,
+    authorProfilePending: author.profilePending,
   };
 }

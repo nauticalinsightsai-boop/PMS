@@ -17,6 +17,8 @@ import { openProxiedCalendlyPopup } from '@/lib/calendly/proxied-popup';
 import { trackBookingClick } from '@/lib/analytics/track-booking-click';
 import type { BookingType } from '@/lib/analytics/pms-events';
 import { beginCalendlySession } from '@/lib/conversion-recovery/calendly-bridge';
+import { mergeCalendlyUtmWithInbound } from '@/lib/analytics/utm-calendly';
+import { createBookingHandoffId } from '@/lib/calendly/booking-handoff';
 import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 import type { SchedulerChrome } from '@pms/booking-crm/channel-landing-pages/resolveSchedulerChrome';
 
@@ -48,6 +50,30 @@ function isCalendlySchedulingUrl(rawUrl: string): boolean {
 
 function isProxiedSchedulerUrl(url: string): boolean {
  return /\/api\/calendly\/scheduler/i.test(url);
+}
+
+function applyCalendlyUtmToUrl(
+ rawUrl: string,
+ utm: CalendlyUtmParams,
+): string {
+ try {
+  const url = new URL(rawUrl, window.location.origin);
+  const target = isProxiedSchedulerUrl(rawUrl)
+   ? new URL(url.searchParams.get('url') || '', window.location.origin)
+   : url;
+  for (const [key, value] of Object.entries(utm)) {
+   if (value?.trim()) target.searchParams.set(key, value.trim());
+  }
+  if (isProxiedSchedulerUrl(rawUrl)) {
+   if (!/(^|\.)calendly\.com$/i.test(target.hostname)) return rawUrl;
+   url.searchParams.set('url', target.toString());
+  }
+  return isProxiedSchedulerUrl(rawUrl)
+   ? `${url.pathname}${url.search}${url.hash}`
+   : target.toString();
+ } catch {
+  return rawUrl;
+ }
 }
 
 function openCalendlyFallbackUrl(url: string): void {
@@ -237,7 +263,16 @@ export async function openCalendlyThemedPopup(
        ? resolveCalendlyPaletteForPage(pathname, colorMode)
        : undefined);
 
- const themedPopupUrl = isProxiedSchedulerUrl(trimmed)
+ const bookingSessionId = await createBookingHandoffId({
+  channel: channelId,
+  funnelLabel: opts?.funnelLabel,
+ });
+ const calendlyUtm = mergeCalendlyUtmWithInbound(opts?.utm);
+ // Reserve Calendly-visible utm_content exclusively for the opaque bridge ID.
+ // If bridge creation is unavailable, omit it rather than exposing free-form data.
+ calendlyUtm.utm_content = bookingSessionId ?? undefined;
+
+ const themedPopupUrlBase = isProxiedSchedulerUrl(trimmed)
   ? rethemeCalendlyWidgetUrl(trimmed, {
      theme: colorMode,
      pathname,
@@ -247,13 +282,16 @@ export async function openCalendlyThemedPopup(
   : buildCalendlyPopupWidgetUrl(trimmed, {
      host: window.location.host,
      theme: colorMode,
-     utm: opts?.utm,
+     utm: calendlyUtm,
      pathname,
      portalPalette,
      channelId,
      schedulerChrome: opts?.schedulerChrome,
      useProxy: opts?.useProxy,
     });
+ const themedPopupUrl = isProxiedSchedulerUrl(themedPopupUrlBase)
+  ? applyCalendlyUtmToUrl(themedPopupUrlBase, calendlyUtm)
+  : themedPopupUrlBase;
 
  trackBookingClick({
   bookingType: inferCalendlyBookingType(opts?.funnelLabel, trimmed),

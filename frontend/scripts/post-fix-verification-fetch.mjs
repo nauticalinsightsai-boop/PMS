@@ -6,7 +6,6 @@ const urls = [
   'https://pmstructure.com/',
   'https://pmstructure.com/certifications',
   'https://pmstructure.com/certifications/pmp',
-  'https://pmstructure.com/topics/pmp-exam-2026',
   'https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026',
   'https://pmstructure.com/faq',
   'https://pmstructure.com/certifications/compare',

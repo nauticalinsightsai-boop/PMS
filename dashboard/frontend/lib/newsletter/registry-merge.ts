@@ -12,6 +12,7 @@ import {
   parseNewsletterPostsRegistry,
   type NewsletterPostsRegistry,
 } from '@pms/site-content/newsletter-posts';
+import { newsletterDraftRegistry } from '@pms/site-content/newsletter-draft-registry';
 import { parseCmsTopicsRegistry } from '@/lib/cms/topics';
 import type { WebsiteData } from '@/services/WebsiteDataService';
 import { NEWSLETTER_POSTS_FIELD_KEY } from '@/lib/newsletter-posts';
@@ -66,7 +67,10 @@ export function buildUnifiedNewsletterRegistry(rows: {
   const fileSeedRegistry = registryFromFileSeeds();
   const defaults = defaultNewsletterPostsRegistry();
 
+  // Generated markdown drafts are seed data only. Any persisted CMS/published
+  // version of the same slug must win so approved dates and hero assets survive.
   return mergeNewsletterRegistries(
+    newsletterDraftRegistry,
     publishedRegistry,
     cmsRegistry,
     fileSeedRegistry,

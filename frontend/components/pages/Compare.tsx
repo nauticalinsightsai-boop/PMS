@@ -35,7 +35,11 @@ function waitlistContactHref(certId: string): string {
   return `/contact?topic=waitlist&offering=${encodeURIComponent(certId)}`;
 }
 
-export function Compare({ globalContent }: { globalContent?: GlobalContentMap }) {
+function CompareInteractiveFallback() {
+  return <div className="min-h-[32rem] bg-white dark:bg-slate-950" aria-hidden />;
+}
+
+function CompareInteractive() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const compareable = React.useMemo(() => getCompareableCertifications(), []);
@@ -84,35 +88,7 @@ export function Compare({ globalContent }: { globalContent?: GlobalContentMap })
   );
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <section
-        className={sectionSurface(
-          'purple',
-          'py-24 md:py-32 border-b border-sandstone/60 dark:border-slate-800',
-        )}
-      >
-        <SectionAmbience tone="purple" />
-        <div className="container relative z-10 mx-auto">
-          <PageHeroWithImage image={MARKETING_PAGE_IMAGES.compare}>
-            <div className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
-              <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
-                {globalContentString(globalContent, 'compare_badge', 'Comparison matrix')}
-              </Badge>
-              <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
-                {globalContentString(globalContent, 'compare_title', 'Compare project management certifications')}
-              </h1>
-              <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                {globalContentString(
-                  globalContent,
-                  'compare_subtitle',
-                  'Pick up to three pathways from any mix of PMI®, PRINCE2®, and Lean Six Sigma, then review tiers, prep time, and regional tuition in one matrix.',
-                )}
-              </p>
-            </div>
-          </PageHeroWithImage>
-        </div>
-      </section>
-
+    <>
       <section className={sectionSurface('soft', 'py-16 md:py-20 border-b border-slate-100 dark:border-slate-800')}>
         <SectionAmbience tone="soft" />
         <div className="container relative z-10 mx-auto">
@@ -124,7 +100,7 @@ export function Compare({ globalContent }: { globalContent?: GlobalContentMap })
             <Link href="/certifications/pmp" className="font-bold text-brand-orange hover:underline">
               PMP 2026 Readiness Pathway
             </Link>{' '}
-            if you are planning for the July 2026 exam transition, then add other pathways for side-by-side review.
+            if you are preparing for the updated PMP exam (live since 9 July 2026), then add other pathways for side-by-side review.
           </p>
           <CompareCertPicker
             certifications={compareable}
@@ -154,6 +130,44 @@ export function Compare({ globalContent }: { globalContent?: GlobalContentMap })
           )}
         </div>
       </section>
+    </>
+  );
+}
+
+export function Compare({ globalContent }: { globalContent?: GlobalContentMap }) {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <section
+        className={sectionSurface(
+          'purple',
+          'py-24 md:py-32 border-b border-sandstone/60 dark:border-slate-800',
+        )}
+      >
+        <SectionAmbience tone="purple" />
+        <div className="container relative z-10 mx-auto">
+          <PageHeroWithImage image={MARKETING_PAGE_IMAGES.compare}>
+            <div className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
+              <Badge className="mb-6 bg-brand-orange/10 text-brand-orange border-none px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em]">
+                {globalContentString(globalContent, 'compare_badge', 'Comparison matrix')}
+              </Badge>
+              <h1 className="font-heading text-hero font-bold text-slate-900 dark:text-white mb-8 tracking-tight">
+                {globalContentString(globalContent, 'compare_title', 'Compare project management certifications')}
+              </h1>
+              <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                {globalContentString(
+                  globalContent,
+                  'compare_subtitle',
+                  'Pick up to three pathways from any mix of PMI®, PRINCE2®, and Lean Six Sigma, then review tiers, prep time, and regional tuition in one matrix.',
+                )}
+              </p>
+            </div>
+          </PageHeroWithImage>
+        </div>
+      </section>
+
+      <React.Suspense fallback={<CompareInteractiveFallback />}>
+        <CompareInteractive />
+      </React.Suspense>
 
       <section
         className={sectionSurface('warm', 'py-24 border-t border-sandstone/60 dark:border-slate-800')}

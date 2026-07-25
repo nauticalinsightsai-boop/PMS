@@ -91,10 +91,11 @@ Track:
 | Reject analytics cookies | `gtag/js` does not load |
 | Accept analytics cookies | `gtag/js` loads once |
 | Click roadmap CTA | `pms_roadmap_cta_click` fires once |
-| Start roadmap form | `pms_roadmap_form_start` fires once |
+| Start roadmap form | `pmp_roadmap_form_start` fires once |
 | Submit invalid form | No lead event fires |
-| Submit valid test form | `generate_lead` and `pms_roadmap_form_submit` fire once |
-| Click booking link | `pms_booking_click` fires once |
+| Submit valid test form | `generate_lead` fires once after authoritative persistence |
+| Click booking link | `select_content` fires once; no lead event |
+| Confirm trusted booking | `booking_confirmed` fires once |
 | Click WhatsApp/email | `pms_contact_click` fires once |
 | Join waitlist | `pms_waitlist_join` fires on success only |
 | Newsletter subscribe | `sign_up` fires on success only |

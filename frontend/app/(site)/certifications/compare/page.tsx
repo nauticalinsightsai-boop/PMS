@@ -1,6 +1,4 @@
-import { Suspense } from 'react';
 import { Compare } from '@/components/pages/Compare';
-import { CompareServerHeading } from '@/components/certifications/CompareServerHeading';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd';
 import { getCompareBreadcrumbs } from '@/content/site-architecture/routes';
@@ -29,10 +27,7 @@ export default async function Page() {
       <div className="container relative z-10 mx-auto max-w-3xl px-4 pt-8">
         <Breadcrumbs items={compareBreadcrumbs} />
       </div>
-      <Suspense fallback={<div className="min-h-screen bg-white dark:bg-slate-950" />}>
-        <CompareServerHeading />
-        <Compare globalContent={globalContent} />
-      </Suspense>
+      <Compare globalContent={globalContent} />
     </>
   );
 }

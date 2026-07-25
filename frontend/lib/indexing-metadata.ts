@@ -22,9 +22,10 @@ export const NOINDEX_PATH_PREFIXES = [
   '/api',
   '/compare',
   '/store',
+  '/go',
 ] as const;
 
-/** Exact paths that redirect or are not organic landings (children may still index). */
+/** Exact paths that redirect or are not organic landings. */
 export const NOINDEX_EXACT_PATHS = ['/go'] as const;
 
 /** Regex patterns for noindex routes (enrollment flows, etc.). */

@@ -9,7 +9,7 @@ import { PMP_CLUSTER_PATHS } from '@/content/pmp/pages';
 import { PMP_SERVICE_PATHS } from '@/content/pmp/services';
 import { getPublishedAnswerPaths } from '@/content/answers';
 import { getPublishedTopicPaths } from '@/content/topics';
-import { getPublishedGoChannelSlugs } from '@pms/booking-crm';
+import { isConsolidatedSeoPath } from '@/content/seo/consolidated-paths';
 
 type SitemapFreq = MetadataRoute.Sitemap[0]['changeFrequency'];
 
@@ -54,6 +54,7 @@ function safePathsToEntries(
 ): MetadataRoute.Sitemap {
   try {
     return paths
+      .filter((path) => !isConsolidatedSeoPath(path))
       .map((path) => safeEntry(path, priority, changeFrequency))
       .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
   } catch {
@@ -101,7 +102,7 @@ function buildLegalEntries(): MetadataRoute.Sitemap {
 function buildPmpClusterEntries(): MetadataRoute.Sitemap {
   const PMP_PRIORITY_PATHS = new Set(['/pmp-exam-2026']);
   try {
-    return PMP_CLUSTER_PATHS.map((p) =>
+    return PMP_CLUSTER_PATHS.filter((p) => !isConsolidatedSeoPath(p)).map((p) =>
       safeEntry(
         p,
         PMP_PRIORITY_PATHS.has(p) ? 0.9 : 0.85,
@@ -170,12 +171,6 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     .map((n) => safeEntry(`/newsletter/${n.slug}`, 0.6, 'monthly'))
     .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
-  const goChannels = safePathsToEntries(
-    getPublishedGoChannelSlugs().map((slug) => `/go/${slug}`),
-    0.6,
-    'monthly',
-  );
-
   return dedupeSitemap([
     ...entriesFromSpecs(MARKETING_ROUTES),
     ...buildCertEntries(),
@@ -186,6 +181,5 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     ...buildTopicEntries(),
     ...buildLegalEntries(),
     ...newsletter,
-    ...goChannels,
   ]);
 }

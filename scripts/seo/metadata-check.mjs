@@ -17,6 +17,46 @@ for (const p of priorityPaths) {
   }
 }
 
+// Check for double title suffix in phase-2 SEO config
+const phase2File = path.join(frontend, 'content/seo/phase-2-page-seo.ts');
+if (fs.existsSync(phase2File)) {
+  const content = fs.readFileSync(phase2File, 'utf8');
+  // Extract title lines and check for double suffix pattern
+  const titleMatches = content.matchAll(/title:\s*['"`]([^'"`]+)['"`]/g);
+  for (const match of titleMatches) {
+    const title = match[1];
+    const suffixCount = (title.match(/\|\s*PM Structure/gi) || []).length;
+    if (suffixCount > 1) {
+      issues.push({
+        severity: 'high',
+        path: phase2File,
+        issue: `Title contains multiple "| PM Structure" suffixes: "${title}"`
+      });
+    }
+  }
+}
+
+// Check answers pages for double suffix
+const answersDir = path.join(frontend, 'content/answers');
+if (fs.existsSync(answersDir)) {
+  const pagesFile = path.join(answersDir, 'pages.ts');
+  if (fs.existsSync(pagesFile)) {
+    const content = fs.readFileSync(pagesFile, 'utf8');
+    const titleMatches = content.matchAll(/title:\s*['"`]([^'"`]+)['"`]/g);
+    for (const match of titleMatches) {
+      const title = match[1];
+      const suffixCount = (title.match(/\|\s*PM Structure/gi) || []).length;
+      if (suffixCount > 1) {
+        issues.push({
+          severity: 'high',
+          path: pagesFile,
+          issue: `Title contains multiple "| PM Structure" suffixes: "${title}"`
+        });
+      }
+    }
+  }
+}
+
 const genericTitle = issues.length === 0;
 writeReport('metadata-check', { pass: issues.length === 0, issues, priorityPaths });
 if (issues.length) {

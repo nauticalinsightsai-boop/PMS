@@ -132,7 +132,7 @@ Regenerate control matrix: `npm run seo:generate-indexation-control-matrix-csv`
 
 Public route: `/sitemap` — curated indexable pages only.
 
-Do not expose internal/private URLs, checkout, `/go/*` portals, or long-tail blog/newsletter posts.
+Do not expose internal/private URLs, checkout, or long-tail blog/newsletter posts in the **HTML** sitemap. Published `/go/{slug}` portals are in **XML** sitemap only (HTML stays lean).
 
 Footer link: **Sitemap → /sitemap** (legal/utility area only).
 
@@ -162,26 +162,33 @@ Verification file in repo: `frontend/public/google5780310dc725cd18.html` (owner-
 
 ## Owner Actions (post-deploy)
 
-1. Re-check GSC sitemap status until **Success**; expect discovered count ~140 after `/go/*` removal (was ~184)
+1. Re-check GSC sitemap status until **Success**; expect discovered count to include published `/go/{slug}` portals (~+41 vs mid-2026 lean sitemap)
 2. URL Inspection on 5 P0 URLs above; export Pages report into `pmstructure-indexation-control-matrix.csv`
 3. Manual Actions check in GSC → Security & Manual Actions → log evidence in checklist
-4. ~~Review `/go/*` crawl budget (R05 in risk register)~~ **Closed 2026-06-20:** `/go/*` = noindex, omitted from XML sitemap (lead-gen via direct links only)
+4. Published `/go/*` portals: **index + XML sitemap** (policy flipped 2026-07-25; see portal section below)
 5. Review pages marked **needs_review** in indexation matrix (community, membership, pm-service, secondary certs)
 6. If public PDFs added: apply X-Robots-Tag policy per section above
 
 ---
 
-## `/go/*` Portal Indexation (R05 closed)
+## `/go/*` Portal Indexation
 
-**Decision (2026-06-20):** Channel portals under `/go/*` are **noindex, nofollow** and **excluded from sitemap.xml**.
+**Decision (2026-07-25):** Published channel portals under `/go/{slug}` are **index, follow** and **included in sitemap.xml** (scope-41 via `getPublishedGoChannelSlugs()`).
 
-- Implementation: `frontend/app/go/[channel]/page.tsx` robots meta, `frontend/app/sitemap.ts` (no portal entries), `frontend/content/indexation/strategy.ts`
-- Robots.txt does **not** disallow `/go/` — Google should crawl once, see noindex, and drop from index
-- Portals remain reachable via social and direct links for lead-gen
+| Path | Index | Sitemap |
+|------|-------|---------|
+| Published `/go/{slug}` | Yes | XML yes; HTML sitemap lean (omitted) |
+| `/go` | Redirect → `/go/website`; exact path noindex | No |
+| Draft / `?preview=1` | noindex | No |
+
+- Implementation: `robotsForPath` + soft-noindex list (no published `/go/*` rows), `frontend/app/sitemap.ts`, `frontend/content/indexation/strategy.ts` `configForPortalPath`
+- Portals remain primary lead-gen surfaces; GA4 pageviews/conversions carry `channel` / `go_slug`
+
+**Prior decision (2026-06-20, superseded):** blanket noindex + sitemap omit — reversed 2026-07-25.
 
 ---
 
 Owner: Sheikh M. Abdullah  
 Technical owner: Developer  
 Marketing owner: Mahaa  
-Last updated: 20 June 2026
+Last updated: 25 July 2026

@@ -14,7 +14,8 @@ import type { HtmlSitemapLink, HtmlSitemapSection } from '@/content/sitemap/html
 import { getAllIndexationStrategyRows } from '@/content/indexation/strategy';
 import { getPublishedNewsletterArticles } from '@/lib/newsletter/articles';
 import { certifications } from '@/data/siteData';
-import { normalizePath } from '@/lib/indexing-metadata';
+import { isIndexablePath, normalizePath } from '@/lib/indexing-metadata';
+import { isConsolidatedSeoPath } from '@/content/seo/consolidated-paths';
 
 function link(href: string, label: string): HtmlSitemapLink {
   return { href: normalizePath(href), label };
@@ -127,7 +128,9 @@ function dedupeLinks(links: HtmlSitemapLink[]): HtmlSitemapLink[] {
 }
 
 export function getXmlSitemapUrlCount(): number {
-  return getAllIndexationStrategyRows().filter((row) => row.includeInSitemap).length;
+  return getAllIndexationStrategyRows().filter(
+    (row) => row.includeInSitemap && !isConsolidatedSeoPath(row.path),
+  ).length;
 }
 
 export async function buildHtmlSitemapSections(): Promise<HtmlSitemapSection[]> {
@@ -150,8 +153,9 @@ export async function buildHtmlSitemapSections(): Promise<HtmlSitemapSection[]> 
       ...PMP_SERVICE_PAGES.map((s) => s.path),
       '/pmp-enrollment',
       '/answers/is-the-pmp-exam-changing-in-2026',
-      '/topics/pmp-exam-2026',
-    ].map((path) => link(path, labelForPath(path))),
+    ]
+      .filter((path) => !isConsolidatedSeoPath(path))
+      .map((path) => link(path, labelForPath(path))),
   );
 
   const certPaths = sortLinks(
@@ -159,11 +163,15 @@ export async function buildHtmlSitemapSections(): Promise<HtmlSitemapSection[]> 
   );
 
   const answerPaths = sortLinks(
-    getPublishedAnswerPages().map((page) => link(page.path, page.question)),
+    getPublishedAnswerPages()
+      .filter((page) => !isConsolidatedSeoPath(page.path))
+      .map((page) => link(page.path, page.question)),
   );
 
   const topicLinksBySlug = new Map(
-    getPublishedTopicHubs().map((hub) => [hub.slug, link(hub.path, labelForPath(hub.path))]),
+    getPublishedTopicHubs()
+      .filter((hub) => !isConsolidatedSeoPath(hub.path))
+      .map((hub) => [hub.slug, link(hub.path, labelForPath(hub.path))]),
   );
 
   const topicSections: HtmlSitemapSection[] = TOPIC_HUB_GROUPS.map((group) => ({
@@ -181,7 +189,9 @@ export async function buildHtmlSitemapSections(): Promise<HtmlSitemapSection[]> 
     '/pm-service',
     '/newsletter',
     '/about',
-    ...newsletterArticles.map((article) => `/newsletter/${article.slug}`),
+    ...newsletterArticles
+      .map((article) => `/newsletter/${article.slug}`)
+      .filter(isIndexablePath),
   ];
 
   const legalPaths = getAllIndexationStrategyRows()
