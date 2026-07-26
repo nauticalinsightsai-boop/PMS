@@ -2,9 +2,16 @@
 import dynamic from 'next/dynamic';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Moon, Sun } from "lucide-react";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Menu, Moon, Sun, XIcon } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
 import { RegionChip } from "@/components/RegionChip";
 import { CTAS } from "@/lib/brand-voice";
@@ -46,6 +53,10 @@ const MOBILE_NAV_LINKS = [
   { label: "About", href: "/about" },
 ] as const;
 
+/** Close control hit target: >=44 CSS px without enlarging the X icon. */
+const MOBILE_SHEET_CLOSE_BTN =
+  'absolute top-3 right-3 h-11 w-11 min-h-11 min-w-11';
+
 function isNavLinkActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
   if (href === "/certifications") {
@@ -84,6 +95,11 @@ interface NavbarProps {
 
 export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
   const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
     <header className={NAVBAR_SHELL}>
@@ -109,7 +125,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
               );
             })}
           </nav>
-          
+
           <div className="flex items-center gap-2 ml-2">
             <RegionChip />
             <Button
@@ -144,7 +160,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
           >
             {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
-          <Sheet>
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger render={
               <Button
                 variant="ghost"
@@ -155,7 +171,25 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
                 <Menu className="h-6 w-6" />
               </Button>
             } />
-            <SheetContent side="right" className="w-[min(100vw-2rem,400px)] bg-background pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+            <SheetContent
+              side="right"
+              showCloseButton={false}
+              className="w-[min(100vw-2rem,400px)] bg-background pb-[max(1.5rem,env(safe-area-inset-bottom))]"
+            >
+              <SheetTitle className="sr-only">Site navigation</SheetTitle>
+              <SheetClose
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={MOBILE_SHEET_CLOSE_BTN}
+                    aria-label="Close"
+                  />
+                }
+              >
+                <XIcon />
+                <span className="sr-only">Close</span>
+              </SheetClose>
               <BrandLogo size="nav" className="mt-2" />
               <div className="mt-4 hidden md:block">
                 <RegionChip />
@@ -170,6 +204,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
                       href={link.href}
                       className={navLinkClassName(active, "mobile", featured)}
                       aria-current={active ? "page" : undefined}
+                      onClick={() => setMobileOpen(false)}
                     >
                       {link.label}
                     </Link>
