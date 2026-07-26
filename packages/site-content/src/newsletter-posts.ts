@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import type { CmsPost } from './cms-posts';
 import { newsletterFileSeedArticles } from './newsletter-file-seeds';
+import {
+  resolveNewsletterHeroAlt,
+  resolveNewsletterHeroImage,
+} from './newsletter-hero-manifest';
 
 export { newsletterFileSeedArticles };
 
@@ -195,6 +199,8 @@ export const NEWSLETTER_ARTICLE_IMAGE_FALLBACKS: Record<string, string> = {
 const DEFAULT_NEWSLETTER_ARTICLE_IMAGE = '/images/marketing/community-collab-600.webp';
 
 export function resolveNewsletterArticleImage(slug: string, featuredImageUrl?: string): string {
+  const heroMapped = resolveNewsletterHeroImage(slug, featuredImageUrl);
+  if (heroMapped) return heroMapped;
   const trimmed = featuredImageUrl?.trim() ?? '';
   if (trimmed && !trimmed.includes('picsum.photos')) return trimmed;
   return NEWSLETTER_ARTICLE_IMAGE_FALLBACKS[slug] ?? DEFAULT_NEWSLETTER_ARTICLE_IMAGE;
@@ -239,7 +245,7 @@ export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle
     readTime: estimateReadTime(post.content),
     image,
     imageMobile,
-    heroImageAlt: post.heroImageAlt?.trim() || post.title,
+    heroImageAlt: resolveNewsletterHeroAlt(post.slug, post.heroImageAlt, post.title),
     body: contentToBodyParagraphs(renderableContent),
     markdown: renderableContent.trim() || undefined,
     ctaLabel: post.ctaLabel?.trim() || undefined,

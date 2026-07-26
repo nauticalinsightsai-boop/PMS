@@ -20,6 +20,7 @@
     "./newsletter-posts": "./src/newsletter-posts.ts",
     "./newsletter-draft-registry": "./src/newsletter-draft-registry.ts",
     "./newsletter-authors": "./src/newsletter-authors.ts",
+    "./newsletter-hero-manifest": "./src/newsletter-hero-manifest.ts",
     "./site-settings": "./src/site-settings.ts",
     "./article-markdown": "./src/article-markdown.ts",
     "./sanitize-html": "./src/sanitize-html.ts",

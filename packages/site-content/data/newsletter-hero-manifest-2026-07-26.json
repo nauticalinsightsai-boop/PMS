@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "preparedAt": "2026-07-26",
+  "assetRoot": "/images/newsletter/generated-2026-07-26",
+  "format": "webp",
+  "width": 1600,
+  "height": 900,
+  "branding": "Official PM Structure logo asset overlaid; no generated or substitute logo",
+  "audience": "Inclusive Pakistan, India, and Arab-market professionals",
+  "articles": [
+    {
+      "slug": "post-transition-pmp-reset-july-2026",
+      "image": "/images/newsletter/generated-2026-07-26/post-transition-pmp-reset-july-2026-hero-v1.webp",
+      "alt": "Project professional resetting a structured PMP preparation roadmap"
+    },
+    {
+      "slug": "pmp-scenario-practice-operating-system-2026",
+      "image": "/images/newsletter/generated-2026-07-26/pmp-scenario-practice-operating-system-2026-hero-v1.webp",
+      "alt": "Project professionals working through scenario decisions and learning pathways"
+    },
+    {
+      "slug": "pmp-application-experience-stories-gcc-engineers",
+      "image": "/images/newsletter/generated-2026-07-26/pmp-application-experience-stories-gcc-engineers-hero-v1.webp",
+      "alt": "Engineers organizing project evidence into a verifiable experience narrative"
+    },
+    {
+      "slug": "shift-worker-8-week-pmp-study-rhythm-gcc",
+      "image": "/images/newsletter/generated-2026-07-26/shift-worker-8-week-pmp-study-rhythm-gcc-hero-v1.webp",
+      "alt": "Shift professional following a calm and sustainable PMP study routine"
+    },
+    {
+      "slug": "pmp-business-environment-26-percent-practice-plan",
+      "image": "/images/newsletter/generated-2026-07-26/pmp-business-environment-26-percent-practice-plan-hero-v1.webp",
+      "alt": "Project professionals planning business environment practice around strategy and value"
+    },
+    {
+      "slug": "ai-augmented-project-manager-governance-checklist-2026",
+      "image": "/images/newsletter/generated-2026-07-26/ai-augmented-project-manager-governance-checklist-2026-hero-v1.webp",
+      "alt": "Project leaders reviewing responsible AI governance and human decision controls"
+    },
+    {
+      "slug": "sustainable-value-delivery-practice-2026-candidates",
+      "image": "/images/newsletter/generated-2026-07-26/sustainable-value-delivery-practice-2026-candidates-hero-v1.webp",
+      "alt": "Project team connecting delivery decisions with sustainable long-term value"
+    },
+    {
+      "slug": "gcc-pmo-pmp-cohort-playbook",
+      "image": "/images/newsletter/generated-2026-07-26/gcc-pmo-pmp-cohort-playbook-hero-v1.webp",
+      "alt": "PMO leaders turning cohort learning into portfolio governance routines"
+    },
+    {
+      "slug": "mena-project-talent-gap-career-evidence",
+      "image": "/images/newsletter/generated-2026-07-26/mena-project-talent-gap-career-evidence-hero-v1.webp",
+      "alt": "Regional project professionals reviewing credible career and delivery evidence"
+    },
+    {
+      "slug": "hybrid-governance-gcc-transformation-portfolios",
+      "image": "/images/newsletter/generated-2026-07-26/hybrid-governance-gcc-transformation-portfolios-hero-v1.webp",
+      "alt": "Transformation leaders connecting agile delivery with portfolio governance gates"
+    },
+    {
+      "slug": "pmp-live-training-requirements-late-q4-2026",
+      "image": "/images/newsletter/generated-2026-07-26/pmp-live-training-requirements-late-q4-2026-hero-v1.webp",
+      "alt": "Professionals evaluating a structured live PMP training pathway before booking"
+    },
+    {
+      "slug": "new-pmp-exam-day-format-240-minutes",
+      "image": "/images/newsletter/generated-2026-07-26/new-pmp-exam-day-format-240-minutes-hero-v1.webp",
+      "alt": "PMP candidate planning scenario pacing and stamina for a four-hour exam"
+    },
+    {
+      "slug": "pmi-ai-standard-gcc-pmo-operating-model",
+      "image": "/images/newsletter/generated-2026-07-26/pmi-ai-standard-gcc-pmo-operating-model-hero-v1.webp",
+      "alt": "PMO team reviewing AI-assisted portfolio decisions with human governance gates"
+    }
+  ]
+}

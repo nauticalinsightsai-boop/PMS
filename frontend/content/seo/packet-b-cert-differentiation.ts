@@ -1,5 +1,5 @@
 /**
- * Packet B — unique SEO + decision-role copy for the eight exact-description
+ * Packet B - unique SEO + decision-role copy for the eight exact-description
  * certification pages. Facts limited to repository-supported pathway framing;
  * no invented eligibility, fees, dates, or accreditation claims.
  */
