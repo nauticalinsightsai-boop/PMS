@@ -20,6 +20,10 @@ import {
   resolveDialOption,
 } from '@/lib/pmp-roadmap-form-options';
 import {
+  formChoiceChipLayoutClass,
+  formChoiceGroupClass,
+} from '@/lib/form-choice-group-layout';
+import {
   WORK_FIELD_OPTIONS,
   NEEDS_OBJECTIVE_OPTIONS,
   EDUCATION_OPTIONS,
@@ -189,7 +193,6 @@ function portalChipStyle(theme: PlatformPortalTheme, selected: boolean): React.C
   };
 }
 
-const portalChoiceRowClass = 'grid grid-cols-2 gap-2 max-sm:gap-2 sm:flex sm:flex-wrap sm:gap-3';
 const portalChoiceChipClass =
   'flex h-10 min-w-0 w-full cursor-pointer items-center justify-center rounded-lg border-none border-0 text-body-sm font-bold leading-none shadow-none transition-colors max-sm:px-2 max-sm:text-xs sm:flex-1 sm:px-3';
 
@@ -511,17 +514,16 @@ export function PmpRoadmapLeadForm({
     isCertHeroDesktop || isCertMobileForm ? 'h-[40px]' : isCompact ? 'h-9' : 'h-10',
   );
   const certHeroControlHeight = 'h-[40px]';
-  const toggleOptionClass = (selected: boolean) =>
+  const choiceVariant = isPortalCertRoadmap ? 'portal' : 'site';
+  const toggleOptionClass = (selected: boolean, optionCount: number) =>
     cn(
-      'flex min-w-0 w-full cursor-pointer items-center justify-center break-words rounded-lg border px-2 text-center font-bold leading-snug transition-colors sm:w-auto sm:flex-[1_1_7rem] sm:px-3',
+      'flex min-w-0 cursor-pointer items-center justify-center break-words rounded-lg border px-2 text-center font-bold leading-snug transition-colors sm:px-3',
+      formChoiceChipLayoutClass(optionCount),
       isCompact ? 'py-2 text-xs sm:text-sm' : 'py-2.5 text-sm',
       selected
         ? 'border-brand-orange bg-brand-orange text-white shadow-sm'
         : 'border-input bg-white text-slate-700 hover:border-brand-orange/40 dark:bg-slate-900 dark:text-slate-300',
     );
-  const choiceGroupClass = isPortalCertRoadmap
-    ? portalChoiceRowClass
-    : 'grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:gap-3';
 
   const focusValidationIssue = (issue: PmpQualificationValidationIssue) => {
     const targetSuffix: Record<PmpQualificationValidationIssue['field'], string> = {
@@ -899,7 +901,7 @@ export function PmpRoadmapLeadForm({
                 )}
                 <div
                   id={`${idPrefix}-work-field-options`}
-                  className={choiceGroupClass}
+                  className={formChoiceGroupClass(WORK_FIELD_OPTIONS.length, choiceVariant)}
                   role="radiogroup"
                   aria-labelledby={`${idPrefix}-work-field-label`}
                   aria-required="true"
@@ -910,7 +912,7 @@ export function PmpRoadmapLeadForm({
                       selected={workField === opt.value}
                       portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                       useCompactRow={isPortalCertRoadmap}
-                      className={!isPortalCertRoadmap ? toggleOptionClass(workField === opt.value) : undefined}
+                      className={!isPortalCertRoadmap ? toggleOptionClass(workField === opt.value, WORK_FIELD_OPTIONS.length) : undefined}
                       aria-checked={workField === opt.value}
                       tabIndex={getPmpChoiceTabIndex(
                         workField === opt.value,
@@ -949,7 +951,7 @@ export function PmpRoadmapLeadForm({
                 )}
                 <div
                   id={`${idPrefix}-needs-options`}
-                  className={choiceGroupClass}
+                  className={formChoiceGroupClass(NEEDS_OBJECTIVE_OPTIONS.length, choiceVariant)}
                   role="radiogroup"
                   aria-labelledby={`${idPrefix}-needs-label`}
                   aria-required="true"
@@ -960,7 +962,7 @@ export function PmpRoadmapLeadForm({
                       selected={needsObjective === opt.value}
                       portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                       useCompactRow={isPortalCertRoadmap}
-                      className={!isPortalCertRoadmap ? toggleOptionClass(needsObjective === opt.value) : undefined}
+                      className={!isPortalCertRoadmap ? toggleOptionClass(needsObjective === opt.value, NEEDS_OBJECTIVE_OPTIONS.length) : undefined}
                       aria-checked={needsObjective === opt.value}
                       tabIndex={getPmpChoiceTabIndex(
                         needsObjective === opt.value,
@@ -1004,7 +1006,7 @@ export function PmpRoadmapLeadForm({
                 )}
                 <div
                   id={`${idPrefix}-education-options`}
-                  className={choiceGroupClass}
+                  className={formChoiceGroupClass(EDUCATION_OPTIONS.length, choiceVariant)}
                   role="radiogroup"
                   aria-labelledby={`${idPrefix}-education-label`}
                   aria-required="true"
@@ -1015,7 +1017,7 @@ export function PmpRoadmapLeadForm({
                       selected={education === opt.value}
                       portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                       useCompactRow={isPortalCertRoadmap}
-                      className={!isPortalCertRoadmap ? toggleOptionClass(education === opt.value) : undefined}
+                      className={!isPortalCertRoadmap ? toggleOptionClass(education === opt.value, EDUCATION_OPTIONS.length) : undefined}
                       aria-checked={education === opt.value}
                       tabIndex={getPmpChoiceTabIndex(
                         education === opt.value,
@@ -1054,7 +1056,7 @@ export function PmpRoadmapLeadForm({
                 )}
                 <div
                   id={`${idPrefix}-experience-options`}
-                  className={choiceGroupClass}
+                  className={formChoiceGroupClass(PM_EXPERIENCE_OPTIONS.length, choiceVariant)}
                   role="radiogroup"
                   aria-labelledby={`${idPrefix}-experience-label`}
                   aria-required="true"
@@ -1065,7 +1067,7 @@ export function PmpRoadmapLeadForm({
                       selected={pmExperience === opt.value}
                       portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                       useCompactRow={isPortalCertRoadmap}
-                      className={!isPortalCertRoadmap ? toggleOptionClass(pmExperience === opt.value) : undefined}
+                      className={!isPortalCertRoadmap ? toggleOptionClass(pmExperience === opt.value, PM_EXPERIENCE_OPTIONS.length) : undefined}
                       aria-checked={pmExperience === opt.value}
                       tabIndex={getPmpChoiceTabIndex(
                         pmExperience === opt.value,
@@ -1104,7 +1106,7 @@ export function PmpRoadmapLeadForm({
                 )}
                 <div
                   id={`${idPrefix}-training-options`}
-                  className={choiceGroupClass}
+                  className={formChoiceGroupClass(TRAINING_STATUS_OPTIONS.length, choiceVariant)}
                   role="radiogroup"
                   aria-labelledby={`${idPrefix}-training-label`}
                   aria-required="true"
@@ -1115,7 +1117,7 @@ export function PmpRoadmapLeadForm({
                       selected={trainingStatus === opt.value}
                       portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                       useCompactRow={isPortalCertRoadmap}
-                      className={!isPortalCertRoadmap ? toggleOptionClass(trainingStatus === opt.value) : undefined}
+                      className={!isPortalCertRoadmap ? toggleOptionClass(trainingStatus === opt.value, TRAINING_STATUS_OPTIONS.length) : undefined}
                       aria-checked={trainingStatus === opt.value}
                       tabIndex={getPmpChoiceTabIndex(
                         trainingStatus === opt.value,
@@ -1154,7 +1156,7 @@ export function PmpRoadmapLeadForm({
                 )}
                 <div
                   id={`${idPrefix}-timeline-options`}
-                  className={choiceGroupClass}
+                  className={formChoiceGroupClass(EXAM_TIMELINE_OPTIONS.length, choiceVariant)}
                   role="radiogroup"
                   aria-labelledby={`${idPrefix}-timeline-label`}
                   aria-required="true"
@@ -1165,7 +1167,7 @@ export function PmpRoadmapLeadForm({
                       selected={examTimeline === opt.value}
                       portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                       useCompactRow={isPortalCertRoadmap}
-                      className={!isPortalCertRoadmap ? toggleOptionClass(examTimeline === opt.value) : undefined}
+                      className={!isPortalCertRoadmap ? toggleOptionClass(examTimeline === opt.value, EXAM_TIMELINE_OPTIONS.length) : undefined}
                       aria-checked={examTimeline === opt.value}
                       tabIndex={getPmpChoiceTabIndex(
                         examTimeline === opt.value,
@@ -1335,7 +1337,7 @@ export function PmpRoadmapLeadForm({
                 )}
                 <div
                   id={`${idPrefix}-channel-options`}
-                  className={choiceGroupClass}
+                  className={formChoiceGroupClass(CONTACT_CHANNEL_OPTIONS.length, choiceVariant)}
                   role="radiogroup"
                   aria-labelledby={`${idPrefix}-channel-label`}
                   aria-required="true"
@@ -1346,7 +1348,7 @@ export function PmpRoadmapLeadForm({
                       selected={contactChannel === opt.value}
                       portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                       useCompactRow={isPortalCertRoadmap}
-                      className={!isPortalCertRoadmap ? toggleOptionClass(contactChannel === opt.value) : undefined}
+                      className={!isPortalCertRoadmap ? toggleOptionClass(contactChannel === opt.value, CONTACT_CHANNEL_OPTIONS.length) : undefined}
                       aria-checked={contactChannel === opt.value}
                       tabIndex={getPmpChoiceTabIndex(
                         contactChannel === opt.value,
@@ -1385,7 +1387,7 @@ export function PmpRoadmapLeadForm({
                 )}
                 <div
                   id={`${idPrefix}-window-options`}
-                  className={choiceGroupClass}
+                  className={formChoiceGroupClass(CONTACT_WINDOW_OPTIONS.length, choiceVariant)}
                   role="radiogroup"
                   aria-labelledby={`${idPrefix}-window-label`}
                   aria-required="true"
@@ -1396,7 +1398,7 @@ export function PmpRoadmapLeadForm({
                       selected={contactWindow === opt.value}
                       portalTheme={isPortalCertRoadmap ? portalTheme : undefined}
                       useCompactRow={isPortalCertRoadmap}
-                      className={!isPortalCertRoadmap ? toggleOptionClass(contactWindow === opt.value) : undefined}
+                      className={!isPortalCertRoadmap ? toggleOptionClass(contactWindow === opt.value, CONTACT_WINDOW_OPTIONS.length) : undefined}
                       aria-checked={contactWindow === opt.value}
                       tabIndex={getPmpChoiceTabIndex(
                         contactWindow === opt.value,

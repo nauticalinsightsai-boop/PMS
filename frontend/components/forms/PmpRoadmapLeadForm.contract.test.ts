@@ -52,9 +52,17 @@ describe('PmpRoadmapLeadForm component contract', () => {
   });
 
   it('uses a bounded two-column mobile layout for long choice labels', () => {
-    expect(source).toContain("'grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:gap-3'");
-    expect(source).toContain("'flex min-w-0 w-full");
-    expect(source).toContain('sm:w-auto sm:flex-[1_1_7rem]');
+    expect(source).toContain("from '@/lib/form-choice-group-layout'");
+    expect(source).toContain('formChoiceGroupClass(');
+    expect(source).toContain('formChoiceChipLayoutClass(');
+    expect(source).toContain('formChoiceGroupClass(CONTACT_CHANNEL_OPTIONS.length, choiceVariant)');
+    expect(source).toContain('formChoiceGroupClass(CONTACT_WINDOW_OPTIONS.length, choiceVariant)');
+    expect(source).toContain('formChoiceGroupClass(WORK_FIELD_OPTIONS.length, choiceVariant)');
+  });
+
+  it('uses one desktop row for exactly four contact-channel choices', () => {
+    expect(source).toContain('formChoiceGroupClass(CONTACT_CHANNEL_OPTIONS.length, choiceVariant)');
+    expect(source).toContain('toggleOptionClass(contactChannel === opt.value, CONTACT_CHANNEL_OPTIONS.length)');
   });
 
   it('uses one retry-stable submission ID and omits daily study-time fields', () => {

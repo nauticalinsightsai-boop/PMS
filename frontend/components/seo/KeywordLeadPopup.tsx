@@ -35,6 +35,7 @@ import {
   formatDialPrefix,
   resolveDialOption,
 } from '@/lib/pmp-roadmap-form-options';
+import { formChoiceGroupClass } from '@/lib/form-choice-group-layout';
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { trackFunnelEvent, FUNNEL_EVENTS } from '@/lib/analytics/funnel';
 import { trackEvent } from '@/lib/analytics/gtag';
@@ -340,7 +341,7 @@ export function KeywordLeadPopup() {
                   Years of experience <span className="text-brand-orange">*</span>
                 </legend>
                 <div
-                  className="grid grid-cols-2 gap-2"
+                  className={formChoiceGroupClass(PMP_JOB_EXPERIENCE_OPTIONS.length, 'site')}
                   role="group"
                   aria-label="Years of experience"
                 >
