@@ -2,9 +2,16 @@
 import dynamic from 'next/dynamic';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Moon, Sun } from "lucide-react";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Menu, Moon, Sun, XIcon } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
 import { RegionChip } from "@/components/RegionChip";
 import { CTAS } from "@/lib/brand-voice";
@@ -35,16 +42,23 @@ const MAIN_NAV_LINKS = [
 const NAV_MENTOR_BTN =
   'bg-brand-orange hover:bg-brand-hover text-white font-semibold px-5 h-10 rounded-full shadow-lg shadow-brand-orange/20 transition-all';
 
+/** Closed/desktop stacking: above page chrome. Open mobile Sheet uses z-50, so drop below it. */
 const NAVBAR_SHELL =
-  'fixed inset-x-0 top-0 z-[100] w-full border-b backdrop-blur-md text-foreground ' +
+  'fixed inset-x-0 top-0 w-full border-b backdrop-blur-md text-foreground ' +
   'bg-white/98 border-slate-200/90 supports-[backdrop-filter]:bg-white/92 ' +
   'dark:bg-[#07071c]/98 dark:border-slate-800/90 dark:supports-[backdrop-filter]:bg-[#07071c]/92';
+const NAVBAR_Z_CLOSED = 'z-[100]';
+const NAVBAR_Z_MOBILE_OPEN = 'z-40';
 
 const MOBILE_NAV_LINKS = [
   { label: "Home", href: "/" },
   ...MAIN_NAV_LINKS,
   { label: "About", href: "/about" },
 ] as const;
+
+/** Close control hit target: >=44 CSS px without enlarging the X icon. */
+const MOBILE_SHEET_CLOSE_BTN =
+  'absolute top-3 right-3 h-11 w-11 min-h-11 min-w-11';
 
 function isNavLinkActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -84,9 +98,19 @@ interface NavbarProps {
 
 export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
   const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
-    <header className={NAVBAR_SHELL}>
+    <header
+      className={cn(
+        NAVBAR_SHELL,
+        mobileOpen ? NAVBAR_Z_MOBILE_OPEN : NAVBAR_Z_CLOSED,
+      )}
+    >
       <div className="container mx-auto flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <BrandLogo size="nav" className="group-hover:opacity-90 transition-opacity" />
@@ -109,7 +133,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
               );
             })}
           </nav>
-          
+
           <div className="flex items-center gap-2 ml-2">
             <RegionChip />
             <Button
@@ -144,7 +168,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
           >
             {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
-          <Sheet>
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger render={
               <Button
                 variant="ghost"
@@ -155,7 +179,25 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
                 <Menu className="h-6 w-6" />
               </Button>
             } />
-            <SheetContent side="right" className="w-[min(100vw-2rem,400px)] bg-background pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+            <SheetContent
+              side="right"
+              showCloseButton={false}
+              className="w-[min(100vw-2rem,400px)] bg-background pb-[max(1.5rem,env(safe-area-inset-bottom))]"
+            >
+              <SheetTitle className="sr-only">Site navigation</SheetTitle>
+              <SheetClose
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={MOBILE_SHEET_CLOSE_BTN}
+                    aria-label="Close"
+                  />
+                }
+              >
+                <XIcon />
+                <span className="sr-only">Close</span>
+              </SheetClose>
               <BrandLogo size="nav" className="mt-2" />
               <div className="mt-4 hidden md:block">
                 <RegionChip />
@@ -170,6 +212,7 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
                       href={link.href}
                       className={navLinkClassName(active, "mobile", featured)}
                       aria-current={active ? "page" : undefined}
+                      onClick={() => setMobileOpen(false)}
                     >
                       {link.label}
                     </Link>
