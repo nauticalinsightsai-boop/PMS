@@ -38,8 +38,10 @@ export type PortalPathwayCardDetailsProps = {
   presentation: ReturnType<typeof resolvePricingPresentation> | null;
   listingMembership?: string;
   outcomes: string[];
-  ctaLabel: string;
   accent: string;
+  /** When true, omit the buried CTA (collapsible chrome owns the always-visible Link). */
+  omitCta?: boolean;
+  ctaLabel?: string;
 };
 
 export function PortalPathwayCardDetails({
@@ -51,8 +53,9 @@ export function PortalPathwayCardDetails({
   presentation,
   listingMembership,
   outcomes,
-  ctaLabel,
   accent,
+  omitCta = false,
+  ctaLabel,
 }: PortalPathwayCardDetailsProps) {
   const displayDesc = description ?? cert.desc;
 
@@ -78,7 +81,8 @@ export function PortalPathwayCardDetails({
       >
         {displayDesc}
       </p>
-      <div className={portalSpacing.metaChipRow}>
+      {/* Grid (not flex-row): Membership panel uses contents+col-span-full as a full-width row below chips. */}
+      <div className="portal-pathway-meta-chip-row grid w-full min-w-0 grid-cols-1 gap-2 sm:grid-cols-3 sm:items-stretch">
         <MetaChip label="Prep time" theme={theme}>
           {duration ?? 'Flexible'}
         </MetaChip>
@@ -86,7 +90,12 @@ export function PortalPathwayCardDetails({
           {tuitionSummary}
         </MetaChip>
         {listingMembership ? (
-          <PortalMembershipPopout theme={theme} membershipPrice={listingMembership} variant="chip" />
+          <PortalMembershipPopout
+            theme={theme}
+            membershipPrice={listingMembership}
+            variant="chip"
+            placement="inline"
+          />
         ) : null}
       </div>
       <ul className="space-y-2 min-h-[6.5rem] flex-1">
@@ -101,18 +110,20 @@ export function PortalPathwayCardDetails({
           </li>
         ))}
       </ul>
-      <Link href={`/certifications/${cert.id}`} className="mt-auto block w-full">
-        <span
-          className="flex w-full items-center justify-center px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
-          style={{
-            borderRadius: theme.radius,
-            background: theme.primary,
-            color: theme.primaryForeground,
-          }}
-        >
-          {ctaLabel}
-        </span>
-      </Link>
+      {!omitCta && ctaLabel ? (
+        <Link href={`/certifications/${cert.id}`} className="mt-auto block w-full">
+          <span
+            className="flex min-h-11 w-full items-center justify-center px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
+            style={{
+              borderRadius: theme.radius,
+              background: theme.primary,
+              color: theme.primaryForeground,
+            }}
+          >
+            {ctaLabel}
+          </span>
+        </Link>
+      ) : null}
     </div>
   );
 }
@@ -196,6 +207,9 @@ export default function PortalPathwayCard({
     cert.learningOutcomes?.slice(0, 3) ?? ['Structured study plan', 'Mock exam practice'];
   const ctaLabel = isEnrollmentOpen(cert.id, regionId) ? 'View pathway' : 'View overview';
   const tuitionSummary = listing.active ?? 'N/A';
+  const durationTuition = `${duration ?? 'Flexible'} · ${tuitionSummary}`;
+  const panelId = `portal-pathway-panel-${cert.id}`;
+  const titleId = `portal-pathway-title-${cert.id}`;
 
   const shellStyle = {
     borderRadius: theme.radiusLg,
@@ -217,142 +231,128 @@ export default function PortalPathwayCard({
         style={shellStyle}
       >
         {accentBar}
-        <button
-          type="button"
-          className={cn(
-            'flex w-full text-left bg-transparent border-0',
-            isCompact ? `${portalSpacing.pathwaySummary} flex-row items-center gap-2 sm:gap-3` : 'flex-col items-start gap-3 p-4 sm:p-5',
-          )}
-          onClick={() => setExpanded(!expanded)}
-          aria-expanded={expanded}
-        >
-          {isCompact ? (
-            <div className="min-w-0 flex-1 flex flex-wrap sm:flex-nowrap items-center gap-x-2 gap-y-1.5">
-              <div className="flex min-w-0 items-center gap-2 overflow-hidden">
-                <span
-                  className="hidden sm:inline-block shrink-0 text-[10px] font-mono uppercase tracking-[0.16em] px-2.5 py-1"
-                  style={{
-                    borderRadius: theme.radius,
-                    backgroundColor: theme.surfaceMuted,
-                    color: theme.textMuted,
-                    border: `1px solid ${theme.cardBorder}`,
-                  }}
-                >
-                  {badgeLabel}
-                </span>
-                <h4
-                  className="portal-tier-title shrink-0 leading-snug text-body-lg font-semibold"
-                  style={{ color: theme.text, fontFamily: theme.fontFamily }}
-                >
-                  {displayTitle}
-                </h4>
-                <span
-                  className="shrink-0 text-[10px] font-mono uppercase tracking-[0.12em] px-2.5 py-1"
-                  style={{
-                    borderRadius: theme.radius,
-                    backgroundColor: isOpen ? theme.primary : theme.surfaceMuted,
-                    color: isOpen ? theme.primaryForeground : theme.textMuted,
-                  }}
-                >
-                  {nextCohortLabel}
-                </span>
-              </div>
-              <div className="hidden sm:flex items-center gap-2 shrink-0 sm:ml-auto">
-                <span
-                  className="text-[10px] uppercase tracking-wider whitespace-nowrap"
-                  style={{ color: theme.textMuted }}
-                >
-                  {duration ?? 'Flexible'}
-                </span>
-                <span
-                  className="text-body-sm font-semibold tabular-nums whitespace-nowrap"
-                  style={{ color: theme.text }}
-                >
-                  {tuitionSummary}
-                </span>
-              </div>
-              <p
-                className="sm:hidden w-full text-meta flex flex-wrap gap-x-2 gap-y-0.5"
-                style={{ color: theme.textMuted }}
-              >
-                <span>{duration ?? 'Flexible'}</span>
-                <span className="font-semibold tabular-nums" style={{ color: theme.text }}>
-                  {tuitionSummary}
-                </span>
-              </p>
-            </div>
-          ) : (
-            <div className="min-w-0 flex-1 space-y-2">
-              <span
-                className="hidden sm:inline-block text-[10px] font-mono uppercase tracking-[0.16em] px-2.5 py-1"
-                style={{
-                  borderRadius: theme.radius,
-                  backgroundColor: theme.surfaceMuted,
-                  color: theme.textMuted,
-                  border: `1px solid ${theme.cardBorder}`,
-                }}
-              >
-                {badgeLabel}
-              </span>
-              <span
-                className="text-[10px] font-mono uppercase tracking-[0.12em] px-2.5 py-1"
-                style={{
-                  borderRadius: theme.radius,
-                  backgroundColor: isOpen ? theme.primary : theme.surfaceMuted,
-                  color: isOpen ? theme.primaryForeground : theme.textMuted,
-                }}
-              >
-                {nextCohortLabel}
-              </span>
-              <h4
-                className="portal-tier-title leading-snug text-h4"
-                style={{ color: theme.text, fontFamily: theme.fontFamily }}
-              >
-                {displayTitle}
-              </h4>
-              <p className="text-meta flex flex-wrap items-center gap-x-3 gap-y-1 w-full" style={{ color: theme.textMuted }}>
-                <span>
-                  <span className="uppercase tracking-wider text-[10px]">{duration ?? 'Flexible'}</span>
-                  {' · '}
-                  <span className="font-semibold tabular-nums" style={{ color: theme.text }}>
-                    {tuitionSummary}
-                  </span>
-                </span>
-                <span className="text-[10px] opacity-80">({regionLabel})</span>
-              </p>
-            </div>
-          )}
-          <ChevronDown
-            size={20}
-            className="shrink-0 transition-transform duration-200"
-            style={{
-              color: theme.textMuted,
-              transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-            }}
-            aria-hidden
-          />
-        </button>
-
         <div
           className={cn(
-            'overflow-hidden transition-all duration-300 ease-out border-t',
-            expanded ? 'max-h-[2400px] opacity-100' : 'max-h-0 opacity-0',
+            'flex w-full min-w-0 flex-col gap-3',
+            isCompact ? portalSpacing.pathwaySummary : 'p-4 sm:p-5',
           )}
-          style={{ borderColor: theme.cardBorder }}
         >
-          <PortalPathwayCardDetails
-            cert={cert}
-            theme={theme}
-            description={description}
-            duration={duration}
-            tuitionSummary={tuitionSummary}
-            presentation={presentation}
-            listingMembership={listing.membership}
-            outcomes={outcomes}
-            ctaLabel={ctaLabel}
-            accent={accent}
-          />
+          <div
+            className={cn(
+              'min-w-0 flex-1',
+              isCompact
+                ? 'flex flex-wrap sm:flex-nowrap items-center gap-x-2 gap-y-1.5'
+                : 'space-y-2',
+            )}
+          >
+            <span
+              className="inline-block shrink-0 text-[10px] font-mono uppercase tracking-[0.16em] px-2.5 py-1"
+              style={{
+                borderRadius: theme.radius,
+                backgroundColor: theme.surfaceMuted,
+                color: theme.textMuted,
+                border: `1px solid ${theme.cardBorder}`,
+              }}
+            >
+              {badgeLabel}
+            </span>
+            <h4
+              id={titleId}
+              className={cn(
+                'portal-tier-title leading-snug font-semibold',
+                isCompact ? 'shrink-0 text-body-lg' : 'text-h4',
+              )}
+              style={{ color: theme.text, fontFamily: theme.fontFamily }}
+            >
+              {displayTitle}
+            </h4>
+            <span
+              className="shrink-0 text-[10px] font-mono uppercase tracking-[0.12em] px-2.5 py-1"
+              style={{
+                borderRadius: theme.radius,
+                backgroundColor: isOpen ? theme.primary : theme.surfaceMuted,
+                color: isOpen ? theme.primaryForeground : theme.textMuted,
+              }}
+            >
+              {nextCohortLabel}
+            </span>
+            <p
+              className={cn(
+                'text-meta min-w-0',
+                isCompact ? 'w-full sm:w-auto sm:ml-auto' : 'w-full',
+              )}
+              style={{ color: theme.textMuted }}
+            >
+              <span className="font-semibold tabular-nums" style={{ color: theme.text }}>
+                {durationTuition}
+              </span>
+              {!isCompact ? (
+                <span className="text-[10px] opacity-80 ml-2">({regionLabel})</span>
+              ) : null}
+            </p>
+          </div>
+
+          <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-stretch">
+            <button
+              type="button"
+              className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
+              style={{
+                borderRadius: theme.radius,
+                borderColor: theme.cardBorder,
+                backgroundColor: theme.surfaceMuted,
+                color: theme.text,
+              }}
+              onClick={() => setExpanded(!expanded)}
+              aria-expanded={expanded}
+              aria-controls={panelId}
+            >
+              Details
+              <ChevronDown
+                size={18}
+                className="shrink-0 transition-transform duration-200"
+                style={{
+                  color: theme.textMuted,
+                  transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                }}
+                aria-hidden
+              />
+            </button>
+            <Link
+              href={`/certifications/${cert.id}`}
+              className="inline-flex min-h-11 flex-1 items-center justify-center px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
+              style={{
+                borderRadius: theme.radius,
+                background: theme.primary,
+                color: theme.primaryForeground,
+              }}
+            >
+              {ctaLabel}
+            </Link>
+          </div>
         </div>
+
+        {expanded ? (
+          <div
+            id={panelId}
+            role="region"
+            aria-labelledby={titleId}
+            className="border-t"
+            style={{ borderColor: theme.cardBorder }}
+          >
+            <PortalPathwayCardDetails
+              cert={cert}
+              theme={theme}
+              description={description}
+              duration={duration}
+              tuitionSummary={tuitionSummary}
+              presentation={presentation}
+              listingMembership={listing.membership}
+              outcomes={outcomes}
+              accent={accent}
+              omitCta
+            />
+          </div>
+        ) : null}
       </article>
     );
   }
@@ -369,7 +369,7 @@ export default function PortalPathwayCard({
       <div className="portal-pathway-body flex flex-1 flex-col gap-3 pt-1">
         <div className="flex flex-wrap items-center gap-2">
           <span
-            className="hidden sm:inline-block text-[10px] font-mono uppercase tracking-[0.16em] px-2.5 py-1"
+            className="inline-block text-[10px] font-mono uppercase tracking-[0.16em] px-2.5 py-1"
             style={{
               borderRadius: theme.radius,
               backgroundColor: theme.surfaceMuted,
@@ -407,7 +407,7 @@ export default function PortalPathwayCard({
         <p className="portal-tier-desc text-body-sm leading-relaxed line-clamp-3" style={{ color: theme.textMuted }}>
           {displayDesc}
         </p>
-        <div className={`portal-pathway-meta ${portalSpacing.metaChipRow}`}>
+        <div className="portal-pathway-meta portal-pathway-meta-chip-row grid w-full min-w-0 grid-cols-1 gap-2 sm:grid-cols-3 sm:items-stretch">
           <MetaChip label="Prep time" theme={theme}>
             {duration ?? 'Flexible'}
           </MetaChip>
@@ -415,7 +415,12 @@ export default function PortalPathwayCard({
             {tuitionSummary}
           </MetaChip>
           {listing.membership ? (
-            <PortalMembershipPopout theme={theme} membershipPrice={listing.membership} variant="chip" />
+            <PortalMembershipPopout
+              theme={theme}
+              membershipPrice={listing.membership}
+              variant="chip"
+              placement="inline"
+            />
           ) : null}
         </div>
         <ul className="space-y-2">
@@ -429,7 +434,7 @@ export default function PortalPathwayCard({
         <div className="portal-pathway-footer mt-auto pt-2">
           <Link href={`/certifications/${cert.id}`} className="block w-full">
             <span
-              className="flex w-full items-center justify-center gap-2 px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
+              className="flex min-h-11 w-full items-center justify-center gap-2 px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
               style={{
                 borderRadius: theme.radius,
                 background: theme.primary,

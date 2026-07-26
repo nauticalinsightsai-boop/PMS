@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { ChannelLandingPage } from '@/types/channelLandingPage';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
 import { certifications } from '@/data/siteData';
@@ -26,23 +26,7 @@ function portalPathwayTitle(certId: string, fallback: string) {
   return fallback;
 }
 
-/** Tailwind `sm` breakpoint: desktop grid uses independent card expand state. */
-function useIsSmUp() {
-  const [isSmUp, setIsSmUp] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(min-width: 640px)');
-    const sync = () => setIsSmUp(mq.matches);
-    sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
-  }, []);
-
-  return isSmUp;
-}
-
 export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }: Props) {
-  const isSmUp = useIsSmUp();
   const [expandedCertId, setExpandedCertId] = useState<string | null>(null);
   const engagement = page.portalEngagement;
   const ids = engagement?.featuredCertIds?.length
@@ -70,7 +54,7 @@ export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }
         className="mb-4"
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 items-stretch">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 items-start">
         {featured.map((certId, index) => {
           const cert = certFor(certId);
           return (
@@ -83,13 +67,9 @@ export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }
               description={cert.desc}
               layout="compact"
               collapsible
-              className="flex h-full flex-col"
-              expanded={isSmUp ? undefined : expandedCertId === certId}
-              onExpandedChange={
-                isSmUp
-                  ? undefined
-                  : (next) => setExpandedCertId(next ? certId : null)
-              }
+              className="flex flex-col"
+              expanded={expandedCertId === certId}
+              onExpandedChange={(next) => setExpandedCertId(next ? certId : null)}
             />
           );
         })}
