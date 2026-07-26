@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState, useEffect, type MouseEvent } from 'react';
 import { cn } from '@/lib/utils';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -53,6 +53,25 @@ export const PUBLIC_NAVBAR_TOP_CLASS = 'top-16';
 /** Certification detail / newsletter subnav row (py-3 + one line) */
 export const PUBLIC_SUBNAV_SPACER_CLASS = 'h-14';
 
+export const MAIN_CONTENT_ID = 'main-content';
+/** Fixed Navbar `h-16` (64px) — keep skip-scroll and main scroll-margin aligned. */
+export const MAIN_CONTENT_SCROLL_MARGIN_CLASS = 'scroll-mt-16';
+export const MAIN_CONTENT_HEADER_OFFSET_PX = 64;
+
+/** Offscreen until focused; z-[110] stacks above Navbar z-[100]; hit target >=44px. */
+const SKIP_TO_MAIN_CLASS =
+  'absolute left-4 top-0 z-[110] inline-flex min-h-11 min-w-11 -translate-y-[160%] items-center justify-center rounded-md border border-border bg-background px-4 text-sm font-medium text-foreground shadow-md outline-none transition-transform focus:translate-y-4 focus:ring-2 focus:ring-ring';
+
+function focusMainContent(event: MouseEvent<HTMLAnchorElement>) {
+  event.preventDefault();
+  const main = document.getElementById(MAIN_CONTENT_ID);
+  if (!(main instanceof HTMLElement)) return;
+  main.focus({ preventScroll: true });
+  const top =
+    main.getBoundingClientRect().top + window.scrollY - MAIN_CONTENT_HEADER_OFFSET_PX;
+  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+}
+
 export function PublicShell({ children }: { children: React.ReactNode }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [deferWidgets, setDeferWidgets] = useState(false);
@@ -92,8 +111,25 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
       <RegionGate>
         <LeadRecoveryProvider>
           <div className="min-h-screen flex flex-col bg-gradient-to-b from-[var(--shell-gradient-from)] via-[var(--shell-gradient-via)] to-[var(--shell-gradient-to)] dark:from-[var(--shell-gradient-dark-from)] dark:via-[var(--shell-gradient-dark-via)] dark:to-[var(--shell-gradient-dark-to)] text-foreground">
+            <a
+              href={`#${MAIN_CONTENT_ID}`}
+              className={SKIP_TO_MAIN_CLASS}
+              onClick={focusMainContent}
+            >
+              Skip to main content
+            </a>
             <Navbar toggleTheme={() => setIsDarkMode((v) => !v)} isDarkMode={isDarkMode} />
-            <main className={cn('flex-1 overflow-x-clip', PUBLIC_NAVBAR_HEIGHT_CLASS)}>{children}</main>
+            <main
+              id={MAIN_CONTENT_ID}
+              tabIndex={-1}
+              className={cn(
+                'flex-1 overflow-x-clip outline-none',
+                PUBLIC_NAVBAR_HEIGHT_CLASS,
+                MAIN_CONTENT_SCROLL_MARGIN_CLASS,
+              )}
+            >
+              {children}
+            </main>
             <Footer />
             <ScrollToTop />
             <CookieConsent />
