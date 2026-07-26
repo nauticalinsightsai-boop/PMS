@@ -204,6 +204,11 @@ export const PMS_LOGO_PATH = '/brand/pms-logo-light.png';
 /** Square mark for browser tab / PWA (public/brand). */
 export const PMS_FAVICON_PATH = '/brand/pms-icon.png';
 export const PMS_FAVICON_DARK_PATH = '/brand/pms-icon-dark.png';
+/**
+ * Legacy browser default path. File at public/favicon.ico is a byte-identical
+ * copy of public/brand/pms-icon.png (official PM Structure mark only).
+ */
+export const PMS_FAVICON_ICO_PATH = '/favicon.ico';
 
 export const PMS_ORGANIZATION_SAME_AS: readonly string[] = [
   PMS_SITE_URL,
