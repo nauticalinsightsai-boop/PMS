@@ -40,11 +40,16 @@ describe('Phase 2A SEO integrity', () => {
     const services = readFrontend('app/(site)/legal/services/page.tsx');
     const pricing = readFrontend('app/(site)/legal/pricing-disclaimers/page.tsx');
     const privacy = readFrontend('app/(site)/legal/privacy/[region]/page.tsx');
+    const privacyGcc = readFrontend('app/(site)/legal/privacy/gcc/page.tsx');
     expect(services).toContain("path: '/legal/services'");
     expect(services).toContain('buildPageMetadata');
     expect(pricing).toContain("path: '/legal/pricing-disclaimers'");
     expect(privacy).toContain('buildPageMetadata');
     expect(privacy).toContain('`/legal/privacy/${slug}`');
+    expect(privacyGcc).toContain('buildPageMetadata');
+    expect(privacyGcc).toContain("path: '/legal/privacy/gcc'");
+    expect(privacyGcc).not.toContain('| ${BRAND.name}');
+    expect(privacyGcc).not.toContain('| PM Structure');
   });
 
   it('keeps a single /pmp-faq H1 source and absolute title without duplicate brand suffix', () => {

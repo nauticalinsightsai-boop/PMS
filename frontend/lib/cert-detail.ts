@@ -1,6 +1,7 @@
 import type { CertificationSummary } from '@/types/site';
 import type { CertificationRegistryEntry } from '@pms/site-content';
 import { getPacketBCertDifferentiation } from '@/content/seo/packet-b-cert-differentiation';
+import { getPhase2Seo } from '@/content/seo/phase-2-page-seo';
 
 export type ResolvedCertMarketing = CertificationSummary & {
   detailHeroTitle: string;
@@ -48,9 +49,12 @@ export function resolveCertMarketing(
     recommendedCTA: pickRegistryString(registryEntry?.recommendedCta, siteCert.recommendedCTA),
     regionalDemand: pickRegistryString(registryEntry?.regionalDemand, siteCert.regionalDemand),
     outputValue: pickRegistryString(registryEntry?.outputValue, siteCert.outputValue),
+    // Phase 2 / Packet B route H1 wins over CMS registry so production CMS cannot
+    // reintroduce pathway-intent copy on credential overview routes (e.g. /certifications/pmp).
     detailHeroTitle:
-      registryEntry?.detailHeroTitle ??
+      getPhase2Seo(`/certifications/${siteCert.id}`)?.h1 ??
       getPacketBCertDifferentiation(siteCert.id)?.h1 ??
+      registryEntry?.detailHeroTitle ??
       (siteCert.id === 'pmp' ? 'PMP Certification: Credential & Exam Overview' : `${siteCert.name} Pathway`),
     detailHeroSubtitle:
       registryEntry?.detailHeroSubtitle ??
