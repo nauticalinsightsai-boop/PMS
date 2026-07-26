@@ -245,9 +245,9 @@ export const T169_FEATURED_CARDS = {
 } as const;
 
 export const T169_PMP_PAGE = {
-  h1: 'PMP 2026 Readiness Pathway',
+  h1: 'PMP Certification: Credential & Exam Overview',
   intro:
-    'The PMP exam was updated 9 July 2026. This pathway gives you a structured plan to study, practice, and track readiness for the current PMP exam using the latest exam content outline.',
+    'The PMP is PMI’s flagship project management credential. This page summarizes the credential and exam overview: eligibility signals, current exam structure after the 9 July 2026 update, and how PM Structure pathways support preparation without replacing PMI’s official rules.',
   disclaimer:
     'Last reviewed: 25 July 2026. PMP exam details, eligibility rules, and training requirements should always be verified with PMI. PM Structure is an independent exam-prep and readiness-support platform.',
   currentVsUpdatedHeading: 'Previous PMP Exam vs Current PMP Exam',

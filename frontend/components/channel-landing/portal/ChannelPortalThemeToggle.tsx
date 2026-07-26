@@ -24,7 +24,7 @@ export default function ChannelPortalThemeToggle({ theme, colorMode, onSetMode }
       <button
         type="button"
         onClick={() => onSetMode('dark')}
-        className="portal-theme-toggle-btn flex items-center justify-center w-8 h-8 rounded-full transition-opacity"
+        className="portal-theme-toggle-btn flex h-11 w-11 items-center justify-center rounded-full transition-opacity"
         style={{
           backgroundColor: colorMode === 'dark' ? theme.primary : 'transparent',
           color: colorMode === 'dark' ? theme.primaryForeground : theme.textMuted,
@@ -38,7 +38,7 @@ export default function ChannelPortalThemeToggle({ theme, colorMode, onSetMode }
       <button
         type="button"
         onClick={() => onSetMode('light')}
-        className="portal-theme-toggle-btn flex items-center justify-center w-8 h-8 rounded-full transition-opacity"
+        className="portal-theme-toggle-btn flex h-11 w-11 items-center justify-center rounded-full transition-opacity"
         style={{
           backgroundColor: colorMode === 'light' ? theme.primary : 'transparent',
           color: colorMode === 'light' ? theme.primaryForeground : theme.textMuted,

@@ -112,7 +112,7 @@ The July 2026 exam increased the relative emphasis on the Business Environment d
 
 For every scenario, write a one-sentence value statement: "This project is worth doing because..." Then ask whether the proposed response protects that value or merely protects the plan.
 
-Use the [PMP 2026 topic hub](/topics/pmp-exam-2026) for the broader exam context. Keep this newsletter's role narrow: it is the roster-friendly execution rhythm.
+Use the [PMP 2026 topic hub](/pmp-exam-2026) for the broader exam context. Keep this newsletter's role narrow: it is the roster-friendly execution rhythm.
 
 ### Week 6: AI, sustainability, and stakeholder trade-offs
 
@@ -227,5 +227,5 @@ An eight-week plan should produce a visible trail of decisions, not merely a sta
 
 - Project Management Institute, [New PMP exam launched in July 2026](https://www.pmi.org/certifications/project-management-pmp/new-exam).
 - Project Management Institute, [PMP Examination Content Outline – 2026](https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/new-pmp-examination-content-outline-2026.pdf).
-- Project Management Institute, [PMP Exam Preparation](https://www.pmi.org/certifications/project-management-pmp/pmp-exam-preparation).
+- Project Management Institute, [Prepared to Pass the PMP Exam](https://www.pmi.org/official-pmp-guide/-/media/pmi/documents/public/pdf/microsites/official-pmp-guide/prepared-to-pass-the-pmp-exam.pdf).
 - International Labour Organization, [Questions and answers on business and working time](https://www.ilo.org/ilo-helpdesk-questions-and-answers-business-and-working-time).

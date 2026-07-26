@@ -18,9 +18,7 @@ export type PmpQualificationEventParams = {
   experienceBand?: string;
   trainingStatus?: string;
   examTimeline?: string;
-  // Step 3 params (no PII - NO name/email/phone)
-  preferredContactChannel?: string;
-  // Never include: fullName, email, phone, contactWindow (may contain schedule preference)
+  // Never include: fullName, email, phone
 };
 
 const completedFormSessionEvents = new Set<string>();

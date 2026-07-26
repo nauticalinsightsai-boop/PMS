@@ -25,7 +25,7 @@ sourceReviewedOn: "2026-07-25"
 
 The updated PMP exam is no longer a future event. PMI launched it on 9 July 2026, so candidates booking now need a preparation system built around the current Exam Content Outline (ECO), not a mixture of old notes, remembered percentages and social-media summaries.
 
-This is not another catalogue of every change. PM Structure already maintains a [PMP Exam 2026 topic hub](/topics/pmp-exam-2026) and a direct answer on [preparing for the updated exam after 9 July 2026](/answers/should-i-prepare-for-new-pmp-after-9-july-2026). This field guide has one narrower purpose: help an active candidate reset an existing study system in 14 days without throwing away everything already learned.
+This is not another catalogue of every change. PM Structure already maintains a [PMP Exam 2026 topic hub](/pmp-exam-2026) and a direct answer on [preparing for the updated exam after 9 July 2026](/answers/should-i-prepare-for-new-pmp-after-9-july-2026). This field guide has one narrower purpose: help an active candidate reset an existing study system in 14 days without throwing away everything already learned.
 
 ## Lock the official baseline before you change your plan
 
@@ -226,7 +226,7 @@ Stop collecting summaries that cannot be traced to the current ECO. Stop treatin
 
 The stronger sequence is simple: verify the official baseline, map the gaps, practise decisions, test the new formats, and use evidence to decide.
 
-For the broader exam-change explanation, return to the [PMP Exam 2026 guide](/topics/pmp-exam-2026). When you are ready to turn the evidence into a structured pathway, review the [PMP 2026 Readiness Pathway](/certifications/pmp).
+For the broader exam-change explanation, return to the [PMP Exam 2026 guide](/pmp-exam-2026). When you are ready to turn the evidence into a structured pathway, review the [PMP 2026 Readiness Pathway](/certifications/pmp).
 
 ## References
 

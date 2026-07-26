@@ -51,6 +51,7 @@ const RESOURCES_LINKS: ReadonlyArray<{ label: string; href: string; highlight?: 
 ];
 
 const EXPLORE_LINKS: ReadonlyArray<{ label: string; href: string }> = [
+  { label: 'About PM Structure', href: '/about' },
   { label: 'Community', href: '/community' },
   { label: 'Compare pathways', href: '/certifications/compare' },
   { label: 'Resource store', href: '/community?view=store' },

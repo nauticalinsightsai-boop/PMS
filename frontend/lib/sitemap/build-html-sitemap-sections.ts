@@ -13,6 +13,7 @@ import { TOPIC_HUB_GROUPS, getPublishedTopicHubs } from '@/content/topics';
 import type { HtmlSitemapLink, HtmlSitemapSection } from '@/content/sitemap/html-sitemap-sections';
 import { getAllIndexationStrategyRows } from '@/content/indexation/strategy';
 import { getPublishedNewsletterArticles } from '@/lib/newsletter/articles';
+import { getPublishedNewsletterAuthors } from '@/lib/newsletter/authors';
 import { certifications } from '@/data/siteData';
 import { isIndexablePath, normalizePath } from '@/lib/indexing-metadata';
 import { isConsolidatedSeoPath } from '@/content/seo/consolidated-paths';
@@ -134,7 +135,10 @@ export function getXmlSitemapUrlCount(): number {
 }
 
 export async function buildHtmlSitemapSections(): Promise<HtmlSitemapSection[]> {
-  const newsletterArticles = await getPublishedNewsletterArticles().catch(() => []);
+  const [newsletterArticles, newsletterAuthors] = await Promise.all([
+    getPublishedNewsletterArticles().catch(() => []),
+    getPublishedNewsletterAuthors().catch(() => []),
+  ]);
 
   const startHerePaths = [
     '/',
@@ -183,6 +187,11 @@ export async function buildHtmlSitemapSections(): Promise<HtmlSitemapSection[]> 
     ),
   })).filter((section) => section.links.length > 0);
 
+  const authorPaths = newsletterAuthors
+    .filter((author) => author.status === 'active' && author.slug)
+    .map((author) => `/newsletter/author/${author.slug}`)
+    .filter(isIndexablePath);
+
   const communityPaths = [
     '/community',
     '/membership',
@@ -192,6 +201,7 @@ export async function buildHtmlSitemapSections(): Promise<HtmlSitemapSection[]> 
     ...newsletterArticles
       .map((article) => `/newsletter/${article.slug}`)
       .filter(isIndexablePath),
+    ...authorPaths,
   ];
 
   const legalPaths = getAllIndexationStrategyRows()

@@ -172,6 +172,37 @@ export function Newsletter({
         {/* 2. Featured Article */}
         <FeaturedPost article={featuredArticle} />
 
+        <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-widest text-slate-400">Career evidence</p>
+            <p className="mt-1 text-base font-semibold text-slate-900 dark:text-white">
+              MENA project-talent gap: build evidence before personal brand
+            </p>
+          </div>
+          <Link
+            href="/newsletter/mena-project-talent-gap-career-evidence"
+            className="inline-flex items-center gap-2 text-sm font-bold text-brand-orange hover:text-brand-hover"
+          >
+            Read the MENA career-evidence article
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
+        </div>
+
+        <div className="mt-6 flex flex-wrap gap-3 text-sm font-medium">
+          <span className="text-slate-400 uppercase tracking-widest text-xs font-bold self-center mr-1">
+            Editorial desks:
+          </span>
+          <Link href="/newsletter/author/sheikh-m-abdullah" className="text-brand-purple hover:underline">
+            Sheikh M. Abdullah
+          </Link>
+          <Link href="/newsletter/author/pmp-readiness-mentor" className="text-brand-purple hover:underline">
+            PMP Readiness Mentor desk
+          </Link>
+          <Link href="/newsletter/author/pmo-transformation-mentor" className="text-brand-purple hover:underline">
+            PMO &amp; Transformation Mentor desk
+          </Link>
+        </div>
+
         <Separator className="my-12 opacity-50" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:items-stretch">

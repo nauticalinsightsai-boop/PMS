@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { IMPLEMENTATION_SCOPE_41 } from './platformBrandSources'
 import { resolvePortalTheme } from './resolvePortalTheme'
-import { usesBluishScopedDarkBaseline } from './platformThemeModes'
+import { defaultPortalColorMode, usesBluishScopedDarkBaseline } from './platformThemeModes'
 import { getPlatformPortalTheme } from './platformThemes'
 
 const BLUISH_DARK_BG = '#0B1018'
@@ -24,5 +24,14 @@ describe('platformThemeModes', () => {
   it('instagram dark uses brand black background', () => {
     const dark = resolvePortalTheme('instagram', 'dark')
     expect(dark.background).toBe('#000000')
+  })
+
+  it('defaults familiar light-first products to light and dark-first products to dark', () => {
+    for (const id of ['website', 'facebook', 'linkedin', 'medium', 'google-search', 'email']) {
+      expect(defaultPortalColorMode(id), id).toBe('light')
+    }
+    for (const id of ['instagram', 'whatsapp', 'youtube', 'spotify', 'discord']) {
+      expect(defaultPortalColorMode(id), id).toBe('dark')
+    }
   })
 })

@@ -84,7 +84,11 @@ describe('public newsletter article metadata and schema', () => {
       image: `${PMS_SITE_URL}${publicArticle.image}`,
       datePublished: publicArticle.datePublished,
       dateModified: publicArticle.dateModified,
-      author: { '@id': `${PMS_SITE_URL}/#organization` },
+      author: {
+        '@type': 'Organization',
+        '@id': `${PMS_SITE_URL}/#organization`,
+        name: 'PM Structure',
+      },
       publisher: { '@id': `${PMS_SITE_URL}/#organization` },
       mainEntityOfPage: {
         '@id': `${PMS_SITE_URL}/newsletter/${publicArticle.slug}#webpage`,

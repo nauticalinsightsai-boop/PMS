@@ -106,7 +106,7 @@ export default function PortalCredibilityTabs({
               id="portal-cred-tab-quotes"
               aria-controls="portal-cred-panel-quotes"
               onClick={() => setActiveTab('quotes')}
-              className="portal-credibility-tab flex-1 min-w-0 px-4 py-2 text-meta font-medium transition-all duration-200"
+              className="portal-credibility-tab min-h-11 min-w-0 flex-1 px-4 py-2 text-meta font-medium transition-all duration-200"
               style={{
                 borderRadius: theme.radius,
                 backgroundColor: activeTab === 'quotes' ? theme.surface : 'transparent',
@@ -125,7 +125,7 @@ export default function PortalCredibilityTabs({
               id="portal-cred-tab-metrics"
               aria-controls="portal-cred-panel-metrics"
               onClick={() => setActiveTab('metrics')}
-              className="portal-credibility-tab flex-1 min-w-0 px-4 py-2 text-meta font-medium transition-all duration-200"
+              className="portal-credibility-tab min-h-11 min-w-0 flex-1 px-4 py-2 text-meta font-medium transition-all duration-200"
               style={{
                 borderRadius: theme.radius,
                 backgroundColor: activeTab === 'metrics' ? theme.surface : 'transparent',

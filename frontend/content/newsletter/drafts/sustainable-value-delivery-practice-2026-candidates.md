@@ -272,7 +272,7 @@ After the sprint, select three errors and answer these questions:
 
 If your answer improves only because you memorised the wording of a question, the learning is fragile. Rewrite the situation with a different industry, stakeholder, and constraint. If the decision logic still holds, the principle is becoming transferable.
 
-For broader source-checked coverage of the updated exam, use the [PMP Exam 2026 guide](/topics/pmp-exam-2026). For an independent route from current evidence to preparation priorities, review the [PMP 2026 Readiness Pathway](/certifications/pmp).
+For broader source-checked coverage of the updated exam, use the [PMP Exam 2026 guide](/pmp-exam-2026). For an independent route from current evidence to preparation priorities, review the [PMP 2026 Readiness Pathway](/certifications/pmp).
 
 ## References
 

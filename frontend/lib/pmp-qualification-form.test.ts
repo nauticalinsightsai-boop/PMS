@@ -20,8 +20,6 @@ const completeValues: PmpQualificationFormValues = {
   fullName: 'Aisha Khan',
   phone: '50 123 4567',
   email: 'aisha@example.com',
-  contactChannel: 'phone',
-  contactWindow: 'evening',
 };
 
 describe('PMP qualification step flow', () => {
@@ -35,8 +33,6 @@ describe('PMP qualification step flow', () => {
     ['contact', 'fullName', 'x'],
     ['contact', 'phone', '123456'],
     ['contact', 'email', 'invalid'],
-    ['contact', 'contactChannel', ''],
-    ['contact', 'contactWindow', ''],
   ] as const)(
     'blocks %s forward movement when %s is invalid',
     (step, field, invalidValue) => {
@@ -104,7 +100,7 @@ describe('PMP qualification submission', () => {
     expect(create).toHaveBeenCalledTimes(1);
   });
 
-  it('maps every intended qualification field once and omits study hours', () => {
+  it('maps every intended qualification field once and omits study hours and contact prefs', () => {
     const payload = buildPmpQualificationSubmissionPayload({
       values: completeValues,
       dialCode: 'AE',
@@ -123,8 +119,6 @@ describe('PMP qualification submission', () => {
       pmExperience: '3_to_4',
       trainingStatus: 'completed',
       examTimeline: 'within_3',
-      preferredContactChannel: 'phone',
-      preferredContactWindow: 'evening',
       fullName: 'Aisha Khan',
       phoneCountryCode: 'AE',
       phoneCountryPrefix: '+971',
@@ -138,12 +132,12 @@ describe('PMP qualification submission', () => {
       'pmExperience',
       'trainingStatus',
       'examTimeline',
-      'preferredContactChannel',
-      'preferredContactWindow',
     ];
     for (const field of qualificationKeys) {
       expect(Object.keys(payload).filter((key) => key === field)).toHaveLength(1);
     }
+    expect(payload).not.toHaveProperty('preferredContactChannel');
+    expect(payload).not.toHaveProperty('preferredContactWindow');
     const persistedInteraction = {
       email: completeValues.email,
       payload,

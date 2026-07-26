@@ -8,7 +8,6 @@ import {
   effectiveTintedSurfaceHex,
   isLightHexColor,
   meetsContrast,
-  pickButtonForeground,
   pickReadableForeground,
 } from './contrastUtils'
 import { resolvePortalQuoteSurface } from './portalQuoteSurface'
@@ -96,10 +95,10 @@ function finalizeThemeTokens(theme: PlatformPortalTheme): PlatformPortalTheme {
 
   return {
     ...theme,
-    primaryForeground: pickButtonForeground(primaryBg),
-    accentForeground: pickButtonForeground(solidHex(theme.accent, primaryBg)),
-    recommendedText: pickButtonForeground(recBg),
-    heroText: pickButtonForeground(heroBg),
+    primaryForeground: pickReadableForeground(primaryBg),
+    accentForeground: pickReadableForeground(solidHex(theme.accent, primaryBg)),
+    recommendedText: pickReadableForeground(recBg),
+    heroText: pickReadableForeground(heroBg),
     freeBadgeText: resolveBadgeText(theme, 'freeBadgeBg', 'freeBadgeText'),
     priceBadgeText: resolveBadgeText(theme, 'priceBadgeBg', 'priceBadgeText'),
   }

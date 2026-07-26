@@ -158,7 +158,7 @@ export function estimateReadTime(content: string): string {
 }
 
 export function contentToBodyParagraphs(content: string): string[] {
-  const trimmed = content.trim();
+  const trimmed = content.replace(/\r\n?/g, '\n').trim();
   if (!trimmed) return [];
   return trimmed
     .split(/\n{2,}/)
@@ -214,7 +214,14 @@ export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle
     .replace(/PM Structure Editorial/gi, CANONICAL_NEWSLETTER_AUTHOR);
   const renderableContent = stripLeadingMarkdownH1(post.content);
   const datePublished = validNewsletterSourceDate(post.publishDate);
-  const dateModified = validNewsletterSourceDate(post.modifiedDate);
+  let dateModified = validNewsletterSourceDate(post.modifiedDate);
+  if (
+    datePublished &&
+    dateModified &&
+    Date.parse(dateModified) < Date.parse(datePublished)
+  ) {
+    dateModified = datePublished;
+  }
 
   return {
     slug: post.slug,
@@ -223,7 +230,7 @@ export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle
     metaTitle: post.metaTitle?.trim() || post.title,
     metaDescription: post.metaDescription?.trim() || excerpt,
     keywords: post.keywords?.trim() || undefined,
-    category: post.topics[0]?.replace(/^["']|["']$/g, '') || 'Insights',
+    category: post.topics[0] || 'Insights',
     date: formatNewsletterPostDate(post.publishDate),
     datePublished,
     dateModified,

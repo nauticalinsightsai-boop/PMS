@@ -50,6 +50,10 @@ const liveLinkSurfaces = [
   ['PMP cluster pages', pages],
   ['Home', homeLinks],
   ['Footer', footerLinks],
+  [
+    'Newsletter draft registry',
+    fs.readFileSync(path.join(root, 'packages/site-content/src/newsletter-draft-registry.ts'), 'utf8'),
+  ],
 ];
 
 let failed = false;

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  contentToBodyParagraphs,
   newsletterArticleToPost,
   newsletterPostToArticle,
   stripLeadingMarkdownH1,
@@ -40,6 +41,22 @@ const draftPost: NewsletterPost = {
 };
 
 describe('newsletter post rendering model', () => {
+  it('splits body paragraphs equally for LF and CRLF content', () => {
+    const lf = '# Title\n\nOpening paragraph.\n\n## Section\n\nBody copy.';
+    const crlf = lf.replace(/\n/g, '\r\n');
+    const loneCr = lf.replace(/\n/g, '\r');
+
+    expect(contentToBodyParagraphs(lf)).toEqual([
+      '# Title',
+      'Opening paragraph.',
+      '## Section',
+      'Body copy.',
+    ]);
+    expect(contentToBodyParagraphs(crlf)).toEqual(contentToBodyParagraphs(lf));
+    expect(contentToBodyParagraphs(loneCr)).toEqual(contentToBodyParagraphs(lf));
+    expect(contentToBodyParagraphs(crlf).length).toBeGreaterThan(1);
+  });
+
   it('removes only a leading Markdown H1 because the page template owns the H1', () => {
     expect(stripLeadingMarkdownH1(draftPost.content)).toBe(
       'Opening paragraph.\n\n## First section\n\nBody.',

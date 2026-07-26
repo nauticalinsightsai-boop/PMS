@@ -121,6 +121,9 @@ function CommunityNetworkContent({
       {/* Community Channels */}
       <section className="relative z-20 pt-14 pb-20 md:pt-16">
         <div className="container mx-auto">
+          <h2 className="mx-auto mb-10 max-w-4xl text-center font-heading text-3xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl">
+            Community channels
+          </h2>
           <ResponsiveSnapScroll
             desktopLayoutClassName="md:grid-cols-2 items-stretch"
             gapClassName="gap-8"
@@ -219,9 +222,9 @@ function CommunityNetworkContent({
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="relative flex min-h-[28rem] flex-col lg:min-h-0"
+              className="relative flex flex-col lg:min-h-0"
             >
-              <div className="relative flex h-full min-h-0 flex-1 flex-col overflow-hidden aspect-[2/3] lg:aspect-auto rounded-[3rem] bg-slate-100 dark:bg-slate-800 shadow-2xl border-4 border-white dark:border-slate-900">
+              <div className="relative flex h-full min-h-0 flex-1 flex-col overflow-visible rounded-[3rem] border-4 border-white bg-slate-100 shadow-2xl dark:border-slate-900 dark:bg-slate-800 lg:overflow-hidden">
                 <Image
                   src={MARKETING_STOCK_IMAGES.mentorship.src}
                   alt={MARKETING_STOCK_IMAGES.mentorship.alt}
@@ -231,8 +234,8 @@ function CommunityNetworkContent({
                   className="absolute inset-0 h-full w-full object-cover"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 flex min-h-0 flex-col overflow-hidden bg-gradient-to-t from-slate-950/98 via-slate-950/94 to-slate-950/88 px-4 pt-4 pb-4 sm:px-5 sm:pt-5 sm:pb-5">
-                  <CommunityWaitlistForm className="flex min-h-0 flex-1 flex-col" />
+                <div className="relative z-10 flex flex-col bg-gradient-to-t from-slate-950/98 via-slate-950/94 to-slate-950/88 px-4 pt-4 pb-4 sm:px-5 sm:pt-5 sm:pb-5 lg:absolute lg:inset-0 lg:min-h-0 lg:overflow-hidden">
+                  <CommunityWaitlistForm className="flex flex-col lg:min-h-0 lg:flex-1" />
                 </div>
               </div>
             </m.div>

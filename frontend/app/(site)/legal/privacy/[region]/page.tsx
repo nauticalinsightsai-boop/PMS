@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { LegalPrivacyRegionPage } from '@/components/pages/legal/LegalPrivacyPage';
 import type { LegalRegionSlug } from '@/content/legal/types';
-import { BRAND } from '@/lib/brand-voice';
+import { buildPageMetadata } from '@/lib/site-metadata';
 
 const VALID: LegalRegionSlug[] = ['eu', 'uk', 'us', 'gcc', 'india', 'pakistan'];
 
@@ -23,8 +23,18 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { region } = await params;
   const slug = region as LegalRegionSlug;
-  const label = TITLES[slug] ?? region;
-  return { title: `Privacy Policy (${label}) | ${BRAND.name}` };
+  if (!VALID.includes(slug)) {
+    return buildPageMetadata({
+      title: 'Privacy Policy',
+      path: `/legal/privacy/${region}`,
+    });
+  }
+  const label = TITLES[slug];
+  return buildPageMetadata({
+    title: `Privacy Policy (${label})`,
+    description: `Regional privacy notice for ${label}: how PM Structure collects, uses, and protects personal data for learners and site visitors.`,
+    path: `/legal/privacy/${slug}`,
+  });
 }
 
 export default async function Page({ params }: { params: Promise<{ region: string }> }) {

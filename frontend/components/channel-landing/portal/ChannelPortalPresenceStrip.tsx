@@ -53,8 +53,8 @@ export default function ChannelPortalPresenceStrip({
           href={PMS_SITE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-3 min-w-0 rounded-md transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-          style={{ outlineColor: theme.primary }}
+          className="flex items-center gap-3 min-w-0 transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          style={{ borderRadius: theme.radius, outlineColor: theme.primary }}
           aria-label={`Open ${PMS_SITE_NAME} website`}
         >
           {useStoryRing ? (

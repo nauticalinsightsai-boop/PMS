@@ -14,6 +14,7 @@ function articleAuthorAvatar(article: NewsletterArticle): string {
 }
 
 function AuthorByline({ article }: { article: NewsletterArticle }) {
+  const isEditorialRole = article.authorBylineType === 'editorial_role';
   const content = (
     <>
       <span className="h-7 w-7 shrink-0 overflow-hidden rounded-full border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
@@ -25,7 +26,14 @@ function AuthorByline({ article }: { article: NewsletterArticle }) {
           referrerPolicy="no-referrer"
         />
       </span>
-      <span className="font-semibold text-slate-700 dark:text-slate-200">{article.author}</span>
+      <span className="inline-flex flex-col leading-tight">
+        <span className="font-semibold text-slate-700 dark:text-slate-200">{article.author}</span>
+        {isEditorialRole ? (
+          <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+            {article.authorTitle || 'PM Structure editorial role'}
+          </span>
+        ) : null}
+      </span>
     </>
   );
 

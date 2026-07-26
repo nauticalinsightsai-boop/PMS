@@ -1,5 +1,6 @@
 import type { CertificationSummary } from '@/types/site';
 import type { CertificationRegistryEntry } from '@pms/site-content';
+import { getPacketBCertDifferentiation } from '@/content/seo/packet-b-cert-differentiation';
 
 export type ResolvedCertMarketing = CertificationSummary & {
   detailHeroTitle: string;
@@ -49,9 +50,13 @@ export function resolveCertMarketing(
     outputValue: pickRegistryString(registryEntry?.outputValue, siteCert.outputValue),
     detailHeroTitle:
       registryEntry?.detailHeroTitle ??
-      (siteCert.id === 'pmp' ? 'PMP 2026 Readiness Pathway' : `${siteCert.name} Pathway`),
+      getPacketBCertDifferentiation(siteCert.id)?.h1 ??
+      (siteCert.id === 'pmp' ? 'PMP Certification: Credential & Exam Overview' : `${siteCert.name} Pathway`),
     detailHeroSubtitle:
-      registryEntry?.detailHeroSubtitle ?? registryEntry?.desc ?? siteCert.desc,
+      registryEntry?.detailHeroSubtitle ??
+      getPacketBCertDifferentiation(siteCert.id)?.intro ??
+      registryEntry?.desc ??
+      siteCert.desc,
     outputValueDisplay: pickRegistryString(registryEntry?.outputValue, siteCert.outputValue),
     recommendedCtaDisplay: pickRegistryString(registryEntry?.recommendedCta, siteCert.recommendedCTA),
     targetAudienceDisplay: pickRegistryString(registryEntry?.targetAudience, siteCert.targetAudience),

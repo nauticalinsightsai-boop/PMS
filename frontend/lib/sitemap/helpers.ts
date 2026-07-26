@@ -11,19 +11,32 @@ export function assertIndexable(path: string): void {
   }
 }
 
+export type SitemapLastModified = Date | string;
+
+/**
+ * Build a sitemap entry. Include `lastModified` only when a reliable page-specific
+ * date exists; omit rather than inventing a build-time stamp.
+ */
 export function buildSitemapEntry(
   path: string,
   priority: number,
   changeFrequency: MetadataRoute.Sitemap[0]['changeFrequency'] = 'weekly',
+  lastModified?: SitemapLastModified,
 ): MetadataRoute.Sitemap[0] {
   const canonicalPath = buildCanonicalPath(path);
   assertIndexable(canonicalPath);
-  return {
+  const entry: MetadataRoute.Sitemap[0] = {
     url: `${PMS_SITE_URL}${canonicalPath}`,
-    lastModified: new Date(),
     changeFrequency,
     priority,
   };
+  if (lastModified != null && lastModified !== '') {
+    const parsed = lastModified instanceof Date ? lastModified : new Date(lastModified);
+    if (!Number.isNaN(parsed.getTime())) {
+      entry.lastModified = parsed;
+    }
+  }
+  return entry;
 }
 
 export function filterIndexablePaths(paths: string[]): string[] {

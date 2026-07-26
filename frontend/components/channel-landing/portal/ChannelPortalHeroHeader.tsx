@@ -178,6 +178,32 @@ export default function ChannelPortalHeroHeader({
         </PortalButton>
       ) : null}
       {page.showSyncBanner ? <HeroSyncAside page={page} theme={theme} /> : null}
+      <div
+        className="mt-1 border p-5 sm:p-7"
+        style={{
+          borderRadius: theme.radiusLg,
+          borderColor: theme.cardBorder,
+          background: theme.heroBg,
+          color: theme.heroText,
+        }}
+      >
+        {page.contextLabel ? (
+          <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] opacity-80">
+            {page.contextLabel}
+          </p>
+        ) : null}
+        <h1
+          className="max-w-3xl text-2xl font-bold leading-tight tracking-tight sm:text-4xl"
+          style={{ fontFamily: theme.fontFamily }}
+        >
+          {page.headline}
+        </h1>
+        {page.subheadline ? (
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed opacity-90 sm:text-base">
+            {page.subheadline}
+          </p>
+        ) : null}
+      </div>
     </header>
   )
 }

@@ -29,7 +29,7 @@ describe('buildArticleSchema', () => {
   it.each([
     ['PMP Readiness Mentor', '/newsletter/author/pmp-readiness-mentor'],
     ['PMO & Transformation Mentor', '/newsletter/author/pmo-transformation-mentor'],
-  ])('uses the Organization reference for the editorial role %s', (name, url) => {
+  ])('uses Organization authorship for the editorial role %s', (name, url) => {
     const schema = buildArticleSchema({
       ...baseInput,
       author: {
@@ -39,8 +39,13 @@ describe('buildArticleSchema', () => {
       },
     });
 
-    expect(schema.author).toEqual({ '@id': organizationId() });
+    expect(schema.author).toEqual({
+      '@type': 'Organization',
+      '@id': organizationId(),
+      name: 'PM Structure',
+    });
     expect(JSON.stringify(schema.author)).not.toContain('"@type":"Person"');
+    expect(JSON.stringify(schema.author)).not.toContain(name);
   });
 
   it('keeps an absolute image URL and resolves a site-relative image URL', () => {
@@ -73,5 +78,16 @@ describe('buildArticleSchema', () => {
     expect(valid.dateModified).toBe('2026-07-25T12:00:00.000Z');
     expect(invalid).not.toHaveProperty('datePublished');
     expect(invalid).not.toHaveProperty('dateModified');
+  });
+
+  it('never emits dateModified earlier than datePublished', () => {
+    const schema = buildArticleSchema({
+      ...baseInput,
+      datePublished: '2026-07-25T12:00:00.000Z',
+      dateModified: '2026-07-20T12:00:00.000Z',
+    });
+
+    expect(schema.datePublished).toBe('2026-07-25T12:00:00.000Z');
+    expect(schema.dateModified).toBe('2026-07-25T12:00:00.000Z');
   });
 });

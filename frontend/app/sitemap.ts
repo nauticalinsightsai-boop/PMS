@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { certifications } from '@/data/siteData';
 import { getPublishedNewsletterArticles } from '@/lib/newsletter/articles';
+import { getPublishedNewsletterAuthors } from '@/lib/newsletter/authors';
 import { DYNAMIC_LEGAL_SLUGS } from '@/content/legal/registry';
 import { PRIVACY_REGION_OPTIONS, GCC_COUNTRY_SLUGS } from '@/content/legal';
 import { buildSitemapEntry } from '@/lib/sitemap/helpers';
@@ -8,15 +9,17 @@ import { PMP_COURSE_PATHS } from '@/content/pmp/courses';
 import { PMP_CLUSTER_PATHS } from '@/content/pmp/pages';
 import { PMP_SERVICE_PATHS } from '@/content/pmp/services';
 import { getPublishedAnswerPaths } from '@/content/answers';
-import { getPublishedTopicPaths } from '@/content/topics';
+import { getPublishedTopicHubs, getPublishedTopicPaths } from '@/content/topics';
 import { isConsolidatedSeoPath } from '@/content/seo/consolidated-paths';
 
 type SitemapFreq = MetadataRoute.Sitemap[0]['changeFrequency'];
+type SitemapLastModified = Date | string;
 
 type RouteSpec = {
   path: string;
   priority: number;
   changeFrequency?: SitemapFreq;
+  lastModified?: SitemapLastModified;
 };
 
 const entry = buildSitemapEntry;
@@ -25,9 +28,10 @@ function safeEntry(
   path: string,
   priority: number,
   changeFrequency?: SitemapFreq,
+  lastModified?: SitemapLastModified,
 ): MetadataRoute.Sitemap[0] | null {
   try {
-    return entry(path, priority, changeFrequency);
+    return entry(path, priority, changeFrequency, lastModified);
   } catch {
     return null;
   }
@@ -35,7 +39,9 @@ function safeEntry(
 
 function entriesFromSpecs(specs: RouteSpec[]): MetadataRoute.Sitemap {
   return specs
-    .map(({ path, priority, changeFrequency }) => safeEntry(path, priority, changeFrequency))
+    .map(({ path, priority, changeFrequency, lastModified }) =>
+      safeEntry(path, priority, changeFrequency, lastModified),
+    )
     .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 }
 
@@ -47,15 +53,26 @@ async function safeNewsletterArticles() {
   }
 }
 
+async function safeNewsletterAuthors() {
+  try {
+    return await getPublishedNewsletterAuthors();
+  } catch {
+    return [];
+  }
+}
+
 function safePathsToEntries(
   paths: string[],
   priority: number,
   changeFrequency: SitemapFreq = 'monthly',
+  lastModifiedByPath?: Map<string, SitemapLastModified>,
 ): MetadataRoute.Sitemap {
   try {
     return paths
       .filter((path) => !isConsolidatedSeoPath(path))
-      .map((path) => safeEntry(path, priority, changeFrequency))
+      .map((path) =>
+        safeEntry(path, priority, changeFrequency, lastModifiedByPath?.get(path)),
+      )
       .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
   } catch {
     return [];
@@ -102,13 +119,15 @@ function buildLegalEntries(): MetadataRoute.Sitemap {
 function buildPmpClusterEntries(): MetadataRoute.Sitemap {
   const PMP_PRIORITY_PATHS = new Set(['/pmp-exam-2026']);
   try {
-    return PMP_CLUSTER_PATHS.filter((p) => !isConsolidatedSeoPath(p)).map((p) =>
-      safeEntry(
-        p,
-        PMP_PRIORITY_PATHS.has(p) ? 0.9 : 0.85,
-        PMP_PRIORITY_PATHS.has(p) ? 'weekly' : 'monthly',
-      ),
-    ).filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
+    return PMP_CLUSTER_PATHS.filter((p) => !isConsolidatedSeoPath(p))
+      .map((p) =>
+        safeEntry(
+          p,
+          PMP_PRIORITY_PATHS.has(p) ? 0.9 : 0.85,
+          PMP_PRIORITY_PATHS.has(p) ? 'weekly' : 'monthly',
+        ),
+      )
+      .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
   } catch {
     return [];
   }
@@ -124,10 +143,49 @@ function buildAnswerEntries(): MetadataRoute.Sitemap {
 
 function buildTopicEntries(): MetadataRoute.Sitemap {
   try {
-    return safePathsToEntries(getPublishedTopicPaths(), 0.7, 'monthly');
+    const hubs = getPublishedTopicHubs();
+    const lastModifiedByPath = new Map<string, SitemapLastModified>();
+    for (const hub of hubs) {
+      if (hub.dateModified) lastModifiedByPath.set(hub.path, hub.dateModified);
+    }
+    return safePathsToEntries(getPublishedTopicPaths(), 0.7, 'monthly', lastModifiedByPath);
   } catch {
     return [];
   }
+}
+
+/**
+ * Indexable author profile pages with at least one published article.
+ * Editorial-role authors remain Organization/role attribution on articles;
+ * pages stay indexable without inventing Person identity.
+ * `/topics/pmp-exam-2026` stays excluded: it is a consolidated 308 alias to `/pmp-exam-2026`.
+ */
+function buildNewsletterAuthorEntries(
+  authors: Awaited<ReturnType<typeof safeNewsletterAuthors>>,
+  articles: Awaited<ReturnType<typeof safeNewsletterArticles>>,
+): MetadataRoute.Sitemap {
+  const authoredSlugs = new Set(
+    articles
+      .map((article) => article.authorSlug?.trim())
+      .filter((slug): slug is string => Boolean(slug)),
+  );
+  return authors
+    .filter(
+      (author) =>
+        author.status === 'active' &&
+        author.slug &&
+        !author.profilePending &&
+        authoredSlugs.has(author.slug),
+    )
+    .map((author) =>
+      safeEntry(
+        `/newsletter/author/${author.slug}`,
+        0.5,
+        'monthly',
+        author.modifiedDate || undefined,
+      ),
+    )
+    .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 }
 
 function dedupeSitemap(entries: MetadataRoute.Sitemap): MetadataRoute.Sitemap {
@@ -165,10 +223,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 }
 
 async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
-  const newsletterArticles = await safeNewsletterArticles();
+  const [newsletterArticles, newsletterAuthors] = await Promise.all([
+    safeNewsletterArticles(),
+    safeNewsletterAuthors(),
+  ]);
 
   const newsletter = newsletterArticles
-    .map((n) => safeEntry(`/newsletter/${n.slug}`, 0.6, 'monthly'))
+    .map((n) =>
+      safeEntry(
+        `/newsletter/${n.slug}`,
+        0.6,
+        'monthly',
+        n.dateModified || n.datePublished || undefined,
+      ),
+    )
     .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
   return dedupeSitemap([
@@ -181,5 +249,6 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     ...buildTopicEntries(),
     ...buildLegalEntries(),
     ...newsletter,
+    ...buildNewsletterAuthorEntries(newsletterAuthors, newsletterArticles),
   ]);
 }

@@ -33,13 +33,9 @@ import BrandIconMark from '@/components/BrandIconMark';
 
 export const PM_SERVICE_ADVISORY_FORM_ANCHOR = 'pm-service-advisory-form';
 
-export type PmServiceAdvisoryFormPlacement =
-  | 'pm_service_hero'
-  | 'pm_service_hero_mobile'
-  | 'pm_service_hero_desktop';
+export type PmServiceAdvisoryFormPlacement = 'pm_service_hero_mobile' | 'pm_service_hero_desktop';
 
 const PLACEMENT_LABELS: Record<PmServiceAdvisoryFormPlacement, string> = {
-  pm_service_hero: 'PM Service hero',
   pm_service_hero_mobile: 'PM Service hero (mobile)',
   pm_service_hero_desktop: 'PM Service hero (desktop)',
 };

@@ -159,10 +159,7 @@ const LAYOUT_BY_CATEGORY: Record<string, PortalLayoutVariant> = {
   'Syndication / Automation': 'minimal',
 }
 
-/**
- * Canonical portal section order (website reference). All /go/{slug} pages use this
- * structure; per-slug theming and copy only.
- */
+/** Full owned-platform journey. Other channel families intentionally use shorter flows. */
 export const PROFESSIONAL_FLOW: PortalSectionId[] = [
   'presence',
   'hero',
@@ -175,6 +172,60 @@ export const PROFESSIONAL_FLOW: PortalSectionId[] = [
   'qualification',
   'faq',
   'pathway_actions',
+  'final_cta',
+  'social_footer',
+]
+
+/** Fast, low-friction journey for social referrals and direct-message channels. */
+export const SOCIAL_DIRECT_FLOW: PortalSectionId[] = [
+  'presence',
+  'hero',
+  'roadmap_form',
+  'featured_pathways',
+  'social_proof',
+  'faq',
+  'final_cta',
+  'social_footer',
+]
+
+/** Reading-led journey for newsletters, publishing platforms, and email. */
+export const EDITORIAL_FLOW: PortalSectionId[] = [
+  'presence',
+  'hero',
+  'context',
+  'roadmap_form',
+  'featured_pathways',
+  'qualification',
+  'social_proof',
+  'faq',
+  'final_cta',
+  'social_footer',
+]
+
+/** Media-led journey for video, webinar, and podcast referrals. */
+export const MEDIA_FLOW: PortalSectionId[] = [
+  'presence',
+  'hero',
+  'context',
+  'roadmap_form',
+  'webinar_media',
+  'featured_pathways',
+  'social_proof',
+  'tiers',
+  'faq',
+  'final_cta',
+  'social_footer',
+]
+
+/** Intent-first journey for search, answer-engine, and syndicated referrals. */
+export const DISCOVERY_FLOW: PortalSectionId[] = [
+  'presence',
+  'hero',
+  'context',
+  'roadmap_form',
+  'featured_pathways',
+  'qualification',
+  'faq',
   'final_cta',
   'social_footer',
 ]
@@ -196,8 +247,26 @@ function layoutForChannel(channelId: string): PortalLayoutVariant {
   return (cat && LAYOUT_BY_CATEGORY[cat]) || 'minimal'
 }
 
-function flowForChannel(_channelId: string): PortalSectionId[] {
-  return PROFESSIONAL_FLOW
+function flowForChannel(channelId: string): PortalSectionId[] {
+  if (isCoreOwnedPortalChannel(channelId)) {
+    return channelId === 'webinar' ? MEDIA_FLOW : PROFESSIONAL_FLOW
+  }
+  if (
+    isSocialDistributionPortalChannel(channelId) ||
+    (isCommunityDirectPortalChannel(channelId) && channelId !== 'email')
+  ) {
+    return SOCIAL_DIRECT_FLOW
+  }
+  if (isWritingPublishingPortalChannel(channelId) || channelId === 'email') {
+    return EDITORIAL_FLOW
+  }
+  if (isVideoPlatformPortalChannel(channelId) || isAudioPodcastPortalChannel(channelId)) {
+    return MEDIA_FLOW
+  }
+  if (isSyndicatedPortalPackChannel(channelId)) {
+    return DISCOVERY_FLOW
+  }
+  return DISCOVERY_FLOW
 }
 
 const IMPLEMENTATION_SCOPE_41_SET = new Set(IMPLEMENTATION_SCOPE_41)
@@ -221,7 +290,7 @@ export function usesProConsultationPortalLayout(channelId: string): boolean {
   return PRO_CONSULTATION_PORTAL_CHANNELS.has(channelId)
 }
 
-/** @deprecated Impulse layout retired: all `/go/*` portals share {@link PROFESSIONAL_FLOW}. */
+/** @deprecated Impulse layout retired in favour of explicit channel-family flows. */
 export function isImpulseLayoutChannel(_channelId: string): boolean {
   return false
 }

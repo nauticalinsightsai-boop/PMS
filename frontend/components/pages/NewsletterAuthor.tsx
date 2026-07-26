@@ -55,6 +55,11 @@ export function NewsletterAuthorPage({
               {author.title ? (
                 <p className="mt-1 text-lg font-semibold text-brand-purple">{author.title}</p>
               ) : null}
+              {author.bylineType === 'editorial_role' ? (
+                <p className="mt-2 text-sm font-medium text-slate-500 dark:text-slate-400">
+                  Transparent PM Structure editorial role. Not a personal identity.
+                </p>
+              ) : null}
               {socials.length > 0 ? (
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   {socials.map(({ icon: Icon, href, label }) => (
@@ -86,8 +91,12 @@ export function NewsletterAuthorPage({
         <div className="container relative z-10 mx-auto">
           <h2 className="font-heading text-3xl font-bold mb-10 text-slate-900 dark:text-white">
             {articles.length > 0
-              ? `Articles by ${author.name}`
-              : `No articles by ${author.name} yet`}
+              ? author.bylineType === 'editorial_role'
+                ? `Articles from the ${author.name} editorial desk`
+                : `Articles by ${author.name}`
+              : author.bylineType === 'editorial_role'
+                ? `No articles from the ${author.name} editorial desk yet`
+                : `No articles by ${author.name} yet`}
           </h2>
           {articles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

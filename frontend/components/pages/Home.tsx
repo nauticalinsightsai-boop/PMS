@@ -293,7 +293,7 @@ export function Home({
   const showTestimonialPlaceholder = false;
   const insightsItems = homeCms.insightsBand?.items ?? [
     { title: "AI in Project Management", desc: "Use generative AI for planning and risk assessment.", href: "/newsletter/ai-augmented-project-manager" },
-    { title: "2026 Salary Trends", desc: "Certification ROI data across global markets.", href: "/newsletter/2026-pmp-exam-changes" },
+    { title: "Post-Transition PMP Reset", desc: "A 14-day field guide to reset study systems after the July 2026 exam update.", href: "/newsletter/post-transition-pmp-reset-july-2026" },
     { title: "Hybrid Leadership", desc: "Balance predictive and agile frameworks at scale.", href: "/newsletter/hybrid-methodologies-enterprise" },
   ];
   const finalCtaTitle =
@@ -585,8 +585,8 @@ export function Home({
               <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-6 sm:mb-8 tracking-tight leading-tight">
                 {homeCms.insightsBand?.title ?? (
                   <>
-                    Insights for the Future of{' '}
-                    <span className="text-pms-gradient-orange">Project Leadership</span>
+                    Insights for{' '}
+                    <span className="text-pms-gradient-orange">project leaders</span>
                   </>
                 )}
               </h2>
@@ -644,6 +644,13 @@ export function Home({
               </h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                 {homeCms.membership?.sectionSubtitle ?? HOME_COPY.membershipSubtitle}
+              </p>
+              <p className="mt-4 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+                Learn who we are on the{' '}
+                <Link href="/about" className="font-bold text-brand-orange hover:underline">
+                  About PM Structure
+                </Link>{' '}
+                page before you join.
               </p>
             </m.div>
           </div>
@@ -743,7 +750,7 @@ export function Home({
                   <LayoutGrid className="h-6 w-6" />
                   <span className="font-bold uppercase tracking-widest text-[10px]">{BRAND.name} Network</span>
                 </div>
-                <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-5 tracking-tight leading-tight">Join the Global <span className="text-brand-orange">PM Network</span></h2>
+                <h2 className="font-heading text-section font-bold text-slate-900 dark:text-white mb-4 sm:mb-5 tracking-tight leading-tight">Join the <span className="text-brand-orange">PM network</span></h2>
                 <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed font-medium">
                   {T169_SUPPORT_COPY.community}
                 </p>
@@ -993,7 +1000,7 @@ export function Home({
             
             <div className="relative z-10 max-w-4xl mx-auto">
               <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 sm:mb-8 tracking-tight leading-tight text-balance">
-                {finalCtaTitle ?? <>Ready to Start Your <span className="text-brand-orange">Journey?</span></>}
+                {finalCtaTitle ?? <>Ready to <span className="text-brand-orange">begin?</span></>}
               </h2>
               <p className="text-slate-400 text-base sm:text-lg md:text-xl mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
                 {finalCta?.description ||

@@ -45,10 +45,10 @@ import {
   type CertificationsRegistry,
 } from "@pms/site-content";
 
-const PmpRoadmapLeadForm = dynamic(
+const CertificationRoadmapLeadForm = dynamic(
   () =>
-    import('@/components/forms/PmpRoadmapLeadForm').then((mod) => ({
-      default: mod.PmpRoadmapLeadForm,
+    import('@/components/forms/CertificationRoadmapLeadForm').then((mod) => ({
+      default: mod.CertificationRoadmapLeadForm,
     })),
   {
     loading: () => (
@@ -246,9 +246,9 @@ export function Certifications({
             </m.div>
             <div id={PMP_ROADMAP_FORM_ANCHOR} className="scroll-mt-24 w-full min-w-0">
               <div className={cn('relative w-full min-w-0', isLgUp ? 'z-30 isolate' : 'z-20')}>
-                <PmpRoadmapLeadForm
-                  placement={isLgUp ? 'certifications_hub_desktop' : 'certifications_hub_mobile'}
-                  variant="hero"
+                <CertificationRoadmapLeadForm
+                  placement="certifications_hub"
+                  certName="certification"
                 />
               </div>
             </div>

@@ -154,7 +154,7 @@ export default function PortalSiteChips({
             href={mentorCta.href}
             onClick={() => mentorCta.onClick?.()}
             className={cn(
-              'flex min-w-0 flex-1 items-center justify-center gap-1.5 text-meta font-semibold px-3 py-1.5 transition-opacity hover:opacity-90',
+              'flex min-h-11 min-w-0 flex-1 items-center justify-center gap-1.5 px-3 py-1.5 text-meta font-semibold transition-opacity hover:opacity-90',
             )}
             style={{
               borderRadius: theme.radius,
@@ -181,7 +181,7 @@ export default function PortalSiteChips({
               onClick={() => toggle(chip.id)}
               onPointerEnter={() => openChip(chip.id)}
               className={cn(
-                'flex min-w-0 flex-1 items-center justify-center gap-1.5 text-meta font-medium px-3 py-1.5 transition-opacity hover:opacity-90',
+                'flex min-h-11 min-w-0 flex-1 items-center justify-center gap-1.5 px-3 py-1.5 text-meta font-medium transition-opacity hover:opacity-90',
               )}
               style={{
                 borderRadius: theme.radius,

@@ -13,8 +13,8 @@ export const LISTABLE_PATHWAY_FAMILIES: PathwayFamilyTab[] = [...PATHWAY_FAMILY_
 /** Flagship pathways: always shown as the 3-up card row per family tab. */
 export const FAMILY_FEATURED_CERT_IDS: Record<PathwayFamilyTab, readonly string[]> = {
   PMI: ['pmp', 'pmi-rmp', 'capm'],
-  PRINCE2: ['prince2', 'prince2-practitioner', 'prince2-agile'],
-  SixSigma: ['lss-green', 'lss-yellow', 'lss-black'],
+  PRINCE2: ['prince2-agile', 'prince2-agile-practitioner', 'msp'],
+  SixSigma: ['lss-green', 'lss-master', 'lss-champion'],
 };
 
 const TOP_TIER_CERT_IDS = new Set(

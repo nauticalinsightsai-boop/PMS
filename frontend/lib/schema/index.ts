@@ -197,7 +197,14 @@ export function buildArticleSchema(input: {
   const url = `${PMS_SITE_URL}${input.path}`;
   const image = absoluteSchemaUrl(input.image);
   const datePublished = validSchemaDate(input.datePublished);
-  const dateModified = validSchemaDate(input.dateModified);
+  let dateModified = validSchemaDate(input.dateModified);
+  if (
+    datePublished &&
+    dateModified &&
+    Date.parse(dateModified) < Date.parse(datePublished)
+  ) {
+    dateModified = datePublished;
+  }
   const authorName = input.author?.name.trim();
   const authorUrl = absoluteSchemaUrl(input.author?.url);
   const author =
@@ -207,7 +214,11 @@ export function buildArticleSchema(input: {
           name: authorName,
           ...(authorUrl ? { url: authorUrl } : {}),
         }
-      : { '@id': organizationId() };
+      : {
+          '@type': 'Organization',
+          '@id': organizationId(),
+          name: 'PM Structure',
+        };
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',

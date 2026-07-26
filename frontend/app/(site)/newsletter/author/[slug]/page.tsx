@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { NewsletterAuthorPage } from '@/components/pages/NewsletterAuthor';
+import { NewsletterAuthorJsonLd } from '@/components/seo/NewsletterAuthorJsonLd';
 import { getNewsletterAuthor, getPublishedNewsletterAuthors } from '@/lib/newsletter/authors';
 import { getPublishedNewsletterArticles } from '@/lib/newsletter/articles';
 import { buildPageMetadata } from '@/lib/site-metadata';
@@ -16,9 +17,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const author = await getNewsletterAuthor(slug);
   if (!author) return { title: `Author | ${BRAND.name}` };
+  const isRole = author.bylineType === 'editorial_role';
   return buildPageMetadata({
-    title: `${author.name}${author.title ? `: ${author.title}` : ''}`,
-    description: author.bio || `Articles by ${author.name} on The Structure Report.`,
+    title: isRole
+      ? `${author.name}: PM Structure editorial desk`
+      : `${author.name}${author.title ? `: ${author.title}` : ''}`,
+    description: isRole
+      ? author.bio ||
+        `Articles from the ${author.name} editorial desk on The Structure Report. Transparent PM Structure organisational byline.`
+      : author.bio || `Articles by ${author.name} on The Structure Report.`,
     path: `/newsletter/author/${slug}`,
   });
 }
@@ -33,5 +40,10 @@ export default async function Page({ params }: Props) {
     (article) => findAuthorForArticle(article, [author])?.id === author.id,
   );
 
-  return <NewsletterAuthorPage author={author} articles={authored} />;
+  return (
+    <>
+      <NewsletterAuthorJsonLd author={author} />
+      <NewsletterAuthorPage author={author} articles={authored} />
+    </>
+  );
 }

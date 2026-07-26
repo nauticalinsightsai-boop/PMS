@@ -26,7 +26,9 @@ export default function ChannelPortalSocialProof({ page, theme, sectionOrder }: 
   if (!metrics.length && !quotes.length) {
     return (
       <PortalSection theme={theme} sectionOrder={sectionOrder} className="portal-section-compact">
-        <p className="text-body-sm text-slate-600 dark:text-slate-400">{PORTAL_SOCIAL_PROOF_PENDING_MESSAGE}</p>
+        <p className="text-body-sm" style={{ color: theme.textMuted }}>
+          {PORTAL_SOCIAL_PROOF_PENDING_MESSAGE}
+        </p>
       </PortalSection>
     )
   }

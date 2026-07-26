@@ -267,9 +267,9 @@ export const DEFAULT_HOME_INSIGHTS: z.infer<typeof homeInsightsBandSchema> = {
       href: '/newsletter/ai-augmented-project-manager',
     },
     {
-      title: '2026 Salary Trends',
-      desc: 'Certification ROI data across global markets.',
-      href: '/newsletter/2026-pmp-exam-changes',
+      title: 'Post-Transition PMP Reset',
+      desc: 'A 14-day field guide to reset study systems after the July 2026 exam update.',
+      href: '/newsletter/post-transition-pmp-reset-july-2026',
     },
     {
       title: 'Hybrid Leadership',

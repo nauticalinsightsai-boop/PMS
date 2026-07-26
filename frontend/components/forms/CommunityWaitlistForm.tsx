@@ -68,9 +68,9 @@ export function CommunityWaitlistForm({ className }: Props) {
   });
 
   const labelClass =
-    'text-[10px] font-bold uppercase tracking-wide text-white/85 sm:text-[11px]';
+    'text-sm font-semibold text-white/90';
   const fieldClass =
-    'h-8 w-full border-white/30 bg-slate-950/50 text-sm text-white placeholder:text-white/55 focus-visible:ring-brand-orange/50 sm:h-9';
+    'h-12 w-full border-white/30 bg-slate-950/50 px-4 text-base text-white placeholder:text-white/55 focus-visible:border-brand-orange/60 focus-visible:ring-3 focus-visible:ring-brand-orange/30';
 
   const toggleInterest = (interest: string) => {
     setSelectedInterests((prev) =>
@@ -81,7 +81,7 @@ export function CommunityWaitlistForm({ className }: Props) {
 
   const interestPillClass = (selected: boolean) =>
     cn(
-      'cursor-pointer rounded-full border px-2.5 py-1 text-[11px] font-bold transition-colors sm:px-3 sm:py-1.5 sm:text-xs',
+      'min-h-12 cursor-pointer rounded-full border px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-orange/30',
       selected
         ? 'border-brand-orange bg-brand-orange text-white shadow-sm'
         : 'border-white/35 bg-slate-950/40 text-white hover:border-brand-orange/60 hover:bg-slate-950/55',
@@ -155,8 +155,12 @@ export function CommunityWaitlistForm({ className }: Props) {
 
   return (
     <div className={cn('flex flex-col', className)}>
-      <form onSubmit={onSubmit} aria-labelledby="community-waitlist-title" className="flex min-h-0 flex-1 flex-col">
-        <div className="space-y-2.5 sm:space-y-3">
+      <form
+        onSubmit={onSubmit}
+        aria-labelledby="community-waitlist-title"
+        className="flex min-h-0 flex-1 flex-col"
+      >
+        <div className="space-y-5 sm:space-y-6">
           <div className="flex gap-3 sm:gap-4">
             <div
               className="shrink-0 self-start rounded-xl border border-white/20 bg-slate-950/40 p-2.5 text-brand-orange shadow-sm sm:p-3"
@@ -177,8 +181,8 @@ export function CommunityWaitlistForm({ className }: Props) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="space-y-1.5 sm:col-span-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="space-y-2 sm:col-span-2">
               <Label htmlFor="community-waitlist-name" className={labelClass}>
                 Full name <span className="text-brand-orange">*</span>
               </Label>
@@ -197,11 +201,11 @@ export function CommunityWaitlistForm({ className }: Props) {
               />
             </div>
 
-            <div className="space-y-1.5 sm:col-span-2">
+            <div className="space-y-2 sm:col-span-2">
               <Label htmlFor="community-waitlist-phone" className={labelClass}>
                 Phone / WhatsApp <span className="text-brand-orange">*</span>
               </Label>
-              <div className="flex h-8 items-stretch overflow-hidden rounded-lg border border-white/30 bg-slate-950/50 focus-within:border-brand-orange/60 focus-within:ring-3 focus-within:ring-brand-orange/30 sm:h-9">
+              <div className="flex h-12 items-stretch overflow-hidden rounded-lg border border-white/30 bg-slate-950/50 focus-within:border-brand-orange/60 focus-within:ring-3 focus-within:ring-brand-orange/30">
                 <Select
                   value={dialValue}
                   onValueChange={(value) => {
@@ -246,7 +250,7 @@ export function CommunityWaitlistForm({ className }: Props) {
               </div>
             </div>
 
-            <div className="space-y-1.5 sm:col-span-2">
+            <div className="space-y-2 sm:col-span-2">
               <Label htmlFor="community-waitlist-email" className={labelClass}>
                 Email address <span className="text-brand-orange">*</span>
               </Label>
@@ -265,7 +269,7 @@ export function CommunityWaitlistForm({ className }: Props) {
               />
             </div>
 
-            <div className="space-y-1.5 sm:col-span-2">
+            <div className="space-y-2 sm:col-span-2">
               <Label htmlFor="community-waitlist-role" className={labelClass}>
                 Current role <span className="font-normal normal-case text-white/50">(optional)</span>
               </Label>
@@ -302,7 +306,7 @@ export function CommunityWaitlistForm({ className }: Props) {
             </div>
           </fieldset>
 
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             <Label htmlFor="community-waitlist-linkedin" className={labelClass}>
               LinkedIn link{' '}
               <span className="font-normal normal-case text-white/50">(optional)</span>
@@ -336,8 +340,8 @@ export function CommunityWaitlistForm({ className }: Props) {
           {error ? <p className="text-sm font-medium text-red-300">{error}</p> : null}
         </div>
 
-        <div className="mt-auto shrink-0 space-y-2 border-t border-white/10 pt-3 pb-0">
-          <p className="text-[10px] leading-relaxed text-white/55 sm:text-[11px]">
+        <div className="mt-6 shrink-0 space-y-3 border-t border-white/10 pt-4 pb-0">
+          <p className="text-xs leading-relaxed text-white/65 sm:text-[13px]">
             By joining, you agree to our{' '}
             <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
               Privacy Policy
@@ -347,7 +351,7 @@ export function CommunityWaitlistForm({ className }: Props) {
           <Button
             type="submit"
             disabled={submitting}
-            className="h-9 w-full rounded-full bg-brand-orange text-sm font-bold text-white shadow-lg hover:bg-brand-hover sm:h-10 sm:text-base"
+            className="h-12 w-full rounded-full bg-brand-orange text-base font-bold text-white shadow-lg shadow-brand-orange/20 hover:bg-brand-hover focus-visible:ring-3 focus-visible:ring-brand-orange/30"
           >
             {submitting ? 'Joining…' : CTAS.joinWaitlist}
           </Button>

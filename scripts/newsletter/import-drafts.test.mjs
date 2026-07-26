@@ -144,7 +144,7 @@ async function expectFailureWithoutOutputReplacement(fixture, expectedError) {
   assert.equal(await fs.readFile(fixture.qaOutputPath, 'utf-8'), SENTINEL_QA);
 }
 
-test('uses repository-relative defaults and accepts bounded CLI output overrides', () => {
+test('uses a repository-relative default manifest and accepts an explicit CLI override', () => {
   assert.match(
     DEFAULT_MANIFEST_PATH.replaceAll('\\', '/'),
     /packages\/site-content\/data\/newsletter-import-manifest\.json$/,
@@ -154,17 +154,8 @@ test('uses repository-relative defaults and accepts bounded CLI output overrides
     path.join('packages', 'site-content', 'data', 'newsletter-import-manifest.json'),
   );
 
-  const override = parseCliArgs([
-    '--manifest',
-    './fixture-manifest.json',
-    '--qa-output=./fixture-qa.md',
-  ]);
+  const override = parseCliArgs(['--manifest', './fixture-manifest.json']);
   assert.equal(override.manifestPath, path.resolve('./fixture-manifest.json'));
-  assert.equal(override.qaOutputPath, path.resolve('./fixture-qa.md'));
-  assert.throws(
-    () => parseCliArgs(['--qa-output']),
-    /--qa-output requires a file path/,
-  );
 });
 
 test('imports exactly 13 drafts in deterministic priority order with byte-identical outputs', async (t) => {

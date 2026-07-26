@@ -57,7 +57,7 @@ const LIVE_PRIORITY_PATHS = [
   '/certifications',
   '/certifications/pmp',
   '/answers/is-the-pmp-exam-changing-in-2026',
-  '/topics/pmp-exam-2026',
+  '/pmp-exam-2026',
   '/faq',
   '/certifications/compare',
   '/community',
@@ -123,7 +123,26 @@ function isAuditScriptAllowlisted(relPath) {
   );
 }
 
-function scanRepoLine(line, relPath, lineNo, findings) {
+/**
+ * Intentional Circle custom-domain references only (www CNAME for Circle).
+ * Does not allow www.pmstructure.com elsewhere in metadata, pages, sitemap, robots, or unrelated config.
+ */
+export function isCircleCustomDomainAllowlisted(relPath, line) {
+  if (relPath === 'frontend/config/community.ts') {
+    return (
+      /CIRCLE_CUSTOM_DOMAIN_URL\s*=\s*['"]https:\/\/www\.pmstructure\.com['"]/i.test(line) ||
+      /CIRCLE_COMMUNITY_INVITATION_JOIN_URL\s*=\s*['"]https:\/\/www\.pmstructure\.com\/join\?/i.test(line) ||
+      // Invitation URL is assigned on the line after `CIRCLE_COMMUNITY_INVITATION_JOIN_URL =`
+      /^\s*['"]https:\/\/www\.pmstructure\.com\/join\?invitation_token=/i.test(line)
+    );
+  }
+  if (relPath === 'frontend/config/README.md') {
+    return /^\s*NEXT_PUBLIC_CIRCLE_COMMUNITY_JOIN_URL\s*=\s*https:\/\/www\.pmstructure\.com\/join\?/i.test(line);
+  }
+  return false;
+}
+
+export function scanRepoLine(line, relPath, lineNo, findings) {
   if (isBenignHttpContext(line)) return;
   if (isRedirectInventoryAllowlisted(relPath, line)) return;
   if (isAuditScriptAllowlisted(relPath)) return;
@@ -135,7 +154,7 @@ function scanRepoLine(line, relPath, lineNo, findings) {
     }
   }
 
-  if (/https:\/\/www\.pmstructure\.com/i.test(line)) {
+  if (/https:\/\/www\.pmstructure\.com/i.test(line) && !isCircleCustomDomainAllowlisted(relPath, line)) {
     findings.push({ relPath, lineNo, kind: 'www-host', text: 'https://www.pmstructure.com', line: line.trim() });
   }
 
@@ -272,17 +291,29 @@ function printFindings(label, findings) {
   return findings.length;
 }
 
-let failed = false;
-
-console.log('audit-insecure-content: repo scan\n');
-const repoFindings = scanRepo();
-if (printFindings('repo', repoFindings)) failed = true;
-
-if (liveBase) {
-  console.log(`\naudit-insecure-content: live scan (${liveBase})\n`);
-  const liveFindings = scanLive(liveBase);
-  if (printFindings('live', liveFindings)) failed = true;
+function isExecutedDirectly() {
+  const entry = process.argv[1];
+  if (!entry) return false;
+  try {
+    return path.resolve(fileURLToPath(import.meta.url)) === path.resolve(entry);
+  } catch {
+    return false;
+  }
 }
 
-console.log(`\naudit-insecure-content: ${failed ? 'FAILED' : 'PASSED'}`);
-process.exit(failed ? 1 : 0);
+if (isExecutedDirectly()) {
+  let failed = false;
+
+  console.log('audit-insecure-content: repo scan\n');
+  const repoFindings = scanRepo();
+  if (printFindings('repo', repoFindings)) failed = true;
+
+  if (liveBase) {
+    console.log(`\naudit-insecure-content: live scan (${liveBase})\n`);
+    const liveFindings = scanLive(liveBase);
+    if (printFindings('live', liveFindings)) failed = true;
+  }
+
+  console.log(`\naudit-insecure-content: ${failed ? 'FAILED' : 'PASSED'}`);
+  process.exit(failed ? 1 : 0);
+}

@@ -67,7 +67,7 @@ export function buildEntityJson() {
       `${siteUrl}/faq`,
       `${siteUrl}/answers`,
       `${siteUrl}/answers/is-the-pmp-exam-changing-in-2026`,
-      `${siteUrl}/topics/pmp-exam-2026`,
+      `${siteUrl}/pmp-exam-2026`,
       `${siteUrl}/legal/regional-pricing`,
       `${siteUrl}/legal/pricing-disclaimers`,
     ],
@@ -91,13 +91,13 @@ export function buildLlmsTxt(): string {
     ['PMP exam 2026', '/pmp-exam-2026'],
     ['PMP hub', '/pmp'],
     ['PMP exam timeline 2026', '/pmp-exam-timeline-2026'],
-    ['PMP current vs new exam', '/pmp-current-vs-new-exam'],
+    ['Previous vs current PMP exam', '/pmp-current-vs-new-exam'],
     ['PMP certification pathway', '/certifications/pmp'],
     ['PMP Foundation', '/pmp-foundation'],
     ['PMP Professional', '/pmp-professional'],
     ['PMP Mastery', '/pmp-mastery'],
     ['Is the PMP exam changing in 2026?', '/answers/is-the-pmp-exam-changing-in-2026'],
-    ['PMP exam 2026 topic hub', '/topics/pmp-exam-2026'],
+    ['PMP exam 2026 guide', '/pmp-exam-2026'],
   ]
     .map(([label, p]) => md(label, `${siteUrl}${p}`))
     .join('\n');
@@ -164,7 +164,7 @@ ${md('Humans.txt', `${siteUrl}/humans.txt`)}
 
 ## Primary topics
 
-- PMP exam preparation and PMP exam 2026 transition
+- PMP exam preparation for the current exam launched in July 2026
 - PMP readiness, scenario practice, and mock exams
 - PMI (PMP, CAPM, PMI-ACP), PRINCE2, Lean Six Sigma pathways
 - Regional scholarship pricing and independent exam prep compliance
@@ -207,7 +207,7 @@ export function buildAiProfileJson() {
     name: 'PM Structure',
     url: siteUrl,
     summary:
-      'Independent certification exam preparation with structured pathways, regional scholarship pricing, and PMP 2026 transition guides.',
+      'Independent certification exam preparation with structured pathways, regional scholarship pricing, and current PMP exam guidance.',
     audience: [
       'Working project managers preparing for PMP, CAPM, PRINCE2, or Lean Six Sigma',
       'Career changers meeting PMI eligibility before scheduling Pearson VUE',
@@ -321,7 +321,7 @@ export function buildPmp2026Json() {
   const priorityAnswers = [
     '/answers/is-the-pmp-exam-changing-in-2026',
     '/answers/when-does-the-new-pmp-exam-start',
-    '/answers/should-i-take-pmp-before-8-july-2026',
+    '/pmp-after-9-july-2026',
     '/answers/should-i-prepare-for-new-pmp-after-9-july-2026',
     '/answers/what-is-the-pmp-business-environment-domain',
     '/answers/what-is-the-pmp-exam-content-outline',
@@ -529,8 +529,8 @@ export function buildPmpArticlesFeedJson() {
     description: 'PMP-focused articles and newsletter entries for AI crawlers',
     items: [
       {
-        title: '2026 PMP exam changes',
-        url: `${siteUrl}/newsletter/2026-pmp-exam-changes`,
+        title: 'Post-Transition PMP Reset',
+        url: `${siteUrl}/newsletter/post-transition-pmp-reset-july-2026`,
         type: 'newsletter',
       },
       {

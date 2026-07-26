@@ -1,14 +1,25 @@
 import type { PortalLayoutVariant } from './platformOfferPack'
 
-/** One consultation-portal column width for every channel slug (webinar, social, impulse, etc.). */
+/** Fallback consultation-portal column width. */
 export const PORTAL_SHELL_MAX_WIDTH_CLASS = 'max-w-4xl mx-auto w-full min-w-0'
 
 /**
- * Main portal column: same width on mobile and desktop for all layout variants.
- * `layoutVariant` is kept for call-site compatibility; bold/impulse no longer narrows the shell.
+ * Match information density to the channel family instead of forcing every referral
+ * into the same website-shaped column.
  */
-export function portalShellMaxWidthClass(_layoutVariant?: PortalLayoutVariant): string {
-  return PORTAL_SHELL_MAX_WIDTH_CLASS
+export function portalShellMaxWidthClass(layoutVariant?: PortalLayoutVariant): string {
+  switch (layoutVariant) {
+    case 'bold':
+    case 'professional':
+      return 'max-w-5xl mx-auto w-full min-w-0'
+    case 'minimal':
+      return 'max-w-3xl mx-auto w-full min-w-0'
+    case 'editorial':
+    case 'warm':
+      return PORTAL_SHELL_MAX_WIDTH_CLASS
+    default:
+      return PORTAL_SHELL_MAX_WIDTH_CLASS
+  }
 }
 
 /** Presence strip inner row: matches {@link portalShellMaxWidthClass}. */

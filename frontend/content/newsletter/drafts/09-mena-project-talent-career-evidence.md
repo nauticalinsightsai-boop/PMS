@@ -267,7 +267,7 @@ The updated PMP exam places more emphasis on business context, stakeholder engag
 
 But a credential should sit on top of evidence, not cover its absence.
 
-Use the [PMP readiness pathway](/certifications/pmp) to test whether your knowledge and preparation are structured. Use the [PMP 2026 guide](/topics/pmp-exam-2026) to confirm current exam facts. Use a mentor to challenge weak examples and hidden exaggeration.
+Use the [PMP readiness pathway](/certifications/pmp) to test whether your knowledge and preparation are structured. Use the [PMP 2026 guide](/pmp-exam-2026) to confirm current exam facts. Use a mentor to challenge weak examples and hidden exaggeration.
 
 Then return to the evidence.
 

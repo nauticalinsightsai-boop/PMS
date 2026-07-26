@@ -2,7 +2,11 @@ import { describe, expect, it } from 'vitest'
 import { IMPLEMENTATION_SCOPE_41 } from './platformBrandSources'
 import {
   PRO_CONSULTATION_PORTAL_CHANNELS,
+  DISCOVERY_FLOW,
+  EDITORIAL_FLOW,
+  MEDIA_FLOW,
   PROFESSIONAL_FLOW,
+  SOCIAL_DIRECT_FLOW,
   getPackConsultationTiers,
   getPlatformOfferPack,
   usesPortalWebsiteLayoutChrome,
@@ -289,39 +293,49 @@ describe('usesProConsultationPortalLayout', () => {
   })
 })
 
-describe('PROFESSIONAL_FLOW', () => {
-  it('matches website reference order for all 41 implementation-scope channel packs', () => {
+describe('channel-family portal flows', () => {
+  it('covers all 41 implementation-scope channel packs with an intentional family flow', () => {
     expect(IMPLEMENTATION_SCOPE_41).toHaveLength(41)
     for (const id of IMPLEMENTATION_SCOPE_41) {
       const pack = getPlatformOfferPack(id)
-      expect(pack?.flowOrder, id).toEqual(PROFESSIONAL_FLOW)
+      expect(
+        [PROFESSIONAL_FLOW, SOCIAL_DIRECT_FLOW, EDITORIAL_FLOW, MEDIA_FLOW, DISCOVERY_FLOW],
+        id
+      ).toContainEqual(pack?.flowOrder)
     }
   })
 
-  it('places featured_pathways after context and tiers after featured_pathways', () => {
-    const ctx = PROFESSIONAL_FLOW.indexOf('context')
-    const pathways = PROFESSIONAL_FLOW.indexOf('featured_pathways')
-    const tiers = PROFESSIONAL_FLOW.indexOf('tiers')
-
-    expect(pathways).toBeGreaterThan(ctx)
-    expect(tiers).toBeGreaterThan(pathways)
-  })
-
-  it('excludes retired sections (trust, hero_card, credibility, form)', () => {
-    for (const id of ['trust', 'hero_card', 'credibility', 'form'] as const) {
-      expect(PROFESSIONAL_FLOW).not.toContain(id)
+  it('uses the compact social/direct flow for social and messaging referrals', () => {
+    for (const id of ['instagram', 'linkedin', 'facebook', 'whatsapp']) {
+      expect(getPlatformOfferPack(id)?.flowOrder, id).toEqual(SOCIAL_DIRECT_FLOW)
     }
   })
 
-  it('includes roadmap_form after context, webinar_media after roadmap_form, pathway_actions after faq', () => {
-    expect(PROFESSIONAL_FLOW.indexOf('roadmap_form')).toBe(
-      PROFESSIONAL_FLOW.indexOf('context') + 1
-    )
-    expect(PROFESSIONAL_FLOW.indexOf('webinar_media')).toBe(
-      PROFESSIONAL_FLOW.indexOf('roadmap_form') + 1
-    )
-    expect(PROFESSIONAL_FLOW.indexOf('pathway_actions')).toBe(
-      PROFESSIONAL_FLOW.indexOf('faq') + 1
-    )
+  it('uses intent-matched flows for editorial, media, discovery, and owned referrals', () => {
+    expect(getPlatformOfferPack('medium')?.flowOrder).toEqual(EDITORIAL_FLOW)
+    expect(getPlatformOfferPack('email')?.flowOrder).toEqual(EDITORIAL_FLOW)
+    expect(getPlatformOfferPack('youtube')?.flowOrder).toEqual(MEDIA_FLOW)
+    expect(getPlatformOfferPack('snapchat')?.flowOrder).toEqual(MEDIA_FLOW)
+    expect(getPlatformOfferPack('spotify')?.flowOrder).toEqual(MEDIA_FLOW)
+    expect(getPlatformOfferPack('google-search')?.flowOrder).toEqual(DISCOVERY_FLOW)
+    expect(getPlatformOfferPack('rss-feeds')?.flowOrder).toEqual(DISCOVERY_FLOW)
+    expect(getPlatformOfferPack('website')?.flowOrder).toEqual(PROFESSIONAL_FLOW)
+    expect(getPlatformOfferPack('webinar')?.flowOrder).toEqual(MEDIA_FLOW)
+  })
+
+  it('keeps the form near the top and excludes retired sections in every flow', () => {
+    for (const flow of [
+      PROFESSIONAL_FLOW,
+      SOCIAL_DIRECT_FLOW,
+      EDITORIAL_FLOW,
+      MEDIA_FLOW,
+      DISCOVERY_FLOW,
+    ]) {
+      expect(flow.indexOf('roadmap_form')).toBeGreaterThan(flow.indexOf('hero'))
+      expect(flow.indexOf('roadmap_form')).toBeLessThanOrEqual(3)
+      for (const id of ['trust', 'hero_card', 'credibility', 'form'] as const) {
+        expect(flow).not.toContain(id)
+      }
+    }
   })
 })

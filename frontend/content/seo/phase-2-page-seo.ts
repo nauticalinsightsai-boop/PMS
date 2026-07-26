@@ -3,6 +3,11 @@
  * Do not expose this module as a public route. No invented keyword volume/difficulty.
  */
 
+import {
+  PACKET_B_CERT_DIFFERENTIATION,
+  PACKET_B_CERT_IDS,
+} from '@/content/seo/packet-b-cert-differentiation';
+
 export type RelatedLink = {
   href: string;
   label: string;
@@ -30,7 +35,7 @@ export type RelatedLinkBlock = {
 
 const pmpCommercial: RelatedLink = {
   href: '/certifications/pmp',
-  label: 'PMP 2026 Readiness Pathway',
+  label: 'PMP Certification Overview',
 };
 
 const compareCerts: RelatedLink = {
@@ -106,24 +111,23 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
   '/certifications/pmp': {
     route: '/certifications/pmp',
     pageRole: 'Main PMP commercial page',
-    primaryKeyword: 'PMP 2026 readiness pathway',
+    primaryKeyword: 'PMP certification',
     secondaryKeywords: [
-      'PMP exam 2026',
-      'updated PMP exam',
-      'PMP study plan',
+      'PMP exam overview',
+      'PMP credential',
       'PMP eligibility',
-      'PMP roadmap',
       'PMP certification cost',
       'PMP exam fees',
       'PMP training UAE',
       'online PMP course',
+      'PMP 2026 exam',
     ],
     searchIntent: 'Commercial',
     funnelStage: 'Conversion',
-    title: 'PMP 2026 Readiness Pathway | PM Structure',
+    title: 'PMP Certification: Credential & Exam Overview | PM Structure',
     description:
-      'Prepare for the PMP 2026 exam transition with a structured readiness pathway, roadmap support, and practical project-management guidance.',
-    h1: 'PMP 2026 Readiness Pathway',
+      'Overview of the PMP credential and exam: eligibility, domains, cost signals, and how PM Structure pathways support certification readiness.',
+    h1: 'PMP Certification: Credential & Exam Overview',
     canonicalPath: '/certifications/pmp',
     regionFocus: ['GCC', 'South Asia'],
   },
@@ -183,9 +187,10 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
   },
   '/pmp-2026-pathway': {
     route: '/pmp-2026-pathway',
-    pageRole: 'PMP 2026 commercial pathway',
-    primaryKeyword: 'PMP 2026 pathway roadmap',
+    pageRole: 'PMP 2026 readiness roadmap',
+    primaryKeyword: 'PMP 2026 readiness pathway',
     secondaryKeywords: [
+      'PMP 2026 preparation roadmap',
       'PMP roadmap steps',
       'PMP 90 day focus',
       'PMP for engineers',
@@ -193,10 +198,10 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     ],
     searchIntent: 'Commercial investigation',
     funnelStage: 'Consideration',
-    title: 'PMP 2026 Readiness Pathway | PM Structure',
+    title: 'PMP 2026 Readiness Pathway: Preparation Roadmap | PM Structure',
     description:
-      'Structured PMP 2026 readiness pathway: 90-day focus, roadmap steps, tier options, engineer FAQs, mock tracking, and trust expectations from PM Structure.',
-    h1: 'PMP 2026 readiness pathway',
+      '2026 readiness and preparation roadmap: 90-day focus, study sequence, tier options, engineer FAQs, mock tracking, and trust expectations from PM Structure.',
+    h1: 'PMP 2026 readiness pathway: preparation roadmap',
     canonicalPath: '/pmp-2026-pathway',
     regionFocus: ['Global'],
     relatedLinks: [
@@ -416,6 +421,27 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     canonicalPath: '/legal/privacy',
     regionFocus: ['Global'],
   },
+  ...Object.fromEntries(
+    PACKET_B_CERT_IDS.map((id) => {
+      const entry = PACKET_B_CERT_DIFFERENTIATION[id];
+      return [
+        entry.path,
+        {
+          route: entry.path,
+          pageRole: 'Packet B differentiated certification page',
+          primaryKeyword: entry.h1,
+          searchIntent: 'Commercial investigation',
+          funnelStage: 'Consideration',
+          title: entry.title,
+          description: entry.description,
+          h1: entry.h1,
+          canonicalPath: entry.path,
+          regionFocus: ['Global'],
+          relatedLinks: [...entry.related],
+        } satisfies PageSeoConfig,
+      ];
+    }),
+  ),
 };
 
 export const PHASE_2_RELATED_BLOCKS: Record<string, RelatedLinkBlock> = {
@@ -466,13 +492,32 @@ export const PHASE_2_RELATED_BLOCKS: Record<string, RelatedLinkBlock> = {
     links: [
       pmpCommercial,
       compareCerts,
-      { href: '/certifications/pmi-rmp', label: 'PMI-RMP Risk Management Pathway' },
-      { href: '/certifications/pgmp', label: 'PgMP Program Management Pathway' },
+      { href: '/certifications/prince2-agile', label: 'PRINCE2 Agile Foundation pathway' },
+      { href: '/certifications/prince2-agile-practitioner', label: 'PRINCE2 Agile Practitioner pathway' },
+      { href: '/certifications/msp', label: 'MSP programme management pathway' },
+      { href: '/certifications/mop', label: 'MoP portfolio management pathway' },
+      { href: '/certifications/mor', label: 'M_o_R risk management pathway' },
+      { href: '/certifications/lss-green', label: 'Six Sigma Green Belt pathway' },
+      { href: '/certifications/lss-master', label: 'Master Black Belt pathway' },
+      { href: '/certifications/lss-champion', label: 'Six Sigma Champion pathway' },
+      { href: '/certifications/foundation-direct', label: 'Foundation Direct pathway' },
       { href: '/certifications/prince2-practitioner', label: 'PRINCE2 Practitioner Pathway' },
       { href: '/certifications/lss-yellow', label: 'Lean Six Sigma Yellow Belt Pathway' },
       { href: '/certifications/lss-black', label: 'Lean Six Sigma Black Belt Pathway' },
     ],
   },
+  ...Object.fromEntries(
+    PACKET_B_CERT_IDS.map((id) => {
+      const entry = PACKET_B_CERT_DIFFERENTIATION[id];
+      return [
+        entry.path,
+        {
+          title: `Next steps for ${entry.h1}`,
+          links: [...entry.related],
+        } satisfies RelatedLinkBlock,
+      ];
+    }),
+  ),
 };
 
 export const PHASE_2_PRIORITY_ROUTES = Object.keys(PHASE_2_PAGE_SEO);

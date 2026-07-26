@@ -22,6 +22,8 @@ const pages = [
   'components/pages/Newsletter.tsx',
   'components/pages/Membership.tsx',
   'components/pages/PMService.tsx',
+  'components/faq/PmpFaqPage.tsx',
+  'components/pages/Community.tsx',
 ];
 
 // The active compare component is checked here and the route is checked against raw HTTP

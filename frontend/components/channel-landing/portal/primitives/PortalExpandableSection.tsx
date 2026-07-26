@@ -45,8 +45,9 @@ export default function PortalExpandableSection({
         <button
           type="button"
           onClick={onToggleClick}
-          className="group flex flex-col items-start gap-1 text-left cursor-pointer w-full bg-transparent border-0 pb-2 pt-0 px-0 outline-none focus:outline-none rounded-sm"
+          className="group flex flex-col items-start gap-1 text-left cursor-pointer w-full bg-transparent border-0 pb-2 pt-0 px-0 outline-none focus:outline-none"
           style={{
+            borderRadius: theme.radius,
             boxShadow: 'none',
           }}
           onFocus={(e) => {
@@ -87,8 +88,9 @@ export default function PortalExpandableSection({
         >
           <div className={cn('min-h-0 overflow-hidden', !isExpanded && 'pointer-events-none')}>
             <div
-              className="pt-3 w-full rounded-lg border p-5 sm:p-6"
+              className="pt-3 w-full border p-5 sm:p-6"
               style={{
+                borderRadius: theme.radiusLg,
                 borderColor: theme.cardBorder,
                 backgroundColor: theme.surface,
                 color: theme.text,

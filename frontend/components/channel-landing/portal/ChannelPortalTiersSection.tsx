@@ -227,7 +227,7 @@ export default function ChannelPortalTiersSection({
                       className={
                         useBold
                           ? `portal-schedule-btn-bold w-full px-4 py-3 text-body-sm font-semibold hover:opacity-90 transition-opacity${useWebsitePrimary ? ' home-btn-primary cta-consultation text-white' : ''}`
-                          : `portal-schedule-btn w-full sm:w-auto shrink-0 px-4 py-2.5 text-body-sm font-semibold hover:opacity-90 transition-opacity${useWebsitePrimary ? ' home-btn-primary cta-consultation text-white' : ''}`
+                          : `portal-schedule-btn min-h-11 w-full shrink-0 px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90 sm:w-auto${useWebsitePrimary ? ' home-btn-primary cta-consultation text-white' : ''}`
                       }
                       style={{
                         borderRadius: theme.radius,

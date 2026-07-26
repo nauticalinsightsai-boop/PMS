@@ -103,7 +103,7 @@ export function PortalPathwayCardDetails({
       </ul>
       <Link href={`/certifications/${cert.id}`} className="mt-auto block w-full">
         <span
-          className="flex w-full items-center justify-center px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
+          className="flex min-h-11 w-full items-center justify-center px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
           style={{
             borderRadius: theme.radius,
             background: theme.primary,
@@ -429,7 +429,7 @@ export default function PortalPathwayCard({
         <div className="portal-pathway-footer mt-auto pt-2">
           <Link href={`/certifications/${cert.id}`} className="block w-full">
             <span
-              className="flex w-full items-center justify-center gap-2 px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
+              className="flex min-h-11 w-full items-center justify-center gap-2 px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
               style={{
                 borderRadius: theme.radius,
                 background: theme.primary,

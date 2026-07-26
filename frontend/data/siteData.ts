@@ -96,7 +96,7 @@ export const certifications: CertificationSummary[] = [
     id: "pmp",
     name: "PMP®",
     familyId: "PMI",
-    desc: "Project Management Professional: structured PMI exam-preparation support for experienced project leaders.",
+    desc: "Structured PMI exam-prep support for experienced project leaders.",
     outputValue: "Core flagship / strongest broad PM value",
     pricing: {
       Foundation: { duration: "2 wks", price: 250 },
@@ -478,7 +478,7 @@ export const certifications: CertificationSummary[] = [
     id: "msp",
     name: "MSP®",
     familyId: "PRINCE2",
-    desc: "Managing Successful Programmes.",
+    desc: "Managing Successful Programmes: programme governance for multi-project organisational change.",
     outputValue: "Programme governance / senior value",
     pricing: {
       Foundation: { duration: "5-7 days", price: 350 },
@@ -486,13 +486,28 @@ export const certifications: CertificationSummary[] = [
       Elite: { duration: "8-10 weeks", price: 1700 }
     },
     color: "#155E75",
-    gradient: "from-[#67E8F9] to-[#155E75]"
+    gradient: "from-[#67E8F9] to-[#155E75]",
+    targetAudience: "Programme managers, PMO leads, and senior change leaders coordinating related projects toward organisational outcomes.",
+    prerequisites: "Confirm current eligibility and syllabus with the awarding body before booking an exam.",
+    examFormat: "Confirm the current exam format with the awarding body; PM Structure does not publish unofficial exam rules as facts.",
+    registrationSteps: "Compare programme vs portfolio needs, choose the MSP pathway if programme delivery is the gap, then verify official registration steps with the awarding body.",
+    officialFee: "Confirm current fees with the awarding body.",
+    trainingPriceRange: "Provider-dependent; compare after pathway fit is clear.",
+    learningOutcomes: [
+      "Programme vs project decision framing",
+      "Benefits and tranche thinking at programme level",
+      "Governance across related projects",
+      "When to compare MSP with MoP or M_o_R instead",
+    ],
+    suggestedResources: ["Official MSP syllabus materials from the awarding body", "PM Structure pathway comparison guidance"],
+    recommendedCTA: "Clarify programme vs portfolio fit, then build an MSP readiness plan with independent support.",
+    regionalDemand: "Common where PRINCE2-family methods are used for structured change governance.",
   },
   {
     id: "mop",
     name: "MoP®",
     familyId: "PRINCE2",
-    desc: "Management of Portfolios.",
+    desc: "Management of Portfolios: prioritise and balance investments across the change portfolio.",
     outputValue: "Portfolio governance / senior value",
     pricing: {
       Foundation: { duration: "5-7 days", price: 350 },
@@ -500,13 +515,28 @@ export const certifications: CertificationSummary[] = [
       Elite: { duration: "8-10 weeks", price: 1700 }
     },
     color: "#1E3A8A",
-    gradient: "from-[#93C5FD] to-[#1E3A8A]"
+    gradient: "from-[#93C5FD] to-[#1E3A8A]",
+    targetAudience: "Portfolio leads, PMO directors, and sponsors who decide which initiatives deserve investment and how to balance capacity.",
+    prerequisites: "Confirm current eligibility and syllabus with the awarding body before booking an exam.",
+    examFormat: "Confirm the current exam format with the awarding body; PM Structure does not publish unofficial exam rules as facts.",
+    registrationSteps: "If your bottleneck is investment selection rather than programme delivery, choose MoP, then verify official registration with the awarding body.",
+    officialFee: "Confirm current fees with the awarding body.",
+    trainingPriceRange: "Provider-dependent; compare after pathway fit is clear.",
+    learningOutcomes: [
+      "Portfolio prioritisation and balance",
+      "Investment-level oversight language",
+      "Distinguishing MoP from MSP programme delivery",
+      "When M_o_R risk practice is the better adjacent step",
+    ],
+    suggestedResources: ["Official MoP syllabus materials from the awarding body", "PM Structure pathway comparison guidance"],
+    recommendedCTA: "Decide whether portfolio selection is your gap, then plan MoP preparation with independent support.",
+    regionalDemand: "Relevant in organisations that formalise portfolio decision forums alongside delivery methods.",
   },
   {
     id: "mor",
     name: "M_o_R®",
     familyId: "PRINCE2",
-    desc: "Management of Risk.",
+    desc: "Management of Risk: embed organisational risk practice across projects, programmes, and operations.",
     outputValue: "Risk governance / specialist value",
     pricing: {
       Foundation: { duration: "4-5 days", price: 300 },
@@ -514,7 +544,22 @@ export const certifications: CertificationSummary[] = [
       Elite: { duration: "7-8 weeks", price: 1300 }
     },
     color: "#5B21B6",
-    gradient: "from-[#C4B5FD] to-[#5B21B6]"
+    gradient: "from-[#C4B5FD] to-[#5B21B6]",
+    targetAudience: "Risk leads, PMO specialists, and managers responsible for embedding risk identification, assessment, and response practice.",
+    prerequisites: "Confirm current eligibility and syllabus with the awarding body before booking an exam.",
+    examFormat: "Confirm the current exam format with the awarding body; PM Structure does not publish unofficial exam rules as facts.",
+    registrationSteps: "Choose M_o_R when risk practice is the primary gap, compare with PMI-RMP if your organisation prefers PMI framing, then verify official registration.",
+    officialFee: "Confirm current fees with the awarding body.",
+    trainingPriceRange: "Provider-dependent; compare after pathway fit is clear.",
+    learningOutcomes: [
+      "Risk practice framing across delivery layers",
+      "Distinguishing M_o_R from MSP and MoP",
+      "When to compare PMI-RMP instead",
+      "Embedding response and escalation habits",
+    ],
+    suggestedResources: ["Official M_o_R syllabus materials from the awarding body", "PM Structure pathway comparison guidance"],
+    recommendedCTA: "Confirm risk-practice fit, then prepare for M_o_R with independent structured support.",
+    regionalDemand: "Often paired with PRINCE2-family governance contexts in UK/Europe-influenced organisations.",
   },
   {
     id: "p3o",

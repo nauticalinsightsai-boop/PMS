@@ -15,8 +15,6 @@ describe('PmpRoadmapLeadForm component contract', () => {
       'experience',
       'training',
       'timeline',
-      'channel',
-      'window',
     ];
     expect(source.match(/\srole="radiogroup"/g)).toHaveLength(groups.length);
     expect(source.match(/aria-required="true"/g)).toHaveLength(groups.length);
@@ -53,7 +51,8 @@ describe('PmpRoadmapLeadForm component contract', () => {
 
   it('uses a bounded two-column mobile layout for long choice labels', () => {
     expect(source).toContain("'grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:gap-3'");
-    expect(source).toContain("'flex min-w-0 w-full");
+    expect(source).toContain("'grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3'");
+    expect(source).toContain("'flex min-h-12 min-w-0 w-full");
     expect(source).toContain('sm:w-auto sm:flex-[1_1_7rem]');
   });
 

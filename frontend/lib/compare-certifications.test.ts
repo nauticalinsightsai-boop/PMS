@@ -45,9 +45,9 @@ describe('compare-certifications', () => {
   it('returns family default compare ids', () => {
     const allowed = new Set(getCompareableCertifications().map((c) => c.id));
     expect(getDefaultCompareIdsForFamily('PRINCE2', allowed)).toEqual([
-      'prince2',
-      'prince2-practitioner',
       'prince2-agile',
+      'prince2-agile-practitioner',
+      'msp',
     ]);
   });
 });

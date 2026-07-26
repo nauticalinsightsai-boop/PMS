@@ -204,7 +204,7 @@ A candidate should be able to reason through questions such as:
 - What evidence supports acceptance or override?
 - How will value and unintended effects be monitored?
 
-Our [PMP exam 2026 guide](/topics/pmp-exam-2026) connects these judgement demands to wider preparation. Professionals developing organisational capability can also explore [AI in project management](/topics/ai-in-project-management).
+Our [PMP exam 2026 guide](/pmp-exam-2026) connects these judgement demands to wider preparation. Professionals developing organisational capability can also explore [AI in project management](/topics/ai-in-project-management).
 
 ## A 30-day PMO starting sequence
 

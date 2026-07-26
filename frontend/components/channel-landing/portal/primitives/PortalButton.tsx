@@ -17,8 +17,7 @@ type Props = {
 
 function bgForVariant(theme: PlatformPortalTheme, variant: Variant): string {
   if (variant === 'recommended') {
-    const bg = theme.recommendedBg
-    return typeof bg === 'string' && !bg.includes('gradient') ? bg : theme.primary
+    return theme.recommendedBg
   }
   if (variant === 'ghost') return 'transparent'
   return theme.primary
@@ -34,9 +33,11 @@ export default function PortalButton({
   disabled = false,
 }: Props) {
   const bg = bgForVariant(theme, variant)
+  const hasGradientBackground = bg.includes('gradient')
   const fg =
     variant === 'recommended'
-      ? theme.recommendedText ?? pickReadableForeground(bg)
+      ? theme.recommendedText ??
+        (hasGradientBackground ? theme.primaryForeground : pickReadableForeground(bg))
       : variant === 'ghost'
         ? theme.primary
         : theme.primaryForeground
@@ -46,12 +47,13 @@ export default function PortalButton({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`px-4 py-2.5 text-body-sm font-semibold hover:opacity-90 transition-opacity disabled:pointer-events-none disabled:opacity-60 ${className}`.trim()}
+      className={`min-h-12 px-4 py-2.5 text-body-sm font-semibold leading-snug hover:opacity-90 transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-60 ${className}`.trim()}
       style={{
         borderRadius: theme.radius,
         background: variant === 'ghost' ? 'transparent' : bg,
         color: fg,
         border: variant === 'ghost' ? `1px solid ${theme.cardBorder}` : 'none',
+        outlineColor: theme.primary,
       }}
     >
       {children}

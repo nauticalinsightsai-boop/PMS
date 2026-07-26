@@ -52,6 +52,7 @@ export function CookieConsent() {
   const [pathnameFallback, setPathnameFallback] = React.useState<PlatformPortalTheme | null>(null);
   const [visible, setVisible] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
+  const bannerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     setPathnameFallback(resolvePortalThemeFallback());
@@ -80,6 +81,33 @@ export function CookieConsent() {
     window.dispatchEvent(new CustomEvent('cookie-consent-visible', { detail: { visible } }));
   }, [visible]);
 
+  React.useEffect(() => {
+    if (!visible || !bannerRef.current) {
+      document.documentElement.style.setProperty('--cookie-consent-height', '0px');
+      document.documentElement.style.scrollPaddingBottom = '';
+      document.body.style.paddingBottom = '';
+      return;
+    }
+    const banner = bannerRef.current;
+    const reserve = () => {
+      const height = Math.ceil(banner.getBoundingClientRect().height);
+      // Keep FABs and in-flow page content (forms/CTAs) clear of the fixed banner.
+      const pad = `${height + 16}px`;
+      document.documentElement.style.setProperty('--cookie-consent-height', pad);
+      document.documentElement.style.scrollPaddingBottom = pad;
+      document.body.style.paddingBottom = pad;
+    };
+    reserve();
+    const observer = new ResizeObserver(reserve);
+    observer.observe(banner);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.setProperty('--cookie-consent-height', '0px');
+      document.documentElement.style.scrollPaddingBottom = '';
+      document.body.style.paddingBottom = '';
+    };
+  }, [expanded, visible]);
+
   const acceptAll = () => {
     acceptAllConsent();
     trackEvent('cookie_consent_accept', { consent_choice: 'all' });
@@ -103,20 +131,28 @@ export function CookieConsent() {
 
   return (
     <div
+      ref={bannerRef}
       role="dialog"
       aria-labelledby="cookie-consent-title"
       aria-describedby="cookie-consent-desc"
       className={cn(
-        'fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-4 right-4 z-[90] mx-auto max-w-lg rounded-2xl border p-5 shadow-2xl md:left-auto md:right-[max(1.5rem,env(safe-area-inset-right))]',
+        'fixed bottom-[calc(max(1rem,env(safe-area-inset-bottom))+var(--portal-sticky-cta-height,0px))] left-3 right-3 z-[90] mx-auto overflow-visible rounded-2xl border shadow-2xl sm:left-4 sm:right-4',
+        expanded
+          ? 'max-w-lg space-y-3 p-4'
+          : 'flex max-w-[min(40rem,calc(100vw-1.5rem))] flex-col gap-2 p-2.5 md:max-w-[min(72rem,calc(100vw-3rem))] md:flex-row md:items-center md:gap-3 md:p-3',
         !themed &&
           'border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900',
       )}
       style={themed && portalTheme ? portalBannerStyle(portalTheme) : undefined}
     >
-      <div className="mb-3 flex items-start justify-between gap-3">
+      <div className={cn('flex min-w-0 items-center justify-between gap-2', expanded ? 'w-full' : 'md:shrink-0')}>
         <p
           id="cookie-consent-title"
-          className={cn('text-sm font-bold', !themed && 'text-slate-900 dark:text-white')}
+          className={cn(
+            'min-w-0 font-bold',
+            expanded ? 'text-sm' : 'truncate text-xs sm:text-sm',
+            !themed && 'text-slate-900 dark:text-white',
+          )}
           style={themed && portalTheme ? { color: portalTheme.text } : undefined}
         >
           Cookies on {BRAND.name}
@@ -127,7 +163,7 @@ export function CookieConsent() {
           aria-expanded={expanded}
           aria-controls="cookie-consent-details"
           className={cn(
-            'inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-1 text-[11px] font-bold',
+            'inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-1 text-[11px] font-bold whitespace-nowrap',
             !themed &&
               'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800',
           )}
@@ -148,7 +184,8 @@ export function CookieConsent() {
       <p
         id="cookie-consent-desc"
         className={cn(
-          'mb-3 text-xs font-medium leading-relaxed',
+          'text-xs font-medium leading-snug',
+          expanded ? 'w-full' : 'min-w-0 md:max-w-xs md:flex-1',
           !themed && 'text-slate-600 dark:text-slate-400',
         )}
         style={
@@ -163,8 +200,8 @@ export function CookieConsent() {
       <div
         id="cookie-consent-details"
         className={cn(
-          'grid transition-[grid-template-rows,opacity,margin] duration-200 ease-out',
-          expanded ? 'mb-4 grid-rows-[1fr] opacity-100' : 'mb-0 grid-rows-[0fr] opacity-0',
+          'grid w-full transition-[grid-template-rows,opacity,margin] duration-200 ease-out',
+          expanded ? 'grid-rows-[1fr] opacity-100' : 'hidden grid-rows-[0fr] opacity-0',
         )}
         aria-hidden={!expanded}
       >
@@ -188,12 +225,17 @@ export function CookieConsent() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 sm:flex-row">
+      <div
+        className={cn(
+          'grid w-full grid-cols-3 gap-1.5',
+          expanded ? 'sm:flex sm:flex-row' : 'md:ml-auto md:flex md:w-auto md:shrink-0 md:gap-2',
+        )}
+      >
         <Button
           type="button"
           variant={themed ? 'default' : 'brand'}
           size="sm"
-          className="flex-1 font-bold"
+          className="min-w-0 whitespace-nowrap px-2 text-[11px] font-bold sm:text-xs md:px-3 md:text-sm"
           onClick={acceptAll}
           style={
             themed && portalTheme
@@ -211,8 +253,9 @@ export function CookieConsent() {
           type="button"
           variant="outline"
           size="sm"
-          className="flex-1 font-bold"
+          className="min-w-0 whitespace-nowrap px-2 text-[11px] font-bold sm:text-xs md:px-3 md:text-sm"
           onClick={rejectNonEssential}
+          aria-label="Reject non-essential cookies"
           style={
             themed && portalTheme
               ? {
@@ -223,23 +266,23 @@ export function CookieConsent() {
               : undefined
           }
         >
-          Reject non-essential
+          <span className="md:hidden">Reject</span>
+          <span className="hidden md:inline">Reject non-essential</span>
         </Button>
-        <Link href="/legal/cookies" className="sm:contents">
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="w-full font-bold sm:w-auto"
-            style={
-              themed && portalTheme
-                ? { color: portalTheme.linkColor || portalTheme.primary }
-                : undefined
-            }
-          >
-            Manage
-          </Button>
-        </Link>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="min-w-0 whitespace-nowrap px-2 text-[11px] font-bold sm:text-xs md:px-3 md:text-sm"
+          asChild
+          style={
+            themed && portalTheme
+              ? { color: portalTheme.linkColor || portalTheme.primary }
+              : undefined
+          }
+        >
+          <Link href="/legal/cookies">Manage</Link>
+        </Button>
       </div>
     </div>
   );

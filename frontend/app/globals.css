@@ -56,6 +56,15 @@
 }
 
 @layer components {
+  /*
+   * Reserve space under fixed cookie consent so portal form actions and
+   * community waitlist controls stay scroll-reachable / unobstructed.
+   */
+  [data-portal-form],
+  form[aria-labelledby='community-waitlist-title'] {
+    padding-bottom: calc(var(--cookie-consent-height, 0px) + 0.75rem);
+  }
+
   [data-slot='dialog-overlay'] {
     background: var(--site-dialog-scrim) !important;
     -webkit-backdrop-filter: blur(4px);

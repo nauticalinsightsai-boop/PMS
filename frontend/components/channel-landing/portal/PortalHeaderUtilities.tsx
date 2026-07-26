@@ -46,7 +46,7 @@ export default function PortalHeaderUtilities({
       {showStore ? (
         <Link
           href="/community?view=store"
-          className="text-meta font-medium px-3 py-1.5 transition-opacity hover:opacity-90"
+          className="inline-flex min-h-11 items-center px-3 py-1.5 text-meta font-medium transition-opacity hover:opacity-90"
           style={{
             borderRadius: theme.radius,
             border: `1px solid ${theme.cardBorder}`,
