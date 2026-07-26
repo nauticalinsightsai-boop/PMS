@@ -58,6 +58,7 @@ export function useNewsletterPageData(initial?: {
   const [articles, setArticles] = useState<NewsletterArticle[]>(initial?.articles ?? fileFallback);
   const [topicNames, setTopicNames] = useState<string[]>(initial?.topicNames ?? []);
   const [isLoading, setIsLoading] = useState(!initial?.hub);
+  const preserveServerArticles = Boolean(initial?.articles?.length);
 
   const refresh = useCallback(async () => {
     try {
@@ -72,13 +73,18 @@ export function useNewsletterPageData(initial?: {
         : [];
 
       if (hubRow?.content) setHub(parseNewsletterHubConfig(hubRow.content));
-      if (postsRow?.content) setArticles(mergeArticles(postsRow.content, authors));
-      else setArticles(fileFallback);
+      // The server loader owns the complete public article collection, including
+      // the approved file-backed long-form publication batch. Do not replace it
+      // after hydration with the narrower CMS document alone.
+      if (!preserveServerArticles) {
+        if (postsRow?.content) setArticles(mergeArticles(postsRow.content, authors));
+        else setArticles(fileFallback);
+      }
       if (topicsRow?.content) setTopicNames(parseTopicNames(topicsRow.content));
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [preserveServerArticles]);
 
   useEffect(() => {
     if (initial?.hub) {
