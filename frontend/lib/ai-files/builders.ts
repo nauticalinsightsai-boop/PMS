@@ -133,7 +133,6 @@ export function buildLlmsTxt(): string {
     ['Regional pricing policy', '/legal/regional-pricing'],
     ['Pricing disclaimers', '/legal/pricing-disclaimers'],
     ['Newsletter', '/newsletter'],
-    ['Newsletter', '/newsletter'],
   ]
     .map(([label, p]) => md(label, `${siteUrl}${p}`))
     .join('\n');

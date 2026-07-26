@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-07T21:56:11.594Z",
-  "count": 192,
+  "generatedAt": "2026-07-26T15:29:59.631Z",
+  "count": 194,
   "items": [
     {
       "name": "brand/pmi-logo.png",
@@ -290,6 +290,16 @@
     {
       "name": "images/marketing/about-workshop-800.webp",
       "path": "/images/marketing/about-workshop-800.webp",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/author-avatar-pmo-transformation.svg",
+      "path": "/images/marketing/author-avatar-pmo-transformation.svg",
+      "category": "images"
+    },
+    {
+      "name": "images/marketing/author-avatar-pmp-readiness.svg",
+      "path": "/images/marketing/author-avatar-pmp-readiness.svg",
       "category": "images"
     },
     {

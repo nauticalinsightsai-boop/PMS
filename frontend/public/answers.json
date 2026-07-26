@@ -1,7 +1,7 @@
 {
   "site": "https://pmstructure.com",
   "version": "1.0.0",
-  "updatedAt": "2026-07-07",
+  "updatedAt": "2026-07-26",
   "count": 39,
   "indexUrl": "https://pmstructure.com/answers",
   "answers": [
@@ -11,8 +11,8 @@
       "url": "https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026",
       "title": "Is the PMP Exam Changing in 2026? | PM Structure",
       "question": "Is the PMP exam changing in 2026?",
-      "description": "Yes. The PMP exam changes in July 2026. Learn what the change means, whether to prepare for the current or updated exam, and how to plan your PMP route.",
-      "shortAnswer": "Yes. The updated PMP exam launches on 9 July 2026. Candidates planning to take the current PMP exam version need to sit before 8 July 2026. Confirm dates and scope on PMI.org before scheduling.",
+      "description": "The PMP exam changed in July 2026. Learn what changed, how to prepare for the current exam, and where to verify official PMI guidance.",
+      "shortAnswer": "The updated PMP exam launched on 9 July 2026. This is now the current exam for all candidates. Confirm dates and scope on PMI.org before scheduling.",
       "status": "live"
     },
     {
@@ -21,28 +21,28 @@
       "url": "https://pmstructure.com/answers/when-does-the-new-pmp-exam-start",
       "title": "When does the new PMP exam start?",
       "question": "When does the new PMP exam start?",
-      "description": "Answer on the July 2026 PMP transition date and how to confirm scheduling with PMI and Pearson VUE.",
-      "shortAnswer": "PM Structure orients candidates to a key transition date of 9 July 2026 for the updated PMP format. Always confirm on PMI.org before you book.",
+      "description": "The updated PMP exam launched 9 July 2026 and is now the current exam. Verify scheduling with PMI and Pearson VUE.",
+      "shortAnswer": "The updated PMP exam launched 9 July 2026. This is now the current exam for all candidates booking on PMI.org.",
       "status": "live"
     },
     {
       "slug": "should-i-take-pmp-before-8-july-2026",
       "path": "/answers/should-i-take-pmp-before-8-july-2026",
       "url": "https://pmstructure.com/answers/should-i-take-pmp-before-8-july-2026",
-      "title": "Should I take the PMP before 8 July 2026?",
+      "title": "Should I take the PMP before 8 July 2026? (Historical)",
       "question": "Should I take the PMP before 8 July 2026?",
-      "description": "Decision guide for candidates considering the current PMP format before the July 2026 transition.",
-      "shortAnswer": "Consider testing before the transition if you are already exam-ready, have strong mock scores, and can secure a Pearson VUE slot before mid-2026.",
+      "description": "Historical timing guidance for candidates who considered the previous PMP format before the July 2026 transition.",
+      "shortAnswer": "Historical: This question applied before 9 July 2026. The previous exam is no longer offered. Prepare for the current exam using the [PMP 2026 guide](/pmp-exam-2026).",
       "status": "live"
     },
     {
       "slug": "should-i-prepare-for-new-pmp-after-9-july-2026",
       "path": "/answers/should-i-prepare-for-new-pmp-after-9-july-2026",
       "url": "https://pmstructure.com/answers/should-i-prepare-for-new-pmp-after-9-july-2026",
-      "title": "Should I prepare for the new PMP after 9 July 2026?",
+      "title": "Preparing for the current PMP exam (updated July 2026)",
       "question": "Should I prepare for the new PMP after 9 July 2026?",
-      "description": "When it makes sense to target the post-July 2026 PMP exam and how to align practice.",
-      "shortAnswer": "Yes: if you need more study time, missed the pre-transition window, or want to align preparation to the updated exam narrative PMI describes for post-9 July 2026.",
+      "description": "How to prepare for the current PMP exam using the updated exam content outline (from 9 July 2026).",
+      "shortAnswer": "Prepare for the current PMP exam, which launched 9 July 2026. Align preparation to the updated exam content outline and revised domain weights.",
       "status": "live"
     },
     {
@@ -62,7 +62,7 @@
       "title": "How to prepare for the PMP in 2026",
       "question": "How do I prepare for the PMP in 2026?",
       "description": "Step-by-step PMP 2026 preparation: timing, ECO mapping, pathways, mocks, and official verification.",
-      "shortAnswer": "Confirm eligibility, choose pre- or post-July timing, map the ECO to a weekly plan, pick a pathway tier, and use mocks plus scenario practice before Pearson VUE.",
+      "shortAnswer": "Confirm eligibility, use the current PMI handbook and Exam Content Outline, map the ECO to a weekly plan, pick a pathway tier, and use mocks plus scenario practice before Pearson VUE.",
       "status": "live"
     },
     {
@@ -92,7 +92,7 @@
       "title": "What is PMP scenario practice?",
       "question": "What is PMP scenario practice?",
       "description": "Explanation of situational PMP practice and how it fits Foundation, Professional, and Mastery tiers.",
-      "shortAnswer": "Scenario practice trains how you apply PM concepts in exam-style situations: the skill tested on current and transitioning PMP formats.",
+      "shortAnswer": "Scenario practice trains how you apply PM concepts in exam-style situations: a core skill for the current PMP exam.",
       "status": "live"
     },
     {
@@ -262,17 +262,17 @@
       "title": "What are the PMP 2026 domain weights?",
       "question": "What are the PMP 2026 domain weights?",
       "description": "Orientation on PMP domain weighting for 2026 exam planning.",
-      "shortAnswer": "Updated PMP exam (from 9 July 2026): People 33%, Process 41%, Business Environment 26%. Current exam: People 42%, Process 50%, Business Environment 8%. Verify on PMI.org before booking.",
+      "shortAnswer": "Current PMP exam (launched 9 July 2026): People 33%, Process 41%, Business Environment 26%. The previous exam used People 42%, Process 50%, Business Environment 8%. Verify the latest official ECO on PMI.org before booking.",
       "status": "live"
     },
     {
       "slug": "current-pmp-exam-vs-new-pmp-exam",
       "path": "/answers/current-pmp-exam-vs-new-pmp-exam",
       "url": "https://pmstructure.com/answers/current-pmp-exam-vs-new-pmp-exam",
-      "title": "Current PMP exam vs new PMP exam",
-      "question": "What is the difference between the current PMP exam and the new PMP exam?",
-      "description": "Compare pre- and post-July 2026 PMP exam narratives.",
-      "shortAnswer": "The transition around 9 July 2026 shifts emphasis in exam narratives and ECO tasks. Compare guides on PM Structure and verify on PMI.org.",
+      "title": "Previous PMP exam vs current PMP exam",
+      "question": "What is the difference between the previous and current PMP exams?",
+      "description": "Compare the previous PMP exam with the current exam launched in July 2026.",
+      "shortAnswer": "The current PMP exam launched on 9 July 2026 with revised domain weights and updated ECO emphasis. Use the comparison to replace obsolete materials, and verify the latest documents on PMI.org.",
       "status": "live"
     },
     {
@@ -319,9 +319,9 @@
       "slug": "is-the-new-pmp-exam-harder",
       "path": "/answers/is-the-new-pmp-exam-harder",
       "url": "https://pmstructure.com/answers/is-the-new-pmp-exam-harder",
-      "title": "Is the new PMP exam harder?",
+      "title": "Is the current PMP exam harder than the previous exam?",
       "question": "Is the new PMP exam harder?",
-      "description": "Independent answer on whether the post-2026 PMP format is harder than the current exam.",
+      "description": "Independent answer on whether the current PMP exam launched in July 2026 is harder than the previous format.",
       "shortAnswer": "Neither format is universally harder: difficulty depends on your experience, study approach, and how well you match the updated Exam Content Outline.",
       "status": "live"
     },
@@ -329,10 +329,10 @@
       "slug": "should-i-rush-pmp-before-july-2026",
       "path": "/answers/should-i-rush-pmp-before-july-2026",
       "url": "https://pmstructure.com/answers/should-i-rush-pmp-before-july-2026",
-      "title": "Should I rush PMP before July 2026?",
+      "title": "Should I rush PMP before July 2026? (Historical)",
       "question": "Should I rush PMP before July 2026?",
-      "description": "When rushing before the PMP transition helps: and when it hurts.",
-      "shortAnswer": "Rush only if you are already exam-ready with strong timed mocks and a booked Pearson VUE slot; otherwise prepare properly for the post-transition format.",
+      "description": "Historical timing guidance about rushing before the PMP transition (no longer applicable).",
+      "shortAnswer": "Historical: This question applied before 9 July 2026. The previous exam is no longer offered. Prepare for the current exam without rushing.",
       "status": "live"
     },
     {
@@ -391,8 +391,8 @@
       "url": "https://pmstructure.com/answers/corporate-pmp-2026-readiness-for-teams",
       "title": "Corporate PMP 2026 Readiness for Teams | PM Structure",
       "question": "How can teams plan corporate PMP 2026 readiness?",
-      "description": "Orientation for PMOs and delivery leaders planning team PMP readiness around the July 2026 exam transition without pass guarantees.",
-      "shortAnswer": "Team PMP readiness is a delivery capability issue: align roles to exam routes (current vs updated from July 2026), verify individual eligibility, structure mock review cadence, and avoid bulk certificate chasing without governance context.",
+      "description": "Orientation for PMOs and delivery leaders aligning team PMP readiness to the current July 2026 exam without pass guarantees.",
+      "shortAnswer": "Team PMP readiness is a delivery capability issue: align roles and materials to the current exam, verify individual eligibility, structure mock review cadence, and avoid bulk certificate chasing without governance context.",
       "status": "live"
     }
   ]
