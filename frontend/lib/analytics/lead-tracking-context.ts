@@ -3,6 +3,7 @@ import {
   captureAttributionFromLocation,
   getClickIdsForLead,
   getLandingPageForLead,
+  getLandingUrlForLead,
   getUtmParamsForLead,
 } from '@/lib/analytics/funnel';
 import { hasAnalyticsConsent, hasMarketingConsent } from '@/lib/legal/consent';
@@ -39,6 +40,7 @@ export async function collectLeadTrackingContext(): Promise<Record<string, strin
   const gaClientId = await readGaClientId();
   const utm = getUtmParamsForLead();
   const landingPage = getLandingPageForLead();
+  const landingUrl = getLandingUrlForLead();
   const consentAnalytics = hasAnalyticsConsent();
   const consentMarketing = hasMarketingConsent();
   const clickIds = consentMarketing ? getClickIdsForLead() : {};
@@ -48,7 +50,19 @@ export async function collectLeadTrackingContext(): Promise<Record<string, strin
     ...clickIds,
     ...utm,
     ...(landingPage ? { landing_page: landingPage } : {}),
+    ...(landingUrl ? { landing_url: landingUrl } : {}),
+    ...(safeReferrer() ? { referrer: safeReferrer()! } : {}),
     consent_analytics: consentAnalytics,
     consent_marketing: consentMarketing,
   };
+}
+
+function safeReferrer(): string | undefined {
+  if (typeof document === 'undefined' || !document.referrer) return undefined;
+  try {
+    const url = new URL(document.referrer);
+    return `${url.origin}${url.pathname}`;
+  } catch {
+    return undefined;
+  }
 }

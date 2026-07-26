@@ -6,6 +6,7 @@ import type {
   TrainingStatusValue,
   WorkFieldValue,
 } from '@/lib/pmp-qualification-options';
+import { FORM_VERSION } from '@/lib/pmp-qualification-options';
 
 export type PmpQualificationFormStep = 'fit' | 'eligibility' | 'contact';
 
@@ -159,12 +160,19 @@ export function buildPmpQualificationSubmissionPayload(input: {
   landingSlug?: string;
 }): Record<string, string | undefined> {
   const { values } = input;
+  const nationalPhone = values.phone.trim();
+  const nationalDigits = nationalPhone.replace(/\D/g, '').replace(/^0+/, '');
+  const phoneE164 = `${input.dialPrefix.replace(/\D/g, '')}${nationalDigits}`;
   return {
     fullName: values.fullName.trim(),
     phoneCountryCode: input.dialCode,
     phoneCountryPrefix: input.dialPrefix,
-    phone: values.phone.trim(),
-    phoneFull: `${input.dialPrefix} ${values.phone.trim()}`.trim(),
+    // Text only: the canonical field is E.164; retain the entered local form for operations.
+    phone: `+${phoneE164}`,
+    phoneE164: `+${phoneE164}`,
+    phoneNational: nationalPhone,
+    phoneFull: `+${phoneE164}`,
+    formVersion: FORM_VERSION,
     workField: values.workField,
     needsObjective: values.needsObjective,
     education: values.education,

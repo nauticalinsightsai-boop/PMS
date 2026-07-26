@@ -39,4 +39,24 @@ describe('trusted interaction tracking boundary', () => {
       fbclid: 'fb-click',
     });
   });
+
+  it('retains first-touch attribution and query-free landing context', () => {
+    expect(
+      sanitizeTrustedInteractionTracking({
+        consent_analytics: true,
+        consent_marketing: true,
+        first_utm_source: 'meta',
+        first_utm_medium: 'paid_social',
+        first_utm_campaign: 'pmp_july',
+        landing_url: 'https://pmstructure.com/go/instagram',
+        referrer: 'https://www.instagram.com/',
+      }),
+    ).toMatchObject({
+      first_utm_source: 'meta',
+      first_utm_medium: 'paid_social',
+      first_utm_campaign: 'pmp_july',
+      landing_url: 'https://pmstructure.com/go/instagram',
+      referrer: 'https://www.instagram.com/',
+    });
+  });
 });

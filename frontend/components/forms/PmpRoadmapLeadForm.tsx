@@ -56,6 +56,10 @@ import {
   trackPmpQualificationFormStart,
   trackPmpQualificationFitComplete,
   trackPmpQualificationEligibilityComplete,
+  trackPmpQualificationResultView,
+  trackPmpQualificationStepView,
+  trackPmpQualificationSubmitAttempt,
+  trackPmpQualificationValidationError,
 } from '@/lib/analytics/track-pmp-qualification';
 import { CertFamilyMark } from '@/components/CertFamilyMark';
 import BrandIconMark from '@/components/BrandIconMark';
@@ -463,6 +467,37 @@ export function PmpRoadmapLeadForm({
     }
   };
 
+  React.useEffect(() => {
+    const formSessionId = ensureFormSessionId();
+    trackPmpQualificationFormStart({
+      formSessionId,
+      formPlacement: placement,
+      regionGroup: mapRegionIdToAnalyticsRegion(regionId),
+      channel: portalChannelId,
+      goSlug: portalLandingSlug ?? portalChannelId,
+    });
+  }, [placement, portalChannelId, portalLandingSlug, regionId]);
+
+  React.useEffect(() => {
+    trackPmpQualificationStepView({
+      formSessionId: ensureFormSessionId(),
+      stepId: currentStep,
+      formPlacement: placement,
+      regionGroup: mapRegionIdToAnalyticsRegion(regionId),
+      channel: portalChannelId,
+      goSlug: portalLandingSlug ?? portalChannelId,
+    });
+  }, [currentStep, placement, portalChannelId, portalLandingSlug, regionId]);
+
+  React.useEffect(() => {
+    if (!submitted) return;
+    trackPmpQualificationResultView({
+      formSessionId: ensureFormSessionId(), formPlacement: placement,
+      regionGroup: mapRegionIdToAnalyticsRegion(regionId), channel: portalChannelId,
+      goSlug: portalLandingSlug ?? portalChannelId,
+    });
+  }, [submitted, placement, portalChannelId, portalLandingSlug, regionId]);
+
   const shellClass = cn(
     !isPortalThemed &&
       cn(
@@ -569,6 +604,11 @@ export function PmpRoadmapLeadForm({
     const issue = validatePmpQualificationStep(currentStep, formValues);
     if (issue) {
       setError(issue.message);
+      trackPmpQualificationValidationError({
+        formSessionId: ensureFormSessionId(), stepId: currentStep, fieldKey: issue.field,
+        formPlacement: placement, regionGroup: mapRegionIdToAnalyticsRegion(regionId),
+        channel: portalChannelId, goSlug: portalLandingSlug ?? portalChannelId,
+      });
       focusValidationIssue(issue);
       return;
     }
@@ -617,12 +657,22 @@ export function PmpRoadmapLeadForm({
     const issue = validatePmpQualificationStep('contact', formValues);
     if (issue) {
       setError(issue.message);
+      trackPmpQualificationValidationError({
+        formSessionId: ensureFormSessionId(), stepId: 'contact', fieldKey: issue.field,
+        formPlacement: placement, regionGroup: mapRegionIdToAnalyticsRegion(regionId),
+        channel: portalChannelId, goSlug: portalLandingSlug ?? portalChannelId,
+      });
       focusValidationIssue(issue);
       return;
     }
 
     setError(null);
     setSubmitting(true);
+    trackPmpQualificationSubmitAttempt({
+      formSessionId: ensureFormSessionId(), formPlacement: placement,
+      regionGroup: mapRegionIdToAnalyticsRegion(regionId), channel: portalChannelId,
+      goSlug: portalLandingSlug ?? portalChannelId,
+    });
 
     const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined;
     const dialCode = dialOption.code;

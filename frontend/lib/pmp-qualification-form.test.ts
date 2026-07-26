@@ -168,8 +168,11 @@ describe('PMP qualification submission', () => {
       fullName: 'Aisha Khan',
       phoneCountryCode: 'AE',
       phoneCountryPrefix: '+971',
-      phone: '50 123 4567',
-      phoneFull: '+971 50 123 4567',
+      phone: '+971501234567',
+      phoneE164: '+971501234567',
+      phoneNational: '50 123 4567',
+      phoneFull: '+971501234567',
+      formVersion: 'p0.6.0-four-choice',
     });
     const qualificationKeys = [
       'workField',

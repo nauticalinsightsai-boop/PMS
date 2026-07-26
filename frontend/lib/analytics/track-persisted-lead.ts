@@ -17,6 +17,8 @@ export type PersistedLeadTrackingInput = {
   regionId?: string;
   channel?: string;
   goSlug?: string;
+  submissionId?: string;
+  formVersion?: string;
 };
 
 function readTrackedSubmissionIds(): string[] {
@@ -66,8 +68,10 @@ export function trackPersistedLeadSuccess(input: PersistedLeadTrackingInput): bo
 
   pushAnalyticsEvent('generate_lead', {
     event_id: eventId,
+    ...(input.submissionId ? { submission_id: input.submissionId } : {}),
     lead_source: input.source,
     form_id: formId,
+    ...(input.formVersion ? { form_version: input.formVersion } : {}),
     ...(input.formPlacement ? { form_placement: input.formPlacement } : {}),
     ...(input.pagePath ? { page_path: input.pagePath } : {}),
     ...(input.regionId

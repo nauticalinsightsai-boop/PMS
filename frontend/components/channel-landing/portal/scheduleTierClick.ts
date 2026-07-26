@@ -7,7 +7,7 @@ import {
 } from '@/lib/channel-landing-pages/lead-attribution'
 import { openCalendlyThemedPopup } from '@/lib/calendly/open-themed-popup'
 import { getCalendlyUrlForChannelTier } from '@/lib/calendly/event-registry'
-import { FUNNEL_EVENTS, trackFunnelEvent } from '@/lib/analytics/funnel'
+import { trackFunnelEvent } from '@/lib/analytics/funnel'
 import { mergeCalendlyUtmWithInbound } from '@/lib/analytics/utm-calendly'
 
 export function scheduleTierClick(
@@ -27,7 +27,7 @@ export function scheduleTierClick(
     tierTitle: tier.title,
     pagePath: typeof window !== 'undefined' ? window.location.pathname : undefined,
   })
-  trackFunnelEvent(FUNNEL_EVENTS.BOOKING_MODAL_OPEN, {
+  const consultationParams = {
     cta_type: 'portal_tier_schedule',
     channel: page.channelId,
     go_slug: page.slug,
@@ -36,7 +36,8 @@ export function scheduleTierClick(
     tier_id: tier.id,
     origin_label: attributionOriginLabel(attr),
     funnel_stage: 'consideration',
-  })
+  }
+  trackFunnelEvent('pms_consultation_cta_click', consultationParams)
   void openCalendlyThemedPopup(url, {
     utm: mergeCalendlyUtmWithInbound({
       utm_source: page.channelId,
@@ -49,5 +50,5 @@ export function scheduleTierClick(
     portalTheme: ctx.theme,
     channelId: page.channelId,
     useProxy: true,
-  })
+  }).then(() => trackFunnelEvent('pms_calendly_page_view', consultationParams))
 }

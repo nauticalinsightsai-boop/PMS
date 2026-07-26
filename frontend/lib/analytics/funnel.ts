@@ -53,6 +53,7 @@ const UTM_LAST_TOUCH_KEY = 'analytics_utm_last_touch';
 const CLICK_FIRST_TOUCH_KEY = 'analytics_click_first_touch';
 const CLICK_LAST_TOUCH_KEY = 'analytics_click_last_touch';
 const LANDING_PAGE_KEY = 'analytics_landing_page';
+const LANDING_URL_KEY = 'analytics_landing_url';
 let attributionInitialized = false;
 
 export type UtmTouch = Partial<Record<(typeof UTM_PARAM_KEYS)[number], string>>;
@@ -161,6 +162,13 @@ function captureLandingPage(): void {
     if (!sessionStorage.getItem(LANDING_PAGE_KEY)) {
       sessionStorage.setItem(LANDING_PAGE_KEY, window.location.pathname || '/');
     }
+    if (!sessionStorage.getItem(LANDING_URL_KEY)) {
+      // Keep attribution useful without retaining query strings that may contain PII.
+      sessionStorage.setItem(
+        LANDING_URL_KEY,
+        `${window.location.origin}${window.location.pathname || '/'}`,
+      );
+    }
   } catch {
     // ignore quota / private mode
   }
@@ -194,9 +202,12 @@ export function getUtmParamsForLead(): Record<string, string> {
   if (typeof window === 'undefined') return {};
   const out: Record<string, string> = {};
   try {
+    const firstRaw = sessionStorage.getItem(UTM_FIRST_TOUCH_KEY);
     const lastRaw = sessionStorage.getItem(UTM_LAST_TOUCH_KEY);
+    const first = firstRaw ? (JSON.parse(firstRaw) as UtmTouch) : {};
     const last = lastRaw ? (JSON.parse(lastRaw) as UtmTouch) : {};
     for (const key of UTM_PARAM_KEYS) {
+      if (first[key]) out[`first_${key}`] = first[key]!;
       if (last[key]) out[key] = last[key]!;
     }
   } catch {
@@ -209,6 +220,16 @@ export function getLandingPageForLead(): string | undefined {
   if (typeof window === 'undefined') return undefined;
   try {
     return sessionStorage.getItem(LANDING_PAGE_KEY) ?? undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/** First landing URL, stored without search/hash to avoid collecting accidental PII. */
+export function getLandingUrlForLead(): string | undefined {
+  if (typeof window === 'undefined') return undefined;
+  try {
+    return sessionStorage.getItem(LANDING_URL_KEY) ?? undefined;
   } catch {
     return undefined;
   }

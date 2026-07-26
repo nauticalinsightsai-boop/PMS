@@ -18,6 +18,10 @@ export type PmpQualificationEventParams = {
   experienceBand?: string;
   trainingStatus?: string;
   examTimeline?: string;
+  stepId?: 'fit' | 'eligibility' | 'contact';
+  fieldKey?: string;
+  optionValue?: string;
+  otherUsed?: boolean;
   // Never include: fullName, email, phone
 };
 
@@ -58,9 +62,9 @@ function baseParams(extra: PmpQualificationEventParams = {}): AnalyticsEventPara
 /** Track form start (first interaction) */
 export function trackPmpQualificationFormStart(extra: PmpQualificationEventParams = {}): void {
   trackOncePerFormSession(
-    PMS_EVENTS.PMP_ROADMAP_FORM_START,
+    PMS_EVENTS.PMP_ROADMAP_OPEN,
     extra.formSessionId,
-    () => pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_FORM_START, baseParams(extra)),
+    () => pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_OPEN, baseParams(extra)),
   );
 }
 
@@ -68,13 +72,14 @@ export function trackPmpQualificationFormStart(extra: PmpQualificationEventParam
 export function trackPmpQualificationFitComplete(extra: PmpQualificationEventParams = {}): void {
   const params = {
     ...baseParams(extra),
+    step_id: 'fit',
     ...(extra.leadField ? { lead_field: extra.leadField } : {}),
     ...(extra.leadObjective ? { lead_objective: extra.leadObjective } : {}),
   };
   trackOncePerFormSession(
-    PMS_EVENTS.PMP_ROADMAP_FIT_COMPLETE,
+    PMS_EVENTS.PMP_ROADMAP_STEP_COMPLETE,
     extra.formSessionId,
-    () => pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_FIT_COMPLETE, params),
+    () => pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_STEP_COMPLETE, params),
   );
 }
 
@@ -82,6 +87,7 @@ export function trackPmpQualificationFitComplete(extra: PmpQualificationEventPar
 export function trackPmpQualificationEligibilityComplete(extra: PmpQualificationEventParams = {}): void {
   const params = {
     ...baseParams(extra),
+    step_id: 'eligibility',
     ...(extra.leadField ? { lead_field: extra.leadField } : {}),
     ...(extra.leadObjective ? { lead_objective: extra.leadObjective } : {}),
     ...(extra.educationBand ? { education_band: extra.educationBand } : {}),
@@ -90,9 +96,42 @@ export function trackPmpQualificationEligibilityComplete(extra: PmpQualification
     ...(extra.examTimeline ? { exam_timeline: extra.examTimeline } : {}),
   };
   trackOncePerFormSession(
-    PMS_EVENTS.PMP_ROADMAP_ELIGIBILITY_COMPLETE,
+    PMS_EVENTS.PMP_ROADMAP_STEP_COMPLETE,
     extra.formSessionId,
     () =>
-      pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_ELIGIBILITY_COMPLETE, params),
+      pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_STEP_COMPLETE, params),
+  );
+}
+
+export function trackPmpQualificationStepView(extra: PmpQualificationEventParams): void {
+  if (!extra.stepId) return;
+  trackOncePerFormSession(
+    `${PMS_EVENTS.PMP_ROADMAP_STEP_VIEW}:${extra.stepId}`,
+    extra.formSessionId,
+    () => pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_STEP_VIEW, { ...baseParams(extra), step_id: extra.stepId }),
+  );
+}
+
+export function trackPmpQualificationValidationError(extra: PmpQualificationEventParams): void {
+  if (!extra.fieldKey) return;
+  pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_VALIDATION_ERROR, {
+    ...baseParams(extra),
+    ...(extra.stepId ? { step_id: extra.stepId } : {}),
+    field_key: extra.fieldKey,
+  });
+}
+
+export function trackPmpQualificationSubmitAttempt(extra: PmpQualificationEventParams): void {
+  pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_SUBMIT_ATTEMPT, {
+    ...baseParams(extra),
+    step_id: 'contact',
+  });
+}
+
+export function trackPmpQualificationResultView(extra: PmpQualificationEventParams): void {
+  trackOncePerFormSession(
+    PMS_EVENTS.PMP_ROADMAP_RESULT_VIEW,
+    extra.formSessionId,
+    () => pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_RESULT_VIEW, { ...baseParams(extra), step_id: 'result' }),
   );
 }

@@ -26,7 +26,7 @@ describe('PMP qualification analytics tracking', () => {
     });
 
     expect(pushEventModule.pushAnalyticsEvent).toHaveBeenCalledWith(
-      PMS_EVENTS.PMP_ROADMAP_FORM_START,
+      PMS_EVENTS.PMP_ROADMAP_OPEN,
       expect.objectContaining({
         form_id: 'pmp_qualification_roadmap',
         form_placement: 'home_hero_desktop',
@@ -46,7 +46,7 @@ describe('PMP qualification analytics tracking', () => {
 
     expect(pushEventModule.pushAnalyticsEvent).toHaveBeenCalledTimes(1);
     expect(pushEventModule.pushAnalyticsEvent).toHaveBeenCalledWith(
-      PMS_EVENTS.PMP_ROADMAP_FIT_COMPLETE,
+      PMS_EVENTS.PMP_ROADMAP_STEP_COMPLETE,
       expect.objectContaining({
         lead_field: 'civil_engineering',
         lead_objective: 'check_eligibility',

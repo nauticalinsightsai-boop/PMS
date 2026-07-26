@@ -107,6 +107,9 @@ export async function submitPublicInteraction(
         regionId: data.formContext?.regionId,
         channel: data.formContext?.channelKey,
         goSlug: data.formContext?.landingSlug,
+        submissionId: typeof json.id === 'string' ? json.id : undefined,
+        formVersion:
+          typeof data.payload?.formVersion === 'string' ? data.payload.formVersion : undefined,
       });
     }
 
