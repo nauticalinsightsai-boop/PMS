@@ -13,6 +13,7 @@ export const PMS_EVENTS = {
   PURCHASE: 'purchase',
   // P0.6 roadmap funnel events (no PII in params)
   PMP_ROADMAP_OPEN: 'pms_roadmap_open',
+  PMP_ROADMAP_START: 'pms_roadmap_start',
   PMP_ROADMAP_STEP_VIEW: 'pms_roadmap_step_view',
   PMP_ROADMAP_STEP_COMPLETE: 'pms_roadmap_step_complete',
   PMP_ROADMAP_VALIDATION_ERROR: 'pms_roadmap_validation_error',

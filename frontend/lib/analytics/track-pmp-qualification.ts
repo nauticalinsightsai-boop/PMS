@@ -59,8 +59,8 @@ function baseParams(extra: PmpQualificationEventParams = {}): AnalyticsEventPara
   };
 }
 
-/** Track form start (first interaction) */
-export function trackPmpQualificationFormStart(extra: PmpQualificationEventParams = {}): void {
+/** Exposure only: emitted after an embedded roadmap form mounts. */
+export function trackPmpQualificationFormOpen(extra: PmpQualificationEventParams = {}): void {
   trackOncePerFormSession(
     PMS_EVENTS.PMP_ROADMAP_OPEN,
     extra.formSessionId,
@@ -100,6 +100,15 @@ export function trackPmpQualificationEligibilityComplete(extra: PmpQualification
     extra.formSessionId,
     () =>
       pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_STEP_COMPLETE, params),
+  );
+}
+
+/** Canonical intent signal: emitted once on the first real form mutation. */
+export function trackPmpQualificationFormStart(extra: PmpQualificationEventParams = {}): void {
+  trackOncePerFormSession(
+    PMS_EVENTS.PMP_ROADMAP_START,
+    extra.formSessionId,
+    () => pushAnalyticsEvent(PMS_EVENTS.PMP_ROADMAP_START, baseParams(extra)),
   );
 }
 

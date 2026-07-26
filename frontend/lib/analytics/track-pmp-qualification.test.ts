@@ -5,6 +5,7 @@ import {
   resetPmpQualificationEventDedupe,
   trackPmpQualificationEligibilityComplete,
   trackPmpQualificationFitComplete,
+  trackPmpQualificationFormOpen,
   trackPmpQualificationFormStart,
 } from '@/lib/analytics/track-pmp-qualification';
 
@@ -18,15 +19,32 @@ describe('PMP qualification analytics tracking', () => {
     resetPmpQualificationEventDedupe();
   });
 
-  it('fires the canonical first-interaction event without PII', () => {
-    trackPmpQualificationFormStart({
+  it('keeps mount exposure separate from first-mutation start', () => {
+    const input = {
       formSessionId: 'lead_session_1',
       formPlacement: 'home_hero_desktop',
       regionGroup: 'gcc',
-    });
+    };
+    trackPmpQualificationFormOpen(input);
 
     expect(pushEventModule.pushAnalyticsEvent).toHaveBeenCalledWith(
       PMS_EVENTS.PMP_ROADMAP_OPEN,
+      expect.objectContaining({
+        form_id: 'pmp_qualification_roadmap',
+        form_placement: 'home_hero_desktop',
+        region_group: 'gcc',
+      }),
+    );
+    expect(pushEventModule.pushAnalyticsEvent).not.toHaveBeenCalledWith(
+      PMS_EVENTS.PMP_ROADMAP_START,
+      expect.anything(),
+    );
+
+    trackPmpQualificationFormStart(input);
+    trackPmpQualificationFormStart(input);
+    expect(pushEventModule.pushAnalyticsEvent).toHaveBeenCalledTimes(2);
+    expect(pushEventModule.pushAnalyticsEvent).toHaveBeenLastCalledWith(
+      PMS_EVENTS.PMP_ROADMAP_START,
       expect.objectContaining({
         form_id: 'pmp_qualification_roadmap',
         form_placement: 'home_hero_desktop',

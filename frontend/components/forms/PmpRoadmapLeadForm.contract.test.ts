@@ -63,4 +63,10 @@ describe('PmpRoadmapLeadForm component contract', () => {
     expect(source.toLowerCase()).not.toContain('dailystudy');
     expect(source.toLowerCase()).not.toContain('studyhours');
   });
+
+  it('keeps mount exposure distinct from the first real form mutation', () => {
+    expect(source).toContain('trackPmpQualificationFormOpen({');
+    expect(source).toContain('trackPmpQualificationFormStart({');
+    expect(source).toContain('if (!formStartedRef.current)');
+  });
 });

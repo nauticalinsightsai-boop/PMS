@@ -54,6 +54,7 @@ import {
 import { mapRegionIdToAnalyticsRegion } from '@/lib/analytics/pms-events';
 import {
   trackPmpQualificationFormStart,
+  trackPmpQualificationFormOpen,
   trackPmpQualificationFitComplete,
   trackPmpQualificationEligibilityComplete,
   trackPmpQualificationResultView,
@@ -469,7 +470,7 @@ export function PmpRoadmapLeadForm({
 
   React.useEffect(() => {
     const formSessionId = ensureFormSessionId();
-    trackPmpQualificationFormStart({
+    trackPmpQualificationFormOpen({
       formSessionId,
       formPlacement: placement,
       regionGroup: mapRegionIdToAnalyticsRegion(regionId),
