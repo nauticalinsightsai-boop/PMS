@@ -368,12 +368,17 @@ export function PmpRoadmapLeadForm({
   // Step 1: Fit (work field + needs)
   const [workField, setWorkField] = React.useState<WorkFieldValue | ''>('');
   const [needsObjective, setNeedsObjective] = React.useState<NeedsObjectiveValue | ''>('');
+  const [workFieldOther, setWorkFieldOther] = React.useState('');
+  const [needsObjectiveOther, setNeedsObjectiveOther] = React.useState('');
 
   // Step 2: Eligibility (education, experience, training, timing)
   const [education, setEducation] = React.useState<EducationValue | ''>('');
   const [pmExperience, setPmExperience] = React.useState<PmExperienceValue | ''>('');
   const [trainingStatus, setTrainingStatus] = React.useState<TrainingStatusValue | ''>('');
   const [examTimeline, setExamTimeline] = React.useState<ExamTimelineValue | ''>('');
+  const [educationOther, setEducationOther] = React.useState('');
+  const [pmExperienceOther, setPmExperienceOther] = React.useState('');
+  const [trainingStatusOther, setTrainingStatusOther] = React.useState('');
 
   // Step 3: Contact
   const [fullName, setFullName] = React.useState('');
@@ -420,6 +425,11 @@ export function PmpRoadmapLeadForm({
     pmExperience,
     trainingStatus,
     examTimeline,
+    workFieldOther,
+    needsObjectiveOther,
+    educationOther,
+    pmExperienceOther,
+    trainingStatusOther,
     fullName,
     phone,
     email,
@@ -525,6 +535,11 @@ export function PmpRoadmapLeadForm({
       pmExperience: 'experience-options',
       trainingStatus: 'training-options',
       examTimeline: 'timeline-options',
+      workFieldOther: 'work-field-other',
+      needsObjectiveOther: 'needs-other',
+      educationOther: 'education-other',
+      pmExperienceOther: 'experience-other',
+      trainingStatusOther: 'training-other',
       fullName: 'name',
       phone: 'phone',
       email: 'email',
@@ -916,6 +931,20 @@ export function PmpRoadmapLeadForm({
                     </RoadmapChoiceChip>
                   ))}
                 </div>
+                {workField === 'other' && (
+                  <Input
+                    id={`${idPrefix}-work-field-other`}
+                    value={workFieldOther}
+                    onChange={(e) => {
+                      setWorkFieldOther(e.target.value);
+                      touchField();
+                    }}
+                    placeholder="Please specify"
+                    className={cn('mt-2.5', fieldClass)}
+                    style={isPortalThemed && portalTheme ? portalFieldStyle(portalTheme) : undefined}
+                    aria-label="Specify other industry"
+                  />
+                )}
               </fieldset>
 
               <fieldset
@@ -966,6 +995,20 @@ export function PmpRoadmapLeadForm({
                     </RoadmapChoiceChip>
                   ))}
                 </div>
+                {needsObjective === 'other' && (
+                  <Input
+                    id={`${idPrefix}-needs-other`}
+                    value={needsObjectiveOther}
+                    onChange={(e) => {
+                      setNeedsObjectiveOther(e.target.value);
+                      touchField();
+                    }}
+                    placeholder="Please specify"
+                    className={cn('mt-2.5', fieldClass)}
+                    style={isPortalThemed && portalTheme ? portalFieldStyle(portalTheme) : undefined}
+                    aria-label="Specify other need"
+                  />
+                )}
               </fieldset>
             </div>
           )}
@@ -1021,6 +1064,20 @@ export function PmpRoadmapLeadForm({
                     </RoadmapChoiceChip>
                   ))}
                 </div>
+                {education === 'other' && (
+                  <Input
+                    id={`${idPrefix}-education-other`}
+                    value={educationOther}
+                    onChange={(e) => {
+                      setEducationOther(e.target.value);
+                      touchField();
+                    }}
+                    placeholder="Please specify"
+                    className={cn('mt-2.5', fieldClass)}
+                    style={isPortalThemed && portalTheme ? portalFieldStyle(portalTheme) : undefined}
+                    aria-label="Specify other education"
+                  />
+                )}
               </fieldset>
 
               <fieldset
@@ -1071,6 +1128,20 @@ export function PmpRoadmapLeadForm({
                     </RoadmapChoiceChip>
                   ))}
                 </div>
+                {pmExperience === 'other' && (
+                  <Input
+                    id={`${idPrefix}-experience-other`}
+                    value={pmExperienceOther}
+                    onChange={(e) => {
+                      setPmExperienceOther(e.target.value);
+                      touchField();
+                    }}
+                    placeholder="Please specify"
+                    className={cn('mt-2.5', fieldClass)}
+                    style={isPortalThemed && portalTheme ? portalFieldStyle(portalTheme) : undefined}
+                    aria-label="Specify other experience"
+                  />
+                )}
               </fieldset>
 
               <fieldset
@@ -1121,6 +1192,20 @@ export function PmpRoadmapLeadForm({
                     </RoadmapChoiceChip>
                   ))}
                 </div>
+                {trainingStatus === 'other' && (
+                  <Input
+                    id={`${idPrefix}-training-other`}
+                    value={trainingStatusOther}
+                    onChange={(e) => {
+                      setTrainingStatusOther(e.target.value);
+                      touchField();
+                    }}
+                    placeholder="Please specify"
+                    className={cn('mt-2.5', fieldClass)}
+                    style={isPortalThemed && portalTheme ? portalFieldStyle(portalTheme) : undefined}
+                    aria-label="Specify other training status"
+                  />
+                )}
               </fieldset>
 
               <fieldset

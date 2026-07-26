@@ -26,6 +26,26 @@ function portalPathwayTitle(certId: string, fallback: string) {
   return fallback;
 }
 
+function platformExploreCopy(channelId: string): { title: string; subtitle: string } {
+  const platformName: Record<string, string> = {
+    instagram: 'Instagram',
+    facebook: 'Facebook',
+    linkedin: 'LinkedIn',
+    whatsapp: 'WhatsApp',
+  };
+  const platform = platformName[channelId];
+  if (platform) {
+    return {
+      title: `Explore certifications from ${platform}`,
+      subtitle: `Continue from ${platform}: compare certification pathways, cohort timing, and regional tuition on PM Structure.`,
+    };
+  }
+  return {
+    title: 'Explore certifications',
+    subtitle: `${BRAND.name}: view certification pathways, cohort timing, and regional tuition on the website.`,
+  };
+}
+
 /** Tailwind `sm` breakpoint: desktop grid uses independent card expand state. */
 function useIsSmUp() {
   const [isSmUp, setIsSmUp] = useState(false);
@@ -51,9 +71,10 @@ export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }
 
   const featured = ids.slice(0, 2);
   const layoutChrome = usesPortalWebsiteLayoutChrome(page.channelId);
+  const exploreCopy = platformExploreCopy(page.channelId);
   const subtitle = layoutChrome
-    ? `${BRAND.name}: view pathways, cohort timing, and regional tuition on the website.`
-    : `${BRAND.name}: view pathways, cohort timing, and regional tuition for your certification track.`;
+    ? exploreCopy.subtitle
+    : `${BRAND.name}: view certification pathways, cohort timing, and regional tuition for your certification track.`;
 
   if (featured.length === 0) return null;
 
@@ -65,7 +86,7 @@ export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }
     >
       <PortalSectionHead
         theme={theme}
-        title="Explore certifications"
+        title={exploreCopy.title}
         subtitle={subtitle}
         className="mb-4"
       />

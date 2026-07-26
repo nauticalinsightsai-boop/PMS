@@ -1,74 +1,89 @@
 /** P0.5 PMP qualification-lite roadmap form options and outcome resolution. */
 
-export const FORM_VERSION = 'p0.5.1-chip-lite';
+export const FORM_VERSION = 'p0.6.0-four-choice';
 
 /** Step 1: Industry options (stable value keys retained for analytics continuity) */
 export const WORK_FIELD_OPTIONS = [
-  { value: 'project_management', label: 'PMO' },
   { value: 'civil_engineering', label: 'Construction' },
   { value: 'oil_gas_energy', label: 'Energy' },
   { value: 'it_digital', label: 'Technology' },
-  { value: 'operations_business', label: 'Operations' },
   { value: 'other', label: 'Other' },
 ] as const;
 
-export type WorkFieldValue = (typeof WORK_FIELD_OPTIONS)[number]['value'];
+/** Historical values remain valid when reading existing lead data. */
+export type WorkFieldValue =
+  | (typeof WORK_FIELD_OPTIONS)[number]['value']
+  | 'project_management'
+  | 'operations_business';
 
 /** Step 1: Needs/objective options */
 export const NEEDS_OBJECTIVE_OPTIONS = [
   { value: 'check_eligibility', label: 'Eligibility' },
-  { value: 'join_cohort', label: 'Cohort' },
   { value: 'prepare_exam', label: 'Exam prep' },
-  { value: 'team_training', label: 'Team' },
-  { value: 'exploring', label: 'Exploring' },
+  { value: 'guidance', label: 'Guidance' },
+  { value: 'other', label: 'Other' },
 ] as const;
 
-export type NeedsObjectiveValue = (typeof NEEDS_OBJECTIVE_OPTIONS)[number]['value'];
+export type NeedsObjectiveValue =
+  | (typeof NEEDS_OBJECTIVE_OPTIONS)[number]['value']
+  | 'join_cohort'
+  | 'team_training'
+  | 'exploring';
 
 /** Step 2: Education level options */
 export const EDUCATION_OPTIONS = [
   { value: 'associate', label: 'Associate' },
-  { value: 'bachelor_plus', label: "Bachelor's+" },
-  { value: 'gac_accredited', label: 'GAC' },
-  { value: 'unsure', label: 'Not sure' },
+  { value: 'bachelor_plus', label: "Bachelor's" },
+  { value: 'masters', label: "Master's" },
+  { value: 'other', label: 'Other' },
 ] as const;
 
-export type EducationValue = (typeof EDUCATION_OPTIONS)[number]['value'];
+export type EducationValue =
+  | (typeof EDUCATION_OPTIONS)[number]['value']
+  | 'gac_accredited'
+  | 'unsure';
 
 /** Step 2: PM experience in last 10 years (non-overlapping) */
 export const PM_EXPERIENCE_OPTIONS = [
-  { value: 'under_2', label: '<2 yrs' },
-  { value: '2_to_3', label: '2–3 yrs' },
-  { value: '3_to_4', label: '3–4 yrs' },
-  { value: '4_to_5', label: '4–5 yrs' },
-  { value: '5_plus', label: '5+ yrs' },
-  { value: 'unsure', label: 'Not sure' },
+  { value: 'under_2', label: 'Less than 2 years' },
+  { value: '2_to_5', label: '2–5 years' },
+  { value: '5_to_7', label: '5–7 years' },
+  { value: 'other', label: 'Other' },
 ] as const;
 
-export type PmExperienceValue = (typeof PM_EXPERIENCE_OPTIONS)[number]['value'];
+export type PmExperienceValue =
+  | (typeof PM_EXPERIENCE_OPTIONS)[number]['value']
+  | '2_to_3'
+  | '3_to_4'
+  | '4_to_5'
+  | '5_plus'
+  | 'unsure';
 
 /** Step 2: 35 hours PM training status (never label as "35 PDUs") */
 export const TRAINING_STATUS_OPTIONS = [
   { value: 'completed', label: 'Yes' },
   { value: 'in_progress', label: 'In progress' },
   { value: 'not_yet', label: 'Not yet' },
-  { value: 'capm_holder', label: 'CAPM' },
-  { value: 'unsure', label: 'Not sure' },
+  { value: 'other', label: 'Other' },
 ] as const;
 
-export type TrainingStatusValue = (typeof TRAINING_STATUS_OPTIONS)[number]['value'];
+export type TrainingStatusValue =
+  | (typeof TRAINING_STATUS_OPTIONS)[number]['value']
+  | 'capm_holder'
+  | 'unsure';
 
 /** Step 2: Exam timeline */
 export const EXAM_TIMELINE_OPTIONS = [
-  { value: 'within_3', label: '<3 mo' },
+  { value: 'within_3', label: 'Less than 3 months' },
   { value: '3_to_6', label: '3–6 mo' },
-  { value: '6_to_12', label: '6–12 mo' },
-  { value: 'more_than_12', label: '12+ mo' },
+  { value: '6_plus', label: '6+ months' },
   { value: 'exploring', label: 'Exploring' },
 ] as const;
 
-
-export type ExamTimelineValue = (typeof EXAM_TIMELINE_OPTIONS)[number]['value'];
+export type ExamTimelineValue =
+  | (typeof EXAM_TIMELINE_OPTIONS)[number]['value']
+  | '6_to_12'
+  | 'more_than_12';
 
 /** Qualification outcome types (never claim formal PMP eligibility; PMI decides/may audit) */
 export type QualificationOutcome =
@@ -99,7 +114,13 @@ export function resolveQualificationOutcome(answers: QualificationAnswers): Qual
   }
 
   // If user is unsure about education or experience, needs verification
-  if (education === 'unsure' || pmExperience === 'unsure') {
+  if (
+    education === 'unsure' ||
+    education === 'other' ||
+    pmExperience === 'unsure' ||
+    pmExperience === 'other' ||
+    trainingStatus === 'other'
+  ) {
     return 'needs_verification';
   }
 
@@ -115,10 +136,10 @@ export function resolveQualificationOutcome(answers: QualificationAnswers): Qual
   const hasAdequateExperience =
     education === 'gac_accredited'
       ? pmExperience !== 'under_2'
-      : education === 'bachelor_plus'
-        ? pmExperience === '3_to_4' || pmExperience === '4_to_5' || pmExperience === '5_plus'
+      : education === 'bachelor_plus' || education === 'masters'
+        ? pmExperience === '3_to_4' || pmExperience === '4_to_5' || pmExperience === '5_plus' || pmExperience === '5_to_7'
         : education === 'associate'
-          ? pmExperience === '4_to_5' || pmExperience === '5_plus'
+          ? pmExperience === '4_to_5' || pmExperience === '5_plus' || pmExperience === '5_to_7'
           : false;
 
   // Must have completed or be completing the 35 hours training

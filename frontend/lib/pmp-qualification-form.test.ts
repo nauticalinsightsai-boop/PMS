@@ -17,6 +17,11 @@ const completeValues: PmpQualificationFormValues = {
   pmExperience: '3_to_4',
   trainingStatus: 'completed',
   examTimeline: 'within_3',
+  workFieldOther: '',
+  needsObjectiveOther: '',
+  educationOther: '',
+  pmExperienceOther: '',
+  trainingStatusOther: '',
   fullName: 'Aisha Khan',
   phone: '50 123 4567',
   email: 'aisha@example.com',
@@ -51,6 +56,46 @@ describe('PMP qualification step flow', () => {
     expect(validatePmpQualificationStep('contact', completeValues)).toBeNull();
   });
 
+  it('requires a detail when an Other choice is selected and persists it only for that choice', () => {
+    const otherValues: PmpQualificationFormValues = {
+      ...completeValues,
+      workField: 'other',
+      workFieldOther: 'Aviation',
+      needsObjective: 'other',
+      needsObjectiveOther: 'Mentoring',
+      education: 'other',
+      educationOther: 'Diploma',
+      pmExperience: 'other',
+      pmExperienceOther: 'Independent consulting',
+      trainingStatus: 'other',
+      trainingStatusOther: 'Equivalent training',
+    };
+    expect(validatePmpQualificationStep('fit', otherValues)).toBeNull();
+    expect(validatePmpQualificationStep('eligibility', otherValues)).toBeNull();
+    expect(validatePmpQualificationStep('fit', { ...otherValues, workFieldOther: '' })).toMatchObject({
+      field: 'workFieldOther',
+    });
+    expect(validatePmpQualificationStep('eligibility', { ...otherValues, educationOther: '' })).toMatchObject({
+      field: 'educationOther',
+    });
+    expect(
+      buildPmpQualificationSubmissionPayload({
+        values: otherValues,
+        dialCode: 'AE',
+        dialPrefix: '+971',
+        qualificationOutcome: 'needs_verification',
+        placement: 'home_hero_desktop',
+        certName: 'PMP',
+      }),
+    ).toMatchObject({
+      workFieldOther: 'Aviation',
+      needsObjectiveOther: 'Mentoring',
+      educationOther: 'Diploma',
+      pmExperienceOther: 'Independent consulting',
+      trainingStatusOther: 'Equivalent training',
+    });
+  });
+
   it('moves forward and backward without discarding the answers', () => {
     expect(validatePmpQualificationStep('fit', completeValues)).toBeNull();
     const second = nextPmpQualificationStep('fit');
@@ -74,6 +119,7 @@ describe('PMP qualification step flow', () => {
       hasPmpQualificationPartialData({ ...empty, education: 'associate' }),
     ).toBe(true);
     for (const [field, value] of Object.entries(completeValues)) {
+      if (!value) continue;
       expect(
         hasPmpQualificationPartialData({
           ...empty,

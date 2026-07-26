@@ -9,14 +9,17 @@ export type PmServiceInterestValue =
   | 'other';
 
 export const PM_SERVICE_INDUSTRY_OPTIONS = [
-  { value: 'engineering', label: 'Engineering' },
-  { value: 'it', label: 'Information Technology (IT)' },
-  { value: 'oil_gas', label: 'Oil & Gas' },
+  { value: 'civil_engineering', label: 'Construction' },
+  { value: 'oil_gas_energy', label: 'Energy' },
+  { value: 'it_digital', label: 'Technology' },
 ] as const;
 
 export type PmServiceIndustryValue =
   | (typeof PM_SERVICE_INDUSTRY_OPTIONS)[number]['value']
-  | 'other';
+  | 'other'
+  | 'engineering'
+  | 'it'
+  | 'oil_gas';
 
 export function resolvePmServiceInterestLabel(
   interest: PmServiceInterestValue | '',
@@ -33,5 +36,10 @@ export function resolvePmServiceIndustryLabel(
 ): string {
   if (!industry) return '';
   if (industry === 'other') return otherText.trim();
-  return PM_SERVICE_INDUSTRY_OPTIONS.find((o) => o.value === industry)?.label ?? '';
+  const legacyLabels: Record<string, string> = {
+    engineering: 'Engineering',
+    it: 'Information Technology (IT)',
+    oil_gas: 'Oil & Gas',
+  };
+  return PM_SERVICE_INDUSTRY_OPTIONS.find((o) => o.value === industry)?.label ?? legacyLabels[industry] ?? '';
 }

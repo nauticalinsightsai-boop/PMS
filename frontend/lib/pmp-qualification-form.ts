@@ -16,6 +16,11 @@ export type PmpQualificationFormValues = {
   pmExperience: PmExperienceValue | '';
   trainingStatus: TrainingStatusValue | '';
   examTimeline: ExamTimelineValue | '';
+  workFieldOther: string;
+  needsObjectiveOther: string;
+  educationOther: string;
+  pmExperienceOther: string;
+  trainingStatusOther: string;
   fullName: string;
   phone: string;
   email: string;
@@ -29,6 +34,11 @@ export type PmpQualificationValidationIssue = {
     | 'pmExperience'
     | 'trainingStatus'
     | 'examTimeline'
+    | 'workFieldOther'
+    | 'needsObjectiveOther'
+    | 'educationOther'
+    | 'pmExperienceOther'
+    | 'trainingStatusOther'
     | 'fullName'
     | 'phone'
     | 'email';
@@ -48,6 +58,12 @@ export function validatePmpQualificationStep(
     if (!values.needsObjective) {
       return { field: 'needsObjective', message: 'Please select what you need help with.' };
     }
+    if (values.workField === 'other' && !values.workFieldOther.trim()) {
+      return { field: 'workFieldOther', message: 'Please specify your industry.' };
+    }
+    if (values.needsObjective === 'other' && !values.needsObjectiveOther.trim()) {
+      return { field: 'needsObjectiveOther', message: 'Please specify what you need help with.' };
+    }
     return null;
   }
 
@@ -63,6 +79,19 @@ export function validatePmpQualificationStep(
     }
     if (!values.examTimeline) {
       return { field: 'examTimeline', message: 'Please select your exam timeline.' };
+    }
+    const otherDetailFields: Array<[
+      boolean,
+      PmpQualificationValidationIssue['field'],
+      string,
+    ]> = [
+      [values.education === 'other' && !values.educationOther.trim(), 'educationOther', 'Please specify your education level.'],
+      [values.pmExperience === 'other' && !values.pmExperienceOther.trim(), 'pmExperienceOther', 'Please specify your PM experience.'],
+      [values.trainingStatus === 'other' && !values.trainingStatusOther.trim(), 'trainingStatusOther', 'Please specify your training status.'],
+    ];
+    const missingOtherDetail = otherDetailFields.find(([isMissing]) => isMissing);
+    if (missingOtherDetail) {
+      return { field: missingOtherDetail[1], message: missingOtherDetail[2] };
     }
     return null;
   }
@@ -142,6 +171,14 @@ export function buildPmpQualificationSubmissionPayload(input: {
     pmExperience: values.pmExperience,
     trainingStatus: values.trainingStatus,
     examTimeline: values.examTimeline,
+    workFieldOther: values.workField === 'other' ? values.workFieldOther.trim() : undefined,
+    needsObjectiveOther:
+      values.needsObjective === 'other' ? values.needsObjectiveOther.trim() : undefined,
+    educationOther: values.education === 'other' ? values.educationOther.trim() : undefined,
+    pmExperienceOther:
+      values.pmExperience === 'other' ? values.pmExperienceOther.trim() : undefined,
+    trainingStatusOther:
+      values.trainingStatus === 'other' ? values.trainingStatusOther.trim() : undefined,
     qualificationOutcome: input.qualificationOutcome,
     placement: input.placement,
     siteCertId: input.siteCertId,

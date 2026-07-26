@@ -11,45 +11,41 @@ import {
 
 describe('qualification options lite surface', () => {
   it('uses the lite form version', () => {
-    expect(FORM_VERSION).toBe('p0.5.1-chip-lite');
+    expect(FORM_VERSION).toBe('p0.6.0-four-choice');
   });
 
   it('exposes short one-line industry chips', () => {
     expect(WORK_FIELD_OPTIONS.map((o) => o.label)).toEqual([
-      'PMO',
       'Construction',
       'Energy',
       'Technology',
-      'Operations',
       'Other',
     ]);
   });
 
-  it('caps needs objectives at five with short labels', () => {
-    expect(NEEDS_OBJECTIVE_OPTIONS).toHaveLength(5);
+  it('caps needs objectives at four with short labels', () => {
+    expect(NEEDS_OBJECTIVE_OPTIONS).toHaveLength(4);
     expect(NEEDS_OBJECTIVE_OPTIONS.map((o) => o.value)).toEqual([
       'check_eligibility',
-      'join_cohort',
       'prepare_exam',
-      'team_training',
-      'exploring',
+      'guidance',
+      'other',
     ]);
     expect(NEEDS_OBJECTIVE_OPTIONS.map((o) => o.label)).toEqual([
       'Eligibility',
-      'Cohort',
       'Exam prep',
-      'Team',
-      'Exploring',
+      'Guidance',
+      'Other',
     ]);
   });
 
-  it('drops secondary education', () => {
+  it('uses the four approved education options', () => {
     expect(EDUCATION_OPTIONS.map((o) => o.value)).not.toContain('secondary');
     expect(EDUCATION_OPTIONS.map((o) => o.value)).toEqual([
       'associate',
       'bachelor_plus',
-      'gac_accredited',
-      'unsure',
+      'masters',
+      'other',
     ]);
   });
 });
