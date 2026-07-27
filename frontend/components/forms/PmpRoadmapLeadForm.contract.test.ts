@@ -141,6 +141,9 @@ describe('PmpRoadmapLeadForm component contract', () => {
     expect(source).not.toContain('contactChannel');
     expect(source).not.toMatch(/value:\s*'instagram'/);
     expect(source).not.toMatch(/value:\s*'messenger'/);
+    expect(source).toContain(
+      "opt.value === 'within_3' && 'md:tracking-[-0.015em]'",
+    );
   });
 
   it('uses one retry-stable submission ID and omits daily study-time fields', () => {

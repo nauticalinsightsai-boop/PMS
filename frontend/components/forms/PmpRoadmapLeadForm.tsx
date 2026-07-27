@@ -1449,7 +1449,13 @@ export function PmpRoadmapLeadForm({
                       className={
                         isPortalCertRoadmap
                           ? formChoiceChipLayoutClass(EXAM_TIMELINE_OPTIONS.length)
-                          : toggleOptionClass(examTimeline === opt.value, EXAM_TIMELINE_OPTIONS.length)
+                          : cn(
+                              toggleOptionClass(
+                                examTimeline === opt.value,
+                                EXAM_TIMELINE_OPTIONS.length,
+                              ),
+                              opt.value === 'within_3' && 'md:tracking-[-0.015em]',
+                            )
                       }
                       aria-checked={examTimeline === opt.value}
                       tabIndex={getPmpChoiceTabIndex(
