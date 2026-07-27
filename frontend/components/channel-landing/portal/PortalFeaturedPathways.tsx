@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ChannelLandingPage } from '@/types/channelLandingPage';
 import type { PlatformPortalTheme } from '@/lib/channel-landing-pages/platformThemes';
 import { certifications } from '@/data/siteData';
@@ -28,6 +28,34 @@ function portalPathwayTitle(certId: string, fallback: string) {
 
 export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }: Props) {
   const [expandedCertId, setExpandedCertId] = useState<string | null>(null);
+  const expandedCertIdRef = useRef<string | null>(null);
+  useEffect(() => { expandedCertIdRef.current = expandedCertId; }, [expandedCertId]);
+  const setDisclosure = (certId: string, expanded: boolean) => {
+    const marker = window.history.state?.__pmsPathwayDisclosure;
+    if (!expanded) {
+      if (marker?.v === 1 && marker.surface === 'portal-featured' && marker.certId === certId) window.history.back();
+      else setExpandedCertId(null);
+      return;
+    }
+    const next = { ...(window.history.state ?? {}), __pmsPathwayDisclosure: { v: 1, surface: 'portal-featured', certId } };
+    if (marker?.v === 1 && marker.surface === 'portal-featured') window.history.replaceState(next, '');
+    else window.history.pushState(next, '');
+    setExpandedCertId(certId);
+  };
+  useEffect(() => {
+    const onPopState = () => {
+      const previousCertId = expandedCertIdRef.current;
+      const marker = window.history.state?.__pmsPathwayDisclosure;
+      const certId = marker?.v === 1 && marker.surface === 'portal-featured' ? marker.certId : null;
+      setExpandedCertId(certId);
+      requestAnimationFrame(() => {
+        if (certId) document.querySelector<HTMLElement>(`[data-pathway-region="${certId}"]`)?.focus();
+        else if (previousCertId) document.querySelector<HTMLButtonElement>(`[data-pathway-details="${previousCertId}"]`)?.focus();
+      });
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
   const engagement = page.portalEngagement;
   const ids = engagement?.featuredCertIds?.length
     ? engagement.featuredCertIds
@@ -69,7 +97,7 @@ export default function PortalFeaturedPathways({ page, theme, sectionOrder = 0 }
               collapsible
               className="flex flex-col"
               expanded={expandedCertId === certId}
-              onExpandedChange={(next) => setExpandedCertId(next ? certId : null)}
+              onExpandedChange={(next) => setDisclosure(certId, next)}
             />
           );
         })}

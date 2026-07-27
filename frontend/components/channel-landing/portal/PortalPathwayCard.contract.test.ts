@@ -4,30 +4,32 @@ import { describe, expect, it } from 'vitest';
 const source = readFileSync(new URL('./PortalPathwayCard.tsx', import.meta.url), 'utf8');
 
 describe('PortalPathwayCard disclosure contract', () => {
-  it('keeps collapsed chrome with family, title, cohort, duration · tuition, Details, and CTA', () => {
+  it('keeps collapsed chrome with family, title, cohort, duration · tuition, and Details only', () => {
     expect(source).toContain('Details');
     expect(source).toContain('durationTuition');
     expect(source).toContain('`${duration ?? \'Flexible\'} · ${tuitionSummary}`');
     expect(source).toContain('inline-block shrink-0 text-[10px] font-mono uppercase tracking-[0.16em]');
     expect(source).not.toContain('hidden sm:inline-block shrink-0 text-[10px] font-mono uppercase tracking-[0.16em]');
-    expect(source).toContain('href={`/certifications/${cert.id}`}');
+    expect(source).toContain('!expanded ? (');
+    expect(source).toContain('onClick={() => setExpanded(true)}');
     expect(source).toContain("isEnrollmentOpen(cert.id, regionId) ? 'View pathway' : 'View overview'");
   });
 
   it('exposes aria-expanded and aria-controls to a stable unique panel id', () => {
     expect(source).toContain('const panelId = `portal-pathway-panel-${cert.id}`');
-    expect(source).toContain('aria-expanded={expanded}');
+    expect(source).toContain('aria-expanded={false}');
     expect(source).toContain('aria-controls={panelId}');
     expect(source).toContain('id={panelId}');
     expect(source).toContain('role="region"');
     expect(source).toContain('aria-labelledby={titleId}');
   });
 
-  it('removes collapsed detail from the tree and keeps CTA outside the panel', () => {
+  it('removes collapsed detail from the tree and puts the sole pathway action in the expanded region', () => {
     expect(source).toContain('{expanded ? (');
     expect(source).not.toContain("expanded ? 'max-h-[2400px] opacity-100' : 'max-h-0 opacity-0'");
-    expect(source).toContain('omitCta');
+    expect(source).not.toContain('omitCta');
     expect(source).toMatch(/<Link[\s\S]*href=\{`\/certifications\/\$\{cert\.id\}`\}[\s\S]*\{ctaLabel\}/);
+    expect(source).toContain('prefetch={false}');
   });
 
   it('retains expanded outcome/data content', () => {
@@ -62,9 +64,11 @@ describe('PortalPathwayCard disclosure contract', () => {
     expect(source.match(/portal-pathway-meta-chip-row/g)?.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('uses practical min-h-11 controls for Details and CTA', () => {
-    expect(source).toContain('min-h-11 flex-1 items-center justify-center gap-2');
-    expect(source).toContain('min-h-11 flex-1 items-center justify-center px-4');
+  it('uses a practical Details target and restores it when Escape closes the focused region', () => {
+    expect(source).toContain('min-h-11 w-full items-center justify-center gap-2');
+    expect(source).toContain('panelRef.current?.focus()');
+    expect(source).toContain("if (event.key === 'Escape') closeDetails()");
+    expect(source).toContain('detailsButtonRef.current?.focus()');
   });
 
   it('adds no analytics or page_view for disclosure', () => {

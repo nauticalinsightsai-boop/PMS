@@ -231,6 +231,39 @@ export function Home({
   const [reduceMotion, setReduceMotion] = React.useState(false);
   const [waitlistOpen, setWaitlistOpen] = React.useState(false);
   const [waitlistContext, setWaitlistContext] = React.useState<JoinWaitlistContext | null>(null);
+  const [expandedFeaturedPathwayId, setExpandedFeaturedPathwayId] = React.useState<string | null>(null);
+  const expandedFeaturedPathwayIdRef = React.useRef<string | null>(null);
+  React.useEffect(() => { expandedFeaturedPathwayIdRef.current = expandedFeaturedPathwayId; }, [expandedFeaturedPathwayId]);
+  const setFeaturedDisclosure = React.useCallback((certId: string, expanded: boolean) => {
+    if (typeof window === 'undefined') return;
+    const marker = window.history.state?.__pmsPathwayDisclosure;
+    if (!expanded) {
+      if (marker?.v === 1 && marker.surface === 'home-featured' && marker.certId === certId) {
+        window.history.back();
+      } else {
+        setExpandedFeaturedPathwayId(null);
+      }
+      return;
+    }
+    const next = { ...(window.history.state ?? {}), __pmsPathwayDisclosure: { v: 1, surface: 'home-featured', certId } };
+    if (marker?.v === 1 && marker.surface === 'home-featured') window.history.replaceState(next, '');
+    else window.history.pushState(next, '');
+    setExpandedFeaturedPathwayId(certId);
+  }, []);
+  React.useEffect(() => {
+    const onPopState = () => {
+      const previousCertId = expandedFeaturedPathwayIdRef.current;
+      const marker = window.history.state?.__pmsPathwayDisclosure;
+      const certId = marker?.v === 1 && marker.surface === 'home-featured' ? marker.certId : null;
+      setExpandedFeaturedPathwayId(certId);
+      requestAnimationFrame(() => {
+        if (certId) document.querySelector<HTMLElement>(`[data-pathway-region="${certId}"]`)?.focus();
+        else if (previousCertId) document.querySelector<HTMLButtonElement>(`[data-pathway-details="${previousCertId}"]`)?.focus();
+      });
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
   React.useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReduceMotion(mq.matches);
@@ -508,6 +541,9 @@ export function Home({
                 >
                   <PathwayFeaturedCard
                     cert={cert}
+                    layout="visual"
+                    expanded={expandedFeaturedPathwayId === featured.id}
+                    onExpandedChange={(expanded) => setFeaturedDisclosure(featured.id, expanded)}
                     familyLabel={featured.family}
                     badgeLabel={t169?.badgeLabel}
                     title={t169?.title ?? featured.title}

@@ -8,7 +8,7 @@ describe('PortalFeaturedPathways accordion contract', () => {
     expect(source).toContain('useState<string | null>(null)');
     expect(source).toContain('expanded={expandedCertId === certId}');
     expect(source).toContain(
-      'onExpandedChange={(next) => setExpandedCertId(next ? certId : null)}',
+      'onExpandedChange={(next) => setDisclosure(certId, next)}',
     );
   });
 
@@ -39,5 +39,19 @@ describe('PortalFeaturedPathways accordion contract', () => {
     expect(source).not.toContain('sendGAEvent');
     expect(source).not.toContain('PMS_EVENTS');
     expect(source).not.toContain("from '@/lib/analytics");
+  });
+
+  it('uses a minimal same-URL portal disclosure marker with push, replace, and popstate recovery', () => {
+    expect(source).toContain("surface: 'portal-featured'");
+    expect(source).toContain('__pmsPathwayDisclosure');
+    expect(source).toContain('window.history.pushState');
+    expect(source).toContain('window.history.replaceState');
+    expect(source).toContain('window.history.back()');
+    expect(source).toContain("window.addEventListener('popstate'");
+    expect(source).toContain('previousCertId');
+    expect(source).toContain('[data-pathway-details="${previousCertId}"]');
+    expect(source).not.toContain("'[data-pathway-details]'");
+    expect(source).toContain('window.history.replaceState');
+    expect(source).toContain('window.history.back()');
   });
 });
