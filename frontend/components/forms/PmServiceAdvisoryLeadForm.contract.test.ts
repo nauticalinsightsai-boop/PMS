@@ -34,6 +34,9 @@ describe('PM Service advisory exact-four choice contract', () => {
     expect(source).toContain(
       "'tracking-[-0.015em] sm:tracking-[-0.03em] md:tracking-[-0.025em]'",
     );
+    expect(source).toContain(
+      "'relative left-1/2 w-[calc(100%+0.5rem)] max-w-[calc(100vw-1.5rem)] -translate-x-1/2 sm:w-[calc(100%+2rem)] sm:max-w-[calc(100vw-3rem)]'",
+    );
     expect(source).toContain('min-h-11');
   });
 
