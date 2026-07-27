@@ -69,6 +69,23 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [errorTarget, setErrorTarget] = React.useState<
+    'interest' | 'interest_other' | 'industry_other' | 'submit' | null
+  >(null);
+  const interestRef = React.useRef<HTMLFieldSetElement>(null);
+  const interestOtherRef = React.useRef<HTMLInputElement>(null);
+  const industryOtherRef = React.useRef<HTMLInputElement>(null);
+  const errorRef = React.useRef<HTMLParagraphElement>(null);
+  const successRef = React.useRef<HTMLParagraphElement>(null);
+  React.useEffect(() => {
+    if (submitted) successRef.current?.focus();
+  }, [submitted]);
+  React.useEffect(() => {
+    if (errorTarget === 'interest') interestRef.current?.focus();
+    if (errorTarget === 'interest_other') interestOtherRef.current?.focus();
+    if (errorTarget === 'industry_other') industryOtherRef.current?.focus();
+    if (errorTarget === 'submit') errorRef.current?.focus();
+  }, [errorTarget, error]);
 
   const shellClass = cn(
     'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
@@ -104,6 +121,10 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   const clearIndustrySelection = () => {
     setIndustry('');
     setIndustryOther('');
+    if (errorTarget === 'industry_other') {
+      setError(null);
+      setErrorTarget(null);
+    }
   };
 
   const toggleServiceInterest = (value: Exclude<PmServiceInterestValue, 'other'>) => {
@@ -115,6 +136,10 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     }
     setServiceInterest(value);
     setServiceInterestOther('');
+    if (errorTarget === 'interest' || errorTarget === 'interest_other') {
+      setError(null);
+      setErrorTarget(null);
+    }
   };
 
   const toggleServiceInterestOther = () => {
@@ -125,6 +150,10 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
       return;
     }
     setServiceInterest('other');
+    if (errorTarget === 'interest') {
+      setError(null);
+      setErrorTarget(null);
+    }
   };
 
   const toggleIndustry = (value: Exclude<PmServiceIndustryValue, 'other'>) => {
@@ -134,6 +163,10 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     }
     setIndustry(value);
     setIndustryOther('');
+    if (errorTarget === 'industry_other') {
+      setError(null);
+      setErrorTarget(null);
+    }
   };
 
   const toggleIndustryOther = () => {
@@ -148,17 +181,21 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     e.preventDefault();
     if (!serviceInterest) {
       setError('Please select what you are interested in.');
+      setErrorTarget('interest');
       return;
     }
     if (serviceInterest === 'other' && !serviceInterestOther.trim()) {
       setError('Please specify your interest under Other.');
+      setErrorTarget('interest_other');
       return;
     }
     if (industry === 'other' && !industryOther.trim()) {
       setError('Please specify your industry under Other.');
+      setErrorTarget('industry_other');
       return;
     }
     setError(null);
+    setErrorTarget(null);
     setSubmitting(true);
 
     const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined;
@@ -201,13 +238,14 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
       setSubmitted(true);
     } else {
       setError(res.error ?? 'Submission failed. Try again.');
+      setErrorTarget('submit');
     }
   };
 
   if (submitted) {
     return (
       <div className={cn(shellClass, 'p-8 sm:p-10')}>
-        <p className="text-base font-semibold text-green-700 dark:text-green-400">
+        <p ref={successRef} id={`${idPrefix}-success`} role="status" aria-live="polite" aria-atomic="true" tabIndex={-1} className="text-base font-semibold text-green-700 dark:text-green-400">
           Thanks. We received your request and will follow up on your advisory inquiry.
         </p>
         <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
@@ -315,11 +353,18 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
             />
           </div>
 
-          <fieldset className="space-y-3.5">
-            <legend className={legendClass}>
+          <fieldset
+            ref={interestRef}
+            tabIndex={-1}
+            className="space-y-3.5"
+            aria-labelledby={`${idPrefix}-interest-legend`}
+            aria-invalid={errorTarget === 'interest' ? true : undefined}
+            aria-describedby={errorTarget === 'interest' ? `${idPrefix}-form-error` : undefined}
+          >
+            <legend id={`${idPrefix}-interest-legend`} className={legendClass}>
               You are interested in. <span className="text-brand-orange">*</span>
             </legend>
-            <div className="space-y-2.5" role="group" aria-label="You are interested in">
+            <div className="space-y-2.5" role="group" aria-labelledby={`${idPrefix}-interest-legend`}>
               {PM_SERVICE_INTEREST_OPTIONS.map((o) => (
                 <button
                   key={o.value}
@@ -341,18 +386,40 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                   Other
                 </button>
                 <Input
+                  ref={interestOtherRef}
+                  id={`${idPrefix}-interest-other`}
                   value={serviceInterestOther}
                   onChange={(e) => {
-                    setServiceInterestOther(e.target.value);
+                    const next = e.target.value;
+                    setServiceInterestOther(next);
                     if (serviceInterest !== 'other') setServiceInterest('other');
+                    if (
+                      next.trim() &&
+                      (errorTarget === 'interest' || errorTarget === 'interest_other')
+                    ) {
+                      setError(null);
+                      setErrorTarget(null);
+                    }
                   }}
                   onFocus={() => {
                     if (serviceInterest !== 'other') setServiceInterest('other');
+                    if (errorTarget === 'interest') {
+                      setError(null);
+                      setErrorTarget(null);
+                    }
+                  }}
+                  onInvalid={() => {
+                    setError('Please specify your interest under Other.');
+                    setErrorTarget('interest_other');
                   }}
                   placeholder="Specify"
                   className="h-10 min-w-0 flex-1 border-input text-sm"
                   required={serviceInterest === 'other'}
                   aria-label="Specify other interest"
+                  aria-invalid={errorTarget === 'interest_other' ? true : undefined}
+                  aria-describedby={
+                    errorTarget === 'interest_other' ? `${idPrefix}-form-error` : undefined
+                  }
                 />
               </div>
             </div>
@@ -360,12 +427,20 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
 
           <div className={revealClass(hasInterestSelection)} aria-hidden={!hasInterestSelection}>
             <div className={revealInnerClass(hasInterestSelection)}>
-              <fieldset className="space-y-3.5">
-                <legend className={legendClass}>
+              <fieldset
+                tabIndex={-1}
+                className="space-y-3.5"
+                aria-labelledby={`${idPrefix}-industry-legend`}
+              >
+                <legend id={`${idPrefix}-industry-legend`} className={legendClass}>
                   Industry or professional field best describes your background.{' '}
                   <span className="font-normal normal-case text-slate-400">(optional)</span>
                 </legend>
-                <div className="space-y-2.5" role="group" aria-label="Industry or professional field">
+                <div
+                  className="space-y-2.5"
+                  role="group"
+                  aria-labelledby={`${idPrefix}-industry-legend`}
+                >
                   {PM_SERVICE_INDUSTRY_OPTIONS.map((o) => (
                     <button
                       key={o.value}
@@ -387,18 +462,33 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                       Other
                     </button>
                     <Input
+                      ref={industryOtherRef}
+                      id={`${idPrefix}-industry-other`}
                       value={industryOther}
                       onChange={(e) => {
-                        setIndustryOther(e.target.value);
+                        const next = e.target.value;
+                        setIndustryOther(next);
                         if (industry !== 'other') setIndustry('other');
+                        if (next.trim() && errorTarget === 'industry_other') {
+                          setError(null);
+                          setErrorTarget(null);
+                        }
                       }}
                       onFocus={() => {
                         if (industry !== 'other') setIndustry('other');
+                      }}
+                      onInvalid={() => {
+                        setError('Please specify your industry under Other.');
+                        setErrorTarget('industry_other');
                       }}
                       placeholder="Specify"
                       className="h-10 min-w-0 flex-1 border-input text-sm"
                       required={industry === 'other'}
                       aria-label="Specify other industry"
+                      aria-invalid={errorTarget === 'industry_other' ? true : undefined}
+                      aria-describedby={
+                        errorTarget === 'industry_other' ? `${idPrefix}-form-error` : undefined
+                      }
                     />
                   </div>
                 </div>
@@ -449,7 +539,17 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
             aria-hidden
           />
 
-          {error ? <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p> : null}
+          {error ? (
+            <p
+              ref={errorRef}
+              id={`${idPrefix}-form-error`}
+              role="alert"
+              tabIndex={-1}
+              className="text-sm font-medium text-red-600 dark:text-red-400"
+            >
+              {error}
+            </p>
+          ) : null}
 
           <p className="!mt-0 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
             By submitting, you agree to our{' '}

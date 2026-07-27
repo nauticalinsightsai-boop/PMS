@@ -35,6 +35,19 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [errorTarget, setErrorTarget] = React.useState<'name' | 'topics' | 'submit' | null>(null);
+  const nameRef = React.useRef<HTMLInputElement>(null);
+  const topicsRef = React.useRef<HTMLFieldSetElement>(null);
+  const errorRef = React.useRef<HTMLParagraphElement>(null);
+  const successRef = React.useRef<HTMLParagraphElement>(null);
+  React.useEffect(() => {
+    if (submitted) successRef.current?.focus();
+  }, [submitted]);
+  React.useEffect(() => {
+    if (errorTarget === 'name') nameRef.current?.focus();
+    if (errorTarget === 'topics') topicsRef.current?.focus();
+    if (errorTarget === 'submit') errorRef.current?.focus();
+  }, [errorTarget, error]);
 
   const shellClass = cn(
     'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
@@ -47,9 +60,14 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
   const fieldClass = 'h-10 w-full text-sm focus-visible:ring-brand-purple/40';
 
   const toggleTopic = (topic: string) => {
-    setSelectedTopics((prev) =>
-      prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic],
-    );
+    setSelectedTopics((prev) => {
+      const next = prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic];
+      if (next.length > 0 && errorTarget === 'topics') {
+        setError(null);
+        setErrorTarget(null);
+      }
+      return next;
+    });
   };
 
   const topicPillClass = (selected: boolean) =>
@@ -64,13 +82,16 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
     e.preventDefault();
     if (!fullName.trim()) {
       setError('Please enter your full name.');
+      setErrorTarget('name');
       return;
     }
     if (selectedTopics.length === 0) {
       setError('Please select at least one topic you are interested in.');
+      setErrorTarget('topics');
       return;
     }
     setError(null);
+    setErrorTarget(null);
     setSubmitting(true);
 
     const pagePath = typeof window !== 'undefined' ? window.location.pathname : '/newsletter';
@@ -98,10 +119,12 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
 
     setSubmitting(false);
     if (res.ok) {
-      pushAnalyticsEvent('sign_up', {
-        form_id: 'newsletter_hero_signup',
-        page_path: pagePath,
-      });
+      if (res.submissionId && !res.idempotentReplay) {
+        pushAnalyticsEvent('sign_up', {
+          form_id: 'newsletter_hero_signup',
+          page_path: pagePath,
+        });
+      }
       setSubmitted(true);
       setFullName('');
       setEmail('');
@@ -109,13 +132,14 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
       setSelectedTopics([]);
     } else {
       setError(res.error ?? 'Could not subscribe. Please try again.');
+      setErrorTarget('submit');
     }
   };
 
   if (submitted) {
     return (
       <div className={cn(shellClass, 'p-8 sm:p-10')}>
-        <p className="text-base font-semibold text-green-700 dark:text-green-400">
+        <p ref={successRef} id={`${idPrefix}-success`} role="status" aria-live="polite" aria-atomic="true" tabIndex={-1} className="text-base font-semibold text-green-700 dark:text-green-400">
           You&apos;re subscribed. We&apos;ll send insights on your selected topics.
         </p>
         <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
@@ -164,7 +188,17 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
               required
               autoComplete="name"
               value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              onChange={(e) => {
+                const next = e.target.value;
+                setFullName(next);
+                if (next.trim() && errorTarget === 'name') {
+                  setError(null);
+                  setErrorTarget(null);
+                }
+              }}
+              ref={nameRef}
+              aria-invalid={errorTarget === 'name' ? true : undefined}
+              aria-describedby={errorTarget === 'name' ? `${idPrefix}-form-error` : undefined}
               placeholder="John Smith"
               className={fieldClass}
             />
@@ -202,11 +236,17 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
             />
           </div>
 
-          <fieldset className="space-y-3">
-            <legend className={cn(labelClass, 'mb-2.5')}>
+          <fieldset
+            ref={topicsRef}
+            tabIndex={-1}
+            className="space-y-3"
+            aria-invalid={errorTarget === 'topics' ? true : undefined}
+            aria-describedby={errorTarget === 'topics' ? `${idPrefix}-form-error` : undefined}
+          >
+            <legend id={`${idPrefix}-topics-legend`} className={cn(labelClass, 'mb-2.5')}>
               What topics are you interested in? <span className="text-brand-orange">*</span>
             </legend>
-            <div className="flex flex-wrap gap-2" role="group" aria-labelledby={`${idPrefix}-title`}>
+            <div className="flex flex-wrap gap-2" role="group" aria-labelledby={`${idPrefix}-topics-legend`}>
               {topicOptions.map((topic) => {
                 const selected = selectedTopics.includes(topic);
                 return (
@@ -236,7 +276,17 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
             aria-hidden
           />
 
-          {error ? <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p> : null}
+          {error ? (
+            <p
+              ref={errorRef}
+              id={`${idPrefix}-form-error`}
+              role="alert"
+              tabIndex={-1}
+              className="text-sm font-medium text-red-600 dark:text-red-400"
+            >
+              {error}
+            </p>
+          ) : null}
         </div>
 
         <div className="shrink-0 space-y-3 border-t border-slate-100 px-5 py-5 sm:px-6 dark:border-slate-800">

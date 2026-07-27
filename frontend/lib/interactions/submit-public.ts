@@ -97,9 +97,28 @@ export async function submitPublicInteraction(
       };
     }
 
-    if (res.status === 201 && !data.website?.trim() && !data.company?.trim()) {
+    const submissionId = typeof json.id === 'string' ? json.id.trim() : '';
+    const idempotentReplay = json.idempotentReplay === true;
+    const isHoneypot = Boolean(data.website?.trim() || data.company?.trim());
+    const formVersion =
+      typeof data.payload?.formVersion === 'string'
+        ? data.payload.formVersion.trim() || undefined
+        : undefined;
+
+    if (!isHoneypot && !submissionId) {
+      return {
+        ok: false,
+        error: 'Submission failed',
+        clientSubmissionId,
+        idempotentReplay,
+      };
+    }
+
+    if (res.status === 201 && submissionId && !idempotentReplay && !isHoneypot) {
       trackPersistedLeadSuccess({
         clientSubmissionId,
+        submissionId,
+        formVersion,
         source: data.source,
         formId: data.formContext?.formId,
         formPlacement: data.formContext?.placement,
@@ -114,13 +133,13 @@ export async function submitPublicInteraction(
     // Sheets is a secondary operations sink and must never prompt a user retry.
     return {
       ok: true,
-      submissionId: typeof json.id === 'string' ? json.id : undefined,
+      submissionId: isHoneypot ? undefined : submissionId || undefined,
       clientSubmissionId,
       sheetsSynced: json.sheetsSynced === true,
       sheetsSyncPending:
         json.sheetsSyncPending === true ||
         (typeof json.sheetsWarning === 'string' && json.sheetsWarning.trim().length > 0),
-      idempotentReplay: json.idempotentReplay === true,
+      idempotentReplay,
     };
   } catch {
     return { ok: false, error: 'Network error', clientSubmissionId };
