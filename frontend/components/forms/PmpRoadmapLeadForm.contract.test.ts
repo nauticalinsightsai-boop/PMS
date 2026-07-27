@@ -100,6 +100,17 @@ describe('PmpRoadmapLeadForm component contract', () => {
     ]);
   });
 
+  it('keeps the desktop certification form content-sized and its first step compact', () => {
+    expect(source).toContain("isCertHeroDesktop && 'flex flex-col'");
+    expect(source).not.toContain('min-h-[756px]');
+    expect(source).toContain("'flex flex-col gap-4 px-5 py-5 sm:gap-5 sm:px-6 sm:py-6'");
+    expect(source).toContain(
+      "isCertHeroDesktop ? 'flex flex-col gap-4 sm:gap-5' : 'flex flex-col gap-5 sm:gap-6'",
+    );
+    expect(source).toContain('formChoiceGroupClass(WORK_FIELD_OPTIONS.length, choiceVariant)');
+    expect(source).toContain('formChoiceChipLayoutClass(WORK_FIELD_OPTIONS.length)');
+  });
+
   it('balances steps 3/3/3 Context/Readiness and clears Other detail on switch-away', () => {
     expect(source).toContain('Step 1: Fit / Context (industry + experience + need)');
     expect(source).toContain('Step 2: Eligibility / Readiness (education + training + timeline)');

@@ -776,14 +776,14 @@ export function PmpRoadmapLeadForm({
   const progressPercent = (stepNumber / 3) * 100;
 
   return (
-    <div className={cn(shellClass, isCertHeroDesktop && 'flex min-h-[756px] flex-col')} data-portal-form={isPortalThemed || undefined}>
+    <div className={cn(shellClass, isCertHeroDesktop && 'flex flex-col')} data-portal-form={isPortalThemed || undefined}>
       <form
         ref={formRef}
         noValidate
         onSubmit={handleSubmit}
         className={cn(
           'flex flex-col',
-          isCertHeroDesktop && 'min-h-0 flex-1',
+          isCertHeroDesktop && 'flex-1',
         )}
         aria-labelledby={`${idPrefix}-title`}
         aria-describedby={error ? `${idPrefix}-form-error` : undefined}
@@ -920,7 +920,7 @@ export function PmpRoadmapLeadForm({
         <div
           className={cn(
             isCertHeroDesktop
-              ? 'flex min-h-0 flex-1 flex-col px-5 py-6 sm:px-6 sm:py-7 gap-5'
+              ? 'flex flex-col gap-4 px-5 py-5 sm:gap-5 sm:px-6 sm:py-6'
               : isCertMobileForm
                 ? 'space-y-4 px-5 py-6 sm:px-6'
                 : isCompact
@@ -937,7 +937,7 @@ export function PmpRoadmapLeadForm({
             <div
               data-step="fit"
               className={cn(
-                'flex flex-col gap-5 sm:gap-6',
+                isCertHeroDesktop ? 'flex flex-col gap-4 sm:gap-5' : 'flex flex-col gap-5 sm:gap-6',
                 formChoiceStepBleedClass(choiceVariant),
               )}
             >              <fieldset
