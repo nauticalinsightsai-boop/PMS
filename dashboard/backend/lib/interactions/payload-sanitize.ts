@@ -6,11 +6,21 @@ const TRUSTED_TRACKING_KEYS = new Set([
   'consent_marketing',
   'ga_client_id',
   'landing_page',
+  'first_utm_source',
+  'first_utm_medium',
+  'first_utm_campaign',
+  'first_utm_term',
+  'first_utm_content',
   'utm_source',
   'utm_medium',
   'utm_campaign',
   'utm_term',
   'utm_content',
+  'first_gclid',
+  'first_gbraid',
+  'first_wbraid',
+  'first_fbclid',
+  'first_msclkid',
   'gclid',
   'gbraid',
   'wbraid',
@@ -82,6 +92,8 @@ export function sanitizeTrustedInteractionTracking(
   const landingPage = trackingString(raw, 'landing_page');
   if (landingPage) out.landing_page = landingPage;
   for (const key of UTM_KEYS) {
+    const firstValue = trackingString(raw, `first_${key}`);
+    if (firstValue) out[`first_${key}`] = firstValue;
     const value = trackingString(raw, key);
     if (value) out[key] = value;
   }
@@ -91,6 +103,8 @@ export function sanitizeTrustedInteractionTracking(
   }
   if (marketingConsent) {
     for (const key of CLICK_ID_KEYS) {
+      const firstValue = trackingString(raw, `first_${key}`);
+      if (firstValue) out[`first_${key}`] = firstValue;
       const value = trackingString(raw, key);
       if (value) out[key] = value;
     }

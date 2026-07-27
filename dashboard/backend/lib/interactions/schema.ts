@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { INTERACTION_SOURCES } from '@/lib/interactions/types';
+import { INTERACTION_SOURCES } from './types';
 
 export const interactionSourceSchema = z.enum(INTERACTION_SOURCES);
 
@@ -9,11 +9,21 @@ const publicTrackingSchema = z.object({
   consent_marketing: z.boolean().optional(),
   ga_client_id: z.string().trim().max(255).optional(),
   landing_page: z.string().trim().max(500).optional(),
+  first_utm_source: z.string().trim().max(500).optional(),
+  first_utm_medium: z.string().trim().max(500).optional(),
+  first_utm_campaign: z.string().trim().max(500).optional(),
+  first_utm_term: z.string().trim().max(500).optional(),
+  first_utm_content: z.string().trim().max(500).optional(),
   utm_source: z.string().trim().max(500).optional(),
   utm_medium: z.string().trim().max(500).optional(),
   utm_campaign: z.string().trim().max(500).optional(),
   utm_term: z.string().trim().max(500).optional(),
   utm_content: z.string().trim().max(500).optional(),
+  first_gclid: z.string().trim().max(500).optional(),
+  first_gbraid: z.string().trim().max(500).optional(),
+  first_wbraid: z.string().trim().max(500).optional(),
+  first_fbclid: z.string().trim().max(500).optional(),
+  first_msclkid: z.string().trim().max(500).optional(),
   gclid: z.string().trim().max(500).optional(),
   gbraid: z.string().trim().max(500).optional(),
   wbraid: z.string().trim().max(500).optional(),

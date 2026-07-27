@@ -53,6 +53,20 @@ export function createClientSubmissionId(): string {
   return `lead_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 14)}`;
 }
 
+function resolveOptionalFormVersion(
+  data: ClientInteractionBody,
+): string | undefined {
+  if (typeof data.formContext?.formVersion === 'string') {
+    const fromContext = data.formContext.formVersion.trim();
+    if (fromContext) return fromContext;
+  }
+  if (typeof data.payload?.formVersion === 'string') {
+    const fromPayload = data.payload.formVersion.trim();
+    if (fromPayload) return fromPayload;
+  }
+  return undefined;
+}
+
 export async function submitPublicInteraction(
   data: ClientInteractionBody,
 ): Promise<SubmitPublicInteractionResult> {
@@ -100,10 +114,7 @@ export async function submitPublicInteraction(
     const submissionId = typeof json.id === 'string' ? json.id.trim() : '';
     const idempotentReplay = json.idempotentReplay === true;
     const isHoneypot = Boolean(data.website?.trim() || data.company?.trim());
-    const formVersion =
-      typeof data.payload?.formVersion === 'string'
-        ? data.payload.formVersion.trim() || undefined
-        : undefined;
+    const formVersion = resolveOptionalFormVersion(data);
 
     if (!isHoneypot && !submissionId) {
       return {

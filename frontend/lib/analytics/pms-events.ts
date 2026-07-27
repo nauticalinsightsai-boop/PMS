@@ -11,6 +11,13 @@ export const PMS_EVENTS = {
   BOOKING_CONFIRMED: 'booking_confirmed',
   BEGIN_CHECKOUT: 'begin_checkout',
   PURCHASE: 'purchase',
+  ROADMAP_OPEN: 'pms_roadmap_open',
+  ROADMAP_STEP_VIEW: 'pms_roadmap_step_view',
+  ROADMAP_START: 'pms_roadmap_start',
+  ROADMAP_VALIDATION_ERROR: 'pms_roadmap_validation_error',
+  ROADMAP_STEP_COMPLETE: 'pms_roadmap_step_complete',
+  ROADMAP_SUBMIT_ATTEMPT: 'pms_roadmap_submit_attempt',
+  ROADMAP_RESULT_VIEW: 'pms_roadmap_result_view',
   // P0.4 qualification-first roadmap events (no PII in params)
   PMP_ROADMAP_FORM_START: 'pmp_roadmap_form_start',
   PMP_ROADMAP_FIT_COMPLETE: 'pmp_roadmap_fit_complete',

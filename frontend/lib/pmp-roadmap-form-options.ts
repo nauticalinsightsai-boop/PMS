@@ -1,4 +1,5 @@
 import { PHONE_DIAL_CODES, type PhoneDialOption } from '@/lib/phone-dial-codes';
+import { PM_EXPERIENCE_OPTIONS } from '@/lib/pmp-qualification-options';
 
 export type { PhoneDialOption };
 
@@ -12,12 +13,8 @@ export function formatDialPrefix(option: PhoneDialOption): string {
   return `${option.prefix} ${option.code}`;
 }
 
-export const PMP_JOB_EXPERIENCE_OPTIONS = [
-  { value: 'under-3', label: 'Under 3 years' },
-  { value: '3-5', label: '3-5 years' },
-  { value: '5-10', label: '5-10 years' },
-  { value: '10-plus', label: '10+ years' },
-] as const;
+/** Keyword lead popup: share the authoritative visible PMP experience taxonomy. */
+export const PMP_JOB_EXPERIENCE_OPTIONS = PM_EXPERIENCE_OPTIONS;
 
 /** Homepage lead form: primary certification family interest */
 export const HOME_CERT_INTEREST_OPTIONS = [

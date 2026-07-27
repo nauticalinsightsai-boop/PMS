@@ -133,4 +133,81 @@ describe('submitPublicInteraction', () => {
     });
     expect(trackPersistedLeadSuccess).not.toHaveBeenCalled();
   });
+
+  it('round-trips roadmap formContext formVersion into analytics and payload without contact fields or PII', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      response({
+        id: 'submission-roadmap-compat',
+        sheetsSynced: true,
+      }),
+    );
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await submitPublicInteraction({
+      source: 'pmp_roadmap_lead',
+      subject: 'PMP Qualification Roadmap',
+      email: 'aisha@example.com',
+      clientSubmissionId: 'lead_roadmap_taxonomy_123',
+      formContext: {
+        formId: 'pmp_qualification_roadmap',
+        formVersion: 'p0.6.2-333-authoritative',
+        placement: 'home_hero_desktop',
+        channelKey: 'linkedin',
+        landingSlug: 'pmp-uk',
+      },
+      payload: {
+        workField: 'civil_engineering',
+        pmExperience: 'under_2',
+        needsObjective: 'check_eligibility',
+        education: 'bachelor_plus',
+        trainingStatus: 'completed',
+        examTimeline: '3_to_6',
+        fullName: 'Aisha Khan',
+      },
+    });
+
+    expect(result).toMatchObject({
+      ok: true,
+      submissionId: 'submission-roadmap-compat',
+      clientSubmissionId: 'lead_roadmap_taxonomy_123',
+    });
+
+    const body = JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body));
+    expect(body.source).toBe('pmp_roadmap_lead');
+    expect(body.clientSubmissionId).toBe('lead_roadmap_taxonomy_123');
+    expect(body.payload).toMatchObject({
+      formId: 'pmp_qualification_roadmap',
+      formVersion: 'p0.6.2-333-authoritative',
+      workField: 'civil_engineering',
+      pmExperience: 'under_2',
+      needsObjective: 'check_eligibility',
+      examTimeline: '3_to_6',
+      channelKey: 'linkedin',
+      landingSlug: 'pmp-uk',
+    });
+    expect(body.payload).not.toHaveProperty('preferredContactChannel');
+    expect(body.payload).not.toHaveProperty('preferredContactWindow');
+    expect(body.payload).not.toHaveProperty('contactChannel');
+
+    expect(trackPersistedLeadSuccess).toHaveBeenCalledTimes(1);
+    expect(trackPersistedLeadSuccess).toHaveBeenCalledWith(
+      expect.objectContaining({
+        clientSubmissionId: 'lead_roadmap_taxonomy_123',
+        submissionId: 'submission-roadmap-compat',
+        source: 'pmp_roadmap_lead',
+        formId: 'pmp_qualification_roadmap',
+        formVersion: 'p0.6.2-333-authoritative',
+        formPlacement: 'home_hero_desktop',
+        channel: 'linkedin',
+        goSlug: 'pmp-uk',
+      }),
+    );
+    const tracked = trackPersistedLeadSuccess.mock.calls[0]?.[0] as Record<
+      string,
+      unknown
+    >;
+    expect(tracked).not.toHaveProperty('email');
+    expect(tracked).not.toHaveProperty('fullName');
+    expect(tracked).not.toHaveProperty('phone');
+  });
 });
