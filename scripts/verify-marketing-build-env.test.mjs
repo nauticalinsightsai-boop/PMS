@@ -10,11 +10,13 @@ import {
 } from './verify-marketing-build-env.mjs';
 
 describe('verifyPublicMarketingBuildVariables', () => {
-  it('accepts non-empty GA4 and Meta public identifiers', () => {
+  it('accepts non-placeholder GA4, Meta, and Supabase public identifiers', () => {
     assert.doesNotThrow(() =>
       verifyPublicMarketingBuildVariables({
         NEXT_PUBLIC_GA_MEASUREMENT_ID: 'configured-ga-id',
         NEXT_PUBLIC_META_PIXEL_ID: 'configured-meta-id',
+        NEXT_PUBLIC_SUPABASE_URL: 'https://project-ref.supabase.co',
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: 'configured-anon-key',
       }),
     );
   });
@@ -27,10 +29,35 @@ describe('verifyPublicMarketingBuildVariables', () => {
     assert.deepEqual(getMissingPublicMarketingBuildVariables(env), [
       'NEXT_PUBLIC_GA_MEASUREMENT_ID',
       'NEXT_PUBLIC_META_PIXEL_ID',
+      'NEXT_PUBLIC_SUPABASE_URL',
+      'NEXT_PUBLIC_SUPABASE_ANON_KEY',
     ]);
     assert.throws(
       () => verifyPublicMarketingBuildVariables(env),
-      /NEXT_PUBLIC_GA_MEASUREMENT_ID, NEXT_PUBLIC_META_PIXEL_ID/,
+      /NEXT_PUBLIC_GA_MEASUREMENT_ID, NEXT_PUBLIC_META_PIXEL_ID, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY/,
+    );
+  });
+
+  it('rejects placeholder Supabase values before they can enter the client bundle', () => {
+    assert.throws(
+      () =>
+        verifyPublicMarketingBuildVariables({
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: 'configured-ga-id',
+          NEXT_PUBLIC_META_PIXEL_ID: 'configured-meta-id',
+          NEXT_PUBLIC_SUPABASE_URL: 'https://placeholder.supabase.co',
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: 'configured-anon-key',
+        }),
+      /placeholder Supabase host/,
+    );
+    assert.throws(
+      () =>
+        verifyPublicMarketingBuildVariables({
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: 'configured-ga-id',
+          NEXT_PUBLIC_META_PIXEL_ID: 'configured-meta-id',
+          NEXT_PUBLIC_SUPABASE_URL: 'https://project-ref.supabase.co',
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: 'placeholder-key',
+        }),
+      /placeholder value/,
     );
   });
 
@@ -41,6 +68,8 @@ describe('verifyPublicMarketingBuildVariables', () => {
     for (const name of [
       'NEXT_PUBLIC_GA_MEASUREMENT_ID',
       'NEXT_PUBLIC_META_PIXEL_ID',
+      'NEXT_PUBLIC_SUPABASE_URL',
+      'NEXT_PUBLIC_SUPABASE_ANON_KEY',
     ]) {
       assert.match(dockerfile, new RegExp(`ARG ${name}(?:\\r?\\n)`));
       assert.match(dockerfile, new RegExp(`ENV ${name}=\\$${name}(?:\\r?\\n)`));
