@@ -344,7 +344,7 @@ export function KeywordLeadPopup() {
             </Button>
           </DialogBody>
         ) : (
-          <form onSubmit={handleSubmit}>
+          <form className="min-h-0 flex flex-1 flex-col" onSubmit={handleSubmit}>
             <DialogBody className="space-y-3 py-2">
               <div className="space-y-1.5">
                 <Label htmlFor="kw-lead-name">Full name</Label>

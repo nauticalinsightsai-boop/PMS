@@ -63,6 +63,10 @@ describe('KeywordLeadPopup experience option layout contract', () => {
     expect(source).toContain('grid w-full grid-cols-2 gap-2');
   });
 
+  it('keeps the popup form shrinkable so the body can scroll on short mobile viewports', () => {
+    expect(source).toContain('className="min-h-0 flex flex-1 flex-col" onSubmit={handleSubmit}');
+  });
+
   it('restores close focus to the pre-open element or documented fallback', () => {
     expect(source).toContain('preOpenFocusRef');
     expect(source).toContain('resolveKeywordLeadCloseFocus');
