@@ -394,7 +394,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                   className={cn(
                     choiceButtonClass(serviceInterest === o.value),
                     formChoiceChipLayoutClass(PM_SERVICE_INTEREST_CHOICES.length),
-                    'tracking-[-0.02em] sm:tracking-[-0.045em] md:tracking-[-0.04em]',
+                    'tracking-[-0.02em] sm:tracking-[-0.045em] md:tracking-[-0.045em]',
                   )}
                   aria-pressed={serviceInterest === o.value}
                   onClick={() => {
