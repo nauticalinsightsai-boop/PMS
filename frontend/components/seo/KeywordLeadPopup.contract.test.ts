@@ -36,7 +36,7 @@ describe('KeywordLeadPopup experience option layout contract', () => {
     const layout = formChoiceGroupClass(PMP_JOB_EXPERIENCE_OPTIONS.length, 'site');
     expect(layout).toBe('grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-0 md:gap-0');
     expect(formChoiceChipLayoutClass(PMP_JOB_EXPERIENCE_OPTIONS.length)).toBe(
-      'w-full min-w-0 whitespace-nowrap sm:px-0 sm:tracking-tight md:px-0 md:tracking-normal',
+      'w-full min-w-0 whitespace-nowrap px-2.5 tracking-[-0.01em] sm:px-0 sm:tracking-tight md:px-0 md:tracking-[-0.01em]',
     );
   });
 

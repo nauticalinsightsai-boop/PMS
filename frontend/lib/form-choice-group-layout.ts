@@ -26,13 +26,14 @@ export function formChoiceGroupClass(
 }
 
 /**
- * Site/portal chip sizing for exact-four groups: nowrap + zero horizontal
- * padding from sm through md; sm tracking-tight with normal desktop tracking
- * restored at md (padding reserved for gap/bleed room, not label edits).
+ * Site/portal chip sizing for exact-four groups: nowrap, compact mobile
+ * padding, and a minimal near-normal tracking adjustment at the base and md
+ * bands. This keeps locked 14px labels inside their cells without shortening,
+ * wrapping, clipping, or changing the approved 2×2 / 4×1 geometry.
  */
 export function formChoiceChipLayoutClass(optionCount: number): string {
   if (optionCount === 4) {
-    return 'w-full min-w-0 whitespace-nowrap sm:px-0 sm:tracking-tight md:px-0 md:tracking-normal';
+    return 'w-full min-w-0 whitespace-nowrap px-2.5 tracking-[-0.01em] sm:px-0 sm:tracking-tight md:px-0 md:tracking-[-0.01em]';
   }
   return 'w-full sm:w-auto sm:flex-[1_1_7rem]';
 }

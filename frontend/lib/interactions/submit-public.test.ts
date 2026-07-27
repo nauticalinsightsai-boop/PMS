@@ -1,15 +1,24 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const trackPersistedLeadSuccess = vi.hoisted(() => vi.fn());
+const collectLeadTrackingContext = vi.hoisted(() => vi.fn());
 vi.mock('@/lib/analytics/track-persisted-lead', () => ({
   trackPersistedLeadSuccess,
+}));
+vi.mock('@/lib/analytics/lead-tracking-context', () => ({
+  collectLeadTrackingContext,
 }));
 
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 
+beforeEach(() => {
+  collectLeadTrackingContext.mockResolvedValue({});
+});
+
 afterEach(() => {
   vi.unstubAllGlobals();
   trackPersistedLeadSuccess.mockReset();
+  collectLeadTrackingContext.mockReset();
 });
 
 describe('submitPublicInteraction', () => {
@@ -44,6 +53,7 @@ describe('submitPublicInteraction', () => {
 
     expect(result).toEqual({
       ok: true,
+      newDurableSubmission: true,
       submissionId: 'submission-123',
       clientSubmissionId: 'lead_test-1234567890',
       sheetsSynced: false,
@@ -84,6 +94,13 @@ describe('submitPublicInteraction', () => {
     const result = await submit();
     expect(trackPersistedLeadSuccess).not.toHaveBeenCalled();
     if (_label !== 'non-201 with id') expect(result.ok).toBe(false);
+    if (_label === 'non-201 with id') {
+      expect(result).toMatchObject({
+        ok: true,
+        submissionId: 'submission-200',
+        newDurableSubmission: false,
+      });
+    }
   });
 
   it('returns replay success with its parsed id but emits no duplicate conversion', async () => {
@@ -100,6 +117,7 @@ describe('submitPublicInteraction', () => {
 
     await expect(submit()).resolves.toMatchObject({
       ok: true,
+      newDurableSubmission: false,
       submissionId: 'submission-replay',
       idempotentReplay: true,
     });
@@ -119,6 +137,7 @@ describe('submitPublicInteraction', () => {
 
     await expect(submit(trap)).resolves.toMatchObject({
       ok: true,
+      newDurableSubmission: false,
       submissionId: undefined,
     });
     expect(trackPersistedLeadSuccess).not.toHaveBeenCalled();
@@ -168,6 +187,7 @@ describe('submitPublicInteraction', () => {
 
     expect(result).toMatchObject({
       ok: true,
+      newDurableSubmission: true,
       submissionId: 'submission-roadmap-compat',
       clientSubmissionId: 'lead_roadmap_taxonomy_123',
     });
@@ -209,5 +229,50 @@ describe('submitPublicInteraction', () => {
     expect(tracked).not.toHaveProperty('email');
     expect(tracked).not.toHaveProperty('fullName');
     expect(tracked).not.toHaveProperty('phone');
+  });
+
+  it('preserves first- and last-touch UTM context at the submission boundary', async () => {
+    collectLeadTrackingContext.mockResolvedValue({
+      first_utm_source: 'linkedin',
+      first_utm_medium: 'social',
+      first_utm_campaign: 'awareness',
+      first_utm_term: 'pmp first',
+      first_utm_content: 'intro-card',
+      utm_source: 'google',
+      utm_medium: 'cpc',
+      utm_campaign: 'conversion',
+      utm_term: 'pmp course',
+      utm_content: 'roadmap-form',
+      landing_page: '/go/linkedin',
+      consent_analytics: true,
+      consent_marketing: false,
+    });
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue(response({ id: 'submission-attribution' }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    await expect(submit()).resolves.toMatchObject({
+      ok: true,
+      newDurableSubmission: true,
+      submissionId: 'submission-attribution',
+    });
+
+    const body = JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body));
+    expect(body.tracking).toEqual({
+      first_utm_source: 'linkedin',
+      first_utm_medium: 'social',
+      first_utm_campaign: 'awareness',
+      first_utm_term: 'pmp first',
+      first_utm_content: 'intro-card',
+      utm_source: 'google',
+      utm_medium: 'cpc',
+      utm_campaign: 'conversion',
+      utm_term: 'pmp course',
+      utm_content: 'roadmap-form',
+      landing_page: '/go/linkedin',
+      consent_analytics: true,
+      consent_marketing: false,
+    });
   });
 });

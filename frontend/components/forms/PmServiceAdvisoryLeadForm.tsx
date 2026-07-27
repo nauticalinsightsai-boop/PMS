@@ -28,6 +28,10 @@ import {
   type PmServiceIndustryValue,
   type PmServiceInterestValue,
 } from '@/lib/pm-service-form-options';
+import {
+  formChoiceChipLayoutClass,
+  formChoiceGroupClass,
+} from '@/lib/form-choice-group-layout';
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import BrandIconMark from '@/components/BrandIconMark';
 
@@ -43,6 +47,16 @@ const PLACEMENT_LABELS: Record<PmServiceAdvisoryFormPlacement, string> = {
   pm_service_hero_mobile: 'PM Service hero (mobile)',
   pm_service_hero_desktop: 'PM Service hero (desktop)',
 };
+
+const PM_SERVICE_INTEREST_CHOICES = [
+  ...PM_SERVICE_INTEREST_OPTIONS,
+  { value: 'other', label: 'Other' },
+] as const;
+
+const PM_SERVICE_INDUSTRY_CHOICES = [
+  ...PM_SERVICE_INDUSTRY_OPTIONS,
+  { value: 'other', label: 'Other' },
+] as const;
 
 type Props = {
   placement: PmServiceAdvisoryFormPlacement;
@@ -99,7 +113,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   const legendClass = cn(labelClass, 'mb-2.5');
   const choiceButtonClass = (selected: boolean) =>
     cn(
-      'flex w-full cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-bold transition-colors',
+      'flex min-h-11 w-full cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-bold transition-colors',
       selected
         ? 'border-brand-orange bg-brand-orange text-white shadow-sm'
         : 'border-input bg-white text-slate-700 hover:border-brand-orange/40 dark:bg-slate-900 dark:text-slate-300',
@@ -364,27 +378,34 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
             <legend id={`${idPrefix}-interest-legend`} className={legendClass}>
               You are interested in. <span className="text-brand-orange">*</span>
             </legend>
-            <div className="space-y-2.5" role="group" aria-labelledby={`${idPrefix}-interest-legend`}>
-              {PM_SERVICE_INTEREST_OPTIONS.map((o) => (
+            <div
+              className={formChoiceGroupClass(PM_SERVICE_INTEREST_CHOICES.length, 'site')}
+              role="group"
+              aria-labelledby={`${idPrefix}-interest-legend`}
+            >
+              {PM_SERVICE_INTEREST_CHOICES.map((o) => (
                 <button
                   key={o.value}
                   type="button"
-                  className={choiceButtonClass(serviceInterest === o.value)}
+                  className={cn(
+                    choiceButtonClass(serviceInterest === o.value),
+                    formChoiceChipLayoutClass(PM_SERVICE_INTEREST_CHOICES.length),
+                  )}
                   aria-pressed={serviceInterest === o.value}
-                  onClick={() => toggleServiceInterest(o.value)}
+                  onClick={() => {
+                    if (o.value === 'other') {
+                      toggleServiceInterestOther();
+                    } else {
+                      toggleServiceInterest(o.value);
+                    }
+                  }}
                 >
                   {o.label}
                 </button>
               ))}
-              <div className="flex items-center gap-2.5">
-                <button
-                  type="button"
-                  className={cn(choiceButtonClass(serviceInterest === 'other'), 'w-auto shrink-0 px-4')}
-                  aria-pressed={serviceInterest === 'other'}
-                  onClick={toggleServiceInterestOther}
-                >
-                  Other
-                </button>
+            </div>
+            {serviceInterest === 'other' ? (
+              <div>
                 <Input
                   ref={interestOtherRef}
                   id={`${idPrefix}-interest-other`}
@@ -392,7 +413,6 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                   onChange={(e) => {
                     const next = e.target.value;
                     setServiceInterestOther(next);
-                    if (serviceInterest !== 'other') setServiceInterest('other');
                     if (
                       next.trim() &&
                       (errorTarget === 'interest' || errorTarget === 'interest_other')
@@ -402,7 +422,6 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                     }
                   }}
                   onFocus={() => {
-                    if (serviceInterest !== 'other') setServiceInterest('other');
                     if (errorTarget === 'interest') {
                       setError(null);
                       setErrorTarget(null);
@@ -413,8 +432,8 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                     setErrorTarget('interest_other');
                   }}
                   placeholder="Specify"
-                  className="h-10 min-w-0 flex-1 border-input text-sm"
-                  required={serviceInterest === 'other'}
+                  className="h-10 w-full min-w-0 border-input text-sm"
+                  required
                   aria-label="Specify other interest"
                   aria-invalid={errorTarget === 'interest_other' ? true : undefined}
                   aria-describedby={
@@ -422,7 +441,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                   }
                 />
               </div>
-            </div>
+            ) : null}
           </fieldset>
 
           <div className={revealClass(hasInterestSelection)} aria-hidden={!hasInterestSelection}>
@@ -437,30 +456,33 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                   <span className="font-normal normal-case text-slate-400">(optional)</span>
                 </legend>
                 <div
-                  className="space-y-2.5"
+                  className={formChoiceGroupClass(PM_SERVICE_INDUSTRY_CHOICES.length, 'site')}
                   role="group"
                   aria-labelledby={`${idPrefix}-industry-legend`}
                 >
-                  {PM_SERVICE_INDUSTRY_OPTIONS.map((o) => (
+                  {PM_SERVICE_INDUSTRY_CHOICES.map((o) => (
                     <button
                       key={o.value}
                       type="button"
-                      className={choiceButtonClass(industry === o.value)}
+                      className={cn(
+                        choiceButtonClass(industry === o.value),
+                        formChoiceChipLayoutClass(PM_SERVICE_INDUSTRY_CHOICES.length),
+                      )}
                       aria-pressed={industry === o.value}
-                      onClick={() => toggleIndustry(o.value)}
+                      onClick={() => {
+                        if (o.value === 'other') {
+                          toggleIndustryOther();
+                        } else {
+                          toggleIndustry(o.value);
+                        }
+                      }}
                     >
                       {o.label}
                     </button>
                   ))}
-                  <div className="flex items-center gap-2.5">
-                    <button
-                      type="button"
-                      className={cn(choiceButtonClass(industry === 'other'), 'w-auto shrink-0 px-4')}
-                      aria-pressed={industry === 'other'}
-                      onClick={toggleIndustryOther}
-                    >
-                      Other
-                    </button>
+                </div>
+                {industry === 'other' ? (
+                  <div>
                     <Input
                       ref={industryOtherRef}
                       id={`${idPrefix}-industry-other`}
@@ -468,22 +490,18 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                       onChange={(e) => {
                         const next = e.target.value;
                         setIndustryOther(next);
-                        if (industry !== 'other') setIndustry('other');
                         if (next.trim() && errorTarget === 'industry_other') {
                           setError(null);
                           setErrorTarget(null);
                         }
-                      }}
-                      onFocus={() => {
-                        if (industry !== 'other') setIndustry('other');
                       }}
                       onInvalid={() => {
                         setError('Please specify your industry under Other.');
                         setErrorTarget('industry_other');
                       }}
                       placeholder="Specify"
-                      className="h-10 min-w-0 flex-1 border-input text-sm"
-                      required={industry === 'other'}
+                      className="h-10 w-full min-w-0 border-input text-sm"
+                      required
                       aria-label="Specify other industry"
                       aria-invalid={errorTarget === 'industry_other' ? true : undefined}
                       aria-describedby={
@@ -491,7 +509,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                       }
                     />
                   </div>
-                </div>
+                ) : null}
               </fieldset>
             </div>
           </div>

@@ -33,12 +33,15 @@ describe('formChoiceGroupClass', () => {
 describe('formChoiceChipLayoutClass', () => {
   it('uses the approved exact-four chip class string', () => {
     expect(formChoiceChipLayoutClass(4)).toBe(
-      'w-full min-w-0 whitespace-nowrap sm:px-0 sm:tracking-tight md:px-0 md:tracking-normal',
+      'w-full min-w-0 whitespace-nowrap px-2.5 tracking-[-0.01em] sm:px-0 sm:tracking-tight md:px-0 md:tracking-[-0.01em]',
     );
     expect(formChoiceChipLayoutClass(4)).not.toContain('md:tracking-tight');
     expect(formChoiceChipLayoutClass(4)).not.toContain('md:px-3');
     expect(formChoiceChipLayoutClass(4)).not.toContain('sm:px-0.5');
     expect(formChoiceChipLayoutClass(4)).not.toContain('whitespace-normal');
+    expect(formChoiceChipLayoutClass(4)).not.toContain('truncate');
+    expect(formChoiceChipLayoutClass(4)).not.toContain('overflow-hidden');
+    expect(formChoiceChipLayoutClass(4)).not.toContain('text-[');
   });
 
   it('keeps flex-basis chips for wrap layouts', () => {
