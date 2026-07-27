@@ -61,11 +61,16 @@ export function LeadRecoveryDialog() {
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [errorSource, setErrorSource] = React.useState<'client' | 'server' | null>(null);
+  const nameRef = React.useRef<HTMLInputElement>(null);
+  const phoneRef = React.useRef<HTMLInputElement>(null);
+  const errorRef = React.useRef<HTMLParagraphElement>(null);
 
   React.useEffect(() => {
     if (!dialogOpen) {
       setSubmitted(false);
       setError(null);
+      setErrorSource(null);
       setFullName('');
       setPhone('');
       setEmail('');
@@ -73,6 +78,10 @@ export function LeadRecoveryDialog() {
       setHoneypot('');
     }
   }, [dialogOpen]);
+
+  React.useEffect(() => {
+    if (errorSource === 'server' && error) errorRef.current?.focus();
+  }, [error, errorSource]);
 
   if (!enabled || !dialogContext || isExcludedPath(pathname)) return null;
 
@@ -98,11 +107,20 @@ export function LeadRecoveryDialog() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fullName.trim() || !phone.trim()) {
+    if (!fullName.trim()) {
       setError('Please enter your name and mobile number.');
+      setErrorSource('client');
+      nameRef.current?.focus();
+      return;
+    }
+    if (!phone.trim()) {
+      setError('Please enter your name and mobile number.');
+      setErrorSource('client');
+      phoneRef.current?.focus();
       return;
     }
     setError(null);
+    setErrorSource(null);
     setSubmitting(true);
     const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined;
     const dialCode = dialOption.code;
@@ -154,6 +172,7 @@ export function LeadRecoveryDialog() {
       });
     } else {
       setError(res.error ?? 'Submission failed. Try again.');
+      setErrorSource('server');
     }
   };
 
@@ -172,7 +191,15 @@ export function LeadRecoveryDialog() {
             <p className="text-sm font-semibold text-green-700 dark:text-green-400">
               Thanks: we received your details and will follow up within 24 hours.
             </p>
-            <Button type="button" className="mt-4 w-full" onClick={() => dismissDialog('success')}>
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-4 w-full"
+              onClick={handleScheduleCall}
+            >
+              Schedule a call instead
+            </Button>
+            <Button type="button" variant="ghost" className="mt-2 w-full" onClick={() => dismissDialog('success')}>
               Close
             </Button>
           </DialogBody>
@@ -201,6 +228,7 @@ export function LeadRecoveryDialog() {
               <div className="space-y-2">
                 <Label htmlFor="lr-name">Full name</Label>
                 <Input
+                  ref={nameRef}
                   id="lr-name"
                   required
                   value={fullName}
@@ -231,6 +259,7 @@ export function LeadRecoveryDialog() {
                     </SelectContent>
                   </Select>
                   <Input
+                    ref={phoneRef}
                     id="lr-phone"
                     required
                     value={phone}
@@ -262,7 +291,12 @@ export function LeadRecoveryDialog() {
                 aria-hidden
               />
               {error ? (
-                <p className="text-sm text-destructive font-medium" role="alert">
+                <p
+                  ref={errorRef}
+                  className="text-sm text-destructive font-medium"
+                  role="alert"
+                  tabIndex={-1}
+                >
                   {error}
                 </p>
               ) : null}
@@ -275,21 +309,8 @@ export function LeadRecoveryDialog() {
               </p>
             </DialogBody>
             <DialogFooter className="flex-col gap-2 sm:flex-col">
-              {copy.showScheduleCall ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full h-11 font-bold border-brand-orange/30 text-brand-orange hover:bg-brand-orange/5"
-                  onClick={handleScheduleCall}
-                >
-                  {copy.scheduleCallLabel ?? 'Schedule a call at your convenience'}
-                </Button>
-              ) : null}
               <Button type="submit" variant="brand" className="w-full h-11 font-bold" disabled={submitting}>
                 {submitting ? 'Sending…' : copy.submitLabel}
-              </Button>
-              <Button type="button" variant="ghost" className="w-full" onClick={() => dismissDialog('no_thanks')}>
-                No thanks
               </Button>
             </DialogFooter>
           </form>
