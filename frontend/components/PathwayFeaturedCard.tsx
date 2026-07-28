@@ -32,7 +32,14 @@ import type { CertificationSummary } from '@/types/site';
 import type { RegionId } from '@/types/regional-catalogue';
 
 /** Prep time, tuition, and membership: three aligned chips from the same listing tier. */
-function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
+function PathwayFeaturedPricingChips({
+  certId,
+  nonInteractiveMembership = false,
+}: {
+  certId: string;
+  /** Flagship desktop cards reserve their sole action for the pathway CTA. */
+  nonInteractiveMembership?: boolean;
+}) {
   const { regionId, gccCountry } = useRegion();
   const listing = getListingPriceForCert(certId, regionId, gccCountry);
   const duration = getCertDurationLabel(certId) ?? undefined;
@@ -88,10 +95,27 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
           )}
         </StatChip>
 
-        <MembershipPriceChip
-          price={listing.membership}
-          className="hidden h-full min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[5rem] sm:px-2.5"
-        />
+        {nonInteractiveMembership ? (
+          <>
+            <StatChip
+              label={REGION_COPY.membershipChipLabel}
+              className="hidden h-full min-h-[4.25rem] px-1 py-1.5 lg:flex lg:min-h-[5rem] lg:px-2.5"
+            >
+              <p className="text-xs font-extrabold leading-tight tracking-tight text-brand-purple sm:text-sm">
+                {listing.membership?.trim() || '—'}
+              </p>
+            </StatChip>
+            <MembershipPriceChip
+              price={listing.membership}
+              className="hidden h-full min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[5rem] sm:px-2.5 lg:hidden"
+            />
+          </>
+        ) : (
+          <MembershipPriceChip
+            price={listing.membership}
+            className="hidden h-full min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[5rem] sm:px-2.5"
+          />
+        )}
       </div>
 
       {showGlobalReference && listing.original ? (
@@ -128,6 +152,8 @@ export interface PathwayFeaturedCardProps {
   /** `visual` = gradient image header (Home). `catalog` = listing card, no image (Certifications). */
   layout?: 'visual' | 'catalog';
   className?: string;
+  /** Certifications flagship cards are fully informative at desktop widths only. */
+  desktopFlagshipOpen?: boolean;
   /** Section-owned disclosure state. Every card is controlled by its consumer. */
   expanded: boolean;
   onExpandedChange: (expanded: boolean) => void;
@@ -309,7 +335,13 @@ function PathwayFeaturedVisualCard({
         </div>
       </CardHeader>
       {expanded ? (
-        <div ref={detailsRegionRef} data-pathway-region={cert.id} role="region" aria-label={`${displayTitle} pathway details`} tabIndex={-1}>
+        <div
+          ref={detailsRegionRef}
+          data-pathway-region={cert.id}
+          role="region"
+          aria-label={`${displayTitle} pathway details`}
+          tabIndex={-1}
+        >
           <CardContent className={featuredCardBodyClass}>
             <PathwayFeaturedPricingChips certId={cert.id} />
             <ul className={featuredCardOutcomesClass}>
@@ -343,6 +375,7 @@ function PathwayFeaturedCatalogCard({
   title,
   description,
   className,
+  desktopFlagshipOpen = false,
   expanded,
   onExpandedChange,
 }: PathwayFeaturedCardProps) {
@@ -415,11 +448,18 @@ function PathwayFeaturedCatalogCard({
           </p>
         </div>
       </CardHeader>
-      {expanded ? (
-        <div ref={detailsRegionRef} data-pathway-region={cert.id} role="region" aria-label={`${displayTitle} pathway details`} tabIndex={-1}>
-          <CardContent className={featuredCardBodyClass}>
-            <PathwayFeaturedPricingChips certId={cert.id} />
-            <ul className={featuredCardOutcomesClass}>
+      {expanded || desktopFlagshipOpen ? (
+        <div
+          ref={detailsRegionRef}
+          data-pathway-region={cert.id}
+          role="region"
+          aria-label={`${displayTitle} pathway details`}
+          tabIndex={-1}
+          className={cn(!expanded && desktopFlagshipOpen && 'hidden lg:block')}
+        >
+          <CardContent className={cn(featuredCardBodyClass, desktopFlagshipOpen && 'lg:flex-1')}>
+            <PathwayFeaturedPricingChips certId={cert.id} nonInteractiveMembership={desktopFlagshipOpen} />
+            <ul className={cn(featuredCardOutcomesClass, desktopFlagshipOpen && 'lg:flex-1')}>
               {outcomes.map((item) => (
                 <li key={item} className="flex min-h-5 items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
                   <CheckCircle2 className={cn('h-3 w-3 mr-2 shrink-0', !accent && 'text-brand-orange')} style={accent ? { color: accent } : undefined} />
@@ -430,8 +470,23 @@ function PathwayFeaturedCatalogCard({
           </CardContent>
         </div>
       ) : null}
-      <CardFooter className={featuredCardFooterClass}>
-        {expanded ? (
+      <CardFooter className={cn(featuredCardFooterClass, desktopFlagshipOpen && 'lg:mt-0')}>
+        {desktopFlagshipOpen ? (
+          <>
+            <div className="hidden lg:block">
+              <PathwayCardCta certId={cert.id} certName={displayTitle} regionId={regionId} accentColor={accent} ctaLabel="View pathway" />
+            </div>
+            <div className="lg:hidden">
+              {expanded ? (
+                <PathwayCardCta certId={cert.id} certName={displayTitle} regionId={regionId} accentColor={accent} />
+              ) : (
+                <Button ref={detailsButtonRef} data-pathway-details={cert.id} type="button" variant="outline" className={featuredCardCtaClass} onClick={() => onExpandedChange(true)}>
+                  Details
+                </Button>
+              )}
+            </div>
+          </>
+        ) : expanded ? (
           <PathwayCardCta certId={cert.id} certName={displayTitle} regionId={regionId} accentColor={accent} />
         ) : (
           <Button ref={detailsButtonRef} data-pathway-details={cert.id} type="button" variant="outline" className={featuredCardCtaClass} onClick={() => onExpandedChange(true)}>

@@ -32,4 +32,17 @@ describe('PathwayFeaturedCard disclosure contract', () => {
     expect(source).not.toContain('<Link href={href} className="w-full" aria-label={pathwayAriaLabel}>');
     expect(source).not.toContain('<Button\n      asChild');
   });
+
+  it('keeps desktop membership static while preserving the below-desktop membership link', () => {
+    expect(source).toContain('desktopFlagshipOpen?: boolean;');
+    expect(source).toContain("hidden lg:block");
+    expect(source).toContain('ctaLabel="View pathway"');
+    expect(source).toContain('nonInteractiveMembership={desktopFlagshipOpen}');
+    expect(source).toContain('label={REGION_COPY.membershipChipLabel}');
+    expect(source).toContain("listing.membership?.trim() || '—'");
+    expect(source).toContain('lg:flex lg:min-h-[5rem]');
+    expect(source).toContain('sm:flex sm:min-h-[5rem] sm:px-2.5 lg:hidden');
+    expect(source).toContain('<MembershipPriceChip');
+    expect(source).toContain('lg:hidden');
+  });
 });

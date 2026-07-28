@@ -350,12 +350,13 @@ export function Certifications({
                                   transition={{ duration: 0.35 }}
                                   className={cn(PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, 'motion-reduce:transform-none')}
                                 >
-                                  <PathwayFeaturedCard
-                                    cert={resolvePathwayCert(cert)}
-                                    layout="catalog"
-                                    expanded={expandedFeaturedPathwayId === cert.id}
-                                    onExpandedChange={(expanded) => setFeaturedDisclosure(cert.id, expanded)}
-                                    familyLabel={cert.familyId}
+                                    <PathwayFeaturedCard
+                                      cert={resolvePathwayCert(cert)}
+                                      layout="catalog"
+                                      desktopFlagshipOpen
+                                      expanded={expandedFeaturedPathwayId === cert.id}
+                                      onExpandedChange={(expanded) => setFeaturedDisclosure(cert.id, expanded)}
+                                      familyLabel={cert.familyId}
                                   />
                                 </m.div>
                               ))}

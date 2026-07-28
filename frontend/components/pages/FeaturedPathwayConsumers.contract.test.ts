@@ -30,4 +30,10 @@ describe('featured pathway section ownership', () => {
       expect(source).toContain('data-pathway-region');
     });
   }
+
+  it('limits the desktop flagship-open presentation to Certifications', () => {
+    expect(certifications).toContain('desktopFlagshipOpen');
+    expect(home).not.toContain('desktopFlagshipOpen');
+    expect(certifications).toContain('layout="catalog"');
+  });
 });
