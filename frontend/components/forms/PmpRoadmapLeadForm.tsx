@@ -499,7 +499,7 @@ export function PmpRoadmapLeadForm({
   const shellClass = cn(
     !isPortalThemed &&
       cn(
-        'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
+        'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden lg:w-[calc(100%+5.5rem)] lg:-ml-[5.5rem] xl:w-full xl:ml-0',
         (placement === 'home_hero_mobile' || placement === 'home_hero_desktop') &&
           'min-h-[420px] sm:min-h-[440px]',
         variant === 'cert'
@@ -866,7 +866,7 @@ export function PmpRoadmapLeadForm({
                   </p>
                   <p
                     className={cn(
-                      'font-medium mt-0.5 text-slate-500 dark:text-slate-400 whitespace-nowrap',
+                      'font-medium mt-0.5 leading-snug text-slate-500 dark:text-slate-400',
                       useHeroFormHeader ? 'text-sm' : isCompact ? 'text-xs sm:text-sm' : 'text-sm',
                       placement === 'home_hero_mobile' ? 'hidden sm:block' : undefined,
                     )}
@@ -1022,7 +1022,6 @@ export function PmpRoadmapLeadForm({
                     {validationIssue?.field === 'workFieldOther' ? (
                       <p
                         id={`${idPrefix}-work-field-other-error`}
-                        role="alert"
                         className="text-sm text-destructive"
                       >
                         {validationIssue.message}
@@ -1114,7 +1113,6 @@ export function PmpRoadmapLeadForm({
                     {validationIssue?.field === 'pmExperienceOther' ? (
                       <p
                         id={`${idPrefix}-experience-other-error`}
-                        role="alert"
                         className="text-sm text-destructive"
                       >
                         {validationIssue.message}
@@ -1206,7 +1204,6 @@ export function PmpRoadmapLeadForm({
                     {validationIssue?.field === 'needsObjectiveOther' ? (
                       <p
                         id={`${idPrefix}-needs-other-error`}
-                        role="alert"
                         className="text-sm text-destructive"
                       >
                         {validationIssue.message}
@@ -1309,7 +1306,6 @@ export function PmpRoadmapLeadForm({
                     {validationIssue?.field === 'educationOther' ? (
                       <p
                         id={`${idPrefix}-education-other-error`}
-                        role="alert"
                         className="text-sm text-destructive"
                       >
                         {validationIssue.message}
@@ -1404,7 +1400,6 @@ export function PmpRoadmapLeadForm({
                     {validationIssue?.field === 'trainingStatusOther' ? (
                       <p
                         id={`${idPrefix}-training-other-error`}
-                        role="alert"
                         className="text-sm text-destructive"
                       >
                         {validationIssue.message}
@@ -1511,8 +1506,6 @@ export function PmpRoadmapLeadForm({
                 {validationIssue?.field === 'fullName' ? (
                   <p
                     id={`${idPrefix}-name-error`}
-                    role="alert"
-                    aria-live="assertive"
                     className="text-sm text-destructive"
                   >
                     {validationIssue.message}
@@ -1606,8 +1599,6 @@ export function PmpRoadmapLeadForm({
                 {validationIssue?.field === 'phone' ? (
                   <p
                     id={`${idPrefix}-phone-error`}
-                    role="alert"
-                    aria-live="assertive"
                     className="text-sm text-destructive"
                   >
                     {validationIssue.message}
@@ -1647,8 +1638,6 @@ export function PmpRoadmapLeadForm({
                 {validationIssue?.field === 'email' ? (
                   <p
                     id={`${idPrefix}-email-error`}
-                    role="alert"
-                    aria-live="assertive"
                     className="text-sm text-destructive"
                   >
                     {validationIssue.message}

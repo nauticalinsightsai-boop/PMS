@@ -43,8 +43,8 @@ describe('PmpRoadmapLeadForm component contract', () => {
   });
 
   it('announces validation and focuses the invalid control', () => {
-    expect(source).toContain('role="alert"');
-    expect(source).toContain('aria-live="assertive"');
+    expect(source.match(/role="alert"/g)).toHaveLength(1);
+    expect(source.match(/aria-live="assertive"/g)).toHaveLength(1);
     expect(source).toContain('focusValidationIssue(issue)');
     expect(source).toContain('aria-describedby={error ?');
     expect(source).toContain('noValidate');
@@ -109,6 +109,12 @@ describe('PmpRoadmapLeadForm component contract', () => {
     );
     expect(source).toContain('formChoiceGroupClass(WORK_FIELD_OPTIONS.length, choiceVariant)');
     expect(source).toContain('formChoiceChipLayoutClass(WORK_FIELD_OPTIONS.length)');
+  });
+
+  it('widens only the contained site shell through the desktop inter-column gap', () => {
+    expect(source).toContain('lg:w-[calc(100%+5.5rem)] lg:-ml-[5.5rem] xl:w-full xl:ml-0');
+    expect(source).toContain('overflow-hidden');
+    expect(source).not.toContain('lg:-mx-12');
   });
 
   it('balances steps 3/3/3 Context/Readiness and clears Other detail on switch-away', () => {
