@@ -1,5 +1,6 @@
 import type { EnrollmentPaymentMode } from '@/lib/enrollment/seat-reservation';
 import { apiUrl } from '@/lib/api-url';
+import { trackBeginCheckout } from '@/lib/analytics/track-begin-checkout';
 import {
   pickStripePublishableKey,
 } from '@/lib/stripe-key-mode';
@@ -68,7 +69,24 @@ export async function createEnrollmentEmbeddedCheckout(payload: EnrollmentChecko
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ...payload, uiMode: 'embedded' }),
   });
-  return parseApi<EnrollmentCheckoutResponse>(res);
+  const result = await parseApi<EnrollmentCheckoutResponse>(res);
+  const sessionId = result.data?.session.sessionId;
+  if (sessionId) {
+    trackBeginCheckout(
+      {
+        offering_id: payload.offeringId,
+        package_type: result.data?.paymentMode,
+        items: [{
+          item_id: payload.offeringId,
+          item_name: payload.siteCertId,
+          item_category: 'certification_preparation',
+          quantity: 1,
+        }],
+      },
+      sessionId,
+    );
+  }
+  return result;
 }
 
 /** @deprecated Use createEnrollmentEmbeddedCheckout */
@@ -84,16 +102,83 @@ export async function createSeatDepositCheckout(
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ...payload, uiMode: 'redirect', paymentMode: 'seat_deposit' }),
   });
-  return parseApi<EnrollmentCheckoutResponse>(res);
+  const result = await parseApi<EnrollmentCheckoutResponse>(res);
+  const sessionId = result.data?.session.sessionId;
+  if (sessionId) {
+    trackBeginCheckout(
+      {
+        offering_id: payload.offeringId,
+        package_type: 'seat_deposit',
+        items: [{
+          item_id: payload.offeringId,
+          item_name: payload.siteCertId,
+          item_category: 'certification_preparation',
+          quantity: 1,
+        }],
+      },
+      sessionId,
+    );
+  }
+  return result;
 }
 
 export async function verifyCheckoutSession(sessionId: string) {
   const res = await fetch(apiUrl(`/api/checkout/session/${encodeURIComponent(sessionId)}`));
-  return parseApi<{
+  const result = await parseApi<{
     sessionId: string;
     status: string;
     paid: boolean;
     offeringId?: string | null;
     paymentType?: string | null;
+    currency?: unknown;
+    amountTotal?: unknown;
   }>(res);
+  if (!result.data) return result;
+  const { currency, amountTotal } = normalizeVerifiedStripeMoney(
+    result.data.currency,
+    result.data.amountTotal,
+  );
+  return {
+    ...result,
+    data: {
+      ...result.data,
+      currency,
+      amountTotal,
+    },
+  };
+}
+
+export function normalizeVerifiedStripeMoney(currencyValue: unknown, amountValue: unknown): {
+  currency?: string;
+  amountTotal?: number;
+} {
+  const currency =
+    typeof currencyValue === 'string' && /^[a-zA-Z]{3}$/.test(currencyValue.trim())
+      ? currencyValue.trim().toLowerCase()
+      : undefined;
+  const amountTotal =
+    typeof amountValue === 'number' &&
+    Number.isSafeInteger(amountValue) &&
+    amountValue >= 0
+      ? amountValue
+      : undefined;
+  return { currency, amountTotal };
+}
+
+export function verifiedPurchaseMoney(data: {
+  paid?: unknown;
+  sessionId?: unknown;
+  currency?: unknown;
+  amountTotal?: unknown;
+} | null | undefined): { transactionId: string; currency: string; value: number } | null {
+  if (data?.paid !== true || typeof data.sessionId !== 'string' || !data.sessionId.startsWith('cs_')) {
+    return null;
+  }
+  const { currency, amountTotal } = normalizeVerifiedStripeMoney(data.currency, data.amountTotal);
+  if (!currency || amountTotal === undefined) return null;
+  return {
+    transactionId: data.sessionId,
+    currency,
+    value: amountTotal / 100,
+  };
 }

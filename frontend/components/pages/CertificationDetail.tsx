@@ -53,7 +53,7 @@ import { markIntent } from '@/lib/conversion-recovery/engagement-score';
 import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
 import { T176_SCHOLARSHIP_SAFE_BLOCK } from '@/content/t176-claims';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
-import { PmpViewContentTracker } from '@/components/analytics/PmpViewContentTracker';
+import { CertificationViewContentTracker } from '@/components/analytics/CertificationViewContentTracker';
 
 const PmpRoadmapLeadForm = dynamic(
   () =>
@@ -153,7 +153,10 @@ export function CertificationDetail({
 
   return (
     <LazyMotion features={domAnimation} strict>
-    {cert.id === 'pmp' ? <PmpViewContentTracker /> : null}
+    <CertificationViewContentTracker
+      certificationId={cert.id}
+      certificationName={certName}
+    />
     <div
       className={cn(
         'flex flex-col min-h-screen selection:bg-brand-orange selection:text-white',

@@ -1,4 +1,4 @@
-import { createAnalyticsEventId } from '@/lib/analytics/event-id';
+import { stableAnalyticsEventId } from '@/lib/analytics/event-id';
 import { trackMetaInitiateCheckout } from '@/lib/analytics/meta-browser';
 import { PMS_EVENTS } from '@/lib/analytics/pms-events';
 import {
@@ -12,8 +12,12 @@ function itemsFrom(params: AnalyticsEventParams): AnalyticsItem[] {
 }
 
 /** GA4 + Meta InitiateCheckout with a shared event ID and no customer PII. */
-export function trackBeginCheckout(params: AnalyticsEventParams = {}): void {
-  const eventId = createAnalyticsEventId('checkout');
+export function trackBeginCheckout(
+  params: AnalyticsEventParams = {},
+  checkoutSessionId: string,
+): void {
+  if (!checkoutSessionId) return;
+  const eventId = stableAnalyticsEventId('checkout', checkoutSessionId);
   pushAnalyticsEvent(PMS_EVENTS.BEGIN_CHECKOUT, {
     ...params,
     event_id: eventId,

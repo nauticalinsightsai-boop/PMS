@@ -40,6 +40,8 @@ export async function GET(
       paid,
       offeringId: session.metadata?.offeringId ?? null,
       paymentType: session.metadata?.paymentType ?? null,
+      currency: session.currency ?? null,
+      amountTotal: session.amount_total ?? null,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Could not verify checkout session';

@@ -14,6 +14,42 @@ const ALLOWED_EVENTS = new Set([
 const MAX_BODY_BYTES = 64 * 1024;
 const MAX_CUSTOM_DATA_KEYS = 40;
 const MAX_VALUE_LENGTH = 500;
+const CUSTOM_DATA_ALLOWLIST = new Set([
+  'content_name',
+  'content_category',
+  'content_type',
+  'content_ids',
+  'contents',
+  'currency',
+  'value',
+  'num_items',
+  'status',
+  'search_string',
+  'form_placement',
+]);
+const PII_KEY_DENYLIST = new Set([
+  'email',
+  'em',
+  'phone',
+  'ph',
+  'name',
+  'full_name',
+  'first_name',
+  'last_name',
+  'fn',
+  'ln',
+  'address',
+  'city',
+  'state',
+  'zip',
+  'postal_code',
+  'country',
+  'date_of_birth',
+  'dob',
+  'external_id',
+  'client_ip_address',
+  'client_user_agent',
+]);
 
 type MetaScalar = string | number | boolean;
 type CapiBody = {
@@ -70,7 +106,14 @@ function sanitizeCustomData(value: unknown): Record<string, MetaScalar | MetaSca
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
   const clean: Record<string, MetaScalar | MetaScalar[]> = {};
   for (const [key, raw] of Object.entries(value).slice(0, MAX_CUSTOM_DATA_KEYS)) {
-    if (!/^[a-zA-Z0-9_]{1,64}$/.test(key)) continue;
+    const normalizedKey = key.toLowerCase();
+    if (
+      !/^[a-zA-Z0-9_]{1,64}$/.test(key) ||
+      PII_KEY_DENYLIST.has(normalizedKey) ||
+      !CUSTOM_DATA_ALLOWLIST.has(normalizedKey)
+    ) {
+      continue;
+    }
     if (typeof raw === 'string') {
       clean[key] = raw.slice(0, MAX_VALUE_LENGTH);
     } else if (typeof raw === 'number' && Number.isFinite(raw)) {

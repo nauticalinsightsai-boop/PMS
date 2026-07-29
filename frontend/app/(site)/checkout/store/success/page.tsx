@@ -6,9 +6,8 @@ import { Suspense, useEffect, useState } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { defaultStoreCatalog } from '@pms/site-content/store';
-import { verifyCheckoutSession } from '@/services/checkout';
+import { verifiedPurchaseMoney, verifyCheckoutSession } from '@/services/checkout';
 import { cn } from '@/lib/utils';
-import { inferPackageType } from '@/lib/analytics/pms-events';
 import { trackPurchaseOnce } from '@/lib/analytics/track-purchase-once';
 
 function StoreCheckoutSuccessContent() {
@@ -16,6 +15,7 @@ function StoreCheckoutSuccessContent() {
   const productId = searchParams.get('product');
   const sessionId = searchParams.get('session_id');
   const [paymentVerified, setPaymentVerified] = useState<boolean | null>(null);
+  const [verifiedMoney, setVerifiedMoney] = useState<{ currency: string; value: number } | null>(null);
 
   const product = productId
     ? defaultStoreCatalog().products.find((p) => p.id === productId)
@@ -25,7 +25,11 @@ function StoreCheckoutSuccessContent() {
     if (!sessionId?.startsWith('cs_')) return;
     let cancelled = false;
     void verifyCheckoutSession(sessionId).then((result) => {
-      if (!cancelled) setPaymentVerified(result.data?.paid ?? false);
+      if (!cancelled) {
+        setPaymentVerified(result.data?.paid ?? false);
+        const money = verifiedPurchaseMoney(result.data);
+        setVerifiedMoney(money ? { currency: money.currency, value: money.value } : null);
+      }
     });
     return () => {
       cancelled = true;
@@ -33,10 +37,12 @@ function StoreCheckoutSuccessContent() {
   }, [sessionId]);
 
   useEffect(() => {
-    if (!sessionId?.startsWith('cs_') || paymentVerified !== true) return;
+    if (!sessionId?.startsWith('cs_') || paymentVerified !== true || !verifiedMoney) return;
     trackPurchaseOnce({
       transactionId: sessionId,
       packageType: 'resource',
+      currency: verifiedMoney.currency,
+      value: verifiedMoney.value,
       items: product
         ? [
             {
@@ -48,7 +54,7 @@ function StoreCheckoutSuccessContent() {
           ]
         : undefined,
     });
-  }, [sessionId, paymentVerified, product]);
+  }, [sessionId, paymentVerified, verifiedMoney, product]);
 
   return (
     <section className={sectionSurface('blend', 'py-24')}>

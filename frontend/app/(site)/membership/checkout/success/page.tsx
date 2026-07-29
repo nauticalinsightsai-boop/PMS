@@ -6,7 +6,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { OnboardingCalendlyCta } from '@/components/checkout/OnboardingCalendlyCta';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
-import { verifyCheckoutSession } from '@/services/checkout';
+import { verifiedPurchaseMoney, verifyCheckoutSession } from '@/services/checkout';
 import { cn } from '@/lib/utils';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
 import { trackPurchaseOnce } from '@/lib/analytics/track-purchase-once';
@@ -17,12 +17,17 @@ function MembershipCheckoutSuccessContent() {
   const billing = searchParams.get('billing');
   const sessionId = searchParams.get('session_id');
   const [paymentVerified, setPaymentVerified] = useState<boolean | null>(null);
+  const [verifiedMoney, setVerifiedMoney] = useState<{ currency: string; value: number } | null>(null);
 
   useEffect(() => {
     if (!sessionId?.startsWith('cs_')) return;
     let cancelled = false;
     void verifyCheckoutSession(sessionId).then((result) => {
-      if (!cancelled) setPaymentVerified(result.data?.paid ?? false);
+      if (!cancelled) {
+        setPaymentVerified(result.data?.paid ?? false);
+        const money = verifiedPurchaseMoney(result.data);
+        setVerifiedMoney(money ? { currency: money.currency, value: money.value } : null);
+      }
     });
     return () => {
       cancelled = true;
@@ -30,12 +35,14 @@ function MembershipCheckoutSuccessContent() {
   }, [sessionId]);
 
   useEffect(() => {
-    if (!sessionId?.startsWith('cs_') || paymentVerified !== true) return;
+    if (!sessionId?.startsWith('cs_') || paymentVerified !== true || !verifiedMoney) return;
     trackPurchaseOnce({
       transactionId: sessionId,
       packageType: 'membership',
+      currency: verifiedMoney.currency,
+      value: verifiedMoney.value,
     });
-  }, [sessionId, paymentVerified]);
+  }, [sessionId, paymentVerified, verifiedMoney]);
 
   const tierLabel =
     tier === 'professional' ? 'Professional' : tier === 'mastery' ? 'Mastery' : 'Membership';

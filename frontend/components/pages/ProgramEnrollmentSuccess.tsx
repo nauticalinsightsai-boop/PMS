@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
-import { verifyCheckoutSession } from '@/services/enrollment';
+import { verifiedPurchaseMoney, verifyCheckoutSession } from '@/services/enrollment';
 import { MessageCircle } from 'lucide-react';
 import { OnboardingCalendlyCta } from '@/components/checkout/OnboardingCalendlyCta';
 import { buttonVariants } from '@/components/ui/button';
@@ -31,6 +31,7 @@ function ProgramEnrollmentSuccessContent({
   const whatsappReady = isWhatsAppConfigured();
   const [paymentVerified, setPaymentVerified] = useState<boolean | null>(null);
   const [paymentType, setPaymentType] = useState<string | null>(null);
+  const [verifiedMoney, setVerifiedMoney] = useState<{ currency: string; value: number } | null>(null);
 
   useEffect(() => {
     if (!sessionId?.startsWith('cs_')) return;
@@ -39,6 +40,8 @@ function ProgramEnrollmentSuccessContent({
       if (!cancelled) {
         setPaymentVerified(result.data?.paid ?? false);
         setPaymentType(result.data?.paymentType ?? null);
+        const money = verifiedPurchaseMoney(result.data);
+        setVerifiedMoney(money ? { currency: money.currency, value: money.value } : null);
       }
     });
     return () => {
@@ -47,10 +50,12 @@ function ProgramEnrollmentSuccessContent({
   }, [sessionId]);
 
   useEffect(() => {
-    if (!sessionId?.startsWith('cs_') || paymentVerified !== true || !offering) return;
+    if (!sessionId?.startsWith('cs_') || paymentVerified !== true || !offering || !verifiedMoney) return;
     trackPurchaseOnce({
       transactionId: sessionId,
       packageType: inferPackageType(offeringId ?? undefined, offering.tierId),
+      currency: verifiedMoney.currency,
+      value: verifiedMoney.value,
       items: [
         {
           item_id: offeringId ?? offering.offeringId,
@@ -60,7 +65,7 @@ function ProgramEnrollmentSuccessContent({
         },
       ],
     });
-  }, [sessionId, paymentVerified, offering, offeringId]);
+  }, [sessionId, paymentVerified, verifiedMoney, offering, offeringId]);
 
   const paidInFull = paymentType === 'full_tuition';
 
