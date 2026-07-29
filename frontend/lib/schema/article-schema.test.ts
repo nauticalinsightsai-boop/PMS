@@ -29,7 +29,7 @@ describe('buildArticleSchema', () => {
   it.each([
     ['PMP Readiness Mentor', '/newsletter/author/pmp-readiness-mentor'],
     ['PMO & Transformation Mentor', '/newsletter/author/pmo-transformation-mentor'],
-  ])('uses the Organization reference for the editorial role %s', (name, url) => {
+  ])('links the editorial role %s as a non-Person Organization author', (name, url) => {
     const schema = buildArticleSchema({
       ...baseInput,
       author: {
@@ -39,8 +39,24 @@ describe('buildArticleSchema', () => {
       },
     });
 
-    expect(schema.author).toEqual({ '@id': organizationId() });
+    expect(schema.author).toEqual({
+      '@type': 'Organization',
+      name,
+      url: `${PMS_SITE_URL}${url}`,
+    });
     expect(JSON.stringify(schema.author)).not.toContain('"@type":"Person"');
+  });
+
+  it('falls back to the publisher Organization reference without a complete author profile', () => {
+    const schema = buildArticleSchema({
+      ...baseInput,
+      author: {
+        name: 'PMP Readiness Mentor',
+        personSchemaEligible: false,
+      },
+    });
+
+    expect(schema.author).toEqual({ '@id': organizationId() });
   });
 
   it('keeps an absolute image URL and resolves a site-relative image URL', () => {
