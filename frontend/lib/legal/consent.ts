@@ -15,6 +15,19 @@ export type StoredConsent = {
   updatedAt: string
 }
 
+function isStoredConsent(value: unknown): value is StoredConsent {
+  if (!value || typeof value !== 'object') return false
+  const candidate = value as Partial<StoredConsent>
+  const categories = candidate.categories as Partial<ConsentCategories> | undefined
+  return (
+    candidate.version === CONSENT_VERSION &&
+    typeof candidate.updatedAt === 'string' &&
+    categories?.necessary === true &&
+    typeof categories.analytics === 'boolean' &&
+    typeof categories.marketing === 'boolean'
+  )
+}
+
 export function getDefaultConsent(): StoredConsent {
   return {
     version: CONSENT_VERSION,
@@ -29,9 +42,8 @@ export function readStoredConsent(): StoredConsent | null {
     localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY)
     const raw = localStorage.getItem(CONSENT_STORAGE_KEY)
     if (!raw) return null
-    const parsed = JSON.parse(raw) as StoredConsent
-    if (!parsed?.categories || parsed.version !== CONSENT_VERSION) return null
-    return parsed
+    const parsed: unknown = JSON.parse(raw)
+    return isStoredConsent(parsed) ? parsed : null
   } catch {
     return null
   }
@@ -42,8 +54,8 @@ export function writeStoredConsent(categories: ConsentCategories): StoredConsent
     version: CONSENT_VERSION,
     categories: {
       necessary: true,
-      analytics: Boolean(categories.analytics),
-      marketing: Boolean(categories.marketing),
+      analytics: categories.analytics === true,
+      marketing: categories.marketing === true,
     },
     updatedAt: new Date().toISOString(),
   }

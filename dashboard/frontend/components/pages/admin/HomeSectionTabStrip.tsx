@@ -148,7 +148,7 @@ export function HomeSectionTabStrip<T extends string>({
           aria-label="Show previous homepage sections"
           disabled={!canScrollPrevious}
           onClick={() => scrollSections(-1)}
-          className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-background text-foreground transition-colors hover:bg-brand-orange/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-background text-foreground transition-colors hover:bg-brand-orange/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
         >
           <ChevronLeft aria-hidden="true" size={16} />
         </button>
@@ -158,7 +158,7 @@ export function HomeSectionTabStrip<T extends string>({
         {canScrollPrevious ? (
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-4 bg-gradient-to-r from-background to-transparent"
+            className="pointer-events-none absolute bottom-1 left-0 top-1 z-10 w-4 bg-gradient-to-r from-background to-transparent"
           />
         ) : null}
         <div
@@ -207,7 +207,7 @@ export function HomeSectionTabStrip<T extends string>({
         {canScrollNext ? (
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-4 bg-gradient-to-l from-background to-transparent"
+            className="pointer-events-none absolute bottom-1 right-0 top-1 z-10 w-4 bg-gradient-to-l from-background to-transparent"
           />
         ) : null}
       </div>
@@ -218,7 +218,7 @@ export function HomeSectionTabStrip<T extends string>({
           aria-label="Show next homepage sections"
           disabled={!canScrollNext}
           onClick={() => scrollSections(1)}
-          className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-background text-foreground transition-colors hover:bg-brand-orange/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-background text-foreground transition-colors hover:bg-brand-orange/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
         >
           <ChevronRight aria-hidden="true" size={16} />
         </button>

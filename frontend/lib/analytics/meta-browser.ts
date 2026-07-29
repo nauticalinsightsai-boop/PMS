@@ -1,6 +1,10 @@
 'use client';
 
 import { createAnalyticsEventId } from '@/lib/analytics/event-id';
+import {
+  buildMetaEventSourceUrl,
+  sanitizeMetaAttribution,
+} from '@/lib/analytics/meta-attribution';
 import { getMetaPixelId, isMetaPixelConfigured } from '@/lib/analytics/meta-config';
 import { hasMarketingConsent } from '@/lib/legal/consent';
 
@@ -81,7 +85,10 @@ export function trackMetaEvent(
 ): string | null {
   if (!canPrepareMetaEvent()) return null;
   const id = eventId ?? createAnalyticsEventId('meta');
-  const clean = sanitizeMetaPayload(params);
+  const clean = {
+    ...sanitizeMetaPayload(params),
+    ...sanitizeMetaAttribution(window.location.search ?? ''),
+  };
   if (typeof window.fbq === 'function') {
     window.fbq('track', eventName, clean, { eventID: id });
   } else if (pendingBrowserEvents.length < MAX_PENDING_BROWSER_EVENTS) {
@@ -96,6 +103,7 @@ export function flushPendingMetaBrowserEvents(): void {
   if (
     typeof window === 'undefined' ||
     !hasMarketingConsent() ||
+    !isMetaPixelConfigured() ||
     typeof window.fbq !== 'function'
   ) {
     return;
@@ -125,11 +133,15 @@ async function sendMetaCapiBeacon(
   eventId: string,
   customData: CleanMetaEventPayload,
 ): Promise<void> {
-  if (!hasMarketingConsent()) return;
+  if (!hasMarketingConsent() || !isMetaPixelConfigured()) return;
   try {
     const eventSourceUrl =
       typeof window !== 'undefined'
-        ? `${window.location.origin}${window.location.pathname}`
+        ? buildMetaEventSourceUrl(
+            window.location.origin,
+            window.location.pathname,
+            window.location.search ?? '',
+          )
         : undefined;
     await fetch('/api/meta/conversions', {
       method: 'POST',
@@ -188,7 +200,9 @@ export function trackMetaSchedule(
 
 export function ensureMetaPixelBootstrapped(): boolean {
   const pixelId = getMetaPixelId();
-  if (!pixelId || typeof window === 'undefined') return false;
+  if (!pixelId || typeof window === 'undefined' || !isMetaPixelConfigured()) {
+    return false;
+  }
   if (typeof window.fbq === 'function') return true;
   return false;
 }

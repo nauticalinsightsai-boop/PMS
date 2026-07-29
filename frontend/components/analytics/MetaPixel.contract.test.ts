@@ -7,6 +7,9 @@ describe('MetaPixel consent bootstrap', () => {
     const source = readFileSync(resolve(process.cwd(), 'components/analytics/MetaPixel.tsx'), 'utf8');
     expect(source).toContain("setAllowed(hasMarketingConsent())");
     expect(source).toContain("if (!allowed || !pixelId || !isMetaPixelConfigured()) return null");
+    expect(source.indexOf('isMetaPixelConfigured()) return null')).toBeLessThan(
+      source.indexOf('<Script'),
+    );
     expect(source.match(/trackMetaPageView\(\)/g)).toHaveLength(1);
     expect(source).toContain('flushPendingMetaBrowserEvents()');
   });

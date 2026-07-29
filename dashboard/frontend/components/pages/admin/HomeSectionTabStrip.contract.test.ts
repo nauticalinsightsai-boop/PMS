@@ -33,6 +33,17 @@ test('step controls scroll only and respect reduced motion', () => {
   assert.match(strip, /scrollport\.scrollBy\(/);
   assert.match(strip, /scrollport\.clientWidth - 48/);
   assert.match(strip, /prefers-reduced-motion: reduce/);
+  assert.equal(strip.match(/inline-flex h-8 w-8 shrink-0/g)?.length, 2);
+  assert.doesNotMatch(strip, /\bsize-8\b/);
+  assert.match(
+    strip,
+    /pointer-events-none absolute bottom-1 left-0 top-1 z-10 w-4/,
+  );
+  assert.match(
+    strip,
+    /pointer-events-none absolute bottom-1 right-0 top-1 z-10 w-4/,
+  );
+  assert.doesNotMatch(strip, /\binset-y-0\b/);
   assert.doesNotMatch(strip, /WebsiteDataService|handleSaveDraft|handlePublish|openPreview/);
 });
 
