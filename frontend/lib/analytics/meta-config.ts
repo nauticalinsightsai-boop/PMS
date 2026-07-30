@@ -3,11 +3,6 @@ export function getMetaPixelId(): string | undefined {
   return id || undefined;
 }
 
-const CANONICAL_META_ORIGIN_ENV = [
-  'NEXT_PUBLIC_SITE_URL',
-  'NEXT_PUBLIC_MARKETING_SITE_URL',
-] as const;
-
 function isLocalOrPreviewHostname(hostname: string): boolean {
   const normalized = hostname.toLowerCase();
   const isExactOrChildOf = (domain: string) =>
@@ -25,9 +20,10 @@ function isLocalOrPreviewHostname(hostname: string): boolean {
 }
 
 export function getConfiguredCanonicalMetaOrigins(): ReadonlySet<string> {
-  const configured = CANONICAL_META_ORIGIN_ENV.map((name) =>
-    process.env[name]?.trim(),
-  ).filter((value): value is string => Boolean(value));
+  const configured = [
+    process.env.NEXT_PUBLIC_SITE_URL?.trim(),
+    process.env.NEXT_PUBLIC_MARKETING_SITE_URL?.trim(),
+  ].filter((value): value is string => Boolean(value));
   if (configured.length === 0) return new Set();
 
   const origins = new Set<string>();

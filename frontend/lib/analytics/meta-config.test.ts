@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import fs from 'node:fs';
 import {
   getConfiguredCanonicalMetaOrigins,
   isCanonicalMetaBrowserOrigin,
@@ -6,6 +7,14 @@ import {
 } from './meta-config';
 
 describe('Meta canonical browser origin', () => {
+  it('uses statically analyzable public environment references for client compilation', () => {
+    const source = fs.readFileSync(new URL('./meta-config.ts', import.meta.url), 'utf8');
+
+    expect(source).toContain('process.env.NEXT_PUBLIC_SITE_URL');
+    expect(source).toContain('process.env.NEXT_PUBLIC_MARKETING_SITE_URL');
+    expect(source).not.toContain('process.env[name]');
+  });
+
   afterEach(() => {
     delete process.env.NEXT_PUBLIC_META_PIXEL_ID;
     delete process.env.NEXT_PUBLIC_SITE_URL;

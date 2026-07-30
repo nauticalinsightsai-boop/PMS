@@ -35,14 +35,21 @@ test('step controls scroll only and respect reduced motion', () => {
   assert.match(strip, /prefers-reduced-motion: reduce/);
   assert.equal(strip.match(/inline-flex h-8 w-8 shrink-0/g)?.length, 2);
   assert.doesNotMatch(strip, /\bsize-8\b/);
+  assert.match(strip, /data-home-section-fade="previous"/);
+  assert.match(strip, /data-home-section-fade="next"/);
+  assert.equal(strip.match(/width: 16/g)?.length, 2);
+  assert.equal(strip.match(/height: 32/g)?.length, 2);
   assert.match(
     strip,
-    /pointer-events-none absolute bottom-1 left-0 top-1 z-10 w-4/,
+    /linear-gradient\(to right, var\(--background\) 0%, transparent 100%\)/,
   );
   assert.match(
     strip,
-    /pointer-events-none absolute bottom-1 right-0 top-1 z-10 w-4/,
+    /linear-gradient\(to left, var\(--background\) 0%, transparent 100%\)/,
   );
+  assert.equal(strip.match(/pointer-events-none absolute/g)?.length, 2);
+  assert.doesNotMatch(strip, /bg-gradient-to-[lr]|from-background|to-transparent/);
+  assert.doesNotMatch(strip, /pointer-events-none absolute[^"]*\bbottom-1\b/);
   assert.doesNotMatch(strip, /\binset-y-0\b/);
   assert.doesNotMatch(strip, /WebsiteDataService|handleSaveDraft|handlePublish|openPreview/);
 });

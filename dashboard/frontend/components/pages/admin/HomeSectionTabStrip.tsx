@@ -158,7 +158,14 @@ export function HomeSectionTabStrip<T extends string>({
         {canScrollPrevious ? (
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-1 left-0 top-1 z-10 w-4 bg-gradient-to-r from-background to-transparent"
+            data-home-section-fade="previous"
+            className="pointer-events-none absolute left-0 top-1 z-10"
+            style={{
+              width: 16,
+              height: 32,
+              backgroundImage:
+                'linear-gradient(to right, var(--background) 0%, transparent 100%)',
+            }}
           />
         ) : null}
         <div
@@ -207,7 +214,14 @@ export function HomeSectionTabStrip<T extends string>({
         {canScrollNext ? (
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-1 right-0 top-1 z-10 w-4 bg-gradient-to-l from-background to-transparent"
+            data-home-section-fade="next"
+            className="pointer-events-none absolute right-0 top-1 z-10"
+            style={{
+              width: 16,
+              height: 32,
+              backgroundImage:
+                'linear-gradient(to left, var(--background) 0%, transparent 100%)',
+            }}
           />
         ) : null}
       </div>
