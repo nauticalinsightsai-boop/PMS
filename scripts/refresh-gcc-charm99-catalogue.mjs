@@ -9,6 +9,9 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const cataloguePath = path.join(__dirname, '../frontend/data/regional-catalogue.json');
 const packageCopyPath = path.join(__dirname, '../packages/regional-catalogue/regional-catalogue.json');
+const ownerOverrides = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../packages/regional-catalogue/gcc-owner-overrides.json'), 'utf8'),
+);
 
 const FX = {
   AED: 3.6725,
@@ -44,7 +47,8 @@ function buildGcc(usd, tierId) {
   const perCountry = {};
   for (const c of GCC) {
     const code = GCC_CUR[c];
-    const major = ceilCharm99(usd * FX[code] * pay);
+    const explicit = ownerOverrides[`${tierId}:${usd}:${c}`];
+    const major = typeof explicit === 'number' ? explicit : ceilCharm99(usd * FX[code] * pay);
     perCountry[c] = formatMajor(major, code);
   }
   return {
@@ -82,8 +86,7 @@ for (const o of catalogue.offerings) {
 
 catalogue.meta = {
   ...catalogue.meta,
-  gccCharm99RefreshAt: new Date().toISOString(),
-  gccCharmNote: 'GCC display majors ceil to …99 only (Asia remains …999).',
+  gccCharmNote: 'Owner-supplied GCC table values override the existing …99 fallback; Asia remains …999.',
 };
 
 const json = `${JSON.stringify(catalogue, null, 2)}\n`;

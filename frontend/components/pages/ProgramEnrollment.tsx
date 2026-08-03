@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ProgramEnrollmentForm } from '@/components/enrollment/ProgramEnrollmentForm';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { buttonVariants } from '@/components/ui/button';
-import { CTAS } from '@/lib/brand-voice';
+import { enrollmentDescriptionForTier, enrollmentHeadingForTier } from '@/lib/enrollment/enrollment-copy';
 import { pathwayPaymentDisclaimer } from '@/content/t176-claims';
 import { getOfferingById } from '@/lib/regional-catalogue';
 import { cn } from '@/lib/utils';
@@ -33,9 +33,9 @@ export function ProgramEnrollmentPage({
       <div className="container relative z-10 mx-auto w-full max-w-lg px-4 lg:max-w-7xl">
         <div className="lg:max-w-3xl">
           <p className="text-label text-brand-orange mb-2">{certName}</p>
-          <h1 className="font-heading text-hero font-bold mb-2">{CTAS.pathwayReserveSeat}</h1>
+          <h1 className="font-heading text-hero font-bold mb-2">{enrollmentHeadingForTier(tierSlug)}</h1>
           <p className="text-slate-600 dark:text-slate-400 mb-8 text-sm leading-relaxed md:text-base">
-            Choose your delivery option and pay pathway tuition today. Pricing for your region is shown below.
+            {enrollmentDescriptionForTier(tierSlug)}
           </p>
         </div>
         <ProgramEnrollmentForm

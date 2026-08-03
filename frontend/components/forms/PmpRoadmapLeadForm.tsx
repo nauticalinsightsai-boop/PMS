@@ -780,7 +780,6 @@ export function PmpRoadmapLeadForm({
 
   // Progress indicator
   const stepNumber = currentStep === 'fit' ? 1 : currentStep === 'eligibility' ? 2 : 3;
-  const progressPercent = (stepNumber / 3) * 100;
 
   return (
     <div className={cn(shellClass, useCertHeroLayout && 'flex flex-col')} data-portal-form={isPortalThemed || undefined}>

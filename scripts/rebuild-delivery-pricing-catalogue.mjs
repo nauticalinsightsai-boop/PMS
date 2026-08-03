@@ -8,6 +8,9 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const cataloguePath = path.join(__dirname, '../frontend/data/regional-catalogue.json');
+const ownerOverrides = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../packages/regional-catalogue/gcc-owner-overrides.json'), 'utf8'),
+);
 
 const FX = {
   AED: 3.6725,
@@ -38,7 +41,6 @@ function ceilCharm50(n) {
   return Math.max(49, k * 50 + 49);
 }
 
-/** Smallest amount ending in 99 that is >= n (GCC). */
 function ceilCharm99(n) {
   if (!Number.isFinite(n) || n <= 99) return 99;
   return Math.ceil((n + 1) / 100) * 100 - 1;
@@ -80,7 +82,11 @@ function majorFor(usd, regionId, tierId, gccCountry) {
   if (regionId === 'india') return { major: charm999(usd * FX.INR * pay), code: 'INR' };
   if (regionId === 'pakistan') return { major: charm999(usd * FX.PKR * pay), code: 'PKR' };
   const code = GCC_CUR[gccCountry || 'AE'];
-  return { major: ceilCharm99(usd * FX[code] * pay), code };
+  const override = ownerOverrides[`${tierId}:${usd}:${gccCountry || 'AE'}`];
+  return {
+    major: typeof override === 'number' ? override : ceilCharm99(usd * FX[code] * pay),
+    code,
+  };
 }
 
 function buildPrices(usd, tierId) {
@@ -152,7 +158,6 @@ for (const o of catalogue.offerings) {
 
 catalogue.meta = {
   ...catalogue.meta,
-  deliveryPricingRebuildAt: new Date().toISOString(),
   deliveryPricingNote:
     'Foundation: 30% Global + FX no scholarship. Professional mentor full Global; self-paced 50%; IN/PK 30% off; GCC 20% off.',
 };

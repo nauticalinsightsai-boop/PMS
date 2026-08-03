@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
-import { CTAS } from '@/lib/brand-voice';
+import { enrollmentProceedLabelForTier } from '@/lib/enrollment/enrollment-copy';
 import { PMP_ENROLL_LINKS } from '@/content/pmp/services';
 import { EnrollReturnRecovery } from '@/components/conversion-recovery/EnrollReturnRecovery';
 import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnrollTrackedLink';
@@ -42,7 +42,7 @@ export function PmpEnrollmentTierLinks() {
               event={ENROLL_EVENTS[link.tier]}
               className={buttonVariants({ size: 'sm' })}
             >
-              {link.tier === 'Foundation' ? 'Continue to enrollment' : CTAS.pathwayReserveSeat}
+              {enrollmentProceedLabelForTier(TIER_SLUGS[link.tier])}
             </PmpEnrollTrackedLink>
           </li>
         ))}

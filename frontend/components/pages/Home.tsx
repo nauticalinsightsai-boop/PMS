@@ -228,16 +228,8 @@ export function Home({
   const serverSlide =
     initialHomeConfig?.heroSlides.find((slide) => slide.visible) ??
     initialHomeConfig?.heroSlides[0];
-  const [reduceMotion, setReduceMotion] = React.useState(false);
   const [waitlistOpen, setWaitlistOpen] = React.useState(false);
   const [waitlistContext, setWaitlistContext] = React.useState<JoinWaitlistContext | null>(null);
-  React.useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReduceMotion(mq.matches);
-    const onChange = () => setReduceMotion(mq.matches);
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, []);
 
   const featuredFromCms = homeCms.featuredCertIds
     .map((id) => {

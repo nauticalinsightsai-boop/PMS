@@ -106,14 +106,14 @@ describe('regional-catalogue', () => {
     expect(pro?.prices.india.display).toBe('₹52,999');
     expect(pro?.pricesSelfPaced?.global.display).toBe('$449');
     expect(pro?.pricesSelfPaced?.india.display).toBe('₹26,999');
-    expect(pro?.prices.gcc.perCountry?.AE).toBe('AED 2,699');
+    expect(pro?.prices.gcc.perCountry?.AE).toBe('AED 2,649');
   });
 
   it('resolveFullPriceDisplay uses same-currency global reference for GCC scholarship', () => {
     const pro = getOfferingById('pmp-preparation-professional');
     expect(pro).toBeDefined();
     const gcc = resolveFullPriceDisplay(pro!, 'gcc', 'AE');
-    expect(gcc.active).toBe('AED 2,699');
+    expect(gcc.active).toBe('AED 2,649');
     expect(gcc.original).toMatch(/^AED /);
     expect(gcc.original).not.toMatch(/\$/);
   });

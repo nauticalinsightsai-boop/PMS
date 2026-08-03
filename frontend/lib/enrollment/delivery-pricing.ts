@@ -5,6 +5,7 @@
 
 import { GLOBAL_REFERENCE_FX_PER_USD } from '@/lib/regional-fx-rates';
 import type { RegionId, RegionalPrice, TierId } from '@/types/regional-catalogue';
+import gccOwnerOverrides from '@pms/regional-catalogue/gcc-owner-overrides.json';
 
 export type EnrollmentDeliveryMode = 'mentor_led' | 'self_paced';
 
@@ -39,7 +40,7 @@ export function ceilCharm50(n: number): number {
   return Math.max(49, k * 50 + 49);
 }
 
-/** Smallest amount ending in 99 that is >= n (GCC marketing charm). */
+/** Existing fallback for GCC values not explicitly locked by the owner table. */
 export function ceilCharm99(n: number): number {
   if (!Number.isFinite(n) || n <= 99) return 99;
   return Math.ceil((n + 1) / 100) * 100 - 1;
@@ -137,10 +138,14 @@ export function regionalizeUsd(
     return { major, currencyCode: 'PKR', display: formatMajor(major, 'PKR') };
   }
 
-  // GCC: 20% off Professional (Foundation: full FX); charm to …99 only
+  // Exact owner-supplied GCC values override the existing fallback table.
   const country = gccCountry ?? 'AE';
   const currencyCode = GCC_CURRENCY[country];
-  const major = ceilCharm99(usd * fxForCurrency(currencyCode) * pay);
+  const overrideKey = `${tierId}:${usd}:${country}` as keyof typeof gccOwnerOverrides;
+  const explicit = gccOwnerOverrides[overrideKey];
+  const major = typeof explicit === 'number'
+    ? explicit
+    : ceilCharm99(usd * fxForCurrency(currencyCode) * pay);
   return { major, currencyCode, display: formatMajor(major, currencyCode) };
 }
 

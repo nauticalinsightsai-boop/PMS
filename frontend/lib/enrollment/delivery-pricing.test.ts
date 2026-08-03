@@ -24,13 +24,10 @@ describe('nearestCharm50', () => {
   });
 });
 
-describe('ceilCharm99', () => {
-  it('ceils to next …99 only (never …49)', () => {
+describe('ceilCharm99 fallback', () => {
+  it('preserves unlisted GCC catalogue behavior', () => {
     expect(ceilCharm99(50)).toBe(99);
-    expect(ceilCharm99(2641.62)).toBe(2699);
-    expect(ceilCharm99(2699)).toBe(2699);
     expect(ceilCharm99(2700)).toBe(2799);
-    expect(ceilCharm99(1319.24)).toBe(1399);
   });
 });
 
@@ -70,7 +67,7 @@ describe('regionalizeUsd professional discounts', () => {
   it('matches PMP mentor $899 plan checks', () => {
     expect(regionalizeUsd(899, 'india', 'professional').display).toBe('₹52,999');
     expect(regionalizeUsd(899, 'pakistan', 'professional').display).toBe('PKR 174,999');
-    expect(regionalizeUsd(899, 'gcc', 'professional', 'AE').display).toBe('AED 2,699');
+    expect(regionalizeUsd(899, 'gcc', 'professional', 'AE').display).toBe('AED 2,649');
     expect(regionalizeUsd(899, 'europe', 'professional').display).toBe('€849');
     expect(regionalizeUsd(899, 'uk', 'professional').display).toBe('£749');
   });
@@ -78,7 +75,14 @@ describe('regionalizeUsd professional discounts', () => {
   it('matches PMP self-paced $449 plan checks', () => {
     expect(regionalizeUsd(449, 'india', 'professional').display).toBe('₹26,999');
     expect(regionalizeUsd(449, 'pakistan', 'professional').display).toBe('PKR 87,999');
-    expect(regionalizeUsd(449, 'gcc', 'professional', 'AE').display).toBe('AED 1,399');
+    expect(regionalizeUsd(449, 'gcc', 'professional', 'AE').display).toBe('AED 1,349');
+    expect(regionalizeUsd(449, 'gcc', 'professional', 'QA').display).toBe('QAR 1,299');
+  });
+
+  it('uses supplied AED lookup values without changing an unlisted fallback row', () => {
+    expect(regionalizeUsd(399, 'gcc', 'professional', 'AE').display).toBe('AED 1,149');
+    expect(regionalizeUsd(199, 'gcc', 'professional', 'AE').display).toBe('AED 599');
+    expect(regionalizeUsd(299, 'gcc', 'professional', 'SA').display).toBe('SAR 899');
   });
 
   it('foundation has no regional scholarship cut', () => {

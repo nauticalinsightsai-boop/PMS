@@ -24,7 +24,7 @@ export function nearestCharm50(n: number): number {
   return Math.max(49, k * 50 + 49);
 }
 
-/** Smallest amount ending in 99 that is >= n (GCC). */
+/** Existing fallback for GCC catalogue values not explicitly locked by the owner table. */
 export function ceilCharm99(n: number): number {
   if (!Number.isFinite(n) || n <= 99) return 99;
   return Math.ceil((n + 1) / 100) * 100 - 1;

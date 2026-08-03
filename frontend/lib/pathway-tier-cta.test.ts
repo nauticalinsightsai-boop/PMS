@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { resolveTierPathwayCta, tierDeliveryLine, tierPathwaySummary } from './pathway-tier-cta';
 
 describe('pathway-tier-cta', () => {
-  it('foundation with direct checkout uses Enroll now and enroll path', () => {
+  it('foundation with direct checkout uses self-paced and checkout language', () => {
     const cta = resolveTierPathwayCta(
       'foundation',
       'pmp-preparation-foundation',
@@ -11,14 +11,14 @@ describe('pathway-tier-cta', () => {
       'Enroll Now',
     );
     expect(cta.modalMode).toBe('enroll');
-    expect(cta.label).toBe('Enroll now');
+    expect(cta.label).toBe('Self-paced enrollment');
     expect(cta.proceedHref).toContain('/certifications/pmp/foundation/enroll');
     expect(cta.enrollHref).toContain('/enroll');
     expect(cta.showConsultationInModal).toBe(false);
-    expect(cta.enrollLabel).toBe('Enroll now');
+    expect(cta.enrollLabel).toBe('Continue to checkout');
   });
 
-  it('foundation scholarship_verify still enrolls with Enroll now label', () => {
+  it('foundation scholarship_verify keeps non-deposit enrollment language', () => {
     const cta = resolveTierPathwayCta(
       'foundation',
       'pmp-preparation-foundation',
@@ -26,13 +26,13 @@ describe('pathway-tier-cta', () => {
       'scholarship_verify',
       'Enroll Now',
     );
-    expect(cta.label).toBe('Enroll now');
-    expect(cta.proceedLabel).toBe('Enroll now');
+    expect(cta.label).toBe('Self-paced enrollment');
+    expect(cta.proceedLabel).toBe('Continue to checkout');
     expect(cta.enrollHref).toContain('/enroll');
-    expect(cta.enrollLabel).toBe('Enroll now');
+    expect(cta.enrollLabel).toBe('Continue to checkout');
   });
 
-  it('non-PMP foundation uses Reserve your seat', () => {
+  it('non-PMP foundation uses the same non-deposit language', () => {
     const cta = resolveTierPathwayCta(
       'foundation',
       'pmi-acp-preparation-foundation',
@@ -40,9 +40,9 @@ describe('pathway-tier-cta', () => {
       'direct_checkout',
       'Reserve your seat',
     );
-    expect(cta.label).toBe('Reserve your seat');
-    expect(cta.proceedLabel).toBe('Reserve your seat');
-    expect(cta.enrollLabel).toBe('Reserve your seat');
+    expect(cta.label).toBe('Self-paced enrollment');
+    expect(cta.proceedLabel).toBe('Continue to checkout');
+    expect(cta.enrollLabel).toBe('Continue to checkout');
     expect(cta.enrollHref).toContain('/certifications/pmi-acp/foundation/enroll');
   });
 
@@ -54,13 +54,13 @@ describe('pathway-tier-cta', () => {
       'direct_checkout',
       'Enroll Now',
     );
-    expect(cta.label).toBe('Reserve your seat');
+    expect(cta.label).toBe('Choose delivery option');
     expect(cta.modalMode).toBe('enroll');
     expect(cta.showConsultationInModal).toBe(false);
-    expect(cta.proceedLabel).toBe('Reserve your seat');
+    expect(cta.proceedLabel).toBe('Continue to checkout');
     expect(cta.consultationLabel).toBeUndefined();
     expect(cta.enrollHref).toContain('/certifications/pmp/professional/enroll');
-    expect(cta.enrollLabel).toBe('Reserve your seat');
+    expect(cta.enrollLabel).toBe('Continue to checkout');
   });
 
   it('mastery requires consultation before enrollment', () => {

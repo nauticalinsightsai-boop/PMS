@@ -146,15 +146,16 @@ export function ProgramEnrollmentForm({
           </div>
 
           {isFoundation ? null : isProfessional ? (
-            <div className="border-t border-border px-4 pt-4 sm:px-5 sm:pb-5">
-              <p className="text-label text-brand-orange mb-3">Delivery option</p>
+            <fieldset className="border-t border-border px-4 pt-4 sm:px-5 sm:pb-5">
+              <legend className="text-label text-brand-orange mb-3">Delivery option</legend>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 <button
                   type="button"
+                  aria-pressed={isSelfPaced}
                   onClick={() => setPaymentMode('self_paced')}
                   disabled={!selfPacedPrices.active}
                   className={cn(
-                    'rounded-xl border px-4 py-3 text-left transition-colors',
+                    'rounded-xl border px-4 py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2',
                     !selfPacedPrices.active && 'cursor-not-allowed opacity-60',
                     isSelfPaced && selfPacedPrices.active
                       ? 'border-brand-orange bg-brand-orange/5 ring-1 ring-brand-orange/30'
@@ -175,9 +176,10 @@ export function ProgramEnrollmentForm({
                 </button>
                 <button
                   type="button"
+                  aria-pressed={isMentorLed}
                   onClick={() => setPaymentMode('mentor_led')}
                   className={cn(
-                    'rounded-xl border px-4 py-3 text-left transition-colors',
+                    'rounded-xl border px-4 py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2',
                     isMentorLed
                       ? 'border-brand-orange bg-brand-orange/5 ring-1 ring-brand-orange/30'
                       : 'border-border bg-background hover:border-brand-orange/40',
@@ -195,7 +197,7 @@ export function ProgramEnrollmentForm({
                   </span>
                 </button>
               </div>
-            </div>
+            </fieldset>
           ) : (
             <div className="border-t border-border px-4 pt-4 sm:px-5 sm:pb-5">
               <p className="text-label text-brand-orange mb-3">Payment option</p>

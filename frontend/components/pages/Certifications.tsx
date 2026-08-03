@@ -1,6 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
-import { LazyMotion, domAnimation, m, AnimatePresence } from "motion/react";
+import { LazyMotion, domAnimation, m } from "motion/react";
 import * as React from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS } from '@/lib/brand-visual';
 import { cn } from '@/lib/utils';
-import { certifications, familyConfigs } from "@/data/certification-index";
+import { certifications } from "@/data/certification-index";
 import type { CertificationSummary } from "@/types/site";
 import { CERTIFICATIONS_COPY, CTAS } from "@/lib/brand-voice";
 import { PathwayFeaturedCard } from "@/components/PathwayFeaturedCard";
