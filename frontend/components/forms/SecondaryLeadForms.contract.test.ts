@@ -156,6 +156,16 @@ describe('secondary lead form accessibility state machines', () => {
   });
 });
 
+describe('secondary lead form shell fit', () => {
+  const pmServiceShell =
+    "'relative left-1/2 w-[calc(100%+0.5rem)] max-w-[calc(100vw-1.5rem)] -translate-x-1/2 sm:w-[calc(100%+2rem)] sm:max-w-[calc(100vw-3rem)]'";
+
+  it('keeps Newsletter hero on the same centered bleed shell as PM Service', () => {
+    expect(pmService).toContain(pmServiceShell);
+    expect(hero).toContain(pmServiceShell);
+  });
+});
+
 describe('secondary lead form conversion guards', () => {
   for (const [name, source] of [
     ['NewsletterHeroSubscribeForm.tsx', hero],

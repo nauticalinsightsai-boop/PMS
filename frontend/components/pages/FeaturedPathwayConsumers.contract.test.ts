@@ -5,35 +5,25 @@ const home = readFileSync(new URL('./Home.tsx', import.meta.url), 'utf8');
 const certifications = readFileSync(new URL('./Certifications.tsx', import.meta.url), 'utf8');
 
 describe('featured pathway section ownership', () => {
-  for (const [name, source] of [['Home', home], ['Certifications', certifications]] as const) {
-    it(`${name} owns exactly one expanded pathway id and controls each child`, () => {
-      expect(source).toContain('useState<string | null>(null)');
-      expect(source).toContain('expanded={expandedFeaturedPathwayId ===');
-      expect(source).toContain('setFeaturedDisclosure(');
-    });
+  it('Home keeps featured visual cards always open without disclosure state', () => {
+    expect(home).toContain('layout="visual"');
+    expect(home).not.toContain('expandedFeaturedPathwayId');
+    expect(home).not.toContain('setFeaturedDisclosure');
+    expect(home).not.toContain('__pmsPathwayDisclosure');
+    expect(home).not.toContain('expanded={expandedFeaturedPathwayId ===');
+  });
 
-    it(`${name} records same-URL disclosure state without router or analytics calls`, () => {
-      expect(source).toContain('__pmsPathwayDisclosure');
-      expect(source).toContain("v: 1");
-      expect(source).toContain("window.history.pushState");
-      expect(source).toContain("window.history.replaceState");
-      expect(source).toContain("window.history.back()");
-      expect(source).toContain("window.addEventListener('popstate'");
-      expect(source).not.toContain('router.push');
-      expect(source).not.toContain('page_view');
-      expect(source).toContain('previousCertId');
-      expect(source).toContain('[data-pathway-details="${previousCertId}"]');
-      expect(source).toContain('[data-pathway-region="${certId}"]');
-      expect(source).not.toContain("'[data-pathway-details]'");
-      expect(source).toContain('window.history.replaceState');
-      expect(source).toContain('window.history.back()');
-      expect(source).toContain('data-pathway-region');
-    });
-  }
+  it('Certifications keeps flagship catalog cards always open without disclosure state', () => {
+    expect(certifications).toContain('desktopFlagshipOpen');
+    expect(certifications).toContain('layout="catalog"');
+    expect(certifications).not.toContain('expandedFeaturedPathwayId');
+    expect(certifications).not.toContain('setFeaturedDisclosure');
+    expect(certifications).not.toContain('__pmsPathwayDisclosure');
+    expect(certifications).not.toContain('expanded={expandedFeaturedPathwayId ===');
+  });
 
   it('limits the desktop flagship-open presentation to Certifications', () => {
     expect(certifications).toContain('desktopFlagshipOpen');
     expect(home).not.toContain('desktopFlagshipOpen');
-    expect(certifications).toContain('layout="catalog"');
   });
 });

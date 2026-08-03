@@ -122,17 +122,6 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
 
   const resolvedInterest = resolvePmServiceInterestLabel(serviceInterest, serviceInterestOther);
 
-  const hasInterestSelection = serviceInterest !== '';
-
-  const revealClass = (show: boolean) =>
-    cn(
-      'grid transition-all duration-300 ease-out motion-reduce:transition-none',
-      show ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
-    );
-
-  const revealInnerClass = (show: boolean) =>
-    cn('min-h-0 overflow-hidden', !show && 'pointer-events-none');
-
   const clearIndustrySelection = () => {
     setIndustry('');
     setIndustryOther('');
@@ -146,7 +135,6 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     if (serviceInterest === value) {
       setServiceInterest('');
       setServiceInterestOther('');
-      clearIndustrySelection();
       return;
     }
     setServiceInterest(value);
@@ -161,7 +149,6 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     if (serviceInterest === 'other') {
       setServiceInterest('');
       setServiceInterestOther('');
-      clearIndustrySelection();
       return;
     }
     setServiceInterest('other');
@@ -449,105 +436,101 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
             ) : null}
           </fieldset>
 
-          <div className={revealClass(hasInterestSelection)} aria-hidden={!hasInterestSelection}>
-            <div className={revealInnerClass(hasInterestSelection)}>
-              <fieldset
-                tabIndex={-1}
-                className="space-y-3.5"
-                aria-labelledby={`${idPrefix}-industry-legend`}
-              >
-                <legend id={`${idPrefix}-industry-legend`} className={legendClass}>
-                  Industry or professional field best describes your background.{' '}
-                  <span className="font-normal normal-case text-slate-400">(optional)</span>
-                </legend>
-                <div
-                  className={formChoiceGroupClass(PM_SERVICE_INDUSTRY_CHOICES.length, 'site')}
-                  role="group"
-                  aria-labelledby={`${idPrefix}-industry-legend`}
+          <fieldset
+            tabIndex={-1}
+            className="space-y-3.5"
+            aria-labelledby={`${idPrefix}-industry-legend`}
+          >
+            <legend id={`${idPrefix}-industry-legend`} className={legendClass}>
+              Industry or professional field best describes your background.{' '}
+              <span className="font-normal normal-case text-slate-400">(optional)</span>
+            </legend>
+            <div
+              className={cn(
+                formChoiceGroupClass(PM_SERVICE_INDUSTRY_CHOICES.length, 'site'),
+                '-mx-2.5 sm:-mx-6',
+              )}
+              role="group"
+              aria-labelledby={`${idPrefix}-industry-legend`}
+            >
+              {PM_SERVICE_INDUSTRY_CHOICES.map((o) => (
+                <button
+                  key={o.value}
+                  type="button"
+                  className={cn(
+                    choiceButtonClass(industry === o.value),
+                    formChoiceChipLayoutClass(PM_SERVICE_INDUSTRY_CHOICES.length),
+                    'tracking-[-0.02em] sm:tracking-[-0.045em] md:tracking-[-0.045em]',
+                  )}
+                  aria-pressed={industry === o.value}
+                  onClick={() => {
+                    if (o.value === 'other') {
+                      toggleIndustryOther();
+                    } else {
+                      toggleIndustry(o.value);
+                    }
+                  }}
                 >
-                  {PM_SERVICE_INDUSTRY_CHOICES.map((o) => (
-                    <button
-                      key={o.value}
-                      type="button"
-                      className={cn(
-                        choiceButtonClass(industry === o.value),
-                        formChoiceChipLayoutClass(PM_SERVICE_INDUSTRY_CHOICES.length),
-                      )}
-                      aria-pressed={industry === o.value}
-                      onClick={() => {
-                        if (o.value === 'other') {
-                          toggleIndustryOther();
-                        } else {
-                          toggleIndustry(o.value);
-                        }
-                      }}
-                    >
-                      {o.label}
-                    </button>
-                  ))}
-                </div>
-                {industry === 'other' ? (
-                  <div>
-                    <Input
-                      ref={industryOtherRef}
-                      id={`${idPrefix}-industry-other`}
-                      value={industryOther}
-                      onChange={(e) => {
-                        const next = e.target.value;
-                        setIndustryOther(next);
-                        if (next.trim() && errorTarget === 'industry_other') {
-                          setError(null);
-                          setErrorTarget(null);
-                        }
-                      }}
-                      onInvalid={() => {
-                        setError('Please specify your industry under Other.');
-                        setErrorTarget('industry_other');
-                      }}
-                      placeholder="Specify"
-                      className="h-10 w-full min-w-0 border-input text-sm"
-                      required
-                      aria-label="Specify other industry"
-                      aria-invalid={errorTarget === 'industry_other' ? true : undefined}
-                      aria-describedby={
-                        errorTarget === 'industry_other' ? `${idPrefix}-form-error` : undefined
-                      }
-                    />
-                  </div>
-                ) : null}
-              </fieldset>
+                  {o.label}
+                </button>
+              ))}
             </div>
+            {industry === 'other' ? (
+              <div>
+                <Input
+                  ref={industryOtherRef}
+                  id={`${idPrefix}-industry-other`}
+                  value={industryOther}
+                  onChange={(e) => {
+                    const next = e.target.value;
+                    setIndustryOther(next);
+                    if (next.trim() && errorTarget === 'industry_other') {
+                      setError(null);
+                      setErrorTarget(null);
+                    }
+                  }}
+                  onInvalid={() => {
+                    setError('Please specify your industry under Other.');
+                    setErrorTarget('industry_other');
+                  }}
+                  placeholder="Specify"
+                  className="h-10 w-full min-w-0 border-input text-sm"
+                  required
+                  aria-label="Specify other industry"
+                  aria-invalid={errorTarget === 'industry_other' ? true : undefined}
+                  aria-describedby={
+                    errorTarget === 'industry_other' ? `${idPrefix}-form-error` : undefined
+                  }
+                />
+              </div>
+            ) : null}
+          </fieldset>
+
+          <div className="space-y-2.5">
+            <Label htmlFor={`${idPrefix}-question`} className={labelClass}>
+              Please describe your specific question or concern. (Optional)
+            </Label>
+            <Textarea
+              id={`${idPrefix}-question`}
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              placeholder="Share context on team size, timeline, or delivery challenge."
+              className="min-h-[7rem] resize-y text-sm focus-visible:ring-brand-orange/40"
+            />
           </div>
 
-          <div className={revealClass(hasInterestSelection)} aria-hidden={!hasInterestSelection}>
-            <div className={cn(revealInnerClass(hasInterestSelection), 'space-y-5 sm:space-y-6')}>
-              <div className="space-y-2.5">
-                <Label htmlFor={`${idPrefix}-question`} className={labelClass}>
-                  Please describe your specific question or concern. (Optional)
-                </Label>
-                <Textarea
-                  id={`${idPrefix}-question`}
-                  value={question}
-                  onChange={(e) => setQuestion(e.target.value)}
-                  placeholder="Share context on team size, timeline, or delivery challenge."
-                  className="min-h-[7rem] resize-y text-sm focus-visible:ring-brand-orange/40"
-                />
-              </div>
-
-              <div className="space-y-2.5">
-                <Label htmlFor={`${idPrefix}-profile`} className={labelClass}>
-                  Website or LinkedIn URL (Optional)
-                </Label>
-                <Input
-                  id={`${idPrefix}-profile`}
-                  type="url"
-                  value={profileUrl}
-                  onChange={(e) => setProfileUrl(e.target.value)}
-                  placeholder="https://linkedin.com/in/your-profile"
-                  className={fieldClass}
-                />
-              </div>
-            </div>
+          <div className="space-y-2.5">
+            <Label htmlFor={`${idPrefix}-profile`} className={labelClass}>
+              Website or LinkedIn URL (Optional)
+            </Label>
+            <Input
+              id={`${idPrefix}-profile`}
+              type="url"
+              value={profileUrl}
+              onChange={(e) => setProfileUrl(e.target.value)}
+              placeholder="https://linkedin.com/in/your-profile"
+              className={fieldClass}
+            />
           </div>
 
           <input

@@ -50,6 +50,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
   }, [errorTarget, error]);
 
   const shellClass = cn(
+    'relative left-1/2 w-[calc(100%+0.5rem)] max-w-[calc(100vw-1.5rem)] -translate-x-1/2 sm:w-[calc(100%+2rem)] sm:max-w-[calc(100vw-3rem)]',
     'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
     'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800',
     className,

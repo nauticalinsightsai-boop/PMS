@@ -129,7 +129,7 @@ export function Newsletter({
                 </Link>
               </p>
             </div>
-            <div className="space-y-6 w-full max-w-md mx-auto lg:max-w-none">
+            <div className="relative z-30 isolate w-full min-w-0">
               <NewsletterHeroSubscribeForm
                 placement="newsletter_hero_desktop"
                 topicOptions={topicOptions}
