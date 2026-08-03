@@ -1,5 +1,8 @@
 import { requestOrigin } from '@/lib/request-origin';
-import { createStripeEmbeddedCheckoutSession } from '@/lib/checkout-session';
+import {
+  createStripeEmbeddedCheckoutSession,
+  expireStripeCheckoutSessionBestEffort,
+} from '@/lib/checkout-session';
 import {
   resolveMembershipCheckoutPrice,
   type MembershipBilling,
@@ -70,7 +73,7 @@ export async function POST(request: Request) {
   }
 
   if (isSupabaseConfigured) {
-    await supabaseAdmin.from('orders').insert({
+    const { error } = await supabaseAdmin.from('orders').insert({
       offering_id: `membership_${tier}`,
       region_id: regionId,
       email: 'pending@checkout.local',
@@ -86,6 +89,11 @@ export async function POST(request: Request) {
         checkoutDisplay: price.display,
       },
     });
+    if (error) {
+      console.error('[checkout/membership] order insert failed', error);
+      await expireStripeCheckoutSessionBestEffort(session.sessionId);
+      return jsonError('Could not record checkout. Try again or contact support.', 503);
+    }
   }
 
   return jsonOk({

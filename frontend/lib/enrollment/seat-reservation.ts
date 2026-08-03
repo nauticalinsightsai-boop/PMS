@@ -12,7 +12,17 @@ export const SEAT_RESERVATION_HOLD_MS = 15 * 60 * 1000;
 /** Seat reservation deposit = 25% of pathway tuition. */
 export const SEAT_DEPOSIT_FRACTION = 0.25;
 
-export type EnrollmentPaymentMode = 'seat_deposit' | 'full_tuition';
+export type EnrollmentPaymentMode =
+  | 'seat_deposit'
+  | 'full_tuition'
+  | 'mentor_led'
+  | 'self_paced';
+
+export function isDeliveryMode(
+  mode: EnrollmentPaymentMode,
+): mode is 'mentor_led' | 'self_paced' {
+  return mode === 'mentor_led' || mode === 'self_paced';
+}
 
 export function resolveSeatDepositUsdCents(fullUsdCents: number | null | undefined): number | null {
   if (fullUsdCents == null || fullUsdCents <= 0) return null;

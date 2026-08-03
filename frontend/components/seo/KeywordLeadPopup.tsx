@@ -35,7 +35,11 @@ import {
   formatDialPrefix,
   resolveDialOption,
 } from '@/lib/pmp-roadmap-form-options';
-import { formChoiceGroupClass } from '@/lib/form-choice-group-layout';
+import {
+  formChoiceChipLayoutClass,
+  formChoiceGroupClass,
+  formChoiceStepBleedClass,
+} from '@/lib/form-choice-group-layout';
 import { submitPublicInteraction } from '@/lib/interactions/submit-public';
 import { trackFunnelEvent, FUNNEL_EVENTS } from '@/lib/analytics/funnel';
 import { trackEvent } from '@/lib/analytics/gtag';
@@ -49,6 +53,35 @@ const STORAGE_KEY = 'pms_keyword_lead_popup_dismissed_at';
 const SESSION_SHOWN_KEY = 'pms_keyword_lead_popup_shown';
 const DISMISS_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const OPEN_DELAY_MS = 700;
+
+/**
+ * Close-focus fallback when pre-open focus is BODY/unavailable:
+ * 1) `[data-keyword-lead-focus-fallback]` if present on the page
+ * 2) first focusable control inside `main`
+ * 3) `main` landmark itself
+ * 4) Base UI default (`true`)
+ */
+function resolveKeywordLeadCloseFocus(prior: HTMLElement | null): HTMLElement | true {
+  if (
+    prior &&
+    prior.isConnected &&
+    prior !== document.body &&
+    prior !== document.documentElement
+  ) {
+    return prior;
+  }
+  const marked = document.querySelector<HTMLElement>('[data-keyword-lead-focus-fallback]');
+  if (marked?.isConnected) return marked;
+  const main = document.querySelector('main');
+  if (main instanceof HTMLElement) {
+    const interactive = main.querySelector<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+    if (interactive?.isConnected) return interactive;
+    return main;
+  }
+  return true;
+}
 
 function wasRecentlyDismissed(): boolean {
   try {
@@ -109,12 +142,17 @@ export function KeywordLeadPopup() {
   const dialOption = resolveDialOption(dialValue);
   const [phone, setPhone] = React.useState('');
   const [jobExperience, setJobExperience] = React.useState('');
+  const [jobExperienceOther, setJobExperienceOther] = React.useState('');
+  const [jobExperienceOtherError, setJobExperienceOtherError] = React.useState<string | null>(
+    null,
+  );
   const [message, setMessage] = React.useState('');
   const [honeypot, setHoneypot] = React.useState('');
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const trackedView = React.useRef(false);
+  const preOpenFocusRef = React.useRef<HTMLElement | null>(null);
 
   const copy = resolveKeywordLeadPopupCopy({
     intent: row?.intent ?? (isMockExamDirect ? 'Lead Magnet' : 'Commercial'),
@@ -127,6 +165,13 @@ export function KeywordLeadPopup() {
     if (wasRecentlyDismissed() || wasShownThisSession()) return;
 
     const timer = window.setTimeout(() => {
+      const active = document.activeElement;
+      preOpenFocusRef.current =
+        active instanceof HTMLElement &&
+        active !== document.body &&
+        active !== document.documentElement
+          ? active
+          : null;
       setOpen(true);
       markSessionShown();
     }, OPEN_DELAY_MS);
@@ -208,7 +253,13 @@ export function KeywordLeadPopup() {
       setError('Please select your years of experience.');
       return;
     }
+    if (jobExperience === 'other' && !jobExperienceOther.trim()) {
+      setError(null);
+      setJobExperienceOtherError('Specify other experience.');
+      return;
+    }
     setError(null);
+    setJobExperienceOtherError(null);
     setSubmitting(true);
     trackFunnelEvent(FUNNEL_EVENTS.CTA_CLICK, {
       surface: 'keyword_lead_popup',
@@ -244,6 +295,8 @@ export function KeywordLeadPopup() {
         phoneFull,
         whatsapp: phoneFull,
         jobExperienceYears: jobExperience,
+        jobExperienceOther:
+          jobExperience === 'other' ? jobExperienceOther.trim() : undefined,
         message: message.trim() || undefined,
         keyword: row?.keyword,
         intent: row?.intent,
@@ -271,7 +324,11 @@ export function KeywordLeadPopup() {
 
   return (
     <Dialog open={open} onOpenChange={(next) => !next && dismiss('backdrop')}>
-      <DialogContent className="sm:max-w-md z-[141]" overlayClassName="z-[140]">
+      <DialogContent
+        className="sm:max-w-md z-[141]"
+        overlayClassName="z-[140]"
+        finalFocus={() => resolveKeywordLeadCloseFocus(preOpenFocusRef.current)}
+      >
         <DialogHeader>
           <DialogTitle className="text-xl font-bold pr-8">{copy.headline}</DialogTitle>
           <DialogDescription className="text-sm leading-relaxed">{copy.body}</DialogDescription>
@@ -340,32 +397,77 @@ export function KeywordLeadPopup() {
                 <legend className="text-sm font-medium leading-none">
                   Years of experience <span className="text-brand-orange">*</span>
                 </legend>
-                <div
-                  className={formChoiceGroupClass(PMP_JOB_EXPERIENCE_OPTIONS.length, 'site')}
-                  role="group"
-                  aria-label="Years of experience"
-                >
-                  {PMP_JOB_EXPERIENCE_OPTIONS.map((opt) => {
-                    const selected = jobExperience === opt.value;
-                    return (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        aria-pressed={selected}
-                        onClick={() => setJobExperience(opt.value)}
-                        className={cn(
-                          'h-8 rounded-lg border px-2 text-xs font-medium transition-colors',
-                          selected
-                            ? 'border-brand-orange bg-brand-orange/10 text-brand-orange'
-                            : 'border-border bg-background text-foreground hover:bg-muted',
-                        )}
-                      >
-                        {opt.label}
-                      </button>
-                    );
-                  })}
+                <div className={formChoiceStepBleedClass('site')}>
+                  <div
+                    className={formChoiceGroupClass(PMP_JOB_EXPERIENCE_OPTIONS.length, 'site')}
+                    role="group"
+                    aria-label="Years of experience"
+                  >
+                    {PMP_JOB_EXPERIENCE_OPTIONS.map((opt) => {
+                      const selected = jobExperience === opt.value;
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          aria-pressed={selected}
+                          onClick={() => {
+                            setJobExperience(opt.value);
+                            if (opt.value !== 'other') {
+                              setJobExperienceOther('');
+                              setJobExperienceOtherError(null);
+                            }
+                            setError(null);
+                          }}
+                          className={cn(
+                            'min-h-11 rounded-lg border text-xs font-medium transition-colors',
+                            formChoiceChipLayoutClass(PMP_JOB_EXPERIENCE_OPTIONS.length),
+                            selected
+                              ? 'border-brand-orange bg-brand-orange/10 text-brand-orange'
+                              : 'border-border bg-background text-foreground hover:bg-muted',
+                          )}
+                        >
+                          {opt.label}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </fieldset>
+              {jobExperience === 'other' ? (
+                <div className="space-y-1.5">
+                  <Label htmlFor="kw-lead-experience-other">
+                    Specify other experience <span className="text-brand-orange">*</span>
+                  </Label>
+                  <Input
+                    id="kw-lead-experience-other"
+                    value={jobExperienceOther}
+                    onChange={(e) => {
+                      setJobExperienceOther(e.target.value);
+                      if (jobExperienceOtherError) setJobExperienceOtherError(null);
+                    }}
+                    onInvalid={() =>
+                      setJobExperienceOtherError('Specify other experience.')
+                    }
+                    required
+                    aria-required="true"
+                    aria-invalid={jobExperienceOtherError ? 'true' : 'false'}
+                    aria-describedby={
+                      jobExperienceOtherError
+                        ? 'kw-lead-experience-other-error'
+                        : undefined
+                    }
+                  />
+                  {jobExperienceOtherError ? (
+                    <p
+                      id="kw-lead-experience-other-error"
+                      className="text-sm text-destructive"
+                      role="alert"
+                    >
+                      {jobExperienceOtherError}
+                    </p>
+                  ) : null}
+                </div>
+              ) : null}
               {jobExperience ? (
                 <div className="space-y-1.5">
                   <Label htmlFor="kw-lead-message">

@@ -66,11 +66,16 @@ function resolveActiveDisplay(
   offering: CourseOffering,
   regionId: RegionId,
   gccCountry?: string | null,
+  priceBook: 'mentor' | 'self_paced' = 'mentor',
 ): string | null {
+  const book =
+    priceBook === 'self_paced' && offering.pricesSelfPaced
+      ? offering.pricesSelfPaced
+      : offering.prices;
   if (regionId === 'gcc') {
-    return gccDisplayForCountry(offering.prices.gcc, gccCountry) ?? offering.prices.gcc.display ?? null;
+    return gccDisplayForCountry(book.gcc, gccCountry) ?? book.gcc?.display ?? null;
   }
-  return offering.prices[regionId]?.display ?? offering.prices.global.display ?? null;
+  return book[regionId]?.display ?? book.global?.display ?? null;
 }
 
 function resolveCurrencyCode(
@@ -106,8 +111,10 @@ export function resolveRegionalCheckoutPrice(
   offering: CourseOffering,
   regionId: RegionId,
   gccCountry?: string | null,
+  options?: { priceBook?: 'mentor' | 'self_paced' },
 ): RegionalCheckoutPrice | null {
-  const display = resolveActiveDisplay(offering, regionId, gccCountry);
+  const priceBook = options?.priceBook ?? 'mentor';
+  const display = resolveActiveDisplay(offering, regionId, gccCountry, priceBook);
   if (!display) return null;
 
   const majorAmount = parseDisplayAmount(display);
@@ -117,13 +124,18 @@ export function resolveRegionalCheckoutPrice(
   const currency = toStripeCurrency(currencyCode);
   const unitAmount = toStripeMinorUnits(majorAmount, currency);
 
+  const usdCents =
+    priceBook === 'self_paced' && offering.pricesSelfPaced?.global?.usdCents != null
+      ? offering.pricesSelfPaced.global.usdCents
+      : resolveCheckoutUsdCents(offering, regionId);
+
   return {
     currency,
     unitAmount,
     display,
     majorAmount,
     currencyCode,
-    usdCents: resolveCheckoutUsdCents(offering, regionId),
+    usdCents,
   };
 }
 

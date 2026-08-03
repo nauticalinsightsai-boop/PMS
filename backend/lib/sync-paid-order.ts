@@ -8,7 +8,30 @@ type OrderRow = {
   email: string;
   metadata: unknown;
   status: string;
+  updated_at: string;
 };
+
+export type VerifiedPaidOrderIdentity = {
+  /** Opaque internal order identity; never a Stripe object ID. */
+  durableTransactionId: string;
+  /** Stable provider-dedupe identity derived from the internal order. */
+  durablePurchaseEventId: string;
+};
+
+function paidOrderIdentity(
+  orderId: string,
+  metadata: Record<string, unknown>,
+): VerifiedPaidOrderIdentity {
+  const storedEventId =
+    typeof metadata.purchaseAnalyticsEventId === 'string' &&
+    metadata.purchaseAnalyticsEventId.trim()
+      ? metadata.purchaseAnalyticsEventId.trim()
+      : null;
+  return {
+    durableTransactionId: orderId,
+    durablePurchaseEventId: storedEventId ?? `pms_purchase_${orderId}`,
+  };
+}
 
 function asMetadataRecord(value: unknown): Record<string, unknown> {
   if (value && typeof value === 'object' && !Array.isArray(value)) {
@@ -32,13 +55,16 @@ export async function syncPaidOrderFromStripeSession(params: {
   paymentStatus: string;
   customerEmail: string | null;
   verifiedVia: 'webhook' | 'session_poll';
-}): Promise<void> {
-  if (!isSupabaseConfigured) return;
-  if (params.paymentStatus !== 'paid' && params.paymentStatus !== 'no_payment_required') return;
+  idempotencyKey: string;
+}): Promise<VerifiedPaidOrderIdentity | null> {
+  if (!isSupabaseConfigured) return null;
+  if (params.paymentStatus !== 'paid' && params.paymentStatus !== 'no_payment_required') {
+    return null;
+  }
 
   const { data: row, error: fetchError } = await supabaseAdmin
     .from('orders')
-    .select('id, offering_id, email, metadata, status')
+    .select('id, offering_id, email, metadata, status, updated_at')
     .eq('stripe_session_id', params.sessionId)
     .maybeSingle();
 
@@ -46,55 +72,81 @@ export async function syncPaidOrderFromStripeSession(params: {
     console.error('[sync-paid-order] order lookup failed:', fetchError.message);
     throw fetchError;
   }
-  if (!row) return;
+  if (!row) return null;
 
   const order = row as OrderRow;
   const priorMetadata = asMetadataRecord(order.metadata);
+  const purchaseIdentity = paidOrderIdentity(order.id, priorMetadata);
   const recipientEmail = resolveRecipientEmail(params.customerEmail, order.email);
+  if (
+    typeof priorMetadata.stripeFulfillmentCompletedAt === 'string' ||
+    typeof priorMetadata.stripeFulfillmentClaimedAt === 'string'
+  ) {
+    return purchaseIdentity;
+  }
 
   const paidMetadata: Record<string, unknown> = {
     ...priorMetadata,
+    purchaseAnalyticsEventId: purchaseIdentity.durablePurchaseEventId,
     stripePaymentStatus: params.paymentStatus,
     stripeCustomerEmail: params.customerEmail,
     verifiedVia: params.verifiedVia,
   };
 
-  if (order.status !== 'paid') {
+  if (!recipientEmail) {
     const { error: updateError } = await supabaseAdmin
       .from('orders')
       .update({
         status: 'paid',
         updated_at: new Date().toISOString(),
-        ...(recipientEmail ? { email: recipientEmail } : {}),
         metadata: paidMetadata,
       })
-      .eq('id', order.id);
-
+      .eq('id', order.id)
+      .eq('updated_at', order.updated_at);
     if (updateError) {
       console.error('[sync-paid-order] order update failed:', updateError.message);
       throw updateError;
     }
-  } else if (recipientEmail && recipientEmail !== order.email) {
-    await supabaseAdmin
-      .from('orders')
-      .update({
-        email: recipientEmail,
-        updated_at: new Date().toISOString(),
-        metadata: paidMetadata,
-      })
-      .eq('id', order.id);
+    console.warn('[sync-paid-order] paid order missing customer email; fulfillment deferred', {
+      orderId: order.id,
+      sessionId: params.sessionId,
+    });
+    return purchaseIdentity;
   }
 
-  const { data: freshRow } = await supabaseAdmin
+  const claimedAt = new Date().toISOString();
+  const claimedMetadata: Record<string, unknown> = {
+    ...paidMetadata,
+    stripeFulfillmentClaimedAt: claimedAt,
+    stripeFulfillmentClaimKey: params.idempotencyKey,
+    stripeFulfillmentState: 'processing',
+  };
+  const {
+    data: claimedRow,
+    error: claimError,
+  } = await supabaseAdmin
     .from('orders')
-    .select('metadata')
+    .update({
+      status: 'paid',
+      email: recipientEmail,
+      updated_at: claimedAt,
+      metadata: claimedMetadata,
+    })
     .eq('id', order.id)
+    .eq('updated_at', order.updated_at)
+    .select('id')
     .maybeSingle();
 
-  const latestMetadata = asMetadataRecord(freshRow?.metadata ?? paidMetadata);
+  if (claimError) {
+    console.error('[sync-paid-order] fulfillment claim failed:', claimError.message);
+    throw claimError;
+  }
+  if (!claimedRow) return purchaseIdentity;
+
+  const latestMetadata = claimedMetadata;
 
   // Record the paid order into the forms → Google Sheets pipeline (once per order).
-  if (recipientEmail && !latestMetadata.sheetRecordedAt) {
+  if (!latestMetadata.sheetRecordedAt) {
     const recorded = await recordPaidOrderToSheet({
       email: recipientEmail,
       offeringId: order.offering_id,
@@ -103,21 +155,7 @@ export async function syncPaidOrderFromStripeSession(params: {
     });
     if (recorded) {
       latestMetadata.sheetRecordedAt = new Date().toISOString();
-      await supabaseAdmin
-        .from('orders')
-        .update({ metadata: latestMetadata, updated_at: new Date().toISOString() })
-        .eq('id', order.id);
     }
-  }
-
-  if (latestMetadata.confirmationEmailSentAt) return;
-
-  if (!recipientEmail) {
-    console.warn('[sync-paid-order] paid order missing customer email; skipping confirmation email', {
-      orderId: order.id,
-      sessionId: params.sessionId,
-    });
-    return;
   }
 
   const paymentType =
@@ -127,17 +165,33 @@ export async function syncPaidOrderFromStripeSession(params: {
   const amountDisplay =
     typeof latestMetadata.checkoutDisplay === 'string' ? latestMetadata.checkoutDisplay : null;
 
-  const sent = await sendOrderConfirmationEmail({
-    to: recipientEmail,
-    offeringId: order.offering_id,
-    paymentType,
-    customerName,
-    amountDisplay,
-  });
+  let sent = false;
+  try {
+    sent = await sendOrderConfirmationEmail({
+      to: recipientEmail,
+      offeringId: order.offering_id,
+      paymentType,
+      customerName,
+      amountDisplay,
+    });
+  } catch (error) {
+    const failedMetadata: Record<string, unknown> = {
+      ...latestMetadata,
+      stripeFulfillmentState: 'needs_reconciliation',
+      stripeFulfillmentFailure: 'confirmation_email_failed',
+    };
+    await supabaseAdmin
+      .from('orders')
+      .update({
+        updated_at: new Date().toISOString(),
+        metadata: failedMetadata,
+      })
+      .eq('id', order.id);
+    throw error;
+  }
 
   const confirmationPatch: Record<string, unknown> = {
     ...latestMetadata,
-    ...paidMetadata,
     confirmationEmailRecipient: recipientEmail,
   };
 
@@ -146,6 +200,13 @@ export async function syncPaidOrderFromStripeSession(params: {
   } else {
     confirmationPatch.confirmationEmailSkippedAt = new Date().toISOString();
     confirmationPatch.confirmationEmailSkipReason = 'email_not_configured';
+  }
+  confirmationPatch.stripeFulfillmentState =
+    confirmationPatch.sheetRecordedAt && confirmationPatch.confirmationEmailSentAt
+      ? 'completed'
+      : 'needs_reconciliation';
+  if (confirmationPatch.stripeFulfillmentState === 'completed') {
+    confirmationPatch.stripeFulfillmentCompletedAt = new Date().toISOString();
   }
 
   const { error: confirmError } = await supabaseAdmin
@@ -160,4 +221,6 @@ export async function syncPaidOrderFromStripeSession(params: {
     console.error('[sync-paid-order] confirmation metadata update failed:', confirmError.message);
     throw confirmError;
   }
+
+  return purchaseIdentity;
 }

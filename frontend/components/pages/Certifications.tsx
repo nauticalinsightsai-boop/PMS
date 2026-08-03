@@ -473,11 +473,6 @@ export function Certifications({
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/certifications/compare">
-                  <Button size="lg" variant="brand" className="h-16 px-10 rounded-2xl font-bold text-lg shadow-xl transition-all hover:scale-105">
-                    Compare Frameworks
-                  </Button>
-                </Link>
                 <Link href="/certifications/compare#secondary-waitlist">
                   <Button size="lg" variant="outline" className="h-16 px-10 rounded-2xl font-bold text-lg">
                     Secondary pathway waitlists
@@ -501,7 +496,8 @@ export function Certifications({
                   currentPath="/certifications"
                   collapsible
                   variant="dark-adaptive"
-                  className="mx-auto mt-8 max-w-xl text-left sm:mt-10"
+                  align="center"
+                  className="mx-auto mt-8 max-w-xl sm:mt-10"
                 />
               ) : null}
             </div>

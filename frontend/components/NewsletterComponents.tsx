@@ -50,25 +50,23 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
     // No motion here: article pages are outside the hub LazyMotion tree, and
     // opacity:0 + whileInView left Related Articles looking empty.
     return (
-      <Link href={linkHref} className="flex gap-6 group">
-        <div className="w-1/3 aspect-[4/3] rounded-2xl overflow-hidden shrink-0">
+      <Link href={linkHref} className="flex items-start gap-3 group">
+        <div className="h-20 w-24 shrink-0 overflow-hidden rounded-xl">
           <img
             src={resolveNewsletterArticleImage(article.slug, article.image)}
             alt={article.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             referrerPolicy="no-referrer"
           />
         </div>
-        <div className="flex flex-col justify-center">
-          <Badge variant="outline" className="w-fit mb-2 border-brand-purple/20 text-brand-purple bg-brand-purple/5">
+        <div className="flex min-w-0 flex-col justify-center py-0.5">
+          <Badge variant="outline" className="mb-1 w-fit border-brand-purple/20 bg-brand-purple/5 text-[10px] text-brand-purple">
             {article.category}
           </Badge>
-          <h3 className="text-xl font-bold font-heading leading-tight group-hover:text-brand-purple transition-colors mb-2">
+          <h3 className="mb-1 font-heading text-sm font-bold leading-snug transition-colors line-clamp-2 group-hover:text-brand-purple">
             {article.title}
           </h3>
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {article.date}</span>
-            <span>•</span>
+          <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
             <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {article.readTime}</span>
           </div>
         </div>

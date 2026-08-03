@@ -3,9 +3,18 @@ import { getOfferingById } from '@/lib/regional-catalogue';
 import {
   createStripeEmbeddedCheckoutSession,
   createStripePaymentSession,
+  expireStripeCheckoutSessionBestEffort,
 } from '@/lib/checkout-session';
-import { assertFullTuitionEligible } from '@/lib/enrollment-eligibility';
-import { type EnrollmentPaymentMode } from '@/lib/enrollment-pricing';
+import {
+  assertFullTuitionEligible,
+  requiresConsultationApproval,
+} from '@/lib/enrollment-eligibility';
+import { isConsultationApproved } from '@/lib/consultation-approval';
+import {
+  isDeliveryFullChargeMode,
+  parseEnrollmentPaymentMode,
+  type EnrollmentPaymentMode,
+} from '@/lib/enrollment-pricing';
 import {
   formatRegionalDepositDisplay,
   resolveRegionalCheckoutPrice,
@@ -16,10 +25,6 @@ import { jsonError, jsonOk } from '@/lib/response-helpers.js';
 import { safeRedirectUrl } from '@/lib/safe-redirect-url';
 import { isStripeConfigured, isStripeTestMode, getStripeSecretKeyIssue } from '@/lib/stripe';
 import type { RegionId } from '@/lib/regional-catalogue';
-
-function parsePaymentMode(raw: unknown): EnrollmentPaymentMode {
-  return raw === 'full_tuition' ? 'full_tuition' : 'seat_deposit';
-}
 
 export async function POST(request: Request) {
   if (!isStripeConfigured()) {
@@ -91,18 +96,33 @@ export async function POST(request: Request) {
   const offering = getOfferingById(offeringId);
   if (!offering) return jsonError('Offering not found', 404);
 
-  const fullRegional = resolveRegionalCheckoutPrice(offering, regionId, gccCountry);
+  const status = offering.regional[regionId]?.status;
+  if (
+    requiresConsultationApproval(status) &&
+    (!trimmedEmail || !(await isConsultationApproved(trimmedEmail, offeringId)))
+  ) {
+    return jsonError(
+      'Consultation approval is required before checkout for this pathway.',
+      403,
+    );
+  }
+
+  const paymentMode = parseEnrollmentPaymentMode(rawPaymentMode, offering.tierId);
+  const priceBook = paymentMode === 'self_paced' ? 'self_paced' : 'mentor';
+  const fullRegional = resolveRegionalCheckoutPrice(offering, regionId, gccCountry, {
+    priceBook,
+  });
   if (!fullRegional) return jsonError('Price unavailable', 400);
 
-  const paymentMode = parsePaymentMode(rawPaymentMode);
-
-  if (paymentMode === 'full_tuition') {
+  if (paymentMode === 'full_tuition' || paymentMode === 'mentor_led' || paymentMode === 'self_paced') {
     const eligibility = assertFullTuitionEligible(offering, regionId);
     if (!eligibility.ok) return jsonError(eligibility.message, 403);
   }
 
-  const checkoutRegional =
-    paymentMode === 'full_tuition' ? fullRegional : resolveRegionalDepositPrice(fullRegional);
+  const isDeposit = paymentMode === 'seat_deposit';
+  const checkoutRegional = isDeposit
+    ? resolveRegionalDepositPrice(fullRegional)
+    : fullRegional;
   const depositDisplay = formatRegionalDepositDisplay(fullRegional.display);
 
   const tierLabel = offering.tierId.replace(/_/g, ' ') || tierSlug.replace(/-/g, ' ');
@@ -113,7 +133,13 @@ export async function POST(request: Request) {
   const defaultSuccess = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll/success?offering=${encodeURIComponent(offeringId)}&session_id={CHECKOUT_SESSION_ID}`;
   const defaultCancel = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll?offering=${encodeURIComponent(offeringId)}`;
 
-  const isDeposit = paymentMode === 'seat_deposit';
+  const deliveryLabel =
+    paymentMode === 'self_paced'
+      ? 'Self-paced online'
+      : paymentMode === 'mentor_led'
+        ? 'Mentor-led'
+        : null;
+
   const shared = {
     offeringId,
     currency: checkoutRegional.currency,
@@ -122,10 +148,14 @@ export async function POST(request: Request) {
     email: trimmedEmail || undefined,
     productName: isDeposit
       ? `Seat reservation deposit: ${offering.courseName}`
-      : `${offering.courseName}: ${tierLabel}`,
+      : deliveryLabel
+        ? `${offering.courseName}: ${tierLabel} (${deliveryLabel})`
+        : `${offering.courseName}: ${tierLabel}`,
     productDescription: isDeposit
       ? `${tierLabel} pathway · 25% deposit (${depositDisplay}) · remaining tuition due at onboarding`
-      : `Full pathway tuition (${fullRegional.display})`,
+      : deliveryLabel
+        ? `${deliveryLabel} · ${fullRegional.display}`
+        : `Full pathway tuition (${fullRegional.display})`,
     metadata: {
       offeringId,
       siteCertId,
@@ -175,10 +205,12 @@ export async function POST(request: Request) {
         checkoutUnitAmount: checkoutRegional.unitAmount,
         checkoutDisplay: isDeposit ? depositDisplay : fullRegional.display,
         depositFraction: isDeposit ? 0.25 : null,
+        deliveryMode: isDeliveryFullChargeMode(paymentMode) ? paymentMode : null,
       },
     });
     if (error) {
       console.error('[checkout/seat-deposit] orders insert failed:', error.message);
+      await expireStripeCheckoutSessionBestEffort(session.sessionId);
       return jsonError('Could not create order record', 503);
     }
   }

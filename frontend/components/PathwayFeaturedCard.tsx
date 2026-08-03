@@ -52,10 +52,16 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
 
   const showGlobalReference =
     Boolean(presentation?.showGlobalReference && listing.original);
+  const showMembership = Boolean(listing.membership?.trim());
 
   return (
     <div className="mb-0 flex shrink-0 flex-col space-y-2">
-      <div className="grid grid-cols-2 items-stretch gap-1.5 overflow-visible max-md:min-h-[4.25rem] sm:grid-cols-3 sm:gap-2 sm:min-h-[5rem]">
+      <div
+        className={cn(
+          'grid items-stretch gap-1.5 overflow-visible max-md:min-h-[4.25rem] sm:gap-2 sm:min-h-[5rem]',
+          showMembership ? 'grid-cols-2 sm:grid-cols-3' : 'grid-cols-2',
+        )}
+      >
         <StatChip
           label="Prep time"
           className="h-full min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
@@ -88,10 +94,12 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
           )}
         </StatChip>
 
-        <MembershipPriceChip
-          price={listing.membership}
-          className="hidden h-full min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[5rem] sm:px-2.5"
-        />
+        {showMembership ? (
+          <MembershipPriceChip
+            price={listing.membership}
+            className="hidden h-full min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[5rem] sm:px-2.5"
+          />
+        ) : null}
       </div>
 
       {showGlobalReference && listing.original ? (

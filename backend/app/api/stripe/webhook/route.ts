@@ -32,7 +32,10 @@ export async function POST(request: Request) {
   }
 
   try {
-    if (event.type === 'checkout.session.completed') {
+    if (
+      event.type === 'checkout.session.completed' ||
+      event.type === 'checkout.session.async_payment_succeeded'
+    ) {
       const session = event.data.object as Stripe.Checkout.Session;
       if (session.payment_status === 'paid' || session.payment_status === 'no_payment_required') {
         await syncPaidOrderFromStripeSession({
@@ -40,6 +43,7 @@ export async function POST(request: Request) {
           paymentStatus: session.payment_status,
           customerEmail: session.customer_details?.email ?? session.customer_email ?? null,
           verifiedVia: 'webhook',
+          idempotencyKey: event.id,
         });
       }
     }

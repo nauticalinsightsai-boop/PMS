@@ -123,7 +123,7 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     title: 'PMP 2026 Readiness Pathway | PM Structure',
     description:
       'Prepare for the PMP 2026 exam transition with a structured readiness pathway, roadmap support, and practical project-management guidance.',
-    h1: 'PMP 2026 Readiness Pathway',
+    h1: 'PMP Pathway',
     canonicalPath: '/certifications/pmp',
     regionFocus: ['GCC', 'South Asia'],
   },

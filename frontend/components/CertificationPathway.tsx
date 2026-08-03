@@ -87,12 +87,18 @@ function PathwayTierPricingChips({
       })
     : null;
 
+  const showMembership = Boolean(tier.membershipPrice?.trim()) && tier.level !== 'Foundation';
   const showGlobalReference = Boolean(presentation?.showGlobalReference && tier.originalPrice);
   const isScholarship = presentation?.kind === 'scholarship';
 
   return (
     <div className="mb-5 space-y-2">
-      <div className="grid grid-cols-2 gap-1.5 items-stretch overflow-visible sm:grid-cols-3 sm:gap-2">
+      <div
+        className={cn(
+          'grid gap-1.5 items-stretch overflow-visible sm:gap-2',
+          showMembership ? 'grid-cols-2 sm:grid-cols-3' : 'grid-cols-2',
+        )}
+      >
         <StatChip
           label="Prep time"
           className="min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
@@ -121,10 +127,12 @@ function PathwayTierPricingChips({
           )}
         </StatChip>
 
-        <MembershipPriceChip
-          price={tier.membershipPrice}
-          className="hidden min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[4.5rem] sm:px-2.5"
-        />
+        {showMembership ? (
+          <MembershipPriceChip
+            price={tier.membershipPrice}
+            className="hidden min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[4.5rem] sm:px-2.5"
+          />
+        ) : null}
       </div>
 
       {showGlobalReference && tier.originalPrice && (

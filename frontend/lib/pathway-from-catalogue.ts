@@ -54,7 +54,7 @@ export function buildPathwayTiersForCert(
       details: tierPathwaySummary(o.tierId),
       tierDelivery: deliveryLine,
       price: prices.active ?? '',
-      membershipPrice: prices.membership ?? '',
+      membershipPrice: o.tierId === 'foundation' ? '' : (prices.membership ?? ''),
       regionalLabel: prices.regionalLabel,
       priceFootnote: prices.footnote,
       deliveryMode: deliveryLine,

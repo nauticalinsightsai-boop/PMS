@@ -37,7 +37,9 @@ describe('persisted public lead conversion', () => {
   it('emits one GA lead and one Meta Lead with the same opaque event id', () => {
     const input = {
       clientSubmissionId: 'lead_opaque_123',
+      submissionId: 'submission_durable_123',
       source: 'contact',
+      formVersion: 'p0.6.2-333-authoritative',
       formId: 'contact_form',
       formPlacement: 'footer',
       pagePath: '/contact',
@@ -54,6 +56,9 @@ describe('persisted public lead conversion', () => {
       'generate_lead',
       expect.objectContaining({
         event_id: 'lead_opaque_123',
+        clientSubmissionId: 'lead_opaque_123',
+        submission_id: 'submission_durable_123',
+        form_version: 'p0.6.2-333-authoritative',
         lead_source: 'contact',
         form_id: 'contact_form',
         form_placement: 'footer',

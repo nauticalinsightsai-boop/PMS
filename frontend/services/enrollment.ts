@@ -73,7 +73,10 @@ export async function createEnrollmentEmbeddedCheckout(payload: EnrollmentChecko
 
 /** @deprecated Use createEnrollmentEmbeddedCheckout */
 export async function createSeatDepositEmbeddedCheckout(payload: EnrollmentCheckoutPayload) {
-  return createEnrollmentEmbeddedCheckout({ ...payload, paymentMode: payload.paymentMode ?? 'seat_deposit' });
+  return createEnrollmentEmbeddedCheckout({
+    ...payload,
+    paymentMode: payload.paymentMode ?? 'mentor_led',
+  });
 }
 
 export async function createSeatDepositCheckout(
@@ -82,7 +85,11 @@ export async function createSeatDepositCheckout(
   const res = await fetch(apiUrl('/api/checkout/seat-deposit'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ...payload, uiMode: 'redirect', paymentMode: 'seat_deposit' }),
+    body: JSON.stringify({
+      ...payload,
+      uiMode: 'redirect',
+      paymentMode: payload.paymentMode ?? 'seat_deposit',
+    }),
   });
   return parseApi<EnrollmentCheckoutResponse>(res);
 }
@@ -95,5 +102,9 @@ export async function verifyCheckoutSession(sessionId: string) {
     paid: boolean;
     offeringId?: string | null;
     paymentType?: string | null;
+    currency?: string | null;
+    value?: number | null;
+    durableTransactionId?: string | null;
+    durablePurchaseEventId?: string | null;
   }>(res);
 }

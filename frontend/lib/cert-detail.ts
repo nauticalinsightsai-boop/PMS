@@ -49,7 +49,7 @@ export function resolveCertMarketing(
     outputValue: pickRegistryString(registryEntry?.outputValue, siteCert.outputValue),
     detailHeroTitle:
       registryEntry?.detailHeroTitle ??
-      (siteCert.id === 'pmp' ? 'PMP 2026 Readiness Pathway' : `${siteCert.name} Pathway`),
+      (siteCert.id === 'pmp' ? 'PMP Pathway' : `${siteCert.name} Pathway`),
     detailHeroSubtitle:
       registryEntry?.detailHeroSubtitle ?? registryEntry?.desc ?? siteCert.desc,
     outputValueDisplay: pickRegistryString(registryEntry?.outputValue, siteCert.outputValue),

@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { OnboardingCalendlyCta } from '@/components/checkout/OnboardingCalendlyCta';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { verifyCheckoutSession } from '@/services/checkout';
 import { cn } from '@/lib/utils';
 import { PMS_SKOOL_COMMUNITY_JOIN_URL, externalHrefLinkProps } from '@/config/pms-site';
+import { trackCheckoutSuccessView } from '@/lib/analytics/track-checkout-journey';
 import { trackPurchaseOnce } from '@/lib/analytics/track-purchase-once';
 
 function MembershipCheckoutSuccessContent() {
@@ -17,25 +18,60 @@ function MembershipCheckoutSuccessContent() {
   const billing = searchParams.get('billing');
   const sessionId = searchParams.get('session_id');
   const [paymentVerified, setPaymentVerified] = useState<boolean | null>(null);
+  const successViewTracked = useRef(false);
 
   useEffect(() => {
     if (!sessionId?.startsWith('cs_')) return;
     let cancelled = false;
     void verifyCheckoutSession(sessionId).then((result) => {
-      if (!cancelled) setPaymentVerified(result.data?.paid ?? false);
+      if (cancelled) return;
+      const verified = result.data;
+      setPaymentVerified(verified?.paid ?? false);
+      if (
+        verified?.paid === true &&
+        verified.durableTransactionId &&
+        verified.durablePurchaseEventId
+      ) {
+        trackPurchaseOnce({
+          serverVerifiedPaid: true,
+          durableTransactionId: verified.durableTransactionId,
+          durablePurchaseEventId: verified.durablePurchaseEventId,
+          packageType: 'membership',
+          currency: verified.currency ?? undefined,
+          value: verified.value ?? undefined,
+          items: [
+            {
+              item_id: tier ? `membership_${tier}_${billing ?? 'monthly'}` : 'membership',
+              item_name: tier ? `${tier} membership` : 'PM Structure membership',
+              item_category: 'membership',
+              quantity: 1,
+            },
+          ],
+        });
+      }
     });
     return () => {
       cancelled = true;
     };
-  }, [sessionId]);
+  }, [billing, sessionId, tier]);
 
   useEffect(() => {
-    if (!sessionId?.startsWith('cs_') || paymentVerified !== true) return;
-    trackPurchaseOnce({
-      transactionId: sessionId,
+    if (
+      !sessionId?.startsWith('cs_') ||
+      paymentVerified === null ||
+      successViewTracked.current
+    ) {
+      return;
+    }
+    successViewTracked.current = true;
+    trackCheckoutSuccessView({
       packageType: 'membership',
+      resultState: paymentVerified ? 'verified_paid' : 'not_verified_paid',
+      offeringId: tier ? `membership_${tier}` : undefined,
+      paymentType: billing ?? undefined,
+      pagePath: '/membership/checkout/success',
     });
-  }, [sessionId, paymentVerified]);
+  }, [billing, paymentVerified, sessionId, tier]);
 
   const tierLabel =
     tier === 'professional' ? 'Professional' : tier === 'mastery' ? 'Mastery' : 'Membership';

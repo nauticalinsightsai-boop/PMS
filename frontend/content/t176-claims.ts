@@ -49,6 +49,12 @@ export const T176_STORE_WAITLIST_NOTE =
 export const T176_PAYMENT_DISCLAIMER =
   'Payment to PM Structure covers the selected PM Structure preparation, resource, membership, or advisory service only. Exam fees, certification-body fees, application fees, taxes, and rescheduling fees are paid separately to the relevant certification body unless explicitly stated otherwise.';
 
+/** Pathway enroll disclaimer named to the specific preparation product (e.g. "PMP Preparation"). */
+export function pathwayPaymentDisclaimer(courseName: string): string {
+  const name = courseName.trim() || 'PM Structure preparation pathway';
+  return `Payment to PM Structure covers the ${name} only. Exam fees, certification-body fees, application fees, taxes, and rescheduling fees are paid separately to the relevant certification body unless explicitly stated otherwise.`;
+}
+
 export const T176_SOCIAL_PROOF_REPLACEMENT =
   'Built for working professionals preparing for project-management certifications with structure, accountability, and practical readiness support.';
 

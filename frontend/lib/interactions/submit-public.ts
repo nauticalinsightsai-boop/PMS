@@ -53,6 +53,20 @@ export function createClientSubmissionId(): string {
   return `lead_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 14)}`;
 }
 
+function resolveOptionalFormVersion(
+  data: ClientInteractionBody,
+): string | undefined {
+  if (typeof data.formContext?.formVersion === 'string') {
+    const fromContext = data.formContext.formVersion.trim();
+    if (fromContext) return fromContext;
+  }
+  if (typeof data.payload?.formVersion === 'string') {
+    const fromPayload = data.payload.formVersion.trim();
+    if (fromPayload) return fromPayload;
+  }
+  return undefined;
+}
+
 export async function submitPublicInteraction(
   data: ClientInteractionBody,
 ): Promise<SubmitPublicInteractionResult> {
@@ -97,9 +111,25 @@ export async function submitPublicInteraction(
       };
     }
 
-    if (res.status === 201 && !data.website?.trim() && !data.company?.trim()) {
+    const submissionId = typeof json.id === 'string' ? json.id.trim() : '';
+    const idempotentReplay = json.idempotentReplay === true;
+    const isHoneypot = Boolean(data.website?.trim() || data.company?.trim());
+    const formVersion = resolveOptionalFormVersion(data);
+
+    if (!isHoneypot && !submissionId) {
+      return {
+        ok: false,
+        error: 'Submission failed',
+        clientSubmissionId,
+        idempotentReplay,
+      };
+    }
+
+    if (res.status === 201 && submissionId && !idempotentReplay && !isHoneypot) {
       trackPersistedLeadSuccess({
         clientSubmissionId,
+        submissionId,
+        formVersion,
         source: data.source,
         formId: data.formContext?.formId,
         formPlacement: data.formContext?.placement,
@@ -114,13 +144,13 @@ export async function submitPublicInteraction(
     // Sheets is a secondary operations sink and must never prompt a user retry.
     return {
       ok: true,
-      submissionId: typeof json.id === 'string' ? json.id : undefined,
+      submissionId: isHoneypot ? undefined : submissionId || undefined,
       clientSubmissionId,
       sheetsSynced: json.sheetsSynced === true,
       sheetsSyncPending:
         json.sheetsSyncPending === true ||
         (typeof json.sheetsWarning === 'string' && json.sheetsWarning.trim().length > 0),
-      idempotentReplay: json.idempotentReplay === true,
+      idempotentReplay,
     };
   } catch {
     return { ok: false, error: 'Network error', clientSubmissionId };

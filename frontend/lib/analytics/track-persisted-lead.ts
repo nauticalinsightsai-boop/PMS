@@ -10,7 +10,9 @@ const trackedSubmissionIds = new Set<string>();
 
 export type PersistedLeadTrackingInput = {
   clientSubmissionId: string;
+  submissionId: string;
   source: string;
+  formVersion?: string;
   formId?: string;
   formPlacement?: string;
   pagePath?: string;
@@ -66,8 +68,11 @@ export function trackPersistedLeadSuccess(input: PersistedLeadTrackingInput): bo
 
   pushAnalyticsEvent('generate_lead', {
     event_id: eventId,
+    clientSubmissionId: input.clientSubmissionId,
+    submission_id: input.submissionId,
     lead_source: input.source,
     form_id: formId,
+    ...(input.formVersion ? { form_version: input.formVersion } : {}),
     ...(input.formPlacement ? { form_placement: input.formPlacement } : {}),
     ...(input.pagePath ? { page_path: input.pagePath } : {}),
     ...(input.regionId

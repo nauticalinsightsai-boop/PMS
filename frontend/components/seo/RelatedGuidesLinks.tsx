@@ -13,6 +13,8 @@ type Props = {
   className?: string;
   collapsible?: boolean;
   variant?: 'default' | 'dark' | 'dark-adaptive';
+  /** Title alignment for the collapsible header (default start/left). */
+  align?: 'start' | 'center';
   children?: React.ReactNode;
 };
 
@@ -35,6 +37,7 @@ export function RelatedGuidesLinks({
   className,
   collapsible = false,
   variant = 'default',
+  align = 'start',
   children,
 }: Props) {
   const [toggled, setToggled] = React.useState(false);
@@ -46,10 +49,12 @@ export function RelatedGuidesLinks({
 
   const isDark = variant === 'dark' || variant === 'dark-adaptive';
   const isAdaptive = variant === 'dark-adaptive';
+  const isCentered = align === 'center';
 
   const asideClass = cn(
     'rounded-2xl border p-6',
     !collapsible && 'mt-12',
+    isCentered ? 'text-center' : 'text-left',
     isDark
       ? isAdaptive
         ? 'border-white/10 bg-white/5 dark:border-slate-200 dark:bg-slate-900/[0.04]'
@@ -74,7 +79,7 @@ export function RelatedGuidesLinks({
     : 'font-medium text-brand-purple hover:underline';
 
   const linkList = (
-    <ul className="space-y-2">
+    <ul className={cn('space-y-2', isCentered && 'text-center')}>
       {visible.map((link) => (
         <li key={link.href}>
           <Link href={link.href} className={linkClass}>
@@ -108,7 +113,12 @@ export function RelatedGuidesLinks({
     >
       <button
         type="button"
-        className="flex w-full cursor-pointer items-center justify-between gap-3 border-0 bg-transparent p-0 text-left outline-none focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-brand-orange/50"
+        className={cn(
+          'flex w-full cursor-pointer items-center gap-3 border-0 bg-transparent p-0 outline-none focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-brand-orange/50',
+          isCentered
+            ? 'relative justify-center text-center'
+            : 'justify-between text-left',
+        )}
         onClick={() => setToggled((open) => !open)}
         aria-expanded={expanded}
       >
@@ -116,6 +126,7 @@ export function RelatedGuidesLinks({
         <ChevronDown
           className={cn(
             'h-5 w-5 shrink-0 transition-transform duration-300',
+            isCentered && 'absolute right-0 top-1/2 -translate-y-1/2',
             isDark
               ? isAdaptive
                 ? 'text-slate-400 dark:text-slate-500'

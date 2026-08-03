@@ -3,8 +3,8 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useCallback, useRef } from 'react';
-import { buttonVariants } from '@/components/ui/button';
+import { Suspense, useCallback, useRef, useState } from 'react';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { useRegion } from '@/contexts/RegionContext';
 import { useSiteColorScheme } from '@/hooks/useSiteColorScheme';
@@ -13,6 +13,11 @@ import { MEMBERSHIP_PRICING } from '@/lib/membership-plans';
 import { getRegionalMembershipAmounts } from '@/lib/membership-regional-pricing';
 import { createMembershipEmbeddedCheckout } from '@/services/checkout';
 import { cn } from '@/lib/utils';
+import {
+  createCheckoutAttemptId,
+  trackCheckoutInitiated,
+  trackCheckoutSessionCreated,
+} from '@/lib/analytics/track-checkout-journey';
 
 const StripeEmbeddedCheckoutPanel = dynamic(
   () =>
@@ -21,9 +26,6 @@ const StripeEmbeddedCheckoutPanel = dynamic(
     })),
   { ssr: false, loading: () => <div className="min-h-[320px] animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800" /> },
 );
-import { PMS_EVENTS } from '@/lib/analytics/pms-events';
-import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
-
 function isValidTier(tier: string | null): tier is MembershipCheckoutTier {
   return tier === 'professional' || tier === 'mastery';
 }
@@ -41,19 +43,25 @@ function MembershipCheckoutContent({ publishableKeyHint = null }: { publishableK
 
   const tier = isValidTier(tierParam) ? tierParam : null;
   const billing = isValidBilling(billingParam) ? billingParam : 'monthly';
-  const beginCheckoutFired = useRef(false);
+  const [checkoutAttemptId, setCheckoutAttemptId] = useState<string | null>(null);
+  const sessionCreatedAttemptRef = useRef<string | null>(null);
 
-  const handleCheckoutReady = useCallback(() => {
-    if (beginCheckoutFired.current) return;
-    beginCheckoutFired.current = true;
-    pushAnalyticsEvent(PMS_EVENTS.BEGIN_CHECKOUT, {
-      package_type: 'membership',
-      page_path: typeof window !== 'undefined' ? window.location.pathname : '/membership/checkout',
+  const handleStartCheckout = useCallback(() => {
+    if (!tier || checkoutAttemptId) return;
+    const attemptId = createCheckoutAttemptId();
+    trackCheckoutInitiated({
+      checkoutAttemptId: attemptId,
+      packageType: 'membership',
+      offeringId: `membership_${tier}_${billing}`,
+      paymentType: billing,
+      pagePath:
+        typeof window !== 'undefined' ? window.location.pathname : '/membership/checkout',
     });
-  }, []);
+    setCheckoutAttemptId(attemptId);
+  }, [billing, checkoutAttemptId, tier]);
 
   const loadClientSecret = useCallback(async () => {
-    if (!tier) return null;
+    if (!tier || !checkoutAttemptId) return null;
     const result = await createMembershipEmbeddedCheckout({
       tier,
       billing,
@@ -61,8 +69,20 @@ function MembershipCheckoutContent({ publishableKeyHint = null }: { publishableK
       gccCountry,
       colorScheme,
     });
-    return result.data?.session?.clientSecret ?? null;
-  }, [tier, billing, regionId, gccCountry, colorScheme]);
+    const clientSecret = result.data?.session?.clientSecret ?? null;
+    if (clientSecret && sessionCreatedAttemptRef.current !== checkoutAttemptId) {
+      sessionCreatedAttemptRef.current = checkoutAttemptId;
+      trackCheckoutSessionCreated({
+        checkoutAttemptId,
+        packageType: 'membership',
+        offeringId: `membership_${tier}_${billing}`,
+        paymentType: billing,
+        pagePath:
+          typeof window !== 'undefined' ? window.location.pathname : '/membership/checkout',
+      });
+    }
+    return clientSecret;
+  }, [tier, billing, regionId, gccCountry, colorScheme, checkoutAttemptId]);
 
   if (!tier) {
     return (
@@ -112,12 +132,25 @@ function MembershipCheckoutContent({ publishableKeyHint = null }: { publishableK
         </div>
 
         <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-900">
-          <StripeEmbeddedCheckoutPanel
-            loadClientSecret={loadClientSecret}
-            deps={[tier, billing, regionId, gccCountry, colorScheme]}
-            onReady={handleCheckoutReady}
-            publishableKeyHint={publishableKeyHint}
-          />
+          {checkoutAttemptId ? (
+            <StripeEmbeddedCheckoutPanel
+              loadClientSecret={loadClientSecret}
+              deps={[tier, billing, regionId, gccCountry, colorScheme, checkoutAttemptId]}
+              publishableKeyHint={publishableKeyHint}
+            />
+          ) : (
+            <div className="flex min-h-[220px] items-center justify-center">
+              <Button
+                type="button"
+                variant="brand"
+                size="lg"
+                className="w-full max-w-sm rounded-2xl"
+                onClick={handleStartCheckout}
+              >
+                Start secure checkout
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">

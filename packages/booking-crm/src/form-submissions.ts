@@ -57,6 +57,7 @@ export function submissionSourceLabel(source: string): string {
 export type WebsiteFormContextInput = {
   formId: string
   formLabel?: string
+  formVersion?: string
   pagePath?: string
   placement?: string
   siteCertId?: string
@@ -122,6 +123,7 @@ export function buildWebsiteFormContext(
   return {
     formId: input.formId,
     formLabel: input.formLabel,
+    formVersion: input.formVersion,
     placement: input.placement,
     pagePath,
     pageUrl,
@@ -179,6 +181,7 @@ export function formIdFromPayload(payload: Record<string, unknown>): string {
 const CONTEXT_PAYLOAD_KEYS = new Set([
   'formId',
   'formLabel',
+  'formVersion',
   'placement',
   'pagePath',
   'pageUrl',
@@ -208,6 +211,11 @@ const CONTEXT_PAYLOAD_KEYS = new Set([
   'first_wbraid',
   'first_fbclid',
   'first_msclkid',
+  'first_utm_source',
+  'first_utm_medium',
+  'first_utm_campaign',
+  'first_utm_content',
+  'first_utm_term',
   'utm_source',
   'utm_medium',
   'utm_campaign',
@@ -241,6 +249,24 @@ const FIELD_LABELS: Record<string, string> = {
   visitorWebsite: 'Website',
   offeringId: 'Offering',
   regionId: 'Region',
+  // PMP roadmap qualification taxonomy (new submissions)
+  workField: 'Industry',
+  pmExperience: 'Experience',
+  needsObjective: 'Need',
+  education: 'Education',
+  trainingStatus: 'Training',
+  examTimeline: 'Timeline',
+  workFieldOther: 'Industry (other)',
+  pmExperienceOther: 'Experience (other)',
+  needsObjectiveOther: 'Need (other)',
+  educationOther: 'Education (other)',
+  trainingStatusOther: 'Training (other)',
+  qualificationOutcome: 'Qualification outcome',
+  // Legacy contact preference fields (historical reads only; new submits omit)
+  preferredContactChannel: 'Preferred contact channel',
+  preferredContactWindow: 'Preferred contact window',
+  contactChannel: 'Contact channel',
+  contactWindow: 'Contact window',
 }
 
 function formatFieldValue(value: unknown): string {

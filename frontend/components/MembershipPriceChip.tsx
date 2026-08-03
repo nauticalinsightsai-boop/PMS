@@ -19,7 +19,8 @@ export function MembershipPriceChip({
   price: string | null | undefined;
   className?: string;
 }) {
-  const displayPrice = price?.trim() || '. ';
+  const trimmed = price?.trim() ?? '';
+  const displayPrice = trimmed;
   const [hintOpen, setHintOpen] = useState(false);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -50,6 +51,7 @@ export function MembershipPriceChip({
     };
   }, []);
 
+  if (!trimmed) return null;
   return (
     <Link
       href="/membership"

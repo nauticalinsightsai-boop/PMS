@@ -92,4 +92,16 @@ describe('Navbar mobile Sheet contract', () => {
       'w-[min(100vw-2rem,400px)] bg-background pb-[max(1.5rem,env(safe-area-inset-bottom))]',
     );
   });
+
+  it('lowers header stacking only while mobile Sheet is open so overlay/close are not covered', () => {
+    expect(source).toContain("const NAVBAR_Z_CLOSED = 'z-[100]'");
+    expect(source).toContain("const NAVBAR_Z_MOBILE_OPEN = 'z-40'");
+    expect(source).toContain('mobileOpen ? NAVBAR_Z_MOBILE_OPEN : NAVBAR_Z_CLOSED');
+    // Closed/desktop retain z-[100]; open path must not hardcode z-[100] on the header alone.
+    expect(source).not.toMatch(/<header className=\{NAVBAR_SHELL\}>/);
+    expect(source).toMatch(/className=\{cn\(\s*NAVBAR_SHELL,\s*mobileOpen \? NAVBAR_Z_MOBILE_OPEN : NAVBAR_Z_CLOSED,/);
+    // Sheet primitives stay at z-50 (ui/sheet); open header z-40 is strictly below that layer.
+    expect(source.indexOf("NAVBAR_Z_MOBILE_OPEN = 'z-40'")).toBeGreaterThan(-1);
+    expect(source.indexOf("NAVBAR_Z_CLOSED = 'z-[100]'")).toBeGreaterThan(-1);
+  });
 });

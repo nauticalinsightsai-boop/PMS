@@ -42,10 +42,13 @@ const MAIN_NAV_LINKS = [
 const NAV_MENTOR_BTN =
   'bg-brand-orange hover:bg-brand-hover text-white font-semibold px-5 h-10 rounded-full shadow-lg shadow-brand-orange/20 transition-all';
 
+/** Closed/desktop stacking: above page chrome. Open mobile Sheet uses z-50, so drop below it. */
 const NAVBAR_SHELL =
-  'fixed inset-x-0 top-0 z-[100] w-full border-b backdrop-blur-md text-foreground ' +
+  'fixed inset-x-0 top-0 w-full border-b backdrop-blur-md text-foreground ' +
   'bg-white/98 border-slate-200/90 supports-[backdrop-filter]:bg-white/92 ' +
   'dark:bg-[#07071c]/98 dark:border-slate-800/90 dark:supports-[backdrop-filter]:bg-[#07071c]/92';
+const NAVBAR_Z_CLOSED = 'z-[100]';
+const NAVBAR_Z_MOBILE_OPEN = 'z-40';
 
 const MOBILE_NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -102,7 +105,12 @@ export function Navbar({ toggleTheme, isDarkMode }: NavbarProps) {
   }, [pathname]);
 
   return (
-    <header className={NAVBAR_SHELL}>
+    <header
+      className={cn(
+        NAVBAR_SHELL,
+        mobileOpen ? NAVBAR_Z_MOBILE_OPEN : NAVBAR_Z_CLOSED,
+      )}
+    >
       <div className="container mx-auto flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <BrandLogo size="nav" className="group-hover:opacity-90 transition-opacity" />

@@ -3,14 +3,19 @@
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useCallback } from 'react';
-import { buttonVariants } from '@/components/ui/button';
+import { Suspense, useCallback, useRef, useState } from 'react';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { useRegion } from '@/contexts/RegionContext';
 import { useSiteColorScheme } from '@/hooks/useSiteColorScheme';
 import { defaultStoreCatalog } from '@pms/site-content/store';
 import { createStoreEmbeddedCheckout } from '@/services/checkout';
 import { cn } from '@/lib/utils';
+import {
+  createCheckoutAttemptId,
+  trackCheckoutInitiated,
+  trackCheckoutSessionCreated,
+} from '@/lib/analytics/track-checkout-journey';
 
 const StripeEmbeddedCheckoutPanel = dynamic(
   () =>
@@ -29,17 +34,65 @@ function StoreCheckoutContent({ publishableKeyHint = null }: { publishableKeyHin
   const product = productId
     ? defaultStoreCatalog().products.find((p) => p.id === productId && p.visible)
     : undefined;
+  const [checkoutAttemptId, setCheckoutAttemptId] = useState<string | null>(null);
+  const sessionCreatedAttemptRef = useRef<string | null>(null);
+
+  const handleStartCheckout = useCallback(() => {
+    if (!product || checkoutAttemptId) return;
+    const attemptId = createCheckoutAttemptId();
+    trackCheckoutInitiated({
+      checkoutAttemptId: attemptId,
+      packageType: 'resource',
+      offeringId: product.id,
+      currency: 'USD',
+      value: product.price,
+      items: [
+        {
+          item_id: product.id,
+          item_name: product.title,
+          item_category: 'resource',
+          price: product.price,
+          quantity: 1,
+        },
+      ],
+      pagePath:
+        typeof window !== 'undefined' ? window.location.pathname : '/checkout/store',
+    });
+    setCheckoutAttemptId(attemptId);
+  }, [checkoutAttemptId, product]);
 
   const loadClientSecret = useCallback(async () => {
-    if (!productId) return null;
+    if (!productId || !product || !checkoutAttemptId) return null;
     const result = await createStoreEmbeddedCheckout({
       productId,
       regionId,
       gccCountry,
       colorScheme,
     });
-    return result.data?.session?.clientSecret ?? null;
-  }, [productId, regionId, gccCountry, colorScheme]);
+    const clientSecret = result.data?.session?.clientSecret ?? null;
+    if (clientSecret && sessionCreatedAttemptRef.current !== checkoutAttemptId) {
+      sessionCreatedAttemptRef.current = checkoutAttemptId;
+      trackCheckoutSessionCreated({
+        checkoutAttemptId,
+        packageType: 'resource',
+        offeringId: product.id,
+        currency: 'USD',
+        value: product.price,
+        items: [
+          {
+            item_id: product.id,
+            item_name: product.title,
+            item_category: 'resource',
+            price: product.price,
+            quantity: 1,
+          },
+        ],
+        pagePath:
+          typeof window !== 'undefined' ? window.location.pathname : '/checkout/store',
+      });
+    }
+    return clientSecret;
+  }, [productId, product, regionId, gccCountry, colorScheme, checkoutAttemptId]);
 
   if (!productId || !product) {
     return (
@@ -69,11 +122,25 @@ function StoreCheckoutContent({ publishableKeyHint = null }: { publishableKeyHin
         </div>
 
         <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-900">
-          <StripeEmbeddedCheckoutPanel
-            loadClientSecret={loadClientSecret}
-            deps={[productId, regionId, gccCountry, colorScheme]}
-            publishableKeyHint={publishableKeyHint}
-          />
+          {checkoutAttemptId ? (
+            <StripeEmbeddedCheckoutPanel
+              loadClientSecret={loadClientSecret}
+              deps={[productId, regionId, gccCountry, colorScheme, checkoutAttemptId]}
+              publishableKeyHint={publishableKeyHint}
+            />
+          ) : (
+            <div className="flex min-h-[220px] items-center justify-center">
+              <Button
+                type="button"
+                variant="brand"
+                size="lg"
+                className="w-full max-w-sm rounded-2xl"
+                onClick={handleStartCheckout}
+              >
+                Start secure checkout
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="mt-6 text-center">

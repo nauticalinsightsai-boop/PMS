@@ -36,11 +36,11 @@ export async function collectLeadTrackingContext(): Promise<Record<string, strin
 
   captureAttributionFromLocation();
 
-  const gaClientId = await readGaClientId();
-  const utm = getUtmParamsForLead();
-  const landingPage = getLandingPageForLead();
   const consentAnalytics = hasAnalyticsConsent();
   const consentMarketing = hasMarketingConsent();
+  const gaClientId = consentAnalytics ? await readGaClientId() : undefined;
+  const utm = getUtmParamsForLead();
+  const landingPage = getLandingPageForLead();
   const clickIds = consentMarketing ? getClickIdsForLead() : {};
 
   return {

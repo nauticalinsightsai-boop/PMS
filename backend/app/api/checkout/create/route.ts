@@ -1,8 +1,15 @@
 import { requestOrigin } from '@/lib/request-origin';
 import { getOfferingById, resolveCheckoutUsdCents } from '@/lib/regional-catalogue';
-import { isPaymentBlockedStatus } from '@/lib/enrollment-eligibility';
+import {
+  isPaymentBlockedStatus,
+  requiresConsultationApproval,
+} from '@/lib/enrollment-eligibility';
+import { isConsultationApproved } from '@/lib/consultation-approval';
 import { membershipPriceUsdCents } from '@/lib/membership-pricing';
-import { createStripePaymentSession } from '@/lib/checkout-session';
+import {
+  createStripePaymentSession,
+  expireStripeCheckoutSessionBestEffort,
+} from '@/lib/checkout-session';
 import { resolveRegionalCheckoutPrice } from '@/lib/regional-checkout-price';
 import { safeRedirectUrl } from '@/lib/safe-redirect-url';
 import { isStripeConfigured } from '@/lib/stripe';
@@ -45,6 +52,15 @@ export async function POST(request: Request) {
 
   if (isPaymentBlockedStatus(status)) {
     return jsonError('Checkout not available for this offering in your region', 403);
+  }
+  if (
+    requiresConsultationApproval(status) &&
+    !(await isConsultationApproved(email, offeringId))
+  ) {
+    return jsonError(
+      'Consultation approval is required before checkout for this pathway.',
+      403,
+    );
   }
 
   const regional = resolveRegionalCheckoutPrice(offering, regionId, gccCountry);
@@ -113,6 +129,7 @@ export async function POST(request: Request) {
     });
     if (error) {
       console.error('[checkout/create] orders insert failed:', error.message);
+      await expireStripeCheckoutSessionBestEffort(session.sessionId);
       return jsonError('Could not create order record', 503);
     }
   }

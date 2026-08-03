@@ -13,16 +13,25 @@ describe('regional-checkout-price', () => {
     expect(pro).toBeTruthy();
     const price = resolveRegionalCheckoutPrice(pro!, 'pakistan');
     expect(price?.currency).toBe('pkr');
-    expect(price?.unitAmount).toBe(11999900);
-    expect(price?.display).toBe('PKR 119,999');
+    expect(price?.unitAmount).toBe(17499900);
+    expect(price?.display).toBe('PKR 174,999');
   });
 
   it('derives 25% deposit in PKR minor units', () => {
     expect(pro).toBeTruthy();
     const full = resolveRegionalCheckoutPrice(pro!, 'pakistan')!;
     const deposit = resolveRegionalDepositPrice(full);
-    expect(deposit.unitAmount).toBe(2999975);
-    expect(formatRegionalDepositDisplay(full.display)).toBe('PKR 29,999.75');
+    expect(deposit.unitAmount).toBe(4374975);
+    expect(formatRegionalDepositDisplay(full.display)).toBe('PKR 43,749.75');
+  });
+
+  it('resolves self-paced price book for Pakistan', () => {
+    expect(pro).toBeTruthy();
+    const price = resolveRegionalCheckoutPrice(pro!, 'pakistan', null, {
+      priceBook: 'self_paced',
+    });
+    expect(price?.display).toBe('PKR 87,999');
+    expect(price?.unitAmount).toBe(8799900);
   });
 
   it('charges global tuition in USD', () => {

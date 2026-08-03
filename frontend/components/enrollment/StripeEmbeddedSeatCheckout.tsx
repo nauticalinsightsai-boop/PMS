@@ -2,10 +2,15 @@
 
 import * as React from 'react';
 import { loadStripe, type StripeEmbeddedCheckout } from '@stripe/stripe-js';
+import { Button } from '@/components/ui/button';
 import { useRegion } from '@/contexts/RegionContext';
 import { useSiteColorScheme } from '@/hooks/useSiteColorScheme';
-import { PMS_EVENTS, inferPackageType } from '@/lib/analytics/pms-events';
-import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
+import { inferPackageType } from '@/lib/analytics/pms-events';
+import {
+  createCheckoutAttemptId,
+  trackCheckoutInitiated,
+  trackCheckoutSessionCreated,
+} from '@/lib/analytics/track-checkout-journey';
 import type { EnrollmentPaymentMode } from '@/lib/enrollment/seat-reservation';
 import { createEnrollmentEmbeddedCheckout, fetchStripePublishableKey } from '@/services/enrollment';
 import { assertPublishableKeyAllowedOnHost } from '@/lib/stripe-key-mode';
@@ -35,8 +40,52 @@ export function StripeEmbeddedSeatCheckout({
   const checkoutRef = React.useRef<StripeEmbeddedCheckout | null>(null);
   const [status, setStatus] = React.useState<'loading' | 'ready' | 'error'>('loading');
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const selectionKey = `${offeringId}:${tierSlug}:${paymentMode}:${regionId}:${gccCountry ?? ''}`;
+  const [checkoutAttempt, setCheckoutAttempt] = React.useState<{
+    id: string;
+    selectionKey: string;
+  } | null>(null);
+  const activeAttempt =
+    checkoutAttempt?.selectionKey === selectionKey ? checkoutAttempt : null;
+  const paymentType =
+    paymentMode === 'self_paced'
+      ? 'self_paced_embedded'
+      : paymentMode === 'mentor_led'
+        ? 'mentor_led_embedded'
+        : paymentMode === 'full_tuition'
+          ? 'full_tuition_embedded'
+          : 'seat_deposit_embedded';
+
+  const handleStartCheckout = React.useCallback(() => {
+    if (activeAttempt) return;
+    const attemptId = createCheckoutAttemptId();
+    trackCheckoutInitiated({
+      checkoutAttemptId: attemptId,
+      packageType: inferPackageType(offeringId, tierSlug),
+      offeringId,
+      paymentType,
+      items: [
+        {
+          item_id: offeringId,
+          item_name: siteCertId,
+          item_category: 'certification_preparation',
+          quantity: 1,
+        },
+      ],
+      pagePath: typeof window !== 'undefined' ? window.location.pathname : undefined,
+    });
+    setCheckoutAttempt({ id: attemptId, selectionKey });
+  }, [
+    activeAttempt,
+    offeringId,
+    paymentType,
+    selectionKey,
+    siteCertId,
+    tierSlug,
+  ]);
 
   React.useEffect(() => {
+    if (!activeAttempt) return;
     const mountNode = mountRef.current;
     if (!mountNode) return;
 
@@ -75,6 +124,22 @@ export function StripeEmbeddedSeatCheckout({
           return;
         }
 
+        trackCheckoutSessionCreated({
+          checkoutAttemptId: activeAttempt.id,
+          packageType: inferPackageType(offeringId, tierSlug),
+          offeringId,
+          paymentType,
+          items: [
+            {
+              item_id: offeringId,
+              item_name: siteCertId,
+              item_category: 'certification_preparation',
+              quantity: 1,
+            },
+          ],
+          pagePath: typeof window !== 'undefined' ? window.location.pathname : undefined,
+        });
+
         const stripe = await loadStripe(publishableKey);
         if (cancelled) return;
 
@@ -100,11 +165,6 @@ export function StripeEmbeddedSeatCheckout({
 
         checkoutRef.current = checkout;
         checkout.mount(mountRef.current);
-        pushAnalyticsEvent(PMS_EVENTS.BEGIN_CHECKOUT, {
-          offering_id: offeringId,
-          package_type: inferPackageType(offeringId, tierSlug),
-          payment_type: paymentMode === 'full_tuition' ? 'full_tuition_embedded' : 'seat_deposit_embedded',
-        });
         setStatus('ready');
       } catch (err) {
         if (cancelled) return;
@@ -129,7 +189,41 @@ export function StripeEmbeddedSeatCheckout({
       checkoutRef.current?.destroy();
       checkoutRef.current = null;
     };
-  }, [offeringId, siteCertId, tierSlug, regionId, gccCountry, colorScheme, paymentMode, publishableKeyHint]);
+  }, [
+    activeAttempt,
+    offeringId,
+    siteCertId,
+    tierSlug,
+    regionId,
+    gccCountry,
+    colorScheme,
+    paymentMode,
+    paymentType,
+    publishableKeyHint,
+  ]);
+
+  if (!activeAttempt) {
+    return (
+      <div
+        className={cn(
+          'seat-deposit-stripe-embedded flex min-h-[220px] w-full min-w-0 items-center justify-center overflow-hidden rounded-lg bg-card px-4 text-card-foreground',
+          className,
+        )}
+        data-color-scheme={colorScheme}
+        data-payment-mode={paymentMode}
+      >
+        <Button
+          type="button"
+          variant="brand"
+          size="lg"
+          className="w-full max-w-sm rounded-xl"
+          onClick={handleStartCheckout}
+        >
+          Start secure checkout
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div

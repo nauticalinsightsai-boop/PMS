@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { defaultStoreCatalog } from '@pms/site-content/store';
 import { verifyCheckoutSession } from '@/services/checkout';
 import { cn } from '@/lib/utils';
-import { inferPackageType } from '@/lib/analytics/pms-events';
+import { trackCheckoutSuccessView } from '@/lib/analytics/track-checkout-journey';
 import { trackPurchaseOnce } from '@/lib/analytics/track-purchase-once';
 
 function StoreCheckoutSuccessContent() {
@@ -16,6 +16,7 @@ function StoreCheckoutSuccessContent() {
   const productId = searchParams.get('product');
   const sessionId = searchParams.get('session_id');
   const [paymentVerified, setPaymentVerified] = useState<boolean | null>(null);
+  const successViewTracked = useRef(false);
 
   const product = productId
     ? defaultStoreCatalog().products.find((p) => p.id === productId)
@@ -25,30 +26,55 @@ function StoreCheckoutSuccessContent() {
     if (!sessionId?.startsWith('cs_')) return;
     let cancelled = false;
     void verifyCheckoutSession(sessionId).then((result) => {
-      if (!cancelled) setPaymentVerified(result.data?.paid ?? false);
+      if (cancelled) return;
+      const verified = result.data;
+      setPaymentVerified(verified?.paid ?? false);
+      if (
+        verified?.paid === true &&
+        verified.durableTransactionId &&
+        verified.durablePurchaseEventId
+      ) {
+        trackPurchaseOnce({
+          serverVerifiedPaid: true,
+          durableTransactionId: verified.durableTransactionId,
+          durablePurchaseEventId: verified.durablePurchaseEventId,
+          packageType: 'resource',
+          currency: verified.currency ?? undefined,
+          value: verified.value ?? undefined,
+          items: [
+            {
+              item_id: product?.id ?? productId ?? 'resource',
+              item_name: product?.title ?? 'PM Structure resource',
+              item_category: 'resource',
+              price: product?.price,
+              quantity: 1,
+            },
+          ],
+        });
+      }
     });
     return () => {
       cancelled = true;
     };
-  }, [sessionId]);
+  }, [product?.id, product?.price, product?.title, productId, sessionId]);
 
   useEffect(() => {
-    if (!sessionId?.startsWith('cs_') || paymentVerified !== true) return;
-    trackPurchaseOnce({
-      transactionId: sessionId,
+    if (
+      !sessionId?.startsWith('cs_') ||
+      paymentVerified === null ||
+      successViewTracked.current
+    ) {
+      return;
+    }
+    successViewTracked.current = true;
+    trackCheckoutSuccessView({
       packageType: 'resource',
-      items: product
-        ? [
-            {
-              item_id: product.id,
-              item_name: product.title,
-              item_category: 'resource',
-              quantity: 1,
-            },
-          ]
-        : undefined,
+      resultState: paymentVerified ? 'verified_paid' : 'not_verified_paid',
+      offeringId: product?.id ?? productId ?? undefined,
+      paymentType: 'store',
+      pagePath: '/checkout/store/success',
     });
-  }, [sessionId, paymentVerified, product]);
+  }, [paymentVerified, product?.id, productId, sessionId]);
 
   return (
     <section className={sectionSurface('blend', 'py-24')}>

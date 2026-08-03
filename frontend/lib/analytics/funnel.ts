@@ -189,14 +189,17 @@ export function getClickIdsForLead(): Record<string, string> {
   return out;
 }
 
-/** Last-touch UTMs for lead payloads (unprefixed keys match offline CSV). */
+/** First- and last-touch UTMs for lead payloads (last touch stays unprefixed). */
 export function getUtmParamsForLead(): Record<string, string> {
   if (typeof window === 'undefined') return {};
   const out: Record<string, string> = {};
   try {
+    const firstRaw = sessionStorage.getItem(UTM_FIRST_TOUCH_KEY);
     const lastRaw = sessionStorage.getItem(UTM_LAST_TOUCH_KEY);
+    const first = firstRaw ? (JSON.parse(firstRaw) as UtmTouch) : {};
     const last = lastRaw ? (JSON.parse(lastRaw) as UtmTouch) : {};
     for (const key of UTM_PARAM_KEYS) {
+      if (first[key]) out[`first_${key}`] = first[key]!;
       if (last[key]) out[key] = last[key]!;
     }
   } catch {

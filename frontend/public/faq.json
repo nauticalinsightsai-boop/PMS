@@ -1,7 +1,7 @@
 {
   "site": "https://pmstructure.com",
   "version": "1.0.0",
-  "updatedAt": "2026-07-26",
+  "updatedAt": "2026-08-03",
   "count": 175,
   "items": [
     {
@@ -756,9 +756,9 @@
       "id": "pmp-duration",
       "clusterId": "timeline",
       "question": "How long is PMP® preparation on PM Structure?",
-      "answer": "Planned study windows are shown on the PMP® pathway page (catalogue guide: 2 weeks). Actual duration depends on your weekly hours and experience. See /certifications/pmp.",
-      "shortAnswer": "Planned study windows are shown on the PMP® pathway page (catalogue guide: 2 weeks).  Actual duration depends on your weekly hours and experience.",
-      "fullAnswer": "Planned study windows are shown on the PMP® pathway page (catalogue guide: 2 weeks). Actual duration depends on your weekly hours and experience. See /certifications/pmp.",
+      "answer": "Planned study windows are shown on the PMP® pathway page (catalogue guide: 6 weeks). Actual duration depends on your weekly hours and experience. See /certifications/pmp.",
+      "shortAnswer": "Planned study windows are shown on the PMP® pathway page (catalogue guide: 6 weeks).  Actual duration depends on your weekly hours and experience.",
+      "fullAnswer": "Planned study windows are shown on the PMP® pathway page (catalogue guide: 6 weeks). Actual duration depends on your weekly hours and experience. See /certifications/pmp.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"
@@ -822,9 +822,9 @@
       "id": "lss-green-duration",
       "clusterId": "timeline",
       "question": "How long is Six Sigma Green Belt (CSSGB) preparation on PM Structure?",
-      "answer": "Planned study windows are shown on the Six Sigma Green Belt (CSSGB) pathway page (catalogue guide: 2 weeks). Actual duration depends on your weekly hours and experience. See /certifications/lss-green.",
-      "shortAnswer": "Planned study windows are shown on the Six Sigma Green Belt (CSSGB) pathway page (catalogue guide: 2 weeks).  Actual duration depends on your weekly hours and experience.",
-      "fullAnswer": "Planned study windows are shown on the Six Sigma Green Belt (CSSGB) pathway page (catalogue guide: 2 weeks). Actual duration depends on your weekly hours and experience. See /certifications/lss-green.",
+      "answer": "Planned study windows are shown on the Six Sigma Green Belt (CSSGB) pathway page (catalogue guide: 6 weeks). Actual duration depends on your weekly hours and experience. See /certifications/lss-green.",
+      "shortAnswer": "Planned study windows are shown on the Six Sigma Green Belt (CSSGB) pathway page (catalogue guide: 6 weeks).  Actual duration depends on your weekly hours and experience.",
+      "fullAnswer": "Planned study windows are shown on the Six Sigma Green Belt (CSSGB) pathway page (catalogue guide: 6 weeks). Actual duration depends on your weekly hours and experience. See /certifications/lss-green.",
       "status": "published",
       "schemaEligible": true,
       "complianceRisk": "low"

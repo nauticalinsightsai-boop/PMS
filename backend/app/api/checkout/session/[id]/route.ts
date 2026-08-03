@@ -24,15 +24,20 @@ export async function GET(
     const session = await getStripe().checkout.sessions.retrieve(id);
     const customerEmail = session.customer_details?.email ?? session.customer_email ?? null;
     const paid = session.payment_status === 'paid';
+    const paidOrderIdentity = paid
+      ? await syncPaidOrderFromStripeSession({
+          sessionId: id,
+          paymentStatus: session.payment_status,
+          customerEmail,
+          verifiedVia: 'session_poll',
+          idempotencyKey: `session_poll:${id}`,
+        })
+      : null;
 
-    if (paid) {
-      await syncPaidOrderFromStripeSession({
-        sessionId: id,
-        paymentStatus: session.payment_status,
-        customerEmail,
-        verifiedVia: 'session_poll',
-      });
-    }
+    const value =
+      typeof session.amount_total === 'number'
+        ? session.amount_total / 100
+        : null;
 
     return jsonOk({
       sessionId: id,
@@ -40,6 +45,10 @@ export async function GET(
       paid,
       offeringId: session.metadata?.offeringId ?? null,
       paymentType: session.metadata?.paymentType ?? null,
+      currency: session.currency?.toUpperCase() ?? null,
+      value,
+      durableTransactionId: paidOrderIdentity?.durableTransactionId ?? null,
+      durablePurchaseEventId: paidOrderIdentity?.durablePurchaseEventId ?? null,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Could not verify checkout session';

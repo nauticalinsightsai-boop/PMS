@@ -23,6 +23,17 @@ export interface CourseOffering {
       display?: string | null;
       currencyCode?: string;
       perCountry?: Record<string, string>;
+      isScholarship?: boolean;
+    }
+  >;
+  pricesSelfPaced?: Record<
+    RegionId,
+    {
+      usdCents?: number | null;
+      display?: string | null;
+      currencyCode?: string;
+      perCountry?: Record<string, string>;
+      isScholarship?: boolean;
     }
   >;
 }

@@ -5,8 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRegion } from '@/contexts/RegionContext';
-import { PMS_EVENTS, inferPackageType } from '@/lib/analytics/pms-events';
-import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
+import { inferPackageType } from '@/lib/analytics/pms-events';
+import {
+  createCheckoutAttemptId,
+  trackCheckoutInitiated,
+  trackCheckoutSessionCreated,
+} from '@/lib/analytics/track-checkout-journey';
 import { createSeatDepositCheckout } from '@/services/enrollment';
 import { cn } from '@/lib/utils';
 
@@ -46,11 +50,23 @@ export function SeatDepositCheckout({
 
     setError(null);
     setLoading(true);
-    pushAnalyticsEvent(PMS_EVENTS.BEGIN_CHECKOUT, {
-      offering_id: offeringId,
-      package_type: inferPackageType(offeringId, tierSlug),
-      payment_type: 'seat_deposit',
-    });
+    const checkoutAttemptId = createCheckoutAttemptId();
+    const measurementContext = {
+      checkoutAttemptId,
+      packageType: inferPackageType(offeringId, tierSlug),
+      offeringId,
+      paymentType: 'seat_deposit_redirect',
+      items: [
+        {
+          item_id: offeringId,
+          item_name: siteCertId,
+          item_category: 'certification_preparation',
+          quantity: 1,
+        },
+      ],
+      pagePath: typeof window !== 'undefined' ? window.location.pathname : undefined,
+    } as const;
+    trackCheckoutInitiated(measurementContext);
 
     try {
       const result = await createSeatDepositCheckout({
@@ -69,6 +85,7 @@ export function SeatDepositCheckout({
 
       const checkoutUrl = result.data?.session?.url;
       if (checkoutUrl) {
+        trackCheckoutSessionCreated(measurementContext);
         window.location.href = checkoutUrl;
         return;
       }

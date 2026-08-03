@@ -1,9 +1,112 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
 import {
   resolveQualificationOutcome,
   getOutcomeMessage,
+  WORK_FIELD_OPTIONS,
+  NEEDS_OBJECTIVE_OPTIONS,
+  EDUCATION_OPTIONS,
+  EXAM_TIMELINE_OPTIONS,
+  FORM_VERSION,
+  PM_EXPERIENCE_OPTIONS,
+  TRAINING_STATUS_OPTIONS,
   type QualificationAnswers,
 } from '@/lib/pmp-qualification-options';
+import { PM_SERVICE_INDUSTRY_OPTIONS } from '@/lib/pm-service-form-options';
+import { PMP_JOB_EXPERIENCE_OPTIONS } from '@/lib/pmp-roadmap-form-options';
+
+const optionsSource = readFileSync(
+  new URL('./pmp-qualification-options.ts', import.meta.url),
+  'utf8',
+);
+describe('qualification options lite surface', () => {
+  it('uses the lite form version', () => {
+    expect(FORM_VERSION).toBe('p0.6.2-333-authoritative');
+  });
+
+  it('exposes short one-line industry chips', () => {
+    expect(WORK_FIELD_OPTIONS.map((o) => o.label)).toEqual([
+      'Construction',
+      'Energy',
+      'Technology',
+      'Other',
+    ]);
+  });
+
+  it('shares Industry and Experience visible taxonomy across roadmap, PM Service, and keyword popup', () => {
+    expect(PM_SERVICE_INDUSTRY_OPTIONS.map((o) => o.value)).toEqual(
+      WORK_FIELD_OPTIONS.filter((o) => o.value !== 'other').map((o) => o.value),
+    );
+    expect(PM_SERVICE_INDUSTRY_OPTIONS.map((o) => o.label)).toEqual([
+      'Construction',
+      'Energy',
+      'Technology',
+    ]);
+    expect(PMP_JOB_EXPERIENCE_OPTIONS).toBe(PM_EXPERIENCE_OPTIONS);
+    expect(PMP_JOB_EXPERIENCE_OPTIONS).toEqual([
+      { value: 'under_2', label: '< 2 years' },
+      { value: '2_to_5', label: '2–5 years' },
+      { value: '5_to_7', label: '5–7 years' },
+      { value: 'other', label: 'Other' },
+    ]);
+  });
+
+  it('caps needs objectives at four with short labels', () => {
+    expect(NEEDS_OBJECTIVE_OPTIONS).toHaveLength(4);
+    expect(NEEDS_OBJECTIVE_OPTIONS.map((o) => o.value)).toEqual([
+      'check_eligibility',
+      'prepare_exam',
+      'guidance',
+      'other',
+    ]);
+    expect(NEEDS_OBJECTIVE_OPTIONS.map((o) => o.label)).toEqual([
+      'Eligibility',
+      'Exam prep',
+      'Guidance',
+      'Other',
+    ]);
+  });
+
+  it('uses the four approved education options', () => {
+    expect(EDUCATION_OPTIONS.map((o) => o.value)).not.toContain('secondary');
+    expect(EDUCATION_OPTIONS.map((o) => o.value)).toEqual([
+      'associate',
+      'bachelor_plus',
+      'masters',
+      'other',
+    ]);
+  });
+
+  it('locks the remaining four-choice labels and stable values', () => {
+    expect(PM_EXPERIENCE_OPTIONS).toEqual([
+      { value: 'under_2', label: '< 2 years' },
+      { value: '2_to_5', label: '2–5 years' },
+      { value: '5_to_7', label: '5–7 years' },
+      { value: 'other', label: 'Other' },
+    ]);
+    expect(TRAINING_STATUS_OPTIONS.map((option) => option.label)).toEqual([
+      'Yes',
+      'In progress',
+      'Not yet',
+      'Other',
+    ]);
+    expect(EXAM_TIMELINE_OPTIONS).toEqual([
+      { value: 'within_3', label: '< 3 months' },
+      { value: '3_to_6', label: '3–6 months' },
+      { value: '6_plus', label: '6+ months' },
+      { value: 'exploring', label: 'Exploring' },
+    ]);
+  });
+
+  it('removes Preferred Contact Channel and Instagram/Messenger contact choices from new taxonomy', () => {
+    expect(optionsSource).not.toContain('CONTACT_CHANNEL_OPTIONS');
+    expect(optionsSource).not.toContain('CONTACT_WINDOW_OPTIONS');
+    expect(optionsSource).not.toContain('preferredContactChannel');
+    expect(optionsSource).not.toContain("value: 'instagram'");
+    expect(optionsSource).not.toContain("value: 'messenger'");
+    expect(optionsSource.toLowerCase()).not.toContain('instagram message');
+  });
+});
 
 describe('resolveQualificationOutcome', () => {
   const baseAnswers: QualificationAnswers = {
@@ -79,16 +182,6 @@ describe('resolveQualificationOutcome', () => {
       expect(resolveQualificationOutcome(answers)).toBe('likely_ready');
     });
 
-    it('returns likely_ready for secondary education with 5+ years and completed training', () => {
-      const answers: QualificationAnswers = {
-        ...baseAnswers,
-        education: 'secondary',
-        pmExperience: '5_plus',
-        trainingStatus: 'completed',
-      };
-      expect(resolveQualificationOutcome(answers)).toBe('likely_ready');
-    });
-
     it('returns likely_ready for associate degree with 4+ years and completed training', () => {
       const answers: QualificationAnswers = {
         ...baseAnswers,
@@ -106,16 +199,6 @@ describe('resolveQualificationOutcome', () => {
         ...baseAnswers,
         education: 'bachelor_plus',
         pmExperience: '2_to_3',
-        trainingStatus: 'completed',
-      };
-      expect(resolveQualificationOutcome(answers)).toBe('needs_verification');
-    });
-
-    it('returns needs_verification for secondary with only 3-4 years (needs 5+)', () => {
-      const answers: QualificationAnswers = {
-        ...baseAnswers,
-        education: 'secondary',
-        pmExperience: '3_to_4',
         trainingStatus: 'completed',
       };
       expect(resolveQualificationOutcome(answers)).toBe('needs_verification');

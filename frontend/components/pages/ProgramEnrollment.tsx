@@ -5,7 +5,8 @@ import { ProgramEnrollmentForm } from '@/components/enrollment/ProgramEnrollment
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { buttonVariants } from '@/components/ui/button';
 import { CTAS } from '@/lib/brand-voice';
-import { T176_PAYMENT_DISCLAIMER } from '@/content/t176-claims';
+import { pathwayPaymentDisclaimer } from '@/content/t176-claims';
+import { getOfferingById } from '@/lib/regional-catalogue';
 import { cn } from '@/lib/utils';
 
 type ProgramEnrollmentPageProps = {
@@ -23,6 +24,9 @@ export function ProgramEnrollmentPage({
   certName,
   publishableKeyHint = null,
 }: ProgramEnrollmentPageProps) {
+  const offering = getOfferingById(offeringId);
+  const preparationName = offering?.courseName?.trim() || `${certName} Preparation`;
+
   return (
     <section className={sectionSurface('blend', 'py-12 md:py-24')}>
       <SectionAmbience tone="blend" />
@@ -31,8 +35,7 @@ export function ProgramEnrollmentPage({
           <p className="text-label text-brand-orange mb-2">{certName}</p>
           <h1 className="font-heading text-hero font-bold mb-2">{CTAS.pathwayReserveSeat}</h1>
           <p className="text-slate-600 dark:text-slate-400 mb-8 text-sm leading-relaxed md:text-base">
-            Reserve your seat with a 25% deposit, or pay full pathway tuition today. Pricing for your region is shown
-            below: choose the option that works best for you.
+            Choose your delivery option and pay pathway tuition today. Pricing for your region is shown below.
           </p>
         </div>
         <ProgramEnrollmentForm
@@ -42,7 +45,7 @@ export function ProgramEnrollmentPage({
           publishableKeyHint={publishableKeyHint}
         />
         <p className="mt-6 text-xs leading-relaxed text-slate-500 dark:text-slate-400 lg:max-w-3xl">
-          {T176_PAYMENT_DISCLAIMER}
+          {pathwayPaymentDisclaimer(preparationName)}
         </p>
         <div className="mt-8 lg:max-w-3xl">
           <Link

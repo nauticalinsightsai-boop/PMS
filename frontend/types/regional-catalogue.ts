@@ -48,6 +48,8 @@ export interface CourseOffering {
   adminNotes: string | null;
   regional: Record<RegionId, RegionalOfferingRule>;
   prices: Record<RegionId, RegionalPrice>;
+  /** Professional self-paced delivery prices (mentor stays in `prices`). */
+  pricesSelfPaced?: Record<RegionId, RegionalPrice>;
 }
 
 export interface RegionConfig {

@@ -5,6 +5,10 @@ export function isPaymentBlockedStatus(status: OfferingStatus | undefined): bool
   return !status || status === 'waitlist' || status === 'hidden';
 }
 
+export function requiresConsultationApproval(status: OfferingStatus | undefined): boolean {
+  return status === 'consultation_required';
+}
+
 export function assertFullTuitionEligible(
   offering: CourseOffering,
   regionId: RegionId,

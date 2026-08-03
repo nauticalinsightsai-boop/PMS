@@ -132,7 +132,49 @@ export function resolveFullPriceDisplay(
     originalDisplay,
     activeDisplay
   );
-  const membership = applyMembershipDiscountDisplay(activeDisplay);
+  const membership =
+    offering.tierId === 'foundation' ? null : applyMembershipDiscountDisplay(activeDisplay);
+  return {
+    original: originalDisplay,
+    active: activeDisplay,
+    membership,
+    showScholarshipLabels,
+    footnote: rule.regionMessage ?? null,
+    regionalLabel: regionalPriceLabel(regionId, showScholarshipLabels),
+  };
+}
+
+/** Active display for mentor (`prices`) or self-paced (`pricesSelfPaced`) book. */
+export function resolveDeliveryPriceDisplay(
+  offering: CourseOffering,
+  regionId: RegionId,
+  deliveryMode: 'mentor_led' | 'self_paced',
+  gccCountry?: string | null,
+): FullRegionalPriceDisplay {
+  const book =
+    deliveryMode === 'self_paced' && offering.pricesSelfPaced
+      ? offering.pricesSelfPaced
+      : offering.prices;
+  const rule = resolveRegionalRule(offering, regionId);
+  let activeDisplay = book[regionId]?.display ?? book.global?.display ?? null;
+  if (regionId === 'gcc') {
+    activeDisplay =
+      gccDisplayForCountry(book.gcc, gccCountry) ?? book.gcc?.display ?? activeDisplay;
+  }
+  const originalDisplay = resolveComparableGlobalReference(
+    { ...offering, prices: book },
+    regionId,
+    activeDisplay,
+    gccCountry,
+  );
+  const showScholarshipLabels = showsOriginalVsScholarship(
+    regionId,
+    rule.status,
+    originalDisplay,
+    activeDisplay,
+  );
+  const membership =
+    offering.tierId === 'foundation' ? null : applyMembershipDiscountDisplay(activeDisplay);
   return {
     original: originalDisplay,
     active: activeDisplay,
@@ -161,13 +203,13 @@ export function tierDisplayLabel(tierId: string, tier: string): string {
   return tier;
 }
 
-/** Lowest pathway tier shown on listing cards (starting price + duration from same row). */
+/** Featured / listing cards: prefer Professional, then Mastery; Foundation only if nothing else. */
 const LISTING_TIER_ORDER = [
-  'foundation',
   'professional',
   'mastery',
   'mastery_corporate',
   'mastery_advisory',
+  'foundation',
 ] as const;
 
 export function pickListingTierOffering(siteId: string): CourseOffering | undefined {
@@ -180,12 +222,12 @@ export function pickListingTierOffering(siteId: string): CourseOffering | undefi
   return offerings[0];
 }
 
-/** Duration for the same tier as `getListingPriceForCert` (lowest available pathway tier). */
+/** Duration for the same tier as `getListingPriceForCert` (Professional-first listing tier). */
 export function getCertDurationLabel(siteId: string): string | null {
   return pickListingTierOffering(siteId)?.length ?? null;
 }
 
-/** Matrix tier id used for listing-card starting price (e.g. foundation vs professional only). */
+/** Matrix tier id used for listing-card price (Professional preferred over Foundation). */
 export function getListingTierId(siteId: string): string | null {
   return pickListingTierOffering(siteId)?.tierId ?? null;
 }

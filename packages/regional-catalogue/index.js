@@ -1,4 +1,4 @@
-import catalogue from '../../frontend/data/regional-catalogue.json' with { type: 'json' };
+import catalogue from './regional-catalogue.json' with { type: 'json' };
 
 export default catalogue;
 export const offeringCount = catalogue.offerings?.length ?? 0;

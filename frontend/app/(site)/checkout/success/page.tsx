@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
+import { buildEnrollmentSuccessRedirect } from '@/lib/checkout-success-redirect';
 import { enrollmentSuccessPathForOffering } from '@/lib/enrollment-routes';
 import { getOfferingById } from '@/lib/regional-catalogue';
 import { cn } from '@/lib/utils';
@@ -17,8 +18,10 @@ function CheckoutSuccessContent() {
   const enrollSuccess = offeringId ? enrollmentSuccessPathForOffering(offeringId) : null;
 
   useEffect(() => {
-    if (enrollSuccess) router.replace(`${enrollSuccess}?offering=${encodeURIComponent(offeringId!)}`);
-  }, [enrollSuccess, offeringId, router]);
+    if (!enrollSuccess || !offeringId) return;
+    const sessionId = searchParams.get('session_id');
+    router.replace(buildEnrollmentSuccessRedirect(enrollSuccess, offeringId, sessionId));
+  }, [enrollSuccess, offeringId, router, searchParams]);
 
   if (enrollSuccess) {
     return <p className="text-slate-500">Redirecting to enrollment confirmation…</p>;

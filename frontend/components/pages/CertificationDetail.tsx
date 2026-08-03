@@ -22,8 +22,6 @@ import type { RegionId } from "@/types/regional-catalogue";
 import {
   PUBLIC_NAVBAR_HEIGHT_CLASS,
   PUBLIC_NAVBAR_OFFSET_CLASS,
-  PUBLIC_NAVBAR_TOP_CLASS,
-  PUBLIC_SUBNAV_SPACER_CLASS,
 } from "@/components/PublicShell";
 import { Breadcrumbs } from "@/components/navigation/Breadcrumbs";
 import { getCertBreadcrumbItems } from "@/content/site-architecture/routes";
@@ -45,7 +43,6 @@ import {
   CERT_ROADMAP_FORM_ANCHOR,
   getCertProgramOffer,
 } from '@/lib/cert-program-offer';
-import { PmpConsiderationsSection } from '@/components/pmp/PmpConsiderationsSection';
 import { PmpExam2026LiveBanner } from '@/components/pmp/PmpExam2026LiveBanner';
 import { EnrollReturnRecovery } from '@/components/conversion-recovery/EnrollReturnRecovery';
 import { PmpEnrollTrackedLink } from '@/components/conversion-recovery/PmpEnrollTrackedLink';
@@ -169,46 +166,8 @@ export function CertificationDetail({
           pagePath="/certifications/pmp"
         />
       ) : null}
-      {/* Subnav: fixed directly under navbar (avoids gap from main padding + sticky top) */}
-      <section
-        className={cn(
-          'fixed inset-x-0 z-40 py-3 border-b border-border',
-          'bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/90',
-          PUBLIC_NAVBAR_TOP_CLASS,
-        )}
-      >
-        <div className="container mx-auto flex justify-between items-center">
-          <Link href="/certifications">
-            <Button variant="ghost" className="text-slate-500 hover:text-brand-orange -ml-4 font-bold transition-all">
-              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Directory
-            </Button>
-          </Link>
-          <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/certifications/compare"
-              className="text-sm font-bold text-slate-500 hover:text-brand-orange transition-colors"
-            >
-              Compare
-            </Link>
-            <Link
-              href="/membership"
-              className="text-sm font-bold text-slate-500 hover:text-brand-orange transition-colors"
-            >
-              Membership
-            </Link>
-            <span className="text-slate-300 dark:text-slate-600" aria-hidden>
-              |
-            </span>
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Currently Viewing:</span>
-            <Badge variant="secondary" className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-none">
-              {certName}
-            </Badge>
-          </div>
-        </div>
-      </section>
-
-      {/* Reserve space for fixed navbar + subnav */}
-      <div className={cn(PUBLIC_NAVBAR_HEIGHT_CLASS, PUBLIC_SUBNAV_SPACER_CLASS, 'shrink-0')} aria-hidden />
+      {/* Reserve space for fixed navbar */}
+      <div className={cn(PUBLIC_NAVBAR_HEIGHT_CLASS, 'shrink-0')} aria-hidden />
 
       {/* Hero Section */}
       <section className={sectionSurface('blend', 'relative pt-16 pb-32 md:pt-20')}>
@@ -219,6 +178,11 @@ export function CertificationDetail({
         </div>
 
         <div className="container relative z-10 mx-auto">
+          <Link href="/certifications" className="mb-4 inline-block">
+            <Button variant="ghost" className="text-slate-500 hover:text-brand-orange -ml-4 font-bold transition-all">
+              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Directory
+            </Button>
+          </Link>
           <Breadcrumbs
             items={getCertBreadcrumbItems(cert.id, certName)}
             className="mb-8"
@@ -466,8 +430,6 @@ export function CertificationDetail({
         </div>
       </section>
       </LazyWhenVisible>
-
-      {cert.id === 'pmp' ? <PmpConsiderationsSection /> : null}
 
       {/* Final CTA */}
       <section className={sectionSurface('soft', 'py-32')}>

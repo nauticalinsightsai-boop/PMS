@@ -126,8 +126,7 @@ function professionalOrMasteryCta(
       ? null
       : canCheckout(status) ||
           status === 'global_only' ||
-          status === 'scholarship_unavailable' ||
-          status === 'consultation_required'
+          status === 'scholarship_unavailable'
         ? enrollHrefForTier(siteCertId, tierId, offeringId)
         : null;
   const consultationHref = hrefForCtaAction('consultation', offeringId, siteCertId);
@@ -135,6 +134,17 @@ function professionalOrMasteryCta(
   const waitlistHref = hrefForCtaAction('waitlist', offeringId, siteCertId);
   const globalHref = hrefForCtaAction('global_checkout', offeringId, siteCertId);
 
+  if (status === 'consultation_required') {
+    return {
+      label: 'View pathway',
+      modalMode: 'consultation',
+      proceedHref: consultationHref,
+      proceedLabel: CTAS.pathwayMentorCta,
+      enrollHref: null,
+      enrollLabel: PRO_MASTERY_ENROLL_LABEL,
+      ...mentorModalFields(true),
+    };
+  }
   if (status === 'scholarship_verify') {
     return {
       label: enrollHref ? PRO_MASTERY_ENROLL_LABEL : 'View pathway',
@@ -195,13 +205,13 @@ export function pathwayEnrollLabelForTier(tierId: string, siteCertId?: string): 
 /** Human-readable pathway blurb (not raw matrix delivery string). */
 export function tierPathwaySummary(tierId: string): string {
   if (tierId === 'foundation') {
-    return 'Digital-only pathway: on-demand lessons, templates, and exam-style practice in the LMS.';
+    return 'Self-paced LMS pathway with one mentor guidance meeting after course completion, before certification.';
   }
   if (tierId === 'professional') {
-    return 'Blended pathway: self-paced LMS plus live weekend sessions and cohort support.';
+    return 'Mentor-led weekly sessions, or self-paced online with two one-hour mentor meetings (start and end).';
   }
   if (isMasteryTierId(tierId)) {
-    return 'Mentor-led pathway with readiness review and structured accountability before you begin.';
+    return 'Mentor-led pathway with two mentor meetings (start and end), readiness review, and structured accountability.';
   }
   return 'Structured preparation aligned to your certification goals.';
 }

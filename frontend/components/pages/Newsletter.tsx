@@ -174,7 +174,7 @@ export function Newsletter({
 
         <Separator className="my-12 opacity-50" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 lg:items-start">
           {/* Main Content: Latest Posts */}
           <div className="lg:col-span-8 min-w-0">
             <div className="flex items-center justify-between mb-10">
@@ -209,48 +209,48 @@ export function Newsletter({
             )}
           </div>
 
-          {/* Sidebar: Popular & Editor Picks: equal panels, stretch to main column height on lg */}
-          <aside className="lg:col-span-4 flex flex-col gap-6 lg:h-full">
-            <div className="flex flex-col flex-1 min-h-0 p-8 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2 mb-6 shrink-0">
-                <TrendingUp className="h-6 w-6 text-brand-orange" />
-                <h3 className="font-heading text-2xl font-bold">Popular Now</h3>
+          {/* Sidebar: Popular & Editor Picks — compact on laptop, no stretch gaps */}
+          <aside className="lg:col-span-4 flex flex-col gap-5 lg:gap-6">
+            <div className="flex flex-col p-5 sm:p-6 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2 mb-4 shrink-0">
+                <TrendingUp className="h-5 w-5 text-brand-orange" />
+                <h3 className="font-heading text-xl font-bold">Popular Now</h3>
               </div>
-              <div className="flex flex-1 flex-col justify-between gap-5 min-h-0">
+              <div className="flex flex-col gap-3.5">
                 {articles.slice(0, 4).map((article, index) => (
                   <Link
                     key={article.slug}
                     href={getNewsletterArticleHref(article)}
-                    className="flex gap-4 group"
+                    className="flex gap-3 group items-start"
                   >
                     <span
-                      className="text-4xl font-heading font-extrabold tabular-nums leading-none text-slate-300 dark:text-slate-600 group-hover:text-brand-orange transition-colors duration-300 shrink-0"
+                      className="text-2xl font-heading font-extrabold tabular-nums leading-none text-slate-300 dark:text-slate-600 group-hover:text-brand-orange transition-colors duration-300 shrink-0 pt-0.5"
                       aria-hidden
                     >
                       0{index + 1}
                     </span>
                     <div className="min-w-0">
-                      <Badge variant="link" className="p-0 h-auto text-brand-purple text-[10px] uppercase tracking-widest font-bold mb-1">
+                      <Badge variant="link" className="p-0 h-auto text-brand-purple text-[10px] uppercase tracking-widest font-bold mb-0.5">
                         {article.category}
                       </Badge>
-                      <h3 className="font-bold leading-tight group-hover:text-brand-purple transition-colors line-clamp-2">
+                      <h3 className="font-bold leading-snug group-hover:text-brand-purple transition-colors line-clamp-2 text-sm">
                         {article.title}
                       </h3>
-                      <p className="text-xs text-muted-foreground mt-2">{article.readTime}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{article.readTime}</p>
                     </div>
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col flex-1 min-h-0 p-8 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-              <h3 className="font-heading text-2xl font-bold mb-6 shrink-0">Editor&apos;s Picks</h3>
-              <div className="flex flex-1 flex-col justify-center gap-8 min-h-0">
+            <div className="flex flex-col p-5 sm:p-6 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+              <h3 className="font-heading text-xl font-bold mb-4 shrink-0">Editor&apos;s Picks</h3>
+              <div className="flex flex-col gap-4">
                 {articles.slice(4, 8).map((article) => (
                   <ArticleCard key={article.slug} article={article} variant="horizontal" />
                 ))}
               </div>
-              <Link href="/newsletter" className="block mt-6 shrink-0">
+              <Link href="/newsletter" className="block mt-5 shrink-0">
                 <Button className="w-full bg-brand-purple hover:bg-brand-purple/90">
                   View all articles
                 </Button>

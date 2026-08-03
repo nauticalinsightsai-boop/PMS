@@ -35,12 +35,12 @@ describe('regional-catalogue', () => {
     expect(tiers).not.toContain('mastery');
   });
 
-  it('listing card price and duration use the same lowest tier', () => {
+  it('listing card price and duration prefer Professional over Foundation', () => {
     const pmpListing = pickListingTierOffering('pmp');
-    expect(pmpListing?.tierId).toBe('foundation');
-    expect(getCertDurationLabel('pmp')).toBe('2 weeks');
-    const gccFoundation = resolveFullPriceDisplay(pmpListing!, 'gcc');
-    expect(getListingPriceForCert('pmp', 'gcc').active).toBe(gccFoundation.active);
+    expect(pmpListing?.tierId).toBe('professional');
+    expect(getCertDurationLabel('pmp')).toBe(pmpListing?.length);
+    const gccPro = resolveFullPriceDisplay(pmpListing!, 'gcc');
+    expect(getListingPriceForCert('pmp', 'gcc').active).toBe(gccPro.active);
 
     const capmListing = pickListingTierOffering('capm');
     expect(capmListing?.tierId).toBe('professional');
@@ -90,14 +90,32 @@ describe('regional-catalogue', () => {
     expect(india.membership).not.toMatch(/^\$/);
   });
 
-  it('resolveFullPriceDisplay uses same-currency global reference for GCC scholarship', () => {
+  it('foundation never shows membership discount', () => {
     const foundation = getOfferingById('pmp-preparation-foundation');
     expect(foundation).toBeDefined();
-    const gcc = resolveFullPriceDisplay(foundation!, 'gcc', 'AE');
-    expect(gcc.active).toBe('AED 900');
+    const global = resolveFullPriceDisplay(foundation!, 'global');
+    const india = resolveFullPriceDisplay(foundation!, 'india');
+    expect(global.active).toBe('$99');
+    expect(global.membership).toBeNull();
+    expect(india.membership).toBeNull();
+  });
+
+  it('PMP professional has mentor and self-paced price books', () => {
+    const pro = getOfferingById('pmp-preparation-professional');
+    expect(pro?.prices.global.display).toBe('$899');
+    expect(pro?.prices.india.display).toBe('₹52,999');
+    expect(pro?.pricesSelfPaced?.global.display).toBe('$449');
+    expect(pro?.pricesSelfPaced?.india.display).toBe('₹26,999');
+    expect(pro?.prices.gcc.perCountry?.AE).toBe('AED 2,649');
+  });
+
+  it('resolveFullPriceDisplay uses same-currency global reference for GCC scholarship', () => {
+    const pro = getOfferingById('pmp-preparation-professional');
+    expect(pro).toBeDefined();
+    const gcc = resolveFullPriceDisplay(pro!, 'gcc', 'AE');
+    expect(gcc.active).toBe('AED 2,649');
     expect(gcc.original).toMatch(/^AED /);
     expect(gcc.original).not.toMatch(/\$/);
-    expect(gcc.showScholarshipLabels).toBe(true);
   });
 
   it('routes scholarship_unavailable CTAs', () => {

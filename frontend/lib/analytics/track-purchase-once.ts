@@ -2,45 +2,19 @@
 
 import { PackageType, PMS_EVENTS } from '@/lib/analytics/pms-events';
 import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
-import { createAnalyticsEventId } from '@/lib/analytics/event-id';
 import { trackMetaPurchase } from '@/lib/analytics/meta-browser';
 import { hasAnalyticsConsent } from '@/lib/legal/consent';
 
 const STORAGE_PREFIX = 'pms_purchase_tracked_';
 const pendingConsentListeners = new Map<string, () => void>();
 
-function alreadyFired(transactionId: string): boolean {
-  try {
-    if (sessionStorage.getItem(`${STORAGE_PREFIX}${transactionId}`) === '1') return true;
-  } catch {
-    // fall through
-  }
-  return false;
-}
-
-function markFired(transactionId: string): void {
-  try {
-    sessionStorage.setItem(`${STORAGE_PREFIX}${transactionId}`, '1');
-  } catch {
-    // ignore
-  }
-}
-
-function queueUntilConsent(opts: Parameters<typeof trackPurchaseOnce>[0]): void {
-  if (typeof window === 'undefined' || pendingConsentListeners.has(opts.transactionId)) return;
-  const handler = () => {
-    if (!hasAnalyticsConsent()) return;
-    window.removeEventListener('legal-consent-updated', handler);
-    pendingConsentListeners.delete(opts.transactionId);
-    window.setTimeout(() => trackPurchaseOnce(opts), 250);
-  };
-  pendingConsentListeners.set(opts.transactionId, handler);
-  window.addEventListener('legal-consent-updated', handler);
-}
-
-/** Fire GA4 + Meta Purchase only after server-confirmed payment; refresh-safe. */
-export function trackPurchaseOnce(opts: {
-  transactionId: string;
+export type VerifiedPurchaseMeasurement = {
+  /** Opaque PM Structure order/transaction identity, never a Stripe object ID. */
+  durableTransactionId: string;
+  /** Stable opaque event identity persisted with the paid order. */
+  durablePurchaseEventId: string;
+  /** Must be supplied only from a server-verified paid outcome. */
+  serverVerifiedPaid: boolean;
   packageType?: PackageType;
   currency?: string;
   value?: number;
@@ -51,17 +25,69 @@ export function trackPurchaseOnce(opts: {
     price?: number;
     quantity?: number;
   }>;
-}): void {
-  if (!opts.transactionId || alreadyFired(opts.transactionId)) return;
+};
+
+function looksLikeStripeObjectId(value: string): boolean {
+  return /^(cs|pi|evt|ch|in|sub)_/i.test(value);
+}
+
+function alreadyFired(transactionId: string): boolean {
+  try {
+    if (localStorage.getItem(`${STORAGE_PREFIX}${transactionId}`) === '1') return true;
+  } catch {
+    // fall through
+  }
+  return false;
+}
+
+function markFired(transactionId: string): void {
+  try {
+    localStorage.setItem(`${STORAGE_PREFIX}${transactionId}`, '1');
+  } catch {
+    // ignore
+  }
+}
+
+function queueUntilConsent(opts: VerifiedPurchaseMeasurement): void {
+  if (
+    typeof window === 'undefined' ||
+    pendingConsentListeners.has(opts.durableTransactionId)
+  ) {
+    return;
+  }
+  const handler = () => {
+    if (!hasAnalyticsConsent()) return;
+    window.removeEventListener('legal-consent-updated', handler);
+    pendingConsentListeners.delete(opts.durableTransactionId);
+    window.setTimeout(() => trackPurchaseOnce(opts), 250);
+  };
+  pendingConsentListeners.set(opts.durableTransactionId, handler);
+  window.addEventListener('legal-consent-updated', handler);
+}
+
+/**
+ * Fire GA4 + Meta Purchase only with server-paid, durable internal identities.
+ * Raw Stripe IDs are rejected; callers may not substitute a client callback.
+ */
+export function trackPurchaseOnce(opts: VerifiedPurchaseMeasurement): void {
+  if (
+    opts.serverVerifiedPaid !== true ||
+    !opts.durableTransactionId ||
+    !opts.durablePurchaseEventId ||
+    looksLikeStripeObjectId(opts.durableTransactionId) ||
+    looksLikeStripeObjectId(opts.durablePurchaseEventId) ||
+    alreadyFired(opts.durableTransactionId)
+  ) {
+    return;
+  }
   if (!hasAnalyticsConsent()) {
     queueUntilConsent(opts);
     return;
   }
 
-  const eventId = createAnalyticsEventId('purchase');
   const gaSent = pushAnalyticsEvent(PMS_EVENTS.PURCHASE, {
-    transaction_id: opts.transactionId,
-    event_id: eventId,
+    transaction_id: opts.durableTransactionId,
+    event_id: opts.durablePurchaseEventId,
     ...(opts.packageType ? { package_type: opts.packageType } : {}),
     ...(opts.currency ? { currency: opts.currency } : {}),
     ...(typeof opts.value === 'number' ? { value: opts.value } : {}),
@@ -79,11 +105,11 @@ export function trackPurchaseOnce(opts: {
           currency: opts.currency!,
           value: opts.value!,
           content_type: 'product',
-          content_ids: opts.items?.map((i) => i.item_id) ?? [opts.transactionId],
+          ...(opts.items?.length ? { content_ids: opts.items.map((i) => i.item_id) } : {}),
         },
-        eventId,
+        opts.durablePurchaseEventId,
       )
     : null;
 
-  if (gaSent || metaEventId) markFired(opts.transactionId);
+  if (gaSent || metaEventId) markFired(opts.durableTransactionId);
 }

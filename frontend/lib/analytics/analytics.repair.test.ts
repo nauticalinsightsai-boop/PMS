@@ -33,7 +33,7 @@ import { mergeCalendlyUtmWithInbound } from '@/lib/analytics/utm-calendly';
 
 function stubSessionStorage() {
   const store: Record<string, string> = {};
-  vi.stubGlobal('sessionStorage', {
+  const storage = {
     getItem: (k: string) => store[k] ?? null,
     setItem: (k: string, v: string) => {
       store[k] = v;
@@ -41,7 +41,9 @@ function stubSessionStorage() {
     removeItem: (k: string) => {
       delete store[k];
     },
-  });
+  };
+  vi.stubGlobal('sessionStorage', storage);
+  vi.stubGlobal('localStorage', storage);
   return store;
 }
 
@@ -94,11 +96,42 @@ describe('lead and conversion events', () => {
   });
 
   it('does not duplicate purchase on refresh', () => {
-    trackPurchaseOnce({ transactionId: 'cs_test_1', value: 10, currency: 'USD' });
-    trackPurchaseOnce({ transactionId: 'cs_test_1', value: 10, currency: 'USD' });
+    const verifiedPurchase = {
+      durableTransactionId: 'order_01JPMSTRUCTURE',
+      durablePurchaseEventId: 'paid_01JPMSTRUCTURE',
+      serverVerifiedPaid: true,
+      value: 10,
+      currency: 'USD',
+    };
+    trackPurchaseOnce(verifiedPurchase);
+    trackPurchaseOnce(verifiedPurchase);
     const purchaseCalls = sendGAEvent.mock.calls.filter((c) => c[1] === 'purchase');
     expect(purchaseCalls).toHaveLength(1);
+    expect(purchaseCalls[0]?.[2]).toMatchObject({
+      transaction_id: 'order_01JPMSTRUCTURE',
+      event_id: 'paid_01JPMSTRUCTURE',
+    });
     expect(trackMetaPurchase).toHaveBeenCalledTimes(1);
+  });
+
+  it('rejects unpaid outcomes and raw Stripe object IDs', () => {
+    trackPurchaseOnce({
+      durableTransactionId: 'order_unpaid',
+      durablePurchaseEventId: 'paid_unpaid',
+      serverVerifiedPaid: false,
+      value: 10,
+      currency: 'USD',
+    });
+    trackPurchaseOnce({
+      durableTransactionId: 'cs_test_raw',
+      durablePurchaseEventId: 'evt_test_raw',
+      serverVerifiedPaid: true,
+      value: 10,
+      currency: 'USD',
+    });
+
+    expect(sendGAEvent.mock.calls.some((c) => c[1] === 'purchase')).toBe(false);
+    expect(trackMetaPurchase).not.toHaveBeenCalled();
   });
 
   it('trackPageView is a no-op to avoid duplicate pageviews', () => {

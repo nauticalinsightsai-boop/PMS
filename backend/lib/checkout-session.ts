@@ -149,6 +149,23 @@ export async function createStripeEmbeddedCheckoutSession(
   };
 }
 
+/**
+ * Best-effort containment for a Stripe Checkout Session that cannot be backed
+ * by the required durable order record. The route still returns failure even
+ * when expiration itself fails so no client success state is exposed.
+ */
+export async function expireStripeCheckoutSessionBestEffort(sessionId: string): Promise<void> {
+  if (!sessionId?.startsWith('cs_') || !isStripeConfigured()) return;
+  try {
+    await getStripe().checkout.sessions.expire(sessionId);
+  } catch (error) {
+    console.error('[checkout-session] could not expire orphan checkout session', {
+      sessionId,
+      error,
+    });
+  }
+}
+
 /** @deprecated Use {@link createStripePaymentSession} */
 export async function createCheckoutSession(params: {
   offeringId: string;

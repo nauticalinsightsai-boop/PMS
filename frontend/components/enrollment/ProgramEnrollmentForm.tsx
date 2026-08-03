@@ -6,13 +6,15 @@ import { RegionalPrice } from '@/components/RegionalPrice';
 import { StripeEmbeddedSeatCheckout } from '@/components/enrollment/StripeEmbeddedSeatCheckout';
 import { SeatReservationTimer } from '@/components/enrollment/SeatReservationTimer';
 import { useRegionalOffering } from '@/hooks/useRegionalOffering';
+import { useRegion } from '@/contexts/RegionContext';
 import { enrollSuccessPath } from '@/lib/enrollment-routes';
 import {
   canOfferFullTuitionOnEnroll,
   formatRegionalDepositDisplay,
+  isDeliveryMode,
   type EnrollmentPaymentMode,
 } from '@/lib/enrollment/seat-reservation';
-import { getOfferingById } from '@/lib/regional-catalogue';
+import { getOfferingById, resolveDeliveryPriceDisplay } from '@/lib/regional-catalogue';
 import { setEnrollStarted } from '@/lib/conversion-recovery/session-state';
 import { cn } from '@/lib/utils';
 
@@ -23,6 +25,12 @@ type ProgramEnrollmentFormProps = {
   publishableKeyHint?: string | null;
 };
 
+function defaultPaymentMode(tierId: string): EnrollmentPaymentMode {
+  if (tierId === 'foundation') return 'self_paced';
+  if (tierId === 'professional') return 'self_paced';
+  return 'seat_deposit';
+}
+
 export function ProgramEnrollmentForm({
   offeringId,
   siteCertId,
@@ -30,22 +38,57 @@ export function ProgramEnrollmentForm({
   publishableKeyHint = null,
 }: ProgramEnrollmentFormProps) {
   const data = useRegionalOffering(offeringId);
-  const [paymentMode, setPaymentMode] = React.useState<EnrollmentPaymentMode>('seat_deposit');
+  const { regionId, gccCountry } = useRegion();
+  const offeringMeta = getOfferingById(offeringId);
+  const tierId = offeringMeta?.tierId ?? 'foundation';
+
+  const [paymentMode, setPaymentMode] = React.useState<EnrollmentPaymentMode>(() =>
+    defaultPaymentMode(tierId),
+  );
+
+  React.useEffect(() => {
+    setPaymentMode(defaultPaymentMode(tierId));
+  }, [tierId, offeringId]);
 
   React.useEffect(() => {
     setEnrollStarted(offeringId, tierSlug, siteCertId);
   }, [offeringId, siteCertId, tierSlug]);
 
-  if (!data) {
+  if (!data || !offeringMeta) {
     return <p className="text-muted-foreground">Offering not found.</p>;
   }
 
-  const offeringMeta = getOfferingById(offeringId);
-  const tierLabel = offeringMeta?.tier ?? tierSlug.replace(/-/g, ' ');
-  const fullLabel = data.prices.active;
-  const depositLabel = formatRegionalDepositDisplay(fullLabel);
-  const canPayInFull = canOfferFullTuitionOnEnroll(data.rule.status, fullLabel);
+  const tierLabel = offeringMeta.tier ?? tierSlug.replace(/-/g, ' ');
+  const isFoundation = tierId === 'foundation';
+  const isProfessional = tierId === 'professional';
+  const usesDeliveryModes = isFoundation || isProfessional;
+
+  const mentorPrices = resolveDeliveryPriceDisplay(
+    offeringMeta,
+    regionId,
+    'mentor_led',
+    gccCountry,
+  );
+  const selfPacedPrices = resolveDeliveryPriceDisplay(
+    offeringMeta,
+    regionId,
+    'self_paced',
+    gccCountry,
+  );
+
+  const activePrices =
+    paymentMode === 'self_paced'
+      ? selfPacedPrices
+      : usesDeliveryModes
+        ? mentorPrices
+        : data.prices;
+
+  const fullLabel = activePrices.active;
+  const depositLabel = formatRegionalDepositDisplay(data.prices.active);
+  const canPayInFull = canOfferFullTuitionOnEnroll(data.rule.status, data.prices.active);
   const isDeposit = paymentMode === 'seat_deposit';
+  const isSelfPaced = paymentMode === 'self_paced';
+  const isMentorLed = paymentMode === 'mentor_led';
 
   return (
     <div className="space-y-6 lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-10 xl:gap-x-14 lg:space-y-0">
@@ -56,15 +99,34 @@ export function ProgramEnrollmentForm({
           <h2 className="text-xl font-bold text-foreground md:text-2xl">{data.offering.courseName}</h2>
           <p className="text-sm text-muted-foreground">{tierLabel}</p>
           <p className="mt-3 text-sm text-muted-foreground leading-relaxed md:text-base">
-            {isDeposit ? (
+            {isFoundation ? (
               <>
-                Pay {depositLabel ?? '25% of pathway tuition'} to reserve your seat. Support will schedule your onboarding
-                call within 24 hours. You&apos;ll pay the remaining balance during that call.
+                Pay {fullLabel ?? 'pathway tuition'} today for the self-paced online curriculum. Includes one mentor
+                guidance meeting after you complete the course, before certification is issued. Support will confirm
+                onboarding within 24 hours.
+              </>
+            ) : isProfessional ? (
+              isSelfPaced ? (
+                <>
+                  Pay {fullLabel ?? 'pathway tuition'} today for self-paced online access. Includes two one-hour mentor
+                  meetings: one at the start and one at the end. Support will confirm onboarding within 24 hours.
+                </>
+              ) : (
+                <>
+                  Pay {fullLabel ?? 'pathway tuition'} today for mentor-led weekly sessions. Support will confirm
+                  onboarding within 24 hours.
+                </>
+              )
+            ) : isDeposit ? (
+              <>
+                Pay {depositLabel ?? '25% of pathway tuition'} to reserve your seat. Includes two mentor meetings (start
+                and end). Support will schedule your onboarding call within 24 hours. You&apos;ll pay the remaining
+                balance during that call.
               </>
             ) : (
               <>
-                Pay {fullLabel ?? 'pathway tuition'} in full today to secure your seat in one payment. Support will
-                confirm onboarding within 24 hours.
+                Pay {fullLabel ?? 'pathway tuition'} in full today. Includes two mentor meetings (start and end). Support
+                will confirm onboarding within 24 hours.
               </>
             )}
           </p>
@@ -73,62 +135,117 @@ export function ProgramEnrollmentForm({
         <div className="overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm">
           <div className="p-4 sm:p-5">
             <RegionalPrice
-              original={data.prices.original}
-              active={data.prices.active}
-              showScholarshipLabels={data.showScholarshipLabels}
-              regionalLabel={data.prices.regionalLabel}
-              footnote={data.rule.regionMessage ?? data.prices.footnote}
+              original={activePrices.original}
+              active={activePrices.active}
+              membership={null}
+              showScholarshipLabels={activePrices.showScholarshipLabels}
+              regionalLabel={activePrices.regionalLabel}
+              footnote={data.rule.regionMessage ?? activePrices.footnote}
               variant="full"
             />
           </div>
 
-          <div className="border-t border-border px-4 pt-4 sm:px-5 sm:pb-5">
-            <p className="text-label text-brand-orange mb-3">Payment option</p>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              <button
-                type="button"
-                onClick={() => setPaymentMode('seat_deposit')}
-                className={cn(
-                  'rounded-xl border px-4 py-3 text-left transition-colors',
-                  isDeposit
-                    ? 'border-brand-orange bg-brand-orange/5 ring-1 ring-brand-orange/30'
-                    : 'border-border bg-background hover:border-brand-orange/40',
-                )}
-              >
-                <span className="block text-sm font-semibold text-foreground">Reserve seat</span>
-                <span className="mt-2 block space-y-0.5 text-xs leading-snug text-muted-foreground">
-                  <span className="block">25% deposit</span>
-                  {depositLabel ? (
-                    <span className="block font-medium text-foreground/80">
-                      {depositLabel} <span className="font-normal text-muted-foreground">today</span>
-                    </span>
-                  ) : null}
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setPaymentMode('full_tuition')}
-                disabled={!canPayInFull}
-                className={cn(
-                  'rounded-xl border px-4 py-3 text-left transition-colors',
-                  !canPayInFull && 'cursor-not-allowed opacity-60',
-                  !isDeposit && canPayInFull
-                    ? 'border-brand-orange bg-brand-orange/5 ring-1 ring-brand-orange/30'
-                    : 'border-border bg-background hover:border-brand-orange/40',
-                )}
-              >
-                <span className="block text-sm font-semibold text-foreground">Pay in full</span>
-                <span className="mt-2 block space-y-0.5 text-xs leading-snug text-muted-foreground">
-                  <span className="block">One payment</span>
-                  {fullLabel ? (
-                    <span className="block font-medium text-foreground/80">
-                      {fullLabel} <span className="font-normal text-muted-foreground">today</span>
-                    </span>
-                  ) : null}
-                </span>
-              </button>
+          {isFoundation ? null : isProfessional ? (
+            <div className="border-t border-border px-4 pt-4 sm:px-5 sm:pb-5">
+              <p className="text-label text-brand-orange mb-3">Delivery option</p>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => setPaymentMode('self_paced')}
+                  disabled={!selfPacedPrices.active}
+                  className={cn(
+                    'rounded-xl border px-4 py-3 text-left transition-colors',
+                    !selfPacedPrices.active && 'cursor-not-allowed opacity-60',
+                    isSelfPaced && selfPacedPrices.active
+                      ? 'border-brand-orange bg-brand-orange/5 ring-1 ring-brand-orange/30'
+                      : 'border-border bg-background hover:border-brand-orange/40',
+                  )}
+                >
+                  <span className="block text-sm font-semibold text-foreground">Self-paced online</span>
+                  <span className="mt-2 block space-y-0.5 text-xs leading-snug text-muted-foreground">
+                    <span className="block">Two 1-hour mentor meetings</span>
+                    <span className="block">Start and end of pathway</span>
+                    {selfPacedPrices.active ? (
+                      <span className="block font-medium text-foreground/80">
+                        {selfPacedPrices.active}{' '}
+                        <span className="font-normal text-muted-foreground">today</span>
+                      </span>
+                    ) : null}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPaymentMode('mentor_led')}
+                  className={cn(
+                    'rounded-xl border px-4 py-3 text-left transition-colors',
+                    isMentorLed
+                      ? 'border-brand-orange bg-brand-orange/5 ring-1 ring-brand-orange/30'
+                      : 'border-border bg-background hover:border-brand-orange/40',
+                  )}
+                >
+                  <span className="block text-sm font-semibold text-foreground">Mentor-led</span>
+                  <span className="mt-2 block space-y-0.5 text-xs leading-snug text-muted-foreground">
+                    <span className="block">Weekly sessions</span>
+                    {mentorPrices.active ? (
+                      <span className="block font-medium text-foreground/80">
+                        {mentorPrices.active}{' '}
+                        <span className="font-normal text-muted-foreground">today</span>
+                      </span>
+                    ) : null}
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="border-t border-border px-4 pt-4 sm:px-5 sm:pb-5">
+              <p className="text-label text-brand-orange mb-3">Payment option</p>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => setPaymentMode('seat_deposit')}
+                  className={cn(
+                    'rounded-xl border px-4 py-3 text-left transition-colors',
+                    isDeposit
+                      ? 'border-brand-orange bg-brand-orange/5 ring-1 ring-brand-orange/30'
+                      : 'border-border bg-background hover:border-brand-orange/40',
+                  )}
+                >
+                  <span className="block text-sm font-semibold text-foreground">Reserve seat</span>
+                  <span className="mt-2 block space-y-0.5 text-xs leading-snug text-muted-foreground">
+                    <span className="block">25% deposit</span>
+                    {depositLabel ? (
+                      <span className="block font-medium text-foreground/80">
+                        {depositLabel} <span className="font-normal text-muted-foreground">today</span>
+                      </span>
+                    ) : null}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPaymentMode('full_tuition')}
+                  disabled={!canPayInFull}
+                  className={cn(
+                    'rounded-xl border px-4 py-3 text-left transition-colors',
+                    !canPayInFull && 'cursor-not-allowed opacity-60',
+                    !isDeposit && canPayInFull
+                      ? 'border-brand-orange bg-brand-orange/5 ring-1 ring-brand-orange/30'
+                      : 'border-border bg-background hover:border-brand-orange/40',
+                  )}
+                >
+                  <span className="block text-sm font-semibold text-foreground">Pay in full</span>
+                  <span className="mt-2 block space-y-0.5 text-xs leading-snug text-muted-foreground">
+                    <span className="block">One payment</span>
+                    {data.prices.active ? (
+                      <span className="block font-medium text-foreground/80">
+                        {data.prices.active}{' '}
+                        <span className="font-normal text-muted-foreground">today</span>
+                      </span>
+                    ) : null}
+                  </span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -145,7 +262,9 @@ export function ProgramEnrollmentForm({
               offeringId={offeringId}
               siteCertId={siteCertId}
               tierSlug={tierSlug}
-              paymentMode={paymentMode}
+              paymentMode={
+                usesDeliveryModes && !isDeliveryMode(paymentMode) ? 'mentor_led' : paymentMode
+              }
               publishableKeyHint={publishableKeyHint}
             />
           </div>

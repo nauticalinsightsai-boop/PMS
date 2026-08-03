@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   experimental: {
     serverActions: { bodySizeLimit: '2mb' },
   },
+  transpilePackages: ['@pms/site-content', '@pms/booking-crm'],
 };
 
 export default nextConfig;
