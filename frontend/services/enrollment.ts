@@ -96,15 +96,69 @@ export async function createSeatDepositCheckout(
 
 export async function verifyCheckoutSession(sessionId: string) {
   const res = await fetch(apiUrl(`/api/checkout/session/${encodeURIComponent(sessionId)}`));
-  return parseApi<{
+  const result = await parseApi<{
     sessionId: string;
     status: string;
     paid: boolean;
     offeringId?: string | null;
     paymentType?: string | null;
-    currency?: string | null;
+    currency?: unknown;
+    amountTotal?: unknown;
     value?: number | null;
     durableTransactionId?: string | null;
     durablePurchaseEventId?: string | null;
   }>(res);
+  if (!result.data) return result;
+  const { currency, amountTotal } = normalizeVerifiedStripeMoney(
+    result.data.currency,
+    result.data.amountTotal,
+  );
+  return {
+    ...result,
+    data: {
+      ...result.data,
+      currency,
+      amountTotal,
+    },
+  };
+}
+
+export function normalizeVerifiedStripeMoney(
+  currencyValue: unknown,
+  amountValue: unknown,
+): {
+  currency?: string;
+  amountTotal?: number;
+} {
+  const currency =
+    typeof currencyValue === 'string' && /^[a-zA-Z]{3}$/.test(currencyValue.trim())
+      ? currencyValue.trim().toLowerCase()
+      : undefined;
+  const amountTotal =
+    typeof amountValue === 'number' &&
+    Number.isSafeInteger(amountValue) &&
+    amountValue >= 0
+      ? amountValue
+      : undefined;
+  return { currency, amountTotal };
+}
+
+export function verifiedPurchaseMoney(
+  data: {
+    paid?: unknown;
+    sessionId?: unknown;
+    currency?: unknown;
+    amountTotal?: unknown;
+  } | null | undefined,
+): { transactionId: string; currency: string; value: number } | null {
+  if (data?.paid !== true || typeof data.sessionId !== 'string' || !data.sessionId.startsWith('cs_')) {
+    return null;
+  }
+  const { currency, amountTotal } = normalizeVerifiedStripeMoney(data.currency, data.amountTotal);
+  if (!currency || amountTotal === undefined) return null;
+  return {
+    transactionId: data.sessionId,
+    currency,
+    value: amountTotal / 100,
+  };
 }

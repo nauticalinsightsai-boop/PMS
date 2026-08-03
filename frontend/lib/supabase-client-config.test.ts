@@ -49,13 +49,20 @@ describe.sequential('public Supabase client configuration', () => {
     }
   });
 
-  it('fails closed without creating a shared client when public env is missing', async () => {
+  it('creates a placeholder shared client when public env is missing so builds can collect page data', async () => {
     clearPublicSupabaseEnv();
 
-    await expect(import('./supabase')).rejects.toThrow(
+    const { supabase, requirePublicSupabaseConfig } = await import('./supabase');
+
+    expect(supabase).toBe(clientSentinel);
+    expect(createClientMock).toHaveBeenCalledOnce();
+    expect(createClientMock).toHaveBeenCalledWith(
+      'https://placeholder.supabase.co',
+      'placeholder-key',
+    );
+    expect(() => requirePublicSupabaseConfig(undefined, undefined)).toThrow(
       /Supabase client configuration is unavailable/,
     );
-    expect(createClientMock).not.toHaveBeenCalled();
   });
 
   it('creates the shared client with valid public env', async () => {
