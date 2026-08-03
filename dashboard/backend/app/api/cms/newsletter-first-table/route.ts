@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { NextRequest } from 'next/server';
 import { requireDashboardMutationAuth } from '@/lib/auth/api-guard';
 import { getSupabaseAdmin, isSupabaseAdminConfigured } from '@/lib/auth/supabase-admin';
@@ -95,18 +95,28 @@ function sha256(value: string): string {
   return createHash('sha256').update(value, 'utf8').digest('hex').toUpperCase();
 }
 
-function json(data: Record<string, unknown>, status = 200): Response {
+const REQUEST_ID_HEADER = 'x-pms-request-id';
+const ERROR_CODE_HEADER = 'x-pms-error-code';
+
+function json(
+  data: Record<string, unknown>,
+  status = 200,
+  headers?: Record<string, string>,
+): Response {
   return Response.json(data, {
     status,
-    headers: { 'Cache-Control': 'no-store' },
+    headers: { 'Cache-Control': 'no-store', ...headers },
   });
 }
 
-function fail(error: unknown): Response {
-  if (error instanceof WriterError) {
-    return json({ ok: false, code: error.code }, error.status);
-  }
-  return json({ ok: false, code: 'writer_internal_error' }, 500);
+function fail(error: unknown, requestId: string): Response {
+  const code = error instanceof WriterError ? error.code : 'writer_internal_error';
+  const status = error instanceof WriterError ? error.status : 500;
+  return json(
+    { ok: false, code, requestId },
+    status,
+    { [REQUEST_ID_HEADER]: requestId, [ERROR_CODE_HEADER]: code },
+  );
 }
 
 type TableSlice = { html: string; start: number; end: number };
@@ -294,6 +304,7 @@ async function handleNewsletterFirstTableRequest(
   request: Request,
   dependencies: WriterDependencies,
 ): Promise<Response> {
+  const requestId = randomUUID();
   try {
     const auth = await dependencies.authorize(request);
     if (auth) return auth;
@@ -342,7 +353,7 @@ async function handleNewsletterFirstTableRequest(
     }
     return responseForPlan(plan, reread.updated_at, true);
   } catch (error) {
-    return fail(error);
+    return fail(error, requestId);
   }
 }
 

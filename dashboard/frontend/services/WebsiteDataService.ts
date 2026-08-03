@@ -53,17 +53,29 @@ async function cmsFetch(path: string, init?: RequestInit) {
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    const code = data && typeof data === 'object' && 'code' in data
+    const bodyCode = data && typeof data === 'object' && 'code' in data
       ? (data as { code?: unknown }).code
       : undefined;
+    const headerCode = res.headers?.get('x-pms-error-code');
+    const code = bodyCode ?? headerCode;
     const safeCode = typeof code === 'string' && /^[a-z][a-z0-9_]{0,63}$/.test(code)
       ? code
       : null;
+    const bodyRequestId = data && typeof data === 'object' && 'requestId' in data
+      ? (data as { requestId?: unknown }).requestId
+      : undefined;
+    const headerRequestId = res.headers?.get('x-pms-request-id');
+    const requestId = bodyRequestId ?? headerRequestId;
+    const safeRequestId = typeof requestId === 'string' &&
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(requestId)
+      ? requestId
+      : null;
+    const correlation = safeRequestId ? ` [request ${safeRequestId}]` : '';
     throw new Error(
       safeCode
-        ? `CMS API error (${res.status}): ${safeCode}`
-        : `CMS API error (${res.status})`,
-    );
+        ? `CMS API error (${res.status}): ${safeCode}${correlation}`
+        : `CMS API error (${res.status})${correlation}`,
+      );
   }
   return data;
 }

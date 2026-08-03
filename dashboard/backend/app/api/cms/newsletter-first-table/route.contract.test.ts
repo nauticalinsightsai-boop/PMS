@@ -231,6 +231,12 @@ describe('Item07 semantic first-table writer', () => {
       const h = harness(bad);
       const response = await handleNewsletterFirstTableRequest(request('preview'), h.dependencies);
       expect(response.status).toBe(409);
+      const payload = await response.json() as { code: string; requestId: string };
+      expect(payload.code).toMatch(/^[a-z][a-z0-9_]{0,63}$/);
+      expect(payload.requestId).toMatch(/^[0-9a-f-]{36}$/);
+      expect(response.headers.get('x-pms-error-code')).toBe(payload.code);
+      expect(response.headers.get('x-pms-request-id')).toBe(payload.requestId);
+      expect(JSON.stringify(payload)).not.toMatch(/Locked title|Question 1|post-item08|@|<table/i);
       expect(h.writes).toBe(0);
     }
 
@@ -246,5 +252,41 @@ describe('Item07 semantic first-table writer', () => {
     const authResponse = await handleNewsletterFirstTableRequest(request('preview'), unauthorized);
     expect(authResponse.status).toBe(401);
     expect(authReads).toBe(0);
+  });
+
+  it('binds an opaque request id to the exact safe conflict leaf without enabling a write or retry', async () => {
+    const h = harness(registry(`${BODY}drift`));
+    const response = await handleNewsletterFirstTableRequest(request('preview'), h.dependencies);
+    const payload = await response.json() as { ok: boolean; code: string; requestId: string };
+
+    expect(response.status).toBe(409);
+    expect(payload).toEqual({
+      ok: false,
+      code: 'item07_body_hash_mismatch',
+      requestId: expect.stringMatching(/^[0-9a-f-]{36}$/),
+    });
+    expect(response.headers.get('x-pms-error-code')).toBe('item07_body_hash_mismatch');
+    expect(response.headers.get('x-pms-request-id')).toBe(payload.requestId);
+    expect(h.writes).toBe(0);
+    expect(h.reads).toBe(1);
+  });
+
+  it('maps unexpected server failures to one sanitized request-bound internal class', async () => {
+    const dependencies: WriterDependencies = {
+      policy: POLICY,
+      authorize: async () => null,
+      repository: {
+        load: async () => { throw new Error('provider secret person@example.com'); },
+        compareAndSwap: async () => false,
+      },
+    };
+    const response = await handleNewsletterFirstTableRequest(request('preview'), dependencies);
+    const payload = await response.json() as { code: string; requestId: string };
+
+    expect(response.status).toBe(500);
+    expect(payload.code).toBe('writer_internal_error');
+    expect(response.headers.get('x-pms-error-code')).toBe('writer_internal_error');
+    expect(response.headers.get('x-pms-request-id')).toBe(payload.requestId);
+    expect(JSON.stringify(payload)).not.toMatch(/provider|secret|@/i);
   });
 });
