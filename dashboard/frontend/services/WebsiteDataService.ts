@@ -53,8 +53,16 @@ async function cmsFetch(path: string, init?: RequestInit) {
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
+    const code = data && typeof data === 'object' && 'code' in data
+      ? (data as { code?: unknown }).code
+      : undefined;
+    const safeCode = typeof code === 'string' && /^[a-z][a-z0-9_]{0,63}$/.test(code)
+      ? code
+      : null;
     throw new Error(
-      (data as { error?: string }).error || `CMS API error (${res.status})`,
+      safeCode
+        ? `CMS API error (${res.status}): ${safeCode}`
+        : `CMS API error (${res.status})`,
     );
   }
   return data;
