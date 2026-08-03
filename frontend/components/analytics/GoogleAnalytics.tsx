@@ -23,8 +23,10 @@ export type GaDispatchState = {
 
 export function bootstrapGaCommandTarget(target: GaCommandTarget): void {
   target.dataLayer = target.dataLayer ?? [];
-  target.gtag = target.gtag ?? function gtag(...args: unknown[]) {
-    target.dataLayer?.push(args);
+  target.gtag = target.gtag ?? function gtag() {
+    // Google's command queue requires the function's Arguments object.
+    // eslint-disable-next-line prefer-rest-params
+    target.dataLayer?.push(arguments);
   };
 }
 

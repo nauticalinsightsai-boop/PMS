@@ -73,8 +73,12 @@ describe('GA route pageview contract', () => {
     bootstrapGaCommandTarget(target);
     expect(target.dataLayer).toEqual([]);
     expect(target.gtag).toBeTypeOf('function');
-    target.gtag?.('event', 'test');
-    expect(target.dataLayer).toEqual([['event', 'test']]);
+    const commandArgs = ['event', 'test', { send_to: 'G-TEST' }] as const;
+    target.gtag?.(...commandArgs);
+    const queuedEntry = target.dataLayer?.[0];
+    expect(Array.isArray(queuedEntry)).toBe(false);
+    expect(Object.prototype.toString.call(queuedEntry)).toBe('[object Arguments]');
+    expect(Array.from(queuedEntry as ArrayLike<unknown>)).toEqual(commandArgs);
   });
 
   it.each(['/', '/newsletter', '/certifications/pmp/professional/enroll'])(
