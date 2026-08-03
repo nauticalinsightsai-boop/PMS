@@ -492,7 +492,7 @@ export function Home({
 
           <ResponsiveSnapScroll
             className="pt-4 md:pt-6"
-            desktopLayoutClassName="md:grid md:grid-cols-2 lg:grid-cols-3"
+            desktopLayoutClassName="md:grid md:grid-cols-2 md:items-stretch lg:grid-cols-3"
             gapClassName="gap-6 md:gap-8"
             mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
           >

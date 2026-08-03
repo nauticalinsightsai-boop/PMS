@@ -307,7 +307,7 @@ export function Certifications({
                               Flagship pathways
                             </h3>
                             <ResponsiveSnapScroll
-                              desktopLayoutClassName="md:grid md:grid-cols-3"
+                              desktopLayoutClassName="md:grid md:grid-cols-3 md:items-stretch"
                               gapClassName="gap-6 md:gap-8"
                               mobileItemClassName={PATHWAY_MOBILE_CAROUSEL_SLIDE_CLASS}
                             >

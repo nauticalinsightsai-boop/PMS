@@ -19,10 +19,6 @@ import { pathwayEnrollLabelForTier } from '@/lib/pathway-tier-cta';
 import { hrefForCtaAction } from "@/lib/cta-router";
 import { canCheckout } from "@/lib/status-normalize";
 import type { RegionId } from "@/types/regional-catalogue";
-import {
-  PUBLIC_NAVBAR_HEIGHT_CLASS,
-  PUBLIC_NAVBAR_OFFSET_CLASS,
-} from "@/components/PublicShell";
 import { Breadcrumbs } from "@/components/navigation/Breadcrumbs";
 import { getCertBreadcrumbItems } from "@/content/site-architecture/routes";
 import { useIsLgUp } from '@/hooks/useIsLgUp';
@@ -155,11 +151,7 @@ export function CertificationDetail({
       certificationName={certName}
     />
     <div
-      className={cn(
-        'flex flex-col min-h-screen selection:bg-brand-orange selection:text-white',
-        /* Cancel main pt-16 so subnav can sit flush under the fixed navbar */
-        PUBLIC_NAVBAR_OFFSET_CLASS,
-      )}
+      className="flex flex-col min-h-screen selection:bg-brand-orange selection:text-white"
     >
       <EnrollReturnRecovery siteCertId={cert.id} certName={certName} />
       {cert.id === 'pmp' ? <PmpExam2026LiveBanner /> : null}
@@ -169,8 +161,6 @@ export function CertificationDetail({
           pagePath="/certifications/pmp"
         />
       ) : null}
-      {/* Reserve space for fixed navbar */}
-      <div className={cn(PUBLIC_NAVBAR_HEIGHT_CLASS, 'shrink-0')} aria-hidden />
 
       {/* Hero Section */}
       <section className={sectionSurface('blend', 'relative pt-16 pb-32 md:pt-20')}>

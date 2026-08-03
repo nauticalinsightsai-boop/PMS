@@ -130,7 +130,7 @@ function PathwayTierPricingChips({
         {showMembership ? (
           <MembershipPriceChip
             price={tier.membershipPrice}
-            className="hidden min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[4.5rem] sm:px-2.5"
+            className="hidden min-h-[4.25rem] px-1.5 py-1.5 sm:flex sm:min-h-[5rem] sm:px-2.5"
           />
         ) : null}
       </div>

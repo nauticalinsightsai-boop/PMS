@@ -114,7 +114,7 @@ function PathwayFeaturedPricingChips({
           ) : (
             <MembershipPriceChip
               price={listing.membership}
-              className="h-full min-h-[4.25rem] px-1 py-1.5 sm:min-h-[5rem] sm:px-2.5"
+              className="h-full min-h-[4.25rem] px-1.5 py-1.5 sm:min-h-[5rem] sm:px-2.5"
             />
           )
         ) : null}
@@ -329,10 +329,10 @@ function PathwayFeaturedVisualCard({
           <p className={cn(featuredCardMetaClass, !metaLine && 'md:hidden')}>{metaLine ?? '\u00A0'}</p>
         </div>
       </CardHeader>
-      <div data-pathway-region={cert.id} role="region" aria-label={`${displayTitle} pathway details`}>
+      <div data-pathway-region={cert.id} role="region" aria-label={`${displayTitle} pathway details`} className="flex min-h-0 flex-1 flex-col">
         <CardContent className={featuredCardBodyClass}>
           <PathwayFeaturedPricingChips certId={cert.id} />
-          <ul className={featuredCardOutcomesClass}>
+          <ul className={cn(featuredCardOutcomesClass, 'flex-1')}>
             {outcomes.map((item) => (
               <li key={item} className="flex min-h-5 items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
                 <CheckCircle2 className="mr-2 h-3 w-3 shrink-0 text-brand-orange" />
@@ -440,10 +440,11 @@ function PathwayFeaturedCatalogCard({
           role="region"
           aria-label={`${displayTitle} pathway details`}
           tabIndex={alwaysOpen ? undefined : -1}
+          className="flex min-h-0 flex-1 flex-col"
         >
-          <CardContent className={cn(featuredCardBodyClass, alwaysOpen && 'flex-1')}>
+          <CardContent className={featuredCardBodyClass}>
             <PathwayFeaturedPricingChips certId={cert.id} nonInteractiveMembership={alwaysOpen} />
-            <ul className={cn(featuredCardOutcomesClass, alwaysOpen && 'flex-1')}>
+            <ul className={cn(featuredCardOutcomesClass, 'flex-1')}>
               {outcomes.map((item) => (
                 <li key={item} className="flex min-h-5 items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
                   <CheckCircle2 className={cn('h-3 w-3 mr-2 shrink-0', !accent && 'text-brand-orange')} style={accent ? { color: accent } : undefined} />
@@ -454,7 +455,7 @@ function PathwayFeaturedCatalogCard({
           </CardContent>
         </div>
       ) : null}
-      <CardFooter className={cn(featuredCardFooterClass, alwaysOpen && 'mt-0')}>
+      <CardFooter className={featuredCardFooterClass}>
         {alwaysOpen ? (
           <PathwayCardCta
             certId={cert.id}
