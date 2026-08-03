@@ -12,9 +12,9 @@ import {
   LEGACY_THIN_NEWSLETTER_SLUGS,
   publishedLongFormNewsletterPosts,
 } from '@/content/newsletter/publication';
-import { mergeCmsRegistryArticles } from '@/lib/newsletter/merge-cms-articles';
 import { enrichArticlesWithAuthors, getPublishedNewsletterAuthors } from '@/lib/newsletter/authors';
-import { supabase } from '@/lib/supabase';
+import { mergeCmsRegistryArticles } from '@/lib/newsletter/merge-cms-articles';
+import { getOptionalServerSupabase } from '@/lib/cms/optional-server-supabase';
 
 export type { NewsletterArticle };
 export { getNewsletterArticleHref } from '@pms/site-content/newsletter-posts';
@@ -40,12 +40,11 @@ function withNormalizedAuthors(articles: NewsletterArticle[]): NewsletterArticle
 }
 
 async function fetchPublishedArticles(): Promise<NewsletterArticle[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return mergePublishedLongFormArticles(fileArticles);
+  const client = getOptionalServerSupabase();
+  if (!client) return mergePublishedLongFormArticles(fileArticles);
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from('website_data')
       .select('content')
       .eq('field_key', NEWSLETTER_POSTS_FIELD_KEY)

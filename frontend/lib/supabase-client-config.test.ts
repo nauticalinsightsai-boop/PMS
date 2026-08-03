@@ -101,13 +101,23 @@ describe.sequential('public Supabase client configuration', () => {
     );
   });
 
-  it('fails closed without creating the synced dashboard client when public env is missing', async () => {
+  it('creates a placeholder dashboard client when public env is missing so marketing builds can collect admin routes', async () => {
     clearPublicSupabaseEnv();
 
-    await expect(
-      import('../../dashboard/frontend/lib/supabase'),
-    ).rejects.toThrow(/Dashboard Supabase client configuration is unavailable/);
-    expect(createClientMock).not.toHaveBeenCalled();
+    const { isSupabaseAuthConfigured, supabase, requirePublicSupabaseConfig } = await import(
+      '../../dashboard/frontend/lib/supabase'
+    );
+
+    expect(isSupabaseAuthConfigured).toBe(false);
+    expect(supabase).toBe(clientSentinel);
+    expect(createClientMock).toHaveBeenCalledOnce();
+    expect(createClientMock).toHaveBeenCalledWith(
+      'https://placeholder.supabase.co',
+      'placeholder-key',
+    );
+    expect(() => requirePublicSupabaseConfig(undefined, undefined)).toThrow(
+      /Dashboard Supabase client configuration is unavailable/,
+    );
   });
 
   it('creates the synced dashboard client with valid public env', async () => {

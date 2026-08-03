@@ -1,6 +1,6 @@
 import type { NewsletterArticle } from '@pms/site-content/newsletter-posts';
 import { CMS_TOPICS_FIELD_KEY } from '@pms/site-content/cms-posts';
-import { supabase } from '@/lib/supabase';
+import { getOptionalServerSupabase } from '@/lib/cms/optional-server-supabase';
 
 const FALLBACK_CATEGORIES = [
   'All',
@@ -29,12 +29,11 @@ function parseActiveCmsTopicNames(raw: unknown): string[] {
 }
 
 export async function loadActiveCmsTopicNames(): Promise<string[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return [];
+  const client = getOptionalServerSupabase();
+  if (!client) return [];
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from('website_data')
       .select('content')
       .eq('field_key', CMS_TOPICS_FIELD_KEY)

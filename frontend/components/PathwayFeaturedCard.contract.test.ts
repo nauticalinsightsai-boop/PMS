@@ -38,8 +38,8 @@ describe('PathwayFeaturedCard disclosure contract', () => {
     expect(source).toContain("hidden lg:block");
     expect(source).toContain('ctaLabel="View pathway"');
     expect(source).toContain('nonInteractiveMembership={desktopFlagshipOpen}');
+    expect(source).toContain('const showMembership = Boolean(listing.membership?.trim());');
     expect(source).toContain('label={REGION_COPY.membershipChipLabel}');
-    expect(source).toContain("listing.membership?.trim() || '—'");
     expect(source).toContain('lg:flex lg:min-h-[5rem]');
     expect(source).toContain('sm:flex sm:min-h-[5rem] sm:px-2.5 lg:hidden');
     expect(source).toContain('<MembershipPriceChip');

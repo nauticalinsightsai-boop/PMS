@@ -11,15 +11,14 @@ import {
 } from '@pms/site-content/newsletter-authors';
 import type { NewsletterArticle } from '@pms/site-content/newsletter-posts';
 import { resolveNewsletterAuthorAvatar } from '@/lib/marketing-stock-images';
-import { supabase } from '@/lib/supabase';
+import { getOptionalServerSupabase } from '@/lib/cms/optional-server-supabase';
 
 async function fetchAuthorProfiles(): Promise<NewsletterAuthor[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return [];
+  const client = getOptionalServerSupabase();
+  if (!client) return [];
 
   try {
-    const { data, error } = await supabase
+    const { data, error } = await client
       .from('website_data')
       .select('content')
       .eq('field_key', NEWSLETTER_AUTHORS_FIELD_KEY)

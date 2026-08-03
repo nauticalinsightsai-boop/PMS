@@ -209,7 +209,7 @@ export function Newsletter({
             )}
           </div>
 
-          {/* Sidebar: Popular & Editor Picks — compact on laptop, no stretch gaps */}
+          {/* Sidebar: Popular & Editor Picks: compact on laptop, no stretch gaps */}
           <aside className="lg:col-span-4 flex flex-col gap-5 lg:gap-6">
             <div className="flex flex-col p-5 sm:p-6 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2 mb-4 shrink-0">

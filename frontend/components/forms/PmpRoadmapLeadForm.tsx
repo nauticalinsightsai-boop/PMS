@@ -368,7 +368,7 @@ export function PmpRoadmapLeadForm({
   const roadmapLabel = certName ?? 'PMP®';
   const formTitle = homeFormCopy?.title ?? `Build your ${roadmapLabel} roadmap`;
   const formSubtitle =
-    homeFormCopy?.subtitle ?? `Share your background—we'll map your ${roadmapLabel} study plan.`;
+    homeFormCopy?.subtitle ?? `Share your background, we'll map your ${roadmapLabel} study plan.`;
 
   // Step management
   const [currentStep, setCurrentStep] = React.useState<PmpQualificationFormStep>('fit');

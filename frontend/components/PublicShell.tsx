@@ -54,7 +54,7 @@ export const PUBLIC_NAVBAR_TOP_CLASS = 'top-16';
 export const PUBLIC_SUBNAV_SPACER_CLASS = 'h-14';
 
 export const MAIN_CONTENT_ID = 'main-content';
-/** Fixed Navbar `h-16` (64px) — keep skip-scroll and main scroll-margin aligned. */
+/** Fixed Navbar `h-16` (64px): keep skip-scroll and main scroll-margin aligned. */
 export const MAIN_CONTENT_SCROLL_MARGIN_CLASS = 'scroll-mt-16';
 export const MAIN_CONTENT_HEADER_OFFSET_PX = 64;
 
