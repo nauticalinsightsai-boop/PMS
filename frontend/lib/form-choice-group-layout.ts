@@ -9,7 +9,7 @@ export type FormChoiceGroupVariant = 'site' | 'portal';
  *
  * Portal exact-four uses zero gap from sm through md so locked labels fit
  * one-line in portal shells; site also uses `sm:gap-0 md:gap-0` so long
- * one-line labels fit with the safe site bleed (no shell collision).
+ * one-line labels fit inside the panel inset.
  */
 export function formChoiceGroupClass(
   optionCount: number,
@@ -26,26 +26,25 @@ export function formChoiceGroupClass(
 }
 
 /**
- * Site/portal chip sizing for exact-four groups: nowrap, compact mobile
- * padding, and a minimal near-normal tracking adjustment at the base and md
- * bands. This keeps locked 14px labels inside their cells without shortening,
+ * Site/portal chip sizing for exact-four groups: nowrap, horizontal padding,
+ * and a minimal near-normal tracking adjustment at the base and md bands.
+ * This keeps locked 14px labels inside their cells without shortening,
  * wrapping, clipping, or changing the approved 2×2 / 4×1 geometry.
  */
 export function formChoiceChipLayoutClass(optionCount: number): string {
   if (optionCount === 4) {
-    return 'w-full min-w-0 whitespace-nowrap px-2.5 tracking-[-0.01em] sm:px-0 sm:tracking-tight md:px-0 md:tracking-[-0.01em]';
+    return 'w-full min-w-0 whitespace-nowrap px-3 tracking-[-0.01em] sm:px-3 sm:tracking-tight md:px-3 md:tracking-[-0.01em]';
   }
   return 'w-full sm:w-auto sm:flex-[1_1_7rem]';
 }
 
 /**
- * Negative horizontal bleed on Fit + Eligibility step wrappers only
- * (not Contact). Persists from sm through desktop (no md:mx-0 reset).
- * Site bleed matches panel inset (`sm:px-6` → `sm:-mx-6`) so chips/focus
- * rings stay inside the overflow:hidden form shell border.
+ * Horizontal bleed on Fit + Eligibility step wrappers only (not Contact).
+ * Site keeps the panel inset (`px-5` / `sm:px-6`) so chip rows have left/right
+ * breathing room. Portal still bleeds slightly (`sm:-mx-4`) for compact shells.
  */
 export function formChoiceStepBleedClass(
   variant: FormChoiceGroupVariant = 'site',
 ): string {
-  return variant === 'portal' ? 'sm:-mx-4' : 'sm:-mx-6';
+  return variant === 'portal' ? 'sm:-mx-4' : '';
 }

@@ -15,7 +15,7 @@ const optionsSource = readFileSync(
 describe('KeywordLeadPopup experience option layout contract', () => {
   it('uses the authoritative shared four-choice experience taxonomy and layout', () => {
     expect(PMP_JOB_EXPERIENCE_OPTIONS).toEqual([
-      { value: 'under_2', label: 'Less than 2 years' },
+      { value: 'under_2', label: '< 2 years' },
       { value: '2_to_5', label: '2–5 years' },
       { value: '5_to_7', label: '5–7 years' },
       { value: 'other', label: 'Other' },
@@ -36,7 +36,7 @@ describe('KeywordLeadPopup experience option layout contract', () => {
     const layout = formChoiceGroupClass(PMP_JOB_EXPERIENCE_OPTIONS.length, 'site');
     expect(layout).toBe('grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-0 md:gap-0');
     expect(formChoiceChipLayoutClass(PMP_JOB_EXPERIENCE_OPTIONS.length)).toBe(
-      'w-full min-w-0 whitespace-nowrap px-2.5 tracking-[-0.01em] sm:px-0 sm:tracking-tight md:px-0 md:tracking-[-0.01em]',
+      'w-full min-w-0 whitespace-nowrap px-3 tracking-[-0.01em] sm:px-3 sm:tracking-tight md:px-3 md:tracking-[-0.01em]',
     );
   });
 

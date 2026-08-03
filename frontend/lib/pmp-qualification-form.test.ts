@@ -37,7 +37,7 @@ describe('PMP qualification step flow (authoritative 3/3/3)', () => {
       'other',
     ]);
     expect(PM_EXPERIENCE_OPTIONS.map((o) => o.label)).toEqual([
-      'Less than 2 years',
+      '< 2 years',
       '2–5 years',
       '5–7 years',
       'Other',

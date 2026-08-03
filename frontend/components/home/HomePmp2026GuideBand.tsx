@@ -39,7 +39,7 @@ export function HomePmp2026GuideBand() {
               </p>
             </div>
             <nav
-              className="flex flex-wrap justify-center gap-2 pt-2 sm:gap-2.5 sm:pt-2.5 lg:shrink-0 lg:justify-end"
+              className="flex flex-wrap justify-center gap-2 pt-3 sm:gap-2.5 sm:pt-4 lg:shrink-0 lg:justify-end lg:pt-1"
               aria-label="PMP 2026 guides"
             >
               {GUIDE_LINKS.map((link) => (

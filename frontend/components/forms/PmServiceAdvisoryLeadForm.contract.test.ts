@@ -37,7 +37,19 @@ describe('PM Service advisory exact-four choice contract', () => {
     expect(source).toContain(
       "'relative left-1/2 w-[calc(100%+0.5rem)] max-w-[calc(100vw-1.5rem)] -translate-x-1/2 sm:w-[calc(100%+2rem)] sm:max-w-[calc(100vw-3rem)]'",
     );
-    expect(source).toContain('min-h-11');
+    expect(source).toContain('min-h-12');
+    expect(source).toContain("currentStep === 'interest'");
+    expect(source).toContain("currentStep === 'contact'");
+    expect(source).toContain('Step {stepNumber} of 2');
+    expect(source).toContain('Continue');
+    expect(source).toContain('Back');
+    expect(source).not.toContain('min-h-11');
+    expect(source).not.toContain('Please describe your specific question');
+    expect(source).toContain('Website, LinkedIn');
+    expect(source).toContain('profileUrl: profileUrl.trim() || undefined');
+    expect(source).toMatch(
+      /data-step="interest"[\s\S]*?Website, LinkedIn[\s\S]*?data-step="contact"/,
+    );
   });
 
   it('keeps each Other detail subordinate, required, and stale-payload safe', () => {

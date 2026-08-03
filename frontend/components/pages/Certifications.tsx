@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import { LazyMotion, domAnimation, m, AnimatePresence } from "motion/react";
 import * as React from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { 
@@ -475,11 +474,6 @@ export function Certifications({
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/certifications/compare#secondary-waitlist">
-                  <Button size="lg" variant="outline" className="h-16 px-10 rounded-2xl font-bold text-lg">
-                    Secondary pathway waitlists
-                  </Button>
-                </Link>
                 <WebsiteCalendlyButton
                   size="lg"
                   tier="mentor"

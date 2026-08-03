@@ -54,17 +54,19 @@ export function RelatedGuidesLinks({
   const asideClass = cn(
     'rounded-2xl border p-6',
     !collapsible && 'mt-12',
-    isCentered ? 'text-center' : 'text-left',
     isDark
       ? isAdaptive
         ? 'border-white/10 bg-white/5 dark:border-slate-200 dark:bg-slate-900/[0.04]'
         : 'border-white/10 bg-white/5'
       : 'border-slate-200 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-900/50',
     className,
+    // Keep after `className` so `align` wins over accidental `text-left` in callers.
+    isCentered ? 'text-center' : 'text-left',
   );
 
   const titleClass = cn(
     'font-heading text-lg font-bold',
+    isCentered && 'text-center',
     isDark
       ? isAdaptive
         ? 'text-white dark:text-slate-900'
@@ -122,7 +124,7 @@ export function RelatedGuidesLinks({
         onClick={() => setToggled((open) => !open)}
         aria-expanded={expanded}
       >
-        <h2 className={titleClass}>{title}</h2>
+        <h2 className={cn(titleClass, isCentered && 'px-8')}>{title}</h2>
         <ChevronDown
           className={cn(
             'h-5 w-5 shrink-0 transition-transform duration-300',

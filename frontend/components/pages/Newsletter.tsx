@@ -174,10 +174,10 @@ export function Newsletter({
 
         <Separator className="my-12 opacity-50" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 lg:items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 lg:items-start">
           {/* Main Content: Latest Posts */}
           <div className="lg:col-span-8 min-w-0">
-            <div className="flex items-center justify-between mb-10">
+            <div className="flex items-center justify-between mb-8 lg:mb-10">
               <h2 className="font-heading text-3xl font-bold">Latest Insights</h2>
               <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
                 <span>Sort by:</span>
@@ -209,48 +209,53 @@ export function Newsletter({
             )}
           </div>
 
-          {/* Sidebar: Popular & Editor Picks: compact on laptop, no stretch gaps */}
-          <aside className="lg:col-span-4 flex flex-col gap-5 lg:gap-6">
-            <div className="flex flex-col p-5 sm:p-6 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2 mb-4 shrink-0">
+          {/* Sidebar: compact on laptop — no stretch, tight text spacing, fixed thumbs */}
+          <aside className="lg:col-span-4 flex flex-col gap-4 lg:gap-5 lg:self-start">
+            <div className="flex flex-col rounded-[1.75rem] border border-slate-100 bg-slate-50 p-4 sm:p-5 dark:border-slate-800 dark:bg-slate-900 lg:rounded-[2rem]">
+              <div className="mb-3 flex shrink-0 items-center gap-2">
                 <TrendingUp className="h-5 w-5 text-brand-orange" />
-                <h3 className="font-heading text-xl font-bold">Popular Now</h3>
+                <h3 className="font-heading text-lg font-bold lg:text-xl">Popular Now</h3>
               </div>
-              <div className="flex flex-col gap-3.5">
+              <div className="flex flex-col gap-2.5 lg:gap-3">
                 {articles.slice(0, 4).map((article, index) => (
                   <Link
                     key={article.slug}
                     href={getNewsletterArticleHref(article)}
-                    className="flex gap-3 group items-start"
+                    className="group flex items-start gap-2.5 lg:gap-3"
                   >
                     <span
-                      className="text-2xl font-heading font-extrabold tabular-nums leading-none text-slate-300 dark:text-slate-600 group-hover:text-brand-orange transition-colors duration-300 shrink-0 pt-0.5"
+                      className="shrink-0 pt-0.5 font-heading text-xl font-extrabold leading-none tabular-nums text-slate-300 transition-colors duration-300 group-hover:text-brand-orange dark:text-slate-600 lg:text-2xl"
                       aria-hidden
                     >
                       0{index + 1}
                     </span>
                     <div className="min-w-0">
-                      <Badge variant="link" className="p-0 h-auto text-brand-purple text-[10px] uppercase tracking-widest font-bold mb-0.5">
+                      <Badge
+                        variant="link"
+                        className="mb-0 h-auto p-0 text-[10px] font-bold uppercase tracking-widest text-brand-purple"
+                      >
                         {article.category}
                       </Badge>
-                      <h3 className="font-bold leading-snug group-hover:text-brand-purple transition-colors line-clamp-2 text-sm">
+                      <h3 className="text-sm font-bold leading-snug transition-colors line-clamp-2 group-hover:text-brand-purple">
                         {article.title}
                       </h3>
-                      <p className="text-xs text-muted-foreground mt-1">{article.readTime}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">{article.readTime}</p>
                     </div>
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col p-5 sm:p-6 rounded-[2rem] bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-              <h3 className="font-heading text-xl font-bold mb-4 shrink-0">Editor&apos;s Picks</h3>
-              <div className="flex flex-col gap-4">
+            <div className="flex flex-col rounded-[1.75rem] border border-slate-100 bg-slate-50 p-4 sm:p-5 dark:border-slate-800 dark:bg-slate-900 lg:rounded-[2rem]">
+              <h3 className="mb-3 shrink-0 font-heading text-lg font-bold lg:text-xl">
+                Editor&apos;s Picks
+              </h3>
+              <div className="flex flex-col gap-3 lg:gap-3.5">
                 {articles.slice(4, 8).map((article) => (
                   <ArticleCard key={article.slug} article={article} variant="horizontal" />
                 ))}
               </div>
-              <Link href="/newsletter" className="block mt-5 shrink-0">
+              <Link href="/newsletter" className="mt-4 block shrink-0">
                 <Button className="w-full bg-brand-purple hover:bg-brand-purple/90">
                   View all articles
                 </Button>

@@ -87,13 +87,13 @@ describe('PmpRoadmapLeadForm component contract', () => {
     expect(PM_EXPERIENCE_OPTIONS).toHaveLength(4);
     expect(TRAINING_STATUS_OPTIONS).toHaveLength(4);
     expect(EXAM_TIMELINE_OPTIONS).toEqual([
-      { value: 'within_3', label: 'Less than 3 months' },
+      { value: 'within_3', label: '< 3 months' },
       { value: '3_to_6', label: '3–6 months' },
       { value: '6_plus', label: '6+ months' },
       { value: 'exploring', label: 'Exploring' },
     ]);
     expect(PM_EXPERIENCE_OPTIONS).toEqual([
-      { value: 'under_2', label: 'Less than 2 years' },
+      { value: 'under_2', label: '< 2 years' },
       { value: '2_to_5', label: '2–5 years' },
       { value: '5_to_7', label: '5–7 years' },
       { value: 'other', label: 'Other' },
@@ -101,11 +101,12 @@ describe('PmpRoadmapLeadForm component contract', () => {
   });
 
   it('keeps the desktop certification form content-sized and its first step compact', () => {
-    expect(source).toContain("isCertHeroDesktop && 'flex flex-col'");
+    expect(source).toContain("useCertHeroLayout && 'flex flex-col'");
+    expect(source).toContain('useCertHeroLayout = isCertHeroDesktop && isCompact');
     expect(source).not.toContain('min-h-[756px]');
     expect(source).toContain("'flex flex-col gap-4 px-5 py-5 sm:gap-5 sm:px-6 sm:py-6'");
     expect(source).toContain(
-      "isCertHeroDesktop ? 'flex flex-col gap-4 sm:gap-5' : 'flex flex-col gap-5 sm:gap-6'",
+      "useCertHeroLayout ? 'flex flex-col gap-4 sm:gap-5' : 'flex flex-col gap-5 sm:gap-6'",
     );
     expect(source).toContain('formChoiceGroupClass(WORK_FIELD_OPTIONS.length, choiceVariant)');
     expect(source).toContain('formChoiceChipLayoutClass(WORK_FIELD_OPTIONS.length)');
@@ -142,7 +143,7 @@ describe('PmpRoadmapLeadForm component contract', () => {
       'Other',
     ]);
     expect(PM_EXPERIENCE_OPTIONS.map((o) => o.label)).toEqual([
-      'Less than 2 years',
+      '< 2 years',
       '2–5 years',
       '5–7 years',
       'Other',
@@ -158,7 +159,7 @@ describe('PmpRoadmapLeadForm component contract', () => {
     expect(source).not.toContain('contactChannel');
     expect(source).not.toMatch(/value:\s*'instagram'/);
     expect(source).not.toMatch(/value:\s*'messenger'/);
-    expect(source).toContain(
+    expect(source).not.toContain(
       "opt.value === 'within_3' && 'md:tracking-[-0.015em]'",
     );
   });

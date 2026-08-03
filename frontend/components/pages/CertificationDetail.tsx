@@ -231,11 +231,11 @@ export function CertificationDetail({
 
             <div
               id={CERT_ROADMAP_FORM_ANCHOR}
-              className="relative scroll-mt-40 lg:scroll-mt-48"
+              className="relative w-full min-w-0 scroll-mt-40 self-start lg:scroll-mt-48"
             >
               <PmpRoadmapLeadForm
                 placement={isLgUp ? 'cert_hero' : 'cert_mobile'}
-                variant="cert"
+                variant="hero"
                 certId={cert.id}
                 certName={certName}
                 familyId={cert.familyId}

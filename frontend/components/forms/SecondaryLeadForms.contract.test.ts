@@ -38,6 +38,11 @@ describe('secondary lead form accessibility state machines', () => {
     expect(hero).toContain('id={`${idPrefix}-topics-legend`}');
     expect(hero).toContain('id={`${idPrefix}-form-error`}');
     expect(hero).toContain('id={`${idPrefix}-success`}');
+    expect(hero).toContain("currentStep === 'topics'");
+    expect(hero).toContain("currentStep === 'contact'");
+    expect(hero).toContain('Step {stepNumber} of 2');
+    expect(hero).toContain('Continue');
+    expect(hero).toContain('NEWSLETTER_FOCUS_OPTIONS');
     expect(hero).toMatch(
       /ref=\{topicsRef\}[\s\S]*?tabIndex=\{-1\}[\s\S]*?aria-invalid=\{errorTarget === 'topics' \? true : undefined\}[\s\S]*?aria-describedby=\{errorTarget === 'topics' \? `\$\{idPrefix\}-form-error` : undefined\}/,
     );

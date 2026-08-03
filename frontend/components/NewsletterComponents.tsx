@@ -47,23 +47,22 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
   const linkHref = href ?? getNewsletterArticleHref(article);
 
   if (variant === "horizontal") {
-    // No motion here: article pages are outside the hub LazyMotion tree, and
-    // opacity:0 + whileInView left Related Articles looking empty.
+    // Fixed thumb size — avoid aspect-[4/3] + percentage width stretch in tall sidebars.
     return (
-      <Link href={linkHref} className="flex items-start gap-3 group">
-        <div className="h-20 w-24 shrink-0 overflow-hidden rounded-xl">
+      <Link href={linkHref} className="group flex items-start gap-3">
+        <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-800 lg:h-[4.5rem] lg:w-[5.5rem]">
           <img
             src={resolveNewsletterArticleImage(article.slug, article.image)}
             alt={article.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             referrerPolicy="no-referrer"
           />
         </div>
-        <div className="flex min-w-0 flex-col justify-center py-0.5">
-          <Badge variant="outline" className="mb-1 w-fit border-brand-purple/20 bg-brand-purple/5 text-[10px] text-brand-purple">
+        <div className="flex min-w-0 flex-col justify-center gap-0.5 py-0.5">
+          <Badge variant="outline" className="mb-0 w-fit border-brand-purple/20 bg-brand-purple/5 text-[10px] text-brand-purple">
             {article.category}
           </Badge>
-          <h3 className="mb-1 font-heading text-sm font-bold leading-snug transition-colors line-clamp-2 group-hover:text-brand-purple">
+          <h3 className="font-heading text-sm font-bold leading-snug transition-colors line-clamp-2 group-hover:text-brand-purple">
             {article.title}
           </h3>
           <div className="flex items-center gap-2 text-[11px] text-muted-foreground">

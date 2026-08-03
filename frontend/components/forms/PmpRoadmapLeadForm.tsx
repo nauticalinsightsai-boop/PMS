@@ -499,7 +499,11 @@ export function PmpRoadmapLeadForm({
   const shellClass = cn(
     !isPortalThemed &&
       cn(
-        'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden lg:w-[calc(100%+5.5rem)] lg:-ml-[5.5rem] xl:w-full xl:ml-0',
+        'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
+        // Home hero: no left bleed — otherwise the card covers Compare / primary CTAs.
+        placement === 'home_hero_mobile' || placement === 'home_hero_desktop'
+          ? 'w-full'
+          : 'lg:w-[calc(100%+5.5rem)] lg:-ml-[5.5rem] xl:w-full xl:ml-0',
         (placement === 'home_hero_mobile' || placement === 'home_hero_desktop') &&
           'min-h-[420px] sm:min-h-[440px]',
         variant === 'cert'
@@ -515,21 +519,24 @@ export function PmpRoadmapLeadForm({
 
   const isCompact = variant === 'cert';
   const isCertHeroDesktop = placement === 'cert_hero';
+  // Match certifications-hub / home hero card height: only the compact cert
+  // variant keeps the denser cert-hero layout; hero variant uses shared spacing.
+  const useCertHeroLayout = isCertHeroDesktop && isCompact;
   const isCertMobileForm = isCompact && !isCertHeroDesktop;
   const isMobilePlacement =
     placement === 'home_hero_mobile' ||
     placement === 'certifications_hub_mobile' ||
     placement === 'cert_pmp_mobile' ||
     placement === 'cert_mobile';
-  const isExpandedForm = !isCompact && !isCertHeroDesktop;
+  const isExpandedForm = !isCompact;
   const useHeroFormHeader = isExpandedForm || isPortalCertRoadmap;
 
   const labelClass = cn(
     'font-semibold normal-case tracking-normal text-slate-600 dark:text-slate-300',
-    isCertHeroDesktop || isCertMobileForm ? 'text-[13px]' : 'text-[13px] sm:text-sm',
+    useCertHeroLayout || isCertMobileForm ? 'text-[13px]' : 'text-[13px] sm:text-sm',
   );
   const fieldGroupClass = cn(
-    isCertHeroDesktop
+    useCertHeroLayout
       ? 'space-y-2'
       : isCertMobileForm
         ? 'space-y-3'
@@ -776,14 +783,14 @@ export function PmpRoadmapLeadForm({
   const progressPercent = (stepNumber / 3) * 100;
 
   return (
-    <div className={cn(shellClass, isCertHeroDesktop && 'flex flex-col')} data-portal-form={isPortalThemed || undefined}>
+    <div className={cn(shellClass, useCertHeroLayout && 'flex flex-col')} data-portal-form={isPortalThemed || undefined}>
       <form
         ref={formRef}
         noValidate
         onSubmit={handleSubmit}
         className={cn(
           'flex flex-col',
-          isCertHeroDesktop && 'flex-1',
+          useCertHeroLayout && 'flex-1',
         )}
         aria-labelledby={`${idPrefix}-title`}
         aria-describedby={error ? `${idPrefix}-form-error` : undefined}
@@ -795,7 +802,7 @@ export function PmpRoadmapLeadForm({
             !isPortalThemed && formHeaderClass,
             isPortalThemed
               ? 'px-5 sm:px-6 pt-0 pb-4 sm:pb-5'
-              : isCertHeroDesktop
+              : useCertHeroLayout
                 ? 'px-5 py-4 sm:px-6'
                 : useHeroFormHeader
                   ? 'px-5 py-5 sm:px-6 sm:py-6'
@@ -919,7 +926,7 @@ export function PmpRoadmapLeadForm({
 
         <div
           className={cn(
-            isCertHeroDesktop
+            useCertHeroLayout
               ? 'flex flex-col gap-4 px-5 py-5 sm:gap-5 sm:px-6 sm:py-6'
               : isCertMobileForm
                 ? 'space-y-4 px-5 py-6 sm:px-6'
@@ -937,7 +944,7 @@ export function PmpRoadmapLeadForm({
             <div
               data-step="fit"
               className={cn(
-                isCertHeroDesktop ? 'flex flex-col gap-4 sm:gap-5' : 'flex flex-col gap-5 sm:gap-6',
+                useCertHeroLayout ? 'flex flex-col gap-4 sm:gap-5' : 'flex flex-col gap-5 sm:gap-6',
                 formChoiceStepBleedClass(choiceVariant),
               )}
             >              <fieldset
@@ -1444,12 +1451,9 @@ export function PmpRoadmapLeadForm({
                       className={
                         isPortalCertRoadmap
                           ? formChoiceChipLayoutClass(EXAM_TIMELINE_OPTIONS.length)
-                          : cn(
-                              toggleOptionClass(
-                                examTimeline === opt.value,
-                                EXAM_TIMELINE_OPTIONS.length,
-                              ),
-                              opt.value === 'within_3' && 'md:tracking-[-0.015em]',
+                          : toggleOptionClass(
+                              examTimeline === opt.value,
+                              EXAM_TIMELINE_OPTIONS.length,
                             )
                       }
                       aria-checked={examTimeline === opt.value}
@@ -1691,7 +1695,7 @@ export function PmpRoadmapLeadForm({
             !isPortalThemed && 'border-slate-100 dark:border-slate-800',
             isPortalThemed
               ? `${portalSpacing.portalFormInset} py-4 sm:py-5`
-              : isCertHeroDesktop
+              : useCertHeroLayout
                 ? 'mt-auto px-5 py-4 sm:px-6 sm:py-5'
                 : isCertMobileForm
                   ? 'px-5 py-5 sm:px-6'
@@ -1722,7 +1726,7 @@ export function PmpRoadmapLeadForm({
                   variant="outline"
                   className={cn(
                     'rounded-full font-bold',
-                    isCertHeroDesktop
+                    useCertHeroLayout
                       ? cn(certHeroControlHeight, 'text-sm px-5')
                       : isCertMobileForm
                         ? 'h-12 text-base px-6'
@@ -1751,7 +1755,7 @@ export function PmpRoadmapLeadForm({
                   disabled={submitting}
                   className={cn(
                     'flex-1 rounded-full bg-brand-orange font-bold text-white shadow-lg shadow-brand-orange/20 hover:bg-brand-hover',
-                    isCertHeroDesktop
+                    useCertHeroLayout
                       ? cn(certHeroControlHeight, 'text-sm')
                       : isCertMobileForm
                         ? 'h-12 text-base'
@@ -1781,13 +1785,13 @@ export function PmpRoadmapLeadForm({
                 disabled={submitting}
                 className={cn(
                   'flex-1 rounded-full bg-brand-orange font-bold text-white shadow-lg shadow-brand-orange/20 hover:bg-brand-hover',
-                  isCertHeroDesktop
-                    ? cn(certHeroControlHeight, 'text-sm')
-                    : isCertMobileForm
-                      ? 'h-12 text-base'
-                      : isCompact
-                        ? 'h-12 text-sm'
-                        : 'h-12 text-base',
+                  useCertHeroLayout
+                      ? cn(certHeroControlHeight, 'text-sm')
+                      : isCertMobileForm
+                        ? 'h-12 text-base'
+                        : isCompact
+                          ? 'h-12 text-sm'
+                          : 'h-12 text-base',
                 )}
               >
                 Continue

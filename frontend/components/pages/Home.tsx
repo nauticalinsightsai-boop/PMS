@@ -362,7 +362,7 @@ export function Home({
               initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0 }}
-              className="relative z-50 min-w-0"
+              className="relative z-[60] min-w-0"
             >
               {children}
 
@@ -372,13 +372,13 @@ export function Home({
                 {heroSubtitleResolved}
               </p>
               
-              <div className="relative z-50 flex flex-col sm:flex-row gap-3 sm:gap-4">
-                <div className="relative z-50 w-full sm:w-auto">{renderPrimaryCta()}</div>
+              <div className="relative z-[60] flex flex-col sm:flex-row gap-3 sm:gap-4 pointer-events-auto">
+                <div className="relative z-[60] w-full sm:w-auto">{renderPrimaryCta()}</div>
                 <Link
                   href={homeCms.ctaSecondaryLink || COMPARE_PATHWAYS_HREF}
-                  className="relative z-50 w-full sm:w-auto isolate"
+                  className="relative z-[60] w-full sm:w-auto"
                 >
-                  <Button size="lg" variant="outline" className={cn(HERO_BTN_OUTLINE, 'relative z-50')}>
+                  <Button size="lg" variant="outline" className={cn(HERO_BTN_OUTLINE, 'relative z-[60]')}>
                     {homeCms.ctaSecondary || CTAS.findPathway}
                   </Button>
                 </Link>

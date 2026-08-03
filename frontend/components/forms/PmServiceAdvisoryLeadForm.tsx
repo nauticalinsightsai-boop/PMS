@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
@@ -42,6 +41,8 @@ export type PmServiceAdvisoryFormPlacement =
   | 'pm_service_hero_mobile'
   | 'pm_service_hero_desktop';
 
+type AdvisoryFormStep = 'interest' | 'contact';
+
 const PLACEMENT_LABELS: Record<PmServiceAdvisoryFormPlacement, string> = {
   pm_service_hero: 'PM Service hero',
   pm_service_hero_mobile: 'PM Service hero (mobile)',
@@ -68,6 +69,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   const idPrefix = placement.replace(/[^a-z0-9]/gi, '-');
   const isMobile = placement === 'pm_service_hero_mobile';
 
+  const [currentStep, setCurrentStep] = React.useState<AdvisoryFormStep>('interest');
   const [fullName, setFullName] = React.useState('');
   const [dialValue, setDialValue] = React.useState('us');
   const dialOption = resolveDialOption(dialValue);
@@ -77,7 +79,6 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   const [serviceInterestOther, setServiceInterestOther] = React.useState('');
   const [industry, setIndustry] = React.useState<PmServiceIndustryValue | ''>('');
   const [industryOther, setIndustryOther] = React.useState('');
-  const [question, setQuestion] = React.useState('');
   const [profileUrl, setProfileUrl] = React.useState('');
   const [honeypot, setHoneypot] = React.useState('');
   const [submitting, setSubmitting] = React.useState(false);
@@ -91,6 +92,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   const industryOtherRef = React.useRef<HTMLInputElement>(null);
   const errorRef = React.useRef<HTMLParagraphElement>(null);
   const successRef = React.useRef<HTMLParagraphElement>(null);
+
   React.useEffect(() => {
     if (submitted) successRef.current?.focus();
   }, [submitted]);
@@ -104,31 +106,35 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   const shellClass = cn(
     'relative left-1/2 w-[calc(100%+0.5rem)] max-w-[calc(100vw-1.5rem)] -translate-x-1/2 sm:w-[calc(100%+2rem)] sm:max-w-[calc(100vw-3rem)]',
     'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
-    'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800',
+    'min-h-[420px] sm:min-h-[440px]',
+    'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 shadow-slate-900/10 dark:shadow-black/30',
     className,
   );
 
   const labelClass =
     'font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide text-[11px] sm:text-xs';
-  const fieldClass = 'h-10 w-full text-sm focus-visible:ring-brand-orange/40';
+  const fieldClass = 'h-12 w-full text-sm focus-visible:ring-brand-orange/40';
   const legendClass = cn(labelClass, 'mb-2.5');
   const choiceButtonClass = (selected: boolean) =>
     cn(
-      'flex min-h-11 w-full cursor-pointer items-center justify-center rounded-lg border px-3 py-2.5 text-sm font-bold transition-colors',
+      'flex min-h-12 w-full cursor-pointer items-center justify-center rounded-lg border py-2.5 text-sm font-bold transition-colors',
       selected
         ? 'border-brand-orange bg-brand-orange text-white shadow-sm'
         : 'border-input bg-white text-slate-700 hover:border-brand-orange/40 dark:bg-slate-900 dark:text-slate-300',
     );
 
+  const stepNumber = currentStep === 'interest' ? 1 : 2;
   const resolvedInterest = resolvePmServiceInterestLabel(serviceInterest, serviceInterestOther);
+
+  const clearError = () => {
+    setError(null);
+    setErrorTarget(null);
+  };
 
   const clearIndustrySelection = () => {
     setIndustry('');
     setIndustryOther('');
-    if (errorTarget === 'industry_other') {
-      setError(null);
-      setErrorTarget(null);
-    }
+    if (errorTarget === 'industry_other') clearError();
   };
 
   const toggleServiceInterest = (value: Exclude<PmServiceInterestValue, 'other'>) => {
@@ -139,10 +145,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     }
     setServiceInterest(value);
     setServiceInterestOther('');
-    if (errorTarget === 'interest' || errorTarget === 'interest_other') {
-      setError(null);
-      setErrorTarget(null);
-    }
+    if (errorTarget === 'interest' || errorTarget === 'interest_other') clearError();
   };
 
   const toggleServiceInterestOther = () => {
@@ -152,10 +155,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
       return;
     }
     setServiceInterest('other');
-    if (errorTarget === 'interest') {
-      setError(null);
-      setErrorTarget(null);
-    }
+    if (errorTarget === 'interest') clearError();
   };
 
   const toggleIndustry = (value: Exclude<PmServiceIndustryValue, 'other'>) => {
@@ -165,10 +165,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     }
     setIndustry(value);
     setIndustryOther('');
-    if (errorTarget === 'industry_other') {
-      setError(null);
-      setErrorTarget(null);
-    }
+    if (errorTarget === 'industry_other') clearError();
   };
 
   const toggleIndustryOther = () => {
@@ -179,25 +176,46 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     setIndustry('other');
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const validateInterestStep = () => {
     if (!serviceInterest) {
       setError('Please select what you are interested in.');
       setErrorTarget('interest');
-      return;
+      return false;
     }
     if (serviceInterest === 'other' && !serviceInterestOther.trim()) {
       setError('Please specify your interest under Other.');
       setErrorTarget('interest_other');
-      return;
+      return false;
     }
     if (industry === 'other' && !industryOther.trim()) {
       setError('Please specify your industry under Other.');
       setErrorTarget('industry_other');
+      return false;
+    }
+    clearError();
+    return true;
+  };
+
+  const handleStepNext = () => {
+    if (!validateInterestStep()) return;
+    setCurrentStep('contact');
+  };
+
+  const handleStepBack = () => {
+    clearError();
+    setCurrentStep('interest');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (currentStep !== 'contact') {
+      handleStepNext();
       return;
     }
-    setError(null);
-    setErrorTarget(null);
+    if (!validateInterestStep()) {
+      setCurrentStep('interest');
+      return;
+    }
     setSubmitting(true);
 
     const pagePath = typeof window !== 'undefined' ? window.location.pathname : undefined;
@@ -229,7 +247,6 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
         industry: resolvePmServiceIndustryLabel(industry, industryOther),
         industryType: industry,
         industryOther: industry === 'other' ? industryOther.trim() : undefined,
-        question: question.trim() || undefined,
         profileUrl: profileUrl.trim() || undefined,
         placement,
       },
@@ -247,7 +264,15 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
   if (submitted) {
     return (
       <div className={cn(shellClass, 'p-8 sm:p-10')}>
-        <p ref={successRef} id={`${idPrefix}-success`} role="status" aria-live="polite" aria-atomic="true" tabIndex={-1} className="text-base font-semibold text-green-700 dark:text-green-400">
+        <p
+          ref={successRef}
+          id={`${idPrefix}-success`}
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          tabIndex={-1}
+          className="text-base font-semibold text-green-700 dark:text-green-400"
+        >
           Thanks. We received your request and will follow up on your advisory inquiry.
         </p>
         <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
@@ -264,7 +289,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
     <div className={shellClass}>
       <form
         onSubmit={handleSubmit}
-        className="flex max-lg:max-h-none flex-col lg:max-h-[min(90vh,52rem)]"
+        className="flex flex-col"
         aria-labelledby={`${idPrefix}-title`}
       >
         <div className="shrink-0 border-b border-slate-100 bg-gradient-to-br from-brand-purple/5 via-white to-brand-orange/5 px-5 py-5 sm:px-6 sm:py-6 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
@@ -281,269 +306,295 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
               >
                 Request advisory support
               </p>
-              <p className="mt-0.5 text-sm font-medium text-slate-500 dark:text-slate-400">
+              <p className="mt-0.5 text-sm font-medium leading-snug text-slate-500 dark:text-slate-400">
                 Tell us your interest and background. We&apos;ll route you to the right advisor.
               </p>
+              <div
+                className="mt-3"
+                role="progressbar"
+                aria-valuenow={stepNumber}
+                aria-valuemin={1}
+                aria-valuemax={2}
+                aria-label={`Step ${stepNumber} of 2`}
+              >
+                <div className="flex gap-1.5">
+                  {[1, 2].map((step) => (
+                    <div
+                      key={step}
+                      className={cn(
+                        'h-1 flex-1 rounded-full transition-all',
+                        step <= stepNumber
+                          ? 'bg-brand-orange'
+                          : 'bg-slate-200 dark:bg-slate-700',
+                      )}
+                    />
+                  ))}
+                </div>
+                <p className="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                  Step {stepNumber} of 2
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div
-          className={cn(
-            'scrollbar-none space-y-5 px-5 py-6 sm:space-y-6 sm:px-6 sm:py-7 lg:min-h-0 lg:flex-1 lg:overflow-y-auto',
-          )}
-        >
-          <div className="space-y-2.5">
-            <Label htmlFor={`${idPrefix}-name`} className={labelClass}>
-              Full Name
-            </Label>
-            <Input
-              id={`${idPrefix}-name`}
-              required
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="John Smith"
-              className={fieldClass}
-            />
-          </div>
-
-          <div className="space-y-2.5">
-            <Label htmlFor={`${idPrefix}-phone`} className={labelClass}>
-              Mobile Number
-            </Label>
-            <div className="flex h-10 overflow-hidden rounded-lg border border-input bg-transparent focus-within:border-brand-orange/50 focus-within:ring-3 focus-within:ring-brand-orange/30 dark:bg-input/30">
-              <Select value={dialValue} onValueChange={(v) => v && setDialValue(v)}>
-                <SelectTrigger
-                  id={`${idPrefix}-dial`}
-                  aria-label="Country code"
-                  className="h-full w-[6.75rem] shrink-0 rounded-none border-0 border-r border-input bg-transparent px-2 shadow-none focus-visible:ring-0 dark:bg-transparent"
+        <div className="flex flex-col gap-5 px-5 py-6 sm:gap-6 sm:px-6 sm:py-7">
+          {currentStep === 'interest' ? (
+            <div data-step="interest" className="flex flex-col gap-5 sm:gap-6">
+              <fieldset
+                ref={interestRef}
+                tabIndex={-1}
+                className="m-0 min-w-0 space-y-3.5 border-0 p-0"
+                aria-labelledby={`${idPrefix}-interest-legend`}
+                aria-invalid={errorTarget === 'interest' ? true : undefined}
+                aria-describedby={errorTarget === 'interest' ? `${idPrefix}-form-error` : undefined}
+              >
+                <legend id={`${idPrefix}-interest-legend`} className={legendClass}>
+                  You are interested in <span className="text-brand-orange">*</span>
+                </legend>
+                <div
+                  className={cn(
+                    formChoiceGroupClass(PM_SERVICE_INTEREST_CHOICES.length, 'site'),
+                    '-mx-2.5 sm:-mx-6',
+                  )}
+                  role="group"
+                  aria-labelledby={`${idPrefix}-interest-legend`}
                 >
-                  <SelectValue>{formatDialPrefix(dialOption)}</SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  {PMP_ROADMAP_DIAL_CODES.map((d) => (
-                    <SelectItem key={d.code} value={d.code}>
-                      {formatDialPrefix(d)} {d.label}
-                    </SelectItem>
+                  {PM_SERVICE_INTEREST_CHOICES.map((o) => (
+                    <button
+                      key={o.value}
+                      type="button"
+                      className={cn(
+                        choiceButtonClass(serviceInterest === o.value),
+                        formChoiceChipLayoutClass(PM_SERVICE_INTEREST_CHOICES.length),
+                        'tracking-[-0.02em] sm:tracking-[-0.045em] md:tracking-[-0.045em]',
+                      )}
+                      aria-pressed={serviceInterest === o.value}
+                      onClick={() => {
+                        if (o.value === 'other') {
+                          toggleServiceInterestOther();
+                        } else {
+                          toggleServiceInterest(o.value);
+                        }
+                      }}
+                    >
+                      {o.label}
+                    </button>
                   ))}
-                </SelectContent>
-              </Select>
-              <Input
-                id={`${idPrefix}-phone`}
-                type="tel"
-                required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="50 123 4567"
-                className="h-full rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0"
+                </div>
+                {serviceInterest === 'other' ? (
+                  <div>
+                    <Input
+                      ref={interestOtherRef}
+                      id={`${idPrefix}-interest-other`}
+                      value={serviceInterestOther}
+                      onChange={(e) => {
+                        const next = e.target.value;
+                        setServiceInterestOther(next);
+                        if (
+                          next.trim() &&
+                          (errorTarget === 'interest' || errorTarget === 'interest_other')
+                        ) {
+                          clearError();
+                        }
+                      }}
+                      onFocus={() => {
+                        if (errorTarget === 'interest') clearError();
+                      }}
+                      onInvalid={() => {
+                        setError('Please specify your interest under Other.');
+                        setErrorTarget('interest_other');
+                      }}
+                      placeholder="Specify"
+                      className="h-12 w-full min-w-0 border-input text-sm"
+                      required
+                      aria-label="Specify other interest"
+                      aria-invalid={errorTarget === 'interest_other' ? true : undefined}
+                      aria-describedby={
+                        errorTarget === 'interest_other' ? `${idPrefix}-form-error` : undefined
+                      }
+                    />
+                  </div>
+                ) : null}
+              </fieldset>
+
+              <fieldset
+                tabIndex={-1}
+                className="m-0 min-w-0 space-y-3.5 border-0 p-0"
+                aria-labelledby={`${idPrefix}-industry-legend`}
+              >
+                <legend id={`${idPrefix}-industry-legend`} className={legendClass}>
+                  Industry{' '}
+                  <span className="font-normal normal-case tracking-normal text-slate-400">
+                    (optional)
+                  </span>
+                </legend>
+                <div
+                  className={cn(
+                    formChoiceGroupClass(PM_SERVICE_INDUSTRY_CHOICES.length, 'site'),
+                    '-mx-2.5 sm:-mx-6',
+                  )}
+                  role="group"
+                  aria-labelledby={`${idPrefix}-industry-legend`}
+                >
+                  {PM_SERVICE_INDUSTRY_CHOICES.map((o) => (
+                    <button
+                      key={o.value}
+                      type="button"
+                      className={cn(
+                        choiceButtonClass(industry === o.value),
+                        formChoiceChipLayoutClass(PM_SERVICE_INDUSTRY_CHOICES.length),
+                        'tracking-[-0.02em] sm:tracking-[-0.045em] md:tracking-[-0.045em]',
+                      )}
+                      aria-pressed={industry === o.value}
+                      onClick={() => {
+                        if (o.value === 'other') {
+                          toggleIndustryOther();
+                        } else {
+                          toggleIndustry(o.value);
+                        }
+                      }}
+                    >
+                      {o.label}
+                    </button>
+                  ))}
+                </div>
+                {industry === 'other' ? (
+                  <div>
+                    <Input
+                      ref={industryOtherRef}
+                      id={`${idPrefix}-industry-other`}
+                      value={industryOther}
+                      onChange={(e) => {
+                        const next = e.target.value;
+                        setIndustryOther(next);
+                        if (next.trim() && errorTarget === 'industry_other') clearError();
+                      }}
+                      onInvalid={() => {
+                        setError('Please specify your industry under Other.');
+                        setErrorTarget('industry_other');
+                      }}
+                      placeholder="Specify"
+                      className="h-12 w-full min-w-0 border-input text-sm"
+                      required
+                      aria-label="Specify other industry"
+                      aria-invalid={errorTarget === 'industry_other' ? true : undefined}
+                      aria-describedby={
+                        errorTarget === 'industry_other' ? `${idPrefix}-form-error` : undefined
+                      }
+                    />
+                  </div>
+                ) : null}
+              </fieldset>
+
+              <div className="space-y-2.5">
+                <Label htmlFor={`${idPrefix}-profile`} className={labelClass}>
+                  Website, LinkedIn{' '}
+                  <span className="font-semibold normal-case tracking-normal text-slate-400">
+                    (optional)
+                  </span>
+                </Label>
+                <Input
+                  id={`${idPrefix}-profile`}
+                  type="url"
+                  autoComplete="url"
+                  value={profileUrl}
+                  onChange={(e) => setProfileUrl(e.target.value)}
+                  placeholder="https://linkedin.com/in/your-profile"
+                  className={fieldClass}
+                />
+              </div>
+            </div>
+          ) : null}
+
+          {currentStep === 'contact' ? (
+            <div data-step="contact" className="flex flex-col gap-5 sm:gap-6">
+              <div className="space-y-2.5">
+                <Label htmlFor={`${idPrefix}-name`} className={labelClass}>
+                  Full Name
+                </Label>
+                <Input
+                  id={`${idPrefix}-name`}
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="John Smith"
+                  className={fieldClass}
+                />
+              </div>
+
+              <div className="space-y-2.5">
+                <Label htmlFor={`${idPrefix}-phone`} className={labelClass}>
+                  Mobile Number
+                </Label>
+                <div className="flex h-12 overflow-hidden rounded-lg border border-input bg-transparent focus-within:border-brand-orange/50 focus-within:ring-3 focus-within:ring-brand-orange/30 dark:bg-input/30">
+                  <Select value={dialValue} onValueChange={(v) => v && setDialValue(v)}>
+                    <SelectTrigger
+                      id={`${idPrefix}-dial`}
+                      aria-label="Country code"
+                      className="!h-full min-h-0 w-[6.75rem] shrink-0 self-stretch rounded-none border-0 border-r border-input bg-transparent px-2 py-0 shadow-none focus-visible:ring-0 data-[size=default]:!h-full dark:bg-transparent"
+                    >
+                      <SelectValue>{formatDialPrefix(dialOption)}</SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {PMP_ROADMAP_DIAL_CODES.map((d) => (
+                        <SelectItem key={d.code} value={d.code}>
+                          {formatDialPrefix(d)} {d.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Input
+                    id={`${idPrefix}-phone`}
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="50 123 4567"
+                    className="h-full rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2.5">
+                <Label htmlFor={`${idPrefix}-email`} className={labelClass}>
+                  Email Address
+                </Label>
+                <Input
+                  id={`${idPrefix}-email`}
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="john@example.com"
+                  className={fieldClass}
+                />
+              </div>
+
+              <input
+                id={`${idPrefix}-hp`}
+                type="text"
+                name="website"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden
               />
-            </div>
-          </div>
 
-          <div className="space-y-2.5">
-            <Label htmlFor={`${idPrefix}-email`} className={labelClass}>
-              Email Address
-            </Label>
-            <Input
-              id={`${idPrefix}-email`}
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="john@example.com"
-              className={fieldClass}
-            />
-          </div>
-
-          <fieldset
-            ref={interestRef}
-            tabIndex={-1}
-            className="space-y-3.5"
-            aria-labelledby={`${idPrefix}-interest-legend`}
-            aria-invalid={errorTarget === 'interest' ? true : undefined}
-            aria-describedby={errorTarget === 'interest' ? `${idPrefix}-form-error` : undefined}
-          >
-            <legend id={`${idPrefix}-interest-legend`} className={legendClass}>
-              You are interested in. <span className="text-brand-orange">*</span>
-            </legend>
-            <div
-              className={cn(
-                formChoiceGroupClass(PM_SERVICE_INTEREST_CHOICES.length, 'site'),
-                '-mx-2.5 sm:-mx-6',
-              )}
-              role="group"
-              aria-labelledby={`${idPrefix}-interest-legend`}
-            >
-              {PM_SERVICE_INTEREST_CHOICES.map((o) => (
-                <button
-                  key={o.value}
-                  type="button"
-                  className={cn(
-                    choiceButtonClass(serviceInterest === o.value),
-                    formChoiceChipLayoutClass(PM_SERVICE_INTEREST_CHOICES.length),
-                    'tracking-[-0.02em] sm:tracking-[-0.045em] md:tracking-[-0.045em]',
-                  )}
-                  aria-pressed={serviceInterest === o.value}
-                  onClick={() => {
-                    if (o.value === 'other') {
-                      toggleServiceInterestOther();
-                    } else {
-                      toggleServiceInterest(o.value);
-                    }
-                  }}
+              <p className="!mt-0 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
+                By submitting, you agree to our{' '}
+                <Link
+                  href="/legal/privacy"
+                  className="font-semibold text-brand-orange hover:underline"
                 >
-                  {o.label}
-                </button>
-              ))}
+                  Privacy Policy
+                </Link>
+                . We use your details only to respond to your advisory inquiry.
+              </p>
             </div>
-            {serviceInterest === 'other' ? (
-              <div>
-                <Input
-                  ref={interestOtherRef}
-                  id={`${idPrefix}-interest-other`}
-                  value={serviceInterestOther}
-                  onChange={(e) => {
-                    const next = e.target.value;
-                    setServiceInterestOther(next);
-                    if (
-                      next.trim() &&
-                      (errorTarget === 'interest' || errorTarget === 'interest_other')
-                    ) {
-                      setError(null);
-                      setErrorTarget(null);
-                    }
-                  }}
-                  onFocus={() => {
-                    if (errorTarget === 'interest') {
-                      setError(null);
-                      setErrorTarget(null);
-                    }
-                  }}
-                  onInvalid={() => {
-                    setError('Please specify your interest under Other.');
-                    setErrorTarget('interest_other');
-                  }}
-                  placeholder="Specify"
-                  className="h-10 w-full min-w-0 border-input text-sm"
-                  required
-                  aria-label="Specify other interest"
-                  aria-invalid={errorTarget === 'interest_other' ? true : undefined}
-                  aria-describedby={
-                    errorTarget === 'interest_other' ? `${idPrefix}-form-error` : undefined
-                  }
-                />
-              </div>
-            ) : null}
-          </fieldset>
-
-          <fieldset
-            tabIndex={-1}
-            className="space-y-3.5"
-            aria-labelledby={`${idPrefix}-industry-legend`}
-          >
-            <legend id={`${idPrefix}-industry-legend`} className={legendClass}>
-              Industry or professional field best describes your background.{' '}
-              <span className="font-normal normal-case text-slate-400">(optional)</span>
-            </legend>
-            <div
-              className={cn(
-                formChoiceGroupClass(PM_SERVICE_INDUSTRY_CHOICES.length, 'site'),
-                '-mx-2.5 sm:-mx-6',
-              )}
-              role="group"
-              aria-labelledby={`${idPrefix}-industry-legend`}
-            >
-              {PM_SERVICE_INDUSTRY_CHOICES.map((o) => (
-                <button
-                  key={o.value}
-                  type="button"
-                  className={cn(
-                    choiceButtonClass(industry === o.value),
-                    formChoiceChipLayoutClass(PM_SERVICE_INDUSTRY_CHOICES.length),
-                    'tracking-[-0.02em] sm:tracking-[-0.045em] md:tracking-[-0.045em]',
-                  )}
-                  aria-pressed={industry === o.value}
-                  onClick={() => {
-                    if (o.value === 'other') {
-                      toggleIndustryOther();
-                    } else {
-                      toggleIndustry(o.value);
-                    }
-                  }}
-                >
-                  {o.label}
-                </button>
-              ))}
-            </div>
-            {industry === 'other' ? (
-              <div>
-                <Input
-                  ref={industryOtherRef}
-                  id={`${idPrefix}-industry-other`}
-                  value={industryOther}
-                  onChange={(e) => {
-                    const next = e.target.value;
-                    setIndustryOther(next);
-                    if (next.trim() && errorTarget === 'industry_other') {
-                      setError(null);
-                      setErrorTarget(null);
-                    }
-                  }}
-                  onInvalid={() => {
-                    setError('Please specify your industry under Other.');
-                    setErrorTarget('industry_other');
-                  }}
-                  placeholder="Specify"
-                  className="h-10 w-full min-w-0 border-input text-sm"
-                  required
-                  aria-label="Specify other industry"
-                  aria-invalid={errorTarget === 'industry_other' ? true : undefined}
-                  aria-describedby={
-                    errorTarget === 'industry_other' ? `${idPrefix}-form-error` : undefined
-                  }
-                />
-              </div>
-            ) : null}
-          </fieldset>
-
-          <div className="space-y-2.5">
-            <Label htmlFor={`${idPrefix}-question`} className={labelClass}>
-              Please describe your specific question or concern. (Optional)
-            </Label>
-            <Textarea
-              id={`${idPrefix}-question`}
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Share context on team size, timeline, or delivery challenge."
-              className="min-h-[7rem] resize-y text-sm focus-visible:ring-brand-orange/40"
-            />
-          </div>
-
-          <div className="space-y-2.5">
-            <Label htmlFor={`${idPrefix}-profile`} className={labelClass}>
-              Website or LinkedIn URL (Optional)
-            </Label>
-            <Input
-              id={`${idPrefix}-profile`}
-              type="url"
-              value={profileUrl}
-              onChange={(e) => setProfileUrl(e.target.value)}
-              placeholder="https://linkedin.com/in/your-profile"
-              className={fieldClass}
-            />
-          </div>
-
-          <input
-            id={`${idPrefix}-hp`}
-            type="text"
-            name="website"
-            value={honeypot}
-            onChange={(e) => setHoneypot(e.target.value)}
-            className="hidden"
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden
-          />
+          ) : null}
 
           {error ? (
             <p
@@ -556,24 +607,40 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
               {error}
             </p>
           ) : null}
-
-          <p className="!mt-0 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
-            By submitting, you agree to our{' '}
-            <Link href="/legal/privacy" className="font-semibold text-brand-orange hover:underline">
-              Privacy Policy
-            </Link>
-            . We use your details only to respond to your advisory inquiry.
-          </p>
         </div>
 
-        <div className="shrink-0 space-y-3 border-t border-slate-100 px-5 py-5 sm:px-6 dark:border-slate-800">
-          <Button
-            type="submit"
-            disabled={submitting}
-            className="h-12 w-full rounded-full bg-brand-orange text-base font-bold text-white shadow-lg shadow-brand-orange/20 hover:bg-brand-hover"
-          >
-            {submitting ? 'Submitting…' : 'Submit request'}
-          </Button>
+        <div className="mt-auto shrink-0 space-y-3 border-t border-slate-100 px-5 py-5 sm:px-6 dark:border-slate-800">
+          <div className="flex gap-3">
+            {currentStep !== 'interest' ? (
+              <Button
+                type="button"
+                onClick={handleStepBack}
+                disabled={submitting}
+                variant="outline"
+                className="h-12 rounded-full px-6 text-base font-bold"
+              >
+                Back
+              </Button>
+            ) : null}
+            {currentStep === 'contact' ? (
+              <Button
+                type="submit"
+                disabled={submitting}
+                className="h-12 flex-1 rounded-full bg-brand-orange text-base font-bold text-white shadow-lg shadow-brand-orange/20 hover:bg-brand-hover"
+              >
+                {submitting ? 'Submitting…' : 'Submit request'}
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                onClick={handleStepNext}
+                disabled={submitting}
+                className="h-12 flex-1 rounded-full bg-brand-orange text-base font-bold text-white shadow-lg shadow-brand-orange/20 hover:bg-brand-hover"
+              >
+                Continue
+              </Button>
+            )}
+          </div>
         </div>
       </form>
     </div>

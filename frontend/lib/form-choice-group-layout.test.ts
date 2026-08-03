@@ -33,11 +33,11 @@ describe('formChoiceGroupClass', () => {
 describe('formChoiceChipLayoutClass', () => {
   it('uses the approved exact-four chip class string', () => {
     expect(formChoiceChipLayoutClass(4)).toBe(
-      'w-full min-w-0 whitespace-nowrap px-2.5 tracking-[-0.01em] sm:px-0 sm:tracking-tight md:px-0 md:tracking-[-0.01em]',
+      'w-full min-w-0 whitespace-nowrap px-3 tracking-[-0.01em] sm:px-3 sm:tracking-tight md:px-3 md:tracking-[-0.01em]',
     );
     expect(formChoiceChipLayoutClass(4)).not.toContain('md:tracking-tight');
-    expect(formChoiceChipLayoutClass(4)).not.toContain('md:px-3');
-    expect(formChoiceChipLayoutClass(4)).not.toContain('sm:px-0.5');
+    expect(formChoiceChipLayoutClass(4)).not.toContain('sm:px-0');
+    expect(formChoiceChipLayoutClass(4)).not.toContain('md:px-0');
     expect(formChoiceChipLayoutClass(4)).not.toContain('whitespace-normal');
     expect(formChoiceChipLayoutClass(4)).not.toContain('truncate');
     expect(formChoiceChipLayoutClass(4)).not.toContain('overflow-hidden');
@@ -51,10 +51,10 @@ describe('formChoiceChipLayoutClass', () => {
 });
 
 describe('formChoiceStepBleedClass', () => {
-  it('uses approved Fit/Eligibility bleed classes that persist past md', () => {
-    expect(formChoiceStepBleedClass('site')).toBe('sm:-mx-6');
+  it('keeps site inset and portal compact bleed', () => {
+    expect(formChoiceStepBleedClass('site')).toBe('');
     expect(formChoiceStepBleedClass('portal')).toBe('sm:-mx-4');
-    expect(formChoiceStepBleedClass('site')).not.toContain('md:mx-0');
+    expect(formChoiceStepBleedClass('site')).not.toContain('sm:-mx-6');
     expect(formChoiceStepBleedClass('portal')).not.toContain('md:mx-0');
   });
 });
