@@ -4,8 +4,50 @@ import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { getGaMeasurementId, isGaConfigured } from '@/lib/analytics/ga-config';
-import { buildGaRoutePageview, shouldDispatchGaRoute } from '@/lib/analytics/ga-route-pageview';
+import {
+  buildGaRoutePageview,
+  shouldDispatchGaRoute,
+  type GaRoutePageview,
+} from '@/lib/analytics/ga-route-pageview';
 import { hasAnalyticsConsent } from '@/lib/legal/consent';
+
+type GaCommandTarget = {
+  dataLayer?: unknown[];
+  gtag?: (...args: unknown[]) => void;
+};
+
+export type GaDispatchState = {
+  configured: boolean;
+  lastRouteKey: string | null;
+};
+
+export function bootstrapGaCommandTarget(target: GaCommandTarget): void {
+  target.dataLayer = target.dataLayer ?? [];
+  target.gtag = target.gtag ?? function gtag(...args: unknown[]) {
+    target.dataLayer?.push(args);
+  };
+}
+
+export function dispatchLoadedGaPageview(input: {
+  target: GaCommandTarget;
+  allowed: boolean;
+  loaderReady: boolean;
+  loaderFailed: boolean;
+  gaId: string;
+  payload: GaRoutePageview | null;
+  state: GaDispatchState;
+}): GaDispatchState {
+  const { target, allowed, loaderReady, loaderFailed, gaId, payload, state } = input;
+  if (!allowed || !loaderReady || loaderFailed || !gaId || !payload || !target.gtag) return state;
+  if (!shouldDispatchGaRoute(state.lastRouteKey, payload.routeKey)) return state;
+
+  if (!state.configured) {
+    target.gtag('js', new Date());
+    target.gtag('config', gaId, { send_page_view: false });
+  }
+  target.gtag('event', 'page_view', payload.params);
+  return { configured: true, lastRouteKey: payload.routeKey };
+}
 
 /**
  * Single consent-gated GA4 owner. Implicit pageviews are disabled and this
@@ -16,6 +58,8 @@ export function GoogleAnalytics() {
   const gaId = getGaMeasurementId();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [bootstrapped, setBootstrapped] = useState(false);
+  const [loaderState, setLoaderState] = useState<'idle' | 'ready' | 'failed'>('idle');
   const configured = useRef(false);
   const lastRouteKey = useRef<string | null>(null);
 
@@ -27,22 +71,14 @@ export function GoogleAnalytics() {
   }, []);
 
   useEffect(() => {
-    if (!allowed || !gaId || !isGaConfigured() || typeof window === 'undefined') return;
+    if (!allowed || !gaId || !isGaConfigured() || typeof window === 'undefined' || bootstrapped) return;
 
-    const analyticsWindow = window as typeof window & {
-      dataLayer?: unknown[];
-      gtag?: (...args: unknown[]) => void;
-    };
-    analyticsWindow.dataLayer = analyticsWindow.dataLayer ?? [];
-    analyticsWindow.gtag = analyticsWindow.gtag ?? function gtag(...args: unknown[]) {
-      analyticsWindow.dataLayer?.push(args);
-    };
+    bootstrapGaCommandTarget(window as typeof window & GaCommandTarget);
+    setBootstrapped(true);
+  }, [allowed, bootstrapped, gaId]);
 
-    if (!configured.current) {
-      analyticsWindow.gtag('js', new Date());
-      analyticsWindow.gtag('config', gaId, { send_page_view: false });
-      configured.current = true;
-    }
+  useEffect(() => {
+    if (!allowed || !bootstrapped || loaderState !== 'ready' || !gaId || !isGaConfigured()) return;
 
     const payload = buildGaRoutePageview({
       origin: window.location.origin,
@@ -50,18 +86,28 @@ export function GoogleAnalytics() {
       search: searchParams?.toString() ?? '',
       title: document.title,
     });
-    if (!payload || !shouldDispatchGaRoute(lastRouteKey.current, payload.routeKey)) return;
-    analyticsWindow.gtag('event', 'page_view', payload.params);
-    lastRouteKey.current = payload.routeKey;
-  }, [allowed, gaId, pathname, searchParams]);
+    const nextState = dispatchLoadedGaPageview({
+      target: window as typeof window & GaCommandTarget,
+      allowed,
+      loaderReady: loaderState === 'ready',
+      loaderFailed: false,
+      gaId,
+      payload,
+      state: { configured: configured.current, lastRouteKey: lastRouteKey.current },
+    });
+    configured.current = nextState.configured;
+    lastRouteKey.current = nextState.lastRouteKey;
+  }, [allowed, bootstrapped, gaId, loaderState, pathname, searchParams]);
 
-  if (!allowed || !gaId || !isGaConfigured()) return null;
+  if (!bootstrapped || !gaId || !isGaConfigured()) return null;
 
   return (
     <Script
       id="pms-ga4-loader"
       src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`}
       strategy="afterInteractive"
+      onLoad={() => setLoaderState('ready')}
+      onError={() => setLoaderState('failed')}
     />
   );
 }
