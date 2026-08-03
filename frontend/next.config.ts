@@ -21,6 +21,10 @@ const dashBeRoot = path.join(__dirname, '../dashboard/backend');
 const publicApiRoot = path.join(__dirname, '../backend');
 
 const nextConfig: NextConfig = {
+  // Optional local NTFS dist dir (avoids Google Drive EPERM on .next/trace).
+  ...(process.env.PMS_NEXT_DIST_DIR
+    ? { distDir: process.env.PMS_NEXT_DIST_DIR }
+    : {}),
   // Dev gateway uses localhost:3000 → 127.0.0.1:3050; allow both hosts for /_next/* chunks.
   allowedDevOrigins: ['127.0.0.1', 'localhost'],
   serverExternalPackages: ['nodemailer'],
