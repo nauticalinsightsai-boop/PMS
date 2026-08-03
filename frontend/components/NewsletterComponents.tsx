@@ -258,7 +258,7 @@ export const CTABanner: React.FC<{
           <p className="text-base sm:text-lg md:text-xl text-white/90 mb-10 leading-relaxed">{description}</p>
           <Link
             href={buttonHref}
-            className="inline-flex w-full sm:w-auto justify-center"
+            className="inline-flex min-h-14 h-auto w-full items-center justify-center whitespace-normal rounded-2xl bg-white px-6 py-3 text-base font-bold text-slate-900 shadow-xl hover:bg-slate-100 sm:w-auto sm:px-10 sm:py-0 sm:text-lg"
             onClick={() => {
               if (!tracking) return;
               trackNewsletterCtaClick({
@@ -269,12 +269,7 @@ export const CTABanner: React.FC<{
               });
             }}
           >
-            <Button
-              size="lg"
-              className="w-full min-h-14 h-auto whitespace-normal rounded-2xl bg-white px-6 py-3 text-base font-bold text-slate-900 shadow-xl hover:bg-slate-100 sm:w-auto sm:px-10 sm:py-0 sm:text-lg"
-            >
-              {buttonText}
-            </Button>
+            {buttonText}
           </Link>
         </div>
       </div>

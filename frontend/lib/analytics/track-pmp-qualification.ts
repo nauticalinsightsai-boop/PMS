@@ -81,6 +81,7 @@ export type PmpRoadmapFormAnalyticsRuntime = {
   submit: () => boolean;
   acceptResult: (result: {
     ok: boolean;
+    newDurableSubmission?: boolean;
     submissionId?: string;
     idempotentReplay?: boolean;
   }) => boolean;
@@ -246,6 +247,7 @@ export function createPmpRoadmapFormAnalyticsRuntime(
     acceptResult: (result) => {
       if (
         !result.ok ||
+        result.newDurableSubmission !== true ||
         !result.submissionId ||
         result.idempotentReplay === true
       ) {

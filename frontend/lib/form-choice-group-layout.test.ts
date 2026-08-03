@@ -8,7 +8,7 @@ import {
 describe('formChoiceGroupClass', () => {
   it('uses the approved exact-four class strings', () => {
     expect(formChoiceGroupClass(4, 'site')).toBe(
-      'grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-2 md:gap-2',
+      'grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-0 md:gap-0',
     );
     expect(formChoiceGroupClass(4, 'portal')).toBe(
       'grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-0 md:gap-0',
@@ -33,12 +33,15 @@ describe('formChoiceGroupClass', () => {
 describe('formChoiceChipLayoutClass', () => {
   it('uses the approved exact-four chip class string', () => {
     expect(formChoiceChipLayoutClass(4)).toBe(
-      'w-full min-w-0 whitespace-nowrap px-3 sm:px-3 sm:tracking-tight md:px-3 md:tracking-normal',
+      'w-full min-w-0 whitespace-nowrap px-2.5 tracking-[-0.01em] sm:px-0 sm:tracking-tight md:px-0 md:tracking-[-0.01em]',
     );
     expect(formChoiceChipLayoutClass(4)).not.toContain('md:tracking-tight');
-    expect(formChoiceChipLayoutClass(4)).not.toContain('sm:px-0');
-    expect(formChoiceChipLayoutClass(4)).not.toContain('md:px-0');
+    expect(formChoiceChipLayoutClass(4)).not.toContain('md:px-3');
+    expect(formChoiceChipLayoutClass(4)).not.toContain('sm:px-0.5');
     expect(formChoiceChipLayoutClass(4)).not.toContain('whitespace-normal');
+    expect(formChoiceChipLayoutClass(4)).not.toContain('truncate');
+    expect(formChoiceChipLayoutClass(4)).not.toContain('overflow-hidden');
+    expect(formChoiceChipLayoutClass(4)).not.toContain('text-[');
   });
 
   it('keeps flex-basis chips for wrap layouts', () => {
@@ -48,10 +51,10 @@ describe('formChoiceChipLayoutClass', () => {
 });
 
 describe('formChoiceStepBleedClass', () => {
-  it('keeps portal bleed and leaves site step inset to form body padding', () => {
-    expect(formChoiceStepBleedClass('site')).toBe('');
+  it('uses approved Fit/Eligibility bleed classes that persist past md', () => {
+    expect(formChoiceStepBleedClass('site')).toBe('sm:-mx-6');
     expect(formChoiceStepBleedClass('portal')).toBe('sm:-mx-4');
-    expect(formChoiceStepBleedClass('site')).not.toContain('sm:-mx-6');
+    expect(formChoiceStepBleedClass('site')).not.toContain('md:mx-0');
     expect(formChoiceStepBleedClass('portal')).not.toContain('md:mx-0');
   });
 });

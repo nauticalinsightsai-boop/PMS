@@ -202,6 +202,36 @@ export function Certifications({
     [regionId],
   );
   const [activeTab, setActiveTab] = React.useState<PathwayFamilyTab>("PMI");
+  const [expandedFeaturedPathwayId, setExpandedFeaturedPathwayId] = React.useState<string | null>(null);
+  const expandedFeaturedPathwayIdRef = React.useRef<string | null>(null);
+  React.useEffect(() => { expandedFeaturedPathwayIdRef.current = expandedFeaturedPathwayId; }, [expandedFeaturedPathwayId]);
+  const setFeaturedDisclosure = React.useCallback((certId: string, expanded: boolean) => {
+    if (typeof window === 'undefined') return;
+    const marker = window.history.state?.__pmsPathwayDisclosure;
+    if (!expanded) {
+      if (marker?.v === 1 && marker.surface === 'certifications-featured' && marker.certId === certId) window.history.back();
+      else setExpandedFeaturedPathwayId(null);
+      return;
+    }
+    const next = { ...(window.history.state ?? {}), __pmsPathwayDisclosure: { v: 1, surface: 'certifications-featured', certId } };
+    if (marker?.v === 1 && marker.surface === 'certifications-featured') window.history.replaceState(next, '');
+    else window.history.pushState(next, '');
+    setExpandedFeaturedPathwayId(certId);
+  }, []);
+  React.useEffect(() => {
+    const onPopState = () => {
+      const previousCertId = expandedFeaturedPathwayIdRef.current;
+      const marker = window.history.state?.__pmsPathwayDisclosure;
+      const certId = marker?.v === 1 && marker.surface === 'certifications-featured' ? marker.certId : null;
+      setExpandedFeaturedPathwayId(certId);
+      requestAnimationFrame(() => {
+        if (certId) document.querySelector<HTMLElement>(`[data-pathway-region="${certId}"]`)?.focus();
+        else if (previousCertId) document.querySelector<HTMLButtonElement>(`[data-pathway-details="${previousCertId}"]`)?.focus();
+      });
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   const familyCerts = (familyId: PathwayFamilyTab) => {
     return certifications
@@ -320,9 +350,13 @@ export function Certifications({
                                   transition={{ duration: 0.35 }}
                                   className={cn(PATHWAY_MOBILE_CAROUSEL_ITEM_CLASS, 'motion-reduce:transform-none')}
                                 >
-                                  <PathwayFeaturedCard
-                                    cert={resolvePathwayCert(cert)}
-                                    familyLabel={cert.familyId}
+                                    <PathwayFeaturedCard
+                                      cert={resolvePathwayCert(cert)}
+                                      layout="catalog"
+                                      desktopFlagshipOpen
+                                      expanded={expandedFeaturedPathwayId === cert.id}
+                                      onExpandedChange={(expanded) => setFeaturedDisclosure(cert.id, expanded)}
+                                      familyLabel={cert.familyId}
                                   />
                                 </m.div>
                               ))}

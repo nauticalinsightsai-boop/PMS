@@ -26,6 +26,8 @@ export function NewsletterSubscribeForm({
 }: NewsletterSubscribeFormProps) {
   const [email, setEmail] = React.useState('');
   const [status, setStatus] = React.useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+  const successRef = React.useRef<HTMLParagraphElement>(null);
+  React.useEffect(() => { if (status === 'done') successRef.current?.focus(); }, [status]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,10 +41,12 @@ export function NewsletterSubscribeForm({
       formContext: { pagePath, formId },
     });
     if (res.ok) {
-      pushAnalyticsEvent('sign_up', {
-        form_id: formId,
-        page_path: pagePath,
-      });
+      if (res.submissionId && !res.idempotentReplay) {
+        pushAnalyticsEvent('sign_up', {
+          form_id: formId,
+          page_path: pagePath,
+        });
+      }
       setStatus('done');
       setEmail('');
     } else {
@@ -73,10 +77,11 @@ export function NewsletterSubscribeForm({
         </Button>
       </form>
       {status === 'error' ? (
-        <p className="mt-2 text-sm text-red-500 dark:text-red-400">
+        <p role="alert" className="mt-2 text-sm text-red-500 dark:text-red-400">
           Could not subscribe. Please try again or contact us.
         </p>
       ) : null}
+      {status === 'done' ? <p ref={successRef} role="status" aria-live="polite" tabIndex={-1} className="sr-only">Subscribed successfully.</p> : null}
     </div>
   );
 }

@@ -44,7 +44,7 @@ describe('qualification options lite surface', () => {
     ]);
     expect(PMP_JOB_EXPERIENCE_OPTIONS).toBe(PM_EXPERIENCE_OPTIONS);
     expect(PMP_JOB_EXPERIENCE_OPTIONS).toEqual([
-      { value: 'under_2', label: '< 2 years' },
+      { value: 'under_2', label: 'Less than 2 years' },
       { value: '2_to_5', label: '2–5 years' },
       { value: '5_to_7', label: '5–7 years' },
       { value: 'other', label: 'Other' },
@@ -79,7 +79,7 @@ describe('qualification options lite surface', () => {
 
   it('locks the remaining four-choice labels and stable values', () => {
     expect(PM_EXPERIENCE_OPTIONS).toEqual([
-      { value: 'under_2', label: '< 2 years' },
+      { value: 'under_2', label: 'Less than 2 years' },
       { value: '2_to_5', label: '2–5 years' },
       { value: '5_to_7', label: '5–7 years' },
       { value: 'other', label: 'Other' },
@@ -91,7 +91,7 @@ describe('qualification options lite surface', () => {
       'Other',
     ]);
     expect(EXAM_TIMELINE_OPTIONS).toEqual([
-      { value: 'within_3', label: '< 3 months' },
+      { value: 'within_3', label: 'Less than 3 months' },
       { value: '3_to_6', label: '3–6 months' },
       { value: '6_plus', label: '6+ months' },
       { value: 'exploring', label: 'Exploring' },

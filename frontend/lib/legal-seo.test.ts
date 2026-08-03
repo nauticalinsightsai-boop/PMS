@@ -2,9 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync, readdirSync } from 'fs';
 import path from 'path';
 import { getAllFaqs, FAQ_COUNT_MIN } from '@/content/faq';
-import { getAllLegalDocumentPaths, DYNAMIC_LEGAL_SLUGS } from '@/content/legal';
+import { getAllLegalDocumentPaths, DYNAMIC_LEGAL_SLUGS, PRIVACY_REGION_OPTIONS } from '@/content/legal';
 import { REGION_COPY } from '@/lib/brand-voice';
-import { FOOTER_LEGAL_LINKS, LEGAL_HUB_PATH } from '@/constants/legal';
+import { FOOTER_LEGAL_LINKS, LEGAL_HUB_PATH } from '@/constants/legal';
+import { metadata as gccMetadata } from '@/app/(site)/legal/privacy/gcc/page';
+import { generateMetadata as generateRegionalPrivacyMetadata } from '@/app/(site)/legal/privacy/[region]/page';
 
 const BANNED = [
   'draft template',
@@ -60,13 +62,59 @@ describe('legal-seo', () => {
     }
   });
 
-  it('privacy and support FAQ clusters reference support email', () => {
+  it('privacy and support FAQ clusters reference support email', () => {
     const combined = getAllFaqs()
       .filter((f) => f.clusterId === 'privacy' || f.clusterId === 'support')
       .map((f) => f.answer)
       .join(' ');
     expect(combined).toContain('support@pmstructure.com');
-    expect(combined).not.toContain('legal@pmstructure.com');
-  });
-});
-
+    expect(combined).not.toContain('legal@pmstructure.com');
+  });
+
+  it('gives each published regional privacy root complete, self-canonical metadata', async () => {
+    const regionalRoots = [
+      ['eu', '/legal/privacy/eu', 'Privacy Policy (EU / EEA) | PM Structure'],
+      ['uk', '/legal/privacy/uk', 'Privacy Policy (United Kingdom) | PM Structure'],
+      ['us', '/legal/privacy/us', 'Privacy Policy (United States) | PM Structure'],
+      ['india', '/legal/privacy/india', 'Privacy Policy (India) | PM Structure'],
+      ['pakistan', '/legal/privacy/pakistan', 'Privacy Policy (Pakistan) | PM Structure'],
+    ] as const;
+
+    for (const [region, path, expectedTitle] of regionalRoots) {
+      const metadata = await generateRegionalPrivacyMetadata({
+        params: Promise.resolve({ region }),
+      });
+      expect(metadata).toMatchObject({
+        title: { absolute: expectedTitle },
+        alternates: { canonical: `https://pmstructure.com${path}` },
+        robots: { index: true, follow: true },
+        openGraph: { title: expectedTitle, url: `https://pmstructure.com${path}` },
+        twitter: { title: expectedTitle },
+      });
+      expect(metadata.description).toContain('privacy policy');
+    }
+
+    expect(gccMetadata).toMatchObject({
+      title: { absolute: 'Privacy Policy (GCC) | PM Structure' },
+      alternates: { canonical: 'https://pmstructure.com/legal/privacy/gcc' },
+      robots: { index: true, follow: true },
+      openGraph: {
+        title: 'Privacy Policy (GCC) | PM Structure',
+        url: 'https://pmstructure.com/legal/privacy/gcc',
+      },
+      twitter: { title: 'Privacy Policy (GCC) | PM Structure' },
+    });
+    expect(gccMetadata.description).toContain('privacy policy');
+
+    expect(
+      PRIVACY_REGION_OPTIONS.filter((option) => option.slug !== 'global').map((option) => option.href),
+    ).toEqual([
+      '/legal/privacy/eu',
+      '/legal/privacy/uk',
+      '/legal/privacy/us',
+      '/legal/privacy/gcc',
+      '/legal/privacy/india',
+      '/legal/privacy/pakistan',
+    ]);
+  });
+});

@@ -37,9 +37,9 @@ describe('persisted public lead conversion', () => {
   it('emits one GA lead and one Meta Lead with the same opaque event id', () => {
     const input = {
       clientSubmissionId: 'lead_opaque_123',
-      submissionId: 'submission_durable_123',
+      submissionId: 'submission-opaque-123',
+      formVersion: 'p0.6.1',
       source: 'contact',
-      formVersion: 'p0.6.2-333-authoritative',
       formId: 'contact_form',
       formPlacement: 'footer',
       pagePath: '/contact',
@@ -56,9 +56,8 @@ describe('persisted public lead conversion', () => {
       'generate_lead',
       expect.objectContaining({
         event_id: 'lead_opaque_123',
-        clientSubmissionId: 'lead_opaque_123',
-        submission_id: 'submission_durable_123',
-        form_version: 'p0.6.2-333-authoritative',
+        submission_id: 'submission-opaque-123',
+        form_version: 'p0.6.1',
         lead_source: 'contact',
         form_id: 'contact_form',
         form_placement: 'footer',
@@ -81,5 +80,41 @@ describe('persisted public lead conversion', () => {
       expect(payload).not.toHaveProperty('phone');
       expect(payload).not.toHaveProperty('message');
     }
+  });
+
+  it('requires a durable submission id before emitting an event', () => {
+    expect(trackPersistedLeadSuccess({ clientSubmissionId: 'lead_missing', submissionId: '', source: 'contact' })).toBe(false);
+    expect(pushAnalyticsEvent).not.toHaveBeenCalled();
+    expect(trackMetaLead).not.toHaveBeenCalled();
+  });
+
+  it('omits a form version when none is supplied and can emit after an explicit state reset', () => {
+    expect(
+      trackPersistedLeadSuccess({
+        clientSubmissionId: 'lead_without_version',
+        submissionId: 'submission-without-version',
+        source: 'newsletter',
+      }),
+    ).toBe(true);
+
+    expect(pushAnalyticsEvent).toHaveBeenCalledWith(
+      'generate_lead',
+      expect.objectContaining({
+        event_id: 'lead_without_version',
+        submission_id: 'submission-without-version',
+      }),
+    );
+    expect(pushAnalyticsEvent.mock.calls[0]?.[1]).not.toHaveProperty('form_version');
+
+    clearPersistedLeadTrackingState();
+    expect(
+      trackPersistedLeadSuccess({
+        clientSubmissionId: 'lead_without_version',
+        submissionId: 'submission-without-version',
+        source: 'newsletter',
+      }),
+    ).toBe(true);
+    expect(pushAnalyticsEvent).toHaveBeenCalledTimes(2);
+    expect(trackMetaLead).toHaveBeenCalledTimes(2);
   });
 });

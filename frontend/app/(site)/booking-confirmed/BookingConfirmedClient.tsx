@@ -4,8 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { trackGaEvent } from '@/lib/analytics/send-ga-event';
-import { trackMetaSchedule } from '@/lib/analytics/meta-browser';
-import { createAnalyticsEventId } from '@/lib/analytics/event-id';
+import { stableAnalyticsEventId } from '@/lib/analytics/event-id';
 import { consumeBookingConfirmation } from '@/lib/analytics/booking-confirmation';
 
 /**
@@ -35,19 +34,12 @@ export default function BookingConfirmedClient() {
     }
     if (confirmation !== 'track') return;
 
-    const eventId = createAnalyticsEventId('booking');
+    const eventId = stableAnalyticsEventId('booking', inviteeUuid);
     trackGaEvent('booking_confirmed', {
       booking_status: 'confirmed',
       content_type: 'calendly',
       event_id: eventId,
     });
-    trackMetaSchedule(
-      {
-        content_name: 'Calendly booking confirmed',
-        content_category: 'booking',
-      },
-      eventId,
-    );
   }, [bookingToken, inviteeUuid]);
 
   return (

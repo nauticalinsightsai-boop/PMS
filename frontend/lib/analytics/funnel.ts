@@ -189,7 +189,10 @@ export function getClickIdsForLead(): Record<string, string> {
   return out;
 }
 
-/** First- and last-touch UTMs for lead payloads (last touch stays unprefixed). */
+/**
+ * First- and last-touch UTMs for durable lead payloads. First touch is prefixed
+ * while last touch keeps the established unprefixed offline-import keys.
+ */
 export function getUtmParamsForLead(): Record<string, string> {
   if (typeof window === 'undefined') return {};
   const out: Record<string, string> = {};

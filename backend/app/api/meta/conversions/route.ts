@@ -14,6 +14,52 @@ const ALLOWED_EVENTS = new Set([
 const MAX_BODY_BYTES = 64 * 1024;
 const MAX_CUSTOM_DATA_KEYS = 40;
 const MAX_VALUE_LENGTH = 500;
+const MAX_ATTRIBUTION_VALUE_LENGTH = 200;
+const ATTRIBUTION_KEYS = [
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_content',
+  'utm_term',
+] as const;
+const ATTRIBUTION_KEY_SET = new Set<string>(ATTRIBUTION_KEYS);
+const CUSTOM_DATA_ALLOWLIST = new Set([
+  'content_name',
+  'content_category',
+  'content_type',
+  'content_ids',
+  'contents',
+  'currency',
+  'value',
+  'num_items',
+  'status',
+  'search_string',
+  'form_placement',
+  ...ATTRIBUTION_KEYS,
+]);
+const PII_KEY_DENYLIST = new Set([
+  'email',
+  'em',
+  'phone',
+  'ph',
+  'name',
+  'full_name',
+  'first_name',
+  'last_name',
+  'fn',
+  'ln',
+  'address',
+  'city',
+  'state',
+  'zip',
+  'postal_code',
+  'country',
+  'date_of_birth',
+  'dob',
+  'external_id',
+  'client_ip_address',
+  'client_user_agent',
+]);
 
 type MetaScalar = string | number | boolean;
 type CapiBody = {
@@ -30,33 +76,91 @@ function serverEnv(name: string): string | null {
   return value || null;
 }
 
-function parseAllowedOrigins(request: Request): Set<string> {
+function isLocalOrPreviewHostname(hostname: string): boolean {
+  const normalized = hostname.toLowerCase();
+  const isExactOrChildOf = (domain: string) =>
+    normalized === domain || normalized.endsWith(`.${domain}`);
+  return (
+    normalized === 'localhost' ||
+    normalized === '127.0.0.1' ||
+    normalized === '[::1]' ||
+    normalized === '::1' ||
+    normalized.endsWith('.localhost') ||
+    isExactOrChildOf('railway.app') ||
+    isExactOrChildOf('up.railway.app') ||
+    isExactOrChildOf('railway.internal')
+  );
+}
+
+function parseConfiguredCanonicalOrigins(): Set<string> {
   const origins = new Set<string>();
-  try {
-    origins.add(new URL(request.url).origin);
-  } catch {
-    // The request URL is expected to be absolute in Next.js.
-  }
-  for (const raw of [
+  const configured = [
     process.env.NEXT_PUBLIC_SITE_URL,
     process.env.NEXT_PUBLIC_MARKETING_SITE_URL,
-  ]) {
-    if (!raw?.trim()) continue;
+  ]
+    .map((value) => value?.trim())
+    .filter((value): value is string => Boolean(value));
+  if (configured.length === 0) return origins;
+
+  for (const raw of configured) {
     try {
-      origins.add(new URL(raw).origin);
+      const url = new URL(raw);
+      if (
+        url.protocol !== 'https:' ||
+        url.username ||
+        url.password ||
+        url.pathname !== '/' ||
+        url.search ||
+        url.hash ||
+        isLocalOrPreviewHostname(url.hostname)
+      ) {
+        return new Set();
+      }
+      origins.add(url.origin);
     } catch {
-      // Ignore malformed optional configuration.
+      return new Set();
     }
   }
   return origins;
 }
 
-function isSameOriginRequest(request: Request, allowedOrigins: Set<string>): boolean {
+function effectivePublicOrigin(request: Request): string | null {
+  const forwardedHost = request.headers
+    .get('x-forwarded-host')
+    ?.split(',')[0]
+    ?.trim();
+  const forwardedProto = request.headers
+    .get('x-forwarded-proto')
+    ?.split(',')[0]
+    ?.trim()
+    .toLowerCase();
+  if (Boolean(forwardedHost) !== Boolean(forwardedProto)) return null;
+  try {
+    if (forwardedHost && forwardedProto) {
+      if (forwardedProto !== 'https') return null;
+      return new URL(`${forwardedProto}://${forwardedHost}`).origin;
+    }
+    return new URL(request.url).origin;
+  } catch {
+    return null;
+  }
+}
+
+function isCanonicalSameOriginRequest(
+  request: Request,
+  allowedOrigins: Set<string>,
+): boolean {
   const fetchSite = request.headers.get('sec-fetch-site');
   if (fetchSite === 'cross-site') return false;
+  const effectiveOrigin = effectivePublicOrigin(request);
+  if (!effectiveOrigin || !allowedOrigins.has(effectiveOrigin)) return false;
   const origin = request.headers.get('origin');
   if (!origin) return true;
-  return allowedOrigins.has(origin);
+  try {
+    return new URL(origin).origin === effectiveOrigin;
+  } catch {
+    return false;
+  }
 }
 
 function cleanTrackingCookie(value: unknown): string | undefined {
@@ -70,9 +174,20 @@ function sanitizeCustomData(value: unknown): Record<string, MetaScalar | MetaSca
   if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
   const clean: Record<string, MetaScalar | MetaScalar[]> = {};
   for (const [key, raw] of Object.entries(value).slice(0, MAX_CUSTOM_DATA_KEYS)) {
-    if (!/^[a-zA-Z0-9_]{1,64}$/.test(key)) continue;
+    const normalizedKey = key.toLowerCase();
+    if (
+      !/^[a-zA-Z0-9_]{1,64}$/.test(key) ||
+      PII_KEY_DENYLIST.has(normalizedKey) ||
+      !CUSTOM_DATA_ALLOWLIST.has(normalizedKey)
+    ) {
+      continue;
+    }
     if (typeof raw === 'string') {
-      clean[key] = raw.slice(0, MAX_VALUE_LENGTH);
+      const maxLength = ATTRIBUTION_KEY_SET.has(normalizedKey)
+        ? MAX_ATTRIBUTION_VALUE_LENGTH
+        : MAX_VALUE_LENGTH;
+      const trimmed = raw.trim().slice(0, maxLength);
+      if (trimmed) clean[normalizedKey] = trimmed;
     } else if (typeof raw === 'number' && Number.isFinite(raw)) {
       clean[key] = raw;
     } else if (typeof raw === 'boolean') {
@@ -97,7 +212,16 @@ function validEventSourceUrl(value: unknown, allowedOrigins: Set<string>): strin
   if (typeof value !== 'string' || value.length > 2048) return null;
   try {
     const url = new URL(value);
-    return allowedOrigins.has(url.origin) ? url.toString() : null;
+    if (!allowedOrigins.has(url.origin)) return null;
+    const clean = new URL(url.pathname, url.origin);
+    for (const key of ATTRIBUTION_KEYS) {
+      const value = url.searchParams
+        .get(key)
+        ?.trim()
+        .slice(0, MAX_ATTRIBUTION_VALUE_LENGTH);
+      if (value) clean.searchParams.append(key, value);
+    }
+    return clean.toString();
   } catch {
     return null;
   }
@@ -113,9 +237,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'payload_too_large' }, { status: 413 });
   }
 
-  const allowedOrigins = parseAllowedOrigins(request);
-  if (!isSameOriginRequest(request, allowedOrigins)) {
-    return NextResponse.json({ ok: false, error: 'origin_not_allowed' }, { status: 403 });
+  const allowedOrigins = parseConfiguredCanonicalOrigins();
+  if (allowedOrigins.size === 0) {
+    return NextResponse.json(
+      { ok: false, skipped: true, reason: 'canonical_origin_unavailable' },
+      { status: 503 },
+    );
+  }
+  if (!isCanonicalSameOriginRequest(request, allowedOrigins)) {
+    return NextResponse.json(
+      { ok: false, skipped: true, reason: 'noncanonical_origin' },
+      { status: 403 },
+    );
   }
 
   const accessToken = serverEnv('META_CAPI_ACCESS_TOKEN');

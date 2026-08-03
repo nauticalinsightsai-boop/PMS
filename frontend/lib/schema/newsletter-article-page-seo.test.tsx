@@ -2,6 +2,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PMS_SITE_URL } from '@/config/pms-site';
+import { CTABanner } from '@/components/NewsletterComponents';
 
 const mocks = vi.hoisted(() => ({
   getNewsletterArticle: vi.fn(),
@@ -84,7 +85,11 @@ describe('public newsletter article metadata and schema', () => {
       image: `${PMS_SITE_URL}${publicArticle.image}`,
       datePublished: publicArticle.datePublished,
       dateModified: publicArticle.dateModified,
-      author: { '@id': `${PMS_SITE_URL}/#organization` },
+      author: {
+        '@type': 'Organization',
+        name: publicArticle.author,
+        url: `${PMS_SITE_URL}/newsletter/author/${publicArticle.authorSlug}`,
+      },
       publisher: { '@id': `${PMS_SITE_URL}/#organization` },
       mainEntityOfPage: {
         '@id': `${PMS_SITE_URL}/newsletter/${publicArticle.slug}#webpage`,
@@ -110,5 +115,25 @@ describe('public newsletter article metadata and schema', () => {
 
     expect(metadata.robots).toMatchObject({ index: false, follow: false });
     expect(jsonLdObjects(html).filter((item) => item['@type'] === 'Article')).toHaveLength(0);
+  });
+});
+
+describe('newsletter shared call to action', () => {
+  it('renders View all articles as one semantic link with no nested interactive control', () => {
+    const html = renderToStaticMarkup(
+      <CTABanner
+        title="Keep learning"
+        description="Browse the complete newsletter."
+        buttonText="View all articles"
+        buttonHref="/newsletter"
+      />,
+    );
+
+    expect(html.match(/<a\b/g)).toHaveLength(1);
+    expect(html).toContain('href="/newsletter"');
+    expect(html).toContain('>View all articles</a>');
+    expect(html).not.toMatch(/<a\b[^>]*>[\s\S]*?<button\b/i);
+    expect(html).not.toMatch(/<button\b[^>]*>[\s\S]*?<a\b/i);
+    expect(html).not.toContain('<button');
   });
 });

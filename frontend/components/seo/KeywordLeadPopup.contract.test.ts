@@ -15,7 +15,7 @@ const optionsSource = readFileSync(
 describe('KeywordLeadPopup experience option layout contract', () => {
   it('uses the authoritative shared four-choice experience taxonomy and layout', () => {
     expect(PMP_JOB_EXPERIENCE_OPTIONS).toEqual([
-      { value: 'under_2', label: '< 2 years' },
+      { value: 'under_2', label: 'Less than 2 years' },
       { value: '2_to_5', label: '2–5 years' },
       { value: '5_to_7', label: '5–7 years' },
       { value: 'other', label: 'Other' },
@@ -34,9 +34,9 @@ describe('KeywordLeadPopup experience option layout contract', () => {
     expect(source).toContain('min-h-11');
     expect(source).not.toContain("'h-8 rounded-lg border px-2");
     const layout = formChoiceGroupClass(PMP_JOB_EXPERIENCE_OPTIONS.length, 'site');
-    expect(layout).toBe('grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-2 md:gap-2');
+    expect(layout).toBe('grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-0 md:gap-0');
     expect(formChoiceChipLayoutClass(PMP_JOB_EXPERIENCE_OPTIONS.length)).toBe(
-      'w-full min-w-0 whitespace-nowrap px-3 sm:px-3 sm:tracking-tight md:px-3 md:tracking-normal',
+      'w-full min-w-0 whitespace-nowrap px-2.5 tracking-[-0.01em] sm:px-0 sm:tracking-tight md:px-0 md:tracking-[-0.01em]',
     );
   });
 
@@ -61,6 +61,10 @@ describe('KeywordLeadPopup experience option layout contract', () => {
 
   it('does not change the WhatsApp/Schedule footer two-button grid', () => {
     expect(source).toContain('grid w-full grid-cols-2 gap-2');
+  });
+
+  it('keeps the popup form shrinkable so the body can scroll on short mobile viewports', () => {
+    expect(source).toContain('className="min-h-0 flex flex-1 flex-col" onSubmit={handleSubmit}');
   });
 
   it('restores close focus to the pre-open element or documented fallback', () => {

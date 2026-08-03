@@ -1,4 +1,5 @@
 import { apiUrl } from '@/lib/api-url';
+import { trackBeginCheckout } from '@/lib/analytics/track-begin-checkout';
 
 async function parseApi<T>(res: Response): Promise<{ data?: T; error?: string }> {
   const body = await res.json().catch(() => ({}));
@@ -27,7 +28,23 @@ export async function createMembershipEmbeddedCheckout(payload: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
-  return parseApi<EmbeddedCheckoutResponse>(res);
+  const result = await parseApi<EmbeddedCheckoutResponse>(res);
+  const sessionId = result.data?.session.sessionId;
+  if (sessionId) {
+    trackBeginCheckout(
+      {
+        package_type: 'membership',
+        items: [{
+          item_id: `membership_${payload.tier}_${payload.billing}`,
+          item_name: `${payload.tier} membership`,
+          item_category: 'membership',
+          quantity: 1,
+        }],
+      },
+      sessionId,
+    );
+  }
+  return result;
 }
 
 export async function createStoreEmbeddedCheckout(payload: {
@@ -41,7 +58,27 @@ export async function createStoreEmbeddedCheckout(payload: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
-  return parseApi<EmbeddedCheckoutResponse>(res);
+  const result = await parseApi<EmbeddedCheckoutResponse>(res);
+  const sessionId = result.data?.session.sessionId;
+  if (sessionId) {
+    trackBeginCheckout(
+      {
+        package_type: 'store_resource',
+        items: [{
+          item_id: payload.productId,
+          item_name: result.data?.productTitle ?? payload.productId,
+          item_category: 'store',
+          quantity: 1,
+        }],
+      },
+      sessionId,
+    );
+  }
+  return result;
 }
 
-export { fetchStripePublishableKey, verifyCheckoutSession } from '@/services/enrollment';
+export {
+  fetchStripePublishableKey,
+  verifiedPurchaseMoney,
+  verifyCheckoutSession,
+} from '@/services/enrollment';

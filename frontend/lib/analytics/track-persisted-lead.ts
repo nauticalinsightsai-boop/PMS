@@ -11,8 +11,8 @@ const trackedSubmissionIds = new Set<string>();
 export type PersistedLeadTrackingInput = {
   clientSubmissionId: string;
   submissionId: string;
-  source: string;
   formVersion?: string;
+  source: string;
   formId?: string;
   formPlacement?: string;
   pagePath?: string;
@@ -60,6 +60,7 @@ function rememberSubmission(clientSubmissionId: string): boolean {
  * accepted, and the client idempotency key is reused as the browser/CAPI event id.
  */
 export function trackPersistedLeadSuccess(input: PersistedLeadTrackingInput): boolean {
+  if (!input.submissionId.trim()) return false;
   if (!rememberSubmission(input.clientSubmissionId)) return false;
 
   const channel = input.channel ?? input.goSlug;
@@ -68,11 +69,10 @@ export function trackPersistedLeadSuccess(input: PersistedLeadTrackingInput): bo
 
   pushAnalyticsEvent('generate_lead', {
     event_id: eventId,
-    clientSubmissionId: input.clientSubmissionId,
     submission_id: input.submissionId,
+    ...(input.formVersion ? { form_version: input.formVersion } : {}),
     lead_source: input.source,
     form_id: formId,
-    ...(input.formVersion ? { form_version: input.formVersion } : {}),
     ...(input.formPlacement ? { form_placement: input.formPlacement } : {}),
     ...(input.pagePath ? { page_path: input.pagePath } : {}),
     ...(input.regionId

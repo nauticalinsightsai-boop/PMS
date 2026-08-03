@@ -23,7 +23,6 @@ import {
 import { GlassCard } from '@/components/ui/GlassCard';
 import { CTAButton } from '@/components/ui/CTAButton';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SyncStatusIndicator, SyncStatus } from '@/components/shared/SyncStatusIndicator';
 import { WebsiteDataService } from '@/services/WebsiteDataService';
 import { CmsSaveNotice } from '@/components/pages/admin/CmsSaveNotice';
@@ -35,6 +34,12 @@ import { DashboardPageHeader } from '@/components/layout/DashboardPageHeader';
 import { PageEditorIntro } from '@/components/layout/PageEditorIntro';
 import { getPublicSitePage } from '@/constants/publicSitePages';
 import { cn } from '@/lib/utils';
+import {
+  HomeSectionTabStrip,
+  homeSectionPanelId,
+  homeSectionTabId,
+  type HomeSectionTabItem,
+} from './HomeSectionTabStrip';
 import {
   defaultHomePageConfigV2,
   normalizeHomeConfigV1ToV2,
@@ -72,7 +77,7 @@ const KNOWN_CERT_IDS = [
   'lss-green', 'lss-yellow', 'lss-black', 'lss-white',
 ];
 
-const tabItems: Array<{ id: CmsTab; label: string; icon: React.ComponentType<{ size?: number }> }> = [
+const tabItems: HomeSectionTabItem<CmsTab>[] = [
   { id: 'hero', label: 'Hero', icon: Home },
   { id: 'stats', label: 'Stats', icon: Users },
   { id: 'sections', label: 'Sections', icon: Eye },
@@ -363,34 +368,17 @@ export function HomeCmsEditor() {
           <PageEditorIntro publicPath={homePageMeta.path} description={homePageMeta.editorDescription} />
         ) : null}
 
-        <div className="sticky top-0 z-20 bg-background py-3 border-b border-white/10">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <Tabs
-              value={activeTab}
-              onValueChange={(value) => {
-                setActiveTab(value as CmsTab);
-                setSearch('');
-              }}
-              className="min-w-0 flex-1"
-            >
-              <TabsList variant="line" className="h-auto w-full justify-start gap-1 overflow-x-auto bg-transparent p-0 no-scrollbar">
-                {tabItems.map((tab) => {
-                  const Icon = tab.icon;
-                  return (
-                    <TabsTrigger
-                      key={tab.id}
-                      value={tab.id}
-                      className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold uppercase tracking-widest text-muted-foreground data-active:bg-brand-orange/15 data-active:text-brand-orange"
-                    >
-                      <Icon size={14} />
-                      {tab.label}
-                    </TabsTrigger>
-                  );
-                })}
-              </TabsList>
-            </Tabs>
+        <div className="sticky top-0 z-20 space-y-3 border-b border-white/10 bg-background py-3">
+          <HomeSectionTabStrip
+            items={tabItems}
+            value={activeTab}
+            onValueChange={(value) => {
+              setActiveTab(value);
+              setSearch('');
+            }}
+          />
 
-            <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <div className="flex flex-wrap items-center justify-end gap-2" data-home-section-actions>
               <SyncStatusIndicator
                 status={syncStatus}
                 lastSynced={lastSynced}
@@ -415,11 +403,17 @@ export function HomeCmsEditor() {
                 <Send size={14} className="mr-2" />
                 Publish
               </CTAButton>
-            </div>
           </div>
         </div>
 
-        <GlassCard variant="raised" className="p-4 md:p-6 space-y-4">
+        <GlassCard
+          id={homeSectionPanelId(activeTab)}
+          role="tabpanel"
+          aria-labelledby={homeSectionTabId(activeTab)}
+          tabIndex={0}
+          variant="raised"
+          className="p-4 md:p-6 space-y-4"
+        >
           {activeTab === 'hero' && (
             <div className="space-y-6">
               {filteredHeroSlides.length === 0 ? (

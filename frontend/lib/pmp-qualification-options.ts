@@ -45,7 +45,7 @@ export type EducationValue =
 
 /** Step 1 (Context / fit): Experience in last 10 years — under_2 | 2_to_5 | 5_to_7 | other */
 export const PM_EXPERIENCE_OPTIONS = [
-  { value: 'under_2', label: '< 2 years' },
+  { value: 'under_2', label: 'Less than 2 years' },
   { value: '2_to_5', label: '2–5 years' },
   { value: '5_to_7', label: '5–7 years' },
   { value: 'other', label: 'Other' },
@@ -74,7 +74,7 @@ export type TrainingStatusValue =
 
 /** Step 2 (Readiness / eligibility): Exam timeline */
 export const EXAM_TIMELINE_OPTIONS = [
-  { value: 'within_3', label: '< 3 months' },
+  { value: 'within_3', label: 'Less than 3 months' },
   { value: '3_to_6', label: '3–6 months' },
   { value: '6_plus', label: '6+ months' },
   { value: 'exploring', label: 'Exploring' },

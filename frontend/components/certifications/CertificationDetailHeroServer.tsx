@@ -17,6 +17,10 @@ export function CertificationDetailHeroServer({
     (e) => e.id === siteCert.id && !e.archived,
   );
   const cert = resolveCertMarketing(siteCert, registryEntry);
+  // This is a route-local display correction. Keep registry data available to
+  // all other consumers (including metadata and analytics), while ensuring
+  // the public PMP detail H1 has the approved title.
+  const visibleHeroTitle = cert.id === 'pmp' ? 'PMP 2026 Pathway' : cert.detailHeroTitle;
 
   return (
     <>
@@ -28,8 +32,8 @@ export function CertificationDetailHeroServer({
           cert.id === 'pmp' && 'whitespace-nowrap',
         )}
       >
-        {cert.detailHeroTitle.includes('Pathway') ? (
-          cert.detailHeroTitle
+        {visibleHeroTitle.includes('Pathway') ? (
+          visibleHeroTitle
         ) : (
           <>
             {cert.name} <br />

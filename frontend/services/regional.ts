@@ -1,4 +1,5 @@
 import { apiUrl } from '@/lib/api-url';
+import { trackBeginCheckout } from '@/lib/analytics/track-begin-checkout';
 
 export async function fetchRegions() {
   const res = await fetch(apiUrl('/api/regions'));
@@ -48,9 +49,34 @@ export async function createCheckoutSession(payload: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
-  return parseApi<{ session: { url: string | null }; usdCents: number; hasMembership?: boolean }>(
-    res
-  );
+  const result = await parseApi<{
+    session: { sessionId: string; url: string | null };
+    currency?: string;
+    unitAmount?: number;
+    usdCents: number;
+    hasMembership?: boolean;
+  }>(res);
+  const sessionId = result.data?.session.sessionId;
+  if (sessionId) {
+    trackBeginCheckout(
+      {
+        offering_id: payload.offeringId,
+        currency: result.data?.currency,
+        value:
+          typeof result.data?.unitAmount === 'number'
+            ? result.data.unitAmount / 100
+            : undefined,
+        items: [{
+          item_id: payload.offeringId,
+          item_name: payload.offeringId,
+          item_category: 'certification_preparation',
+          quantity: 1,
+        }],
+      },
+      sessionId,
+    );
+  }
+  return result;
 }
 
 export async function syncProfileRegion(payload: {

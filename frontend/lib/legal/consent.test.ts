@@ -1,8 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
+  CONSENT_STORAGE_KEY,
+  CONSENT_VERSION,
   acceptAllConsent,
+  getDefaultConsent,
   hasAnalyticsConsent,
   hasMarketingConsent,
+  readStoredConsent,
   rejectNonEssentialConsent,
   writeStoredConsent,
 } from '@/lib/legal/consent';
@@ -39,6 +43,19 @@ afterEach(() => {
 });
 
 describe('persisted consent categories', () => {
+  it('defaults optional categories off when no record exists', () => {
+    installBrowserGlobals();
+
+    expect(getDefaultConsent().categories).toEqual({
+      necessary: true,
+      analytics: false,
+      marketing: false,
+    });
+    expect(readStoredConsent()).toBeNull();
+    expect(hasAnalyticsConsent()).toBe(false);
+    expect(hasMarketingConsent()).toBe(false);
+  });
+
   it('persists analytics and marketing independently', () => {
     installBrowserGlobals();
     writeStoredConsent({ necessary: true, analytics: true, marketing: false });
@@ -54,6 +71,39 @@ describe('persisted consent categories', () => {
     expect(hasMarketingConsent()).toBe(true);
 
     rejectNonEssentialConsent();
+    expect(hasAnalyticsConsent()).toBe(false);
+    expect(hasMarketingConsent()).toBe(false);
+  });
+
+  it.each([
+    { necessary: true, analytics: 'true', marketing: false },
+    { necessary: true, analytics: false, marketing: 1 },
+    { necessary: false, analytics: false, marketing: false },
+    { necessary: true, analytics: false },
+  ])('rejects malformed same-version category records: %j', (categories) => {
+    installBrowserGlobals();
+    localStorage.setItem(
+      CONSENT_STORAGE_KEY,
+      JSON.stringify({
+        version: CONSENT_VERSION,
+        categories,
+        updatedAt: new Date().toISOString(),
+      }),
+    );
+
+    expect(readStoredConsent()).toBeNull();
+    expect(hasAnalyticsConsent()).toBe(false);
+    expect(hasMarketingConsent()).toBe(false);
+  });
+
+  it('fails closed when runtime callers pass truthy non-booleans', () => {
+    installBrowserGlobals();
+    writeStoredConsent({
+      necessary: true,
+      analytics: 'true',
+      marketing: 1,
+    } as never);
+
     expect(hasAnalyticsConsent()).toBe(false);
     expect(hasMarketingConsent()).toBe(false);
   });

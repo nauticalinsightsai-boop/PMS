@@ -5,7 +5,7 @@ import * as React from 'react';
 import { CheckCircle2, Zap } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { StatChip } from '@/components/ui/stat-chip';
 import { MembershipPriceChip } from '@/components/MembershipPriceChip';
 import { CertificationPathwayVisual } from '@/components/CertificationPathwayVisual';
@@ -32,7 +32,14 @@ import type { CertificationSummary } from '@/types/site';
 import type { RegionId } from '@/types/regional-catalogue';
 
 /** Prep time, tuition, and membership: three aligned chips from the same listing tier. */
-function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
+function PathwayFeaturedPricingChips({
+  certId,
+  nonInteractiveMembership = false,
+}: {
+  certId: string;
+  /** Flagship desktop cards reserve their sole action for the pathway CTA. */
+  nonInteractiveMembership?: boolean;
+}) {
   const { regionId, gccCountry } = useRegion();
   const listing = getListingPriceForCert(certId, regionId, gccCountry);
   const duration = getCertDurationLabel(certId) ?? undefined;
@@ -95,10 +102,27 @@ function PathwayFeaturedPricingChips({ certId }: { certId: string }) {
         </StatChip>
 
         {showMembership ? (
-          <MembershipPriceChip
-            price={listing.membership}
-            className="hidden h-full min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[5rem] sm:px-2.5"
-          />
+          nonInteractiveMembership ? (
+            <>
+              <StatChip
+                label={REGION_COPY.membershipChipLabel}
+                className="hidden h-full min-h-[4.25rem] px-1 py-1.5 lg:flex lg:min-h-[5rem] lg:px-2.5"
+              >
+                <p className="text-xs font-extrabold leading-tight tracking-tight text-brand-purple sm:text-sm">
+                  {listing.membership?.trim()}
+                </p>
+              </StatChip>
+              <MembershipPriceChip
+                price={listing.membership}
+                className="hidden h-full min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[5rem] sm:px-2.5 lg:hidden"
+              />
+            </>
+          ) : (
+            <MembershipPriceChip
+              price={listing.membership}
+              className="hidden h-full min-h-[4.25rem] px-1 py-1.5 sm:flex sm:min-h-[5rem] sm:px-2.5"
+            />
+          )
         ) : null}
       </div>
 
@@ -136,6 +160,11 @@ export interface PathwayFeaturedCardProps {
   /** `visual` = gradient image header (Home). `catalog` = listing card, no image (Certifications). */
   layout?: 'visual' | 'catalog';
   className?: string;
+  /** Certifications flagship cards are fully informative at desktop widths only. */
+  desktopFlagshipOpen?: boolean;
+  /** Section-owned disclosure state. Every card is controlled by its consumer. */
+  expanded: boolean;
+  onExpandedChange: (expanded: boolean) => void;
 }
 
 const featuredCardShell = cn(
@@ -239,14 +268,14 @@ function PathwayCardCta({
   }
 
   return (
-    <Link href={href} className="w-full" aria-label={pathwayAriaLabel}>
-      <Button
-        variant={accentColor ? 'default' : 'brand'}
-        className={btnClass}
-        style={accentColor ? { backgroundColor: accentColor } : undefined}
-      >
-        {label}
-      </Button>
+    <Link
+      href={href}
+      prefetch={false}
+      aria-label={pathwayAriaLabel}
+      className={cn(buttonVariants({ variant: accentColor ? 'default' : 'brand' }), btnClass)}
+      style={accentColor ? { backgroundColor: accentColor } : undefined}
+    >
+      {label}
     </Link>
   );
 }
@@ -263,7 +292,14 @@ function PathwayFeaturedVisualCard({
   ctaHref,
   visualSubtitle,
   className,
+  expanded,
+  onExpandedChange,
 }: PathwayFeaturedCardProps) {
+  const detailsButtonRef = React.useRef<HTMLButtonElement>(null);
+  const detailsRegionRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (expanded) detailsRegionRef.current?.focus();
+  }, [expanded]);
   const { regionId } = useRegion();
   const displayTitle = title ?? cert.name;
   const displayDesc = description ?? cert.desc;
@@ -277,7 +313,15 @@ function PathwayFeaturedVisualCard({
     ];
 
   return (
-    <Card className={cn(featuredCardShell, className)}>
+    <Card
+      className={cn(featuredCardShell, className)}
+      onKeyDown={(event) => {
+        if (expanded && event.key === 'Escape') {
+          onExpandedChange(false);
+          requestAnimationFrame(() => detailsButtonRef.current?.focus());
+        }
+      }}
+    >
       <CertificationPathwayVisual cert={cert} subtitle={subtitle} />
       <CardHeader className={featuredCardHeaderClass}>
         <div className="mb-2 flex flex-wrap items-center justify-start gap-2 md:mb-3">
@@ -298,28 +342,35 @@ function PathwayFeaturedVisualCard({
           <p className={cn(featuredCardMetaClass, !metaLine && 'md:hidden')}>{metaLine ?? '\u00A0'}</p>
         </div>
       </CardHeader>
-      <CardContent className={featuredCardBodyClass}>
-        <PathwayFeaturedPricingChips certId={cert.id} />
-        <ul className={featuredCardOutcomesClass}>
-          {outcomes.map((item) => (
-            <li
-              key={item}
-              className="flex min-h-5 items-center text-xs font-semibold text-slate-600 dark:text-slate-400"
-            >
-              <CheckCircle2 className="mr-2 h-3 w-3 shrink-0 text-brand-orange" />
-              <span className="line-clamp-1">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </CardContent>
+      {expanded ? (
+        <div
+          ref={detailsRegionRef}
+          data-pathway-region={cert.id}
+          role="region"
+          aria-label={`${displayTitle} pathway details`}
+          tabIndex={-1}
+        >
+          <CardContent className={featuredCardBodyClass}>
+            <PathwayFeaturedPricingChips certId={cert.id} />
+            <ul className={featuredCardOutcomesClass}>
+              {outcomes.map((item) => (
+                <li key={item} className="flex min-h-5 items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
+                  <CheckCircle2 className="mr-2 h-3 w-3 shrink-0 text-brand-orange" />
+                  <span className="line-clamp-1">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </div>
+      ) : null}
       <CardFooter className={featuredCardFooterClass}>
-        <PathwayCardCta
-          certId={cert.id}
-          certName={displayTitle}
-          regionId={regionId}
-          ctaLabel={ctaLabel}
-          ctaHref={ctaHref}
-        />
+        {expanded ? (
+          <PathwayCardCta certId={cert.id} certName={displayTitle} regionId={regionId} ctaLabel={ctaLabel} ctaHref={ctaHref} />
+        ) : (
+          <Button ref={detailsButtonRef} data-pathway-details={cert.id} type="button" variant="outline" className={featuredCardCtaClass} onClick={() => onExpandedChange(true)}>
+            Details
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
@@ -332,7 +383,15 @@ function PathwayFeaturedCatalogCard({
   title,
   description,
   className,
+  desktopFlagshipOpen = false,
+  expanded,
+  onExpandedChange,
 }: PathwayFeaturedCardProps) {
+  const detailsButtonRef = React.useRef<HTMLButtonElement>(null);
+  const detailsRegionRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (expanded) detailsRegionRef.current?.focus();
+  }, [expanded]);
   const { regionId } = useRegion();
   const displayTitle = title ?? cert.name;
   const displayDesc = description ?? cert.desc;
@@ -347,7 +406,15 @@ function PathwayFeaturedCatalogCard({
     ];
 
   return (
-    <Card className={cn(featuredCardShell, className)}>
+    <Card
+      className={cn(featuredCardShell, className)}
+      onKeyDown={(event) => {
+        if (expanded && event.key === 'Escape') {
+          onExpandedChange(false);
+          requestAnimationFrame(() => detailsButtonRef.current?.focus());
+        }
+      }}
+    >
       {gradientBar ? (
         <div className="h-1.5 w-full shrink-0" aria-hidden>
           <div className={cn('h-full w-full', gradientBar)} />
@@ -389,25 +456,51 @@ function PathwayFeaturedCatalogCard({
           </p>
         </div>
       </CardHeader>
-      <CardContent className={featuredCardBodyClass}>
-        <PathwayFeaturedPricingChips certId={cert.id} />
-        <ul className={featuredCardOutcomesClass}>
-          {outcomes.map((item) => (
-            <li
-              key={item}
-              className="flex min-h-5 items-center text-xs font-semibold text-slate-600 dark:text-slate-400"
-            >
-              <CheckCircle2
-                className={cn('h-3 w-3 mr-2 shrink-0', !accent && 'text-brand-orange')}
-                style={accent ? { color: accent } : undefined}
-              />
-              <span className="line-clamp-1">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </CardContent>
-      <CardFooter className={featuredCardFooterClass}>
-        <PathwayCardCta certId={cert.id} certName={displayTitle} regionId={regionId} accentColor={accent} />
+      {expanded || desktopFlagshipOpen ? (
+        <div
+          ref={detailsRegionRef}
+          data-pathway-region={cert.id}
+          role="region"
+          aria-label={`${displayTitle} pathway details`}
+          tabIndex={-1}
+          className={cn(!expanded && desktopFlagshipOpen && 'hidden lg:block')}
+        >
+          <CardContent className={cn(featuredCardBodyClass, desktopFlagshipOpen && 'lg:flex-1')}>
+            <PathwayFeaturedPricingChips certId={cert.id} nonInteractiveMembership={desktopFlagshipOpen} />
+            <ul className={cn(featuredCardOutcomesClass, desktopFlagshipOpen && 'lg:flex-1')}>
+              {outcomes.map((item) => (
+                <li key={item} className="flex min-h-5 items-center text-xs font-semibold text-slate-600 dark:text-slate-400">
+                  <CheckCircle2 className={cn('h-3 w-3 mr-2 shrink-0', !accent && 'text-brand-orange')} style={accent ? { color: accent } : undefined} />
+                  <span className="line-clamp-1">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </div>
+      ) : null}
+      <CardFooter className={cn(featuredCardFooterClass, desktopFlagshipOpen && 'lg:mt-0')}>
+        {desktopFlagshipOpen ? (
+          <>
+            <div className="hidden lg:block">
+              <PathwayCardCta certId={cert.id} certName={displayTitle} regionId={regionId} accentColor={accent} ctaLabel="View pathway" />
+            </div>
+            <div className="lg:hidden">
+              {expanded ? (
+                <PathwayCardCta certId={cert.id} certName={displayTitle} regionId={regionId} accentColor={accent} />
+              ) : (
+                <Button ref={detailsButtonRef} data-pathway-details={cert.id} type="button" variant="outline" className={featuredCardCtaClass} onClick={() => onExpandedChange(true)}>
+                  Details
+                </Button>
+              )}
+            </div>
+          </>
+        ) : expanded ? (
+          <PathwayCardCta certId={cert.id} certName={displayTitle} regionId={regionId} accentColor={accent} />
+        ) : (
+          <Button ref={detailsButtonRef} data-pathway-details={cert.id} type="button" variant="outline" className={featuredCardCtaClass} onClick={() => onExpandedChange(true)}>
+            Details
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

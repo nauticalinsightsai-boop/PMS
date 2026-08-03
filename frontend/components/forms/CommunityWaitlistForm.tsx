@@ -52,6 +52,17 @@ export function CommunityWaitlistForm({ className }: Props) {
   const [submitting, setSubmitting] = React.useState(false);
   const [done, setDone] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const [errorTarget, setErrorTarget] = React.useState<'interests' | 'submit' | null>(null);
+  const interestsRef = React.useRef<HTMLFieldSetElement>(null);
+  const errorRef = React.useRef<HTMLParagraphElement>(null);
+  const successRef = React.useRef<HTMLParagraphElement>(null);
+  React.useEffect(() => {
+    if (done) successRef.current?.focus();
+  }, [done]);
+  React.useEffect(() => {
+    if (errorTarget === 'interests') interestsRef.current?.focus();
+    if (errorTarget === 'submit') errorRef.current?.focus();
+  }, [errorTarget, error]);
 
   const { touch, onSuccess } = useSimpleFormRecovery({
     variant: 'waitlist_partial',
@@ -73,9 +84,14 @@ export function CommunityWaitlistForm({ className }: Props) {
     'h-8 w-full border-white/30 bg-slate-950/50 text-sm text-white placeholder:text-white/55 focus-visible:ring-brand-orange/50 sm:h-9';
 
   const toggleInterest = (interest: string) => {
-    setSelectedInterests((prev) =>
-      prev.includes(interest) ? prev.filter((item) => item !== interest) : [...prev, interest],
-    );
+    setSelectedInterests((prev) => {
+      const next = prev.includes(interest) ? prev.filter((item) => item !== interest) : [...prev, interest];
+      if (next.length > 0 && errorTarget === 'interests') {
+        setError(null);
+        setErrorTarget(null);
+      }
+      return next;
+    });
     touch();
   };
 
@@ -91,9 +107,11 @@ export function CommunityWaitlistForm({ className }: Props) {
     e.preventDefault();
     if (selectedInterests.length === 0) {
       setError('Please select at least one area you are interested in.');
+      setErrorTarget('interests');
       return;
     }
     setError(null);
+    setErrorTarget(null);
     setSubmitting(true);
 
     const pagePath = typeof window !== 'undefined' ? window.location.pathname : '/community';
@@ -130,22 +148,25 @@ export function CommunityWaitlistForm({ className }: Props) {
     setSubmitting(false);
     if (!res.ok) {
       setError(res.error ?? 'Could not join the waitlist. Please try again.');
+      setErrorTarget('submit');
       return;
     }
 
-    pushAnalyticsEvent(PMS_EVENTS.WAITLIST_JOIN, {
-      waitlist_type: 'community',
-      offer_name: 'community',
-      funnel_stage: 'waitlist',
-    });
-    onSuccess();
+    if (res.submissionId && !res.idempotentReplay) {
+      pushAnalyticsEvent(PMS_EVENTS.WAITLIST_JOIN, {
+        waitlist_type: 'community',
+        offer_name: 'community',
+        funnel_stage: 'waitlist',
+      });
+      onSuccess();
+    }
     setDone(true);
   };
 
   if (done) {
     return (
       <div className={cn('flex h-full flex-col justify-center', className)}>
-        <p className="text-lg font-semibold text-white sm:text-xl">You&apos;re on the community waitlist.</p>
+        <p ref={successRef} id="community-waitlist-success" role="status" aria-live="polite" aria-atomic="true" tabIndex={-1} className="text-lg font-semibold text-white sm:text-xl">You&apos;re on the community waitlist.</p>
         <p className="mt-2 text-sm font-medium text-white/75 sm:text-base">
           We&apos;ll reach out when new channels and cohorts open.
         </p>
@@ -280,8 +301,14 @@ export function CommunityWaitlistForm({ className }: Props) {
             </div>
           </div>
 
-          <fieldset className="space-y-2">
-            <legend className={cn(labelClass, 'mb-1.5')}>
+          <fieldset
+            ref={interestsRef}
+            tabIndex={-1}
+            className="space-y-2"
+            aria-invalid={errorTarget === 'interests' ? true : undefined}
+            aria-describedby={errorTarget === 'interests' ? 'community-waitlist-form-error' : undefined}
+          >
+            <legend id="community-waitlist-interests-legend" className={cn(labelClass, 'mb-1.5')}>
               What are you interested in? <span className="text-brand-orange">*</span>
             </legend>
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
@@ -333,7 +360,17 @@ export function CommunityWaitlistForm({ className }: Props) {
             aria-hidden
           />
 
-          {error ? <p className="text-sm font-medium text-red-300">{error}</p> : null}
+          {error ? (
+            <p
+              ref={errorRef}
+              id="community-waitlist-form-error"
+              role="alert"
+              tabIndex={-1}
+              className="text-sm font-medium text-red-300"
+            >
+              {error}
+            </p>
+          ) : null}
         </div>
 
         <div className="mt-auto shrink-0 space-y-2 border-t border-white/10 pt-3 pb-0">

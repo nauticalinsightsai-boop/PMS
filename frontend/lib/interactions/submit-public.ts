@@ -25,6 +25,12 @@ export type ClientInteractionBody = {
 export type SubmitPublicInteractionResult = {
   ok: boolean;
   error?: string;
+  /**
+   * True only when this request created a new durable submission via HTTP 201.
+   * UI success may also cover honeypots, replays, or compatible 200 responses,
+   * so conversion consumers must require this explicit boundary.
+   */
+  newDurableSubmission?: boolean;
   /** Authoritative Supabase submission ID returned by the API. */
   submissionId?: string;
   /** Client-generated idempotency key used for this logical submission. */
@@ -144,6 +150,11 @@ export async function submitPublicInteraction(
     // Sheets is a secondary operations sink and must never prompt a user retry.
     return {
       ok: true,
+      newDurableSubmission:
+        res.status === 201 &&
+        Boolean(submissionId) &&
+        !idempotentReplay &&
+        !isHoneypot,
       submissionId: isHoneypot ? undefined : submissionId || undefined,
       clientSubmissionId,
       sheetsSynced: json.sheetsSynced === true,

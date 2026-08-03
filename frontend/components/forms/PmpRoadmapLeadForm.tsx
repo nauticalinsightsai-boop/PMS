@@ -499,7 +499,7 @@ export function PmpRoadmapLeadForm({
   const shellClass = cn(
     !isPortalThemed &&
       cn(
-        'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden',
+        'rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] border shadow-2xl overflow-hidden lg:w-[calc(100%+5.5rem)] lg:-ml-[5.5rem] xl:w-full xl:ml-0',
         (placement === 'home_hero_mobile' || placement === 'home_hero_desktop') &&
           'min-h-[420px] sm:min-h-[440px]',
         variant === 'cert'
@@ -783,7 +783,7 @@ export function PmpRoadmapLeadForm({
         onSubmit={handleSubmit}
         className={cn(
           'flex flex-col',
-          isCertHeroDesktop && 'min-h-0 flex-1',
+          isCertHeroDesktop && 'flex-1',
         )}
         aria-labelledby={`${idPrefix}-title`}
         aria-describedby={error ? `${idPrefix}-form-error` : undefined}
@@ -866,7 +866,7 @@ export function PmpRoadmapLeadForm({
                   </p>
                   <p
                     className={cn(
-                      'font-medium mt-0.5 text-slate-500 dark:text-slate-400 whitespace-nowrap',
+                      'font-medium mt-0.5 leading-snug text-slate-500 dark:text-slate-400',
                       useHeroFormHeader ? 'text-sm' : isCompact ? 'text-xs sm:text-sm' : 'text-sm',
                       placement === 'home_hero_mobile' ? 'hidden sm:block' : undefined,
                     )}
@@ -920,7 +920,7 @@ export function PmpRoadmapLeadForm({
         <div
           className={cn(
             isCertHeroDesktop
-              ? 'flex min-h-0 flex-1 flex-col px-5 py-6 sm:px-6 sm:py-7 gap-5'
+              ? 'flex flex-col gap-4 px-5 py-5 sm:gap-5 sm:px-6 sm:py-6'
               : isCertMobileForm
                 ? 'space-y-4 px-5 py-6 sm:px-6'
                 : isCompact
@@ -928,7 +928,7 @@ export function PmpRoadmapLeadForm({
                 : isPortalThemed
                     ? `${portalSpacing.portalFormInset} flex flex-col gap-5 pt-4 pb-0 sm:gap-6 sm:pt-5`
                     : cn(
-                      'flex flex-col gap-5 px-5 py-6 sm:gap-6 sm:px-8 sm:py-7',
+                      'flex flex-col gap-5 px-5 py-6 sm:gap-6 sm:px-6 sm:py-7',
                     ),
           )}
         >
@@ -937,7 +937,7 @@ export function PmpRoadmapLeadForm({
             <div
               data-step="fit"
               className={cn(
-                'flex flex-col gap-5 sm:gap-6',
+                isCertHeroDesktop ? 'flex flex-col gap-4 sm:gap-5' : 'flex flex-col gap-5 sm:gap-6',
                 formChoiceStepBleedClass(choiceVariant),
               )}
             >              <fieldset
@@ -1022,7 +1022,6 @@ export function PmpRoadmapLeadForm({
                     {validationIssue?.field === 'workFieldOther' ? (
                       <p
                         id={`${idPrefix}-work-field-other-error`}
-                        role="alert"
                         className="text-sm text-destructive"
                       >
                         {validationIssue.message}
@@ -1114,7 +1113,6 @@ export function PmpRoadmapLeadForm({
                     {validationIssue?.field === 'pmExperienceOther' ? (
                       <p
                         id={`${idPrefix}-experience-other-error`}
-                        role="alert"
                         className="text-sm text-destructive"
                       >
                         {validationIssue.message}
@@ -1206,7 +1204,6 @@ export function PmpRoadmapLeadForm({
                     {validationIssue?.field === 'needsObjectiveOther' ? (
                       <p
                         id={`${idPrefix}-needs-other-error`}
-                        role="alert"
                         className="text-sm text-destructive"
                       >
                         {validationIssue.message}
@@ -1309,7 +1306,6 @@ export function PmpRoadmapLeadForm({
                     {validationIssue?.field === 'educationOther' ? (
                       <p
                         id={`${idPrefix}-education-other-error`}
-                        role="alert"
                         className="text-sm text-destructive"
                       >
                         {validationIssue.message}
@@ -1404,7 +1400,6 @@ export function PmpRoadmapLeadForm({
                     {validationIssue?.field === 'trainingStatusOther' ? (
                       <p
                         id={`${idPrefix}-training-other-error`}
-                        role="alert"
                         className="text-sm text-destructive"
                       >
                         {validationIssue.message}
@@ -1449,7 +1444,13 @@ export function PmpRoadmapLeadForm({
                       className={
                         isPortalCertRoadmap
                           ? formChoiceChipLayoutClass(EXAM_TIMELINE_OPTIONS.length)
-                          : toggleOptionClass(examTimeline === opt.value, EXAM_TIMELINE_OPTIONS.length)
+                          : cn(
+                              toggleOptionClass(
+                                examTimeline === opt.value,
+                                EXAM_TIMELINE_OPTIONS.length,
+                              ),
+                              opt.value === 'within_3' && 'md:tracking-[-0.015em]',
+                            )
                       }
                       aria-checked={examTimeline === opt.value}
                       tabIndex={getPmpChoiceTabIndex(
@@ -1505,8 +1506,6 @@ export function PmpRoadmapLeadForm({
                 {validationIssue?.field === 'fullName' ? (
                   <p
                     id={`${idPrefix}-name-error`}
-                    role="alert"
-                    aria-live="assertive"
                     className="text-sm text-destructive"
                   >
                     {validationIssue.message}
@@ -1600,8 +1599,6 @@ export function PmpRoadmapLeadForm({
                 {validationIssue?.field === 'phone' ? (
                   <p
                     id={`${idPrefix}-phone-error`}
-                    role="alert"
-                    aria-live="assertive"
                     className="text-sm text-destructive"
                   >
                     {validationIssue.message}
@@ -1641,8 +1638,6 @@ export function PmpRoadmapLeadForm({
                 {validationIssue?.field === 'email' ? (
                   <p
                     id={`${idPrefix}-email-error`}
-                    role="alert"
-                    aria-live="assertive"
                     className="text-sm text-destructive"
                   >
                     {validationIssue.message}

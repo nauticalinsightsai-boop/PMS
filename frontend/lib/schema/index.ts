@@ -207,6 +207,12 @@ export function buildArticleSchema(input: {
           name: authorName,
           ...(authorUrl ? { url: authorUrl } : {}),
         }
+      : authorName && authorUrl
+        ? {
+            '@type': 'Organization',
+            name: authorName,
+            url: authorUrl,
+          }
       : { '@id': organizationId() };
   return {
     '@context': 'https://schema.org',

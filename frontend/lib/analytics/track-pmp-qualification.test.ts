@@ -321,6 +321,15 @@ describe('canonical PMP roadmap lifecycle controller', () => {
     expect(
       runtime.acceptResult({
         ok: true,
+        newDurableSubmission: false,
+        submissionId: 'submission-http-200',
+        idempotentReplay: false,
+      }),
+    ).toBe(false);
+    expect(
+      runtime.acceptResult({
+        ok: true,
+        newDurableSubmission: false,
         submissionId: 'submission-replayed',
         idempotentReplay: true,
       }),
@@ -328,6 +337,7 @@ describe('canonical PMP roadmap lifecycle controller', () => {
     expect(
       runtime.acceptResult({
         ok: true,
+        newDurableSubmission: true,
         submissionId: 'submission-new',
         idempotentReplay: false,
       }),

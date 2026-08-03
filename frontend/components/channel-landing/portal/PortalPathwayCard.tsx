@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { CheckCircle2, ChevronDown } from 'lucide-react';
 import type { CertificationSummary } from '@/types/site';
@@ -24,9 +24,9 @@ type Props = {
   /** `compact` = side-by-side summary row (for 2-col grids). */
   layout?: 'default' | 'compact';
   className?: string;
-  /** Controlled expand state (optional). */
-  expanded?: boolean;
-  onExpandedChange?: (expanded: boolean) => void;
+  /** Disclosure state is owned by the containing pathway section. */
+  expanded: boolean;
+  onExpandedChange: (expanded: boolean) => void;
 };
 
 export type PortalPathwayCardDetailsProps = {
@@ -39,8 +39,6 @@ export type PortalPathwayCardDetailsProps = {
   listingMembership?: string;
   outcomes: string[];
   accent: string;
-  /** When true, omit the buried CTA (collapsible chrome owns the always-visible Link). */
-  omitCta?: boolean;
   ctaLabel?: string;
 };
 
@@ -54,7 +52,6 @@ export function PortalPathwayCardDetails({
   listingMembership,
   outcomes,
   accent,
-  omitCta = false,
   ctaLabel,
 }: PortalPathwayCardDetailsProps) {
   const displayDesc = description ?? cert.desc;
@@ -110,8 +107,8 @@ export function PortalPathwayCardDetails({
           </li>
         ))}
       </ul>
-      {!omitCta && ctaLabel ? (
-        <Link href={`/certifications/${cert.id}`} className="mt-auto block w-full">
+      {ctaLabel ? (
+        <Link href={`/certifications/${cert.id}`} prefetch={false} className="mt-auto block w-full">
           <span
             className="flex min-h-11 w-full items-center justify-center px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
             style={{
@@ -178,12 +175,8 @@ export default function PortalPathwayCard({
   onExpandedChange,
 }: Props) {
   const isCompact = layout === 'compact';
-  const [expandedInternal, setExpandedInternal] = useState(false);
-  const expanded = expandedProp ?? expandedInternal;
-  const setExpanded = (next: boolean) => {
-    if (expandedProp === undefined) setExpandedInternal(next);
-    onExpandedChange?.(next);
-  };
+  const expanded = expandedProp;
+  const setExpanded = onExpandedChange;
   const { regionId, gccCountry, regionLabel } = useRegion();
   const displayTitle = title ?? cert.name;
   const displayDesc = description ?? cert.desc;
@@ -210,6 +203,17 @@ export default function PortalPathwayCard({
   const durationTuition = `${duration ?? 'Flexible'} · ${tuitionSummary}`;
   const panelId = `portal-pathway-panel-${cert.id}`;
   const titleId = `portal-pathway-title-${cert.id}`;
+  const detailsButtonRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (expanded) panelRef.current?.focus();
+  }, [expanded]);
+
+  const closeDetails = () => {
+    setExpanded(false);
+    requestAnimationFrame(() => detailsButtonRef.current?.focus());
+  };
 
   const shellStyle = {
     borderRadius: theme.radiusLg,
@@ -292,50 +296,34 @@ export default function PortalPathwayCard({
             </p>
           </div>
 
-          <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-stretch">
+          {!expanded ? (
             <button
+              ref={detailsButtonRef}
+              data-pathway-details={cert.id}
               type="button"
-              className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 border px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
-              style={{
-                borderRadius: theme.radius,
-                borderColor: theme.cardBorder,
-                backgroundColor: theme.surfaceMuted,
-                color: theme.text,
-              }}
-              onClick={() => setExpanded(!expanded)}
-              aria-expanded={expanded}
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 border px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
+              style={{ borderRadius: theme.radius, borderColor: theme.cardBorder, backgroundColor: theme.surfaceMuted, color: theme.text }}
+              onClick={() => setExpanded(true)}
+              aria-expanded={false}
               aria-controls={panelId}
             >
               Details
-              <ChevronDown
-                size={18}
-                className="shrink-0 transition-transform duration-200"
-                style={{
-                  color: theme.textMuted,
-                  transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                }}
-                aria-hidden
-              />
+              <ChevronDown size={18} className="shrink-0" style={{ color: theme.textMuted }} aria-hidden />
             </button>
-            <Link
-              href={`/certifications/${cert.id}`}
-              className="inline-flex min-h-11 flex-1 items-center justify-center px-4 py-2.5 text-body-sm font-semibold transition-opacity hover:opacity-90"
-              style={{
-                borderRadius: theme.radius,
-                background: theme.primary,
-                color: theme.primaryForeground,
-              }}
-            >
-              {ctaLabel}
-            </Link>
-          </div>
+          ) : null}
         </div>
 
         {expanded ? (
           <div
+            ref={panelRef}
+            data-pathway-region={cert.id}
             id={panelId}
             role="region"
             aria-labelledby={titleId}
+            tabIndex={-1}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') closeDetails();
+            }}
             className="border-t"
             style={{ borderColor: theme.cardBorder }}
           >
@@ -349,7 +337,7 @@ export default function PortalPathwayCard({
               listingMembership={listing.membership}
               outcomes={outcomes}
               accent={accent}
-              omitCta
+              ctaLabel={ctaLabel}
             />
           </div>
         ) : null}

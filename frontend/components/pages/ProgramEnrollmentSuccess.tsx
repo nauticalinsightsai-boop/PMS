@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useRef, useState } from 'react';
-import { verifyCheckoutSession } from '@/services/enrollment';
+import { Suspense, useEffect, useState } from 'react';
+import { verifiedPurchaseMoney, verifyCheckoutSession } from '@/services/enrollment';
 import { MessageCircle } from 'lucide-react';
 import { OnboardingCalendlyCta } from '@/components/checkout/OnboardingCalendlyCta';
 import { buttonVariants } from '@/components/ui/button';
@@ -12,7 +12,6 @@ import { PMS_SUPPORT_EMAIL, getPmsWhatsAppDisplay, getPmsWhatsAppUrl, isWhatsApp
 import { getOfferingById } from '@/lib/regional-catalogue';
 import { cn } from '@/lib/utils';
 import { inferPackageType } from '@/lib/analytics/pms-events';
-import { trackCheckoutSuccessView } from '@/lib/analytics/track-checkout-journey';
 import { trackPurchaseOnce } from '@/lib/analytics/track-purchase-once';
 import { trackContactClick } from '@/lib/analytics/track-contact-click';
 
@@ -32,71 +31,41 @@ function ProgramEnrollmentSuccessContent({
   const whatsappReady = isWhatsAppConfigured();
   const [paymentVerified, setPaymentVerified] = useState<boolean | null>(null);
   const [paymentType, setPaymentType] = useState<string | null>(null);
-  const successViewTracked = useRef(false);
+  const [verifiedMoney, setVerifiedMoney] = useState<{ currency: string; value: number } | null>(null);
 
   useEffect(() => {
     if (!sessionId?.startsWith('cs_')) return;
     let cancelled = false;
     void verifyCheckoutSession(sessionId).then((result) => {
       if (!cancelled) {
-        const verified = result.data;
-        setPaymentVerified(verified?.paid ?? false);
-        setPaymentType(verified?.paymentType ?? null);
-        if (
-          verified?.paid === true &&
-          verified.durableTransactionId &&
-          verified.durablePurchaseEventId
-        ) {
-          trackPurchaseOnce({
-            serverVerifiedPaid: true,
-            durableTransactionId: verified.durableTransactionId,
-            durablePurchaseEventId: verified.durablePurchaseEventId,
-            packageType: inferPackageType(offeringId ?? undefined, offering?.tierId),
-            currency: verified.currency ?? undefined,
-            value: verified.value ?? undefined,
-            items: [
-              {
-                item_id: offeringId ?? verified.offeringId ?? `${siteCertId}_${_tierSlug}`,
-                item_name: offering?.courseName ?? certName,
-                item_category: 'certification_preparation',
-                quantity: 1,
-              },
-            ],
-          });
-        }
+        setPaymentVerified(result.data?.paid ?? false);
+        setPaymentType(result.data?.paymentType ?? null);
+        const money = verifiedPurchaseMoney(result.data);
+        setVerifiedMoney(money ? { currency: money.currency, value: money.value } : null);
       }
     });
     return () => {
       cancelled = true;
     };
-  }, [
-    _tierSlug,
-    certName,
-    offering?.courseName,
-    offering?.tierId,
-    offeringId,
-    sessionId,
-    siteCertId,
-  ]);
+  }, [sessionId]);
 
   useEffect(() => {
-    if (
-      !sessionId?.startsWith('cs_') ||
-      paymentVerified === null ||
-      !offering ||
-      successViewTracked.current
-    ) {
-      return;
-    }
-    successViewTracked.current = true;
-    trackCheckoutSuccessView({
+    if (!sessionId?.startsWith('cs_') || paymentVerified !== true || !offering || !verifiedMoney) return;
+    trackPurchaseOnce({
+      transactionId: sessionId,
       packageType: inferPackageType(offeringId ?? undefined, offering.tierId),
-      resultState: paymentVerified ? 'verified_paid' : 'not_verified_paid',
-      offeringId: offeringId ?? offering.offeringId,
-      paymentType: paymentType ?? undefined,
-      pagePath: typeof window !== 'undefined' ? window.location.pathname : undefined,
+      currency: verifiedMoney.currency,
+      value: verifiedMoney.value,
+      items: [
+        {
+          item_id: offeringId ?? offering.offeringId,
+          item_name: offering.courseName,
+          item_category: 'certification_preparation',
+          quantity: 1,
+        },
+      ],
     });
-  }, [sessionId, paymentVerified, offering, offeringId, paymentType]);
+  }, [sessionId, paymentVerified, verifiedMoney, offering, offeringId]);
 
   const paidInFull = paymentType === 'full_tuition';
 
