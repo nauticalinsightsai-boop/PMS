@@ -57,19 +57,25 @@ async function cmsFetch(path: string, init?: RequestInit) {
       ? (data as { code?: unknown }).code
       : undefined;
     const headerCode = res.headers?.get('x-pms-error-code');
-    const code = bodyCode ?? headerCode;
-    const safeCode = typeof code === 'string' && /^[a-z][a-z0-9_]{0,63}$/.test(code)
-      ? code
+    const safeBodyCode = typeof bodyCode === 'string' && /^[a-z][a-z0-9_]{0,63}$/.test(bodyCode)
+      ? bodyCode
       : null;
+    const safeHeaderCode = typeof headerCode === 'string' && /^[a-z][a-z0-9_]{0,63}$/.test(headerCode)
+      ? headerCode
+      : null;
+    const safeCode = safeBodyCode ?? safeHeaderCode;
     const bodyRequestId = data && typeof data === 'object' && 'requestId' in data
       ? (data as { requestId?: unknown }).requestId
       : undefined;
     const headerRequestId = res.headers?.get('x-pms-request-id');
-    const requestId = bodyRequestId ?? headerRequestId;
-    const safeRequestId = typeof requestId === 'string' &&
-      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(requestId)
-      ? requestId
+    const requestIdPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+    const safeBodyRequestId = typeof bodyRequestId === 'string' && requestIdPattern.test(bodyRequestId)
+      ? bodyRequestId
       : null;
+    const safeHeaderRequestId = typeof headerRequestId === 'string' && requestIdPattern.test(headerRequestId)
+      ? headerRequestId
+      : null;
+    const safeRequestId = safeBodyRequestId ?? safeHeaderRequestId;
     const correlation = safeRequestId ? ` [request ${safeRequestId}]` : '';
     throw new Error(
       safeCode

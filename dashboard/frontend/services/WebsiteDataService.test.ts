@@ -109,6 +109,40 @@ describe('WebsiteDataService Item07 error-code observability', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
+  it('falls back independently to a safe header leaf and request id when body fields are unsafe', async () => {
+    const requestId = '8bf2e1fb-a890-4fd1-94bc-a3b10403f564';
+    fetchMock.mockResolvedValueOnce(failedResponse(
+      409,
+      { code: 'unsafe body code', requestId: 'person@example.com' },
+      {
+        'x-pms-error-code': 'second_table_hash_mismatch',
+        'x-pms-request-id': requestId,
+      },
+    ));
+
+    await expect(WebsiteDataService.item07FirstTable('preview')).rejects.toThrow(
+      `CMS API error (409): second_table_hash_mismatch [request ${requestId}]`,
+    );
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('preserves independently validated safe body precedence over different safe headers', async () => {
+    const bodyRequestId = 'ce431f6a-9202-4db0-ae99-e0a6334109e8';
+    fetchMock.mockResolvedValueOnce(failedResponse(
+      409,
+      { code: 'item07_body_hash_mismatch', requestId: bodyRequestId },
+      {
+        'x-pms-error-code': 'second_table_hash_mismatch',
+        'x-pms-request-id': 'c2433219-7e6d-40f6-9384-ae28a917d577',
+      },
+    ));
+
+    await expect(WebsiteDataService.item07FirstTable('preview')).rejects.toThrow(
+      `CMS API error (409): item07_body_hash_mismatch [request ${bodyRequestId}]`,
+    );
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it('rejects unsafe leaf and correlation fields without echo or retry', async () => {
     fetchMock.mockResolvedValueOnce(failedResponse(
       409,
