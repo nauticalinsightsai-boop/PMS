@@ -12,6 +12,22 @@ export interface WebsiteData {
   updated_at: string;
 }
 
+export type Item07FirstTableReceipt = {
+  ok: true;
+  record: string;
+  classification: 'READY' | 'NO_CHANGE' | 'ROLLBACK_AVAILABLE';
+  wrote: boolean;
+  updatedAt: string;
+  confirmation: string | null;
+  hashes: {
+    bodyBefore: string;
+    bodyAfter: string;
+    firstTableBefore: string;
+    firstTableAfter: string;
+    secondTable: string;
+  };
+};
+
 import { isApiLoginEnabled } from '@/lib/auth/api-login-config';
 
 const USE_CMS_API = isApiLoginEnabled();
@@ -129,6 +145,19 @@ export const WebsiteDataService = {
       method: 'POST',
       body: JSON.stringify({ action: 'publish', fieldKey }),
     });
+  },
+
+  async item07FirstTable(
+    action: 'preview' | 'apply' | 'rollback',
+    options?: { expectedUpdatedAt?: string; confirmation?: string },
+  ): Promise<Item07FirstTableReceipt> {
+    if (!USE_CMS_API) {
+      throw new Error('The Item07 table writer requires the authenticated CMS API.');
+    }
+    return cmsFetch('/api/cms/newsletter-first-table', {
+      method: 'POST',
+      body: JSON.stringify({ action, ...options }),
+    }) as Promise<Item07FirstTableReceipt>;
   },
 };
 

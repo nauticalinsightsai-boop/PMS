@@ -112,6 +112,33 @@ export function normalizeArticleContent(content: string): string {
   return html.trim() || '<p><br></p>';
 }
 
+const EDITOR_ALLOWED_ATTRIBUTES = new Set([
+  'href',
+  'src',
+  'alt',
+  'class',
+  'contenteditable',
+  'data-article-figure',
+  'data-article-center',
+  'data-desktop',
+  'data-mobile',
+  'data-alt',
+  'style',
+  'target',
+  'rel',
+  // Exact safe semantic attributes used by the Item07 first-table correction.
+  'id',
+  'scope',
+  'headers',
+  'data-label',
+  'data-pms-responsive-table',
+]);
+
+export function isAllowedEditorAttribute(name: string): boolean {
+  const normalized = name.trim().toLowerCase();
+  return EDITOR_ALLOWED_ATTRIBUTES.has(normalized) || normalized.startsWith('data-article-');
+}
+
 /** Strip unsafe tags/attributes while preserving article semantics. */
 export function sanitizeEditorHtml(html: string): string {
   if (typeof document === 'undefined') return html.trim();
@@ -120,22 +147,6 @@ export function sanitizeEditorHtml(html: string): string {
   template.innerHTML = html;
 
   const forbiddenTags = new Set(['script', 'style', 'iframe', 'object', 'embed', 'link', 'meta']);
-  const allowedAttrs = new Set([
-    'href',
-    'src',
-    'alt',
-    'class',
-    'contenteditable',
-    'data-article-figure',
-    'data-article-center',
-    'data-desktop',
-    'data-mobile',
-    'data-alt',
-    'style',
-    'target',
-    'rel',
-  ]);
-
   const walk = (node: Node) => {
     const children = Array.from(node.childNodes);
     for (const child of children) {
@@ -150,7 +161,7 @@ export function sanitizeEditorHtml(html: string): string {
 
       for (const attr of Array.from(el.attributes)) {
         const name = attr.name.toLowerCase();
-        if (name.startsWith('on') || (!allowedAttrs.has(name) && !name.startsWith('data-article-'))) {
+        if (name.startsWith('on') || !isAllowedEditorAttribute(name)) {
           el.removeAttribute(attr.name);
         }
       }

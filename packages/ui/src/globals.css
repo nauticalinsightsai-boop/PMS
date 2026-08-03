@@ -647,6 +647,97 @@
     @apply my-6 text-center;
   }
 
+  /* Item07 T01 only: semantic stacked cards on narrow physical-phone viewports. */
+  @media (max-width: 480px) {
+    .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      overflow: visible;
+      table-layout: auto;
+    }
+
+    .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody {
+      display: grid;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody tr {
+      display: block;
+      min-width: 0;
+      overflow: visible;
+      border: 1px solid rgb(226 232 240);
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+      background: rgb(255 255 255 / 0.7);
+    }
+
+    .dark .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody tr {
+      border-color: rgb(51 65 85);
+      background: rgb(15 23 42 / 0.55);
+    }
+
+    .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody th,
+    .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody td {
+      display: grid;
+      grid-template-columns: minmax(7.5rem, 0.8fr) minmax(0, 1.2fr);
+      gap: 0.75rem;
+      width: 100%;
+      min-width: 0;
+      padding: 0.625rem 0;
+      border: 0;
+      border-bottom: 1px solid rgb(226 232 240);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.45;
+      text-align: left;
+      white-space: normal;
+      overflow: visible;
+      overflow-wrap: anywhere;
+      word-break: normal;
+    }
+
+    .dark .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody th,
+    .dark .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody td {
+      border-bottom-color: rgb(51 65 85);
+    }
+
+    .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody tr > :last-child {
+      border-bottom: 0;
+    }
+
+    .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody th::before,
+    .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody td::before {
+      content: attr(data-label);
+      min-width: 0;
+      color: rgb(71 85 105);
+      font-size: 0.75rem;
+      font-weight: 700;
+      line-height: 1.45;
+      letter-spacing: 0.025em;
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
+
+    .dark .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody th::before,
+    .dark .article-wysiwyg table[data-pms-responsive-table='item07-t01-stacked-cards'] tbody td::before {
+      color: rgb(148 163 184);
+    }
+  }
+
   /* /go/website: match marketing home hero shell */
   .portal-website {
     background-color: transparent !important;

@@ -10,6 +10,7 @@ import {
   Save,
   Search,
   Tag,
+  TableProperties,
 } from 'lucide-react';
 import { NewsletterEditorWorkspace } from '@/components/pages/admin/newsletter/NewsletterEditorWorkspace';
 import { FieldLabel, SectionCard } from '@/components/pages/admin/cms/CmsShared';
@@ -21,6 +22,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { WEBSITE_CMS_PATHS } from '@/constants/websiteCmsPaths';
 import { dashboardHref } from '@/lib/base-path';
 import { siteUrl } from '@/lib/site-config';
+import {
+  WebsiteDataService,
+  type Item07FirstTableReceipt,
+} from '@/services/WebsiteDataService';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
 import { useNewsletterAuthors } from '@/hooks/useNewsletterAuthors';
 import {
@@ -38,6 +43,9 @@ function serializePost(post: NewsletterPost, topicsInput: string): string {
   return JSON.stringify({ ...post, topics });
 }
 
+const ITEM07_POST_ID =
+  'post-capm-2026-domain-map-fundamentals-predictive-agile-business-analysis';
+
 export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const router = useRouter();
   const { getPostById, upsertPost, isLoading, isSaving, error: saveError } = useNewsletterPosts();
@@ -48,6 +56,10 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const [syncStatus, setSyncStatus] = useState<SyncStatus>('synced');
   const [lastSynced, setLastSynced] = useState<Date | undefined>();
   const [lastSavedAsPublish, setLastSavedAsPublish] = useState(false);
+  const [tableReceipt, setTableReceipt] = useState<Item07FirstTableReceipt | null>(null);
+  const [tableConfirmation, setTableConfirmation] = useState('');
+  const [tableWriterBusy, setTableWriterBusy] = useState(false);
+  const [tableWriterError, setTableWriterError] = useState('');
 
   const publicSiteUrl = siteUrl.replace(/\/$/, '');
 
@@ -96,8 +108,46 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
     });
   }, [hasChanges, isSaving, saveError]);
 
+  useEffect(() => {
+    if (post?.id !== ITEM07_POST_ID || post?.status !== 'draft' || hasChanges) {
+      setTableReceipt(null);
+      setTableConfirmation('');
+    }
+  }, [hasChanges, post?.id, post?.status]);
+
   const updatePost = (patch: Partial<NewsletterPost>) => {
     setPost((current) => (current ? { ...current, ...patch } : current));
+  };
+
+  const runItem07TableWriter = async (
+    action: 'preview' | 'apply' | 'rollback',
+    commit = false,
+  ) => {
+    if (!post || post.id !== ITEM07_POST_ID || post.status !== 'draft' || hasChanges) return;
+    setTableReceipt(null);
+    setTableConfirmation('');
+    setTableWriterBusy(true);
+    setTableWriterError('');
+    try {
+      const receipt = await WebsiteDataService.item07FirstTable(
+        action,
+        commit
+          ? {
+              expectedUpdatedAt: tableReceipt?.updatedAt,
+              confirmation: tableConfirmation,
+            }
+          : undefined,
+      );
+      setTableReceipt(receipt);
+      setTableConfirmation('');
+      if (receipt.wrote) window.location.reload();
+    } catch (error) {
+      setTableReceipt(null);
+      setTableConfirmation('');
+      setTableWriterError(error instanceof Error ? error.message : 'Item07 table writer failed.');
+    } finally {
+      setTableWriterBusy(false);
+    }
   };
 
   const handleTitleChange = (title: string) => {
@@ -359,6 +409,95 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
         </SectionCard>
 
         <NewsletterEditorWorkspace post={post} onChange={updatePost} />
+
+        {post.id === ITEM07_POST_ID ? (
+          <SectionCard title="Item07 semantic first table" icon={TableProperties}>
+            <div className="space-y-3 text-sm" aria-busy={tableWriterBusy}>
+              <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+                {tableWriterBusy
+                  ? 'Item07 table operation in progress'
+                  : tableWriterError
+                    ? 'Item07 table operation failed'
+                    : tableReceipt
+                      ? 'Item07 table operation complete'
+                      : 'Item07 table writer ready'}
+              </p>
+              <p className="text-muted-foreground">
+                This fail-closed control changes only the locked first table. It cannot publish,
+                schedule, or replace arbitrary article HTML.
+              </p>
+              {tableReceipt ? (
+                <div role="status" className="rounded-lg border border-border bg-muted/40 p-3">
+                  <p><strong>{tableReceipt.classification}</strong> · writes: {tableReceipt.wrote ? '1' : '0'}</p>
+                  <p className="mt-1 break-all font-mono text-xs">Body: {tableReceipt.hashes.bodyBefore} → {tableReceipt.hashes.bodyAfter}</p>
+                </div>
+              ) : null}
+              {tableWriterError ? <p role="alert" className="text-destructive">{tableWriterError}</p> : null}
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={tableWriterBusy || hasChanges || post.status !== 'draft'}
+                  onClick={() => void runItem07TableWriter('preview')}
+                >
+                  Preview first-table correction
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={tableWriterBusy || hasChanges || post.status !== 'draft'}
+                  onClick={() => void runItem07TableWriter('rollback')}
+                >
+                  Preview exact rollback
+                </Button>
+              </div>
+              {tableReceipt?.confirmation ? (
+                <div className="space-y-2">
+                  <label
+                    id="item07-first-table-confirmation-label"
+                    htmlFor="item07-first-table-confirmation"
+                    className="text-sm font-medium text-foreground"
+                  >
+                    Exact confirmation
+                  </label>
+                  <Input
+                    id="item07-first-table-confirmation"
+                    aria-labelledby="item07-first-table-confirmation-label"
+                    value={tableConfirmation}
+                    onChange={(event) => setTableConfirmation(event.target.value)}
+                    placeholder={tableReceipt.confirmation}
+                    autoComplete="off"
+                  />
+                  <Button
+                    type="button"
+                    disabled={
+                      tableWriterBusy ||
+                      hasChanges ||
+                      post.status !== 'draft' ||
+                      Boolean(tableWriterError) ||
+                      tableConfirmation !== tableReceipt.confirmation
+                    }
+                    onClick={() =>
+                      void runItem07TableWriter(
+                        tableReceipt.classification === 'ROLLBACK_AVAILABLE' ? 'rollback' : 'apply',
+                        true,
+                      )
+                    }
+                  >
+                    {tableReceipt.classification === 'ROLLBACK_AVAILABLE'
+                      ? 'Rollback exact first table'
+                      : 'Apply exact first table'}
+                  </Button>
+                </div>
+              ) : null}
+              {hasChanges ? (
+                <p className="text-amber-700 dark:text-amber-300">
+                  Save or discard editor changes before previewing this isolated correction.
+                </p>
+              ) : null}
+            </div>
+          </SectionCard>
+        ) : null}
 
         <SectionCard title="SEO & publishing" icon={Search}>
           <div className="space-y-4">

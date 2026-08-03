@@ -101,6 +101,10 @@ const bookingConfirmedFile = path.join(
   frontend,
   'app/(site)/booking-confirmed/BookingConfirmedClient.tsx',
 );
+const bookingOutboxWorkerFile = path.join(
+  frontend,
+  '../dashboard/backend/lib/interactions/operations-outbox-worker.ts',
+);
 if (!fs.existsSync(bookingConfirmedFile)) {
   issues.push({ severity: 'medium', issue: 'missing confirmed booking tracker' });
 } else {
@@ -108,11 +112,30 @@ if (!fs.existsSync(bookingConfirmedFile)) {
   if (!bookingConfirmed.includes("trackGaEvent('booking_confirmed'")) {
     issues.push({ severity: 'high', issue: 'confirmed booking must use booking_confirmed' });
   }
-  if (!bookingConfirmed.includes('trackMetaSchedule')) {
-    issues.push({ severity: 'high', issue: 'confirmed booking must use Meta Schedule' });
+  if (bookingConfirmed.includes('trackMetaSchedule')) {
+    issues.push({
+      severity: 'high',
+      issue: 'confirmed booking must keep Meta Schedule server-only',
+    });
   }
   if (bookingConfirmed.includes('generate_lead')) {
     issues.push({ severity: 'high', issue: 'confirmed booking must remain distinct from lead events' });
+  }
+}
+
+if (!fs.existsSync(bookingOutboxWorkerFile)) {
+  issues.push({ severity: 'medium', issue: 'missing booking conversion outbox worker' });
+} else {
+  const bookingOutboxWorker = fs.readFileSync(bookingOutboxWorkerFile, 'utf8');
+  if (
+    !bookingOutboxWorker.includes('await sendMetaSchedule({') ||
+    !bookingOutboxWorker.includes("event_name: 'Schedule'") ||
+    !bookingOutboxWorker.includes('event_id: input.eventId')
+  ) {
+    issues.push({
+      severity: 'high',
+      issue: 'confirmed booking must queue a deduplicated server-side Meta Schedule event',
+    });
   }
 }
 
