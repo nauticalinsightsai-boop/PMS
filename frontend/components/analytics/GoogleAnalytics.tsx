@@ -30,6 +30,25 @@ export function bootstrapGaCommandTarget(target: GaCommandTarget): void {
   };
 }
 
+export function queueGaPageview(input: {
+  target: GaCommandTarget;
+  allowed: boolean;
+  gaId: string;
+  payload: GaRoutePageview | null;
+  state: GaDispatchState;
+}): GaDispatchState {
+  const { target, allowed, gaId, payload, state } = input;
+  if (!allowed || !gaId || !payload || !target.gtag) return state;
+  if (!shouldDispatchGaRoute(state.lastRouteKey, payload.routeKey)) return state;
+
+  if (!state.configured) {
+    target.gtag('js', new Date());
+    target.gtag('config', gaId, { send_page_view: false });
+  }
+  target.gtag('event', 'page_view', payload.params);
+  return { configured: true, lastRouteKey: payload.routeKey };
+}
+
 export function dispatchLoadedGaPageview(input: {
   target: GaCommandTarget;
   allowed: boolean;
@@ -40,15 +59,8 @@ export function dispatchLoadedGaPageview(input: {
   state: GaDispatchState;
 }): GaDispatchState {
   const { target, allowed, loaderReady, loaderFailed, gaId, payload, state } = input;
-  if (!allowed || !loaderReady || loaderFailed || !gaId || !payload || !target.gtag) return state;
-  if (!shouldDispatchGaRoute(state.lastRouteKey, payload.routeKey)) return state;
-
-  if (!state.configured) {
-    target.gtag('js', new Date());
-    target.gtag('config', gaId, { send_page_view: false });
-  }
-  target.gtag('event', 'page_view', payload.params);
-  return { configured: true, lastRouteKey: payload.routeKey };
+  if (!loaderReady || loaderFailed) return state;
+  return queueGaPageview({ target, allowed, gaId, payload, state });
 }
 
 /**
@@ -75,9 +87,25 @@ export function GoogleAnalytics() {
   useEffect(() => {
     if (!allowed || !gaId || !isGaConfigured() || typeof window === 'undefined' || bootstrapped) return;
 
-    bootstrapGaCommandTarget(window as typeof window & GaCommandTarget);
+    const target = window as typeof window & GaCommandTarget;
+    bootstrapGaCommandTarget(target);
+    const payload = buildGaRoutePageview({
+      origin: window.location.origin,
+      pathname: pathname || '/',
+      search: searchParams?.toString() ?? '',
+      title: document.title,
+    });
+    const nextState = queueGaPageview({
+      target,
+      allowed,
+      gaId,
+      payload,
+      state: { configured: configured.current, lastRouteKey: lastRouteKey.current },
+    });
+    configured.current = nextState.configured;
+    lastRouteKey.current = nextState.lastRouteKey;
     setBootstrapped(true);
-  }, [allowed, bootstrapped, gaId]);
+  }, [allowed, bootstrapped, gaId, pathname, searchParams]);
 
   useEffect(() => {
     if (!allowed || !bootstrapped || loaderState !== 'ready' || !gaId || !isGaConfigured()) return;
@@ -101,7 +129,7 @@ export function GoogleAnalytics() {
     lastRouteKey.current = nextState.lastRouteKey;
   }, [allowed, bootstrapped, gaId, loaderState, pathname, searchParams]);
 
-  if (!bootstrapped || !gaId || !isGaConfigured()) return null;
+  if (!allowed || !bootstrapped || !gaId || !isGaConfigured()) return null;
 
   return (
     <Script

@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import {
   bootstrapGaCommandTarget,
   dispatchLoadedGaPageview,
+  queueGaPageview,
   type GaDispatchState,
 } from '../../components/analytics/GoogleAnalytics';
 import { buildGaRoutePageview, shouldDispatchGaRoute } from './ga-route-pageview';
@@ -13,6 +14,20 @@ function targetWithCommands() {
   bootstrapGaCommandTarget(target);
   target.gtag = (...args: unknown[]) => commands.push(args);
   return { commands, target };
+}
+
+function installDeterministicLoaderProcessor(target: { dataLayer?: unknown[] }) {
+  const dataLayer = target.dataLayer ?? [];
+  const consumed: unknown[][] = [];
+  const consume = (entry: unknown) => consumed.push(Array.from(entry as ArrayLike<unknown>));
+  dataLayer.forEach(consume);
+  const nativePush = dataLayer.push.bind(dataLayer);
+  dataLayer.push = (...entries: unknown[]) => {
+    const length = nativePush(...entries);
+    entries.forEach(consume);
+    return length;
+  };
+  return consumed;
 }
 
 describe('GA route pageview contract', () => {
@@ -57,6 +72,7 @@ describe('GA route pageview contract', () => {
       'utf8',
     );
     expect(source.indexOf('bootstrapGaCommandTarget')).toBeLessThan(source.indexOf('<Script'));
+    expect(source.indexOf('queueGaPageview')).toBeLessThan(source.indexOf('setBootstrapped(true)'));
     expect(source).toContain("loaderState !== 'ready'");
     expect(source).toContain("onLoad={() => setLoaderState('ready')}");
     expect(source).toContain("onError={() => setLoaderState('failed')}");
@@ -80,6 +96,43 @@ describe('GA route pageview contract', () => {
     expect(Object.prototype.toString.call(queuedEntry)).toBe('[object Arguments]');
     expect(Array.from(queuedEntry as ArrayLike<unknown>)).toEqual(commandArgs);
   });
+
+  it.each(['/', '/newsletter', '/certifications/pmp/professional/enroll'])(
+    'prequeues %s before loader installation and the processor consumes one page_view',
+    (pathname) => {
+      const target: { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void } = {};
+      bootstrapGaCommandTarget(target);
+      const payload = buildGaRoutePageview({ origin: 'https://pmstructure.com', pathname, title: 'PM Structure' });
+      const queued = queueGaPageview({
+        target,
+        allowed: true,
+        gaId: 'G-TEST',
+        payload,
+        state: { configured: false, lastRouteKey: null },
+      });
+      expect(target.dataLayer).toHaveLength(3);
+
+      const consumed = installDeterministicLoaderProcessor(target);
+      expect(consumed.map((command) => command.slice(0, 2))).toEqual([
+        ['js', expect.any(Date)],
+        ['config', 'G-TEST'],
+        ['event', 'page_view'],
+      ]);
+      expect(consumed.filter((command) => command[0] === 'event' && command[1] === 'page_view')).toHaveLength(1);
+
+      const afterLoad = dispatchLoadedGaPageview({
+        target,
+        allowed: true,
+        loaderReady: true,
+        loaderFailed: false,
+        gaId: 'G-TEST',
+        payload,
+        state: queued,
+      });
+      expect(afterLoad).toEqual(queued);
+      expect(consumed.filter((command) => command[0] === 'event' && command[1] === 'page_view')).toHaveLength(1);
+    },
+  );
 
   it.each(['/', '/newsletter', '/certifications/pmp/professional/enroll'])(
     'waits for loader success, then configures before one page_view for %s',
