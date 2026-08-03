@@ -38,6 +38,12 @@ function ceilCharm50(n) {
   return Math.max(49, k * 50 + 49);
 }
 
+/** Smallest amount ending in 99 that is >= n (GCC). */
+function ceilCharm99(n) {
+  if (!Number.isFinite(n) || n <= 99) return 99;
+  return Math.ceil((n + 1) / 100) * 100 - 1;
+}
+
 function charm999(n) {
   if (!Number.isFinite(n) || n <= 999) return 999;
   return Math.ceil((n + 1) / 1000) * 1000 - 1;
@@ -74,7 +80,7 @@ function majorFor(usd, regionId, tierId, gccCountry) {
   if (regionId === 'india') return { major: charm999(usd * FX.INR * pay), code: 'INR' };
   if (regionId === 'pakistan') return { major: charm999(usd * FX.PKR * pay), code: 'PKR' };
   const code = GCC_CUR[gccCountry || 'AE'];
-  return { major: ceilCharm50(usd * FX[code] * pay), code };
+  return { major: ceilCharm99(usd * FX[code] * pay), code };
 }
 
 function buildPrices(usd, tierId) {

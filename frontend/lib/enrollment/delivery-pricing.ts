@@ -32,11 +32,17 @@ export function nearestCharm50(n: number): number {
   return Math.max(49, k * 50 + 49);
 }
 
-/** Round up to the next …49 / …99 (used for regional FX conversion). */
+/** Round up to the next …49 / …99 (used for EU/UK FX conversion). */
 export function ceilCharm50(n: number): number {
   if (!Number.isFinite(n) || n <= 49) return 49;
   const k = Math.ceil((n - 49) / 50);
   return Math.max(49, k * 50 + 49);
+}
+
+/** Smallest amount ending in 99 that is >= n (GCC marketing charm). */
+export function ceilCharm99(n: number): number {
+  if (!Number.isFinite(n) || n <= 99) return 99;
+  return Math.ceil((n + 1) / 100) * 100 - 1;
 }
 
 /** Smallest amount ending in 999 that is >= n (INR / PKR). */
@@ -131,10 +137,10 @@ export function regionalizeUsd(
     return { major, currencyCode: 'PKR', display: formatMajor(major, 'PKR') };
   }
 
-  // GCC
+  // GCC: 20% off Professional (Foundation: full FX); charm to …99 only
   const country = gccCountry ?? 'AE';
   const currencyCode = GCC_CURRENCY[country];
-  const major = ceilCharm50(usd * fxForCurrency(currencyCode) * pay);
+  const major = ceilCharm99(usd * fxForCurrency(currencyCode) * pay);
   return { major, currencyCode, display: formatMajor(major, currencyCode) };
 }
 

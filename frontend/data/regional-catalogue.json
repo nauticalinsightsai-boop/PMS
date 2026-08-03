@@ -43,7 +43,9 @@
       "recommendedMessage": "Regional pricing is based on current country of residence and billing country, not nationality. South Asia pricing is offered as regional scholarship pricing for learners residing and billing from India or Pakistan. Some mentor-led Mastery tiers may not be available under regional scholarship pricing; learners may request a scholarship review, join the waitlist, or enroll at the Global price."
     },
     "deliveryPricingRebuildAt": "2026-08-03T06:22:31.612Z",
-    "deliveryPricingNote": "Foundation: 30% Global + FX no scholarship. Professional mentor full Global; self-paced 50%; IN/PK 30% off; GCC 20% off."
+    "deliveryPricingNote": "Foundation: 30% Global + FX no scholarship. Professional mentor full Global; self-paced 50%; IN/PK 30% off; GCC 20% off.",
+    "gccCharm99RefreshAt": "2026-08-03T09:11:36.477Z",
+    "gccCharmNote": "GCC display majors ceil to …99 only (Asia remains …999)."
   },
   "regions": [
     {
@@ -186,7 +188,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -194,9 +196,9 @@
             "AE": "AED 1,199",
             "SA": "SAR 1,199",
             "QA": "QAR 1,199",
-            "BH": "BHD 149",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -232,7 +234,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 599 / SAR 599 / QAR 599 / BHD 99 / KWD 49 / OMR 99",
+          "display": "AED 599 / SAR 599 / QAR 599 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 19900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -241,7 +243,7 @@
             "SA": "SAR 599",
             "QA": "QAR 599",
             "BH": "BHD 99",
-            "KW": "KWD 49",
+            "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
@@ -328,7 +330,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 399 / SAR 399 / QAR 399 / BHD 49 / KWD 49 / OMR 49",
+          "display": "AED 399 / SAR 399 / QAR 399 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 9900,
           "currencyCode": "GCC",
           "isScholarship": false,
@@ -336,9 +338,9 @@
             "AE": "AED 399",
             "SA": "SAR 399",
             "QA": "QAR 399",
-            "BH": "BHD 49",
-            "KW": "KWD 49",
-            "OM": "OMR 49"
+            "BH": "BHD 99",
+            "KW": "KWD 99",
+            "OM": "OMR 99"
           }
         },
         "india": {
@@ -424,16 +426,16 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,649 / SAR 2,699 / QAR 2,649 / BHD 299 / KWD 249 / OMR 299",
+          "display": "AED 2,699 / SAR 2,699 / QAR 2,699 / BHD 299 / KWD 299 / OMR 299",
           "usdCents": 89900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,649",
+            "AE": "AED 2,699",
             "SA": "SAR 2,699",
-            "QA": "QAR 2,649",
+            "QA": "QAR 2,699",
             "BH": "BHD 299",
-            "KW": "KWD 249",
+            "KW": "KWD 299",
             "OM": "OMR 299"
           }
         },
@@ -470,17 +472,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,349 / SAR 1,349 / QAR 1,349 / BHD 149 / KWD 149 / OMR 149",
+          "display": "AED 1,399 / SAR 1,399 / QAR 1,399 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 44900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,349",
-            "SA": "SAR 1,349",
-            "QA": "QAR 1,349",
-            "BH": "BHD 149",
-            "KW": "KWD 149",
-            "OM": "OMR 149"
+            "AE": "AED 1,399",
+            "SA": "SAR 1,399",
+            "QA": "QAR 1,399",
+            "BH": "BHD 199",
+            "KW": "KWD 199",
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -566,18 +568,18 @@
           "usdCents": 149900
         },
         "gcc": {
-          "display": "AED 4,400 / SAR 4,500 / QAR 4,350 / BHD 450 / KWD 370 / OMR 465",
+          "display": "AED 4,499 / SAR 4,499 / QAR 4,399 / BHD 499 / KWD 399 / OMR 499",
+          "usdCents": 149900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 4,400",
-            "SA": "SAR 4,500",
-            "QA": "QAR 4,350",
-            "BH": "BHD 450",
-            "KW": "KWD 370",
-            "OM": "OMR 465"
-          },
           "isScholarship": true,
-          "usdCents": 149900
+          "perCountry": {
+            "AE": "AED 4,499",
+            "SA": "SAR 4,499",
+            "QA": "QAR 4,399",
+            "BH": "BHD 499",
+            "KW": "KWD 399",
+            "OM": "OMR 499"
+          }
         },
         "india": {
           "display": "₹84,999",
@@ -662,17 +664,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 3,849 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 349 / OMR 449",
+          "display": "AED 3,899 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
           "usdCents": 129900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 3,849",
+            "AE": "AED 3,899",
             "SA": "SAR 3,899",
             "QA": "QAR 3,799",
             "BH": "BHD 399",
-            "KW": "KWD 349",
-            "OM": "OMR 449"
+            "KW": "KWD 399",
+            "OM": "OMR 499"
           }
         },
         "india": {
@@ -708,17 +710,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,949 / SAR 1,949 / QAR 1,899 / BHD 199 / KWD 199 / OMR 249",
+          "display": "AED 1,999 / SAR 1,999 / QAR 1,899 / BHD 199 / KWD 199 / OMR 299",
           "usdCents": 64900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,949",
-            "SA": "SAR 1,949",
+            "AE": "AED 1,999",
+            "SA": "SAR 1,999",
             "QA": "QAR 1,899",
             "BH": "BHD 199",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -804,18 +806,18 @@
           "usdCents": 249900
         },
         "gcc": {
-          "display": "AED 7,350 / SAR 7,500 / QAR 7,300 / BHD 755 / KWD 610 / OMR 775",
+          "display": "AED 7,399 / SAR 7,499 / QAR 7,299 / BHD 799 / KWD 699 / OMR 799",
+          "usdCents": 249900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 7,350",
-            "SA": "SAR 7,500",
-            "QA": "QAR 7,300",
-            "BH": "BHD 755",
-            "KW": "KWD 610",
-            "OM": "OMR 775"
-          },
           "isScholarship": true,
-          "usdCents": 249900
+          "perCountry": {
+            "AE": "AED 7,399",
+            "SA": "SAR 7,499",
+            "QA": "QAR 7,299",
+            "BH": "BHD 799",
+            "KW": "KWD 699",
+            "OM": "OMR 799"
+          }
         },
         "india": {
           "display": "₹139,999",
@@ -900,12 +902,12 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 4,449 / SAR 4,499 / QAR 4,399 / BHD 499 / KWD 399 / OMR 499",
+          "display": "AED 4,499 / SAR 4,499 / QAR 4,399 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 149900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 4,449",
+            "AE": "AED 4,499",
             "SA": "SAR 4,499",
             "QA": "QAR 4,399",
             "BH": "BHD 499",
@@ -946,17 +948,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,249 / SAR 2,249 / QAR 2,199 / BHD 249 / KWD 199 / OMR 249",
+          "display": "AED 2,299 / SAR 2,299 / QAR 2,199 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 74900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,249",
-            "SA": "SAR 2,249",
+            "AE": "AED 2,299",
+            "SA": "SAR 2,299",
             "QA": "QAR 2,199",
-            "BH": "BHD 249",
+            "BH": "BHD 299",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -1042,18 +1044,18 @@
           "usdCents": 299900
         },
         "gcc": {
-          "display": "AED 8,800 / SAR 9,000 / QAR 8,700 / BHD 900 / KWD 735 / OMR 930",
+          "display": "AED 8,899 / SAR 8,999 / QAR 8,799 / BHD 999 / KWD 799 / OMR 999",
+          "usdCents": 299900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 8,800",
-            "SA": "SAR 9,000",
-            "QA": "QAR 8,700",
-            "BH": "BHD 900",
-            "KW": "KWD 735",
-            "OM": "OMR 930"
-          },
           "isScholarship": true,
-          "usdCents": 299900
+          "perCountry": {
+            "AE": "AED 8,899",
+            "SA": "SAR 8,999",
+            "QA": "QAR 8,799",
+            "BH": "BHD 999",
+            "KW": "KWD 799",
+            "OM": "OMR 999"
+          }
         },
         "india": {
           "display": "₹149,999",
@@ -1138,7 +1140,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 399 / SAR 399 / QAR 399 / BHD 49 / KWD 49 / OMR 49",
+          "display": "AED 399 / SAR 399 / QAR 399 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 9900,
           "currencyCode": "GCC",
           "isScholarship": false,
@@ -1146,9 +1148,9 @@
             "AE": "AED 399",
             "SA": "SAR 399",
             "QA": "QAR 399",
-            "BH": "BHD 49",
-            "KW": "KWD 49",
-            "OM": "OMR 49"
+            "BH": "BHD 99",
+            "KW": "KWD 99",
+            "OM": "OMR 99"
           }
         },
         "india": {
@@ -1234,17 +1236,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,099 / SAR 2,099 / QAR 2,049 / BHD 249 / KWD 199 / OMR 249",
+          "display": "AED 2,099 / SAR 2,099 / QAR 2,099 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 69900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,099",
             "SA": "SAR 2,099",
-            "QA": "QAR 2,049",
-            "BH": "BHD 249",
+            "QA": "QAR 2,099",
+            "BH": "BHD 299",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -1280,17 +1282,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,049 / SAR 1,049 / QAR 1,049 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,099 / SAR 1,099 / QAR 1,099 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 34900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,049",
-            "SA": "SAR 1,049",
-            "QA": "QAR 1,049",
-            "BH": "BHD 149",
+            "AE": "AED 1,099",
+            "SA": "SAR 1,099",
+            "QA": "QAR 1,099",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -1376,18 +1378,18 @@
           "usdCents": 119900
         },
         "gcc": {
-          "display": "AED 3,500 / SAR 3,550 / QAR 3,450 / BHD 360 / KWD 290 / OMR 370",
+          "display": "AED 3,599 / SAR 3,599 / QAR 3,499 / BHD 399 / KWD 299 / OMR 399",
+          "usdCents": 119900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 3,500",
-            "SA": "SAR 3,550",
-            "QA": "QAR 3,450",
-            "BH": "BHD 360",
-            "KW": "KWD 290",
-            "OM": "OMR 370"
-          },
           "isScholarship": true,
-          "usdCents": 119900
+          "perCountry": {
+            "AE": "AED 3,599",
+            "SA": "SAR 3,599",
+            "QA": "QAR 3,499",
+            "BH": "BHD 399",
+            "KW": "KWD 299",
+            "OM": "OMR 399"
+          }
         },
         "india": {
           "display": "₹59,999",
@@ -1472,7 +1474,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 399 / SAR 399 / QAR 399 / BHD 49 / KWD 49 / OMR 49",
+          "display": "AED 399 / SAR 399 / QAR 399 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 9900,
           "currencyCode": "GCC",
           "isScholarship": false,
@@ -1480,9 +1482,9 @@
             "AE": "AED 399",
             "SA": "SAR 399",
             "QA": "QAR 399",
-            "BH": "BHD 49",
-            "KW": "KWD 49",
-            "OM": "OMR 49"
+            "BH": "BHD 99",
+            "KW": "KWD 99",
+            "OM": "OMR 99"
           }
         },
         "india": {
@@ -1568,17 +1570,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,349 / BHD 249 / KWD 199 / OMR 249",
+          "display": "AED 2,399 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,349",
+            "AE": "AED 2,399",
             "SA": "SAR 2,399",
-            "QA": "QAR 2,349",
-            "BH": "BHD 249",
+            "QA": "QAR 2,399",
+            "BH": "BHD 299",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -1614,7 +1616,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -1622,9 +1624,9 @@
             "AE": "AED 1,199",
             "SA": "SAR 1,199",
             "QA": "QAR 1,199",
-            "BH": "BHD 149",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -1710,18 +1712,18 @@
           "usdCents": 129900
         },
         "gcc": {
-          "display": "AED 3,800 / SAR 3,900 / QAR 3,750 / BHD 390 / KWD 320 / OMR 400",
+          "display": "AED 3,899 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
+          "usdCents": 129900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 3,800",
-            "SA": "SAR 3,900",
-            "QA": "QAR 3,750",
-            "BH": "BHD 390",
-            "KW": "KWD 320",
-            "OM": "OMR 400"
-          },
           "isScholarship": true,
-          "usdCents": 129900
+          "perCountry": {
+            "AE": "AED 3,899",
+            "SA": "SAR 3,899",
+            "QA": "QAR 3,799",
+            "BH": "BHD 399",
+            "KW": "KWD 399",
+            "OM": "OMR 499"
+          }
         },
         "india": {
           "display": "₹64,999",
@@ -1806,17 +1808,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,349 / BHD 249 / KWD 199 / OMR 249",
+          "display": "AED 2,399 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,349",
+            "AE": "AED 2,399",
             "SA": "SAR 2,399",
-            "QA": "QAR 2,349",
-            "BH": "BHD 249",
+            "QA": "QAR 2,399",
+            "BH": "BHD 299",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -1852,7 +1854,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -1860,9 +1862,9 @@
             "AE": "AED 1,199",
             "SA": "SAR 1,199",
             "QA": "QAR 1,199",
-            "BH": "BHD 149",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -1948,18 +1950,18 @@
           "usdCents": 129900
         },
         "gcc": {
-          "display": "AED 3,800 / SAR 3,900 / QAR 3,750 / BHD 390 / KWD 320 / OMR 400",
+          "display": "AED 3,899 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
+          "usdCents": 129900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 3,800",
-            "SA": "SAR 3,900",
-            "QA": "QAR 3,750",
-            "BH": "BHD 390",
-            "KW": "KWD 320",
-            "OM": "OMR 400"
-          },
           "isScholarship": true,
-          "usdCents": 129900
+          "perCountry": {
+            "AE": "AED 3,899",
+            "SA": "SAR 3,899",
+            "QA": "QAR 3,799",
+            "BH": "BHD 399",
+            "KW": "KWD 399",
+            "OM": "OMR 499"
+          }
         },
         "india": {
           "display": "₹64,999",
@@ -2044,17 +2046,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,349 / BHD 249 / KWD 199 / OMR 249",
+          "display": "AED 2,399 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,349",
+            "AE": "AED 2,399",
             "SA": "SAR 2,399",
-            "QA": "QAR 2,349",
-            "BH": "BHD 249",
+            "QA": "QAR 2,399",
+            "BH": "BHD 299",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -2090,7 +2092,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -2098,9 +2100,9 @@
             "AE": "AED 1,199",
             "SA": "SAR 1,199",
             "QA": "QAR 1,199",
-            "BH": "BHD 149",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -2186,18 +2188,18 @@
           "usdCents": 129900
         },
         "gcc": {
-          "display": "AED 3,800 / SAR 3,900 / QAR 3,750 / BHD 390 / KWD 320 / OMR 400",
+          "display": "AED 3,899 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
+          "usdCents": 129900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 3,800",
-            "SA": "SAR 3,900",
-            "QA": "QAR 3,750",
-            "BH": "BHD 390",
-            "KW": "KWD 320",
-            "OM": "OMR 400"
-          },
           "isScholarship": true,
-          "usdCents": 129900
+          "perCountry": {
+            "AE": "AED 3,899",
+            "SA": "SAR 3,899",
+            "QA": "QAR 3,799",
+            "BH": "BHD 399",
+            "KW": "KWD 399",
+            "OM": "OMR 499"
+          }
         },
         "india": {
           "display": "₹64,999",
@@ -2282,7 +2284,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 399 / SAR 399 / QAR 399 / BHD 49 / KWD 49 / OMR 49",
+          "display": "AED 399 / SAR 399 / QAR 399 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 9900,
           "currencyCode": "GCC",
           "isScholarship": false,
@@ -2290,9 +2292,9 @@
             "AE": "AED 399",
             "SA": "SAR 399",
             "QA": "QAR 399",
-            "BH": "BHD 49",
-            "KW": "KWD 49",
-            "OM": "OMR 49"
+            "BH": "BHD 99",
+            "KW": "KWD 99",
+            "OM": "OMR 99"
           }
         },
         "india": {
@@ -2378,16 +2380,16 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,649 / SAR 2,699 / QAR 2,649 / BHD 299 / KWD 249 / OMR 299",
+          "display": "AED 2,699 / SAR 2,699 / QAR 2,699 / BHD 299 / KWD 299 / OMR 299",
           "usdCents": 89900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,649",
+            "AE": "AED 2,699",
             "SA": "SAR 2,699",
-            "QA": "QAR 2,649",
+            "QA": "QAR 2,699",
             "BH": "BHD 299",
-            "KW": "KWD 249",
+            "KW": "KWD 299",
             "OM": "OMR 299"
           }
         },
@@ -2424,17 +2426,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,349 / SAR 1,349 / QAR 1,349 / BHD 149 / KWD 149 / OMR 149",
+          "display": "AED 1,399 / SAR 1,399 / QAR 1,399 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 44900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,349",
-            "SA": "SAR 1,349",
-            "QA": "QAR 1,349",
-            "BH": "BHD 149",
-            "KW": "KWD 149",
-            "OM": "OMR 149"
+            "AE": "AED 1,399",
+            "SA": "SAR 1,399",
+            "QA": "QAR 1,399",
+            "BH": "BHD 199",
+            "KW": "KWD 199",
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -2520,18 +2522,18 @@
           "usdCents": 149900
         },
         "gcc": {
-          "display": "AED 4,400 / SAR 4,500 / QAR 4,350 / BHD 450 / KWD 370 / OMR 465",
+          "display": "AED 4,499 / SAR 4,499 / QAR 4,399 / BHD 499 / KWD 399 / OMR 499",
+          "usdCents": 149900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 4,400",
-            "SA": "SAR 4,500",
-            "QA": "QAR 4,350",
-            "BH": "BHD 450",
-            "KW": "KWD 370",
-            "OM": "OMR 465"
-          },
           "isScholarship": true,
-          "usdCents": 149900
+          "perCountry": {
+            "AE": "AED 4,499",
+            "SA": "SAR 4,499",
+            "QA": "QAR 4,399",
+            "BH": "BHD 499",
+            "KW": "KWD 399",
+            "OM": "OMR 499"
+          }
         },
         "india": {
           "display": "₹84,999",
@@ -2616,17 +2618,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,949 / SAR 2,999 / QAR 2,949 / BHD 349 / KWD 249 / OMR 349",
+          "display": "AED 2,999 / SAR 2,999 / QAR 2,999 / BHD 399 / KWD 299 / OMR 399",
           "usdCents": 99900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,949",
+            "AE": "AED 2,999",
             "SA": "SAR 2,999",
-            "QA": "QAR 2,949",
-            "BH": "BHD 349",
-            "KW": "KWD 249",
-            "OM": "OMR 349"
+            "QA": "QAR 2,999",
+            "BH": "BHD 399",
+            "KW": "KWD 299",
+            "OM": "OMR 399"
           }
         },
         "india": {
@@ -2662,7 +2664,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,499 / SAR 1,499 / QAR 1,499 / BHD 199 / KWD 149 / OMR 199",
+          "display": "AED 1,499 / SAR 1,499 / QAR 1,499 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 49900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -2671,7 +2673,7 @@
             "SA": "SAR 1,499",
             "QA": "QAR 1,499",
             "BH": "BHD 199",
-            "KW": "KWD 149",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
@@ -2758,18 +2760,18 @@
           "usdCents": 179900
         },
         "gcc": {
-          "display": "AED 5,300 / SAR 5,400 / QAR 5,250 / BHD 545 / KWD 440 / OMR 560",
+          "display": "AED 5,299 / SAR 5,399 / QAR 5,299 / BHD 599 / KWD 499 / OMR 599",
+          "usdCents": 179900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 5,300",
-            "SA": "SAR 5,400",
-            "QA": "QAR 5,250",
-            "BH": "BHD 545",
-            "KW": "KWD 440",
-            "OM": "OMR 560"
-          },
           "isScholarship": true,
-          "usdCents": 179900
+          "perCountry": {
+            "AE": "AED 5,299",
+            "SA": "SAR 5,399",
+            "QA": "QAR 5,299",
+            "BH": "BHD 599",
+            "KW": "KWD 499",
+            "OM": "OMR 599"
+          }
         },
         "india": {
           "display": "₹99,999",
@@ -2854,7 +2856,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 399 / SAR 399 / QAR 399 / BHD 49 / KWD 49 / OMR 49",
+          "display": "AED 399 / SAR 399 / QAR 399 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 9900,
           "currencyCode": "GCC",
           "isScholarship": false,
@@ -2862,9 +2864,9 @@
             "AE": "AED 399",
             "SA": "SAR 399",
             "QA": "QAR 399",
-            "BH": "BHD 49",
-            "KW": "KWD 49",
-            "OM": "OMR 49"
+            "BH": "BHD 99",
+            "KW": "KWD 99",
+            "OM": "OMR 99"
           }
         },
         "india": {
@@ -2950,17 +2952,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,099 / SAR 2,099 / QAR 2,049 / BHD 249 / KWD 199 / OMR 249",
+          "display": "AED 2,099 / SAR 2,099 / QAR 2,099 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 69900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,099",
             "SA": "SAR 2,099",
-            "QA": "QAR 2,049",
-            "BH": "BHD 249",
+            "QA": "QAR 2,099",
+            "BH": "BHD 299",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -2996,17 +2998,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,049 / SAR 1,049 / QAR 1,049 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,099 / SAR 1,099 / QAR 1,099 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 34900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,049",
-            "SA": "SAR 1,049",
-            "QA": "QAR 1,049",
-            "BH": "BHD 149",
+            "AE": "AED 1,099",
+            "SA": "SAR 1,099",
+            "QA": "QAR 1,099",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -3092,18 +3094,18 @@
           "usdCents": 119900
         },
         "gcc": {
-          "display": "AED 3,500 / SAR 3,550 / QAR 3,450 / BHD 360 / KWD 290 / OMR 370",
+          "display": "AED 3,599 / SAR 3,599 / QAR 3,499 / BHD 399 / KWD 299 / OMR 399",
+          "usdCents": 119900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 3,500",
-            "SA": "SAR 3,550",
-            "QA": "QAR 3,450",
-            "BH": "BHD 360",
-            "KW": "KWD 290",
-            "OM": "OMR 370"
-          },
           "isScholarship": true,
-          "usdCents": 119900
+          "perCountry": {
+            "AE": "AED 3,599",
+            "SA": "SAR 3,599",
+            "QA": "QAR 3,499",
+            "BH": "BHD 399",
+            "KW": "KWD 299",
+            "OM": "OMR 399"
+          }
         },
         "india": {
           "display": "₹59,999",
@@ -3188,7 +3190,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -3196,9 +3198,9 @@
             "AE": "AED 1,199",
             "SA": "SAR 1,199",
             "QA": "QAR 1,199",
-            "BH": "BHD 149",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -3234,7 +3236,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 599 / SAR 599 / QAR 599 / BHD 99 / KWD 49 / OMR 99",
+          "display": "AED 599 / SAR 599 / QAR 599 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 19900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -3243,7 +3245,7 @@
             "SA": "SAR 599",
             "QA": "QAR 599",
             "BH": "BHD 99",
-            "KW": "KWD 49",
+            "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
@@ -3330,16 +3332,16 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,799 / SAR 1,799 / QAR 1,749 / BHD 199 / KWD 149 / OMR 199",
+          "display": "AED 1,799 / SAR 1,799 / QAR 1,799 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 59900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,799",
             "SA": "SAR 1,799",
-            "QA": "QAR 1,749",
+            "QA": "QAR 1,799",
             "BH": "BHD 199",
-            "KW": "KWD 149",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
@@ -3472,18 +3474,18 @@
           "usdCents": 99900
         },
         "gcc": {
-          "display": "AED 2,950 / SAR 3,000 / QAR 2,900 / BHD 300 / KWD 245 / OMR 310",
+          "display": "AED 2,999 / SAR 2,999 / QAR 2,999 / BHD 399 / KWD 299 / OMR 399",
+          "usdCents": 99900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 2,950",
-            "SA": "SAR 3,000",
-            "QA": "QAR 2,900",
-            "BH": "BHD 300",
-            "KW": "KWD 245",
-            "OM": "OMR 310"
-          },
           "isScholarship": true,
-          "usdCents": 99900
+          "perCountry": {
+            "AE": "AED 2,999",
+            "SA": "SAR 2,999",
+            "QA": "QAR 2,999",
+            "BH": "BHD 399",
+            "KW": "KWD 299",
+            "OM": "OMR 399"
+          }
         },
         "india": {
           "display": "₹49,999",
@@ -3568,7 +3570,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -3576,9 +3578,9 @@
             "AE": "AED 1,199",
             "SA": "SAR 1,199",
             "QA": "QAR 1,199",
-            "BH": "BHD 149",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -3614,7 +3616,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 599 / SAR 599 / QAR 599 / BHD 99 / KWD 49 / OMR 99",
+          "display": "AED 599 / SAR 599 / QAR 599 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 19900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -3623,7 +3625,7 @@
             "SA": "SAR 599",
             "QA": "QAR 599",
             "BH": "BHD 99",
-            "KW": "KWD 49",
+            "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
@@ -3710,16 +3712,16 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,799 / SAR 1,799 / QAR 1,749 / BHD 199 / KWD 149 / OMR 199",
+          "display": "AED 1,799 / SAR 1,799 / QAR 1,799 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 59900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,799",
             "SA": "SAR 1,799",
-            "QA": "QAR 1,749",
+            "QA": "QAR 1,799",
             "BH": "BHD 199",
-            "KW": "KWD 149",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
@@ -3852,18 +3854,18 @@
           "usdCents": 99900
         },
         "gcc": {
-          "display": "AED 2,950 / SAR 3,000 / QAR 2,900 / BHD 300 / KWD 245 / OMR 310",
+          "display": "AED 2,999 / SAR 2,999 / QAR 2,999 / BHD 399 / KWD 299 / OMR 399",
+          "usdCents": 99900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 2,950",
-            "SA": "SAR 3,000",
-            "QA": "QAR 2,900",
-            "BH": "BHD 300",
-            "KW": "KWD 245",
-            "OM": "OMR 310"
-          },
           "isScholarship": true,
-          "usdCents": 99900
+          "perCountry": {
+            "AE": "AED 2,999",
+            "SA": "SAR 2,999",
+            "QA": "QAR 2,999",
+            "BH": "BHD 399",
+            "KW": "KWD 299",
+            "OM": "OMR 399"
+          }
         },
         "india": {
           "display": "₹49,999",
@@ -3948,16 +3950,16 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,799 / SAR 1,799 / QAR 1,749 / BHD 199 / KWD 149 / OMR 199",
+          "display": "AED 1,799 / SAR 1,799 / QAR 1,799 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 59900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,799",
             "SA": "SAR 1,799",
-            "QA": "QAR 1,749",
+            "QA": "QAR 1,799",
             "BH": "BHD 199",
-            "KW": "KWD 149",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
@@ -4090,17 +4092,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,349 / BHD 249 / KWD 199 / OMR 249",
+          "display": "AED 2,399 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,349",
+            "AE": "AED 2,399",
             "SA": "SAR 2,399",
-            "QA": "QAR 2,349",
-            "BH": "BHD 249",
+            "QA": "QAR 2,399",
+            "BH": "BHD 299",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -4136,7 +4138,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -4144,9 +4146,9 @@
             "AE": "AED 1,199",
             "SA": "SAR 1,199",
             "QA": "QAR 1,199",
-            "BH": "BHD 149",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -4232,18 +4234,18 @@
           "usdCents": 139900
         },
         "gcc": {
-          "display": "AED 4,100 / SAR 4,200 / QAR 4,050 / BHD 420 / KWD 340 / OMR 435",
+          "display": "AED 4,199 / SAR 4,199 / QAR 4,099 / BHD 499 / KWD 399 / OMR 499",
+          "usdCents": 139900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 4,100",
-            "SA": "SAR 4,200",
-            "QA": "QAR 4,050",
-            "BH": "BHD 420",
-            "KW": "KWD 340",
-            "OM": "OMR 435"
-          },
           "isScholarship": true,
-          "usdCents": 139900
+          "perCountry": {
+            "AE": "AED 4,199",
+            "SA": "SAR 4,199",
+            "QA": "QAR 4,099",
+            "BH": "BHD 499",
+            "KW": "KWD 399",
+            "OM": "OMR 499"
+          }
         },
         "india": {
           "display": "₹69,999",
@@ -4328,16 +4330,16 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,799 / SAR 1,799 / QAR 1,749 / BHD 199 / KWD 149 / OMR 199",
+          "display": "AED 1,799 / SAR 1,799 / QAR 1,799 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 59900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,799",
             "SA": "SAR 1,799",
-            "QA": "QAR 1,749",
+            "QA": "QAR 1,799",
             "BH": "BHD 199",
-            "KW": "KWD 149",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
@@ -4470,17 +4472,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,349 / BHD 249 / KWD 199 / OMR 249",
+          "display": "AED 2,399 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,349",
+            "AE": "AED 2,399",
             "SA": "SAR 2,399",
-            "QA": "QAR 2,349",
-            "BH": "BHD 249",
+            "QA": "QAR 2,399",
+            "BH": "BHD 299",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -4516,7 +4518,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -4524,9 +4526,9 @@
             "AE": "AED 1,199",
             "SA": "SAR 1,199",
             "QA": "QAR 1,199",
-            "BH": "BHD 149",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -4612,18 +4614,18 @@
           "usdCents": 139900
         },
         "gcc": {
-          "display": "AED 4,100 / SAR 4,200 / QAR 4,050 / BHD 420 / KWD 340 / OMR 435",
+          "display": "AED 4,199 / SAR 4,199 / QAR 4,099 / BHD 499 / KWD 399 / OMR 499",
+          "usdCents": 139900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 4,100",
-            "SA": "SAR 4,200",
-            "QA": "QAR 4,050",
-            "BH": "BHD 420",
-            "KW": "KWD 340",
-            "OM": "OMR 435"
-          },
           "isScholarship": true,
-          "usdCents": 139900
+          "perCountry": {
+            "AE": "AED 4,199",
+            "SA": "SAR 4,199",
+            "QA": "QAR 4,099",
+            "BH": "BHD 499",
+            "KW": "KWD 399",
+            "OM": "OMR 499"
+          }
         },
         "india": {
           "display": "₹69,999",
@@ -4708,16 +4710,16 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,649 / SAR 1,649 / QAR 1,599 / BHD 199 / KWD 149 / OMR 199",
+          "display": "AED 1,699 / SAR 1,699 / QAR 1,599 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 54900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,649",
-            "SA": "SAR 1,649",
+            "AE": "AED 1,699",
+            "SA": "SAR 1,699",
             "QA": "QAR 1,599",
             "BH": "BHD 199",
-            "KW": "KWD 149",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
@@ -4850,17 +4852,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,349 / BHD 249 / KWD 199 / OMR 249",
+          "display": "AED 2,399 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,349",
+            "AE": "AED 2,399",
             "SA": "SAR 2,399",
-            "QA": "QAR 2,349",
-            "BH": "BHD 249",
+            "QA": "QAR 2,399",
+            "BH": "BHD 299",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -4896,7 +4898,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -4904,9 +4906,9 @@
             "AE": "AED 1,199",
             "SA": "SAR 1,199",
             "QA": "QAR 1,199",
-            "BH": "BHD 149",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -4992,18 +4994,18 @@
           "usdCents": 139900
         },
         "gcc": {
-          "display": "AED 4,100 / SAR 4,200 / QAR 4,050 / BHD 420 / KWD 340 / OMR 435",
+          "display": "AED 4,199 / SAR 4,199 / QAR 4,099 / BHD 499 / KWD 399 / OMR 499",
+          "usdCents": 139900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 4,100",
-            "SA": "SAR 4,200",
-            "QA": "QAR 4,050",
-            "BH": "BHD 420",
-            "KW": "KWD 340",
-            "OM": "OMR 435"
-          },
           "isScholarship": true,
-          "usdCents": 139900
+          "perCountry": {
+            "AE": "AED 4,199",
+            "SA": "SAR 4,199",
+            "QA": "QAR 4,099",
+            "BH": "BHD 499",
+            "KW": "KWD 399",
+            "OM": "OMR 499"
+          }
         },
         "india": {
           "display": "₹69,999",
@@ -5088,16 +5090,16 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,649 / SAR 1,649 / QAR 1,599 / BHD 199 / KWD 149 / OMR 199",
+          "display": "AED 1,699 / SAR 1,699 / QAR 1,599 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 54900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,649",
-            "SA": "SAR 1,649",
+            "AE": "AED 1,699",
+            "SA": "SAR 1,699",
             "QA": "QAR 1,599",
             "BH": "BHD 199",
-            "KW": "KWD 149",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
@@ -5230,17 +5232,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,249 / SAR 2,249 / QAR 2,199 / BHD 249 / KWD 199 / OMR 249",
+          "display": "AED 2,299 / SAR 2,299 / QAR 2,199 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 74900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,249",
-            "SA": "SAR 2,249",
+            "AE": "AED 2,299",
+            "SA": "SAR 2,299",
             "QA": "QAR 2,199",
-            "BH": "BHD 249",
+            "BH": "BHD 299",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -5276,7 +5278,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,199 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -5284,9 +5286,9 @@
             "AE": "AED 1,199",
             "SA": "SAR 1,199",
             "QA": "QAR 1,199",
-            "BH": "BHD 149",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -5372,18 +5374,18 @@
           "usdCents": 129900
         },
         "gcc": {
-          "display": "AED 3,800 / SAR 3,900 / QAR 3,750 / BHD 390 / KWD 320 / OMR 400",
+          "display": "AED 3,899 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
+          "usdCents": 129900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 3,800",
-            "SA": "SAR 3,900",
-            "QA": "QAR 3,750",
-            "BH": "BHD 390",
-            "KW": "KWD 320",
-            "OM": "OMR 400"
-          },
           "isScholarship": true,
-          "usdCents": 129900
+          "perCountry": {
+            "AE": "AED 3,899",
+            "SA": "SAR 3,899",
+            "QA": "QAR 3,799",
+            "BH": "BHD 399",
+            "KW": "KWD 399",
+            "OM": "OMR 499"
+          }
         },
         "india": {
           "display": "₹64,999",
@@ -5468,7 +5470,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,499 / SAR 1,499 / QAR 1,499 / BHD 199 / KWD 149 / OMR 199",
+          "display": "AED 1,499 / SAR 1,499 / QAR 1,499 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 49900,
           "currencyCode": "GCC",
           "isScholarship": true,
@@ -5477,7 +5479,7 @@
             "SA": "SAR 1,499",
             "QA": "QAR 1,499",
             "BH": "BHD 199",
-            "KW": "KWD 149",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
@@ -5514,14 +5516,14 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 749 / SAR 749 / QAR 749 / BHD 99 / KWD 99 / OMR 99",
+          "display": "AED 799 / SAR 799 / QAR 799 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 24900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 749",
-            "SA": "SAR 749",
-            "QA": "QAR 749",
+            "AE": "AED 799",
+            "SA": "SAR 799",
+            "QA": "QAR 799",
             "BH": "BHD 99",
             "KW": "KWD 99",
             "OM": "OMR 99"
@@ -5610,18 +5612,18 @@
           "usdCents": 129900
         },
         "gcc": {
-          "display": "AED 3,800 / SAR 3,900 / QAR 3,750 / BHD 390 / KWD 320 / OMR 400",
+          "display": "AED 3,899 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
+          "usdCents": 129900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 3,800",
-            "SA": "SAR 3,900",
-            "QA": "QAR 3,750",
-            "BH": "BHD 390",
-            "KW": "KWD 320",
-            "OM": "OMR 400"
-          },
           "isScholarship": true,
-          "usdCents": 129900
+          "perCountry": {
+            "AE": "AED 3,899",
+            "SA": "SAR 3,899",
+            "QA": "QAR 3,799",
+            "BH": "BHD 399",
+            "KW": "KWD 399",
+            "OM": "OMR 499"
+          }
         },
         "india": {
           "display": "₹64,999",
@@ -5706,7 +5708,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 199 / SAR 199 / QAR 199 / BHD 49 / KWD 49 / OMR 49",
+          "display": "AED 199 / SAR 199 / QAR 199 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 4900,
           "currencyCode": "GCC",
           "isScholarship": false,
@@ -5714,9 +5716,9 @@
             "AE": "AED 199",
             "SA": "SAR 199",
             "QA": "QAR 199",
-            "BH": "BHD 49",
-            "KW": "KWD 49",
-            "OM": "OMR 49"
+            "BH": "BHD 99",
+            "KW": "KWD 99",
+            "OM": "OMR 99"
           }
         },
         "india": {
@@ -5802,7 +5804,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 199 / SAR 199 / QAR 199 / BHD 49 / KWD 49 / OMR 49",
+          "display": "AED 199 / SAR 199 / QAR 199 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 4900,
           "currencyCode": "GCC",
           "isScholarship": false,
@@ -5810,9 +5812,9 @@
             "AE": "AED 199",
             "SA": "SAR 199",
             "QA": "QAR 199",
-            "BH": "BHD 49",
-            "KW": "KWD 49",
-            "OM": "OMR 49"
+            "BH": "BHD 99",
+            "KW": "KWD 99",
+            "OM": "OMR 99"
           }
         },
         "india": {
@@ -5944,17 +5946,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 449 / SAR 449 / QAR 449 / BHD 49 / KWD 49 / OMR 49",
+          "display": "AED 499 / SAR 499 / QAR 499 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 14900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 449",
-            "SA": "SAR 449",
-            "QA": "QAR 449",
-            "BH": "BHD 49",
-            "KW": "KWD 49",
-            "OM": "OMR 49"
+            "AE": "AED 499",
+            "SA": "SAR 499",
+            "QA": "QAR 499",
+            "BH": "BHD 99",
+            "KW": "KWD 99",
+            "OM": "OMR 99"
           }
         },
         "india": {
@@ -6040,7 +6042,7 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 399 / SAR 399 / QAR 399 / BHD 49 / KWD 49 / OMR 49",
+          "display": "AED 399 / SAR 399 / QAR 399 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 9900,
           "currencyCode": "GCC",
           "isScholarship": false,
@@ -6048,9 +6050,9 @@
             "AE": "AED 399",
             "SA": "SAR 399",
             "QA": "QAR 399",
-            "BH": "BHD 49",
-            "KW": "KWD 49",
-            "OM": "OMR 49"
+            "BH": "BHD 99",
+            "KW": "KWD 99",
+            "OM": "OMR 99"
           }
         },
         "india": {
@@ -6136,17 +6138,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,099 / SAR 2,099 / QAR 2,049 / BHD 249 / KWD 199 / OMR 249",
+          "display": "AED 2,099 / SAR 2,099 / QAR 2,099 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 69900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,099",
             "SA": "SAR 2,099",
-            "QA": "QAR 2,049",
-            "BH": "BHD 249",
+            "QA": "QAR 2,099",
+            "BH": "BHD 299",
             "KW": "KWD 199",
-            "OM": "OMR 249"
+            "OM": "OMR 299"
           }
         },
         "india": {
@@ -6182,17 +6184,17 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,049 / SAR 1,049 / QAR 1,049 / BHD 149 / KWD 99 / OMR 149",
+          "display": "AED 1,099 / SAR 1,099 / QAR 1,099 / BHD 199 / KWD 99 / OMR 199",
           "usdCents": 34900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,049",
-            "SA": "SAR 1,049",
-            "QA": "QAR 1,049",
-            "BH": "BHD 149",
+            "AE": "AED 1,099",
+            "SA": "SAR 1,099",
+            "QA": "QAR 1,099",
+            "BH": "BHD 199",
             "KW": "KWD 99",
-            "OM": "OMR 149"
+            "OM": "OMR 199"
           }
         },
         "india": {
@@ -6278,18 +6280,18 @@
           "usdCents": 119900
         },
         "gcc": {
-          "display": "AED 3,500 / SAR 3,550 / QAR 3,450 / BHD 360 / KWD 290 / OMR 370",
+          "display": "AED 3,599 / SAR 3,599 / QAR 3,499 / BHD 399 / KWD 299 / OMR 399",
+          "usdCents": 119900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 3,500",
-            "SA": "SAR 3,550",
-            "QA": "QAR 3,450",
-            "BH": "BHD 360",
-            "KW": "KWD 290",
-            "OM": "OMR 370"
-          },
           "isScholarship": true,
-          "usdCents": 119900
+          "perCountry": {
+            "AE": "AED 3,599",
+            "SA": "SAR 3,599",
+            "QA": "QAR 3,499",
+            "BH": "BHD 399",
+            "KW": "KWD 299",
+            "OM": "OMR 399"
+          }
         },
         "india": {
           "display": "₹69,999",
@@ -6374,12 +6376,12 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 3,549 / SAR 3,599 / QAR 3,499 / BHD 399 / KWD 299 / OMR 399",
+          "display": "AED 3,599 / SAR 3,599 / QAR 3,499 / BHD 399 / KWD 299 / OMR 399",
           "usdCents": 119900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 3,549",
+            "AE": "AED 3,599",
             "SA": "SAR 3,599",
             "QA": "QAR 3,499",
             "BH": "BHD 399",
@@ -6420,16 +6422,16 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,799 / SAR 1,799 / QAR 1,749 / BHD 199 / KWD 149 / OMR 199",
+          "display": "AED 1,799 / SAR 1,799 / QAR 1,799 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 59900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,799",
             "SA": "SAR 1,799",
-            "QA": "QAR 1,749",
+            "QA": "QAR 1,799",
             "BH": "BHD 199",
-            "KW": "KWD 149",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
@@ -6516,18 +6518,18 @@
           "usdCents": 249900
         },
         "gcc": {
-          "display": "AED 7,350 / SAR 7,500 / QAR 7,300 / BHD 755 / KWD 610 / OMR 775",
+          "display": "AED 7,399 / SAR 7,499 / QAR 7,299 / BHD 799 / KWD 699 / OMR 799",
+          "usdCents": 249900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 7,350",
-            "SA": "SAR 7,500",
-            "QA": "QAR 7,300",
-            "BH": "BHD 755",
-            "KW": "KWD 610",
-            "OM": "OMR 775"
-          },
           "isScholarship": true,
-          "usdCents": 249900
+          "perCountry": {
+            "AE": "AED 7,399",
+            "SA": "SAR 7,499",
+            "QA": "QAR 7,299",
+            "BH": "BHD 799",
+            "KW": "KWD 699",
+            "OM": "OMR 799"
+          }
         },
         "india": {
           "display": "₹139,999",
@@ -6612,18 +6614,18 @@
           "usdCents": 399900
         },
         "gcc": {
-          "display": "AED 11,750 / SAR 12,000 / QAR 11,650 / BHD 1,205 / KWD 980 / OMR 1,240",
+          "display": "AED 11,799 / SAR 11,999 / QAR 11,699 / BHD 1,299 / KWD 999 / OMR 1,299",
+          "usdCents": 399900,
           "currencyCode": "GCC",
-          "perCountry": {
-            "AE": "AED 11,750",
-            "SA": "SAR 12,000",
-            "QA": "QAR 11,650",
-            "BH": "BHD 1,205",
-            "KW": "KWD 980",
-            "OM": "OMR 1,240"
-          },
           "isScholarship": true,
-          "usdCents": 399900
+          "perCountry": {
+            "AE": "AED 11,799",
+            "SA": "SAR 11,999",
+            "QA": "QAR 11,699",
+            "BH": "BHD 1,299",
+            "KW": "KWD 999",
+            "OM": "OMR 1,299"
+          }
         },
         "india": {
           "display": "₹199,999",

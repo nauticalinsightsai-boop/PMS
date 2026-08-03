@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   buildRegionalPriceFromUsd,
+  ceilCharm99,
   charm999,
   deriveFoundationUsd,
   deriveSelfPacedUsd,
@@ -20,6 +21,16 @@ describe('nearestCharm50', () => {
     expect(nearestCharm50(374.5)).toBe(399);
     expect(nearestCharm50(449.5)).toBe(449);
     expect(nearestCharm50(599.5)).toBe(599);
+  });
+});
+
+describe('ceilCharm99', () => {
+  it('ceils to next …99 only (never …49)', () => {
+    expect(ceilCharm99(50)).toBe(99);
+    expect(ceilCharm99(2641.62)).toBe(2699);
+    expect(ceilCharm99(2699)).toBe(2699);
+    expect(ceilCharm99(2700)).toBe(2799);
+    expect(ceilCharm99(1319.24)).toBe(1399);
   });
 });
 
@@ -59,7 +70,7 @@ describe('regionalizeUsd professional discounts', () => {
   it('matches PMP mentor $899 plan checks', () => {
     expect(regionalizeUsd(899, 'india', 'professional').display).toBe('₹52,999');
     expect(regionalizeUsd(899, 'pakistan', 'professional').display).toBe('PKR 174,999');
-    expect(regionalizeUsd(899, 'gcc', 'professional', 'AE').display).toBe('AED 2,649');
+    expect(regionalizeUsd(899, 'gcc', 'professional', 'AE').display).toBe('AED 2,699');
     expect(regionalizeUsd(899, 'europe', 'professional').display).toBe('€849');
     expect(regionalizeUsd(899, 'uk', 'professional').display).toBe('£749');
   });
@@ -67,7 +78,7 @@ describe('regionalizeUsd professional discounts', () => {
   it('matches PMP self-paced $449 plan checks', () => {
     expect(regionalizeUsd(449, 'india', 'professional').display).toBe('₹26,999');
     expect(regionalizeUsd(449, 'pakistan', 'professional').display).toBe('PKR 87,999');
-    expect(regionalizeUsd(449, 'gcc', 'professional', 'AE').display).toBe('AED 1,349');
+    expect(regionalizeUsd(449, 'gcc', 'professional', 'AE').display).toBe('AED 1,399');
   });
 
   it('foundation has no regional scholarship cut', () => {
