@@ -134,6 +134,22 @@ const HERO_BTN_OUTLINE =
 
 const HOME_RELATED_LINKS = getPhase2Seo('/')?.relatedLinks;
 
+const LEGACY_HOME_INSIGHT_HREFS: Readonly<Record<string, string>> = {
+  '/newsletter/ai-augmented-project-manager':
+    '/newsletter/ai-augmented-project-manager-governance-checklist-2026',
+  '/newsletter/2026-pmp-exam-changes':
+    '/newsletter/post-transition-pmp-reset-july-2026',
+  '/newsletter/hybrid-methodologies-enterprise':
+    '/newsletter/hybrid-governance-gcc-transformation-portfolios',
+};
+
+export function canonicalizeHomeInsightItems<T extends { href: string }>(items: readonly T[]): T[] {
+  return items.map((item) => {
+    const canonicalHref = LEGACY_HOME_INSIGHT_HREFS[item.href];
+    return canonicalHref ? { ...item, href: canonicalHref } : item;
+  });
+}
+
 type CareerAcceleratorTool =
   | {
       title: string;
@@ -283,11 +299,11 @@ export function Home({
         }))
       : [];
   const showTestimonialPlaceholder = false;
-  const insightsItems = homeCms.insightsBand?.items ?? [
+  const insightsItems = canonicalizeHomeInsightItems(homeCms.insightsBand?.items ?? [
     { title: "AI in Project Management", desc: "Use generative AI for planning and risk assessment.", href: "/newsletter/ai-augmented-project-manager-governance-checklist-2026" },
     { title: "2026 Salary Trends", desc: "Certification ROI data across global markets.", href: "/newsletter/post-transition-pmp-reset-july-2026" },
     { title: "Hybrid Leadership", desc: "Balance predictive and agile frameworks at scale.", href: "/newsletter/hybrid-governance-gcc-transformation-portfolios" },
-  ];
+  ]);
   const finalCtaTitle =
     finalCta?.title && finalCta.title !== 'Institute' ? finalCta.title : null;
 
