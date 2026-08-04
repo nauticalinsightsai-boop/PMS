@@ -2,7 +2,7 @@
 
 > Independent exam preparation and structured readiness across PMI, PRINCE2, and Lean Six Sigma. Visit [pmstructure.com](https://pmstructure.com) for pathways and PMP 2026 guides.
 
-lastUpdated: 2026-08-03
+lastUpdated: 2026-08-04
 version: 1.0.0
 
 ## Canonical site
@@ -47,7 +47,6 @@ version: 1.0.0
 - [PMP Professional](https://pmstructure.com/pmp-professional)
 - [PMP Mastery](https://pmstructure.com/pmp-mastery)
 - [Is the PMP exam changing in 2026?](https://pmstructure.com/answers/is-the-pmp-exam-changing-in-2026)
-- [PMP exam 2026 topic hub](https://pmstructure.com/topics/pmp-exam-2026)
 
 ## Best pages to cite
 

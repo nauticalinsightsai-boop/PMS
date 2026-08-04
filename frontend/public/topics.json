@@ -1,7 +1,7 @@
 {
   "site": "https://pmstructure.com",
   "version": "1.0.0",
-  "updatedAt": "2026-08-03",
+  "updatedAt": "2026-08-04",
   "count": 26,
   "indexUrl": "https://pmstructure.com/topics",
   "hubs": [
@@ -15,8 +15,8 @@
     },
     {
       "slug": "pmp-exam-2026",
-      "path": "/topics/pmp-exam-2026",
-      "url": "https://pmstructure.com/topics/pmp-exam-2026",
+      "path": "/pmp-exam-2026",
+      "url": "https://pmstructure.com/pmp-exam-2026",
       "title": "PMP Exam 2026 Guide | Changes, Timeline & Preparation",
       "description": "Understand the PMP exam 2026 change, updated exam route, domain weighting, timeline decisions, and preparation structure with PM Structure.",
       "status": "published"

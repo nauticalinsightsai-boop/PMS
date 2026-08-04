@@ -83,18 +83,21 @@ export function buildCertMetadata(certId: string): Metadata {
       path,
     });
   }
-  const familyDescription =
-    cert.familyId === 'PRINCE2'
-      ? T176_SEO.prince2Description
-      : cert.familyId === 'SixSigma'
-        ? T176_SEO.lssDescription
-        : cert.id === 'pmp'
-          ? T176_SEO.pmpDescription
-          : cert.desc ||
-            `${T176_SCHEMA.courseDescription} ${cert.name} on ${PMS_SITE_NAME}.`;
+  // OPEN-13: prefer per-cert description so family siblings do not share identical meta.
+  const trimmedDesc = cert.desc?.trim();
+  const description =
+    cert.id === 'pmp'
+      ? T176_SEO.pmpDescription
+      : trimmedDesc
+        ? `${trimmedDesc.replace(/\.\s*$/, '')}. Independent exam-prep and pathway guidance from ${PMS_SITE_NAME}.`
+        : cert.familyId === 'PRINCE2'
+          ? T176_SEO.prince2Description
+          : cert.familyId === 'SixSigma'
+            ? T176_SEO.lssDescription
+            : `${T176_SCHEMA.courseDescription} ${cert.name} on ${PMS_SITE_NAME}.`;
   return buildPageMetadata({
     title: `${cert.name} exam preparation`,
-    description: familyDescription,
+    description,
     path: `/certifications/${certId}`,
     ogImage: PMS_OG_IMAGE_PATH,
   });

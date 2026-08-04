@@ -1,11 +1,11 @@
 {
   "site": "https://pmstructure.com",
-  "updatedAt": "2026-08-03",
+  "updatedAt": "2026-08-04",
   "description": "PMP-focused articles and newsletter entries for AI crawlers",
   "items": [
     {
-      "title": "2026 PMP exam changes",
-      "url": "https://pmstructure.com/newsletter/2026-pmp-exam-changes",
+      "title": "Post-transition PMP reset (July 2026)",
+      "url": "https://pmstructure.com/newsletter/post-transition-pmp-reset-july-2026",
       "type": "newsletter"
     },
     {

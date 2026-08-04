@@ -33,7 +33,7 @@ const hubs: TopicHubContent[] = [
   },
   {
     slug: 'pmp-exam-2026',
-    path: '/topics/pmp-exam-2026',
+    path: '/pmp-exam-2026',
     title: 'PMP Exam 2026 Guide | Changes, Timeline & Preparation',
     description:
       'Understand the PMP exam 2026 change, updated exam route, domain weighting, timeline decisions, and preparation structure with PM Structure.',

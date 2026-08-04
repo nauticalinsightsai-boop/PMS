@@ -205,7 +205,5 @@ export const PMS_LOGO_PATH = '/brand/pms-logo-light.png';
 export const PMS_FAVICON_PATH = '/brand/pms-icon.png';
 export const PMS_FAVICON_DARK_PATH = '/brand/pms-icon-dark.png';
 
-export const PMS_ORGANIZATION_SAME_AS: readonly string[] = [
-  PMS_SITE_URL,
-  `https://${BRAND.domain}`,
-];
+/** Organization sameAs: single canonical site URL (social profiles via SITE_ORGANIZATION_SAME_AS). */
+export const PMS_ORGANIZATION_SAME_AS: readonly string[] = [PMS_SITE_URL];

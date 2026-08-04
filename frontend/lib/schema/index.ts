@@ -1,6 +1,5 @@
 import {
   PMS_LOGO_PATH,
-  PMS_ORGANIZATION_SAME_AS,
   PMS_SITE_DESCRIPTION,
   PMS_SITE_NAME,
   PMS_SITE_URL,
@@ -9,6 +8,7 @@ import {
   PMS_WHATSAPP_URL,
   isWhatsAppConfigured,
 } from '@/config/pms-site';
+import { SITE_ORGANIZATION_SAME_AS } from '@/config/site';
 
 export function organizationId(): string {
   return `${PMS_SITE_URL}/#organization`;
@@ -25,7 +25,7 @@ export function faqPageId(): string {
 export function buildOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': ['Organization', 'EducationalOrganization'],
+    '@type': 'Organization',
     '@id': organizationId(),
     name: PMS_SITE_NAME,
     url: PMS_SITE_URL,
@@ -44,7 +44,7 @@ export function buildOrganizationSchema() {
       email: PMS_SUPPORT_EMAIL,
       ...(isWhatsAppConfigured() ? { telephone: PMS_WHATSAPP_DISPLAY, url: PMS_WHATSAPP_URL } : { url: `${PMS_SITE_URL}/contact` }),
     },
-    sameAs: [...PMS_ORGANIZATION_SAME_AS],
+    sameAs: [...SITE_ORGANIZATION_SAME_AS],
   };
 }
 

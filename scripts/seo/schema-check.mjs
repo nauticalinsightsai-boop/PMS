@@ -1,5 +1,6 @@
 /**
  * Verify JSON-LD builders and key schema components exist.
+ * OPEN-01: buildCourseSchema( call sites restricted to pathway Course component + schema lib.
  */
 import fs from 'fs';
 import path from 'path';
@@ -52,6 +53,37 @@ for (const fn of requiredBuilders) {
 for (const rel of components) {
   if (!fs.existsSync(path.join(frontend, rel))) {
     console.error(`schema-check FAIL: missing ${rel}`);
+    failed = true;
+  }
+}
+
+const courseCallAllowlist = new Set([
+  path.join(frontend, 'components/seo/PmpCourseJsonLd.tsx'),
+  path.join(frontend, 'lib/schema/index.ts'),
+]);
+
+function walkTsFiles(dir, out = []) {
+  if (!fs.existsSync(dir)) return out;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === 'node_modules' || entry.name === '.next' || entry.name.startsWith('.next.')) {
+      continue;
+    }
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) walkTsFiles(full, out);
+    else if (/\.(tsx?|jsx?|mjs|cjs)$/.test(entry.name) && !entry.name.includes('.test.')) {
+      out.push(full);
+    }
+  }
+  return out;
+}
+
+for (const file of walkTsFiles(frontend)) {
+  if (courseCallAllowlist.has(file)) continue;
+  const src = fs.readFileSync(file, 'utf8');
+  if (/\bbuildCourseSchema\s*\(/.test(src)) {
+    console.error(
+      `schema-check FAIL: buildCourseSchema( call outside allowlist: ${path.relative(root, file)}`,
+    );
     failed = true;
   }
 }

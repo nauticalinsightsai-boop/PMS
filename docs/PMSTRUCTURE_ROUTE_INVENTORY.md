@@ -33,7 +33,7 @@
 | `/pm-service` | yes | yes | PM advisory | PM advisory services | Service (planned) | live |
 | `/certifications` | yes | yes | Certifications | Find your pathway | WebPage (planned) | live |
 | `/certifications/compare` | yes | yes | Compare | Compare certification pathways | WebPage (planned) | live |
-| `/certifications/[id]` | yes | yes | {cert} exam preparation | {cert} pathway | Course, Breadcrumb | live (27 certs) |
+| `/certifications/[id]` | yes | yes | {cert} exam preparation | {cert} pathway | WebPage, Breadcrumb | live (27 certs; no Course — OPEN-01) |
 | `/blog` | yes | yes | Blog | Blog | WebPage (planned) | live |
 | `/blog/[slug]` | yes | yes | Article title | Article H1 | Article (planned) | live |
 | `/newsletter` | yes | yes | Newsletter | Newsletter | WebPage (planned) | live |

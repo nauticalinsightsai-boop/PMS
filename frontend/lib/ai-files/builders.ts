@@ -12,13 +12,13 @@ import { PMP_SERVICE_PATHS } from '@/content/pmp/services';
 import { ANSWER_PAGES } from '@/content/answers/pages';
 import { getPublishedTopicHubs } from '@/content/topics';
 import {
-  PMS_ORGANIZATION_SAME_AS,
   PMS_SITE_URL,
   PMS_SUPPORT_EMAIL,
   PMS_WHATSAPP_DISPLAY,
   PMS_WHATSAPP_URL,
   isWhatsAppConfigured,
 } from '@/config/pms-site';
+import { SITE_ORGANIZATION_SAME_AS } from '@/config/site';
 import {
   AI_FILE_VERSION,
   COMPLIANCE_DISCLAIMER,
@@ -67,12 +67,11 @@ export function buildEntityJson() {
       `${siteUrl}/faq`,
       `${siteUrl}/answers`,
       `${siteUrl}/answers/is-the-pmp-exam-changing-in-2026`,
-      `${siteUrl}/topics/pmp-exam-2026`,
       `${siteUrl}/legal/regional-pricing`,
       `${siteUrl}/legal/pricing-disclaimers`,
     ],
     doNotCite: DO_NOT_CITE_EXACT.map((p) => `${siteUrl}${p}`),
-    sameAs: [...PMS_ORGANIZATION_SAME_AS],
+    sameAs: [...SITE_ORGANIZATION_SAME_AS],
     contact: {
       email: PMS_SUPPORT_EMAIL,
       ...(isWhatsAppConfigured()
@@ -97,7 +96,6 @@ export function buildLlmsTxt(): string {
     ['PMP Professional', '/pmp-professional'],
     ['PMP Mastery', '/pmp-mastery'],
     ['Is the PMP exam changing in 2026?', '/answers/is-the-pmp-exam-changing-in-2026'],
-    ['PMP exam 2026 topic hub', '/topics/pmp-exam-2026'],
   ]
     .map(([label, p]) => md(label, `${siteUrl}${p}`))
     .join('\n');
@@ -232,6 +230,7 @@ const pmpPathwayPages = [
   ...PMP_SERVICE_PATHS.map((path) => ({ path, status: 'live' as const, url: `${siteUrl}${path}` })),
 ];
 
+/** OPEN-01: courses.json lists real pathway Course pages only (not cert reference URLs). */
 export function buildCoursesJson() {
   return {
     site: siteUrl,
@@ -526,8 +525,8 @@ export function buildPmpArticlesFeedJson() {
     description: 'PMP-focused articles and newsletter entries for AI crawlers',
     items: [
       {
-        title: '2026 PMP exam changes',
-        url: `${siteUrl}/newsletter/2026-pmp-exam-changes`,
+        title: 'Post-transition PMP reset (July 2026)',
+        url: `${siteUrl}/newsletter/post-transition-pmp-reset-july-2026`,
         type: 'newsletter',
       },
       {

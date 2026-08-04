@@ -16,7 +16,7 @@
 | `/` | Organization, WebSite | OrganizationJsonLd | live; WebPage TODO |
 | `/faq` | FAQPage | FaqJsonLd | live: must match crawlable FAQ DOM |
 | `/pmp-faq` | FAQPage | PmpFaqPageJsonLd | live: published PMP FAQs only |
-| `/certifications/[id]` | Course, BreadcrumbList | CertJsonLd | live |
+| `/certifications/[id]` | WebPage, BreadcrumbList | CertJsonLd | live — no Course (OPEN-01) |
 | `/about`, `/contact`, marketing | WebPage, Breadcrumb | buildWebPageSchema | planned |
 | `/blog/[slug]` | Article, Breadcrumb | planned Run 8+ | missing |
 | `/newsletter/[slug]` | Article | planned | missing |
@@ -28,7 +28,7 @@
 
 ## Compliance rules
 
-- No `EducationalOrganization` unless owner confirms accreditation
+- No `EducationalOrganization` unless owner confirms accreditation (OPEN-08: Organization only until ATP/accreditation is formally confirmed)
 - Course schema: no invented ratings, dates, instructors, PMI official claims
 - FAQPage: only FAQs visible in page HTML (including `FaqCrawlableContent`)
 - Provider references use `@id` → Organization

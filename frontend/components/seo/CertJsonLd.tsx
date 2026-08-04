@@ -7,6 +7,7 @@ import {
 import { buildWebPageSchema } from '@/lib/schema';
 import { certifications } from '@/data/certification-index';
 
+/** Certification reference pages: WebPage + BreadcrumbList only. Course JSON-LD is pathway-only. */
 export function CertJsonLd({ certId }: { certId: string }) {
   const cert = certifications.find((c) => c.id === certId);
   if (!cert) return null;

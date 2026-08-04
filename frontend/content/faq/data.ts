@@ -472,5 +472,6 @@ export const FAQ_ENTRIES: FaqEntry[] = [
       f.id,
     ),
   ),
-  ...PMP_2026_FAQS,
+  // OPEN-06: drop PMP26 duplicates of canonical exams-pdu-eligibility + t176-faq-pmi-affiliation
+  ...PMP_2026_FAQS.filter((f) => f.id !== 'pmp26-elig-04' && f.id !== 'pmp26-gap-04'),
 ];

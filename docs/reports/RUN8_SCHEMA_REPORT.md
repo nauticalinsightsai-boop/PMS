@@ -11,7 +11,7 @@
 | Homepage | WebPage |
 | About | WebPage, Organization, BreadcrumbList |
 | Certifications hub | WebPage, CollectionPage, BreadcrumbList |
-| Cert detail | Course, BreadcrumbList |
+| Cert detail | WebPage, BreadcrumbList (no Course — OPEN-01) |
 | FAQ | FAQPage (published + schema-eligible only) |
 | Blog / newsletter articles | Article, WebPage, BreadcrumbList |
 | Blog index | CollectionPage |

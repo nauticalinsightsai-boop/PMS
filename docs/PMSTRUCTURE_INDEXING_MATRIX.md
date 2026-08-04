@@ -33,7 +33,7 @@ Implementation: `frontend/lib/indexing-metadata.ts`, `frontend/lib/site-metadata
 
 | Route | Type | Index | Sitemap | Canonical | Robots | Notes |
 |-------|------|-------|---------|-----------|--------|-------|
-| `/certifications/[id]` | product | yes | yes | `/certifications/{id}` | index,follow | Course schema |
+| `/certifications/[id]` | product | yes | yes | `/certifications/{id}` | index,follow | WebPage + Breadcrumb (no Course; OPEN-01) |
 
 ## Content
 
