@@ -169,11 +169,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 }
 
-async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
-  const newsletterArticles = await safeNewsletterArticles();
+export async function buildSitemap(
+  newsletterSlugsOverride?: readonly string[],
+): Promise<MetadataRoute.Sitemap> {
+  const newsletterSlugs = newsletterSlugsOverride ?? (await safeNewsletterArticles()).map((article) => article.slug);
 
-  const newsletter = newsletterArticles
-    .map((n) => safeEntry(`/newsletter/${n.slug}`, 0.6, 'monthly'))
+  const newsletter = newsletterSlugs
+    .map((slug) => safeEntry(`/newsletter/${slug}`, 0.6, 'monthly'))
     .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
   const fixedPublishedNewsletter: MetadataRoute.Sitemap = FIXED_PUBLISHED_NEWSLETTER_ENTRIES.flatMap(({ path, publishedAt }) => {
@@ -190,7 +192,7 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     ...buildAnswerEntries(),
     ...buildTopicEntries(),
     ...buildLegalEntries(),
-    ...newsletter,
     ...fixedPublishedNewsletter,
+    ...newsletter,
   ]);
 }
