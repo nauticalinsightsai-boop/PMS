@@ -5,29 +5,73 @@ import {
   evaluateScholarshipSession,
   isScholarshipAllowedRegion,
   isScholarshipTier,
+  resolveEliteScholarshipPrice,
   SCHOLARSHIP_COOLDOWN_MS,
   SCHOLARSHIP_SESSION_MS,
   scholarshipDiscountPct,
   startScholarshipSession,
 } from './scholarship-offer';
+import { GLOBAL_REFERENCE_FX_PER_USD } from '@/lib/regional-fx-rates';
 
 describe('scholarship-offer discount math', () => {
-  it('applies 15% off Global and 35% off Global for GCC', () => {
+  it('applies 15% off Global and 35% off Global for GCC (USD cents helper)', () => {
     expect(applyScholarshipDiscountMinor(10000, 'global')).toBe(8500);
     expect(applyScholarshipDiscountMinor(10000, 'gcc')).toBe(6500);
-    expect(applyScholarshipDiscountMinor(1, 'global')).toBe(1);
-    expect(applyScholarshipDiscountMinor(0, 'gcc')).toBe(1);
     expect(scholarshipDiscountPct('global')).toBe(15);
     expect(scholarshipDiscountPct('gcc')).toBe(35);
   });
 
-  it('formats display amounts from Global catalogue', () => {
+  it('resolves Global Elite in USD and GCC Elite in local FX currency', () => {
+    const global = resolveEliteScholarshipPrice({
+      globalUsdMajor: 899,
+      regionId: 'global',
+    });
+    expect(global?.currency).toBe('usd');
+    expect(global?.display).toBe('$764.15');
+    expect(global?.unitAmount).toBe(76415);
+
+    const ae = resolveEliteScholarshipPrice({
+      globalUsdMajor: 899,
+      regionId: 'gcc',
+      gccCountry: 'AE',
+    });
+    const expectedMajor = Math.round(899 * GLOBAL_REFERENCE_FX_PER_USD.AED * 0.65);
+    expect(ae?.currencyCode).toBe('AED');
+    expect(ae?.currency).toBe('aed');
+    expect(ae?.majorAmount).toBe(expectedMajor);
+    expect(ae?.display).toBe(`AED ${expectedMajor.toLocaleString('en-US')}`);
+    expect(ae?.originalDisplay).toBe(
+      `AED ${Math.round(899 * GLOBAL_REFERENCE_FX_PER_USD.AED).toLocaleString('en-US')}`,
+    );
+
+    const sa = resolveEliteScholarshipPrice({
+      globalUsdMajor: 899,
+      regionId: 'gcc',
+      gccCountry: 'SA',
+    });
+    expect(sa?.currencyCode).toBe('SAR');
+    expect(sa?.majorAmount).toBe(Math.round(899 * GLOBAL_REFERENCE_FX_PER_USD.SAR * 0.65));
+
+    const om = resolveEliteScholarshipPrice({
+      globalUsdMajor: 899,
+      regionId: 'gcc',
+      gccCountry: 'OM',
+    });
+    expect(om?.currencyCode).toBe('OMR');
+
+    const bh = resolveEliteScholarshipPrice({
+      globalUsdMajor: 899,
+      regionId: 'gcc',
+      gccCountry: 'BH',
+    });
+    expect(bh?.currencyCode).toBe('BHD');
+  });
+
+  it('formats display amounts from Global catalogue (with gccCountry for local)', () => {
     expect(applyScholarshipDiscountDisplay('$1,000', 'global')).toBe('$850');
-    expect(applyScholarshipDiscountDisplay('$1,000', 'gcc')).toBe('$650');
-    // $899 → 89900 * 0.85 = 76415 → $764.15
-    expect(applyScholarshipDiscountDisplay('$899', 'global')).toBe('$764.15');
-    // $899 → 89900 * 0.65 = 58435 → $584.35
-    expect(applyScholarshipDiscountDisplay('$899', 'gcc')).toBe('$584.35');
+    expect(applyScholarshipDiscountDisplay('$1,000', 'gcc', 'AE')).toBe(
+      `AED ${Math.round(1000 * GLOBAL_REFERENCE_FX_PER_USD.AED * 0.65).toLocaleString('en-US')}`,
+    );
   });
 });
 

@@ -11,11 +11,12 @@ import { useRegionalOffering } from '@/hooks/useRegionalOffering';
 import { useRegion } from '@/contexts/RegionContext';
 import { enrollPath, enrollSuccessPath } from '@/lib/enrollment-routes';
 import {
-  applyScholarshipDiscountDisplay,
   eliteScholarshipBanner,
   isScholarshipAllowedRegion,
+  resolveEliteScholarshipPrice,
   scholarshipDiscountPct,
 } from '@/lib/enrollment/scholarship-offer';
+import { parseDisplayAmount } from '@/lib/price-parser';
 import {
   canOfferFullTuitionOnEnroll,
   formatRegionalDepositDisplay,
@@ -108,21 +109,34 @@ export function ProgramEnrollmentForm({
     gccCountry,
   );
 
-  const scholarshipActive =
-    scholarshipMode && isScholarshipAllowedRegion(regionId)
-      ? applyScholarshipDiscountDisplay(globalMentorPrices.active, regionId)
+  const globalUsdMajor = parseDisplayAmount(globalMentorPrices.active);
+  const elitePrice =
+    scholarshipMode && isScholarshipAllowedRegion(regionId) && globalUsdMajor != null
+      ? resolveEliteScholarshipPrice({
+          globalUsdMajor,
+          regionId,
+          gccCountry,
+        })
       : null;
   const scholarshipPct = scholarshipDiscountPct(regionId);
 
   const activePrices =
-    scholarshipMode
+    scholarshipMode && elitePrice
       ? {
           ...mentorPrices,
-          original: globalMentorPrices.active,
-          active: scholarshipActive ?? globalMentorPrices.active,
+          original: elitePrice.originalDisplay,
+          active: elitePrice.display,
           showScholarshipLabels: true,
           regionalLabel: eliteScholarshipBanner(regionId),
         }
+      : scholarshipMode
+        ? {
+            ...mentorPrices,
+            original: globalMentorPrices.active,
+            active: globalMentorPrices.active,
+            showScholarshipLabels: true,
+            regionalLabel: eliteScholarshipBanner(regionId),
+          }
       : paymentMode === 'self_paced'
         ? selfPacedPrices
         : usesDeliveryModes

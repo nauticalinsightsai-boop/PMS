@@ -20,11 +20,12 @@ const enrollmentPageSource = fs.readFileSync(
 describe('scholarshipMode form contract', () => {
   it('forces mentor-led and hides mode switchers when scholarshipMode', () => {
     expect(formSource).toContain("scholarshipMode ? 'mentor_led' : defaultPaymentMode(tierId)");
+    expect(formSource).toContain('resolveEliteScholarshipPrice');
+    expect(formSource).toContain('gccCountry');
     expect(formSource).toContain("offerType={scholarshipMode ? 'scholarship_invite' : undefined}");
     expect(formSource).toContain('eliteScholarshipBanner(regionId)');
     expect(formSource).toContain("router.replace(enrollPath(siteCertId, tierSlug))");
     expect(formSource).toContain('ScholarshipSessionGate');
-    expect(formSource).toContain("applyScholarshipDiscountDisplay(globalMentorPrices.active, regionId)");
   });
 
   it('keeps normal enroll defaults identical', () => {

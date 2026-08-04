@@ -1,4 +1,7 @@
-/** Elite invite scholarship: mentor-led vs Global catalogue (Global −15%, GCC −35%). */
+/** Elite invite scholarship: mentor-led vs Global catalogue (Global −15%, GCC −35% in local FX). */
+
+import { DELIVERY_FX_PER_USD } from '@/lib/delivery-pricing';
+import { toStripeCurrency, toStripeMinorUnits } from '@/lib/regional-checkout-price';
 
 export const SCHOLARSHIP_GLOBAL_DISCOUNT = 0.15;
 export const SCHOLARSHIP_GCC_VS_GLOBAL_DISCOUNT = 0.35;
@@ -7,6 +10,27 @@ export const SCHOLARSHIP_PAY_FRACTION = 1 - SCHOLARSHIP_GLOBAL_DISCOUNT;
 export const SCHOLARSHIP_GCC_PAY_FRACTION = 1 - SCHOLARSHIP_GCC_VS_GLOBAL_DISCOUNT;
 export const SCHOLARSHIP_OFFER_TYPE = 'scholarship_invite' as const;
 export const SCHOLARSHIP_ALLOWED_REGIONS = ['global', 'gcc'] as const;
+
+const GCC_COUNTRY_CURRENCY: Record<string, string> = {
+  AE: 'AED',
+  SA: 'SAR',
+  QA: 'QAR',
+  BH: 'BHD',
+  KW: 'KWD',
+  OM: 'OMR',
+};
+
+export type EliteScholarshipPrice = {
+  currency: string;
+  currencyCode: string;
+  unitAmount: number;
+  majorAmount: number;
+  display: string;
+  originalDisplay: string;
+  discountPct: number;
+  globalUsdMajor: number;
+  gccCountry: string | null;
+};
 
 export function isScholarshipOfferType(raw: unknown): boolean {
   return raw === SCHOLARSHIP_OFFER_TYPE;
@@ -36,6 +60,78 @@ export function scholarshipDiscountPct(regionId: string | null | undefined): num
     : Math.round(SCHOLARSHIP_GLOBAL_DISCOUNT * 100);
 }
 
+export function resolveGccEliteCurrencyCode(gccCountry?: string | null): string {
+  const key = (gccCountry ?? 'AE').toUpperCase();
+  return GCC_COUNTRY_CURRENCY[key] ?? 'AED';
+}
+
+function formatEliteUsdMajor(amount: number): string {
+  if (Number.isInteger(amount)) return `$${amount.toLocaleString('en-US')}`;
+  return `$${amount.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
+
+function formatEliteLocalMajor(amount: number, currencyCode: string): string {
+  return `${currencyCode} ${Math.round(amount).toLocaleString('en-US')}`;
+}
+
+/**
+ * Elite checkout price from Global mentor USD.
+ * Global: USD × 0.85. GCC: (USD × 0.65) converted to country currency via FX.
+ */
+export function resolveEliteScholarshipPrice(input: {
+  globalUsdMajor: number;
+  regionId: string | null | undefined;
+  gccCountry?: string | null;
+}): EliteScholarshipPrice | null {
+  const { globalUsdMajor, regionId } = input;
+  if (!Number.isFinite(globalUsdMajor) || globalUsdMajor <= 0) return null;
+
+  const discountPct = scholarshipDiscountPct(regionId);
+  const pay = scholarshipPayFraction(regionId);
+
+  if (regionId !== 'gcc') {
+    const unitAmount = Math.max(1, Math.round(globalUsdMajor * 100 * pay));
+    const majorAmount = unitAmount / 100;
+    return {
+      currency: 'usd',
+      currencyCode: 'USD',
+      unitAmount,
+      majorAmount,
+      display: formatEliteUsdMajor(majorAmount),
+      originalDisplay: formatEliteUsdMajor(globalUsdMajor),
+      discountPct,
+      globalUsdMajor,
+      gccCountry: null,
+    };
+  }
+
+  const country = (input.gccCountry ?? 'AE').toUpperCase();
+  const currencyCode = resolveGccEliteCurrencyCode(country);
+  const fx = DELIVERY_FX_PER_USD[currencyCode];
+  if (fx == null || fx <= 0) return null;
+
+  const originalMajor = Math.round(globalUsdMajor * fx);
+  const majorAmount = Math.round(globalUsdMajor * fx * pay);
+  const currency = toStripeCurrency(currencyCode);
+  const unitAmount = Math.max(1, toStripeMinorUnits(majorAmount, currency));
+
+  return {
+    currency,
+    currencyCode,
+    unitAmount,
+    majorAmount,
+    display: formatEliteLocalMajor(majorAmount, currencyCode),
+    originalDisplay: formatEliteLocalMajor(originalMajor, currencyCode),
+    discountPct,
+    globalUsdMajor,
+    gccCountry: country,
+  };
+}
+
+/** USD-cents helper for Global-only paths / legacy tests. */
 export function applyScholarshipDiscountMinor(
   globalUnitAmount: number,
   regionId: string | null | undefined = 'global',

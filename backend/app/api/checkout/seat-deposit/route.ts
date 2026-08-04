@@ -16,17 +16,15 @@ import {
   type EnrollmentPaymentMode,
 } from '@/lib/enrollment-pricing';
 import {
-  formatAmountLikeTemplate,
   formatRegionalDepositDisplay,
-  minorToMajorAmount,
   resolveRegionalCheckoutPrice,
   resolveRegionalDepositPrice,
 } from '@/lib/regional-checkout-price';
 import {
-  applyScholarshipDiscountMinor,
   isScholarshipOfferType,
+  resolveEliteScholarshipPrice,
   SCHOLARSHIP_OFFER_TYPE,
-  scholarshipDiscountPct,
+  scholarshipPayFraction,
   scholarshipOfferError,
 } from '@/lib/scholarship-offer';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
@@ -152,30 +150,42 @@ export async function POST(request: Request) {
   let globalMentorBaseline = fullRegional;
 
   if (isScholarshipInvite) {
-    // Elite invite is always priced vs Global mentor catalogue (Global −15%, GCC −35%).
+    // Elite invite: Global −15% USD, or GCC −35% vs Global converted to country currency.
     const globalMentor = resolveRegionalCheckoutPrice(offering, 'global', null, {
       priceBook: 'mentor',
     });
     if (!globalMentor) return jsonError('Global mentor price unavailable', 400);
     globalMentorBaseline = globalMentor;
-    scholarshipDiscountPercent = scholarshipDiscountPct(regionId);
-    const discountedUnit = applyScholarshipDiscountMinor(globalMentor.unitAmount, regionId, 1);
+    const elite = resolveEliteScholarshipPrice({
+      globalUsdMajor: globalMentor.majorAmount,
+      regionId,
+      gccCountry,
+    });
+    if (!elite) return jsonError('Scholarship price unavailable', 400);
+    scholarshipDiscountPercent = elite.discountPct;
     if (
       typeof claimedUnitAmount === 'number' &&
       Number.isFinite(claimedUnitAmount) &&
-      Math.round(claimedUnitAmount) !== discountedUnit
+      Math.round(claimedUnitAmount) !== elite.unitAmount
     ) {
       return jsonError('Scholarship amount mismatch. Refresh and try again.', 400);
     }
-    const majorAmount = minorToMajorAmount(discountedUnit, globalMentor.currency);
-    checkoutDisplay = formatAmountLikeTemplate(globalMentor.display, majorAmount);
+    checkoutDisplay = elite.display;
     checkoutRegional = {
-      ...globalMentor,
-      unitAmount: discountedUnit,
-      majorAmount,
-      display: checkoutDisplay,
+      currency: elite.currency,
+      unitAmount: elite.unitAmount,
+      majorAmount: elite.majorAmount,
+      display: elite.display,
+      currencyCode: elite.currencyCode,
+      usdCents:
+        globalMentor.usdCents != null
+          ? Math.round(globalMentor.usdCents * scholarshipPayFraction(regionId))
+          : Math.round(elite.globalUsdMajor * 100 * scholarshipPayFraction(regionId)),
     };
-    fullRegional = globalMentor;
+    fullRegional = {
+      ...globalMentor,
+      // Keep Global baseline for audit; checkoutRegional holds charged amount/currency.
+    };
   }
 
   const depositDisplay = formatRegionalDepositDisplay(fullRegional.display);
@@ -231,6 +241,7 @@ export async function POST(request: Request) {
             discountPct: String(scholarshipDiscountPercent),
             deliveryMode: 'mentor_led',
             originalMentorUnitAmount: String(globalMentorBaseline.unitAmount),
+            ...(gccCountry ? { gccCountry: String(gccCountry).toUpperCase() } : {}),
           }
         : {}),
       ...(name?.trim() ? { customerName: name.trim() } : {}),
@@ -261,7 +272,9 @@ export async function POST(request: Request) {
       offering_id: offeringId,
       region_id: regionId,
       email: trimmedEmail || 'pending@checkout.local',
-      usd_cents: fullRegional.usdCents ?? session.usdCents,
+      usd_cents: isScholarshipInvite
+        ? (checkoutRegional.usdCents ?? fullRegional.usdCents ?? session.usdCents)
+        : (fullRegional.usdCents ?? session.usdCents),
       status: 'pending',
       stripe_session_id: session.sessionId,
       metadata: {
@@ -281,6 +294,7 @@ export async function POST(request: Request) {
               discountPct: scholarshipDiscountPercent,
               originalMentorUnitAmount: globalMentorBaseline.unitAmount,
               originalMentorDisplay: globalMentorBaseline.display,
+              ...(gccCountry ? { gccCountry: String(gccCountry).toUpperCase() } : {}),
             }
           : {}),
       },
@@ -301,15 +315,18 @@ export async function POST(request: Request) {
     currency: checkoutRegional.currency,
     unitAmount: checkoutRegional.unitAmount,
     displayAmount: isDeposit ? depositDisplay : checkoutDisplay,
-    fullDisplay: fullRegional.display,
+    fullDisplay: isScholarshipInvite ? checkoutDisplay : fullRegional.display,
     depositDisplay,
-    usdCents: fullRegional.usdCents,
+    usdCents: isScholarshipInvite
+      ? (checkoutRegional.usdCents ?? fullRegional.usdCents)
+      : fullRegional.usdCents,
     paymentMode,
     ...(isScholarshipInvite
       ? {
           offerType: SCHOLARSHIP_OFFER_TYPE,
           discountPct: scholarshipDiscountPercent,
           originalMentorUnitAmount: globalMentorBaseline.unitAmount,
+          ...(gccCountry ? { gccCountry: String(gccCountry).toUpperCase() } : {}),
         }
       : {}),
   });
