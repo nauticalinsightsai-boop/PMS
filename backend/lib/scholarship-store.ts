@@ -62,7 +62,7 @@ export async function findScholarshipReservation(params: {
     .eq('market', params.market)
     .maybeSingle();
   if (error) throw error;
-  return (data as ScholarshipReservationRow | null) ?? null;
+  return (data as unknown as ScholarshipReservationRow | null) ?? null;
 }
 
 export async function getScholarshipReservation(
@@ -75,7 +75,7 @@ export async function getScholarshipReservation(
     .eq('id', reservationId)
     .maybeSingle();
   if (error) throw error;
-  return (data as ScholarshipReservationRow | null) ?? null;
+  return (data as unknown as ScholarshipReservationRow | null) ?? null;
 }
 
 export async function createScholarshipReservation(params: {
@@ -115,7 +115,7 @@ export async function createScholarshipReservation(params: {
     .insert(row)
     .select(RESERVATION_COLUMNS)
     .single();
-  if (!error && data) return data as ScholarshipReservationRow;
+  if (!error && data) return data as unknown as ScholarshipReservationRow;
   if ((error as { code?: string } | null)?.code === '23505') {
     const existing = await findScholarshipReservation({
       visitorHash: params.visitorHash,
@@ -140,7 +140,7 @@ export async function attachScholarshipCheckout(params: {
     .select(RESERVATION_COLUMNS)
     .single();
   if (error || !data) throw error ?? new Error('scholarship_checkout_attach_failed');
-  return data as ScholarshipReservationRow;
+  return data as unknown as ScholarshipReservationRow;
 }
 
 export async function setScholarshipReservationStatus(params: {
@@ -179,7 +179,7 @@ export async function listExpiredScholarshipReservations(): Promise<ScholarshipR
     .order('expires_at', { ascending: true })
     .limit(100);
   if (error) throw error;
-  return (data as ScholarshipReservationRow[] | null) ?? [];
+  return (data as unknown as ScholarshipReservationRow[] | null) ?? [];
 }
 
 export async function recordScholarshipEvent(params: {
