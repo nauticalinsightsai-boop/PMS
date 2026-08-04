@@ -7,7 +7,7 @@ import {
   resolveFaqShortAnswer,
 } from '@/content/faq';
 import { PMP_CLUSTER_PATHS } from '@/content/pmp/pages';
-import { PMP_COURSE_PATHS } from '@/content/pmp/courses';
+import { PMP_COURSE_PAGES, PMP_COURSE_PATHS } from '@/content/pmp/courses';
 import { PMP_SERVICE_PATHS } from '@/content/pmp/services';
 import { ANSWER_PAGES } from '@/content/answers/pages';
 import { getPublishedTopicHubs } from '@/content/topics';
@@ -237,16 +237,14 @@ export function buildCoursesJson() {
     site: siteUrl,
     version: AI_FILE_VERSION,
     updatedAt: today(),
-    courses: siteData.certifications.map((c) => ({
-      id: c.id,
-      name: c.name,
-      family: c.familyId,
+    courses: PMP_COURSE_PAGES.map((course) => ({
+      id: course.slug,
+      name: course.h1,
+      tier: course.tier,
       status: 'available',
-      pmpPriority: c.id === 'pmp',
-      url: `${siteUrl}/certifications/${c.id}`,
-      tiers: ['foundation', 'professional', 'mastery'],
+      pmpPriority: true,
+      url: `${siteUrl}${course.path}`,
       compliance: COMPLIANCE_DISCLAIMER,
-      pathwayPages: c.id === 'pmp' ? pmpPathwayPages : undefined,
     })),
   };
 }

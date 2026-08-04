@@ -4,7 +4,7 @@ import {
   PMP_COMMERCIAL_LABEL,
   PMP_COMMERCIAL_PATH,
 } from '@/content/site-architecture/routes';
-import { buildCourseSchema, buildWebPageSchema } from '@/lib/schema';
+import { buildWebPageSchema } from '@/lib/schema';
 import { certifications } from '@/data/certification-index';
 
 export function CertJsonLd({ certId }: { certId: string }) {
@@ -20,11 +20,6 @@ export function CertJsonLd({ certId }: { certId: string }) {
     buildWebPageSchema({
       path: pagePath,
       name: breadcrumbLabel,
-      description: cert.desc,
-    }),
-    buildCourseSchema({
-      path: pagePath,
-      name: `${cert.name} exam preparation`,
       description: cert.desc,
     }),
     breadcrumbItemsToSchema(breadcrumbItems, pagePath),
