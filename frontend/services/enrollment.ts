@@ -39,6 +39,8 @@ type EnrollmentCheckoutPayload = {
   email?: string;
   name?: string;
   colorScheme?: 'light' | 'dark';
+  /** Invite scholarship pages only. */
+  offerType?: 'scholarship_invite';
 };
 
 type EnrollmentCheckoutResponse = {

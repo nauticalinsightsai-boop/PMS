@@ -24,6 +24,8 @@ type Props = {
   paymentMode: EnrollmentPaymentMode;
   className?: string;
   publishableKeyHint?: string | null;
+  /** Invite scholarship only — server recomputes −15% mentor-led price. */
+  offerType?: 'scholarship_invite';
 };
 
 export function StripeEmbeddedSeatCheckout({
@@ -33,6 +35,7 @@ export function StripeEmbeddedSeatCheckout({
   paymentMode,
   className = '',
   publishableKeyHint = null,
+  offerType,
 }: Props) {
   const { regionId, gccCountry } = useRegion();
   const colorScheme = useSiteColorScheme();
@@ -40,7 +43,7 @@ export function StripeEmbeddedSeatCheckout({
   const checkoutRef = React.useRef<StripeEmbeddedCheckout | null>(null);
   const [status, setStatus] = React.useState<'loading' | 'ready' | 'error'>('loading');
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-  const selectionKey = `${offeringId}:${tierSlug}:${paymentMode}:${regionId}:${gccCountry ?? ''}`;
+  const selectionKey = `${offeringId}:${tierSlug}:${paymentMode}:${regionId}:${gccCountry ?? ''}:${offerType ?? ''}`;
   const [checkoutAttempt, setCheckoutAttempt] = React.useState<{
     id: string;
     selectionKey: string;
@@ -114,6 +117,7 @@ export function StripeEmbeddedSeatCheckout({
           gccCountry,
           paymentMode,
           colorScheme,
+          ...(offerType ? { offerType } : {}),
         });
 
         if (cancelled) return;
@@ -200,6 +204,7 @@ export function StripeEmbeddedSeatCheckout({
     paymentMode,
     paymentType,
     publishableKeyHint,
+    offerType,
   ]);
 
   if (!activeAttempt) {

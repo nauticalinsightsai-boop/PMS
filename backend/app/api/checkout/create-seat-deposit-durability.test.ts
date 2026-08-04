@@ -38,16 +38,22 @@ vi.mock('@/lib/membership-pricing', () => ({
 }));
 vi.mock('@/lib/regional-checkout-price', () => ({
   formatRegionalDepositDisplay: vi.fn(() => '$374.75'),
+  formatAmountLikeTemplate: vi.fn((template: string, amount: number) => `$${amount}`),
+  minorToMajorAmount: vi.fn((unitAmount: number) => unitAmount / 100),
   resolveRegionalCheckoutPrice: vi.fn(() => ({
     currency: 'usd',
     unitAmount: 149900,
     display: '$1,499',
+    majorAmount: 1499,
+    currencyCode: 'USD',
     usdCents: 149900,
   })),
   resolveRegionalDepositPrice: vi.fn(() => ({
     currency: 'usd',
     unitAmount: 37475,
     display: '$374.75',
+    majorAmount: 374.75,
+    currencyCode: 'USD',
     usdCents: 149900,
   })),
 }));

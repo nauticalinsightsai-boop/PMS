@@ -15,6 +15,8 @@ type ProgramEnrollmentPageProps = {
   offeringId: string;
   certName: string;
   publishableKeyHint?: string | null;
+  /** Invite-only scholarship checkout (−15% mentor-led, Global/GCC). */
+  scholarshipMode?: boolean;
 };
 
 export function ProgramEnrollmentPage({
@@ -23,6 +25,7 @@ export function ProgramEnrollmentPage({
   offeringId,
   certName,
   publishableKeyHint = null,
+  scholarshipMode = false,
 }: ProgramEnrollmentPageProps) {
   const offering = getOfferingById(offeringId);
   const preparationName = offering?.courseName?.trim() || `${certName} Preparation`;
@@ -33,9 +36,15 @@ export function ProgramEnrollmentPage({
       <div className="container relative z-10 mx-auto w-full max-w-lg px-4 lg:max-w-7xl">
         <div className="lg:max-w-3xl">
           <p className="text-label text-brand-orange mb-2">{certName}</p>
-          <h1 className="font-heading text-hero font-bold mb-2">{enrollmentHeadingForTier(tierSlug)}</h1>
+          <h1 className="font-heading text-hero font-bold mb-2">
+            {scholarshipMode
+              ? `${enrollmentHeadingForTier(tierSlug)} · Scholarship`
+              : enrollmentHeadingForTier(tierSlug)}
+          </h1>
           <p className="text-slate-600 dark:text-slate-400 mb-8 text-sm leading-relaxed md:text-base">
-            {enrollmentDescriptionForTier(tierSlug)}
+            {scholarshipMode
+              ? 'Invite scholarship checkout: 15% off mentor-led tuition for Global and GCC. Session expires in 15 minutes.'
+              : enrollmentDescriptionForTier(tierSlug)}
           </p>
         </div>
         <ProgramEnrollmentForm
@@ -43,6 +52,7 @@ export function ProgramEnrollmentPage({
           siteCertId={siteCertId}
           tierSlug={tierSlug}
           publishableKeyHint={publishableKeyHint}
+          scholarshipMode={scholarshipMode}
         />
         <p className="mt-6 text-xs leading-relaxed text-slate-500 dark:text-slate-400 lg:max-w-3xl">
           {pathwayPaymentDisclaimer(preparationName)}

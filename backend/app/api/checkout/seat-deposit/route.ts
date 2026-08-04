@@ -16,10 +16,19 @@ import {
   type EnrollmentPaymentMode,
 } from '@/lib/enrollment-pricing';
 import {
+  formatAmountLikeTemplate,
   formatRegionalDepositDisplay,
+  minorToMajorAmount,
   resolveRegionalCheckoutPrice,
   resolveRegionalDepositPrice,
 } from '@/lib/regional-checkout-price';
+import {
+  applyScholarshipDiscountMinor,
+  isScholarshipOfferType,
+  SCHOLARSHIP_DISCOUNT,
+  SCHOLARSHIP_OFFER_TYPE,
+  scholarshipOfferError,
+} from '@/lib/scholarship-offer';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 import { jsonError, jsonOk } from '@/lib/response-helpers.js';
 import { safeRedirectUrl } from '@/lib/safe-redirect-url';
@@ -68,6 +77,8 @@ export async function POST(request: Request) {
     returnUrl,
     paymentMode: rawPaymentMode,
     gccCountry,
+    offerType: rawOfferType,
+    unitAmount: claimedUnitAmount,
   } = body as {
     offeringId?: string;
     siteCertId?: string;
@@ -82,7 +93,11 @@ export async function POST(request: Request) {
     returnUrl?: string;
     paymentMode?: EnrollmentPaymentMode;
     gccCountry?: string | null;
+    offerType?: string;
+    unitAmount?: number;
   };
+
+  const isScholarshipInvite = isScholarshipOfferType(rawOfferType);
 
   if (!offeringId || !siteCertId || !tierSlug || !regionId) {
     return jsonError('offeringId, siteCertId, tierSlug, and regionId are required', 400);
@@ -107,7 +122,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const paymentMode = parseEnrollmentPaymentMode(rawPaymentMode, offering.tierId);
+  if (isScholarshipInvite) {
+    const offerErr = scholarshipOfferError(offering.tierId, regionId);
+    if (offerErr) return jsonError(offerErr, 400);
+  }
+
+  const paymentMode: EnrollmentPaymentMode = isScholarshipInvite
+    ? 'mentor_led'
+    : parseEnrollmentPaymentMode(rawPaymentMode, offering.tierId);
   const priceBook = paymentMode === 'self_paced' ? 'self_paced' : 'mentor';
   const fullRegional = resolveRegionalCheckoutPrice(offering, regionId, gccCountry, {
     priceBook,
@@ -119,10 +141,33 @@ export async function POST(request: Request) {
     if (!eligibility.ok) return jsonError(eligibility.message, 403);
   }
 
-  const isDeposit = paymentMode === 'seat_deposit';
-  const checkoutRegional = isDeposit
+  const isDeposit = !isScholarshipInvite && paymentMode === 'seat_deposit';
+  let checkoutRegional = isDeposit
     ? resolveRegionalDepositPrice(fullRegional)
-    : fullRegional;
+    : { ...fullRegional };
+  let checkoutDisplay = isDeposit
+    ? formatRegionalDepositDisplay(fullRegional.display)
+    : fullRegional.display;
+
+  if (isScholarshipInvite) {
+    const discountedUnit = applyScholarshipDiscountMinor(fullRegional.unitAmount, 1);
+    if (
+      typeof claimedUnitAmount === 'number' &&
+      Number.isFinite(claimedUnitAmount) &&
+      Math.round(claimedUnitAmount) !== discountedUnit
+    ) {
+      return jsonError('Scholarship amount mismatch. Refresh and try again.', 400);
+    }
+    const majorAmount = minorToMajorAmount(discountedUnit, fullRegional.currency);
+    checkoutDisplay = formatAmountLikeTemplate(fullRegional.display, majorAmount);
+    checkoutRegional = {
+      ...fullRegional,
+      unitAmount: discountedUnit,
+      majorAmount,
+      display: checkoutDisplay,
+    };
+  }
+
   const depositDisplay = formatRegionalDepositDisplay(fullRegional.display);
 
   const tierLabel = offering.tierId.replace(/_/g, ' ') || tierSlug.replace(/-/g, ' ');
@@ -131,7 +176,9 @@ export async function POST(request: Request) {
 
   const defaultReturn = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll/success?offering=${encodeURIComponent(offeringId)}&session_id={CHECKOUT_SESSION_ID}`;
   const defaultSuccess = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll/success?offering=${encodeURIComponent(offeringId)}&session_id={CHECKOUT_SESSION_ID}`;
-  const defaultCancel = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll?offering=${encodeURIComponent(offeringId)}`;
+  const defaultCancel = isScholarshipInvite
+    ? `${origin}/certifications/${siteCertId}/${tierSlug}/enroll/scholarship?offering=${encodeURIComponent(offeringId)}`
+    : `${origin}/certifications/${siteCertId}/${tierSlug}/enroll?offering=${encodeURIComponent(offeringId)}`;
 
   const deliveryLabel =
     paymentMode === 'self_paced'
@@ -148,14 +195,18 @@ export async function POST(request: Request) {
     email: trimmedEmail || undefined,
     productName: isDeposit
       ? `Seat reservation deposit: ${offering.courseName}`
-      : deliveryLabel
-        ? `${offering.courseName}: ${tierLabel} (${deliveryLabel})`
-        : `${offering.courseName}: ${tierLabel}`,
+      : isScholarshipInvite
+        ? `${offering.courseName}: ${tierLabel} (Mentor-led scholarship)`
+        : deliveryLabel
+          ? `${offering.courseName}: ${tierLabel} (${deliveryLabel})`
+          : `${offering.courseName}: ${tierLabel}`,
     productDescription: isDeposit
       ? `${tierLabel} pathway · 25% deposit (${depositDisplay}) · remaining tuition due at onboarding`
-      : deliveryLabel
-        ? `${deliveryLabel} · ${fullRegional.display}`
-        : `Full pathway tuition (${fullRegional.display})`,
+      : isScholarshipInvite
+        ? `Mentor-led scholarship (−${Math.round(SCHOLARSHIP_DISCOUNT * 100)}%) · ${checkoutDisplay}`
+        : deliveryLabel
+          ? `${deliveryLabel} · ${fullRegional.display}`
+          : `Full pathway tuition (${fullRegional.display})`,
     metadata: {
       offeringId,
       siteCertId,
@@ -163,7 +214,15 @@ export async function POST(request: Request) {
       regionId,
       paymentType: paymentMode,
       checkoutCurrency: checkoutRegional.currency,
-      checkoutDisplay: isDeposit ? depositDisplay : fullRegional.display,
+      checkoutDisplay: isDeposit ? depositDisplay : checkoutDisplay,
+      ...(isScholarshipInvite
+        ? {
+            offerType: SCHOLARSHIP_OFFER_TYPE,
+            discountPct: String(Math.round(SCHOLARSHIP_DISCOUNT * 100)),
+            deliveryMode: 'mentor_led',
+            originalMentorUnitAmount: String(fullRegional.unitAmount),
+          }
+        : {}),
       ...(name?.trim() ? { customerName: name.trim() } : {}),
     },
   };
@@ -203,9 +262,17 @@ export async function POST(request: Request) {
         uiMode: embedded ? 'embedded' : 'redirect',
         checkoutCurrency: checkoutRegional.currency,
         checkoutUnitAmount: checkoutRegional.unitAmount,
-        checkoutDisplay: isDeposit ? depositDisplay : fullRegional.display,
+        checkoutDisplay: isDeposit ? depositDisplay : checkoutDisplay,
         depositFraction: isDeposit ? 0.25 : null,
         deliveryMode: isDeliveryFullChargeMode(paymentMode) ? paymentMode : null,
+        ...(isScholarshipInvite
+          ? {
+              offerType: SCHOLARSHIP_OFFER_TYPE,
+              discountPct: Math.round(SCHOLARSHIP_DISCOUNT * 100),
+              originalMentorUnitAmount: fullRegional.unitAmount,
+              originalMentorDisplay: fullRegional.display,
+            }
+          : {}),
       },
     });
     if (error) {
@@ -223,11 +290,18 @@ export async function POST(request: Request) {
     },
     currency: checkoutRegional.currency,
     unitAmount: checkoutRegional.unitAmount,
-    displayAmount: isDeposit ? depositDisplay : fullRegional.display,
+    displayAmount: isDeposit ? depositDisplay : checkoutDisplay,
     fullDisplay: fullRegional.display,
     depositDisplay,
     usdCents: fullRegional.usdCents,
     paymentMode,
+    ...(isScholarshipInvite
+      ? {
+          offerType: SCHOLARSHIP_OFFER_TYPE,
+          discountPct: Math.round(SCHOLARSHIP_DISCOUNT * 100),
+          originalMentorUnitAmount: fullRegional.unitAmount,
+        }
+      : {}),
   });
   } catch (err) {
     console.error('[checkout/seat-deposit] session create failed:', err);
