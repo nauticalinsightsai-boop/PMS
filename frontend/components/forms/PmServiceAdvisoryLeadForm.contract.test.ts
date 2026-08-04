@@ -30,7 +30,7 @@ describe('PM Service advisory exact-four choice contract', () => {
     expect(source).toContain(
       'formChoiceChipLayoutClass(PM_SERVICE_INDUSTRY_CHOICES.length)',
     );
-    expect(source).toContain("'-mx-2.5 sm:-mx-6'");
+    expect(source).not.toContain("'-mx-2.5 sm:-mx-6'");
     expect(source).toContain(
       "'tracking-[-0.02em] sm:tracking-[-0.045em] md:tracking-[-0.045em]'",
     );

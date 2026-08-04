@@ -8,10 +8,10 @@ import {
 describe('formChoiceGroupClass', () => {
   it('uses the approved exact-four class strings', () => {
     expect(formChoiceGroupClass(4, 'site')).toBe(
-      'grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-0 md:gap-0',
+      'grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-2.5 md:gap-3',
     );
     expect(formChoiceGroupClass(4, 'portal')).toBe(
-      'grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-0 md:gap-0',
+      'grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-2.5 md:gap-3',
     );
   });
 
@@ -51,10 +51,10 @@ describe('formChoiceChipLayoutClass', () => {
 });
 
 describe('formChoiceStepBleedClass', () => {
-  it('keeps site inset and portal compact bleed', () => {
+  it('keeps the parent inset for both site and portal forms', () => {
     expect(formChoiceStepBleedClass('site')).toBe('');
-    expect(formChoiceStepBleedClass('portal')).toBe('sm:-mx-4');
+    expect(formChoiceStepBleedClass('portal')).toBe('');
     expect(formChoiceStepBleedClass('site')).not.toContain('sm:-mx-6');
-    expect(formChoiceStepBleedClass('portal')).not.toContain('md:mx-0');
+    expect(formChoiceStepBleedClass('portal')).not.toContain('sm:-mx-4');
   });
 });

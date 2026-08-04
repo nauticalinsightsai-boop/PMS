@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { NEWSLETTER_SIGNUP_PREFERENCES } from '@/lib/newsletter-signup-preferences';
 
 const readForm = (name: string) =>
   readFileSync(resolve(process.cwd(), 'components/forms', name), 'utf8');
@@ -9,6 +10,10 @@ const hero = readForm('NewsletterHeroSubscribeForm.tsx');
 const compactNewsletter = readForm('NewsletterSubscribeForm.tsx');
 const community = readForm('CommunityWaitlistForm.tsx');
 const pmService = readForm('PmServiceAdvisoryLeadForm.tsx');
+const newsletterPage = readFileSync(
+  resolve(process.cwd(), 'components/pages/Newsletter.tsx'),
+  'utf8',
+);
 
 const expectBefore = (source: string, first: string, second: string) => {
   expect(source.indexOf(first)).toBeGreaterThanOrEqual(0);
@@ -43,6 +48,26 @@ describe('secondary lead form accessibility state machines', () => {
     expect(hero).toContain('Step {stepNumber} of 2');
     expect(hero).toContain('Continue');
     expect(hero).toContain('NEWSLETTER_FOCUS_OPTIONS');
+    expect(NEWSLETTER_SIGNUP_PREFERENCES).toEqual([
+      'PMP',
+      'PMI-RMP / Risk',
+      'CAPM',
+      'AI in Project Management',
+      'Career Growth',
+      'General Project Management',
+    ]);
+    expect(new Set(NEWSLETTER_SIGNUP_PREFERENCES).size).toBe(6);
+    expect(hero).toContain('NEWSLETTER_SIGNUP_PREFERENCES.map');
+    expect(hero).not.toContain('topicOptions');
+    expect(newsletterPage).not.toContain('topicOptions');
+    expect(newsletterPage).not.toMatch(
+      /categories\.filter\(\(cat\) => cat !== ["']All["']\)/,
+    );
+    expectBefore(hero, 'data-step="topics"', 'data-step="contact"');
+    expectBefore(hero, 'Topics of interest', 'Primary focus');
+    expectBefore(hero, 'Full Name', 'Email Address');
+    expectBefore(hero, 'Email Address', 'LinkedIn profile');
+    expect(hero).not.toMatch(/type=["']tel["']/);
     expect(hero).toMatch(
       /ref=\{topicsRef\}[\s\S]*?tabIndex=\{-1\}[\s\S]*?aria-invalid=\{errorTarget === 'topics' \? true : undefined\}[\s\S]*?aria-describedby=\{errorTarget === 'topics' \? `\$\{idPrefix\}-form-error` : undefined\}/,
     );

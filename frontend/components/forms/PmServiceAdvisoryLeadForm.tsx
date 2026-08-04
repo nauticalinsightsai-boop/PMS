@@ -353,10 +353,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                   You are interested in <span className="text-brand-orange">*</span>
                 </legend>
                 <div
-                  className={cn(
-                    formChoiceGroupClass(PM_SERVICE_INTEREST_CHOICES.length, 'site'),
-                    '-mx-2.5 sm:-mx-6',
-                  )}
+                  className={formChoiceGroupClass(PM_SERVICE_INTEREST_CHOICES.length, 'site')}
                   role="group"
                   aria-labelledby={`${idPrefix}-interest-legend`}
                 >
@@ -430,10 +427,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                   </span>
                 </legend>
                 <div
-                  className={cn(
-                    formChoiceGroupClass(PM_SERVICE_INDUSTRY_CHOICES.length, 'site'),
-                    '-mx-2.5 sm:-mx-6',
-                  )}
+                  className={formChoiceGroupClass(PM_SERVICE_INDUSTRY_CHOICES.length, 'site')}
                   role="group"
                   aria-labelledby={`${idPrefix}-industry-legend`}
                 >

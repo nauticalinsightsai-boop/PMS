@@ -7,9 +7,8 @@ export type FormChoiceGroupVariant = 'site' | 'portal';
  * two rows (2×2) on mobile (`grid-cols-2`). Other counts keep the existing
  * two-column mobile + flex-wrap desktop layout.
  *
- * Portal exact-four uses zero gap from sm through md so locked labels fit
- * one-line in portal shells; site also uses `sm:gap-0 md:gap-0` so long
- * one-line labels fit inside the panel inset.
+ * Exact-four groups retain positive space between choices at every breakpoint
+ * so their borders never visually merge inside the form panel.
  */
 export function formChoiceGroupClass(
   optionCount: number,
@@ -17,8 +16,8 @@ export function formChoiceGroupClass(
 ): string {
   if (optionCount === 4) {
     return variant === 'portal'
-      ? 'grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-0 md:gap-0'
-      : 'grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-0 md:gap-0';
+      ? 'grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-2.5 md:gap-3'
+      : 'grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-2.5 md:gap-3';
   }
   return variant === 'portal'
     ? 'grid grid-cols-2 gap-2 max-sm:gap-2 sm:flex sm:flex-wrap sm:gap-3'
@@ -39,12 +38,11 @@ export function formChoiceChipLayoutClass(optionCount: number): string {
 }
 
 /**
- * Horizontal bleed on Fit + Eligibility step wrappers only (not Contact).
- * Site keeps the panel inset (`px-5` / `sm:px-6`) so chip rows have left/right
- * breathing room. Portal still bleeds slightly (`sm:-mx-4`) for compact shells.
+ * Choice steps keep the parent panel inset for consistent left/right breathing
+ * room across site and portal shells.
  */
 export function formChoiceStepBleedClass(
-  variant: FormChoiceGroupVariant = 'site',
+  _variant: FormChoiceGroupVariant = 'site',
 ): string {
-  return variant === 'portal' ? 'sm:-mx-4' : '';
+  return '';
 }

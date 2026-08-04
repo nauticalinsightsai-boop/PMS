@@ -13,6 +13,10 @@ import {
   formChoiceChipLayoutClass,
   formChoiceGroupClass,
 } from '@/lib/form-choice-group-layout';
+import {
+  NEWSLETTER_SIGNUP_PREFERENCES,
+  type NewsletterSignupPreference,
+} from '@/lib/newsletter-signup-preferences';
 
 export type NewsletterHeroFormPlacement = 'newsletter_hero_mobile' | 'newsletter_hero_desktop';
 
@@ -34,11 +38,10 @@ type NewsletterFocusValue = (typeof NEWSLETTER_FOCUS_OPTIONS)[number]['value'];
 
 type Props = {
   placement: NewsletterHeroFormPlacement;
-  topicOptions: string[];
   className?: string;
 };
 
-export function NewsletterHeroSubscribeForm({ placement, topicOptions, className }: Props) {
+export function NewsletterHeroSubscribeForm({ placement, className }: Props) {
   const idPrefix = placement.replace(/[^a-z0-9]/gi, '-');
   const isMobile = placement === 'newsletter_hero_mobile';
 
@@ -46,7 +49,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
   const [fullName, setFullName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [linkedinUrl, setLinkedinUrl] = React.useState('');
-  const [selectedTopics, setSelectedTopics] = React.useState<string[]>([]);
+  const [selectedTopics, setSelectedTopics] = React.useState<NewsletterSignupPreference[]>([]);
   const [readerFocus, setReaderFocus] = React.useState<NewsletterFocusValue | ''>('');
   const [honeypot, setHoneypot] = React.useState('');
   const [submitting, setSubmitting] = React.useState(false);
@@ -85,7 +88,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
     setErrorTarget(null);
   };
 
-  const toggleTopic = (topic: string) => {
+  const toggleTopic = (topic: NewsletterSignupPreference) => {
     setSelectedTopics((prev) => {
       const next = prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic];
       if (next.length > 0 && errorTarget === 'topics') {
@@ -295,7 +298,7 @@ export function NewsletterHeroSubscribeForm({ placement, topicOptions, className
                   role="group"
                   aria-labelledby={`${idPrefix}-topics-legend`}
                 >
-                  {topicOptions.map((topic) => {
+                  {NEWSLETTER_SIGNUP_PREFERENCES.map((topic) => {
                     const selected = selectedTopics.includes(topic);
                     return (
                       <button
