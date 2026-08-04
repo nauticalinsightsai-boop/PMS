@@ -9,13 +9,11 @@ import {
   Search,
   Pencil,
   Eye,
-  Trash2,
   Loader2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NavLinkButton } from '@/components/ui/nav-link-button';
 import { Input } from '@/components/ui/input';
-import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { RefreshIcon } from '@/components/shared/RefreshIcon';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
 import type { NewsletterPostStatus } from '@/lib/newsletter-posts';
@@ -34,9 +32,8 @@ function statusBadge(status: NewsletterPostStatus) {
 }
 
 export function NewsletterPostsList() {
-  const { posts, isLoading, isSaving, refresh, deletePost } = useNewsletterPosts();
+  const { posts, isLoading, isSaving, refresh } = useNewsletterPosts();
   const [search, setSearch] = useState('');
-  const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleRefresh = async () => {
@@ -188,14 +185,6 @@ export function NewsletterPostsList() {
                             <Eye size={16} />
                           </Button>
                         ) : null}
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          aria-label={`Delete ${post.title}`}
-                          onClick={() => setDeleteId(post.id)}
-                        >
-                          <Trash2 size={16} className="text-destructive" />
-                        </Button>
                       </div>
                     </td>
                   </tr>
@@ -206,18 +195,6 @@ export function NewsletterPostsList() {
         )}
       </div>
 
-      <ConfirmDialog
-        open={Boolean(deleteId)}
-        onOpenChange={(open) => !open && setDeleteId(null)}
-        title="Delete newsletter?"
-        description="This removes the newsletter from the registry. This action cannot be undone."
-        confirmLabel="Delete"
-        onConfirm={async () => {
-          if (!deleteId) return;
-          await deletePost(deleteId);
-          setDeleteId(null);
-        }}
-      />
     </div>
   );
 }

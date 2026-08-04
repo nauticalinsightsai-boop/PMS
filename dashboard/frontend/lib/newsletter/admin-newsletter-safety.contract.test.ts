@@ -70,9 +70,16 @@ describe('admin and newsletter editor safety source contract', () => {
 
   it('removes registry-wide deployment and destructive dashboard deletion affordances', () => {
     const dashboard = read('dashboard/frontend/components/pages/admin/NewsletterDashboard.tsx');
+    const allPosts = read('dashboard/frontend/components/pages/admin/NewsletterPostsList.tsx');
+    const hook = read('dashboard/frontend/hooks/useNewsletterPosts.ts');
     expect(dashboard).not.toContain('Deploy Now');
     expect(dashboard).not.toContain('Update & publish');
     expect(dashboard).not.toContain('Trash2');
     expect(dashboard).toContain('confirmed per-post publish flow');
+    expect(allPosts).not.toContain('Trash2');
+    expect(allPosts).not.toContain('Delete newsletter?');
+    expect(allPosts).not.toContain('deletePost');
+    expect(hook).not.toContain('const deletePost');
+    expect(hook).not.toContain('deletePost,');
   });
 });

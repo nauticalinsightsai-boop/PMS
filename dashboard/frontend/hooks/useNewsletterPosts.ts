@@ -238,28 +238,6 @@ export function useNewsletterPosts() {
     [],
   );
 
-  const deletePost = useCallback(
-    async (id: string) => {
-      setIsSaving(true);
-      setSavingIntent('save-draft');
-      setError(null);
-      try {
-        const next = {
-          version: 1 as const,
-          posts: registry.posts.filter((post) => post.id !== id),
-        };
-        await persistPrivateDraft(next);
-      } catch (err) {
-        setError('Could not update the hidden newsletter draft.');
-        throw err;
-      } finally {
-        setIsSaving(false);
-        setSavingIntent(null);
-      }
-    },
-    [persistPrivateDraft, registry.posts],
-  );
-
   const getPostById = useCallback(
     (id: string) => registry.posts.find((post) => post.id === id),
     [registry.posts],
@@ -292,7 +270,6 @@ export function useNewsletterPosts() {
     syncFromSite,
     saveDraftPost,
     publishPost,
-    deletePost,
     getPostById,
     getPostPersistence,
   };
