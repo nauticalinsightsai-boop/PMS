@@ -79,7 +79,7 @@ export function ScholarshipSessionGate({ offeringId, children, className = '' }:
               Scholarship session active · {formatRemaining(state.remainingMs)}
             </p>
             <p className="mt-1 text-amber-800/90 dark:text-amber-200/90 leading-snug">
-              Complete mentor-led checkout within the timer. Refreshing keeps this same 15-minute hold.
+              Complete mentor-led checkout within the timer. Refreshing keeps this same 20-minute hold.
             </p>
           </>
         ) : state.status === 'cooldown' ? (
@@ -94,7 +94,7 @@ export function ScholarshipSessionGate({ offeringId, children, className = '' }:
           <>
             <p className="font-semibold text-amber-900 dark:text-amber-100">Scholarship session ready</p>
             <p className="mt-1 text-amber-800/90 dark:text-amber-200/90 leading-snug">
-              Starting a 15-minute checkout hold…
+              Starting a 20-minute checkout hold…
             </p>
           </>
         )}

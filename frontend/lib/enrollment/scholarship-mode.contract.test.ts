@@ -12,14 +12,19 @@ const pageSource = fs.readFileSync(
   ),
   'utf8',
 );
+const enrollmentPageSource = fs.readFileSync(
+  new URL('../../components/pages/ProgramEnrollment.tsx', import.meta.url),
+  'utf8',
+);
 
 describe('scholarshipMode form contract', () => {
   it('forces mentor-led and hides mode switchers when scholarshipMode', () => {
     expect(formSource).toContain("scholarshipMode ? 'mentor_led' : defaultPaymentMode(tierId)");
     expect(formSource).toContain("offerType={scholarshipMode ? 'scholarship_invite' : undefined}");
-    expect(formSource).toContain('15% mentor-led scholarship · GCC &amp; Global');
+    expect(formSource).toContain('eliteScholarshipBanner(regionId)');
     expect(formSource).toContain("router.replace(enrollPath(siteCertId, tierSlug))");
     expect(formSource).toContain('ScholarshipSessionGate');
+    expect(formSource).toContain("applyScholarshipDiscountDisplay(globalMentorPrices.active, regionId)");
   });
 
   it('keeps normal enroll defaults identical', () => {
@@ -29,12 +34,14 @@ describe('scholarshipMode form contract', () => {
   });
 });
 
-describe('foundation scholarship route gate', () => {
-  it('rejects non-scholarship tiers via isScholarshipTier + notFound', () => {
+describe('Elite scholarship page copy', () => {
+  it('uses congratulations Elite heading instead of delivery-option copy', () => {
+    expect(enrollmentPageSource).toContain('ELITE_SCHOLARSHIP_HEADING');
+    expect(enrollmentPageSource).not.toContain('Choose your delivery option · Scholarship');
+    expect(pageSource).toContain('Elite scholarship');
     expect(pageSource).toContain('isScholarshipTier(tierSlug)');
     expect(pageSource).toContain('notFound()');
     expect(pageSource).toContain("offering.tierId === 'foundation'");
-    expect(pageSource).toContain('scholarshipMode');
     expect(pageSource).toContain('robots: { index: false, follow: false }');
   });
 });

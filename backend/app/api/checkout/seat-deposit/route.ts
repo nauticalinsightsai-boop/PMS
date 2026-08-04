@@ -25,8 +25,8 @@ import {
 import {
   applyScholarshipDiscountMinor,
   isScholarshipOfferType,
-  SCHOLARSHIP_DISCOUNT,
   SCHOLARSHIP_OFFER_TYPE,
+  scholarshipDiscountPct,
   scholarshipOfferError,
 } from '@/lib/scholarship-offer';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
@@ -131,7 +131,7 @@ export async function POST(request: Request) {
     ? 'mentor_led'
     : parseEnrollmentPaymentMode(rawPaymentMode, offering.tierId);
   const priceBook = paymentMode === 'self_paced' ? 'self_paced' : 'mentor';
-  const fullRegional = resolveRegionalCheckoutPrice(offering, regionId, gccCountry, {
+  let fullRegional = resolveRegionalCheckoutPrice(offering, regionId, gccCountry, {
     priceBook,
   });
   if (!fullRegional) return jsonError('Price unavailable', 400);
@@ -148,9 +148,18 @@ export async function POST(request: Request) {
   let checkoutDisplay = isDeposit
     ? formatRegionalDepositDisplay(fullRegional.display)
     : fullRegional.display;
+  let scholarshipDiscountPercent: number | null = null;
+  let globalMentorBaseline = fullRegional;
 
   if (isScholarshipInvite) {
-    const discountedUnit = applyScholarshipDiscountMinor(fullRegional.unitAmount, 1);
+    // Elite invite is always priced vs Global mentor catalogue (Global −15%, GCC −35%).
+    const globalMentor = resolveRegionalCheckoutPrice(offering, 'global', null, {
+      priceBook: 'mentor',
+    });
+    if (!globalMentor) return jsonError('Global mentor price unavailable', 400);
+    globalMentorBaseline = globalMentor;
+    scholarshipDiscountPercent = scholarshipDiscountPct(regionId);
+    const discountedUnit = applyScholarshipDiscountMinor(globalMentor.unitAmount, regionId, 1);
     if (
       typeof claimedUnitAmount === 'number' &&
       Number.isFinite(claimedUnitAmount) &&
@@ -158,14 +167,15 @@ export async function POST(request: Request) {
     ) {
       return jsonError('Scholarship amount mismatch. Refresh and try again.', 400);
     }
-    const majorAmount = minorToMajorAmount(discountedUnit, fullRegional.currency);
-    checkoutDisplay = formatAmountLikeTemplate(fullRegional.display, majorAmount);
+    const majorAmount = minorToMajorAmount(discountedUnit, globalMentor.currency);
+    checkoutDisplay = formatAmountLikeTemplate(globalMentor.display, majorAmount);
     checkoutRegional = {
-      ...fullRegional,
+      ...globalMentor,
       unitAmount: discountedUnit,
       majorAmount,
       display: checkoutDisplay,
     };
+    fullRegional = globalMentor;
   }
 
   const depositDisplay = formatRegionalDepositDisplay(fullRegional.display);
@@ -203,7 +213,7 @@ export async function POST(request: Request) {
     productDescription: isDeposit
       ? `${tierLabel} pathway · 25% deposit (${depositDisplay}) · remaining tuition due at onboarding`
       : isScholarshipInvite
-        ? `Mentor-led scholarship (−${Math.round(SCHOLARSHIP_DISCOUNT * 100)}%) · ${checkoutDisplay}`
+        ? `Mentor-led Elite scholarship (−${scholarshipDiscountPercent}%) · ${checkoutDisplay}`
         : deliveryLabel
           ? `${deliveryLabel} · ${fullRegional.display}`
           : `Full pathway tuition (${fullRegional.display})`,
@@ -218,9 +228,9 @@ export async function POST(request: Request) {
       ...(isScholarshipInvite
         ? {
             offerType: SCHOLARSHIP_OFFER_TYPE,
-            discountPct: String(Math.round(SCHOLARSHIP_DISCOUNT * 100)),
+            discountPct: String(scholarshipDiscountPercent),
             deliveryMode: 'mentor_led',
-            originalMentorUnitAmount: String(fullRegional.unitAmount),
+            originalMentorUnitAmount: String(globalMentorBaseline.unitAmount),
           }
         : {}),
       ...(name?.trim() ? { customerName: name.trim() } : {}),
@@ -268,9 +278,9 @@ export async function POST(request: Request) {
         ...(isScholarshipInvite
           ? {
               offerType: SCHOLARSHIP_OFFER_TYPE,
-              discountPct: Math.round(SCHOLARSHIP_DISCOUNT * 100),
-              originalMentorUnitAmount: fullRegional.unitAmount,
-              originalMentorDisplay: fullRegional.display,
+              discountPct: scholarshipDiscountPercent,
+              originalMentorUnitAmount: globalMentorBaseline.unitAmount,
+              originalMentorDisplay: globalMentorBaseline.display,
             }
           : {}),
       },
@@ -298,8 +308,8 @@ export async function POST(request: Request) {
     ...(isScholarshipInvite
       ? {
           offerType: SCHOLARSHIP_OFFER_TYPE,
-          discountPct: Math.round(SCHOLARSHIP_DISCOUNT * 100),
-          originalMentorUnitAmount: fullRegional.unitAmount,
+          discountPct: scholarshipDiscountPercent,
+          originalMentorUnitAmount: globalMentorBaseline.unitAmount,
         }
       : {}),
   });

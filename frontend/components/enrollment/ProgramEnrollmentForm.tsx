@@ -12,7 +12,9 @@ import { useRegion } from '@/contexts/RegionContext';
 import { enrollPath, enrollSuccessPath } from '@/lib/enrollment-routes';
 import {
   applyScholarshipDiscountDisplay,
+  eliteScholarshipBanner,
   isScholarshipAllowedRegion,
+  scholarshipDiscountPct,
 } from '@/lib/enrollment/scholarship-offer';
 import {
   canOfferFullTuitionOnEnroll,
@@ -93,6 +95,12 @@ export function ProgramEnrollmentForm({
     'mentor_led',
     gccCountry,
   );
+  const globalMentorPrices = resolveDeliveryPriceDisplay(
+    offeringMeta,
+    'global',
+    'mentor_led',
+    null,
+  );
   const selfPacedPrices = resolveDeliveryPriceDisplay(
     offeringMeta,
     regionId,
@@ -102,17 +110,18 @@ export function ProgramEnrollmentForm({
 
   const scholarshipActive =
     scholarshipMode && isScholarshipAllowedRegion(regionId)
-      ? applyScholarshipDiscountDisplay(mentorPrices.active)
+      ? applyScholarshipDiscountDisplay(globalMentorPrices.active, regionId)
       : null;
+  const scholarshipPct = scholarshipDiscountPct(regionId);
 
   const activePrices =
     scholarshipMode
       ? {
           ...mentorPrices,
-          original: mentorPrices.active,
-          active: scholarshipActive ?? mentorPrices.active,
+          original: globalMentorPrices.active,
+          active: scholarshipActive ?? globalMentorPrices.active,
           showScholarshipLabels: true,
-          regionalLabel: '15% mentor-led scholarship · GCC & Global',
+          regionalLabel: eliteScholarshipBanner(regionId),
         }
       : paymentMode === 'self_paced'
         ? selfPacedPrices
@@ -140,14 +149,16 @@ export function ProgramEnrollmentForm({
         <p className="text-sm text-muted-foreground">{tierLabel}</p>
         {scholarshipMode ? (
           <p className="mt-3 rounded-lg border border-brand-orange/30 bg-brand-orange/5 px-3 py-2 text-sm font-medium text-foreground">
-            15% mentor-led scholarship · GCC &amp; Global
+            {eliteScholarshipBanner(regionId)}
           </p>
         ) : null}
         <p className="mt-3 text-sm text-muted-foreground leading-relaxed md:text-base">
           {scholarshipMode ? (
             <>
-              Pay {fullLabel ?? 'scholarship tuition'} today for mentor-led weekly sessions at 15% off the
-              regional mentor-led catalogue price. Support will confirm onboarding within 24 hours.
+              Pay {fullLabel ?? 'Elite scholarship tuition'} today for mentor-led weekly sessions —{' '}
+              {scholarshipPct}% off the Global mentor-led catalogue price
+              {regionId === 'gcc' ? ' (GCC Elite invite)' : ''}. Support will confirm onboarding within
+              24 hours.
             </>
           ) : isFoundation ? (
             <>

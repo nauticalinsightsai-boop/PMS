@@ -107,7 +107,7 @@ describe('seat-deposit scholarship_invite branch', () => {
     });
   });
 
-  it('forces mentor book and charges 85% of mentor regional unit amount', async () => {
+  it('forces mentor book and charges 85% of Global mentor unit amount', async () => {
     const res = await createSeatCheckout(scholarshipRequest());
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -122,6 +122,15 @@ describe('seat-deposit scholarship_invite branch', () => {
     expect(sessionArg.metadata.offerType).toBe('scholarship_invite');
     expect(sessionArg.metadata.discountPct).toBe('15');
     expect(sessionArg.metadata.deliveryMode).toBe('mentor_led');
+  });
+
+  it('charges 35% off Global mentor amount for GCC Elite invites', async () => {
+    const res = await createSeatCheckout(scholarshipRequest({ regionId: 'gcc' }));
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.unitAmount).toBe(65000);
+    expect(body.discountPct).toBe(35);
+    expect(body.originalMentorUnitAmount).toBe(100000);
   });
 
   it('rejects India and Pakistan scholarship checkouts', async () => {

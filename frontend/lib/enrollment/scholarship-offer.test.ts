@@ -7,21 +7,27 @@ import {
   isScholarshipTier,
   SCHOLARSHIP_COOLDOWN_MS,
   SCHOLARSHIP_SESSION_MS,
+  scholarshipDiscountPct,
   startScholarshipSession,
 } from './scholarship-offer';
 
 describe('scholarship-offer discount math', () => {
-  it('applies 15% off minor units with currency floor', () => {
-    expect(applyScholarshipDiscountMinor(10000)).toBe(8500);
-    expect(applyScholarshipDiscountMinor(1)).toBe(1);
-    expect(applyScholarshipDiscountMinor(0)).toBe(1);
+  it('applies 15% off Global and 35% off Global for GCC', () => {
+    expect(applyScholarshipDiscountMinor(10000, 'global')).toBe(8500);
+    expect(applyScholarshipDiscountMinor(10000, 'gcc')).toBe(6500);
+    expect(applyScholarshipDiscountMinor(1, 'global')).toBe(1);
+    expect(applyScholarshipDiscountMinor(0, 'gcc')).toBe(1);
+    expect(scholarshipDiscountPct('global')).toBe(15);
+    expect(scholarshipDiscountPct('gcc')).toBe(35);
   });
 
-  it('formats display amounts at 85% of catalogue via minor-unit rounding', () => {
-    expect(applyScholarshipDiscountDisplay('$1,000')).toBe('$850');
-    expect(applyScholarshipDiscountDisplay('AED 2,000')).toBe('AED 1,700');
-    // $899 → 89900 * 0.85 = 76415 → $764.15 (matches Stripe unit_amount)
-    expect(applyScholarshipDiscountDisplay('$899')).toBe('$764.15');
+  it('formats display amounts from Global catalogue', () => {
+    expect(applyScholarshipDiscountDisplay('$1,000', 'global')).toBe('$850');
+    expect(applyScholarshipDiscountDisplay('$1,000', 'gcc')).toBe('$650');
+    // $899 → 89900 * 0.85 = 76415 → $764.15
+    expect(applyScholarshipDiscountDisplay('$899', 'global')).toBe('$764.15');
+    // $899 → 89900 * 0.65 = 58435 → $584.35
+    expect(applyScholarshipDiscountDisplay('$899', 'gcc')).toBe('$584.35');
   });
 });
 
@@ -43,10 +49,11 @@ describe('scholarship-offer region and tier gates', () => {
 });
 
 describe('scholarship-offer session and cooldown', () => {
-  it('keeps an active window for 15 minutes from open', () => {
+  it('keeps an active window for 20 minutes from open', () => {
     const openedAt = 1_000_000;
     const record = startScholarshipSession(openedAt);
     expect(record.expiresAt - record.openedAt).toBe(SCHOLARSHIP_SESSION_MS);
+    expect(SCHOLARSHIP_SESSION_MS).toBe(20 * 60 * 1000);
 
     const active = evaluateScholarshipSession(record, openedAt + 5 * 60 * 1000);
     expect(active.status).toBe('active');

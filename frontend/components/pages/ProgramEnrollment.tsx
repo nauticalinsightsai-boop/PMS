@@ -5,9 +5,14 @@ import { ProgramEnrollmentForm } from '@/components/enrollment/ProgramEnrollment
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { buttonVariants } from '@/components/ui/button';
 import { enrollmentDescriptionForTier, enrollmentHeadingForTier } from '@/lib/enrollment/enrollment-copy';
+import {
+  ELITE_SCHOLARSHIP_HEADING,
+  eliteScholarshipDescription,
+} from '@/lib/enrollment/scholarship-offer';
 import { pathwayPaymentDisclaimer } from '@/content/t176-claims';
 import { getOfferingById } from '@/lib/regional-catalogue';
 import { cn } from '@/lib/utils';
+import { useRegion } from '@/contexts/RegionContext';
 
 type ProgramEnrollmentPageProps = {
   siteCertId: string;
@@ -15,7 +20,7 @@ type ProgramEnrollmentPageProps = {
   offeringId: string;
   certName: string;
   publishableKeyHint?: string | null;
-  /** Invite-only scholarship checkout (−15% mentor-led, Global/GCC). */
+  /** Invite-only Elite scholarship checkout (Global −15% / GCC −35% vs Global). */
   scholarshipMode?: boolean;
 };
 
@@ -29,6 +34,7 @@ export function ProgramEnrollmentPage({
 }: ProgramEnrollmentPageProps) {
   const offering = getOfferingById(offeringId);
   const preparationName = offering?.courseName?.trim() || `${certName} Preparation`;
+  const { regionId } = useRegion();
 
   return (
     <section className={sectionSurface('blend', 'py-12 md:py-24')}>
@@ -37,13 +43,11 @@ export function ProgramEnrollmentPage({
         <div className="lg:max-w-3xl">
           <p className="text-label text-brand-orange mb-2">{certName}</p>
           <h1 className="font-heading text-hero font-bold mb-2">
-            {scholarshipMode
-              ? `${enrollmentHeadingForTier(tierSlug)} · Scholarship`
-              : enrollmentHeadingForTier(tierSlug)}
+            {scholarshipMode ? ELITE_SCHOLARSHIP_HEADING : enrollmentHeadingForTier(tierSlug)}
           </h1>
           <p className="text-slate-600 dark:text-slate-400 mb-8 text-sm leading-relaxed md:text-base">
             {scholarshipMode
-              ? 'Invite scholarship checkout: 15% off mentor-led tuition for Global and GCC. Session expires in 15 minutes.'
+              ? eliteScholarshipDescription(regionId)
               : enrollmentDescriptionForTier(tierSlug)}
           </p>
         </div>
