@@ -64,6 +64,11 @@ export function Newsletter({
     setVisibleCount(4);
   }, [activeCategory, searchQuery]);
 
+  const topicOptions = React.useMemo(
+    () => categories.filter((cat) => cat !== "All"),
+    [categories],
+  );
+
   const filteredArticles = React.useMemo(() => {
     const byCategory =
       activeCategory === "All"
@@ -125,7 +130,10 @@ export function Newsletter({
               </p>
             </div>
             <div className="relative z-30 isolate w-full min-w-0">
-              <NewsletterHeroSubscribeForm placement="newsletter_hero_desktop" />
+              <NewsletterHeroSubscribeForm
+                placement="newsletter_hero_desktop"
+                topicOptions={topicOptions}
+              />
             </div>
           </div>
         </div>
