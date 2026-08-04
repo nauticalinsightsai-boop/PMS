@@ -42,8 +42,8 @@
       ],
       "recommendedMessage": "Regional pricing is based on current country of residence and billing country, not nationality. South Asia pricing is offered as regional scholarship pricing for learners residing and billing from India or Pakistan. Some mentor-led Mastery tiers may not be available under regional scholarship pricing; learners may request a scholarship review, join the waitlist, or enroll at the Global price."
     },
-    "deliveryPricingRebuildAt": "2026-08-03T06:22:31.612Z",
-    "deliveryPricingNote": "Foundation: 30% Global + FX no scholarship. Professional mentor full Global; self-paced 50%; IN/PK 30% off; GCC 20% off.",
+    "deliveryPricingRebuildAt": "2026-08-04T14:43:15.403Z",
+    "deliveryPricingNote": "Foundation: 30% Global + FX no scholarship. Professional mentor full Global; self-paced 50%; stated IN/PK 30% / GCC 20% with silent 3.15% processing fee in pay fraction (UI shows stated %). Europe/UK unchanged by this rebuild.",
     "gccCharm99RefreshAt": "2026-08-03T09:11:36.477Z",
     "gccCharmNote": "Owner-supplied GCC table values override the existing …99 fallback; Asia remains …999."
   },
@@ -188,30 +188,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,149 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
+          "display": "AED 1,149 / SAR 1,299 / QAR 1,299 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,149",
-            "SA": "SAR 1,199",
-            "QA": "QAR 1,199",
+            "SA": "SAR 1,299",
+            "QA": "QAR 1,299",
             "BH": "BHD 199",
-            "KW": "KWD 99",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹23,999",
-          "usdCents": 39900,
+          "display": "₹24,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         },
         "pakistan": {
-          "display": "PKR 77,999",
-          "usdCents": 39900,
+          "display": "PKR 81,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         }
       },
       "pricesSelfPaced": {
@@ -234,30 +234,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 599 / SAR 599 / QAR 599 / BHD 99 / KWD 99 / OMR 99",
+          "display": "AED 599 / SAR 699 / QAR 699 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 19900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 599",
-            "SA": "SAR 599",
-            "QA": "QAR 599",
+            "SA": "SAR 699",
+            "QA": "QAR 699",
             "BH": "BHD 99",
             "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
         "india": {
-          "display": "₹11,999",
-          "usdCents": 19900,
+          "display": "₹12,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 19900
         },
         "pakistan": {
-          "display": "PKR 38,999",
-          "usdCents": 19900,
+          "display": "PKR 40,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 19900
         }
       }
     },
@@ -345,15 +345,15 @@
         },
         "india": {
           "display": "₹8,999",
-          "usdCents": 9900,
           "currencyCode": "INR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         },
         "pakistan": {
           "display": "PKR 27,999",
-          "usdCents": 9900,
           "currencyCode": "PKR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         }
       }
     },
@@ -440,16 +440,16 @@
           }
         },
         "india": {
-          "display": "₹52,999",
-          "usdCents": 89900,
+          "display": "₹54,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 89900
         },
         "pakistan": {
-          "display": "PKR 174,999",
-          "usdCents": 89900,
+          "display": "PKR 182,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 89900
         }
       },
       "pricesSelfPaced": {
@@ -486,16 +486,16 @@
           }
         },
         "india": {
-          "display": "₹26,999",
-          "usdCents": 44900,
+          "display": "₹27,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 44900
         },
         "pakistan": {
-          "display": "PKR 87,999",
-          "usdCents": 44900,
+          "display": "PKR 91,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 44900
         }
       }
     },
@@ -568,27 +568,27 @@
           "usdCents": 149900
         },
         "gcc": {
-          "display": "AED 4,499 / SAR 4,499 / QAR 4,399 / BHD 499 / KWD 399 / OMR 499",
+          "display": "AED 4,599 / SAR 4,699 / QAR 4,599 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 149900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 4,499",
-            "SA": "SAR 4,499",
-            "QA": "QAR 4,399",
+            "AE": "AED 4,599",
+            "SA": "SAR 4,699",
+            "QA": "QAR 4,599",
             "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹84,999",
+          "display": "₹91,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 149900
         },
         "pakistan": {
-          "display": "PKR 219,999",
+          "display": "PKR 304,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 149900
@@ -664,30 +664,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 3,799 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
+          "display": "AED 3,799 / SAR 4,099 / QAR 3,999 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 129900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 3,799",
-            "SA": "SAR 3,899",
-            "QA": "QAR 3,799",
-            "BH": "BHD 399",
+            "SA": "SAR 4,099",
+            "QA": "QAR 3,999",
+            "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹75,999",
-          "usdCents": 129900,
+          "display": "₹78,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 129900
         },
         "pakistan": {
-          "display": "PKR 252,999",
-          "usdCents": 129900,
+          "display": "PKR 264,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 129900
         }
       },
       "pricesSelfPaced": {
@@ -710,30 +710,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,899 / SAR 1,999 / QAR 1,899 / BHD 199 / KWD 199 / OMR 299",
+          "display": "AED 1,899 / SAR 2,099 / QAR 1,999 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 64900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,899",
-            "SA": "SAR 1,999",
-            "QA": "QAR 1,899",
-            "BH": "BHD 199",
+            "SA": "SAR 2,099",
+            "QA": "QAR 1,999",
+            "BH": "BHD 299",
             "KW": "KWD 199",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹37,999",
-          "usdCents": 64900,
+          "display": "₹39,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 64900
         },
         "pakistan": {
-          "display": "PKR 126,999",
-          "usdCents": 64900,
+          "display": "PKR 131,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 64900
         }
       }
     },
@@ -806,27 +806,27 @@
           "usdCents": 249900
         },
         "gcc": {
-          "display": "AED 7,399 / SAR 7,499 / QAR 7,299 / BHD 799 / KWD 699 / OMR 799",
+          "display": "AED 7,699 / SAR 7,799 / QAR 7,599 / BHD 799 / KWD 699 / OMR 899",
           "usdCents": 249900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 7,399",
-            "SA": "SAR 7,499",
-            "QA": "QAR 7,299",
+            "AE": "AED 7,699",
+            "SA": "SAR 7,799",
+            "QA": "QAR 7,599",
             "BH": "BHD 799",
             "KW": "KWD 699",
-            "OM": "OMR 799"
+            "OM": "OMR 899"
           }
         },
         "india": {
-          "display": "₹139,999",
+          "display": "₹151,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 249900
         },
         "pakistan": {
-          "display": "PKR 349,999",
+          "display": "PKR 508,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 249900
@@ -902,30 +902,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 4,399 / SAR 4,499 / QAR 4,399 / BHD 499 / KWD 399 / OMR 499",
+          "display": "AED 4,399 / SAR 4,699 / QAR 4,599 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 149900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 4,399",
-            "SA": "SAR 4,499",
-            "QA": "QAR 4,399",
+            "SA": "SAR 4,699",
+            "QA": "QAR 4,599",
             "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹87,999",
-          "usdCents": 149900,
+          "display": "₹91,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 149900
         },
         "pakistan": {
-          "display": "PKR 291,999",
-          "usdCents": 149900,
+          "display": "PKR 304,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 149900
         }
       },
       "pricesSelfPaced": {
@@ -948,30 +948,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,199 / SAR 2,299 / QAR 2,199 / BHD 299 / KWD 199 / OMR 299",
+          "display": "AED 2,199 / SAR 2,399 / QAR 2,299 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 74900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,199",
-            "SA": "SAR 2,299",
-            "QA": "QAR 2,199",
+            "SA": "SAR 2,399",
+            "QA": "QAR 2,299",
             "BH": "BHD 299",
             "KW": "KWD 199",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹43,999",
-          "usdCents": 74900,
+          "display": "₹45,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 74900
         },
         "pakistan": {
-          "display": "PKR 145,999",
-          "usdCents": 74900,
+          "display": "PKR 152,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 74900
         }
       }
     },
@@ -1044,27 +1044,27 @@
           "usdCents": 299900
         },
         "gcc": {
-          "display": "AED 8,899 / SAR 8,999 / QAR 8,799 / BHD 999 / KWD 799 / OMR 999",
+          "display": "AED 9,199 / SAR 9,399 / QAR 9,099 / BHD 999 / KWD 799 / OMR 999",
           "usdCents": 299900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 8,899",
-            "SA": "SAR 8,999",
-            "QA": "QAR 8,799",
+            "AE": "AED 9,199",
+            "SA": "SAR 9,399",
+            "QA": "QAR 9,099",
             "BH": "BHD 999",
             "KW": "KWD 799",
             "OM": "OMR 999"
           }
         },
         "india": {
-          "display": "₹149,999",
+          "display": "₹182,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 299900
         },
         "pakistan": {
-          "display": "PKR 399,999",
+          "display": "PKR 609,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 299900
@@ -1155,15 +1155,15 @@
         },
         "india": {
           "display": "₹8,999",
-          "usdCents": 9900,
           "currencyCode": "INR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         },
         "pakistan": {
           "display": "PKR 27,999",
-          "usdCents": 9900,
           "currencyCode": "PKR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         }
       }
     },
@@ -1236,30 +1236,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,049 / SAR 2,099 / QAR 2,099 / BHD 299 / KWD 199 / OMR 299",
+          "display": "AED 2,049 / SAR 2,199 / QAR 2,199 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 69900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,049",
-            "SA": "SAR 2,099",
-            "QA": "QAR 2,099",
+            "SA": "SAR 2,199",
+            "QA": "QAR 2,199",
             "BH": "BHD 299",
             "KW": "KWD 199",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹40,999",
-          "usdCents": 69900,
+          "display": "₹42,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 69900
         },
         "pakistan": {
-          "display": "PKR 136,999",
-          "usdCents": 69900,
+          "display": "PKR 142,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 69900
         }
       },
       "pricesSelfPaced": {
@@ -1296,16 +1296,16 @@
           }
         },
         "india": {
-          "display": "₹20,999",
-          "usdCents": 34900,
+          "display": "₹21,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 34900
         },
         "pakistan": {
-          "display": "PKR 67,999",
-          "usdCents": 34900,
+          "display": "PKR 70,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 34900
         }
       }
     },
@@ -1378,27 +1378,27 @@
           "usdCents": 119900
         },
         "gcc": {
-          "display": "AED 3,599 / SAR 3,599 / QAR 3,499 / BHD 399 / KWD 299 / OMR 399",
+          "display": "AED 3,699 / SAR 3,799 / QAR 3,699 / BHD 399 / KWD 399 / OMR 399",
           "usdCents": 119900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 3,599",
-            "SA": "SAR 3,599",
-            "QA": "QAR 3,499",
+            "AE": "AED 3,699",
+            "SA": "SAR 3,799",
+            "QA": "QAR 3,699",
             "BH": "BHD 399",
-            "KW": "KWD 299",
+            "KW": "KWD 399",
             "OM": "OMR 399"
           }
         },
         "india": {
-          "display": "₹59,999",
+          "display": "₹72,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 119900
         },
         "pakistan": {
-          "display": "PKR 149,999",
+          "display": "PKR 243,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 119900
@@ -1489,15 +1489,15 @@
         },
         "india": {
           "display": "₹8,999",
-          "usdCents": 9900,
           "currencyCode": "INR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         },
         "pakistan": {
           "display": "PKR 27,999",
-          "usdCents": 9900,
           "currencyCode": "PKR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         }
       }
     },
@@ -1570,30 +1570,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
+          "display": "AED 2,349 / SAR 2,499 / QAR 2,499 / BHD 299 / KWD 299 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,349",
-            "SA": "SAR 2,399",
-            "QA": "QAR 2,399",
+            "SA": "SAR 2,499",
+            "QA": "QAR 2,499",
             "BH": "BHD 299",
-            "KW": "KWD 199",
+            "KW": "KWD 299",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹46,999",
-          "usdCents": 79900,
+          "display": "₹48,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         },
         "pakistan": {
-          "display": "PKR 155,999",
-          "usdCents": 79900,
+          "display": "PKR 162,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         }
       },
       "pricesSelfPaced": {
@@ -1616,30 +1616,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,149 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
+          "display": "AED 1,149 / SAR 1,299 / QAR 1,299 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,149",
-            "SA": "SAR 1,199",
-            "QA": "QAR 1,199",
+            "SA": "SAR 1,299",
+            "QA": "QAR 1,299",
             "BH": "BHD 199",
-            "KW": "KWD 99",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹23,999",
-          "usdCents": 39900,
+          "display": "₹24,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         },
         "pakistan": {
-          "display": "PKR 77,999",
-          "usdCents": 39900,
+          "display": "PKR 81,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         }
       }
     },
@@ -1712,27 +1712,27 @@
           "usdCents": 129900
         },
         "gcc": {
-          "display": "AED 3,899 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
+          "display": "AED 3,999 / SAR 4,099 / QAR 3,999 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 129900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 3,899",
-            "SA": "SAR 3,899",
-            "QA": "QAR 3,799",
-            "BH": "BHD 399",
+            "AE": "AED 3,999",
+            "SA": "SAR 4,099",
+            "QA": "QAR 3,999",
+            "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹64,999",
+          "display": "₹78,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 129900
         },
         "pakistan": {
-          "display": "PKR 169,999",
+          "display": "PKR 264,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 129900
@@ -1808,30 +1808,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
+          "display": "AED 2,349 / SAR 2,499 / QAR 2,499 / BHD 299 / KWD 299 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,349",
-            "SA": "SAR 2,399",
-            "QA": "QAR 2,399",
+            "SA": "SAR 2,499",
+            "QA": "QAR 2,499",
             "BH": "BHD 299",
-            "KW": "KWD 199",
+            "KW": "KWD 299",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹46,999",
-          "usdCents": 79900,
+          "display": "₹48,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         },
         "pakistan": {
-          "display": "PKR 155,999",
-          "usdCents": 79900,
+          "display": "PKR 162,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         }
       },
       "pricesSelfPaced": {
@@ -1854,30 +1854,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,149 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
+          "display": "AED 1,149 / SAR 1,299 / QAR 1,299 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,149",
-            "SA": "SAR 1,199",
-            "QA": "QAR 1,199",
+            "SA": "SAR 1,299",
+            "QA": "QAR 1,299",
             "BH": "BHD 199",
-            "KW": "KWD 99",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹23,999",
-          "usdCents": 39900,
+          "display": "₹24,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         },
         "pakistan": {
-          "display": "PKR 77,999",
-          "usdCents": 39900,
+          "display": "PKR 81,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         }
       }
     },
@@ -1950,27 +1950,27 @@
           "usdCents": 129900
         },
         "gcc": {
-          "display": "AED 3,899 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
+          "display": "AED 3,999 / SAR 4,099 / QAR 3,999 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 129900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 3,899",
-            "SA": "SAR 3,899",
-            "QA": "QAR 3,799",
-            "BH": "BHD 399",
+            "AE": "AED 3,999",
+            "SA": "SAR 4,099",
+            "QA": "QAR 3,999",
+            "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹64,999",
+          "display": "₹78,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 129900
         },
         "pakistan": {
-          "display": "PKR 169,999",
+          "display": "PKR 264,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 129900
@@ -2046,30 +2046,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
+          "display": "AED 2,349 / SAR 2,499 / QAR 2,499 / BHD 299 / KWD 299 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,349",
-            "SA": "SAR 2,399",
-            "QA": "QAR 2,399",
+            "SA": "SAR 2,499",
+            "QA": "QAR 2,499",
             "BH": "BHD 299",
-            "KW": "KWD 199",
+            "KW": "KWD 299",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹46,999",
-          "usdCents": 79900,
+          "display": "₹48,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         },
         "pakistan": {
-          "display": "PKR 155,999",
-          "usdCents": 79900,
+          "display": "PKR 162,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         }
       },
       "pricesSelfPaced": {
@@ -2092,30 +2092,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,149 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
+          "display": "AED 1,149 / SAR 1,299 / QAR 1,299 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,149",
-            "SA": "SAR 1,199",
-            "QA": "QAR 1,199",
+            "SA": "SAR 1,299",
+            "QA": "QAR 1,299",
             "BH": "BHD 199",
-            "KW": "KWD 99",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹23,999",
-          "usdCents": 39900,
+          "display": "₹24,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         },
         "pakistan": {
-          "display": "PKR 77,999",
-          "usdCents": 39900,
+          "display": "PKR 81,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         }
       }
     },
@@ -2188,27 +2188,27 @@
           "usdCents": 129900
         },
         "gcc": {
-          "display": "AED 3,899 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
+          "display": "AED 3,999 / SAR 4,099 / QAR 3,999 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 129900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 3,899",
-            "SA": "SAR 3,899",
-            "QA": "QAR 3,799",
-            "BH": "BHD 399",
+            "AE": "AED 3,999",
+            "SA": "SAR 4,099",
+            "QA": "QAR 3,999",
+            "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹64,999",
+          "display": "₹78,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 129900
         },
         "pakistan": {
-          "display": "PKR 169,999",
+          "display": "PKR 264,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 129900
@@ -2299,15 +2299,15 @@
         },
         "india": {
           "display": "₹8,999",
-          "usdCents": 9900,
           "currencyCode": "INR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         },
         "pakistan": {
           "display": "PKR 27,999",
-          "usdCents": 9900,
           "currencyCode": "PKR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         }
       }
     },
@@ -2394,16 +2394,16 @@
           }
         },
         "india": {
-          "display": "₹52,999",
-          "usdCents": 89900,
+          "display": "₹54,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 89900
         },
         "pakistan": {
-          "display": "PKR 174,999",
-          "usdCents": 89900,
+          "display": "PKR 182,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 89900
         }
       },
       "pricesSelfPaced": {
@@ -2440,16 +2440,16 @@
           }
         },
         "india": {
-          "display": "₹26,999",
-          "usdCents": 44900,
+          "display": "₹27,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 44900
         },
         "pakistan": {
-          "display": "PKR 87,999",
-          "usdCents": 44900,
+          "display": "PKR 91,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 44900
         }
       }
     },
@@ -2522,27 +2522,27 @@
           "usdCents": 149900
         },
         "gcc": {
-          "display": "AED 4,499 / SAR 4,499 / QAR 4,399 / BHD 499 / KWD 399 / OMR 499",
+          "display": "AED 4,599 / SAR 4,699 / QAR 4,599 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 149900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 4,499",
-            "SA": "SAR 4,499",
-            "QA": "QAR 4,399",
+            "AE": "AED 4,599",
+            "SA": "SAR 4,699",
+            "QA": "QAR 4,599",
             "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹84,999",
+          "display": "₹91,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 149900
         },
         "pakistan": {
-          "display": "PKR 219,999",
+          "display": "PKR 304,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 149900
@@ -2618,30 +2618,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,999 / SAR 2,999 / QAR 2,999 / BHD 399 / KWD 299 / OMR 399",
+          "display": "AED 3,099 / SAR 3,199 / QAR 3,099 / BHD 399 / KWD 299 / OMR 399",
           "usdCents": 99900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,999",
-            "SA": "SAR 2,999",
-            "QA": "QAR 2,999",
+            "AE": "AED 3,099",
+            "SA": "SAR 3,199",
+            "QA": "QAR 3,099",
             "BH": "BHD 399",
             "KW": "KWD 299",
             "OM": "OMR 399"
           }
         },
         "india": {
-          "display": "₹58,999",
-          "usdCents": 99900,
+          "display": "₹60,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 99900
         },
         "pakistan": {
-          "display": "PKR 194,999",
-          "usdCents": 99900,
+          "display": "PKR 203,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 99900
         }
       },
       "pricesSelfPaced": {
@@ -2664,30 +2664,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,499 / SAR 1,499 / QAR 1,499 / BHD 199 / KWD 199 / OMR 199",
+          "display": "AED 1,599 / SAR 1,599 / QAR 1,599 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 49900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,499",
-            "SA": "SAR 1,499",
-            "QA": "QAR 1,499",
+            "AE": "AED 1,599",
+            "SA": "SAR 1,599",
+            "QA": "QAR 1,599",
             "BH": "BHD 199",
             "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹28,999",
-          "usdCents": 49900,
+          "display": "₹30,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 49900
         },
         "pakistan": {
-          "display": "PKR 97,999",
-          "usdCents": 49900,
+          "display": "PKR 101,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 49900
         }
       }
     },
@@ -2760,27 +2760,27 @@
           "usdCents": 179900
         },
         "gcc": {
-          "display": "AED 5,299 / SAR 5,399 / QAR 5,299 / BHD 599 / KWD 499 / OMR 599",
+          "display": "AED 5,499 / SAR 5,699 / QAR 5,499 / BHD 599 / KWD 499 / OMR 599",
           "usdCents": 179900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 5,299",
-            "SA": "SAR 5,399",
-            "QA": "QAR 5,299",
+            "AE": "AED 5,499",
+            "SA": "SAR 5,699",
+            "QA": "QAR 5,499",
             "BH": "BHD 599",
             "KW": "KWD 499",
             "OM": "OMR 599"
           }
         },
         "india": {
-          "display": "₹99,999",
+          "display": "₹109,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 179900
         },
         "pakistan": {
-          "display": "PKR 249,999",
+          "display": "PKR 365,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 179900
@@ -2871,15 +2871,15 @@
         },
         "india": {
           "display": "₹8,999",
-          "usdCents": 9900,
           "currencyCode": "INR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         },
         "pakistan": {
           "display": "PKR 27,999",
-          "usdCents": 9900,
           "currencyCode": "PKR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         }
       }
     },
@@ -2952,30 +2952,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,049 / SAR 2,099 / QAR 2,099 / BHD 299 / KWD 199 / OMR 299",
+          "display": "AED 2,049 / SAR 2,199 / QAR 2,199 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 69900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,049",
-            "SA": "SAR 2,099",
-            "QA": "QAR 2,099",
+            "SA": "SAR 2,199",
+            "QA": "QAR 2,199",
             "BH": "BHD 299",
             "KW": "KWD 199",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹40,999",
-          "usdCents": 69900,
+          "display": "₹42,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 69900
         },
         "pakistan": {
-          "display": "PKR 136,999",
-          "usdCents": 69900,
+          "display": "PKR 142,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 69900
         }
       },
       "pricesSelfPaced": {
@@ -3012,16 +3012,16 @@
           }
         },
         "india": {
-          "display": "₹20,999",
-          "usdCents": 34900,
+          "display": "₹21,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 34900
         },
         "pakistan": {
-          "display": "PKR 67,999",
-          "usdCents": 34900,
+          "display": "PKR 70,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 34900
         }
       }
     },
@@ -3094,27 +3094,27 @@
           "usdCents": 119900
         },
         "gcc": {
-          "display": "AED 3,599 / SAR 3,599 / QAR 3,499 / BHD 399 / KWD 299 / OMR 399",
+          "display": "AED 3,699 / SAR 3,799 / QAR 3,699 / BHD 399 / KWD 399 / OMR 399",
           "usdCents": 119900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 3,599",
-            "SA": "SAR 3,599",
-            "QA": "QAR 3,499",
+            "AE": "AED 3,699",
+            "SA": "SAR 3,799",
+            "QA": "QAR 3,699",
             "BH": "BHD 399",
-            "KW": "KWD 299",
+            "KW": "KWD 399",
             "OM": "OMR 399"
           }
         },
         "india": {
-          "display": "₹59,999",
+          "display": "₹72,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 119900
         },
         "pakistan": {
-          "display": "PKR 149,999",
+          "display": "PKR 243,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 119900
@@ -3190,30 +3190,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,149 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
+          "display": "AED 1,149 / SAR 1,299 / QAR 1,299 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,149",
-            "SA": "SAR 1,199",
-            "QA": "QAR 1,199",
+            "SA": "SAR 1,299",
+            "QA": "QAR 1,299",
             "BH": "BHD 199",
-            "KW": "KWD 99",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹23,999",
-          "usdCents": 39900,
+          "display": "₹24,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         },
         "pakistan": {
-          "display": "PKR 77,999",
-          "usdCents": 39900,
+          "display": "PKR 81,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         }
       },
       "pricesSelfPaced": {
@@ -3236,30 +3236,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 599 / SAR 599 / QAR 599 / BHD 99 / KWD 99 / OMR 99",
+          "display": "AED 599 / SAR 699 / QAR 699 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 19900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 599",
-            "SA": "SAR 599",
-            "QA": "QAR 599",
+            "SA": "SAR 699",
+            "QA": "QAR 699",
             "BH": "BHD 99",
             "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
         "india": {
-          "display": "₹11,999",
-          "usdCents": 19900,
+          "display": "₹12,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 19900
         },
         "pakistan": {
-          "display": "PKR 38,999",
-          "usdCents": 19900,
+          "display": "PKR 40,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 19900
         }
       }
     },
@@ -3332,30 +3332,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,799 / SAR 1,799 / QAR 1,799 / BHD 199 / KWD 199 / OMR 199",
+          "display": "AED 1,899 / SAR 1,899 / QAR 1,899 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 59900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,799",
-            "SA": "SAR 1,799",
-            "QA": "QAR 1,799",
+            "AE": "AED 1,899",
+            "SA": "SAR 1,899",
+            "QA": "QAR 1,899",
             "BH": "BHD 199",
             "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹34,999",
-          "usdCents": 59900,
+          "display": "₹36,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 59900
         },
         "pakistan": {
-          "display": "PKR 116,999",
-          "usdCents": 59900,
+          "display": "PKR 121,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 59900
         }
       },
       "pricesSelfPaced": {
@@ -3378,30 +3378,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 899 / SAR 899 / QAR 899 / BHD 99 / KWD 99 / OMR 99",
+          "display": "AED 999 / SAR 999 / QAR 999 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 29900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 899",
-            "SA": "SAR 899",
-            "QA": "QAR 899",
+            "AE": "AED 999",
+            "SA": "SAR 999",
+            "QA": "QAR 999",
             "BH": "BHD 99",
             "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
         "india": {
-          "display": "₹17,999",
-          "usdCents": 29900,
+          "display": "₹18,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         },
         "pakistan": {
-          "display": "PKR 58,999",
-          "usdCents": 29900,
+          "display": "PKR 60,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         }
       }
     },
@@ -3474,27 +3474,27 @@
           "usdCents": 99900
         },
         "gcc": {
-          "display": "AED 2,999 / SAR 2,999 / QAR 2,999 / BHD 399 / KWD 299 / OMR 399",
+          "display": "AED 3,099 / SAR 3,199 / QAR 3,099 / BHD 399 / KWD 299 / OMR 399",
           "usdCents": 99900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,999",
-            "SA": "SAR 2,999",
-            "QA": "QAR 2,999",
+            "AE": "AED 3,099",
+            "SA": "SAR 3,199",
+            "QA": "QAR 3,099",
             "BH": "BHD 399",
             "KW": "KWD 299",
             "OM": "OMR 399"
           }
         },
         "india": {
-          "display": "₹49,999",
+          "display": "₹60,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 99900
         },
         "pakistan": {
-          "display": "PKR 119,999",
+          "display": "PKR 203,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 99900
@@ -3570,30 +3570,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,149 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
+          "display": "AED 1,149 / SAR 1,299 / QAR 1,299 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,149",
-            "SA": "SAR 1,199",
-            "QA": "QAR 1,199",
+            "SA": "SAR 1,299",
+            "QA": "QAR 1,299",
             "BH": "BHD 199",
-            "KW": "KWD 99",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹23,999",
-          "usdCents": 39900,
+          "display": "₹24,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         },
         "pakistan": {
-          "display": "PKR 77,999",
-          "usdCents": 39900,
+          "display": "PKR 81,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         }
       },
       "pricesSelfPaced": {
@@ -3616,30 +3616,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 599 / SAR 599 / QAR 599 / BHD 99 / KWD 99 / OMR 99",
+          "display": "AED 599 / SAR 699 / QAR 699 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 19900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 599",
-            "SA": "SAR 599",
-            "QA": "QAR 599",
+            "SA": "SAR 699",
+            "QA": "QAR 699",
             "BH": "BHD 99",
             "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
         "india": {
-          "display": "₹11,999",
-          "usdCents": 19900,
+          "display": "₹12,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 19900
         },
         "pakistan": {
-          "display": "PKR 38,999",
-          "usdCents": 19900,
+          "display": "PKR 40,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 19900
         }
       }
     },
@@ -3712,30 +3712,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,799 / SAR 1,799 / QAR 1,799 / BHD 199 / KWD 199 / OMR 199",
+          "display": "AED 1,899 / SAR 1,899 / QAR 1,899 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 59900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,799",
-            "SA": "SAR 1,799",
-            "QA": "QAR 1,799",
+            "AE": "AED 1,899",
+            "SA": "SAR 1,899",
+            "QA": "QAR 1,899",
             "BH": "BHD 199",
             "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹34,999",
-          "usdCents": 59900,
+          "display": "₹36,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 59900
         },
         "pakistan": {
-          "display": "PKR 116,999",
-          "usdCents": 59900,
+          "display": "PKR 121,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 59900
         }
       },
       "pricesSelfPaced": {
@@ -3758,30 +3758,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 899 / SAR 899 / QAR 899 / BHD 99 / KWD 99 / OMR 99",
+          "display": "AED 999 / SAR 999 / QAR 999 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 29900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 899",
-            "SA": "SAR 899",
-            "QA": "QAR 899",
+            "AE": "AED 999",
+            "SA": "SAR 999",
+            "QA": "QAR 999",
             "BH": "BHD 99",
             "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
         "india": {
-          "display": "₹17,999",
-          "usdCents": 29900,
+          "display": "₹18,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         },
         "pakistan": {
-          "display": "PKR 58,999",
-          "usdCents": 29900,
+          "display": "PKR 60,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         }
       }
     },
@@ -3854,27 +3854,27 @@
           "usdCents": 99900
         },
         "gcc": {
-          "display": "AED 2,999 / SAR 2,999 / QAR 2,999 / BHD 399 / KWD 299 / OMR 399",
+          "display": "AED 3,099 / SAR 3,199 / QAR 3,099 / BHD 399 / KWD 299 / OMR 399",
           "usdCents": 99900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 2,999",
-            "SA": "SAR 2,999",
-            "QA": "QAR 2,999",
+            "AE": "AED 3,099",
+            "SA": "SAR 3,199",
+            "QA": "QAR 3,099",
             "BH": "BHD 399",
             "KW": "KWD 299",
             "OM": "OMR 399"
           }
         },
         "india": {
-          "display": "₹49,999",
+          "display": "₹60,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 99900
         },
         "pakistan": {
-          "display": "PKR 119,999",
+          "display": "PKR 203,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 99900
@@ -3950,30 +3950,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,799 / SAR 1,799 / QAR 1,799 / BHD 199 / KWD 199 / OMR 199",
+          "display": "AED 1,899 / SAR 1,899 / QAR 1,899 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 59900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,799",
-            "SA": "SAR 1,799",
-            "QA": "QAR 1,799",
+            "AE": "AED 1,899",
+            "SA": "SAR 1,899",
+            "QA": "QAR 1,899",
             "BH": "BHD 199",
             "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹34,999",
-          "usdCents": 59900,
+          "display": "₹36,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 59900
         },
         "pakistan": {
-          "display": "PKR 116,999",
-          "usdCents": 59900,
+          "display": "PKR 121,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 59900
         }
       },
       "pricesSelfPaced": {
@@ -3996,30 +3996,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 899 / SAR 899 / QAR 899 / BHD 99 / KWD 99 / OMR 99",
+          "display": "AED 999 / SAR 999 / QAR 999 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 29900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 899",
-            "SA": "SAR 899",
-            "QA": "QAR 899",
+            "AE": "AED 999",
+            "SA": "SAR 999",
+            "QA": "QAR 999",
             "BH": "BHD 99",
             "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
         "india": {
-          "display": "₹17,999",
-          "usdCents": 29900,
+          "display": "₹18,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         },
         "pakistan": {
-          "display": "PKR 58,999",
-          "usdCents": 29900,
+          "display": "PKR 60,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         }
       }
     },
@@ -4092,30 +4092,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
+          "display": "AED 2,349 / SAR 2,499 / QAR 2,499 / BHD 299 / KWD 299 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,349",
-            "SA": "SAR 2,399",
-            "QA": "QAR 2,399",
+            "SA": "SAR 2,499",
+            "QA": "QAR 2,499",
             "BH": "BHD 299",
-            "KW": "KWD 199",
+            "KW": "KWD 299",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹46,999",
-          "usdCents": 79900,
+          "display": "₹48,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         },
         "pakistan": {
-          "display": "PKR 155,999",
-          "usdCents": 79900,
+          "display": "PKR 162,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         }
       },
       "pricesSelfPaced": {
@@ -4138,30 +4138,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,149 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
+          "display": "AED 1,149 / SAR 1,299 / QAR 1,299 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,149",
-            "SA": "SAR 1,199",
-            "QA": "QAR 1,199",
+            "SA": "SAR 1,299",
+            "QA": "QAR 1,299",
             "BH": "BHD 199",
-            "KW": "KWD 99",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹23,999",
-          "usdCents": 39900,
+          "display": "₹24,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         },
         "pakistan": {
-          "display": "PKR 77,999",
-          "usdCents": 39900,
+          "display": "PKR 81,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         }
       }
     },
@@ -4234,27 +4234,27 @@
           "usdCents": 139900
         },
         "gcc": {
-          "display": "AED 4,199 / SAR 4,199 / QAR 4,099 / BHD 499 / KWD 399 / OMR 499",
+          "display": "AED 4,299 / SAR 4,399 / QAR 4,299 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 139900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 4,199",
-            "SA": "SAR 4,199",
-            "QA": "QAR 4,099",
+            "AE": "AED 4,299",
+            "SA": "SAR 4,399",
+            "QA": "QAR 4,299",
             "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹69,999",
+          "display": "₹84,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 139900
         },
         "pakistan": {
-          "display": "PKR 179,999",
+          "display": "PKR 284,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 139900
@@ -4330,30 +4330,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,799 / SAR 1,799 / QAR 1,799 / BHD 199 / KWD 199 / OMR 199",
+          "display": "AED 1,899 / SAR 1,899 / QAR 1,899 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 59900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,799",
-            "SA": "SAR 1,799",
-            "QA": "QAR 1,799",
+            "AE": "AED 1,899",
+            "SA": "SAR 1,899",
+            "QA": "QAR 1,899",
             "BH": "BHD 199",
             "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹34,999",
-          "usdCents": 59900,
+          "display": "₹36,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 59900
         },
         "pakistan": {
-          "display": "PKR 116,999",
-          "usdCents": 59900,
+          "display": "PKR 121,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 59900
         }
       },
       "pricesSelfPaced": {
@@ -4376,30 +4376,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 899 / SAR 899 / QAR 899 / BHD 99 / KWD 99 / OMR 99",
+          "display": "AED 999 / SAR 999 / QAR 999 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 29900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 899",
-            "SA": "SAR 899",
-            "QA": "QAR 899",
+            "AE": "AED 999",
+            "SA": "SAR 999",
+            "QA": "QAR 999",
             "BH": "BHD 99",
             "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
         "india": {
-          "display": "₹17,999",
-          "usdCents": 29900,
+          "display": "₹18,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         },
         "pakistan": {
-          "display": "PKR 58,999",
-          "usdCents": 29900,
+          "display": "PKR 60,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         }
       }
     },
@@ -4472,30 +4472,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
+          "display": "AED 2,349 / SAR 2,499 / QAR 2,499 / BHD 299 / KWD 299 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,349",
-            "SA": "SAR 2,399",
-            "QA": "QAR 2,399",
+            "SA": "SAR 2,499",
+            "QA": "QAR 2,499",
             "BH": "BHD 299",
-            "KW": "KWD 199",
+            "KW": "KWD 299",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹46,999",
-          "usdCents": 79900,
+          "display": "₹48,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         },
         "pakistan": {
-          "display": "PKR 155,999",
-          "usdCents": 79900,
+          "display": "PKR 162,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         }
       },
       "pricesSelfPaced": {
@@ -4518,30 +4518,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,149 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
+          "display": "AED 1,149 / SAR 1,299 / QAR 1,299 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,149",
-            "SA": "SAR 1,199",
-            "QA": "QAR 1,199",
+            "SA": "SAR 1,299",
+            "QA": "QAR 1,299",
             "BH": "BHD 199",
-            "KW": "KWD 99",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹23,999",
-          "usdCents": 39900,
+          "display": "₹24,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         },
         "pakistan": {
-          "display": "PKR 77,999",
-          "usdCents": 39900,
+          "display": "PKR 81,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         }
       }
     },
@@ -4614,27 +4614,27 @@
           "usdCents": 139900
         },
         "gcc": {
-          "display": "AED 4,199 / SAR 4,199 / QAR 4,099 / BHD 499 / KWD 399 / OMR 499",
+          "display": "AED 4,299 / SAR 4,399 / QAR 4,299 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 139900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 4,199",
-            "SA": "SAR 4,199",
-            "QA": "QAR 4,099",
+            "AE": "AED 4,299",
+            "SA": "SAR 4,399",
+            "QA": "QAR 4,299",
             "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹69,999",
+          "display": "₹84,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 139900
         },
         "pakistan": {
-          "display": "PKR 179,999",
+          "display": "PKR 284,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 139900
@@ -4710,30 +4710,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,699 / SAR 1,699 / QAR 1,599 / BHD 199 / KWD 199 / OMR 199",
+          "display": "AED 1,699 / SAR 1,799 / QAR 1,699 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 54900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,699",
-            "SA": "SAR 1,699",
-            "QA": "QAR 1,599",
+            "SA": "SAR 1,799",
+            "QA": "QAR 1,699",
             "BH": "BHD 199",
             "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹31,999",
-          "usdCents": 54900,
+          "display": "₹33,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 54900
         },
         "pakistan": {
-          "display": "PKR 106,999",
-          "usdCents": 54900,
+          "display": "PKR 111,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 54900
         }
       },
       "pricesSelfPaced": {
@@ -4756,30 +4756,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 899 / SAR 899 / QAR 899 / BHD 99 / KWD 99 / OMR 99",
+          "display": "AED 999 / SAR 999 / QAR 999 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 29900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 899",
-            "SA": "SAR 899",
-            "QA": "QAR 899",
+            "AE": "AED 999",
+            "SA": "SAR 999",
+            "QA": "QAR 999",
             "BH": "BHD 99",
             "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
         "india": {
-          "display": "₹17,999",
-          "usdCents": 29900,
+          "display": "₹18,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         },
         "pakistan": {
-          "display": "PKR 58,999",
-          "usdCents": 29900,
+          "display": "PKR 60,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         }
       }
     },
@@ -4852,30 +4852,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,349 / SAR 2,399 / QAR 2,399 / BHD 299 / KWD 199 / OMR 299",
+          "display": "AED 2,349 / SAR 2,499 / QAR 2,499 / BHD 299 / KWD 299 / OMR 299",
           "usdCents": 79900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,349",
-            "SA": "SAR 2,399",
-            "QA": "QAR 2,399",
+            "SA": "SAR 2,499",
+            "QA": "QAR 2,499",
             "BH": "BHD 299",
-            "KW": "KWD 199",
+            "KW": "KWD 299",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹46,999",
-          "usdCents": 79900,
+          "display": "₹48,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         },
         "pakistan": {
-          "display": "PKR 155,999",
-          "usdCents": 79900,
+          "display": "PKR 162,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 79900
         }
       },
       "pricesSelfPaced": {
@@ -4898,30 +4898,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,149 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
+          "display": "AED 1,149 / SAR 1,299 / QAR 1,299 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,149",
-            "SA": "SAR 1,199",
-            "QA": "QAR 1,199",
+            "SA": "SAR 1,299",
+            "QA": "QAR 1,299",
             "BH": "BHD 199",
-            "KW": "KWD 99",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹23,999",
-          "usdCents": 39900,
+          "display": "₹24,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         },
         "pakistan": {
-          "display": "PKR 77,999",
-          "usdCents": 39900,
+          "display": "PKR 81,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         }
       }
     },
@@ -4994,27 +4994,27 @@
           "usdCents": 139900
         },
         "gcc": {
-          "display": "AED 4,199 / SAR 4,199 / QAR 4,099 / BHD 499 / KWD 399 / OMR 499",
+          "display": "AED 4,299 / SAR 4,399 / QAR 4,299 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 139900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 4,199",
-            "SA": "SAR 4,199",
-            "QA": "QAR 4,099",
+            "AE": "AED 4,299",
+            "SA": "SAR 4,399",
+            "QA": "QAR 4,299",
             "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹69,999",
+          "display": "₹84,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 139900
         },
         "pakistan": {
-          "display": "PKR 179,999",
+          "display": "PKR 284,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 139900
@@ -5090,30 +5090,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,699 / SAR 1,699 / QAR 1,599 / BHD 199 / KWD 199 / OMR 199",
+          "display": "AED 1,699 / SAR 1,799 / QAR 1,699 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 54900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,699",
-            "SA": "SAR 1,699",
-            "QA": "QAR 1,599",
+            "SA": "SAR 1,799",
+            "QA": "QAR 1,699",
             "BH": "BHD 199",
             "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹31,999",
-          "usdCents": 54900,
+          "display": "₹33,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 54900
         },
         "pakistan": {
-          "display": "PKR 106,999",
-          "usdCents": 54900,
+          "display": "PKR 111,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 54900
         }
       },
       "pricesSelfPaced": {
@@ -5136,30 +5136,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 899 / SAR 899 / QAR 899 / BHD 99 / KWD 99 / OMR 99",
+          "display": "AED 999 / SAR 999 / QAR 999 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 29900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 899",
-            "SA": "SAR 899",
-            "QA": "QAR 899",
+            "AE": "AED 999",
+            "SA": "SAR 999",
+            "QA": "QAR 999",
             "BH": "BHD 99",
             "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
         "india": {
-          "display": "₹17,999",
-          "usdCents": 29900,
+          "display": "₹18,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         },
         "pakistan": {
-          "display": "PKR 58,999",
-          "usdCents": 29900,
+          "display": "PKR 60,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         }
       }
     },
@@ -5232,30 +5232,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,199 / SAR 2,299 / QAR 2,199 / BHD 299 / KWD 199 / OMR 299",
+          "display": "AED 2,199 / SAR 2,399 / QAR 2,299 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 74900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,199",
-            "SA": "SAR 2,299",
-            "QA": "QAR 2,199",
+            "SA": "SAR 2,399",
+            "QA": "QAR 2,299",
             "BH": "BHD 299",
             "KW": "KWD 199",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹43,999",
-          "usdCents": 74900,
+          "display": "₹45,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 74900
         },
         "pakistan": {
-          "display": "PKR 145,999",
-          "usdCents": 74900,
+          "display": "PKR 152,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 74900
         }
       },
       "pricesSelfPaced": {
@@ -5278,30 +5278,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,149 / SAR 1,199 / QAR 1,199 / BHD 199 / KWD 99 / OMR 199",
+          "display": "AED 1,149 / SAR 1,299 / QAR 1,299 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 39900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 1,149",
-            "SA": "SAR 1,199",
-            "QA": "QAR 1,199",
+            "SA": "SAR 1,299",
+            "QA": "QAR 1,299",
             "BH": "BHD 199",
-            "KW": "KWD 99",
+            "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹23,999",
-          "usdCents": 39900,
+          "display": "₹24,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         },
         "pakistan": {
-          "display": "PKR 77,999",
-          "usdCents": 39900,
+          "display": "PKR 81,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 39900
         }
       }
     },
@@ -5374,27 +5374,27 @@
           "usdCents": 129900
         },
         "gcc": {
-          "display": "AED 3,899 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
+          "display": "AED 3,999 / SAR 4,099 / QAR 3,999 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 129900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 3,899",
-            "SA": "SAR 3,899",
-            "QA": "QAR 3,799",
-            "BH": "BHD 399",
+            "AE": "AED 3,999",
+            "SA": "SAR 4,099",
+            "QA": "QAR 3,999",
+            "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹64,999",
+          "display": "₹78,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 129900
         },
         "pakistan": {
-          "display": "PKR 169,999",
+          "display": "PKR 264,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 129900
@@ -5470,30 +5470,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,499 / SAR 1,499 / QAR 1,499 / BHD 199 / KWD 199 / OMR 199",
+          "display": "AED 1,599 / SAR 1,599 / QAR 1,599 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 49900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,499",
-            "SA": "SAR 1,499",
-            "QA": "QAR 1,499",
+            "AE": "AED 1,599",
+            "SA": "SAR 1,599",
+            "QA": "QAR 1,599",
             "BH": "BHD 199",
             "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹28,999",
-          "usdCents": 49900,
+          "display": "₹30,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 49900
         },
         "pakistan": {
-          "display": "PKR 97,999",
-          "usdCents": 49900,
+          "display": "PKR 101,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 49900
         }
       },
       "pricesSelfPaced": {
@@ -5530,16 +5530,16 @@
           }
         },
         "india": {
-          "display": "₹14,999",
-          "usdCents": 24900,
+          "display": "₹15,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 24900
         },
         "pakistan": {
-          "display": "PKR 48,999",
-          "usdCents": 24900,
+          "display": "PKR 50,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 24900
         }
       }
     },
@@ -5612,27 +5612,27 @@
           "usdCents": 129900
         },
         "gcc": {
-          "display": "AED 3,899 / SAR 3,899 / QAR 3,799 / BHD 399 / KWD 399 / OMR 499",
+          "display": "AED 3,999 / SAR 4,099 / QAR 3,999 / BHD 499 / KWD 399 / OMR 499",
           "usdCents": 129900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 3,899",
-            "SA": "SAR 3,899",
-            "QA": "QAR 3,799",
-            "BH": "BHD 399",
+            "AE": "AED 3,999",
+            "SA": "SAR 4,099",
+            "QA": "QAR 3,999",
+            "BH": "BHD 499",
             "KW": "KWD 399",
             "OM": "OMR 499"
           }
         },
         "india": {
-          "display": "₹64,999",
+          "display": "₹78,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 129900
         },
         "pakistan": {
-          "display": "PKR 169,999",
+          "display": "PKR 264,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 129900
@@ -5723,15 +5723,15 @@
         },
         "india": {
           "display": "₹4,999",
-          "usdCents": 4900,
           "currencyCode": "INR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 4900
         },
         "pakistan": {
           "display": "PKR 13,999",
-          "usdCents": 4900,
           "currencyCode": "PKR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 4900
         }
       }
     },
@@ -5819,15 +5819,15 @@
         },
         "india": {
           "display": "₹4,999",
-          "usdCents": 4900,
           "currencyCode": "INR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 4900
         },
         "pakistan": {
           "display": "PKR 13,999",
-          "usdCents": 4900,
           "currencyCode": "PKR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 4900
         }
       }
     },
@@ -5900,30 +5900,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 899 / SAR 899 / QAR 899 / BHD 99 / KWD 99 / OMR 99",
+          "display": "AED 999 / SAR 999 / QAR 999 / BHD 99 / KWD 99 / OMR 99",
           "usdCents": 29900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 899",
-            "SA": "SAR 899",
-            "QA": "QAR 899",
+            "AE": "AED 999",
+            "SA": "SAR 999",
+            "QA": "QAR 999",
             "BH": "BHD 99",
             "KW": "KWD 99",
             "OM": "OMR 99"
           }
         },
         "india": {
-          "display": "₹17,999",
-          "usdCents": 29900,
+          "display": "₹18,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         },
         "pakistan": {
-          "display": "PKR 58,999",
-          "usdCents": 29900,
+          "display": "PKR 60,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 29900
         }
       },
       "pricesSelfPaced": {
@@ -5960,16 +5960,16 @@
           }
         },
         "india": {
-          "display": "₹8,999",
-          "usdCents": 14900,
+          "display": "₹9,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 14900
         },
         "pakistan": {
-          "display": "PKR 28,999",
-          "usdCents": 14900,
+          "display": "PKR 30,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 14900
         }
       }
     },
@@ -6057,15 +6057,15 @@
         },
         "india": {
           "display": "₹8,999",
-          "usdCents": 9900,
           "currencyCode": "INR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         },
         "pakistan": {
           "display": "PKR 27,999",
-          "usdCents": 9900,
           "currencyCode": "PKR",
-          "isScholarship": false
+          "isScholarship": false,
+          "usdCents": 9900
         }
       }
     },
@@ -6138,30 +6138,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 2,049 / SAR 2,099 / QAR 2,099 / BHD 299 / KWD 199 / OMR 299",
+          "display": "AED 2,049 / SAR 2,199 / QAR 2,199 / BHD 299 / KWD 199 / OMR 299",
           "usdCents": 69900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
             "AE": "AED 2,049",
-            "SA": "SAR 2,099",
-            "QA": "QAR 2,099",
+            "SA": "SAR 2,199",
+            "QA": "QAR 2,199",
             "BH": "BHD 299",
             "KW": "KWD 199",
             "OM": "OMR 299"
           }
         },
         "india": {
-          "display": "₹40,999",
-          "usdCents": 69900,
+          "display": "₹42,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 69900
         },
         "pakistan": {
-          "display": "PKR 136,999",
-          "usdCents": 69900,
+          "display": "PKR 142,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 69900
         }
       },
       "pricesSelfPaced": {
@@ -6198,16 +6198,16 @@
           }
         },
         "india": {
-          "display": "₹20,999",
-          "usdCents": 34900,
+          "display": "₹21,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 34900
         },
         "pakistan": {
-          "display": "PKR 67,999",
-          "usdCents": 34900,
+          "display": "PKR 70,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 34900
         }
       }
     },
@@ -6280,27 +6280,27 @@
           "usdCents": 119900
         },
         "gcc": {
-          "display": "AED 3,599 / SAR 3,599 / QAR 3,499 / BHD 399 / KWD 299 / OMR 399",
+          "display": "AED 3,699 / SAR 3,799 / QAR 3,699 / BHD 399 / KWD 399 / OMR 399",
           "usdCents": 119900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 3,599",
-            "SA": "SAR 3,599",
-            "QA": "QAR 3,499",
+            "AE": "AED 3,699",
+            "SA": "SAR 3,799",
+            "QA": "QAR 3,699",
             "BH": "BHD 399",
-            "KW": "KWD 299",
+            "KW": "KWD 399",
             "OM": "OMR 399"
           }
         },
         "india": {
-          "display": "₹69,999",
+          "display": "₹72,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 119900
         },
         "pakistan": {
-          "display": "PKR 169,999",
+          "display": "PKR 243,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 119900
@@ -6376,30 +6376,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 3,599 / SAR 3,599 / QAR 3,499 / BHD 399 / KWD 299 / OMR 399",
+          "display": "AED 3,699 / SAR 3,799 / QAR 3,699 / BHD 399 / KWD 399 / OMR 399",
           "usdCents": 119900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 3,599",
-            "SA": "SAR 3,599",
-            "QA": "QAR 3,499",
+            "AE": "AED 3,699",
+            "SA": "SAR 3,799",
+            "QA": "QAR 3,699",
             "BH": "BHD 399",
-            "KW": "KWD 299",
+            "KW": "KWD 399",
             "OM": "OMR 399"
           }
         },
         "india": {
-          "display": "₹69,999",
-          "usdCents": 119900,
+          "display": "₹72,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 119900
         },
         "pakistan": {
-          "display": "PKR 233,999",
-          "usdCents": 119900,
+          "display": "PKR 243,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 119900
         }
       },
       "pricesSelfPaced": {
@@ -6422,30 +6422,30 @@
           "isScholarship": false
         },
         "gcc": {
-          "display": "AED 1,799 / SAR 1,799 / QAR 1,799 / BHD 199 / KWD 199 / OMR 199",
+          "display": "AED 1,899 / SAR 1,899 / QAR 1,899 / BHD 199 / KWD 199 / OMR 199",
           "usdCents": 59900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 1,799",
-            "SA": "SAR 1,799",
-            "QA": "QAR 1,799",
+            "AE": "AED 1,899",
+            "SA": "SAR 1,899",
+            "QA": "QAR 1,899",
             "BH": "BHD 199",
             "KW": "KWD 199",
             "OM": "OMR 199"
           }
         },
         "india": {
-          "display": "₹34,999",
-          "usdCents": 59900,
+          "display": "₹36,999",
           "currencyCode": "INR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 59900
         },
         "pakistan": {
-          "display": "PKR 116,999",
-          "usdCents": 59900,
+          "display": "PKR 121,999",
           "currencyCode": "PKR",
-          "isScholarship": true
+          "isScholarship": true,
+          "usdCents": 59900
         }
       }
     },
@@ -6518,27 +6518,27 @@
           "usdCents": 249900
         },
         "gcc": {
-          "display": "AED 7,399 / SAR 7,499 / QAR 7,299 / BHD 799 / KWD 699 / OMR 799",
+          "display": "AED 7,699 / SAR 7,799 / QAR 7,599 / BHD 799 / KWD 699 / OMR 899",
           "usdCents": 249900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 7,399",
-            "SA": "SAR 7,499",
-            "QA": "QAR 7,299",
+            "AE": "AED 7,699",
+            "SA": "SAR 7,799",
+            "QA": "QAR 7,599",
             "BH": "BHD 799",
             "KW": "KWD 699",
-            "OM": "OMR 799"
+            "OM": "OMR 899"
           }
         },
         "india": {
-          "display": "₹139,999",
+          "display": "₹151,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 249900
         },
         "pakistan": {
-          "display": "PKR 349,999",
+          "display": "PKR 508,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 249900
@@ -6614,27 +6614,27 @@
           "usdCents": 399900
         },
         "gcc": {
-          "display": "AED 11,799 / SAR 11,999 / QAR 11,699 / BHD 1,299 / KWD 999 / OMR 1,299",
+          "display": "AED 12,299 / SAR 12,499 / QAR 12,199 / BHD 1,299 / KWD 1,099 / OMR 1,299",
           "usdCents": 399900,
           "currencyCode": "GCC",
           "isScholarship": true,
           "perCountry": {
-            "AE": "AED 11,799",
-            "SA": "SAR 11,999",
-            "QA": "QAR 11,699",
+            "AE": "AED 12,299",
+            "SA": "SAR 12,499",
+            "QA": "QAR 12,199",
             "BH": "BHD 1,299",
-            "KW": "KWD 999",
+            "KW": "KWD 1,099",
             "OM": "OMR 1,299"
           }
         },
         "india": {
-          "display": "₹199,999",
+          "display": "₹242,999",
           "currencyCode": "INR",
           "isScholarship": true,
           "usdCents": 399900
         },
         "pakistan": {
-          "display": "PKR 499,999",
+          "display": "PKR 813,999",
           "currencyCode": "PKR",
           "isScholarship": true,
           "usdCents": 399900

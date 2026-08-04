@@ -1,13 +1,20 @@
-/** Elite invite scholarship: mentor-led vs Global catalogue (Global −15%, GCC −35% in local FX). */
+/** Elite invite scholarship: mentor-led vs Global catalogue (stated 15% Global / 30% GCC; fee-adjusted pay). */
 
 import { DELIVERY_FX_PER_USD } from '@/lib/delivery-pricing';
+import {
+  elitePayFraction,
+  statedEliteOff,
+  statedEliteOffPercent,
+} from '@/lib/enrollment-pricing-policy';
 import { toStripeCurrency, toStripeMinorUnits } from '@/lib/regional-checkout-price';
 
-export const SCHOLARSHIP_GLOBAL_DISCOUNT = 0.15;
-export const SCHOLARSHIP_GCC_VS_GLOBAL_DISCOUNT = 0.35;
+/** @deprecated Prefer statedEliteOff / elitePayFraction from enrollment-pricing-policy. */
+export const SCHOLARSHIP_GLOBAL_DISCOUNT = statedEliteOff('global');
+/** @deprecated Prefer statedEliteOff('gcc') — Elite GCC is stated 30%, not 35%. */
+export const SCHOLARSHIP_GCC_VS_GLOBAL_DISCOUNT = statedEliteOff('gcc');
 export const SCHOLARSHIP_DISCOUNT = SCHOLARSHIP_GLOBAL_DISCOUNT;
-export const SCHOLARSHIP_PAY_FRACTION = 1 - SCHOLARSHIP_GLOBAL_DISCOUNT;
-export const SCHOLARSHIP_GCC_PAY_FRACTION = 1 - SCHOLARSHIP_GCC_VS_GLOBAL_DISCOUNT;
+export const SCHOLARSHIP_PAY_FRACTION = elitePayFraction('global');
+export const SCHOLARSHIP_GCC_PAY_FRACTION = elitePayFraction('gcc');
 export const SCHOLARSHIP_OFFER_TYPE = 'scholarship_invite' as const;
 export const SCHOLARSHIP_ALLOWED_REGIONS = ['global', 'gcc'] as const;
 
@@ -51,13 +58,11 @@ export function isScholarshipTierId(tierId: string | null | undefined): boolean 
 }
 
 export function scholarshipPayFraction(regionId: string | null | undefined): number {
-  return regionId === 'gcc' ? SCHOLARSHIP_GCC_PAY_FRACTION : SCHOLARSHIP_PAY_FRACTION;
+  return elitePayFraction(regionId);
 }
 
 export function scholarshipDiscountPct(regionId: string | null | undefined): number {
-  return regionId === 'gcc'
-    ? Math.round(SCHOLARSHIP_GCC_VS_GLOBAL_DISCOUNT * 100)
-    : Math.round(SCHOLARSHIP_GLOBAL_DISCOUNT * 100);
+  return statedEliteOffPercent(regionId);
 }
 
 export function resolveGccEliteCurrencyCode(gccCountry?: string | null): string {
@@ -79,7 +84,7 @@ function formatEliteLocalMajor(amount: number, currencyCode: string): string {
 
 /**
  * Elite checkout price from Global mentor USD.
- * Global: USD × 0.85. GCC: (USD × 0.65) converted to country currency via FX.
+ * Global: USD × elitePayFraction(global). GCC: FX × elitePayFraction(gcc) in country currency.
  */
 export function resolveEliteScholarshipPrice(input: {
   globalUsdMajor: number;

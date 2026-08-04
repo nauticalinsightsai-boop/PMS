@@ -3,16 +3,18 @@
  * Regional amounts derive from Global USD via FX + charm rules.
  */
 
+import {
+  regionalPayFraction,
+  statedRegionalOff,
+} from '@/lib/enrollment/enrollment-pricing-policy';
 import { GLOBAL_REFERENCE_FX_PER_USD } from '@/lib/regional-fx-rates';
 import type { RegionId, RegionalPrice, TierId } from '@/types/regional-catalogue';
-import gccOwnerOverrides from '@pms/regional-catalogue/gcc-owner-overrides.json';
+import gccOwnerOverrides from '../../../packages/regional-catalogue/gcc-owner-overrides.json';
 
 export type EnrollmentDeliveryMode = 'mentor_led' | 'self_paced';
 
 export const FOUNDATION_PRICE_FRACTION = 0.3;
 export const SELF_PACED_GLOBAL_FRACTION = 0.5;
-export const PRO_IN_PK_PAY_FRACTION = 0.7; // 30% off
-export const PRO_GCC_PAY_FRACTION = 0.8; // 20% off
 
 const GCC_COUNTRIES = ['AE', 'SA', 'QA', 'BH', 'KW', 'OM'] as const;
 type GccCode = (typeof GCC_COUNTRIES)[number];
@@ -60,18 +62,16 @@ export function deriveSelfPacedUsd(mentorGlobalUsd: number): number {
   return nearestCharm50(mentorGlobalUsd * SELF_PACED_GLOBAL_FRACTION);
 }
 
+/** Stated regional off (for labels). Money uses payFractionForRegion (fee-adjusted). */
 export function regionalDiscountOffFraction(
   tierId: TierId | string,
   regionId: RegionId,
 ): number {
-  if (tierId === 'foundation') return 0;
-  if (regionId === 'india' || regionId === 'pakistan') return 0.3;
-  if (regionId === 'gcc') return 0.2;
-  return 0;
+  return statedRegionalOff(tierId, regionId);
 }
 
 export function payFractionForRegion(tierId: TierId | string, regionId: RegionId): number {
-  return 1 - regionalDiscountOffFraction(tierId, regionId);
+  return regionalPayFraction(tierId, regionId);
 }
 
 function fxForCurrency(code: string): number {
@@ -138,7 +138,8 @@ export function regionalizeUsd(
     return { major, currencyCode: 'PKR', display: formatMajor(major, 'PKR') };
   }
 
-  // Exact owner-supplied GCC values override the existing fallback table.
+  // gcc-owner-overrides.json: explicit locks are owner-authored exceptions (unchanged by fee policy).
+  // Derived fallbacks use policy pay fraction (stated regional off minus silent processing fee).
   const country = gccCountry ?? 'AE';
   const currencyCode = GCC_CURRENCY[country];
   const overrideKey = `${tierId}:${usd}:${country}` as keyof typeof gccOwnerOverrides;

@@ -14,11 +14,11 @@ import {
 import { GLOBAL_REFERENCE_FX_PER_USD } from '@/lib/regional-fx-rates';
 
 describe('scholarship-offer discount math', () => {
-  it('applies 15% off Global and 35% off Global for GCC (USD cents helper)', () => {
-    expect(applyScholarshipDiscountMinor(10000, 'global')).toBe(8500);
-    expect(applyScholarshipDiscountMinor(10000, 'gcc')).toBe(6500);
+  it('applies stated 15% Global / 30% GCC labels with fee-adjusted pay fractions', () => {
+    expect(applyScholarshipDiscountMinor(10000, 'global')).toBe(8815);
+    expect(applyScholarshipDiscountMinor(10000, 'gcc')).toBe(7315);
     expect(scholarshipDiscountPct('global')).toBe(15);
-    expect(scholarshipDiscountPct('gcc')).toBe(35);
+    expect(scholarshipDiscountPct('gcc')).toBe(30);
   });
 
   it('resolves Global Elite in USD and GCC Elite in local FX currency', () => {
@@ -27,15 +27,15 @@ describe('scholarship-offer discount math', () => {
       regionId: 'global',
     });
     expect(global?.currency).toBe('usd');
-    expect(global?.display).toBe('$764.15');
-    expect(global?.unitAmount).toBe(76415);
+    expect(global?.display).toBe('$792.47');
+    expect(global?.unitAmount).toBe(79247);
 
     const ae = resolveEliteScholarshipPrice({
       globalUsdMajor: 899,
       regionId: 'gcc',
       gccCountry: 'AE',
     });
-    const expectedMajor = Math.round(899 * GLOBAL_REFERENCE_FX_PER_USD.AED * 0.65);
+    const expectedMajor = Math.round(899 * GLOBAL_REFERENCE_FX_PER_USD.AED * 0.7315);
     expect(ae?.currencyCode).toBe('AED');
     expect(ae?.currency).toBe('aed');
     expect(ae?.majorAmount).toBe(expectedMajor);
@@ -50,7 +50,7 @@ describe('scholarship-offer discount math', () => {
       gccCountry: 'SA',
     });
     expect(sa?.currencyCode).toBe('SAR');
-    expect(sa?.majorAmount).toBe(Math.round(899 * GLOBAL_REFERENCE_FX_PER_USD.SAR * 0.65));
+    expect(sa?.majorAmount).toBe(Math.round(899 * GLOBAL_REFERENCE_FX_PER_USD.SAR * 0.7315));
 
     const om = resolveEliteScholarshipPrice({
       globalUsdMajor: 899,
@@ -68,9 +68,9 @@ describe('scholarship-offer discount math', () => {
   });
 
   it('formats display amounts from Global catalogue (with gccCountry for local)', () => {
-    expect(applyScholarshipDiscountDisplay('$1,000', 'global')).toBe('$850');
+    expect(applyScholarshipDiscountDisplay('$1,000', 'global')).toBe('$881.50');
     expect(applyScholarshipDiscountDisplay('$1,000', 'gcc', 'AE')).toBe(
-      `AED ${Math.round(1000 * GLOBAL_REFERENCE_FX_PER_USD.AED * 0.65).toLocaleString('en-US')}`,
+      `AED ${Math.round(1000 * GLOBAL_REFERENCE_FX_PER_USD.AED * 0.7315).toLocaleString('en-US')}`,
     );
   });
 });

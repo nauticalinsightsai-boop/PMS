@@ -100,47 +100,47 @@ describe('seat-deposit scholarship_invite branch', () => {
       sessionId: 'cs_test_scholarship',
       url: null,
       clientSecret: 'cs_test_scholarship_secret',
-      unitAmount: 85000,
+      unitAmount: 88150,
       currency: 'usd',
       usdCents: 100000,
       offeringId: 'pmp-professional',
     });
   });
 
-  it('forces mentor book and charges 85% of Global mentor unit amount', async () => {
+  it('forces mentor book and charges fee-adjusted Elite of Global mentor unit amount', async () => {
     const res = await createSeatCheckout(scholarshipRequest());
     expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body.unitAmount).toBe(85000);
+    expect(body.unitAmount).toBe(88150);
     expect(body.paymentMode).toBe('mentor_led');
     expect(body.offerType).toBe('scholarship_invite');
     expect(body.discountPct).toBe(15);
     expect(body.originalMentorUnitAmount).toBe(100000);
 
     const sessionArg = mocks.createEmbeddedSession.mock.calls[0][0];
-    expect(sessionArg.unitAmount).toBe(85000);
+    expect(sessionArg.unitAmount).toBe(88150);
     expect(sessionArg.metadata.offerType).toBe('scholarship_invite');
     expect(sessionArg.metadata.discountPct).toBe('15');
     expect(sessionArg.metadata.deliveryMode).toBe('mentor_led');
   });
 
-  it('charges GCC Elite in local currency at 35% off Global via FX', async () => {
+  it('charges GCC Elite in local currency at stated 30% off Global via FX', async () => {
     const res = await createSeatCheckout(
       scholarshipRequest({ regionId: 'gcc', gccCountry: 'AE' }),
     );
     expect(res.status).toBe(200);
     const body = await res.json();
-    // 1000 USD * 3.6725 AED * 0.65 = 2387.125 → 2387 AED → 238700 fils/cents
+    // 1000 USD * 3.6725 AED * 0.7315 = 2686.43375 → 2686 AED → 268600 fils/cents
     expect(body.currency).toBe('aed');
-    expect(body.unitAmount).toBe(238700);
-    expect(body.discountPct).toBe(35);
-    expect(body.displayAmount).toBe('AED 2,387');
+    expect(body.unitAmount).toBe(268600);
+    expect(body.discountPct).toBe(30);
+    expect(body.displayAmount).toBe('AED 2,686');
     expect(body.gccCountry).toBe('AE');
     expect(body.originalMentorUnitAmount).toBe(100000);
 
     const sessionArg = mocks.createEmbeddedSession.mock.calls[0][0];
     expect(sessionArg.currency).toBe('aed');
-    expect(sessionArg.unitAmount).toBe(238700);
+    expect(sessionArg.unitAmount).toBe(268600);
   });
 
   it('defaults GCC country to AE when unset', async () => {
@@ -148,7 +148,7 @@ describe('seat-deposit scholarship_invite branch', () => {
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body.currency).toBe('aed');
-    expect(body.unitAmount).toBe(238700);
+    expect(body.unitAmount).toBe(268600);
   });
 
   it('rejects India and Pakistan scholarship checkouts', async () => {

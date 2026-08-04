@@ -150,7 +150,7 @@ export async function POST(request: Request) {
   let globalMentorBaseline = fullRegional;
 
   if (isScholarshipInvite) {
-    // Elite invite: Global −15% USD, or GCC −35% vs Global converted to country currency.
+    // Elite invite: Global stated −15% / GCC stated −30% vs Global (fee-adjusted pay fractions).
     const globalMentor = resolveRegionalCheckoutPrice(offering, 'global', null, {
       priceBook: 'mentor',
     });

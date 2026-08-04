@@ -13,10 +13,10 @@ import { getOfferingById } from '@/lib/regional-catalogue';
 import { resolveRegionalCheckoutPrice } from '@/lib/regional-checkout-price';
 
 describe('backend scholarship-offer', () => {
-  it('computes Global 85% USD and GCC 65% in local FX', () => {
-    expect(applyScholarshipDiscountMinor(20000, 'global')).toBe(17000);
+  it('computes Global 88.15% USD and GCC 73.15% in local FX', () => {
+    expect(applyScholarshipDiscountMinor(20000, 'global')).toBe(17630);
     expect(scholarshipDiscountPct('global')).toBe(15);
-    expect(scholarshipDiscountPct('gcc')).toBe(35);
+    expect(scholarshipDiscountPct('gcc')).toBe(30);
 
     const ae = resolveEliteScholarshipPrice({
       globalUsdMajor: 1000,
@@ -24,7 +24,7 @@ describe('backend scholarship-offer', () => {
       gccCountry: 'AE',
     });
     expect(ae?.currency).toBe('aed');
-    expect(ae?.majorAmount).toBe(Math.round(1000 * DELIVERY_FX_PER_USD.AED * 0.65));
+    expect(ae?.majorAmount).toBe(Math.round(1000 * DELIVERY_FX_PER_USD.AED * 0.7315));
     expect(ae?.unitAmount).toBe(ae!.majorAmount * 100);
   });
 
@@ -47,7 +47,7 @@ describe('backend scholarship-offer', () => {
       globalUsdMajor: full!.majorAmount,
       regionId: 'global',
     });
-    expect(globalElite?.unitAmount).toBe(Math.round(full!.unitAmount * 0.85));
+    expect(globalElite?.unitAmount).toBe(Math.round(full!.unitAmount * 0.8815));
     const gccElite = resolveEliteScholarshipPrice({
       globalUsdMajor: full!.majorAmount,
       regionId: 'gcc',

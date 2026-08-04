@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props) {
     : 'Elite scholarship';
   return buildPageMetadata({
     title,
-    description: `${ELITE_SCHOLARSHIP_HEADING} Global −15% or GCC −35% vs Global mentor-led catalogue. 20-minute checkout session.`,
+    description: `${ELITE_SCHOLARSHIP_HEADING} Global −15% or GCC −30% vs Global mentor-led catalogue. 20-minute checkout session.`,
     path: `/certifications/${id}/${tierSlug}/enroll/scholarship`,
     robots: { index: false, follow: false },
   });

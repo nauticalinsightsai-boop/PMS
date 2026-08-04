@@ -5,5 +5,10 @@
   "type": "module",
   "main": "index.js",
   "types": "index.d.ts",
-  "description": "Re-exports regional catalogue JSON for backend/scripts"
+  "description": "Re-exports regional catalogue JSON for backend/scripts",
+  "exports": {
+    ".": "./index.js",
+    "./gcc-owner-overrides.json": "./gcc-owner-overrides.json",
+    "./regional-catalogue.json": "./regional-catalogue.json"
+  }
 }

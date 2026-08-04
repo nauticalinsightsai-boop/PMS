@@ -20,7 +20,7 @@ type ProgramEnrollmentPageProps = {
   offeringId: string;
   certName: string;
   publishableKeyHint?: string | null;
-  /** Invite-only Elite scholarship checkout (Global −15% / GCC −35% vs Global). */
+  /** Invite-only Elite scholarship checkout (Global −15% / GCC −30% vs Global). */
   scholarshipMode?: boolean;
 };
 
