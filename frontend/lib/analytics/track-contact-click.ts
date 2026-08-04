@@ -5,7 +5,6 @@ import {
 } from '@/lib/analytics/pms-events';
 import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 import { createAnalyticsEventId } from '@/lib/analytics/event-id';
-import { trackMetaContact } from '@/lib/analytics/meta-browser';
 
 export function trackContactClick(opts: {
   contactMethod: ContactMethod;
@@ -21,11 +20,4 @@ export function trackContactClick(opts: {
     page_path: opts.pagePath ?? (typeof window !== 'undefined' ? window.location.pathname : '/'),
     ...(opts.ctaText ? { cta_text: opts.ctaText } : {}),
   });
-  trackMetaContact(
-    {
-      content_name: opts.ctaText ?? `${opts.contactMethod} contact`,
-      content_category: opts.contactContext,
-    },
-    eventId,
-  );
 }
