@@ -17,7 +17,7 @@ export const SCHOLARSHIP_OFFER_TYPE = 'scholarship_invite' as const;
 export const SCHOLARSHIP_ALLOWED_REGIONS: readonly RegionId[] = ['global', 'gcc'];
 
 export const ELITE_SCHOLARSHIP_HEADING =
-  "Congratulations — you're eligible for the Elite scholarship";
+  "Congratulations, you're eligible for the Elite scholarship";
 
 export type ScholarshipSessionRecord = {
   openedAt: number;

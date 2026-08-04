@@ -155,7 +155,7 @@ export function ProgramEnrollmentForm({
         <p className="mt-3 text-sm text-muted-foreground leading-relaxed md:text-base">
           {scholarshipMode ? (
             <>
-              Pay {fullLabel ?? 'Elite scholarship tuition'} today for mentor-led weekly sessions —{' '}
+              Pay {fullLabel ?? 'Elite scholarship tuition'} today for mentor-led weekly sessions:{' '}
               {scholarshipPct}% off the Global mentor-led catalogue price
               {regionId === 'gcc' ? ' (GCC Elite invite)' : ''}. Support will confirm onboarding within
               24 hours.
