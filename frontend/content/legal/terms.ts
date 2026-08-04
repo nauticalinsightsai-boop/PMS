@@ -27,7 +27,7 @@ export const termsDocument: LegalDocument = {
     section(
       'services',
       '3. Services',
-      `${BRAND.name} provides independent exam-preparation content, structured readiness pathways, membership resources, community access, and optional advisory or training services. We are not an official certification body unless expressly stated in writing for a specific offering.`,
+      `${BRAND.name} provides independent exam-preparation content, structured readiness pathways, membership resources, community access, and optional advisory or training services. Our [PM Structure Services Terms](/legal/services) explain the conditions that apply to service engagements. We are not an official certification body unless expressly stated in writing for a specific offering.`,
     ),
     section(
       'payments',
@@ -37,7 +37,7 @@ export const termsDocument: LegalDocument = {
     section(
       'ip',
       '5. Intellectual property',
-      'All site content, templates, branding, and course materials are owned by or licensed to us. You receive a limited, non-transferable licence for personal study. You may not resell, scrape, or redistribute materials without written permission.',
+      'All site content, templates, branding, and course materials are owned by or licensed to us. You receive a limited, non-transferable licence for personal study. You may not resell, scrape, or redistribute materials without written permission. Community and platform conduct is also governed by our [Acceptable Use & Community Guidelines](/legal/acceptable-use).',
     ),
     section(
       'disclaimers',
@@ -65,5 +65,4 @@ export const termsDocument: LegalDocument = {
       `Data controller: ${LEGAL_CONTROLLER_LINE}. ${legalSupportSection('these Terms')}`,
     ),
   ],
-};
-
+};

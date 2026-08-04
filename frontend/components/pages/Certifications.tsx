@@ -24,6 +24,7 @@ import { SectionAmbience, sectionSurface } from "@/components/SectionAmbience";
 import { Breadcrumbs } from "@/components/navigation/Breadcrumbs";
 import { PMP_ROADMAP_FORM_ANCHOR } from '@/content/pmp/program-offer';
 import { getPhase2RelatedBlock } from '@/content/seo/phase-2-page-seo';
+import { OPEN13_CERTIFICATION_LINKS } from '@/content/seo/open13-internal-links';
 import { PathwayEnrollmentBadge } from "@/components/PathwayEnrollmentBadge";
 import { useRegion } from "@/contexts/RegionContext";
 import {
@@ -448,6 +449,35 @@ export function Certifications({
         </div>
       </section>
       </LazyWhenVisible>
+
+      <section className={sectionSurface('soft', 'py-16 sm:py-20')} aria-labelledby="specialist-pathways-heading">
+        <SectionAmbience tone="soft" />
+        <div className="container relative z-10 mx-auto">
+          <div className="mx-auto max-w-5xl rounded-[2rem] border border-slate-200/80 bg-white/80 p-6 shadow-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-950/70 sm:p-8">
+            <div className="mb-6 max-w-3xl">
+              <h2 id="specialist-pathways-heading" className="font-heading text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
+                Specialist certification pathways
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:text-base">
+                Compare focused governance, risk, agile, and improvement pathways before choosing your next credential.
+              </p>
+            </div>
+            <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {OPEN13_CERTIFICATION_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="group flex h-full items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-800 transition-colors hover:border-brand-orange/60 hover:text-brand-orange dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-brand-orange/60 dark:hover:text-brand-orange"
+                  >
+                    <span>{link.anchor}</span>
+                    <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
 
       {/* Unified High-Impact CTA Section */}
       <LazyWhenVisible minHeightClassName="min-h-[20rem]">

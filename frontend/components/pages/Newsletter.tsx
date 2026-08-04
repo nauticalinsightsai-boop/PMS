@@ -20,6 +20,7 @@ import type { NewsletterArticle } from '@pms/site-content/newsletter-posts';
 import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
 import { NewsletterSubscribeForm } from "@/components/forms/NewsletterSubscribeForm";
 import { NewsletterHeroSubscribeForm } from "@/components/forms/NewsletterHeroSubscribeForm";
+import { OPEN13_NEWSLETTER_LINKS } from '@/content/seo/open13-internal-links';
 
 import { T176_SOCIAL_PROOF_REGIONAL } from '@/content/t176-claims';
 
@@ -261,6 +262,26 @@ export function Newsletter({
                 </Button>
               </Link>
             </div>
+
+            <nav
+              aria-label="Evidence guides"
+              className="flex flex-col rounded-[1.75rem] border border-slate-100 bg-white p-4 sm:p-5 dark:border-slate-800 dark:bg-slate-950 lg:rounded-[2rem]"
+            >
+              <h3 className="mb-3 font-heading text-lg font-bold lg:text-xl">Evidence Guides</h3>
+              <ul className="space-y-3">
+                {OPEN13_NEWSLETTER_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="group inline-flex items-start gap-2 text-sm font-semibold leading-snug text-slate-700 transition-colors hover:text-brand-purple dark:text-slate-300 dark:hover:text-brand-cyan"
+                    >
+                      <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-brand-orange" aria-hidden />
+                      <span>{link.anchor}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </aside>
         </div>
 
