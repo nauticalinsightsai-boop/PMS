@@ -2,6 +2,10 @@ import Stripe from 'stripe';
 import { getStripe, isStripeConfigured } from '@/lib/stripe';
 import { syncPaidOrderFromStripeSession } from '@/lib/sync-paid-order';
 import { jsonError, jsonOk } from '@/lib/response-helpers.js';
+import {
+  ScholarshipWebhookMismatchError,
+  validateScholarshipPaidSession,
+} from '@/lib/scholarship-webhook';
 
 export const runtime = 'nodejs';
 
@@ -36,8 +40,17 @@ export async function POST(request: Request) {
       event.type === 'checkout.session.completed' ||
       event.type === 'checkout.session.async_payment_succeeded'
     ) {
-      const session = event.data.object as Stripe.Checkout.Session;
+      const eventSession = event.data.object as Stripe.Checkout.Session;
+      const session = eventSession.metadata?.scholarshipReservationId
+        ? await getStripe().checkout.sessions.retrieve(eventSession.id, {
+            expand: ['discounts.coupon'],
+          })
+        : eventSession;
       if (session.payment_status === 'paid' || session.payment_status === 'no_payment_required') {
+        await validateScholarshipPaidSession({
+          session,
+          completedAtMs: event.created * 1000,
+        });
         await syncPaidOrderFromStripeSession({
           sessionId: session.id,
           paymentStatus: session.payment_status,
@@ -49,6 +62,9 @@ export async function POST(request: Request) {
     }
   } catch (err) {
     console.error('[stripe/webhook] handler error:', err);
+    if (err instanceof ScholarshipWebhookMismatchError) {
+      return jsonError(err.message, 400);
+    }
     return jsonError('Webhook handler failed', 500);
   }
 

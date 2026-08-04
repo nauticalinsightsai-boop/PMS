@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { verifiedPurchaseMoney, verifyCheckoutSession } from '@/services/enrollment';
 import { MessageCircle } from 'lucide-react';
 import { OnboardingCalendlyCta } from '@/components/checkout/OnboardingCalendlyCta';
@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { inferPackageType } from '@/lib/analytics/pms-events';
 import { trackPurchaseOnce } from '@/lib/analytics/track-purchase-once';
 import { trackContactClick } from '@/lib/analytics/track-contact-click';
+import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 
 function ProgramEnrollmentSuccessContent({
   siteCertId,
@@ -32,6 +33,7 @@ function ProgramEnrollmentSuccessContent({
   const [paymentVerified, setPaymentVerified] = useState<boolean | null>(null);
   const [paymentType, setPaymentType] = useState<string | null>(null);
   const [verifiedMoney, setVerifiedMoney] = useState<{ currency: string; value: number } | null>(null);
+  const scholarshipCompletedTracked = useRef(false);
 
   useEffect(() => {
     if (!sessionId?.startsWith('cs_')) return;
@@ -67,7 +69,23 @@ function ProgramEnrollmentSuccessContent({
     });
   }, [sessionId, paymentVerified, verifiedMoney, offering, offeringId]);
 
-  const paidInFull = paymentType === 'full_tuition';
+  useEffect(() => {
+    if (
+      scholarshipCompletedTracked.current ||
+      paymentVerified !== true ||
+      paymentType !== 'scholarship_mentor_led' ||
+      !verifiedMoney
+    ) return;
+    scholarshipCompletedTracked.current = true;
+    pushAnalyticsEvent('completed', {
+      offering_id: offeringId ?? undefined,
+      delivery_mode: 'mentor_led',
+      currency: verifiedMoney.currency,
+      value: verifiedMoney.value,
+    });
+  }, [offeringId, paymentType, paymentVerified, verifiedMoney]);
+
+  const paidInFull = paymentType === 'full_tuition' || paymentType === 'scholarship_mentor_led';
 
   return (
     <section className={sectionSurface('blend', 'py-24')}>

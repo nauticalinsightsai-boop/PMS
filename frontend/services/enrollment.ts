@@ -4,6 +4,7 @@ import {
   pickStripePublishableKey,
 } from '@/lib/stripe-key-mode';
 import { readStripePublishableKeyFromEnv } from '@/lib/stripe-publishable-key';
+import { currencyMinorUnit } from '@/lib/scholarship';
 
 async function fetchPublishableKeyFromApi(): Promise<string> {
   const urls = ['/config/stripe', '/api/config/public'];
@@ -159,6 +160,6 @@ export function verifiedPurchaseMoney(
   return {
     transactionId: data.sessionId,
     currency,
-    value: amountTotal / 100,
+    value: amountTotal / 10 ** currencyMinorUnit(currency),
   };
 }

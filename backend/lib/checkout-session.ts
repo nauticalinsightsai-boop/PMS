@@ -31,6 +31,11 @@ export type StripeEmbeddedLineItemParams = Omit<StripeLineItemParams, 'successUr
   colorScheme?: 'light' | 'dark';
 };
 
+export type ScholarshipStripeEmbeddedLineItemParams = StripeEmbeddedLineItemParams & {
+  expiresAt: number;
+  idempotencyKey: string;
+};
+
 type StripeLineItemCore = Pick<
   StripeLineItemParams,
   'currency' | 'unitAmount' | 'referenceUsdCents' | 'productName' | 'productDescription'
@@ -138,6 +143,54 @@ export async function createStripeEmbeddedCheckoutSession(
     session = await stripe.checkout.sessions.create(baseParams);
   }
 
+  return {
+    sessionId: session.id,
+    url: null,
+    clientSecret: session.client_secret,
+    unitAmount: params.unitAmount,
+    currency: params.currency,
+    usdCents,
+    offeringId: params.offeringId,
+  };
+}
+
+export async function createScholarshipStripeEmbeddedCheckoutSession(
+  params: ScholarshipStripeEmbeddedLineItemParams,
+): Promise<CheckoutSessionResult> {
+  const usdCents = fallbackUsdCents(params);
+  if (!isStripeConfigured()) {
+    return {
+      sessionId: `checkout_${Date.now()}_${params.offeringId}`,
+      url: null,
+      clientSecret: null,
+      unitAmount: params.unitAmount,
+      currency: params.currency,
+      usdCents,
+      offeringId: params.offeringId,
+    };
+  }
+  const session = await getStripe().checkout.sessions.create(
+    {
+      mode: 'payment',
+      ui_mode: 'embedded',
+      redirect_on_completion: 'if_required',
+      return_url: params.returnUrl,
+      billing_address_collection: 'required',
+      // Owner decision: fixed SCH15 only — no promotion-code field, no SCH10/SCH20 choice.
+      allow_promotion_codes: false,
+      discounts: [{ coupon: 'SCH15' }],
+      expires_at: params.expiresAt,
+      ...(params.email?.trim() ? { customer_email: params.email.trim() } : {}),
+      line_items: [lineItem(params)],
+      metadata: {
+        ...params.metadata,
+        colorScheme: params.colorScheme ?? 'light',
+        checkoutCurrency: params.currency,
+        checkoutUnitAmount: String(params.unitAmount),
+      },
+    },
+    { idempotencyKey: params.idempotencyKey },
+  );
   return {
     sessionId: session.id,
     url: null,
