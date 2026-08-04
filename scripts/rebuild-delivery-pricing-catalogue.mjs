@@ -1,5 +1,8 @@
 /**
- * One-shot catalogue rewrite for enrollment delivery pricing.
+ * Regenerate GCC / India / Pakistan catalogue displays from each offering's Global USD
+ * using fee-adjusted regional pay fractions. Leaves Global / Europe / UK untouched.
+ * Owner locks in gcc-owner-overrides.json stay as explicit exceptions.
+ *
  * Run: node scripts/rebuild-delivery-pricing-catalogue.mjs
  */
 import fs from 'node:fs';
@@ -12,6 +15,22 @@ const ownerOverrides = JSON.parse(
   fs.readFileSync(path.join(__dirname, '../packages/regional-catalogue/gcc-owner-overrides.json'), 'utf8'),
 );
 
+const PROCESSING_FEE_FRACTION = 0.0315;
+const STATED_GCC_OFF = 0.2;
+const STATED_IN_PK_OFF = 0.3;
+
+function payFractionFromStatedOff(statedOff) {
+  if (!Number.isFinite(statedOff) || statedOff <= 0) return 1;
+  return 1 - Math.max(0, statedOff - PROCESSING_FEE_FRACTION);
+}
+
+function payFraction(tierId, regionId) {
+  if (tierId === 'foundation') return 1;
+  if (regionId === 'india' || regionId === 'pakistan') return payFractionFromStatedOff(STATED_IN_PK_OFF);
+  if (regionId === 'gcc') return payFractionFromStatedOff(STATED_GCC_OFF);
+  return 1;
+}
+
 const FX = {
   AED: 3.6725,
   SAR: 3.75,
@@ -21,25 +40,11 @@ const FX = {
   OMR: 0.385,
   PKR: 278,
   INR: 83,
-  EUR: 0.92,
-  GBP: 0.79,
 };
 
 const GCC = ['AE', 'SA', 'QA', 'BH', 'KW', 'OM'];
 const GCC_CUR = { AE: 'AED', SA: 'SAR', QA: 'QAR', BH: 'BHD', KW: 'KWD', OM: 'OMR' };
-const REGIONS = ['global', 'europe', 'uk', 'gcc', 'india', 'pakistan'];
-
-function nearestCharm50(n) {
-  if (!Number.isFinite(n) || n <= 49) return 49;
-  const k = Math.round((n - 49) / 50);
-  return Math.max(49, k * 50 + 49);
-}
-
-function ceilCharm50(n) {
-  if (!Number.isFinite(n) || n <= 49) return 49;
-  const k = Math.ceil((n - 49) / 50);
-  return Math.max(49, k * 50 + 49);
-}
+const DISCOUNTED_REGIONS = ['gcc', 'india', 'pakistan'];
 
 function ceilCharm99(n) {
   if (!Number.isFinite(n) || n <= 99) return 99;
@@ -51,37 +56,18 @@ function charm999(n) {
   return Math.ceil((n + 1) / 1000) * 1000 - 1;
 }
 
-function deriveFoundationUsd(u) {
-  return nearestCharm50(u * 0.3);
-}
-function deriveSelfPacedUsd(u) {
-  return nearestCharm50(u * 0.5);
-}
-
-function payFraction(tierId, regionId) {
-  if (tierId === 'foundation') return 1;
-  if (regionId === 'india' || regionId === 'pakistan') return 0.7;
-  if (regionId === 'gcc') return 0.8;
-  return 1;
-}
-
 function formatMajor(amount, code) {
   const formatted = Math.round(amount).toLocaleString('en-US');
-  if (code === 'USD') return `$${formatted}`;
-  if (code === 'EUR') return `€${formatted}`;
-  if (code === 'GBP') return `£${formatted}`;
   if (code === 'INR') return `₹${formatted}`;
   return `${code} ${formatted}`;
 }
 
 function majorFor(usd, regionId, tierId, gccCountry) {
   const pay = payFraction(tierId, regionId);
-  if (regionId === 'global') return { major: nearestCharm50(usd), code: 'USD' };
-  if (regionId === 'europe') return { major: ceilCharm50(usd * FX.EUR * pay), code: 'EUR' };
-  if (regionId === 'uk') return { major: ceilCharm50(usd * FX.GBP * pay), code: 'GBP' };
   if (regionId === 'india') return { major: charm999(usd * FX.INR * pay), code: 'INR' };
   if (regionId === 'pakistan') return { major: charm999(usd * FX.PKR * pay), code: 'PKR' };
   const code = GCC_CUR[gccCountry || 'AE'];
+  // Explicit owner locks stay as-authored; derived fallbacks use fee-adjusted pay fraction.
   const override = ownerOverrides[`${tierId}:${usd}:${gccCountry || 'AE'}`];
   return {
     major: typeof override === 'number' ? override : ceilCharm99(usd * FX[code] * pay),
@@ -89,13 +75,11 @@ function majorFor(usd, regionId, tierId, gccCountry) {
   };
 }
 
-function buildPrices(usd, tierId) {
+function buildDiscountedRegionPrices(usd, tierId) {
   const usdCents = Math.round(usd * 100);
   const out = {};
-  for (const regionId of REGIONS) {
-    const isScholarship =
-      tierId !== 'foundation' &&
-      (regionId === 'india' || regionId === 'pakistan' || regionId === 'gcc');
+  const isScholarship = tierId !== 'foundation';
+  for (const regionId of DISCOUNTED_REGIONS) {
     if (regionId === 'gcc') {
       const perCountry = {};
       for (const c of GCC) {
@@ -114,52 +98,51 @@ function buildPrices(usd, tierId) {
     const { major, code } = majorFor(usd, regionId, tierId);
     out[regionId] = {
       display: formatMajor(major, code),
-      usdCents,
       currencyCode: code,
       isScholarship,
+      usdCents,
     };
   }
   return out;
 }
 
-function globalUsdFromOffering(o) {
-  const cents = o.prices?.global?.usdCents;
+function globalUsdFromPrices(prices) {
+  const cents = prices?.global?.usdCents;
   if (typeof cents === 'number' && cents > 0) return cents / 100;
-  const d = o.prices?.global?.display || '';
+  const d = prices?.global?.display || '';
   const m = d.match(/([\d][\d,]*(?:\.\d+)?)/);
-  if (!m) throw new Error(`No global USD for ${o.offeringId}`);
+  if (!m) return null;
   return parseFloat(m[1].replace(/,/g, ''));
 }
 
-const catalogue = JSON.parse(fs.readFileSync(cataloguePath, 'utf8'));
-let foundationCount = 0;
-let professionalCount = 0;
-let masterySkipped = 0;
-
-for (const o of catalogue.offerings) {
-  if (o.tierId === 'foundation') {
-    const oldUsd = globalUsdFromOffering(o);
-    const usd = deriveFoundationUsd(oldUsd);
-    o.prices = buildPrices(usd, 'foundation');
-    delete o.pricesSelfPaced;
-    foundationCount += 1;
-    continue;
-  }
-  if (o.tierId === 'professional') {
-    const mentorUsd = globalUsdFromOffering(o);
-    const selfUsd = deriveSelfPacedUsd(mentorUsd);
-    o.prices = buildPrices(mentorUsd, 'professional');
-    o.pricesSelfPaced = buildPrices(selfUsd, 'professional');
-    professionalCount += 1;
-    continue;
-  }
-  masterySkipped += 1;
+function patchPriceBook(prices, tierId) {
+  if (!prices?.global) return false;
+  const usd = globalUsdFromPrices(prices);
+  if (usd == null || !Number.isFinite(usd) || usd <= 0) return false;
+  Object.assign(prices, buildDiscountedRegionPrices(usd, tierId));
+  return true;
 }
 
+const catalogue = JSON.parse(fs.readFileSync(cataloguePath, 'utf8'));
+let patched = 0;
+let selfPacedPatched = 0;
+let skipped = 0;
+
+for (const o of catalogue.offerings) {
+  const tierId = o.tierId || 'professional';
+  if (patchPriceBook(o.prices, tierId)) patched += 1;
+  else skipped += 1;
+  if (o.pricesSelfPaced && patchPriceBook(o.pricesSelfPaced, tierId)) {
+    selfPacedPatched += 1;
+  }
+}
+
+const now = new Date().toISOString();
 catalogue.meta = {
   ...catalogue.meta,
+  deliveryPricingRebuildAt: now,
   deliveryPricingNote:
-    'Foundation: 30% Global + FX no scholarship. Professional mentor full Global; self-paced 50%; IN/PK 30% off; GCC 20% off.',
+    'Foundation: 30% Global + FX no scholarship. Professional mentor full Global; self-paced 50%; stated IN/PK 30% / GCC 20% with silent 3.15% processing fee in pay fraction (UI shows stated %). Europe/UK unchanged by this rebuild.',
 };
 
 fs.writeFileSync(cataloguePath, `${JSON.stringify(catalogue, null, 2)}\n`, 'utf8');
@@ -167,7 +150,15 @@ const packageCopyPath = path.join(__dirname, '../packages/regional-catalogue/reg
 fs.writeFileSync(packageCopyPath, `${JSON.stringify(catalogue, null, 2)}\n`, 'utf8');
 console.log(
   JSON.stringify(
-    { foundationCount, professionalCount, masterySkipped, path: cataloguePath, packageCopyPath },
+    {
+      patched,
+      selfPacedPatched,
+      skipped,
+      payGcc: payFraction('professional', 'gcc'),
+      payInPk: payFraction('professional', 'india'),
+      path: cataloguePath,
+      packageCopyPath,
+    },
     null,
     2,
   ),

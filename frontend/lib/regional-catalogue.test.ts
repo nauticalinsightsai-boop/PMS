@@ -103,9 +103,9 @@ describe('regional-catalogue', () => {
   it('PMP professional has mentor and self-paced price books', () => {
     const pro = getOfferingById('pmp-preparation-professional');
     expect(pro?.prices.global.display).toBe('$899');
-    expect(pro?.prices.india.display).toBe('₹52,999');
+    expect(pro?.prices.india.display).toBe('₹54,999');
     expect(pro?.pricesSelfPaced?.global.display).toBe('$449');
-    expect(pro?.pricesSelfPaced?.india.display).toBe('₹26,999');
+    expect(pro?.pricesSelfPaced?.india.display).toBe('₹27,999');
     expect(pro?.prices.gcc.perCountry?.AE).toBe('AED 2,649');
   });
 

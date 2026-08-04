@@ -64,25 +64,29 @@ describe('deriveFoundationUsd / deriveSelfPacedUsd', () => {
 });
 
 describe('regionalizeUsd professional discounts', () => {
-  it('matches PMP mentor $899 plan checks', () => {
-    expect(regionalizeUsd(899, 'india', 'professional').display).toBe('₹52,999');
-    expect(regionalizeUsd(899, 'pakistan', 'professional').display).toBe('PKR 174,999');
+  it('matches PMP mentor $899 plan checks with fee-adjusted pay fractions', () => {
+    expect(regionalizeUsd(899, 'india', 'professional').display).toBe('₹54,999');
+    expect(regionalizeUsd(899, 'pakistan', 'professional').display).toBe('PKR 182,999');
+    // Owner lock for professional:899:AE
     expect(regionalizeUsd(899, 'gcc', 'professional', 'AE').display).toBe('AED 2,649');
     expect(regionalizeUsd(899, 'europe', 'professional').display).toBe('€849');
     expect(regionalizeUsd(899, 'uk', 'professional').display).toBe('£749');
   });
 
   it('matches PMP self-paced $449 plan checks', () => {
-    expect(regionalizeUsd(449, 'india', 'professional').display).toBe('₹26,999');
-    expect(regionalizeUsd(449, 'pakistan', 'professional').display).toBe('PKR 87,999');
+    expect(regionalizeUsd(449, 'india', 'professional').display).toBe('₹27,999');
+    expect(regionalizeUsd(449, 'pakistan', 'professional').display).toBe('PKR 91,999');
+    // Owner locks for professional:449:AE / QA
     expect(regionalizeUsd(449, 'gcc', 'professional', 'AE').display).toBe('AED 1,349');
     expect(regionalizeUsd(449, 'gcc', 'professional', 'QA').display).toBe('QAR 1,299');
   });
 
   it('uses supplied AED lookup values without changing an unlisted fallback row', () => {
     expect(regionalizeUsd(399, 'gcc', 'professional', 'AE').display).toBe('AED 1,149');
+    // Owner lock for professional:199:AE
     expect(regionalizeUsd(199, 'gcc', 'professional', 'AE').display).toBe('AED 599');
-    expect(regionalizeUsd(299, 'gcc', 'professional', 'SA').display).toBe('SAR 899');
+    // Derived fallback (no SA:299 lock) uses fee-adjusted pay fraction
+    expect(regionalizeUsd(299, 'gcc', 'professional', 'SA').display).toBe('SAR 999');
   });
 
   it('foundation has no regional scholarship cut', () => {

@@ -41,8 +41,8 @@ describe('enrollment delivery payment modes', () => {
     });
     expect(mentor?.display).toBe('$899');
     expect(selfPaced?.display).toBe('$449');
-    expect(indiaMentor?.display).toBe('₹52,999');
-    expect(indiaSelf?.display).toBe('₹26,999');
+    expect(indiaMentor?.display).toBe('₹54,999');
+    expect(indiaSelf?.display).toBe('₹27,999');
     expect(selfPaced?.usdCents).toBe(44900);
   });
 });

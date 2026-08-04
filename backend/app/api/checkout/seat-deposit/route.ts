@@ -20,6 +20,13 @@ import {
   resolveRegionalCheckoutPrice,
   resolveRegionalDepositPrice,
 } from '@/lib/regional-checkout-price';
+import {
+  isScholarshipOfferType,
+  resolveEliteScholarshipPrice,
+  SCHOLARSHIP_OFFER_TYPE,
+  scholarshipPayFraction,
+  scholarshipOfferError,
+} from '@/lib/scholarship-offer';
 import { isSupabaseConfigured, supabaseAdmin } from '@/lib/supabase-admin';
 import { jsonError, jsonOk } from '@/lib/response-helpers.js';
 import { safeRedirectUrl } from '@/lib/safe-redirect-url';
@@ -68,6 +75,8 @@ export async function POST(request: Request) {
     returnUrl,
     paymentMode: rawPaymentMode,
     gccCountry,
+    offerType: rawOfferType,
+    unitAmount: claimedUnitAmount,
   } = body as {
     offeringId?: string;
     siteCertId?: string;
@@ -82,7 +91,11 @@ export async function POST(request: Request) {
     returnUrl?: string;
     paymentMode?: EnrollmentPaymentMode;
     gccCountry?: string | null;
+    offerType?: string;
+    unitAmount?: number;
   };
+
+  const isScholarshipInvite = isScholarshipOfferType(rawOfferType);
 
   if (!offeringId || !siteCertId || !tierSlug || !regionId) {
     return jsonError('offeringId, siteCertId, tierSlug, and regionId are required', 400);
@@ -107,9 +120,16 @@ export async function POST(request: Request) {
     );
   }
 
-  const paymentMode = parseEnrollmentPaymentMode(rawPaymentMode, offering.tierId);
+  if (isScholarshipInvite) {
+    const offerErr = scholarshipOfferError(offering.tierId, regionId);
+    if (offerErr) return jsonError(offerErr, 400);
+  }
+
+  const paymentMode: EnrollmentPaymentMode = isScholarshipInvite
+    ? 'mentor_led'
+    : parseEnrollmentPaymentMode(rawPaymentMode, offering.tierId);
   const priceBook = paymentMode === 'self_paced' ? 'self_paced' : 'mentor';
-  const fullRegional = resolveRegionalCheckoutPrice(offering, regionId, gccCountry, {
+  let fullRegional = resolveRegionalCheckoutPrice(offering, regionId, gccCountry, {
     priceBook,
   });
   if (!fullRegional) return jsonError('Price unavailable', 400);
@@ -119,10 +139,55 @@ export async function POST(request: Request) {
     if (!eligibility.ok) return jsonError(eligibility.message, 403);
   }
 
-  const isDeposit = paymentMode === 'seat_deposit';
-  const checkoutRegional = isDeposit
+  const isDeposit = !isScholarshipInvite && paymentMode === 'seat_deposit';
+  let checkoutRegional = isDeposit
     ? resolveRegionalDepositPrice(fullRegional)
-    : fullRegional;
+    : { ...fullRegional };
+  let checkoutDisplay = isDeposit
+    ? formatRegionalDepositDisplay(fullRegional.display)
+    : fullRegional.display;
+  let scholarshipDiscountPercent: number | null = null;
+  let globalMentorBaseline = fullRegional;
+
+  if (isScholarshipInvite) {
+    // Elite invite: Global stated −15% / GCC stated −30% vs Global (fee-adjusted pay fractions).
+    const globalMentor = resolveRegionalCheckoutPrice(offering, 'global', null, {
+      priceBook: 'mentor',
+    });
+    if (!globalMentor) return jsonError('Global mentor price unavailable', 400);
+    globalMentorBaseline = globalMentor;
+    const elite = resolveEliteScholarshipPrice({
+      globalUsdMajor: globalMentor.majorAmount,
+      regionId,
+      gccCountry,
+    });
+    if (!elite) return jsonError('Scholarship price unavailable', 400);
+    scholarshipDiscountPercent = elite.discountPct;
+    if (
+      typeof claimedUnitAmount === 'number' &&
+      Number.isFinite(claimedUnitAmount) &&
+      Math.round(claimedUnitAmount) !== elite.unitAmount
+    ) {
+      return jsonError('Scholarship amount mismatch. Refresh and try again.', 400);
+    }
+    checkoutDisplay = elite.display;
+    checkoutRegional = {
+      currency: elite.currency,
+      unitAmount: elite.unitAmount,
+      majorAmount: elite.majorAmount,
+      display: elite.display,
+      currencyCode: elite.currencyCode,
+      usdCents:
+        globalMentor.usdCents != null
+          ? Math.round(globalMentor.usdCents * scholarshipPayFraction(regionId))
+          : Math.round(elite.globalUsdMajor * 100 * scholarshipPayFraction(regionId)),
+    };
+    fullRegional = {
+      ...globalMentor,
+      // Keep Global baseline for audit; checkoutRegional holds charged amount/currency.
+    };
+  }
+
   const depositDisplay = formatRegionalDepositDisplay(fullRegional.display);
 
   const tierLabel = offering.tierId.replace(/_/g, ' ') || tierSlug.replace(/-/g, ' ');
@@ -131,7 +196,9 @@ export async function POST(request: Request) {
 
   const defaultReturn = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll/success?offering=${encodeURIComponent(offeringId)}&session_id={CHECKOUT_SESSION_ID}`;
   const defaultSuccess = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll/success?offering=${encodeURIComponent(offeringId)}&session_id={CHECKOUT_SESSION_ID}`;
-  const defaultCancel = `${origin}/certifications/${siteCertId}/${tierSlug}/enroll?offering=${encodeURIComponent(offeringId)}`;
+  const defaultCancel = isScholarshipInvite
+    ? `${origin}/certifications/${siteCertId}/${tierSlug}/enroll/scholarship?offering=${encodeURIComponent(offeringId)}`
+    : `${origin}/certifications/${siteCertId}/${tierSlug}/enroll?offering=${encodeURIComponent(offeringId)}`;
 
   const deliveryLabel =
     paymentMode === 'self_paced'
@@ -148,14 +215,18 @@ export async function POST(request: Request) {
     email: trimmedEmail || undefined,
     productName: isDeposit
       ? `Seat reservation deposit: ${offering.courseName}`
-      : deliveryLabel
-        ? `${offering.courseName}: ${tierLabel} (${deliveryLabel})`
-        : `${offering.courseName}: ${tierLabel}`,
+      : isScholarshipInvite
+        ? `${offering.courseName}: ${tierLabel} (Mentor-led scholarship)`
+        : deliveryLabel
+          ? `${offering.courseName}: ${tierLabel} (${deliveryLabel})`
+          : `${offering.courseName}: ${tierLabel}`,
     productDescription: isDeposit
       ? `${tierLabel} pathway · 25% deposit (${depositDisplay}) · remaining tuition due at onboarding`
-      : deliveryLabel
-        ? `${deliveryLabel} · ${fullRegional.display}`
-        : `Full pathway tuition (${fullRegional.display})`,
+      : isScholarshipInvite
+        ? `Mentor-led Elite scholarship (−${scholarshipDiscountPercent}%) · ${checkoutDisplay}`
+        : deliveryLabel
+          ? `${deliveryLabel} · ${fullRegional.display}`
+          : `Full pathway tuition (${fullRegional.display})`,
     metadata: {
       offeringId,
       siteCertId,
@@ -163,7 +234,16 @@ export async function POST(request: Request) {
       regionId,
       paymentType: paymentMode,
       checkoutCurrency: checkoutRegional.currency,
-      checkoutDisplay: isDeposit ? depositDisplay : fullRegional.display,
+      checkoutDisplay: isDeposit ? depositDisplay : checkoutDisplay,
+      ...(isScholarshipInvite
+        ? {
+            offerType: SCHOLARSHIP_OFFER_TYPE,
+            discountPct: String(scholarshipDiscountPercent),
+            deliveryMode: 'mentor_led',
+            originalMentorUnitAmount: String(globalMentorBaseline.unitAmount),
+            ...(gccCountry ? { gccCountry: String(gccCountry).toUpperCase() } : {}),
+          }
+        : {}),
       ...(name?.trim() ? { customerName: name.trim() } : {}),
     },
   };
@@ -192,7 +272,9 @@ export async function POST(request: Request) {
       offering_id: offeringId,
       region_id: regionId,
       email: trimmedEmail || 'pending@checkout.local',
-      usd_cents: fullRegional.usdCents ?? session.usdCents,
+      usd_cents: isScholarshipInvite
+        ? (checkoutRegional.usdCents ?? fullRegional.usdCents ?? session.usdCents)
+        : (fullRegional.usdCents ?? session.usdCents),
       status: 'pending',
       stripe_session_id: session.sessionId,
       metadata: {
@@ -203,9 +285,18 @@ export async function POST(request: Request) {
         uiMode: embedded ? 'embedded' : 'redirect',
         checkoutCurrency: checkoutRegional.currency,
         checkoutUnitAmount: checkoutRegional.unitAmount,
-        checkoutDisplay: isDeposit ? depositDisplay : fullRegional.display,
+        checkoutDisplay: isDeposit ? depositDisplay : checkoutDisplay,
         depositFraction: isDeposit ? 0.25 : null,
         deliveryMode: isDeliveryFullChargeMode(paymentMode) ? paymentMode : null,
+        ...(isScholarshipInvite
+          ? {
+              offerType: SCHOLARSHIP_OFFER_TYPE,
+              discountPct: scholarshipDiscountPercent,
+              originalMentorUnitAmount: globalMentorBaseline.unitAmount,
+              originalMentorDisplay: globalMentorBaseline.display,
+              ...(gccCountry ? { gccCountry: String(gccCountry).toUpperCase() } : {}),
+            }
+          : {}),
       },
     });
     if (error) {
@@ -223,11 +314,21 @@ export async function POST(request: Request) {
     },
     currency: checkoutRegional.currency,
     unitAmount: checkoutRegional.unitAmount,
-    displayAmount: isDeposit ? depositDisplay : fullRegional.display,
-    fullDisplay: fullRegional.display,
+    displayAmount: isDeposit ? depositDisplay : checkoutDisplay,
+    fullDisplay: isScholarshipInvite ? checkoutDisplay : fullRegional.display,
     depositDisplay,
-    usdCents: fullRegional.usdCents,
+    usdCents: isScholarshipInvite
+      ? (checkoutRegional.usdCents ?? fullRegional.usdCents)
+      : fullRegional.usdCents,
     paymentMode,
+    ...(isScholarshipInvite
+      ? {
+          offerType: SCHOLARSHIP_OFFER_TYPE,
+          discountPct: scholarshipDiscountPercent,
+          originalMentorUnitAmount: globalMentorBaseline.unitAmount,
+          ...(gccCountry ? { gccCountry: String(gccCountry).toUpperCase() } : {}),
+        }
+      : {}),
   });
   } catch (err) {
     console.error('[checkout/seat-deposit] session create failed:', err);

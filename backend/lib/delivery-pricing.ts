@@ -3,6 +3,8 @@
  * Keep FX + charm rules in sync with the frontend module.
  */
 
+import { regionalPayFraction, statedRegionalOff } from '@/lib/enrollment-pricing-policy';
+
 export type EnrollmentDeliveryMode = 'mentor_led' | 'self_paced';
 
 const FX: Record<string, number> = {
@@ -41,6 +43,15 @@ export function deriveFoundationUsd(currentGlobalUsd: number): number {
 
 export function deriveSelfPacedUsd(mentorGlobalUsd: number): number {
   return nearestCharm50(mentorGlobalUsd * 0.5);
+}
+
+/** Stated regional off (labels). Money uses payFractionForRegion. */
+export function regionalDiscountOffFraction(tierId: string, regionId: string): number {
+  return statedRegionalOff(tierId, regionId);
+}
+
+export function payFractionForRegion(tierId: string, regionId: string): number {
+  return regionalPayFraction(tierId, regionId);
 }
 
 export function isDeliveryFullChargeMode(mode: string | null | undefined): boolean {
