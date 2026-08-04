@@ -59,12 +59,11 @@ export function applyScholarshipDiscountDisplay(
   if (!templateDisplay?.trim()) return null;
   const major = parseDisplayAmount(templateDisplay);
   if (major == null) return null;
-  const discounted = major * SCHOLARSHIP_PAY_FRACTION;
-  const hasDecimals = /\.\d/.test(templateDisplay);
-  const amount = hasDecimals
-    ? Math.round(discounted * 100) / 100
-    : Math.round(discounted);
-  return formatAmountLikeTemplate(templateDisplay, amount);
+  // Match server: discount minor units (cents), then format — avoids $764 UI vs $764.15 Stripe.
+  const minor = Math.round(major * 100);
+  const discountedMinor = applyScholarshipDiscountMinor(minor);
+  const discountedMajor = discountedMinor / 100;
+  return formatAmountLikeTemplate(templateDisplay, discountedMajor);
 }
 
 export function enrollScholarshipPath(siteCertId: string, tierSlug: string): string {

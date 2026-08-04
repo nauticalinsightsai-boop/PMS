@@ -17,9 +17,11 @@ describe('scholarship-offer discount math', () => {
     expect(applyScholarshipDiscountMinor(0)).toBe(1);
   });
 
-  it('formats display amounts at 85% of catalogue', () => {
+  it('formats display amounts at 85% of catalogue via minor-unit rounding', () => {
     expect(applyScholarshipDiscountDisplay('$1,000')).toBe('$850');
     expect(applyScholarshipDiscountDisplay('AED 2,000')).toBe('AED 1,700');
+    // $899 → 89900 * 0.85 = 76415 → $764.15 (matches Stripe unit_amount)
+    expect(applyScholarshipDiscountDisplay('$899')).toBe('$764.15');
   });
 });
 
