@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSetPortalRegionTheme } from '@/contexts/PortalRegionThemeContext'
 import type { ChannelLandingPage } from '@/types/channelLandingPage'
 import { usePortalThemeMode } from '@/hooks/usePortalThemeMode'
@@ -56,10 +56,21 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
   const { colorMode, setColorMode } = usePortalThemeMode(page.channelId)
   const setPortalRegionTheme = useSetPortalRegionTheme()
   const tiersRef = useRef<HTMLDivElement>(null)
+  const [roadmapSubmitted, setRoadmapSubmitted] = useState(false)
   const theme = useMemo(
     () => resolvePortalTheme(page.channelId, colorMode, page.subtitle),
     [page.channelId, page.subtitle, colorMode]
   )
+
+  useEffect(() => {
+    if (!roadmapSubmitted) return
+    const frame = window.requestAnimationFrame(() => {
+      document
+        .querySelector('.portal-featured-pathways')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [roadmapSubmitted])
 
   useEffect(() => {
     setPortalRegionTheme(theme)
@@ -126,10 +137,17 @@ export default function ChannelConsultationPortalView({ page, isPreview }: Props
       case 'context':
         return <ChannelPortalContextSection key={id} {...props} />
       case 'roadmap_form':
-        return <ChannelPortalRoadmapForm key={id} {...props} />
+        return (
+          <ChannelPortalRoadmapForm
+            key={id}
+            {...props}
+            onSubmitted={() => setRoadmapSubmitted(true)}
+          />
+        )
       case 'webinar_media':
         return isWebinarPortal ? <ChannelPortalWebinarMedia key={id} {...props} /> : null
       case 'featured_pathways':
+        if (!roadmapSubmitted) return null
         return <PortalFeaturedPathways key={id} page={page} theme={theme} sectionOrder={order} />
       case 'tiers':
         return (

@@ -20,12 +20,17 @@ const PORTAL_ROADMAP_FORM_SUBTITLE_DESKTOP =
   "Share your experience: we'll map a study plan for you."
 const PORTAL_ROADMAP_FORM_SUBTITLE_MOBILE = "we'll map a study plan for you."
 
+type Props = PortalSectionProps & {
+  onSubmitted?: () => void
+}
+
 export default function ChannelPortalRoadmapForm({
   page,
   theme,
   sectionOrder,
   portalLayoutChrome,
-}: PortalSectionProps) {
+  onSubmitted,
+}: Props) {
   return (
     <section className={portalSpacing.section} style={{ order: sectionOrder }}>
       <div id={CERT_ROADMAP_FORM_ANCHOR} className="relative scroll-mt-40 lg:scroll-mt-48 w-full min-w-0">
@@ -49,6 +54,7 @@ export default function ChannelPortalRoadmapForm({
             portalChannelId={page.channelId}
             portalLandingSlug={page.slug}
             omitPortalSectionHead
+            onSubmitted={onSubmitted}
           />
         </PortalCard>
       </div>

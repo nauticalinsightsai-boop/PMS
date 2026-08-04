@@ -109,6 +109,8 @@ type PmpRoadmapLeadFormProps = {
   heroCopy?: HomeHeroForm | null;
   /** Channel portal: title/subtitle rendered outside the card by {@link ChannelPortalRoadmapForm} */
   omitPortalSectionHead?: boolean;
+  /** Fired once after a successful public submission (not on mid-wizard Continue). */
+  onSubmitted?: () => void;
 };
 
 const PLACEMENT_LABELS: Record<PmpRoadmapFormPlacement, string> = {
@@ -348,6 +350,7 @@ export function PmpRoadmapLeadForm({
   portalTheme,
   heroCopy,
   omitPortalSectionHead = false,
+  onSubmitted,
 }: PmpRoadmapLeadFormProps) {
   const { regionId, gccCountry } = useRegion();
   const idPrefix = [placement, certId].filter(Boolean).join('-').replace(/[^a-z0-9]/gi, '-');
@@ -730,6 +733,7 @@ export function PmpRoadmapLeadForm({
       getAnalyticsRuntime().acceptResult(res);
       recovery?.notifyConverted();
       setSubmitted(true);
+      onSubmitted?.();
     } else {
       setValidationIssue(null);
       setError(res.error ?? 'Submission failed. Try again.');
