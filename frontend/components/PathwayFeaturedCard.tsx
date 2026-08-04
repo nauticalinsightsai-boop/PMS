@@ -282,7 +282,7 @@ function PathwayCardCta({
   );
 }
 
-/** Home: featured card with gradient visual header — details + CTA always open (no expand). */
+/** Home: featured card with gradient visual header: details + CTA always open (no expand). */
 function PathwayFeaturedVisualCard({
   cert,
   familyLabel,

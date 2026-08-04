@@ -5,7 +5,7 @@ import { Crown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { REGION_COPY } from '@/lib/brand-voice';
 
-/** Compact membership price cell — same footprint as StatChip (no expand/hover reveal). */
+/** Compact membership price cell: same footprint as StatChip (no expand/hover reveal). */
 const CHIP_SHELL =
   'group/member-chip relative flex min-h-[5rem] min-w-0 flex-1 flex-col items-center justify-center gap-1.5 rounded-xl border border-brand-purple/30 bg-brand-purple/10 px-2 py-2 text-center shadow-sm ring-1 ring-brand-purple/15 transition-colors dark:bg-brand-purple/15 hover:border-brand-purple/40 hover:bg-brand-purple/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/40 sm:px-2.5';
 

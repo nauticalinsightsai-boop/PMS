@@ -11,7 +11,7 @@ describe('PathwayFeaturedCard disclosure contract', () => {
   });
 
   it('keeps Home visual cards always open with the pathway CTA (no Details expand)', () => {
-    expect(source).toContain('/** Home: featured card with gradient visual header — details + CTA always open (no expand). */');
+    expect(source).toContain('/** Home: featured card with gradient visual header: details + CTA always open (no expand). */');
     expect(source).toContain('<PathwayCardCta certId={cert.id} certName={displayTitle} regionId={regionId} ctaLabel={ctaLabel} ctaHref={ctaHref} />');
     const visualStart = source.indexOf('function PathwayFeaturedVisualCard');
     const catalogStart = source.indexOf('function PathwayFeaturedCatalogCard');

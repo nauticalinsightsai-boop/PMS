@@ -163,7 +163,7 @@ export function CertificationDetail({
       ) : null}
 
       {/* Hero Section */}
-      <section className={sectionSurface('blend', 'relative pt-16 pb-32 md:pt-20')}>
+      <section className={sectionSurface('blend', 'relative pt-8 pb-32 md:pt-10')}>
         <SectionAmbience tone="blend" />
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-orange/5 rounded-full blur-[120px]" />
