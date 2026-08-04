@@ -2,14 +2,12 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { countries } from 'country-flag-icons';
 import { loadStripe, type StripeEmbeddedCheckout } from '@stripe/stripe-js';
 import { Button } from '@/components/ui/button';
 import { SectionAmbience, sectionSurface } from '@/components/SectionAmbience';
 import { useSiteColorScheme } from '@/hooks/useSiteColorScheme';
 import { pushAnalyticsEvent } from '@/lib/analytics/push-event';
 import {
-  GCC_SCHOLARSHIP_COUNTRIES,
   currencyMinorUnit,
   formatScholarshipAmount,
   type ScholarshipMarket,
@@ -17,6 +15,10 @@ import {
 import { assertPublishableKeyAllowedOnHost } from '@/lib/stripe-key-mode';
 import { stripePublishableKeyUnavailableMessage } from '@/lib/stripe-publishable-key';
 import { fetchStripePublishableKey } from '@/services/enrollment';
+import {
+  scholarshipCountryOptions,
+  scholarshipRegionName,
+} from '@/lib/enrollment/scholarship-country-options';
 import {
   createScholarshipCheckout,
   fetchExistingScholarshipReservation,
@@ -34,19 +36,6 @@ type Props = {
   courseName: string;
   publishableKeyHint?: string | null;
 };
-
-const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
-
-function countryOptions(market: ScholarshipMarket) {
-  const codes = market === 'gcc'
-    ? [...GCC_SCHOLARSHIP_COUNTRIES]
-    : countries.filter((code) =>
-        code !== 'IN' && code !== 'PK' && !(GCC_SCHOLARSHIP_COUNTRIES as readonly string[]).includes(code),
-      );
-  return codes
-    .map((code) => ({ code, name: countryNames.of(code) ?? code }))
-    .sort((a, b) => a.name.localeCompare(b.name));
-}
 
 function remainingSeconds(expiresAt: string): number {
   return Math.max(0, Math.ceil((new Date(expiresAt).getTime() - Date.now()) / 1000));
@@ -171,7 +160,7 @@ function ScholarshipStripeCheckout({
 }
 
 export function ScholarshipEnrollmentPage(props: Props) {
-  const options = React.useMemo(() => countryOptions(props.market), [props.market]);
+  const options = React.useMemo(() => scholarshipCountryOptions(props.market), [props.market]);
   const [residence, setResidence] = React.useState('');
   const [billing, setBilling] = React.useState('');
   const [reservation, setReservation] = React.useState<ScholarshipReservationView | null>(null);
@@ -330,7 +319,7 @@ export function ScholarshipEnrollmentPage(props: Props) {
                 <p className="mt-1 text-4xl font-bold tracking-tight">
                   {formatScholarshipAmount(reservation.currency, reservation.finalUnitAmount)}
                 </p>
-                <p className="mt-3 text-xs text-muted-foreground">Country: {countryNames.of(reservation.countryCode) ?? reservation.countryCode}</p>
+                <p className="mt-3 text-xs text-muted-foreground">Country: {scholarshipRegionName(reservation.countryCode)}</p>
                 <div className="mt-6 border-t border-border pt-5">
                   <p className="mb-2 text-sm font-semibold">Scholarship price reserved for 15 minutes</p>
                   {expired ? <p className="text-xl font-bold text-destructive">Reservation expired</p> : <ReservationTimer expiresAt={reservation.expiresAt} onExpired={markExpired} />}

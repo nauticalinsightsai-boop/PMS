@@ -24,12 +24,19 @@ describe('PM Service advisory exact-four choice contract', () => {
     expect(source).toContain(
       "formChoiceGroupClass(PM_SERVICE_INDUSTRY_CHOICES.length, 'site')",
     );
+    expect(source).toContain('const PM_SERVICE_INTEREST_CHIP_CLASS =');
     expect(source).toContain(
+      "'w-full min-w-0 whitespace-normal break-words px-3 text-center leading-snug tracking-[-0.04em] sm:px-3 sm:tracking-normal md:px-3 md:tracking-normal'",
+    );
+    expect(source).toContain('PM_SERVICE_INTEREST_CHIP_CLASS');
+    expect(source).not.toContain(
       'formChoiceChipLayoutClass(PM_SERVICE_INTEREST_CHOICES.length)',
     );
     expect(source).toContain(
       'formChoiceChipLayoutClass(PM_SERVICE_INDUSTRY_CHOICES.length)',
     );
+    expect(source).not.toContain('truncate');
+    expect(source).not.toContain('overflow-hidden text-ellipsis');
     expect(source).not.toContain("'-mx-2.5 sm:-mx-6'");
     expect(source).toContain(
       "'tracking-[-0.02em] sm:tracking-[-0.045em] md:tracking-[-0.045em]'",

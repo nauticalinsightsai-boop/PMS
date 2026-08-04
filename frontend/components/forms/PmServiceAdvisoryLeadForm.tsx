@@ -54,6 +54,9 @@ const PM_SERVICE_INTEREST_CHOICES = [
   { value: 'other', label: 'Other' },
 ] as const;
 
+const PM_SERVICE_INTEREST_CHIP_CLASS =
+  'w-full min-w-0 whitespace-normal break-words px-3 text-center leading-snug tracking-[-0.04em] sm:px-3 sm:tracking-normal md:px-3 md:tracking-normal';
+
 const PM_SERVICE_INDUSTRY_CHOICES = [
   ...PM_SERVICE_INDUSTRY_OPTIONS,
   { value: 'other', label: 'Other' },
@@ -363,8 +366,7 @@ export function PmServiceAdvisoryLeadForm({ placement, className }: Props) {
                       type="button"
                       className={cn(
                         choiceButtonClass(serviceInterest === o.value),
-                        formChoiceChipLayoutClass(PM_SERVICE_INTEREST_CHOICES.length),
-                        'tracking-[-0.02em] sm:tracking-[-0.045em] md:tracking-[-0.045em]',
+                        PM_SERVICE_INTEREST_CHIP_CLASS,
                       )}
                       aria-pressed={serviceInterest === o.value}
                       onClick={() => {
