@@ -1,4 +1,4 @@
-import { formatAmountLikeTemplate, parseDisplayAmount } from '@/lib/price-parser';
+import { parseDisplayAmount } from '@/lib/price-parser';
 import type { RegionId } from '@/types/regional-catalogue';
 
 export const SCHOLARSHIP_DISCOUNT = 0.15;
@@ -63,7 +63,16 @@ export function applyScholarshipDiscountDisplay(
   const minor = Math.round(major * 100);
   const discountedMinor = applyScholarshipDiscountMinor(minor);
   const discountedMajor = discountedMinor / 100;
-  return formatAmountLikeTemplate(templateDisplay, discountedMajor);
+  const match = templateDisplay.match(/^(.*?)([\d][\d,]*(?:\.\d{1,2})?)(.*)$/);
+  if (!match) return String(discountedMajor);
+  const [, prefix, , suffix] = match;
+  const formatted = Number.isInteger(discountedMajor)
+    ? discountedMajor.toLocaleString('en-US')
+    : discountedMajor.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+  return `${prefix}${formatted}${suffix}`.trim();
 }
 
 export function enrollScholarshipPath(siteCertId: string, tierSlug: string): string {
