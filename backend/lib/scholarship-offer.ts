@@ -10,7 +10,7 @@ import { toStripeCurrency, toStripeMinorUnits } from '@/lib/regional-checkout-pr
 
 /** @deprecated Prefer statedEliteOff / elitePayFraction from enrollment-pricing-policy. */
 export const SCHOLARSHIP_GLOBAL_DISCOUNT = statedEliteOff('global');
-/** @deprecated Prefer statedEliteOff('gcc') — Elite GCC is stated 30%, not 35%. */
+/** @deprecated Prefer statedEliteOff('gcc'): Elite GCC is stated 30%, not 35%. */
 export const SCHOLARSHIP_GCC_VS_GLOBAL_DISCOUNT = statedEliteOff('gcc');
 export const SCHOLARSHIP_DISCOUNT = SCHOLARSHIP_GLOBAL_DISCOUNT;
 export const SCHOLARSHIP_PAY_FRACTION = elitePayFraction('global');

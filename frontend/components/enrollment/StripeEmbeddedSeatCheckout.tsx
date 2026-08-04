@@ -24,7 +24,7 @@ type Props = {
   paymentMode: EnrollmentPaymentMode;
   className?: string;
   publishableKeyHint?: string | null;
-  /** Invite scholarship only — server recomputes −15% mentor-led price. */
+  /** Invite scholarship only: server recomputes -15% mentor-led price. */
   offerType?: 'scholarship_invite';
 };
 
