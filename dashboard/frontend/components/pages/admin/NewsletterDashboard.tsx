@@ -7,16 +7,12 @@ import {
   Loader2,
   Pencil,
   Plus,
-  RefreshCw,
-  Rocket,
   Settings,
   Tag,
-  Trash2,
   Users,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NavLinkButton } from '@/components/ui/nav-link-button';
-import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { RefreshIcon } from '@/components/shared/RefreshIcon';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
 import { useNewsletterSubscribers } from '@/hooks/useNewsletterSubscribers';
@@ -78,16 +74,11 @@ export function NewsletterDashboard() {
     posts,
     isLoading,
     isSaving,
-    isRegistryPublished,
     lastSyncedCount,
     refresh,
-    publishRegistry,
-    deletePost,
   } = useNewsletterPosts();
   const { count: subscriberCount, isLoading: subscribersLoading } = useNewsletterSubscribers();
-  const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isPublishing, setIsPublishing] = useState(false);
 
   const topicCount = useMemo(() => {
     const topics = new Set<string>();
@@ -122,15 +113,6 @@ export function NewsletterDashboard() {
       await refresh();
     } finally {
       setIsRefreshing(false);
-    }
-  };
-
-  const handlePublish = async () => {
-    setIsPublishing(true);
-    try {
-      await publishRegistry();
-    } finally {
-      setIsPublishing(false);
     }
   };
 
@@ -172,19 +154,9 @@ export function NewsletterDashboard() {
             <RefreshIcon loading={isRefreshing} size={16} />
             Refresh
           </Button>
-          <Button
-            type="button"
-            className="gap-2 bg-green-600 text-white hover:bg-green-600/90"
-            onClick={() => void handlePublish()}
-            disabled={isPublishing || isSaving || isRegistryPublished}
-          >
-            {isPublishing ? (
-              <Loader2 size={16} className="animate-spin" />
-            ) : (
-              <Rocket size={16} />
-            )}
-            {isRegistryPublished ? 'Published' : 'Deploy Now'}
-          </Button>
+          <p className="max-w-sm text-xs text-muted-foreground" role="status">
+            Publish a clean, saved draft from its editor. Registry-wide deployment is disabled.
+          </p>
         </div>
       </div>
 
@@ -250,14 +222,6 @@ export function NewsletterDashboard() {
                     >
                       <Pencil size={16} />
                     </NavLinkButton>
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      aria-label={`Delete ${post.title}`}
-                      onClick={() => setDeleteId(post.id)}
-                    >
-                      <Trash2 size={16} className="text-destructive" />
-                    </Button>
                   </div>
                 </li>
               ))}
@@ -319,16 +283,13 @@ export function NewsletterDashboard() {
 
           <section className="rounded-2xl border border-dashed border-border bg-muted/30 p-4 text-sm text-muted-foreground">
             <p>
-              Posts here sync with <strong>/newsletter</strong> on the public site. Open a post and
-              click <strong>Update &amp; publish</strong>, or use <strong>Deploy Now</strong> if the
-              registry is still unpublished.
+              Posts here sync with <strong>/newsletter</strong> on the public site. Open a post,
+              save its hidden draft, then publish the exact saved URL and version from the editor.
             </p>
-            {!isRegistryPublished ? (
-              <p className="mt-2 text-xs font-medium text-amber-700 dark:text-amber-400">
-                Registry not deployed yet — click <strong>Deploy Now</strong> above to push changes
-                live.
-              </p>
-            ) : null}
+            <p className="mt-2 text-xs font-medium text-amber-700 dark:text-amber-400">
+              Registry-wide deployment and dashboard deletion are disabled. Existing live content
+              changes only through the confirmed per-post publish flow.
+            </p>
             {posts.length > 0 ? (
               <p className="mt-2 text-xs">
                 Latest update: {formatPostDate(posts[0]?.modifiedDate ?? posts[0]?.publishDate ?? '')}
@@ -338,18 +299,6 @@ export function NewsletterDashboard() {
         </aside>
       </div>
 
-      <ConfirmDialog
-        open={Boolean(deleteId)}
-        onOpenChange={(open) => !open && setDeleteId(null)}
-        title="Delete newsletter?"
-        description="This removes the newsletter from the registry. This action cannot be undone."
-        confirmLabel="Delete"
-        onConfirm={async () => {
-          if (!deleteId) return;
-          await deletePost(deleteId);
-          setDeleteId(null);
-        }}
-      />
     </div>
   );
 }

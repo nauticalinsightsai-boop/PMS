@@ -99,6 +99,23 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
+  const handleModeTabKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    currentIndex: number,
+  ) => {
+    let nextIndex: number | null = null;
+    if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % MODE_TABS.length;
+    if (event.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + MODE_TABS.length) % MODE_TABS.length;
+    if (event.key === 'Home') nextIndex = 0;
+    if (event.key === 'End') nextIndex = MODE_TABS.length - 1;
+    if (nextIndex === null) return;
+    event.preventDefault();
+    const next = MODE_TABS[nextIndex];
+    setMode(next.id);
+    const tabs = event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+    tabs?.[nextIndex]?.focus();
+  };
+
   const navItemClasses = cn(
     'dashboard-nav-item min-h-10',
     isSidebarExpanded
@@ -298,16 +315,24 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
               </Link>
             </div>
 
-            <div className="dashboard-segmented max-w-full shrink-0 overflow-x-auto">
-              {MODE_TABS.map((t) => (
+            <div
+              className="dashboard-segmented max-w-full shrink-0 overflow-x-auto"
+              role="tablist"
+              aria-label="Dashboard mode"
+            >
+              {MODE_TABS.map((t, index) => (
                 <button
                   key={t.id}
                   type="button"
                   data-active={mode === t.id}
                   onClick={() => setMode(t.id)}
+                  onKeyDown={(event) => handleModeTabKeyDown(event, index)}
+                  role="tab"
+                  aria-selected={mode === t.id}
+                  tabIndex={mode === t.id ? 0 : -1}
                   className="dashboard-segmented-btn"
                 >
-                  <t.icon size={16} className="shrink-0" />
+                  <t.icon size={16} className="shrink-0" aria-hidden />
                   <span className="sm:hidden">{t.mobileLabel}</span>
                   <span className="hidden sm:inline">{t.label}</span>
                 </button>

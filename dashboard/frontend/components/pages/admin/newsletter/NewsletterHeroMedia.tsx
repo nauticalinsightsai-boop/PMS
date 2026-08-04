@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Copy, ImageIcon, Loader2, Monitor, Smartphone, Upload, X } from 'lucide-react';
 import { MediaLibraryGrid } from '@/components/pages/admin/site-content/MediaLibraryGrid';
@@ -95,6 +95,7 @@ function DevicePicker({
   const url = displayUrl(value);
   const Icon = device === 'desktop' ? Monitor : Smartphone;
   const emptyLabel = device === 'desktop' ? 'No desktop hero' : 'No mobile hero';
+  const urlInputId = useId();
 
   const copyUrl = async () => {
     if (!url) return;
@@ -105,10 +106,10 @@ function DevicePicker({
     <div className={cn('flex h-full flex-col rounded-2xl border border-border bg-muted/20', compact ? 'p-3' : 'p-4')}>
       <div className="flex items-start justify-between gap-2">
         <div>
-          <p className="flex items-center gap-2 text-sm font-bold text-foreground">
+          <label htmlFor={urlInputId} className="flex items-center gap-2 text-sm font-bold text-foreground">
             <Icon size={16} className="text-brand-orange" aria-hidden />
             {label}
-          </p>
+          </label>
           <p className="mt-1 text-xs text-muted-foreground">{hint}</p>
         </div>
         {url ? (
@@ -163,6 +164,7 @@ function DevicePicker({
         </div>
 
         <input
+          id={urlInputId}
           value={url}
           onChange={(e) => onChange(e.target.value)}
           placeholder="Or paste image URL"
@@ -243,6 +245,7 @@ export function NewsletterHeroMedia({
   showAltText?: boolean;
   variant?: 'editor' | 'dialog';
 }) {
+  const altInputId = useId();
   const desktop = displayUrl(desktopUrl);
   const mobile = displayUrl(mobileUrl);
 
@@ -307,10 +310,11 @@ export function NewsletterHeroMedia({
 
       {showAltText ? (
         <div>
-          <label className="mb-1.5 block text-sm font-semibold">
+          <label htmlFor={altInputId} className="mb-1.5 block text-sm font-semibold">
             {isDialog ? 'Caption (optional)' : 'Hero alt text'}
           </label>
           <input
+            id={altInputId}
             value={altText}
             onChange={(e) => onAltChange(e.target.value)}
             placeholder="Describe the hero image for accessibility and SEO"

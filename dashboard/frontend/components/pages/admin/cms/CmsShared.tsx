@@ -19,12 +19,14 @@ export function cmsStatusLabel(status: CmsStatus): string {
 export function FieldLabel({
   children,
   required,
+  htmlFor,
 }: {
   children: React.ReactNode;
   required?: boolean;
+  htmlFor?: string;
 }) {
   return (
-    <label className="mb-1.5 block text-sm font-semibold text-foreground">
+    <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-semibold text-foreground">
       {children}
       {required ? <span className="text-destructive"> *</span> : null}
     </label>

@@ -46,8 +46,9 @@ export function LinkInsertPopover({ open, position, url, onUrlChange, onApply, o
       aria-label="Insert link"
       onMouseDown={(event) => event.stopPropagation()}
     >
-      <label className="mb-1.5 block text-xs font-semibold text-muted-foreground">Link URL</label>
+      <label htmlFor="newsletter-link-url" className="mb-1.5 block text-xs font-semibold text-muted-foreground">Link URL</label>
       <input
+        id="newsletter-link-url"
         ref={inputRef}
         type="url"
         value={url}

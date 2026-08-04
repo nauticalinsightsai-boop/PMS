@@ -7,15 +7,7 @@ import { ContentFigurePreviews } from './ContentFigurePreviews';
 import { NewsletterLivePreview } from './NewsletterLivePreview';
 import { ArticleMediaPanel } from './ArticleMediaPanel';
 import { estimateReadTime, type NewsletterPost } from '@/lib/newsletter-posts';
-
-function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
-  return (
-    <label className="mb-1.5 block text-sm font-semibold text-foreground">
-      {children}
-      {required ? <span className="text-destructive"> *</span> : null}
-    </label>
-  );
-}
+import { FieldLabel } from '@/components/pages/admin/cms/CmsShared';
 
 type Props = {
   post: NewsletterPost;
@@ -50,9 +42,10 @@ export function NewsletterEditorWorkspace({ post, onChange }: Props) {
           </div>
 
           <div>
-            <FieldLabel required>Article body</FieldLabel>
+            <FieldLabel htmlFor="newsletter-article-body" required>Article body</FieldLabel>
             <MarkdownContentEditor
               ref={editorRef}
+              id="newsletter-article-body"
               value={post.content}
               onChange={(content) => onChange({ content })}
               rows={20}

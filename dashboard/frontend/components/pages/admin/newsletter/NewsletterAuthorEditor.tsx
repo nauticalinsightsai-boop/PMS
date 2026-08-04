@@ -186,28 +186,31 @@ export function NewsletterAuthorEditor({ authorId }: { authorId?: string }) {
           <div className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <FieldLabel required>Name</FieldLabel>
-                <Input value={author.name} onChange={(event) => handleNameChange(event.target.value)} />
+                <FieldLabel htmlFor="newsletter-author-name" required>Name</FieldLabel>
+                <Input id="newsletter-author-name" value={author.name} onChange={(event) => handleNameChange(event.target.value)} />
               </div>
               <div>
-                <FieldLabel required>Slug</FieldLabel>
+                <FieldLabel htmlFor="newsletter-author-slug" required>Slug</FieldLabel>
                 <Input
+                  id="newsletter-author-slug"
                   value={author.slug}
                   onChange={(event) => update({ slug: slugifyAuthorName(event.target.value) })}
                 />
               </div>
             </div>
             <div>
-              <FieldLabel>Role / title</FieldLabel>
+              <FieldLabel htmlFor="newsletter-author-title">Role / title</FieldLabel>
               <Input
+                id="newsletter-author-title"
                 value={author.title}
                 onChange={(event) => update({ title: event.target.value })}
                 placeholder="Senior Editor"
               />
             </div>
             <div>
-              <FieldLabel>Bio</FieldLabel>
+              <FieldLabel htmlFor="newsletter-author-bio">Bio</FieldLabel>
               <Textarea
+                id="newsletter-author-bio"
                 value={author.bio}
                 onChange={(event) => update({ bio: event.target.value })}
                 rows={4}
@@ -228,32 +231,36 @@ export function NewsletterAuthorEditor({ authorId }: { authorId?: string }) {
           <div className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <FieldLabel>LinkedIn URL</FieldLabel>
+                <FieldLabel htmlFor="newsletter-author-linkedin">LinkedIn URL</FieldLabel>
                 <Input
+                  id="newsletter-author-linkedin"
                   value={author.linkedinUrl}
                   onChange={(event) => update({ linkedinUrl: event.target.value })}
                   placeholder="https://linkedin.com/in/…"
                 />
               </div>
               <div>
-                <FieldLabel>X / Twitter URL</FieldLabel>
+                <FieldLabel htmlFor="newsletter-author-twitter">X / Twitter URL</FieldLabel>
                 <Input
+                  id="newsletter-author-twitter"
                   value={author.twitterUrl}
                   onChange={(event) => update({ twitterUrl: event.target.value })}
                   placeholder="https://x.com/…"
                 />
               </div>
               <div>
-                <FieldLabel>Website URL</FieldLabel>
+                <FieldLabel htmlFor="newsletter-author-website">Website URL</FieldLabel>
                 <Input
+                  id="newsletter-author-website"
                   value={author.websiteUrl}
                   onChange={(event) => update({ websiteUrl: event.target.value })}
                   placeholder="https://…"
                 />
               </div>
               <div>
-                <FieldLabel>Email</FieldLabel>
+                <FieldLabel htmlFor="newsletter-author-email">Email</FieldLabel>
                 <Input
+                  id="newsletter-author-email"
                   value={author.email}
                   onChange={(event) => update({ email: event.target.value })}
                   placeholder="name@pmstructure.com"
@@ -261,11 +268,11 @@ export function NewsletterAuthorEditor({ authorId }: { authorId?: string }) {
               </div>
             </div>
             <div>
-              <FieldLabel required>Status</FieldLabel>
+              <FieldLabel htmlFor="newsletter-author-status" required>Status</FieldLabel>
               <select
+                id="newsletter-author-status"
                 value={author.status}
                 onChange={(event) => update({ status: event.target.value as NewsletterAuthorStatus })}
-                aria-label="Author status"
                 className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm"
               >
                 <option value="active">Active (visible on site)</option>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useId, useRef, useState } from 'react';
 import { ImageIcon, Loader2, Monitor, Smartphone, Upload, X } from 'lucide-react';
 import { MediaLibraryGrid } from '@/components/pages/admin/site-content/MediaLibraryGrid';
 import { uploadMediaFile } from '@/lib/cms/media-api';
@@ -22,6 +22,7 @@ function FrameSlot({ label, device, value, onChange, onError }: SlotProps) {
   const fileRef = useRef<HTMLInputElement>(null);
   const isMobile = device === 'mobile';
   const Icon = isMobile ? Smartphone : Monitor;
+  const urlInputId = useId();
 
   const uploadFile = async (file: File) => {
     setUploading(true);
@@ -38,10 +39,10 @@ function FrameSlot({ label, device, value, onChange, onError }: SlotProps) {
 
   return (
     <div className="space-y-3 rounded-xl border border-border bg-card p-3">
-      <p className="flex items-center gap-2 text-xs font-semibold text-foreground">
+      <label htmlFor={urlInputId} className="flex items-center gap-2 text-xs font-semibold text-foreground">
         <Icon size={14} className="text-brand-orange" aria-hidden />
         {label}
-      </p>
+      </label>
 
       <div className="flex justify-center">
         {isMobile ? (
@@ -106,6 +107,7 @@ function FrameSlot({ label, device, value, onChange, onError }: SlotProps) {
       </div>
 
       <Input
+        id={urlInputId}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={isMobile ? 'Mobile URL (optional)' : 'Desktop URL'}
@@ -158,6 +160,7 @@ export function FigureImagePicker({
   onClose: () => void;
   onInsert: (desktop: string, mobile: string, alt: string) => void;
 }) {
+  const captionInputId = useId();
   const [desktop, setDesktop] = useState('');
   const [mobile, setMobile] = useState('');
   const [alt, setAlt] = useState('');
@@ -196,8 +199,9 @@ export function FigureImagePicker({
 
       <div className="mt-3 flex flex-wrap items-end gap-2">
         <div className="min-w-0 flex-1">
-          <label className="mb-1 block text-[11px] font-medium text-muted-foreground">Caption</label>
+          <label htmlFor={captionInputId} className="mb-1 block text-[11px] font-medium text-muted-foreground">Caption</label>
           <Input
+            id={captionInputId}
             value={alt}
             onChange={(e) => setAlt(e.target.value)}
             placeholder="Describe the image"

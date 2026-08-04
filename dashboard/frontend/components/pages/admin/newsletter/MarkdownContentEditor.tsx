@@ -61,6 +61,7 @@ export type MarkdownContentEditorHandle = {
 };
 
 type Props = {
+  id?: string;
   value: string;
   onChange: (value: string) => void;
   rows?: number;
@@ -89,7 +90,7 @@ function toolbarMouseDown(event: React.MouseEvent, editor: HTMLElement | null, o
 }
 
 export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Props>(function MarkdownContentEditor(
-  { value, onChange, rows = 18, placeholder, className },
+  { id, value, onChange, rows = 18, placeholder, className },
   ref,
 ) {
   const editorRef = useRef<HTMLDivElement>(null);
@@ -579,12 +580,13 @@ export const MarkdownContentEditor = forwardRef<MarkdownContentEditorHandle, Pro
       >
         <div className={ARTICLE_READING_COLUMN_CLASS}>
           <div
+            id={id}
             ref={editorRef}
             contentEditable
             suppressContentEditableWarning
             role="textbox"
             aria-multiline
-            aria-label="Article body"
+            aria-label={id ? undefined : 'Article body'}
             data-placeholder={placeholder ?? 'Write your article…'}
             onInput={emitChange}
             onKeyUp={persistSelection}

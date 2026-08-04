@@ -14,7 +14,7 @@ export const ADMIN_CMS_TAB_BAR_INNER_CLASS =
   'flex items-center justify-between gap-4 px-0 md:px-2 py-3';
 
 export const ADMIN_CMS_TAB_LIST_CLASS =
-  'flex gap-2 items-center overflow-x-auto scrollbar-hide min-w-0';
+  'flex min-w-max items-center gap-2';
 
 /** Segmented toggle track (matches dashboard Editor / Booking CRM / Admin control). */
 export const ADMIN_CMS_SEGMENTED_CONTROL_CLASS =
@@ -29,7 +29,7 @@ export function adminCmsSegmentTabClass(active: boolean): string {
 }
 
 export const ADMIN_CMS_TAB_BUTTON_BASE_CLASS =
-  'text-label flex items-center justify-center gap-2 whitespace-nowrap rounded-lg cursor-pointer border transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/40';
+  'text-label flex min-h-8 items-center justify-center gap-2 whitespace-nowrap rounded-lg cursor-pointer border transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/40';
 
 export function adminCmsTabButtonClass(active: boolean): string {
   return `${ADMIN_CMS_TAB_BUTTON_BASE_CLASS} ${

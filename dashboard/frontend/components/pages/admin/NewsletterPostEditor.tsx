@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -15,6 +15,7 @@ import {
 import { NewsletterEditorWorkspace } from '@/components/pages/admin/newsletter/NewsletterEditorWorkspace';
 import { FieldLabel, SectionCard } from '@/components/pages/admin/cms/CmsShared';
 import { SyncStatusIndicator, type SyncStatus } from '@/components/shared/SyncStatusIndicator';
+import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 import { Button } from '@/components/ui/button';
 import { NavLinkButton } from '@/components/ui/nav-link-button';
 import { Input } from '@/components/ui/input';
@@ -28,11 +29,16 @@ import {
 } from '@/services/WebsiteDataService';
 import { useNewsletterPosts } from '@/hooks/useNewsletterPosts';
 import { useNewsletterAuthors } from '@/hooks/useNewsletterAuthors';
+import { NewsletterLivePreview } from '@/components/pages/admin/newsletter/NewsletterLivePreview';
+import {
+  buildNewsletterPublishConfirmation,
+  canPublishNewsletterPost,
+  deriveNewsletterEditorState,
+} from '@/lib/newsletter/editor-state';
 import {
   createEmptyPost,
   slugifyTitle,
   type NewsletterPost,
-  type NewsletterPostStatus,
 } from '@/lib/newsletter-posts';
 
 function serializePost(post: NewsletterPost, topicsInput: string): string {
@@ -48,7 +54,16 @@ const ITEM07_POST_ID =
 
 export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const router = useRouter();
-  const { getPostById, upsertPost, isLoading, isSaving, error: saveError } = useNewsletterPosts();
+  const {
+    getPostById,
+    getPostPersistence,
+    saveDraftPost,
+    publishPost,
+    isLoading,
+    isSaving,
+    savingIntent,
+    error: saveError,
+  } = useNewsletterPosts();
   const { authors } = useNewsletterAuthors();
   const [post, setPost] = useState<NewsletterPost | null>(null);
   const [topicsInput, setTopicsInput] = useState('');
@@ -56,6 +71,10 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const [syncStatus, setSyncStatus] = useState<SyncStatus>('synced');
   const [lastSynced, setLastSynced] = useState<Date | undefined>();
   const [lastSavedAsPublish, setLastSavedAsPublish] = useState(false);
+  const [publishDialogOpen, setPublishDialogOpen] = useState(false);
+  const [publishConfirmation, setPublishConfirmation] = useState('');
+  const [publishVersion, setPublishVersion] = useState('');
+  const errorAlertRef = useRef<HTMLDivElement>(null);
   const [tableReceipt, setTableReceipt] = useState<Item07FirstTableReceipt | null>(null);
   const [tableConfirmation, setTableConfirmation] = useState('');
   const [tableWriterBusy, setTableWriterBusy] = useState(false);
@@ -107,6 +126,10 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
       return hasChanges ? 'pending' : 'synced';
     });
   }, [hasChanges, isSaving, saveError]);
+
+  useEffect(() => {
+    if (syncStatus === 'error') errorAlertRef.current?.focus();
+  }, [syncStatus]);
 
   useEffect(() => {
     if (post?.id !== ITEM07_POST_ID || post?.status !== 'draft' || hasChanges) {
@@ -170,34 +193,54 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
       .split(',')
       .map((topic) => topic.trim())
       .filter(Boolean);
-    const publish = post.status === 'published' || post.status === 'scheduled';
     return {
       ...post,
       topics,
       heroImageAlt: post.heroImageAlt || post.title,
-      publishDate: publish && !post.publishDate ? new Date().toISOString() : post.publishDate,
     };
   };
 
-  const persist = async (publish: boolean) => {
+  const saveDraft = async () => {
     const payload = buildPayload();
     if (!payload) return;
-    const toSave =
-      publish && payload.status === 'draft'
-        ? { ...payload, status: 'published' as const }
-        : payload;
     setSyncStatus('syncing');
     try {
-      const saved = await upsertPost(toSave, publish);
+      const saved = await saveDraftPost(payload);
       const nextBaseline = JSON.stringify({ ...saved, topics: saved.topics });
       setPost(saved);
       setBaseline(nextBaseline);
       setLastSynced(new Date());
-      setLastSavedAsPublish(saved.status === 'published' || saved.status === 'scheduled');
+      setLastSavedAsPublish(false);
       setSyncStatus('synced');
       if (!postId) {
         router.replace(WEBSITE_CMS_PATHS.newsletterEdit(saved.id));
       }
+    } catch {
+      setSyncStatus('error');
+    }
+  };
+
+  const openPublishDialog = () => {
+    if (!post) return;
+    const persistence = getPostPersistence(post.id);
+    if (!persistence.hasSavedDraft || !persistence.savedVersion) return;
+    setPublishVersion(persistence.savedVersion);
+    setPublishConfirmation('');
+    setPublishDialogOpen(true);
+  };
+
+  const confirmPublish = async () => {
+    if (!post || !publishVersion) return;
+    setSyncStatus('syncing');
+    try {
+      const saved = await publishPost(post.id, publishVersion);
+      setPost(saved);
+      setBaseline(JSON.stringify({ ...saved, topics: saved.topics }));
+      setLastSynced(new Date());
+      setLastSavedAsPublish(true);
+      setPublishDialogOpen(false);
+      setPublishConfirmation('');
+      setSyncStatus('synced');
     } catch {
       setSyncStatus('error');
     }
@@ -229,7 +272,27 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
   const metaTitleCount = post.metaTitle.length;
   const metaDescriptionCount = post.metaDescription.length;
   const pageTitle = postId ? 'Edit Newsletter' : 'New Newsletter';
-  const isLiveOnSite = post.status === 'published' || post.status === 'scheduled';
+  const persistence = getPostPersistence(post.id);
+  const isLiveOnSite = persistence.isLive;
+  const editorState = deriveNewsletterEditorState({
+    canSave,
+    hasChanges,
+    hasSavedDraft: persistence.hasSavedDraft,
+    isLive: isLiveOnSite,
+    isSaving,
+    savingIntent,
+    hasError: Boolean(saveError),
+  });
+  const canPublish = canPublishNewsletterPost({
+    canSave,
+    hasChanges,
+    hasSavedDraft: persistence.hasSavedDraft,
+    isSaving,
+  });
+  const publishPhrase = buildNewsletterPublishConfirmation({
+    slug: post.slug,
+    modifiedDate: publishVersion || persistence.savedVersion || post.modifiedDate,
+  });
   const publicPaths =
     post.slug && isLiveOnSite
       ? [{ label: 'Newsletter page', href: `${publicSiteUrl}/newsletter/${post.slug}` }]
@@ -238,7 +301,11 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
     syncStatus === 'synced'
       ? lastSavedAsPublish && isLiveOnSite
         ? 'Published on site'
-        : 'Draft saved (hidden on site)'
+        : editorState === 'publishable' || editorState === 'saved-hidden'
+          ? 'Draft saved (hidden on site)'
+          : editorState === 'live'
+            ? 'Live version unchanged'
+            : 'Changes saved'
       : undefined;
 
   return (
@@ -312,10 +379,20 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
         <SyncStatusIndicator
           status={syncStatus}
           lastSynced={lastSynced}
-          errorDetail={saveError}
           syncedLabel={syncedLabel}
         />
       </div>
+
+      {saveError ? (
+        <div
+          ref={errorAlertRef}
+          role="alert"
+          tabIndex={-1}
+          className="rounded-2xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive outline-none focus-visible:ring-2 focus-visible:ring-destructive"
+        >
+          {saveError} Your editor content is still available. Verify the live version before retrying.
+        </div>
+      ) : null}
 
       {!isLiveOnSite ? (
         <div
@@ -330,16 +407,24 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
         </div>
       ) : null}
 
-      <div className="mx-auto max-w-6xl space-y-6">
+      <div className="md:hidden space-y-4">
+        <div role="status" className="rounded-2xl border border-border bg-card px-4 py-3 text-sm">
+          Phone view is preview-only. Use a laptop or desktop to edit, save, or publish.
+        </div>
+        <NewsletterLivePreview post={post} />
+      </div>
+
+      <div className="mx-auto hidden max-w-6xl space-y-6 md:block">
         <SectionCard title="Basic Information" icon={Tag}>
           <div className="space-y-4">
             <div>
-              <FieldLabel required>Newsletter name</FieldLabel>
-              <Input value={post.title} onChange={(event) => handleTitleChange(event.target.value)} />
+              <FieldLabel htmlFor="newsletter-title" required>Newsletter name</FieldLabel>
+              <Input id="newsletter-title" value={post.title} onChange={(event) => handleTitleChange(event.target.value)} />
             </div>
             <div>
-              <FieldLabel>Author</FieldLabel>
+              <FieldLabel htmlFor="newsletter-author">Author</FieldLabel>
               <select
+                id="newsletter-author"
                 value={post.authorId || ''}
                 onChange={(event) => {
                   const selected = authors.find((a) => a.id === event.target.value);
@@ -348,7 +433,6 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
                     author: selected?.name ?? post.author,
                   });
                 }}
-                aria-label="Post author"
                 className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm"
               >
                 <option value="">
@@ -372,15 +456,17 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <FieldLabel required>Slug</FieldLabel>
+                <FieldLabel htmlFor="newsletter-slug" required>Slug</FieldLabel>
                 <Input
+                  id="newsletter-slug"
                   value={post.slug}
                   onChange={(event) => updatePost({ slug: slugifyTitle(event.target.value) })}
                 />
               </div>
               <div>
-                <FieldLabel>Focus keywords</FieldLabel>
+                <FieldLabel htmlFor="newsletter-keywords">Focus keywords</FieldLabel>
                 <Input
+                  id="newsletter-keywords"
                   value={post.keywords}
                   onChange={(event) => updatePost({ keywords: event.target.value })}
                   placeholder="PMP, safety management, HSE"
@@ -388,8 +474,9 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
               </div>
             </div>
             <div>
-              <FieldLabel>Description</FieldLabel>
+              <FieldLabel htmlFor="newsletter-description">Description</FieldLabel>
               <Textarea
+                id="newsletter-description"
                 value={post.description}
                 onChange={(event) => updatePost({ description: event.target.value })}
                 rows={3}
@@ -397,8 +484,9 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
               />
             </div>
             <div>
-              <FieldLabel>Topics</FieldLabel>
+              <FieldLabel htmlFor="newsletter-topics">Topics</FieldLabel>
               <Input
+                id="newsletter-topics"
                 value={topicsInput}
                 onChange={(event) => setTopicsInput(event.target.value)}
                 placeholder="Safety, Certification, Leadership"
@@ -502,8 +590,9 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
         <SectionCard title="SEO & publishing" icon={Search}>
           <div className="space-y-4">
             <div>
-              <FieldLabel>Meta title</FieldLabel>
+              <FieldLabel htmlFor="newsletter-meta-title">Meta title</FieldLabel>
               <Input
+                id="newsletter-meta-title"
                 value={post.metaTitle}
                 onChange={(event) => updatePost({ metaTitle: event.target.value })}
               />
@@ -514,8 +603,9 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
               </p>
             </div>
             <div>
-              <FieldLabel>Meta description</FieldLabel>
+              <FieldLabel htmlFor="newsletter-meta-description">Meta description</FieldLabel>
               <Textarea
+                id="newsletter-meta-description"
                 value={post.metaDescription}
                 onChange={(event) => updatePost({ metaDescription: event.target.value })}
                 rows={3}
@@ -527,27 +617,22 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
               </p>
             </div>
             <div>
-              <FieldLabel>Hero alt text</FieldLabel>
+              <FieldLabel htmlFor="newsletter-hero-alt">Hero alt text</FieldLabel>
               <Input
+                id="newsletter-hero-alt"
                 value={post.heroImageAlt}
                 onChange={(event) => updatePost({ heroImageAlt: event.target.value })}
                 placeholder="Describe the featured image for accessibility"
               />
             </div>
             <div>
-              <FieldLabel required>Status</FieldLabel>
-              <select
-                value={post.status}
-                onChange={(event) =>
-                  updatePost({ status: event.target.value as NewsletterPostStatus })
-                }
-                aria-label="Newsletter status"
-                className="h-10 w-full rounded-lg border border-input bg-background px-3 text-sm"
+              <FieldLabel htmlFor="newsletter-editor-state" required>Editor state</FieldLabel>
+              <output
+                id="newsletter-editor-state"
+                className="flex min-h-10 w-full items-center rounded-lg border border-input bg-muted/30 px-3 text-sm font-medium"
               >
-                <option value="published">Active (visible on site)</option>
-                <option value="draft">Draft (hidden on site)</option>
-                <option value="scheduled">Scheduled</option>
-              </select>
+                {editorState}
+              </output>
               <p className="mt-1 text-xs text-muted-foreground">
                 Draft keeps the post off the public site. Click <strong>Publish to site</strong>{' '}
                 to go live at <strong>/newsletter/{post.slug || 'your-slug'}</strong>.
@@ -557,7 +642,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
         </SectionCard>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:pl-[calc(var(--sidebar-width,16rem)+1rem)]">
+      <div className="fixed inset-x-0 bottom-0 z-20 hidden border-t border-border bg-background/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/80 md:block lg:pl-[calc(var(--sidebar-width,16rem)+1rem)]">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-end gap-3">
           <NavLinkButton href={WEBSITE_CMS_PATHS.newsletter} variant="brand" className="gap-2">
             <ArrowLeft size={16} />
@@ -568,7 +653,7 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
             variant="outline"
             className="gap-2"
             disabled={!canSave || isSaving || !hasChanges}
-            onClick={() => void persist(false)}
+            onClick={() => void saveDraft()}
           >
             {isSaving ? <Loader2 size={16} className="motion-safe:animate-spin [animation-duration:1.25s]" /> : <Save size={16} />}
             Save draft
@@ -577,14 +662,46 @@ export function NewsletterPostEditor({ postId }: { postId?: string }) {
             type="button"
             variant="default"
             className="gap-2 bg-foreground text-background hover:bg-foreground/90"
-            disabled={!canSave || isSaving}
-            onClick={() => void persist(true)}
+            disabled={!canPublish}
+            onClick={openPublishDialog}
           >
             {isSaving ? <Loader2 size={16} className="motion-safe:animate-spin [animation-duration:1.25s]" /> : <Save size={16} />}
             Publish to site
           </Button>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={publishDialogOpen}
+        onOpenChange={(open) => {
+          setPublishDialogOpen(open);
+          if (!open) setPublishConfirmation('');
+        }}
+        title="Publish saved newsletter draft"
+        description={
+          <>
+            Confirm the exact public URL and saved version. Publishing copies this hidden draft to
+            the live registry; unsaved editor changes cannot be published.
+          </>
+        }
+        confirmLabel="Publish exact version"
+        confirmVariant="brand"
+        confirmDisabled={publishConfirmation !== publishPhrase || isSaving}
+        onConfirm={() => void confirmPublish()}
+      >
+        <div className="space-y-2">
+          <label htmlFor="newsletter-publish-confirmation" className="text-sm font-semibold">
+            Type the exact confirmation
+          </label>
+          <code className="block break-all rounded-lg bg-muted p-2 text-xs">{publishPhrase}</code>
+          <Input
+            id="newsletter-publish-confirmation"
+            value={publishConfirmation}
+            onChange={(event) => setPublishConfirmation(event.target.value)}
+            autoComplete="off"
+          />
+        </div>
+      </ConfirmDialog>
     </div>
   );
 }
