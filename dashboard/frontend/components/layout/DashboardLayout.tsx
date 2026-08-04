@@ -35,12 +35,11 @@ import {
 const MODE_TABS: Array<{
   id: DashboardMode;
   label: string;
-  mobileLabel: string;
   icon: typeof PenLine;
 }> = [
-  { id: 'admin', label: 'Website', mobileLabel: 'Website', icon: PenLine },
-  { id: 'editor', label: 'Newsletter', mobileLabel: 'News', icon: Newspaper },
-  { id: 'bookings', label: 'Booking CRM', mobileLabel: 'Booking', icon: CalendarRange },
+  { id: 'admin', label: 'Website', icon: PenLine },
+  { id: 'editor', label: 'Newsletter', icon: Newspaper },
+  { id: 'bookings', label: 'Booking CRM', icon: CalendarRange },
 ];
 
 const SIDEBAR_COLLAPSED = 'calc((22px * 1.50 * 1.05 + 0.25rem) * 1.5)';
@@ -297,9 +296,9 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
       </aside>
 
       <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-        <header className="sticky top-0 z-30 flex h-14 items-center justify-center border-b border-border bg-background/95 px-4 backdrop-blur-sm md:px-6">
+        <header className="sticky top-0 z-30 flex h-14 items-center justify-center border-b border-border bg-background/95 px-2 backdrop-blur-sm sm:px-4 md:px-6">
           <div className={cn('flex w-full items-center justify-between gap-3', contentMaxWidth, 'mx-auto')}>
-            <div className="flex min-w-0 items-center gap-2">
+            <div className="flex shrink-0 items-center gap-2">
               <button
                 type="button"
                 onClick={() => setSidebarOpen(true)}
@@ -310,13 +309,13 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
               >
                 <Menu size={22} />
               </button>
-              <Link href={dashboardHref('/dashboard/site-system/home')} className="lg:hidden">
+              <Link href={dashboardHref('/dashboard/site-system/home')} className="hidden sm:block lg:hidden">
                 <BrandLogo size="sm" />
               </Link>
             </div>
 
             <div
-              className="dashboard-segmented max-w-full shrink-0 overflow-x-auto"
+              className="dashboard-segmented min-w-0 max-w-full shrink overflow-x-auto"
               role="tablist"
               aria-label="Dashboard mode"
             >
@@ -328,18 +327,18 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
                   onClick={() => setMode(t.id)}
                   onKeyDown={(event) => handleModeTabKeyDown(event, index)}
                   role="tab"
+                  aria-label={t.label}
                   aria-selected={mode === t.id}
                   tabIndex={mode === t.id ? 0 : -1}
                   className="dashboard-segmented-btn"
                 >
                   <t.icon size={16} className="shrink-0" aria-hidden />
-                  <span className="sm:hidden">{t.mobileLabel}</span>
                   <span className="hidden sm:inline">{t.label}</span>
                 </button>
               ))}
             </div>
 
-            <div className="flex items-center gap-1.5 md:gap-2">
+            <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
               <Button
                 variant="outline"
                 size="sm"

@@ -65,8 +65,11 @@ describe('admin and newsletter editor safety source contract', () => {
     const layout = read('dashboard/frontend/components/layout/DashboardLayout.tsx');
     const tabs = read('dashboard/frontend/components/admin/layout/AdminCmsTabBar.tsx');
     expect(layout).toContain('role="tablist"');
+    expect(layout).toContain('aria-label={t.label}');
     expect(layout).toContain('aria-selected={mode === t.id}');
     expect(layout).toContain("event.key === 'ArrowRight'");
+    expect(layout).toContain('hidden sm:block lg:hidden');
+    expect(layout).toContain('dashboard-segmented min-w-0 max-w-full shrink overflow-x-auto');
     expect(tabs).toContain('Scroll editor tabs right');
     expect(tabs).toContain('canScrollRight');
     expect(tabs).toContain('h-8 w-8');
