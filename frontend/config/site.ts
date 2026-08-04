@@ -27,7 +27,7 @@ export const SITE_SOCIAL_PROFILE_URLS = {
   substack: 'https://pmstructure.substack.com',
   youtube: 'https://www.youtube.com/@Sh3ikhMABZ',
   tiktok: `https://www.tiktok.com/@${SITE_USERNAME}`,
-  facebook: 'https://www.facebook.com/people/Project-Management-Structure',
+  facebook: 'https://www.facebook.com/PMStructure',
   instagram: 'https://www.instagram.com/pm_structure/',
   pinterest: 'https://www.pinterest.com/Sh3ikhMABZ/pm-structure/',
 } as const;
