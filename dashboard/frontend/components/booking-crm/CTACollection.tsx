@@ -64,7 +64,6 @@ export default function CTACollection() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const editorRef = useRef<ChannelLandingEditorHandle>(null)
-  const categoryHoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const channelFromUrl = searchParams?.get('channel') ?? null
   const categoryFromUrl = searchParams?.get('category') as PlatformCategory | null
 
@@ -126,7 +125,6 @@ export default function CTACollection() {
     status: 'draft',
     hasUnsavedChanges: false,
   })
-  const [categoryHoverArmed, setCategoryHoverArmed] = useState(false)
 
   const categoryTabItems = useMemo(() => {
     const counts = getChannelCountByCategory()
@@ -517,27 +515,6 @@ export default function CTACollection() {
     afterSave()
   }
 
-  const clearCategoryHoverTimeout = () => {
-    if (categoryHoverTimeoutRef.current) {
-      clearTimeout(categoryHoverTimeoutRef.current)
-      categoryHoverTimeoutRef.current = null
-    }
-  }
-
-  const queueCategoryHoverSelection = (categoryId: string) => {
-    if (!categoryHoverArmed) return
-    clearCategoryHoverTimeout()
-    categoryHoverTimeoutRef.current = setTimeout(() => {
-      onCategoryChange(categoryId)
-    }, 300)
-  }
-
-  useEffect(() => {
-    return () => {
-      clearCategoryHoverTimeout()
-    }
-  }, [])
-
   return (
     <AdminCmsEditorShell className="admin-cta-editor">
       <style jsx global>{`
@@ -643,45 +620,37 @@ export default function CTACollection() {
         className={`${ADMIN_CMS_TAB_BAR_OUTER_CLASS} group/cta-header relative z-30 border-b border-border mb-4`}
       >
         <div className={`${ADMIN_CMS_TAB_BAR_INNER_CLASS} relative z-20`}>
-          <div className="flex min-w-0 w-full flex-nowrap items-center gap-2">
+          <div className="flex min-w-0 w-full flex-wrap items-center gap-2 sm:flex-nowrap">
             <div
               className={`${ADMIN_CMS_SEGMENTED_CONTROL_CLASS} min-w-0 flex-1`}
               aria-label="Platform categories"
+              role="tablist"
             >
               {categoryTabItems.map((tab) => {
                 const active = activeCategory === tab.id
                 return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    aria-current={active ? 'true' : undefined}
-                    onClick={() => onCategoryChange(tab.id)}
-                    onMouseEnter={() => queueCategoryHoverSelection(tab.id)}
-                    onMouseLeave={clearCategoryHoverTimeout}
-                    onMouseMove={() => {
-                      if (!categoryHoverArmed) setCategoryHoverArmed(true)
-                    }}
-                    className={`${adminCmsSegmentTabClass(active)} group/tab relative${
-                      categoryTabItems.length > 1 ? ' pr-5' : ''
-                    }`}
-                  >
-                    <span>{tab.label}</span>
+                  <div key={tab.id} role="presentation" className="inline-flex shrink-0 items-center gap-1">
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => onCategoryChange(tab.id)}
+                      className={`${adminCmsSegmentTabClass(active)} min-h-10`}
+                    >
+                      <span>{tab.label}</span>
+                    </button>
                     {categoryTabItems.length > 1 ? (
-                      <span
-                        className="pointer-events-none absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 opacity-0 transition-opacity group-hover/tab:pointer-events-auto group-hover/tab:opacity-80 hover:!opacity-100"
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          e.preventDefault()
-                          removeCategoryTab(tab.id as PlatformCategory)
-                        }}
+                      <button
+                        type="button"
+                        className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
+                        onClick={() => removeCategoryTab(tab.id as PlatformCategory)}
                         title={`Remove ${tab.label}`}
-                        aria-hidden
+                        aria-label={`Remove ${tab.label}`}
                       >
                         <X size={10} className={active ? 'text-brand-orange' : 'text-muted-foreground'} />
-                      </span>
+                      </button>
                     ) : null}
-                  </button>
+                  </div>
                 )
               })}
             </div>
@@ -720,49 +689,43 @@ export default function CTACollection() {
         </div>
 
         <div
-          className="relative z-10 grid grid-rows-[0fr] opacity-0 pointer-events-none transition-[grid-template-rows,opacity] duration-200 ease-out group-hover/cta-header:grid-rows-[1fr] group-hover/cta-header:opacity-100 group-focus-within/cta-header:grid-rows-[1fr] group-focus-within/cta-header:opacity-100"
+          className="relative z-10 border-t border-border/60"
           {...(filteredChannels.length === 0 ? { 'aria-hidden': true } : {})}
         >
-          <div className="pointer-events-none min-h-0 overflow-hidden group-hover/cta-header:pointer-events-auto group-focus-within/cta-header:pointer-events-auto">
+          <div className="min-h-0">
             {filteredChannels.length > 0 ? (
-              <div className="flex flex-nowrap items-center gap-2 overflow-x-auto scrollbar-hide px-0 md:px-2 pb-3 pt-1">
+              <div className="flex min-w-0 flex-col gap-3 px-0 pb-3 pt-2 md:px-2 lg:flex-row lg:items-center">
                 <div
-                  className={`${ADMIN_CMS_SEGMENTED_CONTROL_CLASS} min-w-0 max-w-full flex-1`}
+                  className={`${ADMIN_CMS_SEGMENTED_CONTROL_CLASS} min-w-0 max-w-full flex-1 overflow-x-auto scrollbar-hide`}
                   aria-label="Channels in category"
                 >
                   {filteredChannels.map((ch) => {
                     const active = effectiveChannelId === ch.channelId
                     const published = statusByChannel[ch.channelId] === 'published'
                     return (
-                      <button
-                        key={ch.channelId}
-                        type="button"
-                        aria-label={`${ch.label}${published ? ', published' : ''}`}
-                        aria-current={active ? 'true' : undefined}
-                        onClick={() => onChannelChange(ch.channelId)}
-                        onMouseEnter={() => onChannelChange(ch.channelId)}
-                        className={`${adminCmsSegmentTabClass(active)} group/ch relative inline-flex items-center gap-1.5${
-                          channelsInCategory.length > 1 ? ' pr-5' : ''
-                        }`}
-                      >
-                        <AdminChannelMark channelId={ch.channelId} fallbackIcon={ch.icon} size={14} className="shrink-0" />
-                        <span>{ch.label}</span>
+                      <div key={ch.channelId} role="presentation" className="inline-flex shrink-0 items-center gap-1">
+                        <button
+                          type="button"
+                          aria-label={`${ch.label}${published ? ', published' : ''}`}
+                          aria-pressed={active}
+                          onClick={() => onChannelChange(ch.channelId)}
+                          className={`${adminCmsSegmentTabClass(active)} inline-flex min-h-10 items-center gap-1.5`}
+                        >
+                          <AdminChannelMark channelId={ch.channelId} fallbackIcon={ch.icon} size={14} className="shrink-0" />
+                          <span>{ch.label}</span>
+                        </button>
                         {channelsInCategory.length > 1 ? (
-                          <span
-                            className="pointer-events-none absolute right-1 top-1/2 -translate-y-1/2 rounded p-0.5 opacity-0 transition-opacity group-hover/ch:pointer-events-auto group-hover/ch:opacity-80 hover:!opacity-100"
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              e.preventDefault()
-                              removeChannelChip(ch.channelId)
-                            }}
+                          <button
+                            type="button"
+                            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
+                            onClick={() => removeChannelChip(ch.channelId)}
                             title={`Remove ${ch.label}`}
-                            aria-hidden
+                            aria-label={`Remove ${ch.label}`}
                           >
                             <X size={10} className={active ? 'text-brand-orange' : 'text-muted-foreground'} />
-                          </span>
+                          </button>
                         ) : null}
-                      </button>
+                      </div>
                     )
                   })}
                 </div>
@@ -776,8 +739,8 @@ export default function CTACollection() {
                 >
                   <Plus size={14} />
                 </button>
-                <div className="ml-auto flex shrink-0 flex-nowrap items-center gap-2">
-                  <div className="flex items-center min-w-[20rem] max-w-xl border border-slate-200/80 dark:border-slate-700 rounded bg-white/70 dark:bg-slate-900/60 backdrop-blur-md overflow-hidden">
+                <div className="flex w-full min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center lg:ml-auto lg:w-auto lg:justify-end">
+                  <div className="flex w-full min-w-0 items-center overflow-hidden rounded border border-slate-200/80 bg-white/70 backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/60 sm:min-w-[18rem] sm:max-w-xl sm:flex-1 lg:w-auto">
                     <div className="relative flex-1 min-w-[10rem]">
                       <Search
                         size={14}

@@ -42,6 +42,7 @@ export function RegionSelectorPanel({ selectedId, onSelect, overview, className 
             <button
               key={opt.id}
               type="button"
+              aria-pressed={isSelected}
               onClick={() => onSelect(opt.id)}
               className={cn(
                 'flex min-h-11 items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-all',

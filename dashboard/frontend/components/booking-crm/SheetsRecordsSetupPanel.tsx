@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { CheckCircle2, Circle, FileSpreadsheet, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
+import { CheckCircle2, Circle, FileSpreadsheet, AlertCircle } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import type { ClientSheetsEnvMeta } from '@/lib/google/sheets-env';
 import { DEFAULT_SHEET_HEADERS } from '@/lib/interactions/sheets-records';
@@ -13,11 +12,7 @@ type Props = {
   spreadsheetUrl: string | null;
   rowCount: number;
   hasRealtimeChannel?: boolean;
-  syncing?: boolean;
-  verifying?: boolean;
-  actionMessage?: string | null;
-  onSyncPending?: () => void;
-  onVerifyConnection?: () => void;
+  operationalActionsEnabled?: boolean;
 };
 
 const FORM_SOURCES = [
@@ -65,51 +60,16 @@ function Step({
   );
 }
 
-function SyncActions({
-  syncing,
-  verifying,
-  actionMessage,
-  onSyncPending,
-  onVerifyConnection,
-  showSyncAll,
-}: {
-  syncing?: boolean;
-  verifying?: boolean;
-  actionMessage?: string | null;
-  onSyncPending?: () => void;
-  onVerifyConnection?: () => void;
-  showSyncAll?: boolean;
-}) {
-  if (!onSyncPending && !onVerifyConnection) return null;
-
+function OperationalActionsStatus({ enabled }: { enabled: boolean }) {
   return (
-    <div className="mt-4 flex flex-wrap items-center gap-2">
-      {onVerifyConnection ? (
-        <button
-          type="button"
-          disabled={verifying || syncing}
-          onClick={onVerifyConnection}
-          className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-body-sm font-semibold hover:bg-muted disabled:opacity-50"
-        >
-          {verifying ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
-          Test connection
-        </button>
-      ) : null}
-      {showSyncAll && onSyncPending ? (
-        <button
-          type="button"
-          disabled={syncing || verifying}
-          onClick={onSyncPending}
-          className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-body-sm font-semibold hover:bg-muted disabled:opacity-50"
-        >
-          {syncing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-          Backfill older rows to Google Sheets
-        </button>
-      ) : null}
-      {actionMessage ? (
-        <p className="w-full text-body-sm text-muted-foreground">{actionMessage}</p>
-      ) : null}
-    </div>
+    <p
+      className="mt-4 rounded-md border border-border bg-muted/50 px-3 py-2 text-body-sm text-muted-foreground"
+      role="status"
+    >
+      {enabled
+        ? 'Sync operations require an explicitly bound write-authority contract before they can be enabled here.'
+        : 'Sync, Verify, and Backfill are unavailable until a separate write-authority contract is active.'}
+    </p>
   );
 }
 
@@ -120,11 +80,7 @@ export function SheetsRecordsSetupPanel({
   spreadsheetUrl,
   rowCount,
   hasRealtimeChannel = false,
-  syncing,
-  verifying,
-  actionMessage,
-  onSyncPending,
-  onVerifyConnection,
+  operationalActionsEnabled = false,
 }: Props) {
   const connected = dataSource === 'google_sheets' && Boolean(sheetsEnv?.configured);
   const envConfigured = Boolean(sheetsEnv?.configured);
@@ -166,13 +122,7 @@ export function SheetsRecordsSetupPanel({
                   </div>
                 ) : null}
               </dl>
-              <SyncActions
-                syncing={syncing}
-                verifying={verifying}
-                actionMessage={actionMessage}
-                onSyncPending={onSyncPending}
-                onVerifyConnection={onVerifyConnection}
-              />
+              <OperationalActionsStatus enabled={operationalActionsEnabled} />
             </div>
           </div>
           {spreadsheetUrl ? (
@@ -205,8 +155,7 @@ export function SheetsRecordsSetupPanel({
             <p className="mt-2 text-body-sm text-amber-900 dark:text-amber-200">
               Preview: showing {rowCount} row{rowCount === 1 ? '' : 's'} from Supabase. Set{' '}
               <code className="text-foreground">GOOGLE_SHEETS_*</code> on the dashboard API service,
-              redeploy, then use <strong>Backfill older rows</strong> once for submissions saved before
-              Sheets was connected.
+              redeploy. Backfill remains unavailable until a separate write-authority contract is active.
             </p>
           ) : null}
 
@@ -217,14 +166,7 @@ export function SheetsRecordsSetupPanel({
             </p>
           ) : null}
 
-          <SyncActions
-            syncing={syncing}
-            verifying={verifying}
-            actionMessage={actionMessage}
-            onSyncPending={envConfigured ? onSyncPending : undefined}
-            onVerifyConnection={onVerifyConnection}
-            showSyncAll={envConfigured}
-          />
+          <OperationalActionsStatus enabled={operationalActionsEnabled && envConfigured} />
 
           <div className="mt-4 grid gap-6 lg:grid-cols-2">
             <div>
@@ -278,14 +220,8 @@ export function SheetsRecordsSetupPanel({
                 ))}
               </ul>
               <p className="mt-4 text-meta text-muted-foreground">
-                Full pipeline:{' '}
-                <Link
-                  href="/dashboard/booking-crm/interactions/inbox"
-                  className="text-brand-orange hover:underline"
-                >
-                  Interaction Inbox
-                </Link>{' '}
-                (sync status per row) · Setup guide:{' '}
+                Legacy interaction status remains available to existing deep links but is not part of active
+                Booking CRM navigation. Setup guide:{' '}
                 <code className="text-foreground">docs/guides/GOOGLE_SHEETS_SETUP.md</code>
               </p>
               {sheetsEnv?.hint ? (

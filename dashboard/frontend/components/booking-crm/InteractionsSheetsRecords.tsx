@@ -1,17 +1,14 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   FileSpreadsheet,
-  RefreshCw,
   Search,
   Download,
   ArrowUpDown,
   ChevronLeft,
   ChevronRight,
   Eye,
-  X,
   Copy,
   Check,
   Radio,
@@ -19,7 +16,6 @@ import {
 } from 'lucide-react';
 import { CTAButton } from '@/components/ui/CTAButton';
 import { RefreshIcon } from '@/components/shared/RefreshIcon';
-import { GlassCard } from '@/components/ui/GlassCard';
 import { SkeletonBar } from '@/components/shared/PageSkeleton';
 import EmptyState from '@/components/shared/EmptyState';
 import { SheetsRecordsSetupPanel } from '@/components/booking-crm/SheetsRecordsSetupPanel';
@@ -35,7 +31,7 @@ import { useInteractionBroadcast } from '@/hooks/useInteractionBroadcast';
 import { useDashboardApiAuth } from '@/hooks/useDashboardApiAuth';
 import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 import type { ClientSheetsEnvMeta } from '@/lib/google/sheets-env';
-import { InteractionService } from '@/services/InteractionService';
+import { maskEmail, maskPhone, phoneFromPayload } from '@/lib/booking-crm/privacy';
 import {
   sourceLabel,
   type SheetRecord,
@@ -221,9 +217,7 @@ export default function InteractionsSheetsRecords() {
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [exporting, setExporting] = useState<'csv' | 'xlsx' | null>(null);
   const [detail, setDetail] = useState<SheetRecord | null>(null);
-  const [syncing, setSyncing] = useState(false);
-  const [verifying, setVerifying] = useState(false);
-  const [actionMessage, setActionMessage] = useState<string | null>(null);
+  const detailReturnFocusRef = useRef<HTMLButtonElement | null>(null);
 
   const load = useCallback(
     async (opts?: { silent?: boolean }) => {
@@ -275,43 +269,6 @@ export default function InteractionsSheetsRecords() {
     void load();
   }, [load]);
 
-  const handleSyncPending = useCallback(async () => {
-    setSyncing(true);
-    setActionMessage(null);
-    try {
-      const result = await InteractionService.syncAllPendingToSheets();
-      setActionMessage(
-        `Synced ${result.synced ?? 0} of ${result.total ?? 0} pending row(s)` +
-          ((result.failed ?? 0) > 0 ? ` · ${result.failed} failed` : ''),
-      );
-      await load({ silent: true });
-    } catch (err) {
-      setActionMessage(err instanceof Error ? err.message : 'Sync failed');
-    } finally {
-      setSyncing(false);
-    }
-  }, [load]);
-
-  const handleVerifyConnection = useCallback(async () => {
-    setVerifying(true);
-    setActionMessage(null);
-    try {
-      const result = await InteractionService.verifySheetsConnection();
-      const conn = result.connection;
-      if (conn?.ok) {
-        setActionMessage(
-          `Connected to “${conn.spreadsheetTitle ?? 'spreadsheet'}” · tabs: ${(conn.sheetTabs ?? []).join(', ') || 'none'}`,
-        );
-      } else {
-        setActionMessage(conn?.error ?? result.sheetsEnv?.hint ?? 'Connection check failed');
-      }
-    } catch (err) {
-      setActionMessage(err instanceof Error ? err.message : 'Verify failed');
-    } finally {
-      setVerifying(false);
-    }
-  }, []);
-
   useInteractionBroadcast(() => {
     void load({ silent: true });
   });
@@ -332,6 +289,17 @@ export default function InteractionsSheetsRecords() {
   useEffect(() => {
     setPage(0);
   }, [q, sourceFilter, orderAsc]);
+
+  const openDetail = (record: SheetRecord, trigger: HTMLButtonElement) => {
+    detailReturnFocusRef.current = trigger;
+    setDetail(record);
+  };
+
+  const closeDetail = () => {
+    const returnTarget = detailReturnFocusRef.current;
+    setDetail(null);
+    window.requestAnimationFrame(() => returnTarget?.focus());
+  };
 
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -440,11 +408,7 @@ export default function InteractionsSheetsRecords() {
           spreadsheetUrl={spreadsheetUrl}
           rowCount={records.length}
           hasRealtimeChannel={Boolean(process.env.NEXT_PUBLIC_INTERACTIONS_REALTIME_CHANNEL?.trim())}
-          syncing={syncing}
-          verifying={verifying}
-          actionMessage={actionMessage}
-          onSyncPending={() => void handleSyncPending()}
-          onVerifyConnection={() => void handleVerifyConnection()}
+          operationalActionsEnabled={false}
         />
       ) : null}
 
@@ -466,8 +430,8 @@ export default function InteractionsSheetsRecords() {
         </div>
       )}
 
-      <div className="flex flex-nowrap gap-3 mt-4 mb-3 items-end overflow-x-auto scrollbar-hide">
-        <div className="relative flex-1 min-w-[260px] max-w-md shrink-0">
+      <div className="mt-4 mb-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
+        <div className="relative w-full min-w-0 sm:max-w-md sm:flex-1">
           <Search
             size={16}
             className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
@@ -484,7 +448,7 @@ export default function InteractionsSheetsRecords() {
           value={sourceFilter}
           onChange={(e) => setSourceFilter(e.target.value)}
           aria-label="Filter by source"
-          className="text-body-sm bg-background border border-slate-300/70 dark:border-slate-600 rounded-lg px-3 py-2 text-foreground min-w-[200px]"
+          className="w-full rounded-lg border border-slate-300/70 bg-background px-3 py-2 text-body-sm text-foreground dark:border-slate-600 sm:w-auto sm:min-w-[200px]"
         >
           <option value="" className="bg-background text-foreground">
             All sources
@@ -495,56 +459,58 @@ export default function InteractionsSheetsRecords() {
             </option>
           ))}
         </select>
-        <button
-          type="button"
-          onClick={() => setOrderAsc((v) => !v)}
-          className="inline-flex items-center gap-2 text-label text-brand-orange hover:underline py-2"
-        >
-          <ArrowUpDown size={14} />
-          Date {orderAsc ? 'asc' : 'desc'}
-        </button>
-        <label className="inline-flex items-center gap-2 text-body-sm text-muted-foreground cursor-pointer py-2">
-          <input
-            type="checkbox"
-            checked={autoRefresh}
-            onChange={(e) => setAutoRefresh(e.target.checked)}
-            className="rounded"
-          />
-          Auto-refresh
-        </label>
-        <CTAButton
-          variant="secondary"
-          type="button"
-          onClick={() => void handleExport('csv')}
-          disabled={!!exporting || loading || !configured}
-          className="flex items-center gap-2 shrink-0"
-        >
-          <Download size={16} />
-          {exporting === 'csv' ? '…' : 'CSV'}
-        </CTAButton>
-        <CTAButton
-          variant="secondary"
-          type="button"
-          onClick={() => void handleExport('xlsx')}
-          disabled={!!exporting || loading || !configured}
-          className="flex items-center gap-2 shrink-0"
-        >
-          <Download size={16} />
-          {exporting === 'xlsx' ? '…' : 'Excel'}
-        </CTAButton>
-        <CTAButton
-          variant="secondary"
-          type="button"
-          onClick={() => void load()}
-          disabled={loading}
-          className="flex items-center gap-2 shrink-0"
-        >
-          <RefreshIcon loading={loading} />
-          Refresh
-        </CTAButton>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setOrderAsc((v) => !v)}
+            className="inline-flex min-h-11 items-center gap-2 py-2 text-label text-brand-orange hover:underline"
+          >
+            <ArrowUpDown size={14} />
+            Date {orderAsc ? 'asc' : 'desc'}
+          </button>
+          <label className="inline-flex min-h-11 cursor-pointer items-center gap-2 py-2 text-body-sm text-muted-foreground">
+            <input
+              type="checkbox"
+              checked={autoRefresh}
+              onChange={(e) => setAutoRefresh(e.target.checked)}
+              className="rounded"
+            />
+            Auto-refresh
+          </label>
+          <CTAButton
+            variant="secondary"
+            type="button"
+            onClick={() => void handleExport('csv')}
+            disabled={!!exporting || loading || !configured}
+            className="flex shrink-0 items-center gap-2"
+          >
+            <Download size={16} />
+            {exporting === 'csv' ? '…' : 'CSV'}
+          </CTAButton>
+          <CTAButton
+            variant="secondary"
+            type="button"
+            onClick={() => void handleExport('xlsx')}
+            disabled={!!exporting || loading || !configured}
+            className="flex shrink-0 items-center gap-2"
+          >
+            <Download size={16} />
+            {exporting === 'xlsx' ? '…' : 'Excel'}
+          </CTAButton>
+          <CTAButton
+            variant="secondary"
+            type="button"
+            onClick={() => void load()}
+            disabled={loading}
+            className="flex shrink-0 items-center gap-2"
+          >
+            <RefreshIcon loading={loading} />
+            Refresh
+          </CTAButton>
+        </div>
       </div>
 
-      <div className="text-meta text-muted-foreground mb-3 flex flex-wrap items-center gap-2">
+      <div className="mb-3 flex flex-wrap items-center gap-2 text-meta text-muted-foreground" role="status" aria-live="polite">
         <Layers size={14} />
         {loading ? (
           <span>Loading…</span>
@@ -558,23 +524,88 @@ export default function InteractionsSheetsRecords() {
             <Radio size={12} /> Live refresh active
           </span>
         ) : null}
-        {error && (
+      </div>
+
+      {error ? (
+        <div className="mb-3 flex flex-wrap items-center gap-2 rounded-lg border border-red-300/60 bg-red-50/50 px-3 py-2 text-body-sm text-red-700 dark:bg-red-950/20 dark:text-red-300" role="alert">
+          <span>{error}</span>
           <button
             type="button"
             onClick={() => {
               setError(null);
               void load();
             }}
-            className="inline-flex items-center gap-1 px-2 py-1 rounded border border-red-300/60 bg-red-50/50 dark:bg-red-950/20 text-red-700 dark:text-red-300 text-meta"
-            title={error}
+            className="min-h-10 shrink-0 font-semibold underline"
           >
-            {error}
-            <span className="underline shrink-0">Try again</span>
+            Try again
           </button>
-        )}
+        </div>
+      ) : null}
+
+      <div className="space-y-3 md:hidden" aria-label="Sheet records mobile list">
+        {loading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className="rounded-xl border border-border bg-card/30 p-4" aria-hidden="true">
+                <SkeletonBar />
+                <div className="mt-3"><SkeletonBar /></div>
+              </div>
+            ))
+          : null}
+        {!loading
+          ? pageRows.map((record) => (
+              <article
+                key={`mobile-${record.rowIndex}-${record.submissionId || record.createdAt}`}
+                className="min-w-0 rounded-xl border border-border bg-card/30 p-4"
+              >
+                <div className="flex min-w-0 items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="truncate text-label text-foreground">{record.subject || 'Submission'}</p>
+                    <p className="mt-1 text-meta text-muted-foreground">{formatDate(record.createdAt)}</p>
+                  </div>
+                  <span className="max-w-[45%] shrink-0 truncate rounded-full bg-muted px-2 py-1 text-meta text-muted-foreground">
+                    {sourceLabel(record.source)}
+                  </span>
+                </div>
+                <dl className="mt-4 grid grid-cols-1 gap-3 text-body-sm sm:grid-cols-2">
+                  <div>
+                    <dt className="text-meta text-muted-foreground">Email</dt>
+                    <dd className="break-all text-foreground">{maskEmail(record.email)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-meta text-muted-foreground">Phone</dt>
+                    <dd className="text-foreground">{maskPhone(phoneFromPayload(record.payload))}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-meta text-muted-foreground">Page</dt>
+                    <dd className="break-all text-foreground">{cellPreview(pagePathFromPayload(record.payload), 42)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-meta text-muted-foreground">Certification</dt>
+                    <dd className="text-foreground">{cellPreview(certNameFromPayload(record.payload), 42)}</dd>
+                  </div>
+                </dl>
+                <button
+                  type="button"
+                  onClick={(event) => openDetail(record, event.currentTarget)}
+                  className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-border px-3 py-2 text-label text-brand-orange hover:bg-muted"
+                >
+                  <Eye size={16} /> Details
+                </button>
+              </article>
+            ))
+          : null}
+        {!loading && !error && filtered.length === 0 ? (
+          <div className="rounded-xl border border-border bg-card/20 p-4">
+            <EmptyState
+              icon={FileSpreadsheet}
+              title={records.length === 0 ? 'No sheet rows yet' : 'No matches'}
+              description={records.length === 0 ? 'New authorized submissions will appear here.' : 'Clear filters or search.'}
+            />
+          </div>
+        ) : null}
       </div>
 
-      <div className="overflow-x-auto border border-slate-300/60 dark:border-slate-700/60 r-card bg-card/20">
+      <div className="hidden overflow-x-auto border border-slate-300/60 bg-card/20 md:block dark:border-slate-700/60 r-card">
         <table className="min-w-full text-left text-body-sm">
           <thead className="bg-card/80 text-meta uppercase tracking-wide text-muted-foreground sticky top-0 z-[1]">
             <tr>
@@ -624,8 +655,8 @@ export default function InteractionsSheetsRecords() {
                   <td className="px-3 py-2">
                     <button
                       type="button"
-                      onClick={() => setDetail(r)}
-                      className="inline-flex items-center gap-1 text-meta text-brand-orange hover:underline"
+                      onClick={(event) => openDetail(r, event.currentTarget)}
+                      className="inline-flex min-h-10 items-center gap-1 text-meta text-brand-orange hover:underline"
                     >
                       <Eye size={14} /> Details
                     </button>
@@ -654,7 +685,7 @@ export default function InteractionsSheetsRecords() {
       </div>
 
       {!loading && filtered.length > PAGE_SIZE && (
-        <div className="flex items-center justify-between mt-4 gap-4">
+        <div className="mt-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
           <button
             type="button"
             disabled={page <= 0}
@@ -677,9 +708,9 @@ export default function InteractionsSheetsRecords() {
         </div>
       )}
 
-      <Sheet open={!!detail} onOpenChange={(open) => !open && setDetail(null)}>
+      <Sheet open={!!detail} onOpenChange={(open) => !open && closeDetail()}>
         <SheetContent side="right" className="flex w-full flex-col gap-0 overflow-hidden sm:max-w-2xl">
-          {detail ? <SheetRecordDetailPanel record={detail} onClose={() => setDetail(null)} /> : null}
+          {detail ? <SheetRecordDetailPanel record={detail} onClose={closeDetail} /> : null}
         </SheetContent>
       </Sheet>
     </div>
