@@ -9,10 +9,16 @@ export type LegalRegionSlug =
 
 export type GccCountryLegalSlug = 'ae' | 'sa' | 'qa' | 'bh' | 'kw' | 'om';
 
+export interface LegalSectionLink {
+  href: string;
+  label: string;
+}
+
 export interface LegalSection {
   id: string;
   heading: string;
   body: string;
+  links?: LegalSectionLink[];
 }
 
 export interface LegalDocument {

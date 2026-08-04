@@ -20,7 +20,7 @@ import type { NewsletterArticle } from '@pms/site-content/newsletter-posts';
 import { getNewsletterArticleHref } from "@pms/site-content/newsletter-posts";
 import { NewsletterSubscribeForm } from "@/components/forms/NewsletterSubscribeForm";
 import { NewsletterHeroSubscribeForm } from "@/components/forms/NewsletterHeroSubscribeForm";
-import { OPEN13_NEWSLETTER_LINKS } from '@/content/seo/open13-internal-links';
+import { getOpen13NewsletterEvidenceLinks } from '@/content/seo/open13-internal-links';
 
 import { T176_SOCIAL_PROOF_REGIONAL } from '@/content/t176-claims';
 
@@ -87,6 +87,11 @@ export function Newsletter({
 
   const featuredArticle = filteredArticles[0] ?? articles[0];
   const visibleArticles = filteredArticles.slice(0, visibleCount);
+  const articleCardHrefs = [
+    ...visibleArticles.map(getNewsletterArticleHref),
+    ...articles.slice(4, 8).map(getNewsletterArticleHref),
+  ];
+  const newsletterEvidenceLinks = getOpen13NewsletterEvidenceLinks(articleCardHrefs);
 
   if (isLoading && articles.length === 0) {
     return (
@@ -269,7 +274,7 @@ export function Newsletter({
             >
               <h3 className="mb-3 font-heading text-lg font-bold lg:text-xl">Evidence Guides</h3>
               <ul className="space-y-3">
-                {OPEN13_NEWSLETTER_LINKS.map((link) => (
+                {newsletterEvidenceLinks.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}

@@ -63,3 +63,8 @@ export const OPEN13_INTERNAL_LINKS = [
   ...OPEN13_CERTIFICATION_LINKS,
   ...OPEN13_LEGAL_LINKS,
 ] as const satisfies readonly Open13InternalLink[];
+
+export function getOpen13NewsletterEvidenceLinks(articleCardHrefs: readonly string[]) {
+  const emittedArticleHrefs = new Set(articleCardHrefs);
+  return OPEN13_NEWSLETTER_LINKS.filter(({ href }) => !emittedArticleHrefs.has(href));
+}

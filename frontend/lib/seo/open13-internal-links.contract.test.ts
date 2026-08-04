@@ -1,11 +1,13 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import {
+  getOpen13NewsletterEvidenceLinks,
   OPEN13_CERTIFICATION_LINKS,
   OPEN13_INTERNAL_LINKS,
   OPEN13_LEGAL_LINKS,
   OPEN13_NEWSLETTER_LINKS,
 } from '@/content/seo/open13-internal-links';
+import { termsDocument } from '@/content/legal/terms';
 
 const read = (path: string) => readFileSync(path, 'utf8');
 
@@ -49,18 +51,56 @@ describe('OPEN-13 internal-link correction', () => {
     const newsletter = read('components/pages/Newsletter.tsx');
     const certifications = read('components/pages/Certifications.tsx');
 
-    expect(newsletter).toContain('OPEN13_NEWSLETTER_LINKS.map');
+    expect(newsletter).toContain('newsletterEvidenceLinks.map');
+    expect(newsletter).toContain('getOpen13NewsletterEvidenceLinks(articleCardHrefs)');
     expect(newsletter).toContain('aria-label="Evidence guides"');
     expect(certifications).toContain('OPEN13_CERTIFICATION_LINKS.map');
     expect(certifications).toContain('id="specialist-pathways-heading"');
   });
 
-  it('emits both legal targets from the terms content without legacy aliases', () => {
+  it('emits both legal targets as typed native links without parsing Markdown', () => {
     const terms = read('content/legal/terms.ts');
+    const legalSectionList = read('components/legal/LegalSectionList.tsx');
+    const emittedLinks = termsDocument.sections.flatMap((section) => section.links ?? []);
 
-    for (const { href, anchor } of OPEN13_LEGAL_LINKS) {
-      expect(terms).toContain(`[${anchor}](${href})`);
-    }
+    expect(emittedLinks).toEqual(
+      OPEN13_LEGAL_LINKS.map(({ href, anchor }) => ({ href, label: anchor })),
+    );
+    expect(terms).not.toMatch(/\[[^\]]+\]\(\/legal\/(?:services|acceptable-use)\)/);
+    expect(legalSectionList).toContain("import Link from 'next/link'");
+    expect(legalSectionList).toContain('<Link');
+    expect(legalSectionList).toContain('href={link.href}');
+    expect(legalSectionList).toContain('{link.label}');
     expect(terms).not.toMatch(/\/legal\/(service-terms|community-guidelines)(?:[)'"#?]|$)/);
+  });
+
+  it('suppresses CMS-present article-card duplicates and preserves absent-card fallbacks', () => {
+    const [first, second] = OPEN13_NEWSLETTER_LINKS;
+    const present = getOpen13NewsletterEvidenceLinks([first.href, '/newsletter/unrelated']);
+    const bothPresent = getOpen13NewsletterEvidenceLinks([first.href, second.href]);
+    const fallback = getOpen13NewsletterEvidenceLinks(['/newsletter/unrelated']);
+
+    expect(present.map(({ href }) => href)).toEqual([second.href]);
+    expect(bothPresent).toEqual([]);
+    expect(fallback.map(({ href }) => href)).toEqual([first.href, second.href]);
+
+    const presentCounts = [first.href, ...present.map(({ href }) => href)].reduce<Record<string, number>>(
+      (counts, href) => ({ ...counts, [href]: (counts[href] ?? 0) + 1 }),
+      {},
+    );
+    const fallbackCounts = fallback.reduce<Record<string, number>>(
+      (counts, { href }) => ({ ...counts, [href]: (counts[href] ?? 0) + 1 }),
+      {},
+    );
+    const bothPresentCounts = [first.href, second.href].reduce<Record<string, number>>(
+      (counts, href) => ({ ...counts, [href]: (counts[href] ?? 0) + 1 }),
+      {},
+    );
+
+    for (const { href } of OPEN13_NEWSLETTER_LINKS) {
+      expect(presentCounts[href]).toBe(1);
+      expect(bothPresentCounts[href]).toBe(1);
+      expect(fallbackCounts[href]).toBe(1);
+    }
   });
 });
