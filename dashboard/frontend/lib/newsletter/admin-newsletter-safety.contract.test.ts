@@ -41,12 +41,16 @@ describe('admin and newsletter editor safety source contract', () => {
     const editor = read('dashboard/frontend/components/pages/admin/NewsletterPostEditor.tsx');
     const shared = read('dashboard/frontend/components/pages/admin/cms/CmsShared.tsx');
     const workspace = read('dashboard/frontend/components/pages/admin/newsletter/NewsletterEditorWorkspace.tsx');
+    const mediaPanel = read('dashboard/frontend/components/pages/admin/newsletter/ArticleMediaPanel.tsx');
 
     expect(editor).toContain('Phone view is preview-only');
     expect(editor).toContain('hidden max-w-6xl space-y-6 md:block');
     expect(editor).toContain('hidden border-t border-border');
     expect(shared).toContain('htmlFor={htmlFor}');
     expect(workspace).toContain('htmlFor="newsletter-article-body"');
+    expect(mediaPanel).toContain('const youtubeInputId = useId()');
+    expect(mediaPanel).toContain('htmlFor={youtubeInputId}');
+    expect(mediaPanel).toContain('id={youtubeInputId}');
   });
 
   it('requires distinct seed phrases and a second confirmation dialog', () => {

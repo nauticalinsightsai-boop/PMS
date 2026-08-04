@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useId, useRef, useState } from 'react';
 import { CheckCircle2, ImageIcon, Loader2, Music, Upload, Video } from 'lucide-react';
 import { NewsletterHeroMedia } from '@/components/pages/admin/newsletter/NewsletterHeroMedia';
 import { uploadMediaFile } from '@/lib/cms/media-api';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
 function MediaSection({
@@ -138,6 +139,8 @@ export function ArticleMediaPanel({
   onFeaturedMobileChange: (url: string) => void;
   onHeroAltChange: (alt: string) => void;
 }) {
+  const youtubeInputId = useId();
+
   return (
     <div className="space-y-4">
       <MediaSection icon={Music} title="Audio File" subtitle="Upload Audio">
@@ -145,13 +148,17 @@ export function ArticleMediaPanel({
       </MediaSection>
 
       <MediaSection icon={Video} title="YouTube Video" subtitle="YouTube Video URL">
+        <Label htmlFor={youtubeInputId} className="mb-2">
+          YouTube video URL <span className="font-normal text-muted-foreground">(optional)</span>
+        </Label>
         <Input
+          id={youtubeInputId}
           value={youtubeUrl}
           onChange={(e) => onYoutubeChange(e.target.value)}
           placeholder="https://youtu.be/… or https://www.youtube.com/watch?v=…"
           className="text-sm"
         />
-        <p className="mt-2 text-xs text-muted-foreground">Enter YouTube video URL (optional)</p>
+        <p className="mt-2 text-xs text-muted-foreground">Paste a YouTube watch or share URL.</p>
       </MediaSection>
 
       <MediaSection icon={ImageIcon} title="Featured Image" subtitle="Desktop and mobile hero frames">
