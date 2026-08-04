@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { REGION_SELECTOR_SECTIONS } from '../region-selector-sections';
 
 const root = process.cwd();
 const read = (path: string) => readFileSync(resolve(root, path), 'utf8');
@@ -40,7 +41,7 @@ describe('canonical Booking CRM source contract', () => {
     expect(source).toContain('maskEmail(record.email)');
     expect(source).toContain('maskPhone(phoneFromPayload(record.payload))');
     expect(source).toContain('detailReturnFocusRef');
-    expect(source).toContain('returnTarget?.focus()');
+    expect(source).toContain('finalFocus={() => resolveDetailFinalFocus(detailReturnFocusRef.current)}');
     expect(source).toContain('role="status"');
     expect(source).toContain('role="alert"');
   });
@@ -59,7 +60,20 @@ describe('canonical Booking CRM source contract', () => {
 
   it('exposes the selected account region programmatically', () => {
     const source = read('dashboard/frontend/components/region/RegionSelectorPanel.tsx');
+    const options = REGION_SELECTOR_SECTIONS.flatMap((section) => section.options);
+    const selectedId = 'ae';
+    const pressedStates = options.map((option) => option.id === selectedId);
+
+    expect(pressedStates.filter(Boolean)).toHaveLength(1);
+    expect(source).toContain('const isSelected = selectedId === opt.id');
     expect(source).toContain('aria-pressed={isSelected}');
+  });
+
+  it('marks the exact anchor-backed View site Button as non-native', () => {
+    const source = read('dashboard/frontend/components/layout/DashboardLayout.tsx');
+
+    expect(source).toMatch(/<Button[\s\S]{0,240}nativeButton=\{false\}[\s\S]{0,240}href=\{siteUrl\}/);
+    expect(source.match(/nativeButton=\{false\}/g)).toHaveLength(1);
   });
 
   it('does not touch the canonical form-submission source of truth', () => {

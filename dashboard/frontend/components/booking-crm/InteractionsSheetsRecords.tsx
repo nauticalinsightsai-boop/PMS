@@ -32,6 +32,7 @@ import { useDashboardApiAuth } from '@/hooks/useDashboardApiAuth';
 import { fetchDashboardApi } from '@/lib/auth/fetch-dashboard-api';
 import type { ClientSheetsEnvMeta } from '@/lib/google/sheets-env';
 import { maskEmail, maskPhone, phoneFromPayload } from '@/lib/booking-crm/privacy';
+import { resolveDetailFinalFocus } from '@/lib/booking-crm/detail-focus';
 import {
   sourceLabel,
   type SheetRecord,
@@ -296,9 +297,7 @@ export default function InteractionsSheetsRecords() {
   };
 
   const closeDetail = () => {
-    const returnTarget = detailReturnFocusRef.current;
     setDetail(null);
-    window.requestAnimationFrame(() => returnTarget?.focus());
   };
 
   const filtered = useMemo(() => {
@@ -709,7 +708,11 @@ export default function InteractionsSheetsRecords() {
       )}
 
       <Sheet open={!!detail} onOpenChange={(open) => !open && closeDetail()}>
-        <SheetContent side="right" className="flex w-full flex-col gap-0 overflow-hidden sm:max-w-2xl">
+        <SheetContent
+          side="right"
+          finalFocus={() => resolveDetailFinalFocus(detailReturnFocusRef.current)}
+          className="flex w-full flex-col gap-0 overflow-hidden sm:max-w-2xl"
+        >
           {detail ? <SheetRecordDetailPanel record={detail} onClose={closeDetail} /> : null}
         </SheetContent>
       </Sheet>

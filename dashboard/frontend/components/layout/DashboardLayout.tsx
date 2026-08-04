@@ -342,6 +342,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
               <Button
                 variant="outline"
                 size="sm"
+                nativeButton={false}
                 className="hidden h-8 gap-1.5 lg:inline-flex"
                 render={
                   <a

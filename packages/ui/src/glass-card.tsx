@@ -14,7 +14,10 @@ export interface GlassCardProps extends HTMLMotionProps<'div'> {
 }
 
 export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
-  ({ className, variant = 'surface', animateEntry = true, children, ...props }, ref) => {
+  ({ className, variant = 'surface', animateEntry = true, children, hover, liquid, ...props }, ref) => {
+    // Legacy callers still declare these visual flags. Consume them here so they never reach the DOM.
+    void hover;
+    void liquid;
     const variants = {
       surface:
         'bg-white/40 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10',
