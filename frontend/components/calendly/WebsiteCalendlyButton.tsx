@@ -5,12 +5,7 @@ import type { VariantProps } from 'class-variance-authority';
 import { buttonVariants } from '@/components/ui/button';
 import type { CalendlyUtmParams } from '@/lib/calendly/embed-types';
 import {
-  buildCalendlyPopupWidgetUrl,
-  getCalendlyEmbedTheme,
-} from '@/lib/calendly/embed-url';
-import {
   buildWebsiteCalendlySchedulingHref,
-  getWebsiteCalendlyUrl,
   type WebsiteCalendlyTier,
 } from '@/lib/calendly/scheduling-href';
 import { openWebsiteCalendly } from '@/lib/calendly/website-events';
@@ -29,29 +24,7 @@ export type WebsiteCalendlyButtonProps = Omit<
   onBeforeOpen?: () => void;
 };
 
-/** Themed proxy href - rebuilds when light/dark changes (C5). */
-function buildThemedProxyHref(
-  tier: WebsiteCalendlyTier,
-  host: string,
-  theme: 'light' | 'dark',
-  utm?: CalendlyUtmParams,
-): string {
-  try {
-    return (
-      buildCalendlyPopupWidgetUrl(getWebsiteCalendlyUrl(tier), {
-        host,
-        theme,
-        utm,
-        channelId: 'website',
-        useProxy: true,
-      }) || buildWebsiteCalendlySchedulingHref(tier, utm)
-    );
-  } catch {
-    return buildWebsiteCalendlySchedulingHref(tier, utm);
-  }
-}
-
-/** Opens a website Calendly popup; href is themed proxy URL so middle-click stays themed. */
+/** Opens the themed popup on normal clicks; the anchor itself remains crawl-safe. */
 export function WebsiteCalendlyButton({
   tier = 'mentor',
   funnelLabel = 'website_calendly',
@@ -63,22 +36,7 @@ export function WebsiteCalendlyButton({
   size = 'default',
   ...rest
 }: WebsiteCalendlyButtonProps) {
-  const [host, setHost] = React.useState('localhost');
-  const [theme, setTheme] = React.useState<'light' | 'dark'>('dark');
   const [resolvedUtm, setResolvedUtm] = React.useState<CalendlyUtmParams | undefined>(utm);
-
-  React.useEffect(() => {
-    setHost(window.location.host);
-    const sync = () => setTheme(getCalendlyEmbedTheme());
-    sync();
-    const mo = new MutationObserver(sync);
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    const portalRoots = document.querySelectorAll('.portal-root');
-    portalRoots.forEach((el) =>
-      mo.observe(el, { attributes: true, attributeFilter: ['data-color-mode'] }),
-    );
-    return () => mo.disconnect();
-  }, []);
 
   React.useEffect(() => {
     setResolvedUtm(mergeCalendlyUtmWithInbound(utm));
@@ -91,8 +49,8 @@ export function WebsiteCalendlyButton({
   ]);
 
   const href = React.useMemo(
-    () => buildThemedProxyHref(tier, host, theme, resolvedUtm),
-    [tier, host, theme, resolvedUtm],
+    () => buildWebsiteCalendlySchedulingHref(tier, resolvedUtm),
+    [tier, resolvedUtm],
   );
 
   const openPopup = React.useCallback(

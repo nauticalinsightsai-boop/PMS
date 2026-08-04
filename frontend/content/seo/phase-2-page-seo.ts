@@ -193,7 +193,7 @@ export const PHASE_2_PAGE_SEO: Record<string, PageSeoConfig> = {
     ],
     searchIntent: 'Commercial investigation',
     funnelStage: 'Consideration',
-    title: 'PMP 2026 Readiness Pathway | PM Structure',
+    title: 'PMP 2026 Study Roadmap & Tier Pathways | PM Structure',
     description:
       'Structured PMP 2026 readiness pathway: 90-day focus, roadmap steps, tier options, engineer FAQs, mock tracking, and trust expectations from PM Structure.',
     h1: 'PMP 2026 readiness pathway',

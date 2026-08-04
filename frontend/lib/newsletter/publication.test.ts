@@ -49,4 +49,17 @@ describe('long-form newsletter publication batch', () => {
       expect(paths.has(`/newsletter/${post.slug}`), post.slug).toBe(true);
     }
   });
+
+  it('includes the two exact PMI-RMP publications once with provider lastmod timestamps', async () => {
+    const entries = await sitemap();
+    const expected = new Map([
+      ['/newsletter/pmi-rmp-2026-domain-map-five-domain-study-plan', '2026-08-04T01:07:06.733Z'],
+      ['/newsletter/pmi-rmp-eligibility-separate-risk-experience-general-project-work', '2026-08-04T01:08:27.700Z'],
+    ]);
+    for (const [path, timestamp] of expected) {
+      const matches = entries.filter((entry) => new URL(entry.url).pathname === path);
+      expect(matches).toHaveLength(1);
+      expect(new Date(matches[0].lastModified!).toISOString()).toBe(timestamp);
+    }
+  });
 });

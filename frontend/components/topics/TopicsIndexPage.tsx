@@ -5,6 +5,8 @@ import { TopicsIndexJsonLd } from '@/components/seo/TopicsIndexJsonLd';
 import { cn } from '@/lib/utils';
 
 export function TopicsIndexPage() {
+  const canonicalTopicPath = (path: string) =>
+    path === '/topics/pmp-exam-2026' ? '/pmp-exam-2026' : path;
   return (
     <>
       <TopicsIndexJsonLd />
@@ -32,7 +34,7 @@ export function TopicsIndexPage() {
                     {hubs.map((hub) => (
                       <li key={hub.slug}>
                         <Link
-                          href={hub.path}
+                          href={canonicalTopicPath(hub.path)}
                           className="block rounded-xl border border-slate-200 dark:border-slate-800 p-5 hover:border-brand-purple/40 hover:bg-brand-purple/5 transition-colors"
                         >
                           <h3 className="font-semibold text-slate-900 dark:text-white mb-1">

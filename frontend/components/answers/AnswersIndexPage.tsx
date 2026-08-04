@@ -4,6 +4,11 @@ import { ANSWER_PAGES } from '@/content/answers/pages';
 import { cn } from '@/lib/utils';
 
 export function AnswersIndexPage() {
+  const canonicalAnswerPath = (path: string) =>
+    path === '/answers/should-i-rush-pmp-before-july-2026' ||
+    path === '/answers/should-i-take-pmp-before-8-july-2026'
+      ? '/pmp-after-9-july-2026'
+      : path;
   return (
     <section className={cn(sectionSurface('cool', 'py-16 sm:py-20'))}>
       <SectionAmbience tone="cool" />
@@ -20,7 +25,7 @@ export function AnswersIndexPage() {
             {ANSWER_PAGES.map((page) => (
               <li key={page.slug}>
                 <Link
-                  href={page.path}
+                  href={canonicalAnswerPath(page.path)}
                   className="block rounded-xl border border-slate-200 dark:border-slate-800 p-5 hover:border-brand-purple/40 hover:bg-brand-purple/5 transition-colors"
                 >
                   <h2 className="font-semibold text-slate-900 dark:text-white mb-2">{page.question}</h2>

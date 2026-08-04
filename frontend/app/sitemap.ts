@@ -21,6 +21,11 @@ type RouteSpec = {
 
 const entry = buildSitemapEntry;
 
+const FIXED_PUBLISHED_NEWSLETTER_ENTRIES = [
+  { path: '/newsletter/pmi-rmp-2026-domain-map-five-domain-study-plan', publishedAt: '2026-08-04T01:07:06.733Z' },
+  { path: '/newsletter/pmi-rmp-eligibility-separate-risk-experience-general-project-work', publishedAt: '2026-08-04T01:08:27.700Z' },
+] as const;
+
 function safeEntry(
   path: string,
   priority: number,
@@ -171,6 +176,11 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     .map((n) => safeEntry(`/newsletter/${n.slug}`, 0.6, 'monthly'))
     .filter((e): e is MetadataRoute.Sitemap[0] => e !== null);
 
+  const fixedPublishedNewsletter: MetadataRoute.Sitemap = FIXED_PUBLISHED_NEWSLETTER_ENTRIES.flatMap(({ path, publishedAt }) => {
+    const sitemapEntry = safeEntry(path, 0.6, 'monthly');
+    return sitemapEntry ? [{ ...sitemapEntry, lastModified: new Date(publishedAt) }] : [];
+  });
+
   return dedupeSitemap([
     ...entriesFromSpecs(MARKETING_ROUTES),
     ...buildCertEntries(),
@@ -181,5 +191,6 @@ async function buildSitemap(): Promise<MetadataRoute.Sitemap> {
     ...buildTopicEntries(),
     ...buildLegalEntries(),
     ...newsletter,
+    ...fixedPublishedNewsletter,
   ]);
 }

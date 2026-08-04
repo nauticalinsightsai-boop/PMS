@@ -14,13 +14,6 @@ export default function Page() {
   return (
     <>
       <PmpFaqPageJsonLd />
-      <header className="sr-only">
-        <h1>PMP Frequently Asked Questions</h1>
-        <p>
-          PMP exam 2026 transition, domains, readiness, pathways, pricing, and compliance for PM
-          Structure candidates.
-        </p>
-      </header>
       <PmpFaqCrawlableContent />
       <PmpFaqPage />
     </>

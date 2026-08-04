@@ -264,17 +264,17 @@ export const DEFAULT_HOME_INSIGHTS: z.infer<typeof homeInsightsBandSchema> = {
     {
       title: 'AI in Project Management',
       desc: 'Use generative AI for planning and risk assessment.',
-      href: '/newsletter/ai-augmented-project-manager',
+      href: '/newsletter/ai-augmented-project-manager-governance-checklist-2026',
     },
     {
       title: '2026 Salary Trends',
       desc: 'Certification ROI data across global markets.',
-      href: '/newsletter/2026-pmp-exam-changes',
+      href: '/newsletter/post-transition-pmp-reset-july-2026',
     },
     {
       title: 'Hybrid Leadership',
       desc: 'Balance predictive and agile frameworks at scale.',
-      href: '/newsletter/hybrid-methodologies-enterprise',
+      href: '/newsletter/hybrid-governance-gcc-transformation-portfolios',
     },
   ],
 };

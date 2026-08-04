@@ -6,6 +6,7 @@ import { getAllLegalDocumentPaths, DYNAMIC_LEGAL_SLUGS, PRIVACY_REGION_OPTIONS }
 import { REGION_COPY } from '@/lib/brand-voice';
 import { FOOTER_LEGAL_LINKS, LEGAL_HUB_PATH } from '@/constants/legal';
 import { metadata as gccMetadata } from '@/app/(site)/legal/privacy/gcc/page';
+import { metadata as pricingDisclaimerMetadata } from '@/app/(site)/legal/pricing-disclaimers/page';
 import { generateMetadata as generateRegionalPrivacyMetadata } from '@/app/(site)/legal/privacy/[region]/page';
 
 const BANNED = [
@@ -33,7 +34,16 @@ function readLegalAndFaqSources(): string {
   return parts.join('\n');
 }
 
-describe('legal-seo', () => {
+describe('legal-seo', () => {
+  it('gives pricing disclaimers complete self-canonical metadata without a duplicate suffix', () => {
+    expect(pricingDisclaimerMetadata).toMatchObject({
+      title: { absolute: 'Pricing & Certification Disclaimers | PM Structure' },
+      alternates: { canonical: 'https://pmstructure.com/legal/pricing-disclaimers' },
+      robots: { index: true, follow: true },
+      openGraph: { title: 'Pricing & Certification Disclaimers | PM Structure', url: 'https://pmstructure.com/legal/pricing-disclaimers' },
+      twitter: { title: 'Pricing & Certification Disclaimers | PM Structure' },
+    });
+  });
   it('has minimum FAQ count for AEO', () => {
     expect(getAllFaqs().length).toBeGreaterThanOrEqual(FAQ_COUNT_MIN);
   });
