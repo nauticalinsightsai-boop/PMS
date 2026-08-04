@@ -2,6 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import { ScholarshipEnrollmentPage } from '@/components/enrollment/ScholarshipEnrollment';
 import { certifications } from '@/data/certification-index';
 import { resolveOfferingForEnrollment } from '@/lib/enrollment-routes';
+import { scholarshipCountryOptions } from '@/lib/enrollment/scholarship-country-options';
 import { normalizeScholarshipLevel, normalizeScholarshipMarket } from '@/lib/scholarship';
 import { buildPageMetadata } from '@/lib/site-metadata';
 import { getStripePublishableKey } from '@/lib/stripe-publishable-key.server';
@@ -33,6 +34,7 @@ export default async function Page({ params }: Props) {
   if (!offering) notFound();
   const cert = certifications.find((item) => item.id === id);
   const publishableKeyHint = getStripePublishableKey();
+  const countryOptions = scholarshipCountryOptions(market);
   return (
     <ScholarshipEnrollmentPage
       offeringId={offering.offeringId}
@@ -41,6 +43,7 @@ export default async function Page({ params }: Props) {
       market={market}
       certName={cert?.name ?? id.toUpperCase()}
       courseName={offering.courseName}
+      countryOptions={countryOptions}
       publishableKeyHint={publishableKeyHint || null}
     />
   );

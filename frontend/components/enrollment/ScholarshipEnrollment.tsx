@@ -16,8 +16,8 @@ import { assertPublishableKeyAllowedOnHost } from '@/lib/stripe-key-mode';
 import { stripePublishableKeyUnavailableMessage } from '@/lib/stripe-publishable-key';
 import { fetchStripePublishableKey } from '@/services/enrollment';
 import {
-  scholarshipCountryOptions,
   scholarshipRegionName,
+  type ScholarshipCountryOption,
 } from '@/lib/enrollment/scholarship-country-options';
 import {
   createScholarshipCheckout,
@@ -34,6 +34,7 @@ type Props = {
   market: ScholarshipMarket;
   certName: string;
   courseName: string;
+  countryOptions: readonly ScholarshipCountryOption[];
   publishableKeyHint?: string | null;
 };
 
@@ -63,6 +64,18 @@ function ReservationTimer({ expiresAt, onExpired }: { expiresAt: string; onExpir
     <p role="timer" aria-live="polite" className="font-mono text-3xl font-bold tabular-nums text-brand-orange">
       {String(minutes).padStart(2, '0')}:{String(remainder).padStart(2, '0')}
     </p>
+  );
+}
+
+export function ScholarshipCountrySelectOptions({
+  options,
+}: {
+  options: readonly ScholarshipCountryOption[];
+}) {
+  return (
+    <>
+      {options.map((option) => <option key={option.code} value={option.code}>{option.name}</option>)}
+    </>
   );
 }
 
@@ -160,7 +173,7 @@ function ScholarshipStripeCheckout({
 }
 
 export function ScholarshipEnrollmentPage(props: Props) {
-  const options = React.useMemo(() => scholarshipCountryOptions(props.market), [props.market]);
+  const options = props.countryOptions;
   const [residence, setResidence] = React.useState('');
   const [billing, setBilling] = React.useState('');
   const [reservation, setReservation] = React.useState<ScholarshipReservationView | null>(null);
@@ -292,7 +305,7 @@ export function ScholarshipEnrollmentPage(props: Props) {
                       className="mt-2 h-12 w-full rounded-xl border border-border bg-background px-3 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
                     >
                       <option value="">Select country</option>
-                      {options.map((option) => <option key={option.code} value={option.code}>{option.name}</option>)}
+                      <ScholarshipCountrySelectOptions options={options} />
                     </select>
                   </label>
                 ))}
