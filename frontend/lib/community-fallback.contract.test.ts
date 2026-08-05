@@ -42,4 +42,19 @@ describe('community fallback', () => {
     expect(routeSource).not.toContain('request.nextUrl.origin');
     expect(routeSource).not.toMatch(/0\.0\.0\.0|internal-host|invitation_token|searchParams|x-forwarded|host/i);
   });
+
+  it('keeps the retired community provider example explicitly unset', () => {
+    const envExample = readFileSync(
+      fileURLToPath(new URL('../../.env.example', import.meta.url)),
+      'utf8',
+    );
+    const assignments = envExample.match(
+      /^[ \t]*#[ \t]*NEXT_PUBLIC_CIRCLE_COMMUNITY_JOIN_URL=.*$/gm,
+    ) ?? [];
+
+    expect(assignments).toEqual(['# NEXT_PUBLIC_CIRCLE_COMMUNITY_JOIN_URL=']);
+    expect(envExample).not.toMatch(
+      /^[ \t]*#[ \t]*NEXT_PUBLIC_CIRCLE_COMMUNITY_JOIN_URL=.+$/m,
+    );
+  });
 });
