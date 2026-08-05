@@ -14,6 +14,6 @@ const directives = [
   "worker-src 'self' blob:",
 ] as const;
 
-export function contentSecurityPolicyReportOnly(): string {
+export function contentSecurityPolicy(): string {
   return `${directives.join('; ')};`;
 }
