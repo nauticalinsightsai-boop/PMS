@@ -11,6 +11,9 @@ describe('report-only CSP', () => {
     for (const origin of ['https://www.googletagmanager.com', 'https://connect.facebook.net', 'https://js.stripe.com', 'https://*.supabase.co', 'https://api.calendly.com', 'https://www.youtube.com']) {
       expect(value).toContain(origin);
     }
+    expect(value).toMatch(/script-src[^;]*https:\/\/assets\.calendly\.com/);
+    expect(value).toMatch(/style-src[^;]*https:\/\/assets\.calendly\.com/);
+    expect(value).toMatch(/connect-src[^;]*https:\/\/api\.bigdatacloud\.net/);
     expect(value).not.toContain('report-uri');
     expect(value).not.toContain('report-to');
   });
