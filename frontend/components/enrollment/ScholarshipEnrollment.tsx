@@ -22,7 +22,6 @@ import {
 import {
   createScholarshipCheckout,
   fetchExistingScholarshipReservation,
-  recordScholarshipPageView,
   reserveScholarshipPrice,
   type ScholarshipReservationView,
 } from '@/services/scholarship';
@@ -37,6 +36,16 @@ type Props = {
   countryOptions: readonly ScholarshipCountryOption[];
   publishableKeyHint?: string | null;
 };
+
+export function emitScholarshipPageViewAnalytics(
+  params: Pick<Props, 'offeringId' | 'tierSlug' | 'market'>,
+): boolean {
+  return pushAnalyticsEvent('scholarship_page_view', {
+    offering_id: params.offeringId,
+    scholarship_market: params.market,
+    pathway_level: params.tierSlug,
+  });
+}
 
 function remainingSeconds(expiresAt: string): number {
   return Math.max(0, Math.ceil((new Date(expiresAt).getTime() - Date.now()) / 1000));
@@ -188,12 +197,7 @@ export function ScholarshipEnrollmentPage(props: Props) {
       tierSlug: props.tierSlug,
       market: props.market,
     };
-    pushAnalyticsEvent('scholarship_page_view', {
-      offering_id: props.offeringId,
-      scholarship_market: props.market,
-      pathway_level: props.tierSlug,
-    });
-    void recordScholarshipPageView(identity);
+    emitScholarshipPageViewAnalytics(props);
     let cancelled = false;
     void fetchExistingScholarshipReservation(identity)
       .then((result) => {

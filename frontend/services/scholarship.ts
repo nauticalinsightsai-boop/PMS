@@ -81,17 +81,3 @@ export async function createScholarshipCheckout(params: {
     expired?: boolean;
   }>(response);
 }
-
-export function recordScholarshipPageView(params: {
-  offeringId: string;
-  siteCertId: string;
-  tierSlug: string;
-  market: ScholarshipMarket;
-}) {
-  return fetch(apiUrl('/api/scholarship/events'), {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    keepalive: true,
-    body: JSON.stringify({ eventName: 'scholarship_page_view', ...params }),
-  }).catch(() => undefined);
-}
