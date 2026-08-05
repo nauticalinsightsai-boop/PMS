@@ -201,7 +201,7 @@ An overall score can rise while a serious governance or compliance weakness rema
 
 ## Keep canonical facts in one place
 
-The domain weights and launch details are factual, current, and worth checking against PMI. PM Structure maintains a [PMP 2026 authority guide](/topics/pmp-exam-2026) and direct answers for candidates who need the core update.
+The domain weights and launch details are factual, current, and worth checking against PMI. PM Structure maintains a [PMP 2026 authority guide](/pmp-exam-2026) and direct answers for candidates who need the core update.
 
 This newsletter has a different job: it turns one change—the 26% Business Environment weighting—into a practice routine.
 

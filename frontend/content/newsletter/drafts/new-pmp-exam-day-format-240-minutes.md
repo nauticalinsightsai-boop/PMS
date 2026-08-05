@@ -50,7 +50,7 @@ PMI allows 240 minutes for the exam. It also provides two 10-minute breaks. The 
 
 The optional tutorial before the exam and survey after it sit outside the 240 minutes. Use the tutorial to understand the delivery interface available to you; do not assume that familiarity with a practice platform makes every control identical.
 
-For the canonical overview of the domains and the post-July content shift, use PM Structure’s [PMP Exam 2026 guide](/topics/pmp-exam-2026). Here, the narrower problem is how to operate the architecture on exam day.
+For the canonical overview of the domains and the post-July content shift, use PM Structure’s [PMP Exam 2026 guide](/pmp-exam-2026). Here, the narrower problem is how to operate the architecture on exam day.
 
 ## Use the PM Structure three-clock system
 

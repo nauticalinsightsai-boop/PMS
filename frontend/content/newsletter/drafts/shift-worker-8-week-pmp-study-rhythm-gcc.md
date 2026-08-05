@@ -112,7 +112,7 @@ The July 2026 exam increased the relative emphasis on the Business Environment d
 
 For every scenario, write a one-sentence value statement: "This project is worth doing because..." Then ask whether the proposed response protects that value or merely protects the plan.
 
-Use the [PMP 2026 topic hub](/topics/pmp-exam-2026) for the broader exam context. Keep this newsletter's role narrow: it is the roster-friendly execution rhythm.
+Use the [PMP 2026 topic hub](/pmp-exam-2026) for the broader exam context. Keep this newsletter's role narrow: it is the roster-friendly execution rhythm.
 
 ### Week 6: AI, sustainability, and stakeholder trade-offs
 
