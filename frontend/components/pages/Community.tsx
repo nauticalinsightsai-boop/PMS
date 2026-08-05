@@ -174,7 +174,11 @@ function CommunityNetworkContent({
       </section>
 
       {/* Mentorship & Growth */}
-      <section className={sectionSurface('purple', 'py-32')}>
+      <section
+        id="community-waitlist"
+        tabIndex={-1}
+        className={sectionSurface('purple', 'scroll-mt-24 py-32')}
+      >
         <SectionAmbience tone="purple" />
         <div className="container relative z-10 mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-stretch">

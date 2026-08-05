@@ -17,6 +17,20 @@ const DANGEROUS_URL_ATTR_UNQUOTED =
 
 const STYLE_EXPRESSION = /(\s+style\s*=\s*)(["'])[\s\S]*?\2/gi;
 
+const IMG_TAG = /<img\b([^>]*)>/gi;
+
+/** Add a stable intrinsic ratio without changing the existing CSS-rendered slot. */
+export function ensureArticleImageDimensions(html: string): string {
+  return html.replace(IMG_TAG, (tag, attributes: string) => {
+    const hasWidth = /\swidth\s*=/i.test(attributes);
+    const hasHeight = /\sheight\s*=/i.test(attributes);
+    if (hasWidth && hasHeight) return tag;
+    const width = hasWidth ? '' : ' width="1200"';
+    const height = hasHeight ? '' : ' height="750"';
+    return `<img${attributes}${width}${height}>`;
+  });
+}
+
 export function sanitizeArticleHtml(html: string): string {
   if (!html || typeof html !== 'string') return '';
 
@@ -31,7 +45,7 @@ export function sanitizeArticleHtml(html: string): string {
       .replace(STYLE_EXPRESSION, '');
   }
 
-  return out.trim();
+  return ensureArticleImageDimensions(out.trim());
 }
 
 /** Escape JSON for embedding inside <script type="application/ld+json">. */

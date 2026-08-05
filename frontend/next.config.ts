@@ -2,6 +2,7 @@ import type { NextConfig } from 'next';
 import path from 'path';
 import { getGoSlugRedirects } from './lib/go-slug-redirects';
 import { getKeywordSeoRedirects } from './content/seo/keyword-redirect-map';
+import { contentSecurityPolicyReportOnly } from './lib/security/content-security-policy';
 
 const { loadMonorepoEnv } = require('../scripts/load-monorepo-env.cjs');
 loadMonorepoEnv(__dirname);
@@ -72,7 +73,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/community/sign-in',
-        destination: '/join',
+        destination: '/community#community-waitlist',
         permanent: false,
       },
       {
@@ -264,6 +265,10 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     const securityHeaders = [
+      {
+        key: 'Content-Security-Policy-Report-Only',
+        value: contentSecurityPolicyReportOnly(),
+      },
       {
         key: 'Strict-Transport-Security',
         value: 'max-age=31536000; includeSubDomains; preload',

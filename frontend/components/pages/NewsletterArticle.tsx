@@ -21,6 +21,8 @@ function AuthorByline({ article }: { article: NewsletterArticle }) {
         <img
           src={articleAuthorAvatar(article)}
           alt={article.author}
+          width={28}
+          height={28}
           className="h-full w-full object-cover"
           referrerPolicy="no-referrer"
         />
@@ -91,6 +93,8 @@ export function NewsletterArticlePage({
           <img
             src={resolveNewsletterArticleImage(article.slug, article.imageMobile ?? article.image)}
             alt={article.heroImageAlt ?? article.title}
+            width={1200}
+            height={750}
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
@@ -99,6 +103,8 @@ export function NewsletterArticlePage({
           <img
             src={resolveNewsletterArticleImage(article.slug, article.image)}
             alt={article.heroImageAlt ?? article.title}
+            width={1200}
+            height={750}
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
@@ -132,6 +138,8 @@ export function NewsletterArticlePage({
               <img
                 src={articleAuthorAvatar(article)}
                 alt={article.author}
+                width={64}
+                height={64}
                 className="h-full w-full object-cover"
                 referrerPolicy="no-referrer"
               />

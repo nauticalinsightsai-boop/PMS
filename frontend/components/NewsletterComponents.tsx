@@ -54,6 +54,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
           <img
             src={resolveNewsletterArticleImage(article.slug, article.image)}
             alt={article.title}
+            width={88}
+            height={72}
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             referrerPolicy="no-referrer"
           />
@@ -88,6 +90,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, href, variant
             <img 
               src={resolveNewsletterArticleImage(article.slug, article.image)} 
               alt={article.title} 
+              width={1200}
+              height={675}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               referrerPolicy="no-referrer"
             />
@@ -168,6 +172,8 @@ export const FeaturedPost: React.FC<{ article: NewsletterArticle; storyHref?: st
             <img 
               src={resolveNewsletterArticleImage(article.slug, article.image)} 
               alt={article.title} 
+              width={1200}
+              height={750}
               className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
               referrerPolicy="no-referrer"
             />

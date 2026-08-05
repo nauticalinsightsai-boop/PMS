@@ -31,7 +31,7 @@ function ResponsiveFigure({
       >
         <div className="hidden md:block">
           <div className={cn('relative w-full', compact ? 'aspect-[16/10]' : 'aspect-[16/9]')}>
-            <img src={desktop} alt={alt} className="h-full w-full object-cover" referrerPolicy="no-referrer" />
+            <img src={desktop} alt={alt} width={1200} height={675} className="h-full w-full object-cover" referrerPolicy="no-referrer" />
             {!compact ? (
               <span className="absolute bottom-2 right-2 rounded-md bg-black/60 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
                 Desktop
@@ -44,6 +44,8 @@ function ResponsiveFigure({
             <img
               src={mobile || desktop}
               alt={alt}
+              width={675}
+              height={1200}
               className="h-full w-full object-cover"
               referrerPolicy="no-referrer"
             />
@@ -161,7 +163,7 @@ export function ArticleMarkdownPreview({
                   device === 'mobile' ? 'aspect-[9/16] max-w-[220px] mx-auto' : 'aspect-[16/10]',
                 )}
               >
-                <img src={src} alt={segment.alt} className="h-full w-full object-cover" referrerPolicy="no-referrer" />
+                <img src={src} alt={segment.alt} width={device === 'mobile' ? 675 : 1200} height={device === 'mobile' ? 1200 : 750} className="h-full w-full object-cover" referrerPolicy="no-referrer" />
               </div>
             </figure>
           );
