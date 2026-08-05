@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { GET } from '../app/(site)/join/route';
 import { COMMUNITY_JOIN_FALLBACK_PATH, resolveCommunityJoinUrl } from '../config/community';
 
 describe('community fallback', () => {
@@ -25,5 +26,20 @@ describe('community fallback', () => {
     expect(source).toContain('tabIndex={-1}');
     expect(source).toContain('href={joinUrl}');
     expect(source).not.toContain('invitation_token');
+  });
+
+  it('redirects the legacy route with an origin-independent relative Location', () => {
+    const response = GET();
+    const routeSource = readFileSync(
+      fileURLToPath(new URL('../app/(site)/join/route.ts', import.meta.url)),
+      'utf8',
+    );
+
+    expect(response.status).toBe(307);
+    expect(response.headers.get('location')).toBe('/community#community-waitlist');
+    expect(response.body).toBeNull();
+    expect(response.headers.get('set-cookie')).toBeNull();
+    expect(routeSource).not.toContain('request.nextUrl.origin');
+    expect(routeSource).not.toMatch(/0\.0\.0\.0|internal-host|invitation_token|searchParams|x-forwarded|host/i);
   });
 });
