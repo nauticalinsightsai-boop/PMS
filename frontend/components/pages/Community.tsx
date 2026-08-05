@@ -52,7 +52,7 @@ const communityChannels = [
     color: "text-amber-500",
     bg: "bg-amber-500/5 dark:bg-amber-500/10",
     joinHref: PMS_SKOOL_COMMUNITY_JOIN_URL,
-    cta: 'Join Community',
+    cta: 'Join Community Waitlist',
     ctaVariant: 'brand' as const,
   },
   {
@@ -62,7 +62,7 @@ const communityChannels = [
     color: "text-brand-purple",
     bg: "bg-brand-purple/5 dark:bg-brand-purple/10",
     joinHref: PMS_SKOOL_COMMUNITY_JOIN_URL,
-    cta: 'Sign in',
+    cta: 'Join Study Circles Waitlist',
     ctaVariant: 'outline' as const,
   },
 ];
@@ -320,7 +320,7 @@ function CommunityNetworkContent({
                     variant="brand"
                     className="w-full min-h-14 h-auto whitespace-normal rounded-2xl px-6 py-3 text-base font-bold shadow-xl transition-all sm:w-auto sm:px-8 sm:py-0 sm:text-lg"
                   >
-                    Join the Community
+                    Join Community Waitlist
                   </Button>
                 </Link>
                 <Link href="/membership" className="w-full sm:w-auto">

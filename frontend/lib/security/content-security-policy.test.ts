@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { contentSecurityPolicyReportOnly } from './content-security-policy';
 
 describe('report-only CSP', () => {
@@ -19,7 +19,7 @@ describe('report-only CSP', () => {
   });
 
   it('is wired exactly once as report-only without an enforcement header', () => {
-    const config = readFileSync(resolve(process.cwd(), 'frontend/next.config.ts'), 'utf8');
+    const config = readFileSync(fileURLToPath(new URL('../../next.config.ts', import.meta.url)), 'utf8');
     expect(config.match(/key: 'Content-Security-Policy-Report-Only'/g)).toHaveLength(1);
     expect(config).not.toMatch(/key: 'Content-Security-Policy'/);
   });
