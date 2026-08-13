@@ -26,7 +26,7 @@ function request(body: unknown) {
   });
 }
 
-function harness(initialPosts: Array<Record<string, unknown>> = []) {
+function harness(initialPosts: Array<Record<string, unknown>> = [], livePosts: Array<Record<string, unknown>> = []) {
   let row = {
     content: { version: 1 as const, posts: structuredClone(initialPosts) },
     is_published: true,
@@ -34,7 +34,8 @@ function harness(initialPosts: Array<Record<string, unknown>> = []) {
   };
   let writes = 0;
   const repository = {
-    load: vi.fn(async () => structuredClone(row)),
+    loadLive: vi.fn(async () => ({ content: { version: 1 as const, posts: structuredClone(livePosts) }, is_published: true, updated_at: 'live' })),
+    loadDraft: vi.fn(async () => structuredClone(row)),
     compareAndSwap: vi.fn(async (expected: string, content: { version: 1; posts: Array<Record<string, unknown>> }) => {
       if (expected !== row.updated_at) return false;
       writes += 1;
@@ -70,7 +71,8 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
     });
     expect(result).toBe(denied);
     expect(authorize).toHaveBeenCalledOnce();
-    expect(state.repository.load).not.toHaveBeenCalled();
+    expect(state.repository.loadLive).not.toHaveBeenCalled();
+    expect(state.repository.loadDraft).not.toHaveBeenCalled();
     expect(state.writes()).toBe(0);
   });
 
@@ -84,7 +86,8 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
     const authorize = vi.fn(async () => Response.json({ ok: false, code }, { status }));
     const result = await invoke(exactInput(), state, authorize);
     expect(result.response.status).toBe(status);
-    expect(result.state.repository.load).not.toHaveBeenCalled();
+    expect(result.state.repository.loadLive).not.toHaveBeenCalled();
+    expect(result.state.repository.loadDraft).not.toHaveBeenCalled();
     expect(result.state.writes()).toBe(0);
   });
 
@@ -98,7 +101,8 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
     const result = await invoke(exactInput(overrides));
     expect(result.response.status).toBe(400);
     expect(result.json.code).toBe(code);
-    expect(result.state.repository.load).not.toHaveBeenCalled();
+    expect(result.state.repository.loadLive).not.toHaveBeenCalled();
+    expect(result.state.repository.loadDraft).not.toHaveBeenCalled();
     expect(result.state.writes()).toBe(0);
   });
 
@@ -134,6 +138,14 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
     expect(result.state.writes()).toBe(0);
   });
 
+  it('rejects an exact identity conflict in the live registry without touching the draft', async () => {
+    const live = { id: policy.RECORD_ID, slug: policy.SLUG, title: policy.TITLE, status: 'published' };
+    const result = await invoke(exactInput(), harness([], [live]));
+    expect(result.response.status).toBe(409);
+    expect(result.json.code).toBe('identity_conflict');
+    expect(result.state.writes()).toBe(0);
+  });
+
   it('creates exactly one private draft, hard-rereads it, and preserves siblings', async () => {
     const sibling = { id: 'sibling', slug: 'sibling', title: 'Sibling', status: 'published', content: 'unchanged' };
     const result = await invoke(exactInput(), harness([sibling]));
@@ -161,6 +173,15 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
     expect(state.row().content.posts.filter((post) => post.id === policy.RECORD_ID)).toHaveLength(1);
   });
 
+  it('treats JSONB object-key reordering as an exact no-write replay', async () => {
+    const created = policy.buildPrivateDraft(now);
+    const reordered = Object.fromEntries(Object.entries(created).reverse());
+    const result = await invoke(exactInput(), harness([reordered]));
+    expect(result.response.status).toBe(200);
+    expect(result.json.classification).toBe('EXACT_REPLAY_NO_WRITE');
+    expect(result.state.writes()).toBe(0);
+  });
+
   it('rejects a same-identity draft whose persisted full field set has drifted', async () => {
     const drifted = { ...policy.buildPrivateDraft(now), ctaLabel: 'unexpected' };
     const result = await invoke(exactInput(), harness([drifted]));
@@ -173,7 +194,8 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
     const created = policy.buildPrivateDraft(now);
     let loadCount = 0;
     const repository = {
-      load: vi.fn(async () => {
+      loadLive: vi.fn(async () => ({ content: { version: 1, posts: [] }, is_published: true, updated_at: 'live' })),
+      loadDraft: vi.fn(async () => {
         loadCount += 1;
         return loadCount === 1
           ? { content: { version: 1, posts: [] }, is_published: true, updated_at: 'before' }

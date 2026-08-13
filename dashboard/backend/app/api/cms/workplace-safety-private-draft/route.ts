@@ -6,7 +6,8 @@ import { getSupabaseAdmin, isSupabaseAdminConfigured } from '@/lib/auth/supabase
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const FIELD_KEY = 'newsletter_posts_registry';
+const LIVE_FIELD_KEY = 'newsletter_posts_registry';
+const DRAFT_FIELD_KEY = 'newsletter_posts_registry_draft';
 const RECORD_ID = 'post-workplace-safety-basics';
 const SLUG = 'workplace-safety-basics';
 const TITLE = 'Workplace Safety Basics Every Team Should Know';
@@ -34,7 +35,8 @@ type RegistryRow = {
 };
 
 type Repository = {
-  load: () => Promise<RegistryRow | null>;
+  loadLive: () => Promise<RegistryRow | null>;
+  loadDraft: () => Promise<RegistryRow | null>;
   compareAndSwap: (expectedUpdatedAt: string, content: Registry) => Promise<boolean>;
 };
 
@@ -107,9 +109,25 @@ function normalizeTitle(value: unknown): string {
   return typeof value === 'string' ? value.trim().replace(/\s+/g, ' ').toLowerCase() : '';
 }
 
+function semanticJson(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(semanticJson);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([key, child]) => [key, semanticJson(child)]),
+    );
+  }
+  return value;
+}
+
+function semanticEqual(left: unknown, right: unknown): boolean {
+  return JSON.stringify(semanticJson(left)) === JSON.stringify(semanticJson(right));
+}
+
 function matchesExactPost(post: RegistryPost): boolean {
   if (typeof post.publishDate !== 'string' || post.publishDate !== post.modifiedDate) return false;
-  return JSON.stringify(post) === JSON.stringify(buildPrivateDraft(post.publishDate));
+  return semanticEqual(post, buildPrivateDraft(post.publishDate));
 }
 
 function classify(registry: Registry): 'missing' | 'exact_replay' {
@@ -191,20 +209,25 @@ async function handleRequest(request: Request, dependencies: Dependencies): Prom
     }
     validateInput(input);
 
-    const row = await dependencies.repository.load();
-    if (!row) throw new ContractError('registry_unavailable', 503);
-    const registry = parseRegistry(row.content);
+    const [liveRow, draftRow] = await Promise.all([
+      dependencies.repository.loadLive(),
+      dependencies.repository.loadDraft(),
+    ]);
+    if (!liveRow || !draftRow) throw new ContractError('registry_unavailable', 503);
+    const liveRegistry = parseRegistry(liveRow.content);
+    const registry = parseRegistry(draftRow.content);
+    if (classify(liveRegistry) !== 'missing') throw new ContractError('live_identity_conflict');
     const state = classify(registry);
     if (state === 'exact_replay') {
       const existing = registry.posts.find((post) => post.id === RECORD_ID)!;
-      return response(existing, false, row.updated_at);
+      return response(existing, false, draftRow.updated_at);
     }
 
     const post = buildPrivateDraft(dependencies.now());
     const next: Registry = { ...registry, posts: [...registry.posts, post] };
-    const wrote = await dependencies.repository.compareAndSwap(row.updated_at, next);
+    const wrote = await dependencies.repository.compareAndSwap(draftRow.updated_at, next);
     if (!wrote) {
-      const concurrent = await dependencies.repository.load();
+      const concurrent = await dependencies.repository.loadDraft();
       if (!concurrent) throw new ContractError('compare_and_swap_failed');
       const concurrentRegistry = parseRegistry(concurrent.content);
       if (classify(concurrentRegistry) === 'exact_replay') {
@@ -214,7 +237,7 @@ async function handleRequest(request: Request, dependencies: Dependencies): Prom
       throw new ContractError('compare_and_swap_failed');
     }
 
-    const reread = await dependencies.repository.load();
+    const reread = await dependencies.repository.loadDraft();
     if (!reread) throw new ContractError('hard_reread_failed', 500);
     const persisted = parseRegistry(reread.content);
     if (classify(persisted) !== 'exact_replay') {
@@ -228,24 +251,26 @@ async function handleRequest(request: Request, dependencies: Dependencies): Prom
 }
 
 function productionRepository(): Repository {
+  async function load(fieldKey: string): Promise<RegistryRow | null> {
+    if (!isSupabaseAdminConfigured()) return null;
+    const { data, error } = await getSupabaseAdmin()
+      .from('website_data')
+      .select('content,is_published,updated_at')
+      .eq('field_key', fieldKey)
+      .maybeSingle();
+    if (error) throw new ContractError('registry_read_failed', 500);
+    return data as RegistryRow | null;
+  }
   return {
-    async load() {
-      if (!isSupabaseAdminConfigured()) return null;
-      const { data, error } = await getSupabaseAdmin()
-        .from('website_data')
-        .select('content,is_published,updated_at')
-        .eq('field_key', FIELD_KEY)
-        .maybeSingle();
-      if (error) throw new ContractError('registry_read_failed', 500);
-      return data as RegistryRow | null;
-    },
+    loadLive: () => load(LIVE_FIELD_KEY),
+    loadDraft: () => load(DRAFT_FIELD_KEY),
     async compareAndSwap(expectedUpdatedAt, content) {
       if (!isSupabaseAdminConfigured()) return false;
       const updatedAt = new Date().toISOString();
       const { data, error } = await getSupabaseAdmin()
         .from('website_data')
         .update({ content, updated_at: updatedAt })
-        .eq('field_key', FIELD_KEY)
+        .eq('field_key', DRAFT_FIELD_KEY)
         .eq('updated_at', expectedUpdatedAt)
         .select('updated_at')
         .maybeSingle();
@@ -272,6 +297,7 @@ export const POST = Object.assign(postHandler, {
     TITLE,
     buildPrivateDraft,
     handleRequest,
+    semanticEqual,
     sha256,
   },
 });
