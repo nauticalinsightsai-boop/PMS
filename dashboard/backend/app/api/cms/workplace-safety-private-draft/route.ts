@@ -13,6 +13,11 @@ const SLUG = 'workplace-safety-basics';
 const TITLE = 'Workplace Safety Basics Every Team Should Know';
 const SOURCE_SEED_SHA256 = '42374CBD0B1FDE2F16FAE0D2F0F489DFD0FCA1387D67616DF80231204F6E34CB';
 const BODY_SHA256 = 'CEBDFF11E134831C04E4FEFD7AEBC36DECEC646BC958AD63B7DB824BBF328734';
+const NORMALIZED_BODY_SHA256 = '82B2F1CBA35D9B71CE27ECFD8E8C986E5755E402EDF3A64948FC314A0F898FC2';
+const EXPECTED_CORRECTION_PREIMAGE_SHA256 = 'CC1F695C3609F19F7C4AE84B5B421D2B4150D88343E58F459D67416D40C78D0E';
+const EXPECTED_CORRECTION_POSTIMAGE_SHA256 = 'BE7A2459A5F6F14D285EFA74363A7FBE61800A29F489CAA17B2BE9368708A9A6';
+const CANONICAL_AUTHOR_ID = 'author-sheikh-m-abdullah';
+const CANONICAL_AUTHOR = 'Sheikh M. Abdullah';
 const CONTENT =
   'Safety culture starts with clear expectations, visible leadership, and practical controls.\n\n## Start with hazard identification\n\nWalk the site regularly and document risks before incidents occur.';
 
@@ -75,27 +80,57 @@ function exactKeys(value: Record<string, unknown>, expected: string[]): boolean 
   return actual.length === expected.length && actual.every((key, index) => key === expected[index]);
 }
 
-function validateInput(raw: unknown): void {
+type Action = 'create_private_draft' | 'correct_hero_image_alt';
+
+function validateInput(raw: unknown): Action {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
     throw new ContractError('contract_invalid', 400);
   }
   const input = raw as Record<string, unknown>;
   if (!exactKeys(input, ['action', 'contract'])) throw new ContractError('contract_fields_invalid', 400);
-  if (input.action !== 'create_private_draft') throw new ContractError('action_invalid', 400);
+  if (input.action !== 'create_private_draft' && input.action !== 'correct_hero_image_alt') {
+    throw new ContractError('action_invalid', 400);
+  }
   if (!input.contract || typeof input.contract !== 'object' || Array.isArray(input.contract)) {
     throw new ContractError('contract_invalid', 400);
   }
   const contract = input.contract as Record<string, unknown>;
-  if (!exactKeys(contract, ['bodySha256', 'id', 'slug', 'sourceSeedSha256', 'title'])) {
+  if (input.action === 'create_private_draft') {
+    if (!exactKeys(contract, ['bodySha256', 'id', 'slug', 'sourceSeedSha256', 'title'])) {
+      throw new ContractError('contract_fields_invalid', 400);
+    }
+  } else if (!exactKeys(contract, [
+    'authorId',
+    'bodySha256',
+    'expectedHeroImageAlt',
+    'expectedRecordSha256',
+    'field',
+    'id',
+    'isPublished',
+    'newHeroImageAlt',
+  ])) {
     throw new ContractError('contract_fields_invalid', 400);
   }
   if (contract.id !== RECORD_ID) throw new ContractError('record_id_invalid', 400);
-  if (contract.slug !== SLUG) throw new ContractError('slug_invalid', 400);
-  if (contract.title !== TITLE) throw new ContractError('title_invalid', 400);
-  if (contract.sourceSeedSha256 !== SOURCE_SEED_SHA256) {
-    throw new ContractError('source_seed_hash_invalid', 400);
+  if (input.action === 'create_private_draft') {
+    if (contract.slug !== SLUG) throw new ContractError('slug_invalid', 400);
+    if (contract.title !== TITLE) throw new ContractError('title_invalid', 400);
+    if (contract.sourceSeedSha256 !== SOURCE_SEED_SHA256) {
+      throw new ContractError('source_seed_hash_invalid', 400);
+    }
+    if (contract.bodySha256 !== BODY_SHA256) throw new ContractError('body_hash_invalid', 400);
+    return input.action;
   }
-  if (contract.bodySha256 !== BODY_SHA256) throw new ContractError('body_hash_invalid', 400);
+  if (contract.field !== 'heroImageAlt') throw new ContractError('field_invalid', 400);
+  if (contract.expectedRecordSha256 !== EXPECTED_CORRECTION_PREIMAGE_SHA256) {
+    throw new ContractError('record_hash_invalid', 400);
+  }
+  if (contract.expectedHeroImageAlt !== TITLE) throw new ContractError('current_value_invalid', 400);
+  if (contract.newHeroImageAlt !== '') throw new ContractError('new_value_invalid', 400);
+  if (contract.bodySha256 !== NORMALIZED_BODY_SHA256) throw new ContractError('body_hash_invalid', 400);
+  if (contract.authorId !== CANONICAL_AUTHOR_ID) throw new ContractError('author_invalid', 400);
+  if (contract.isPublished !== false) throw new ContractError('visibility_invalid', 400);
+  return input.action;
 }
 
 function parseRegistry(raw: unknown): Registry {
@@ -127,6 +162,26 @@ function semanticJson(value: unknown): unknown {
 
 function semanticEqual(left: unknown, right: unknown): boolean {
   return JSON.stringify(semanticJson(left)) === JSON.stringify(semanticJson(right));
+}
+
+function semanticHash(value: unknown): string {
+  return sha256(JSON.stringify(semanticJson(value)));
+}
+
+function exactTarget(registry: Registry): RegistryPost {
+  const idMatches = registry.posts.filter((post) => post.id === RECORD_ID);
+  const slugMatches = registry.posts.filter((post) => post.slug === SLUG);
+  const titleMatches = registry.posts.filter((post) => normalizeTitle(post.title) === normalizeTitle(TITLE));
+  const union = new Set([...idMatches, ...slugMatches, ...titleMatches]);
+  if (
+    union.size !== 1 ||
+    idMatches.length !== 1 ||
+    slugMatches.length !== 1 ||
+    titleMatches.length !== 1
+  ) {
+    throw new ContractError('identity_conflict');
+  }
+  return idMatches[0];
 }
 
 function matchesExactPost(post: RegistryPost): boolean {
@@ -200,6 +255,28 @@ function response(post: RegistryPost, wrote: boolean, updatedAt: string): Respon
   });
 }
 
+function correctionResponse(
+  before: RegistryPost,
+  after: RegistryPost,
+  wrote: boolean,
+  updatedAt: string,
+): Response {
+  return json({
+    ok: true,
+    wrote,
+    classification: wrote ? 'HERO_IMAGE_ALT_CORRECTED' : 'HERO_IMAGE_ALT_ALREADY_CORRECT',
+    id: RECORD_ID,
+    field: 'heroImageAlt',
+    beforeSha256: semanticHash(before),
+    afterSha256: semanticHash(after),
+    bodySha256: sha256(String(after.content ?? '')),
+    authorId: after.authorId,
+    isPublished: false,
+    updatedAt,
+    record: after,
+  });
+}
+
 async function handleRequest(request: Request, dependencies: Dependencies): Promise<Response> {
   try {
     const auth = await dependencies.authorize(request);
@@ -211,7 +288,7 @@ async function handleRequest(request: Request, dependencies: Dependencies): Prom
     } catch {
       throw new ContractError('invalid_json', 400);
     }
-    validateInput(input);
+    const action = validateInput(input);
 
     const [liveRow, draftRow] = await Promise.all([
       dependencies.repository.loadLive(),
@@ -224,6 +301,59 @@ async function handleRequest(request: Request, dependencies: Dependencies): Prom
     const liveRegistry = parseRegistry(liveRow.content);
     const registry = parseRegistry(draftRow.content);
     if (classify(liveRegistry) !== 'missing') throw new ContractError('live_identity_conflict');
+    if (action === 'correct_hero_image_alt') {
+      const current = exactTarget(registry);
+      const currentHash = semanticHash(current);
+      if (current.heroImageAlt === '') {
+        if (currentHash !== EXPECTED_CORRECTION_POSTIMAGE_SHA256) {
+          throw new ContractError('already_corrected_record_mismatch');
+        }
+        return correctionResponse(current, current, false, draftRow.updated_at);
+      }
+      if (currentHash !== EXPECTED_CORRECTION_PREIMAGE_SHA256) {
+        throw new ContractError('record_hash_mismatch');
+      }
+      if (current.heroImageAlt !== TITLE) throw new ContractError('current_value_mismatch');
+      if (sha256(String(current.content ?? '')) !== NORMALIZED_BODY_SHA256) {
+        throw new ContractError('body_hash_mismatch');
+      }
+      if (current.authorId !== CANONICAL_AUTHOR_ID || current.author !== CANONICAL_AUTHOR) {
+        throw new ContractError('author_mismatch');
+      }
+      if (current.status !== 'draft') throw new ContractError('status_mismatch');
+
+      const corrected = { ...current, heroImageAlt: '' };
+      if (semanticHash(corrected) !== EXPECTED_CORRECTION_POSTIMAGE_SHA256) {
+        throw new ContractError('compiled_postimage_hash_mismatch', 500);
+      }
+      const next: Registry = {
+        ...registry,
+        posts: registry.posts.map((post) => (post === current ? corrected : post)),
+      };
+      const wrote = await dependencies.repository.compareAndSwap(draftRow.updated_at, false, next);
+      if (!wrote) {
+        const concurrent = await dependencies.repository.loadDraft();
+        if (!concurrent || concurrent.is_published !== false) {
+          throw new ContractError('compare_and_swap_failed');
+        }
+        const concurrentPost = exactTarget(parseRegistry(concurrent.content));
+        if (semanticHash(concurrentPost) === EXPECTED_CORRECTION_POSTIMAGE_SHA256) {
+          return correctionResponse(current, concurrentPost, false, concurrent.updated_at);
+        }
+        throw new ContractError('compare_and_swap_failed');
+      }
+
+      const reread = await dependencies.repository.loadDraft();
+      if (!reread) throw new ContractError('hard_reread_failed', 500);
+      if (reread.is_published !== false) {
+        throw new ContractError('hard_reread_visibility_invalid', 500);
+      }
+      const persisted = exactTarget(parseRegistry(reread.content));
+      if (semanticHash(persisted) !== EXPECTED_CORRECTION_POSTIMAGE_SHA256) {
+        throw new ContractError('hard_reread_mismatch', 500);
+      }
+      return correctionResponse(current, persisted, true, reread.updated_at);
+    }
     const state = classify(registry);
     if (state === 'exact_replay') {
       const existing = registry.posts.find((post) => post.id === RECORD_ID)!;
@@ -309,6 +439,11 @@ async function postHandler(request: NextRequest): Promise<Response> {
 export const POST = Object.assign(postHandler, {
   __test: {
     BODY_SHA256,
+    NORMALIZED_BODY_SHA256,
+    EXPECTED_CORRECTION_PREIMAGE_SHA256,
+    EXPECTED_CORRECTION_POSTIMAGE_SHA256,
+    CANONICAL_AUTHOR_ID,
+    CANONICAL_AUTHOR,
     RECORD_ID,
     SLUG,
     SOURCE_SEED_SHA256,
@@ -316,6 +451,7 @@ export const POST = Object.assign(postHandler, {
     buildPrivateDraft,
     handleRequest,
     semanticEqual,
+    semanticHash,
     sha256,
   },
 });

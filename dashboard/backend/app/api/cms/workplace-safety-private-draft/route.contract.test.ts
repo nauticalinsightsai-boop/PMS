@@ -18,6 +18,35 @@ function exactInput(overrides: Record<string, unknown> = {}) {
   };
 }
 
+function correctionInput(overrides: Record<string, unknown> = {}) {
+  return {
+    action: 'correct_hero_image_alt',
+    contract: {
+      id: policy.RECORD_ID,
+      field: 'heroImageAlt',
+      expectedRecordSha256: policy.EXPECTED_CORRECTION_PREIMAGE_SHA256,
+      expectedHeroImageAlt: policy.TITLE,
+      newHeroImageAlt: '',
+      bodySha256: policy.NORMALIZED_BODY_SHA256,
+      authorId: policy.CANONICAL_AUTHOR_ID,
+      isPublished: false,
+      ...overrides,
+    },
+  };
+}
+
+function correctionPreimage() {
+  return {
+    ...policy.buildPrivateDraft('2026-08-13T15:47:58.600Z'),
+    modifiedDate: '2026-08-13T16:01:56.757Z',
+    author: policy.CANONICAL_AUTHOR,
+    authorId: policy.CANONICAL_AUTHOR_ID,
+    content:
+      '<p>Safety culture starts with clear expectations, visible leadership, and practical controls.</p>\n<h2>Start with hazard identification</h2>\n<p>Walk the site regularly and document risks before incidents occur.</p>',
+    heroImageAlt: policy.TITLE,
+  };
+}
+
 function request(body: unknown) {
   return new Request('https://pmstructure.com/api/cms/workplace-safety-private-draft', {
     method: 'POST',
@@ -274,5 +303,152 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
     const result = await invoke(exactInput(), state);
     expect(result.response.status).toBe(500);
     expect(result.json.code).toBe('hard_reread_visibility_invalid');
+  });
+});
+
+describe('GSC111 fixed one-field hero alt correction', () => {
+  it('binds the documented preimage and postimage semantic hashes', () => {
+    const before = correctionPreimage();
+    const after = { ...before, heroImageAlt: '' };
+    expect(policy.semanticHash(before)).toBe(policy.EXPECTED_CORRECTION_PREIMAGE_SHA256);
+    expect(policy.semanticHash(after)).toBe(policy.EXPECTED_CORRECTION_POSTIMAGE_SHA256);
+  });
+
+  it('authorizes before parsing or data access', async () => {
+    const state = harness([correctionPreimage()]);
+    const denied = new Response('unauthorized', { status: 401 });
+    const result = await policy.handleRequest(request(correctionInput()), {
+      authorize: async () => denied,
+      repository: state.repository,
+      now: () => now,
+    });
+    expect(result).toBe(denied);
+    expect(state.repository.loadLive).not.toHaveBeenCalled();
+    expect(state.repository.loadDraft).not.toHaveBeenCalled();
+    expect(state.writes()).toBe(0);
+  });
+
+  it.each([
+    ['wrong ID', { id: 'post-other' }, 'record_id_invalid'],
+    ['wrong field', { field: 'title' }, 'field_invalid'],
+    ['wrong current value', { expectedHeroImageAlt: '' }, 'current_value_invalid'],
+    ['wrong new value', { newHeroImageAlt: 'replacement' }, 'new_value_invalid'],
+    ['wrong record hash', { expectedRecordSha256: 'A'.repeat(64) }, 'record_hash_invalid'],
+    ['wrong body hash', { bodySha256: 'A'.repeat(64) }, 'body_hash_invalid'],
+    ['wrong author', { authorId: 'author-other' }, 'author_invalid'],
+    ['wrong visibility', { isPublished: true }, 'visibility_invalid'],
+  ])('rejects %s before data access', async (_name, override, code) => {
+    const result = await invoke(correctionInput(override));
+    expect(result.response.status).toBe(400);
+    expect(result.json.code).toBe(code);
+    expect(result.state.repository.loadLive).not.toHaveBeenCalled();
+    expect(result.state.writes()).toBe(0);
+  });
+
+  it.each([
+    ['extra field', { ...correctionInput(), extra: true }],
+    ['array', [correctionInput()]],
+    ['publish injection', { ...correctionInput(), publish: true }],
+    ['batch injection', { ...correctionInput(), objects: [correctionInput()] }],
+  ])('rejects %s with zero writes', async (_name, body) => {
+    const result = await invoke(body);
+    expect(result.response.status).toBe(400);
+    expect(result.state.writes()).toBe(0);
+  });
+
+  it('changes only heroImageAlt and hard-rereads the private draft', async () => {
+    const sibling = { id: 'sibling', slug: 'sibling', title: 'Sibling', content: 'unchanged' };
+    const before = correctionPreimage();
+    const state = harness([sibling, before]);
+    const result = await invoke(correctionInput(), state);
+    expect(result.response.status).toBe(200);
+    expect(result.json.classification).toBe('HERO_IMAGE_ALT_CORRECTED');
+    expect(result.json.wrote).toBe(true);
+    expect(result.state.writes()).toBe(1);
+    expect(result.state.row().is_published).toBe(false);
+    expect(result.state.row().content.posts[0]).toEqual(sibling);
+    const after = result.state.row().content.posts[1];
+    expect(after).toEqual({ ...before, heroImageAlt: '' });
+    expect(result.json.beforeSha256).toBe(policy.EXPECTED_CORRECTION_PREIMAGE_SHA256);
+    expect(result.json.afterSha256).toBe(policy.EXPECTED_CORRECTION_POSTIMAGE_SHA256);
+    expect(result.json.bodySha256).toBe(policy.NORMALIZED_BODY_SHA256);
+  });
+
+  it('returns explicit already-correct no-write on exact replay', async () => {
+    const corrected = { ...correctionPreimage(), heroImageAlt: '' };
+    const result = await invoke(correctionInput(), harness([corrected]));
+    expect(result.response.status).toBe(200);
+    expect(result.json.classification).toBe('HERO_IMAGE_ALT_ALREADY_CORRECT');
+    expect(result.json.wrote).toBe(false);
+    expect(result.state.writes()).toBe(0);
+  });
+
+  it.each([
+    ['body', { content: 'drift' }, 'record_hash_mismatch'],
+    ['author', { authorId: 'author-other' }, 'record_hash_mismatch'],
+    ['visibility', { status: 'published' }, 'record_hash_mismatch'],
+    ['unrelated field', { ctaLabel: 'drift' }, 'record_hash_mismatch'],
+  ])('fails closed for persisted %s drift', async (_name, drift, code) => {
+    const result = await invoke(correctionInput(), harness([{ ...correctionPreimage(), ...drift }]));
+    expect(result.response.status).toBe(409);
+    expect(result.json.code).toBe(code);
+    expect(result.state.writes()).toBe(0);
+  });
+
+  it('rejects live identity conflict without touching the draft', async () => {
+    const result = await invoke(
+      correctionInput(),
+      harness([correctionPreimage()], [{ id: policy.RECORD_ID, slug: policy.SLUG, title: policy.TITLE }]),
+    );
+    expect(result.response.status).toBe(409);
+    expect(result.json.code).toBe('identity_conflict');
+    expect(result.state.writes()).toBe(0);
+  });
+
+  it('converges CAS loss only to the exact corrected postimage', async () => {
+    const before = correctionPreimage();
+    const after = { ...before, heroImageAlt: '' };
+    let reads = 0;
+    const repository = {
+      loadLive: vi.fn(async () => ({ content: { version: 1, posts: [] }, is_published: true, updated_at: 'live' })),
+      loadDraft: vi.fn(async () => (++reads === 1
+        ? { content: { version: 1, posts: [before] }, is_published: false, updated_at: 'before' }
+        : { content: { version: 1, posts: [after] }, is_published: false, updated_at: 'concurrent' })),
+      compareAndSwap: vi.fn(async () => false),
+    };
+    const response = await policy.handleRequest(request(correctionInput()), {
+      authorize: async () => null,
+      repository,
+      now: () => now,
+    });
+    const body = await response.json();
+    expect(response.status).toBe(200);
+    expect(body.classification).toBe('HERO_IMAGE_ALT_ALREADY_CORRECT');
+    expect(body.wrote).toBe(false);
+  });
+
+  it('fails closed on CAS loss to drift and on hard-reread mismatch', async () => {
+    const before = correctionPreimage();
+    const drifted = { ...before, heroImageAlt: '', ctaLabel: 'drift' };
+    let reads = 0;
+    const casLoss = {
+      loadLive: vi.fn(async () => ({ content: { version: 1, posts: [] }, is_published: true, updated_at: 'live' })),
+      loadDraft: vi.fn(async () => (++reads === 1
+        ? { content: { version: 1, posts: [before] }, is_published: false, updated_at: 'before' }
+        : { content: { version: 1, posts: [drifted] }, is_published: false, updated_at: 'other' })),
+      compareAndSwap: vi.fn(async () => false),
+    };
+    const failedCas = await policy.handleRequest(request(correctionInput()), {
+      authorize: async () => null, repository: casLoss, now: () => now,
+    });
+    expect(failedCas.status).toBe(409);
+
+    const state = harness([before]);
+    state.repository.loadDraft
+      .mockImplementationOnce(async () => ({ content: { version: 1, posts: [before] }, is_published: false, updated_at: 'before' }))
+      .mockImplementationOnce(async () => ({ content: { version: 1, posts: [drifted] }, is_published: false, updated_at: 'after' }));
+    const reread = await invoke(correctionInput(), state);
+    expect(reread.response.status).toBe(500);
+    expect(reread.json.code).toBe('hard_reread_mismatch');
   });
 });
