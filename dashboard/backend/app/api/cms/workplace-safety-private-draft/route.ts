@@ -37,7 +37,11 @@ type RegistryRow = {
 type Repository = {
   loadLive: () => Promise<RegistryRow | null>;
   loadDraft: () => Promise<RegistryRow | null>;
-  compareAndSwap: (expectedUpdatedAt: string, content: Registry) => Promise<boolean>;
+  compareAndSwap: (
+    expectedUpdatedAt: string,
+    expectedPublished: false,
+    content: Registry,
+  ) => Promise<boolean>;
 };
 
 type Dependencies = {
@@ -214,6 +218,9 @@ async function handleRequest(request: Request, dependencies: Dependencies): Prom
       dependencies.repository.loadDraft(),
     ]);
     if (!liveRow || !draftRow) throw new ContractError('registry_unavailable', 503);
+    if (draftRow.is_published !== false) {
+      throw new ContractError('draft_visibility_invalid');
+    }
     const liveRegistry = parseRegistry(liveRow.content);
     const registry = parseRegistry(draftRow.content);
     if (classify(liveRegistry) !== 'missing') throw new ContractError('live_identity_conflict');
@@ -225,10 +232,17 @@ async function handleRequest(request: Request, dependencies: Dependencies): Prom
 
     const post = buildPrivateDraft(dependencies.now());
     const next: Registry = { ...registry, posts: [...registry.posts, post] };
-    const wrote = await dependencies.repository.compareAndSwap(draftRow.updated_at, next);
+    const wrote = await dependencies.repository.compareAndSwap(
+      draftRow.updated_at,
+      false,
+      next,
+    );
     if (!wrote) {
       const concurrent = await dependencies.repository.loadDraft();
       if (!concurrent) throw new ContractError('compare_and_swap_failed');
+      if (concurrent.is_published !== false) {
+        throw new ContractError('draft_visibility_invalid');
+      }
       const concurrentRegistry = parseRegistry(concurrent.content);
       if (classify(concurrentRegistry) === 'exact_replay') {
         const existing = concurrentRegistry.posts.find((candidate) => candidate.id === RECORD_ID)!;
@@ -239,6 +253,9 @@ async function handleRequest(request: Request, dependencies: Dependencies): Prom
 
     const reread = await dependencies.repository.loadDraft();
     if (!reread) throw new ContractError('hard_reread_failed', 500);
+    if (reread.is_published !== false) {
+      throw new ContractError('hard_reread_visibility_invalid', 500);
+    }
     const persisted = parseRegistry(reread.content);
     if (classify(persisted) !== 'exact_replay') {
       throw new ContractError('hard_reread_mismatch', 500);
@@ -264,7 +281,7 @@ function productionRepository(): Repository {
   return {
     loadLive: () => load(LIVE_FIELD_KEY),
     loadDraft: () => load(DRAFT_FIELD_KEY),
-    async compareAndSwap(expectedUpdatedAt, content) {
+    async compareAndSwap(expectedUpdatedAt, expectedPublished, content) {
       if (!isSupabaseAdminConfigured()) return false;
       const updatedAt = new Date().toISOString();
       const { data, error } = await getSupabaseAdmin()
@@ -272,6 +289,7 @@ function productionRepository(): Repository {
         .update({ content, updated_at: updatedAt })
         .eq('field_key', DRAFT_FIELD_KEY)
         .eq('updated_at', expectedUpdatedAt)
+        .eq('is_published', expectedPublished)
         .select('updated_at')
         .maybeSingle();
       if (error) throw new ContractError('registry_write_failed', 500);

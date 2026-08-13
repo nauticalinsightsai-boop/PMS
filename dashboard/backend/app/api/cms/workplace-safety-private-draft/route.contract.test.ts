@@ -26,18 +26,22 @@ function request(body: unknown) {
   });
 }
 
-function harness(initialPosts: Array<Record<string, unknown>> = [], livePosts: Array<Record<string, unknown>> = []) {
+function harness(
+  initialPosts: Array<Record<string, unknown>> = [],
+  livePosts: Array<Record<string, unknown>> = [],
+  draftVisibility: unknown = false,
+) {
   let row = {
     content: { version: 1 as const, posts: structuredClone(initialPosts) },
-    is_published: true,
+    is_published: draftVisibility as boolean,
     updated_at: 'before',
   };
   let writes = 0;
   const repository = {
     loadLive: vi.fn(async () => ({ content: { version: 1 as const, posts: structuredClone(livePosts) }, is_published: true, updated_at: 'live' })),
     loadDraft: vi.fn(async () => structuredClone(row)),
-    compareAndSwap: vi.fn(async (expected: string, content: { version: 1; posts: Array<Record<string, unknown>> }) => {
-      if (expected !== row.updated_at) return false;
+    compareAndSwap: vi.fn(async (expected: string, expectedPublished: false, content: { version: 1; posts: Array<Record<string, unknown>> }) => {
+      if (expected !== row.updated_at || row.is_published !== expectedPublished) return false;
       writes += 1;
       row = { ...row, content: structuredClone(content), updated_at: `after-${writes}` };
       return true;
@@ -146,6 +150,23 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
     expect(result.state.writes()).toBe(0);
   });
 
+  it.each([
+    ['true', true],
+    ['null', null],
+    ['missing', undefined],
+  ])('rejects initial draft visibility %s before any write', async (_name, visibility) => {
+    const state = harness();
+    state.repository.loadDraft.mockResolvedValueOnce({
+      content: { version: 1, posts: [] },
+      updated_at: 'before',
+      ...(visibility === undefined ? {} : { is_published: visibility }),
+    } as never);
+    const result = await invoke(exactInput(), state);
+    expect(result.response.status).toBe(409);
+    expect(result.json.code).toBe('draft_visibility_invalid');
+    expect(result.state.writes()).toBe(0);
+  });
+
   it('creates exactly one private draft, hard-rereads it, and preserves siblings', async () => {
     const sibling = { id: 'sibling', slug: 'sibling', title: 'Sibling', status: 'published', content: 'unchanged' };
     const result = await invoke(exactInput(), harness([sibling]));
@@ -182,6 +203,13 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
     expect(result.state.writes()).toBe(0);
   });
 
+  it('rejects an exact replay whose draft row is publicly visible', async () => {
+    const result = await invoke(exactInput(), harness([policy.buildPrivateDraft(now)], [], true));
+    expect(result.response.status).toBe(409);
+    expect(result.json.code).toBe('draft_visibility_invalid');
+    expect(result.state.writes()).toBe(0);
+  });
+
   it('rejects a same-identity draft whose persisted full field set has drifted', async () => {
     const drifted = { ...policy.buildPrivateDraft(now), ctaLabel: 'unexpected' };
     const result = await invoke(exactInput(), harness([drifted]));
@@ -198,8 +226,8 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
       loadDraft: vi.fn(async () => {
         loadCount += 1;
         return loadCount === 1
-          ? { content: { version: 1, posts: [] }, is_published: true, updated_at: 'before' }
-          : { content: { version: 1, posts: [created] }, is_published: true, updated_at: 'other-writer' };
+          ? { content: { version: 1, posts: [] }, is_published: false, updated_at: 'before' }
+          : { content: { version: 1, posts: [created] }, is_published: false, updated_at: 'other-writer' };
       }),
       compareAndSwap: vi.fn(async () => false),
     };
@@ -213,5 +241,38 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
     expect(body.wrote).toBe(false);
     expect(body.classification).toBe('EXACT_REPLAY_NO_WRITE');
     expect(repository.compareAndSwap).toHaveBeenCalledOnce();
+  });
+
+  it('fails closed when visibility flips true before CAS', async () => {
+    const state = harness();
+    state.repository.compareAndSwap.mockImplementationOnce(async () => {
+      (state.row as unknown as { visibility?: boolean }).visibility = true;
+      return false;
+    });
+    state.repository.loadDraft.mockResolvedValueOnce({
+      content: { version: 1, posts: [] }, is_published: false, updated_at: 'before',
+    }).mockResolvedValueOnce({
+      content: { version: 1, posts: [] }, is_published: true, updated_at: 'flipped',
+    });
+    const result = await invoke(exactInput(), state);
+    expect(result.response.status).toBe(409);
+    expect(result.json.code).toBe('draft_visibility_invalid');
+  });
+
+  it.each([
+    ['true', true],
+    ['null', null],
+    ['missing', undefined],
+  ])('rejects hard reread visibility %s after the one in-memory CAS', async (_name, visibility) => {
+    const state = harness();
+    const originalLoad = state.repository.loadDraft;
+    originalLoad.mockImplementationOnce(async () => ({
+      content: { version: 1, posts: [] }, is_published: false, updated_at: 'before',
+    })).mockImplementationOnce(async () => ({
+      content: state.row().content, is_published: visibility as boolean, updated_at: 'after-1',
+    }));
+    const result = await invoke(exactInput(), state);
+    expect(result.response.status).toBe(500);
+    expect(result.json.code).toBe('hard_reread_visibility_invalid');
   });
 });
