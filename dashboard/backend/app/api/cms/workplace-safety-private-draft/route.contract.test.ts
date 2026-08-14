@@ -93,16 +93,24 @@ async function invoke(
 }
 
 describe('GSC111 fixed exact-ID private-draft control', () => {
-  it('authorizes before parsing or reading and returns the auth response unchanged', async () => {
+  it('authorizes before parsing or reading and adds only route-local no-store to the auth response', async () => {
     const state = harness();
-    const denied = new Response('unauthorized', { status: 401 });
+    const denied = new Response('unauthorized', {
+      status: 401,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8', 'X-Auth-Guard': 'preserved' },
+    });
     const authorize = vi.fn(async () => denied);
     const result = await policy.handleRequest(new Request('https://pmstructure.com', { method: 'POST' }), {
       authorize,
       repository: state.repository,
       now: () => now,
     });
-    expect(result).toBe(denied);
+    expect(result).not.toBe(denied);
+    expect(result.status).toBe(401);
+    expect(result.headers.get('cache-control')).toBe('no-store');
+    expect(result.headers.get('content-type')).toBe('text/plain; charset=utf-8');
+    expect(result.headers.get('x-auth-guard')).toBe('preserved');
+    expect(await result.text()).toBe('unauthorized');
     expect(authorize).toHaveBeenCalledOnce();
     expect(state.repository.loadLive).not.toHaveBeenCalled();
     expect(state.repository.loadDraft).not.toHaveBeenCalled();
@@ -119,6 +127,9 @@ describe('GSC111 fixed exact-ID private-draft control', () => {
     const authorize = vi.fn(async () => Response.json({ ok: false, code }, { status }));
     const result = await invoke(exactInput(), state, authorize);
     expect(result.response.status).toBe(status);
+    expect(result.response.headers.get('cache-control')).toBe('no-store');
+    expect(result.response.headers.get('content-type')).toBe('application/json');
+    expect(result.json).toEqual({ ok: false, code });
     expect(result.state.repository.loadLive).not.toHaveBeenCalled();
     expect(result.state.repository.loadDraft).not.toHaveBeenCalled();
     expect(result.state.writes()).toBe(0);
@@ -322,7 +333,9 @@ describe('GSC111 fixed one-field hero alt correction', () => {
       repository: state.repository,
       now: () => now,
     });
-    expect(result).toBe(denied);
+    expect(result.status).toBe(401);
+    expect(result.headers.get('cache-control')).toBe('no-store');
+    expect(await result.text()).toBe('unauthorized');
     expect(state.repository.loadLive).not.toHaveBeenCalled();
     expect(state.repository.loadDraft).not.toHaveBeenCalled();
     expect(state.writes()).toBe(0);

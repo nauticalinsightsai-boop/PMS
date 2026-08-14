@@ -69,6 +69,16 @@ function json(data: Record<string, unknown>, status = 200): Response {
   return Response.json(data, { status, headers: { 'Cache-Control': 'no-store' } });
 }
 
+function noStore(response: Response): Response {
+  const headers = new Headers(response.headers);
+  headers.set('Cache-Control', 'no-store');
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 function fail(error: unknown): Response {
   const code = error instanceof ContractError ? error.code : 'private_draft_internal_error';
   const status = error instanceof ContractError ? error.status : 500;
@@ -280,7 +290,7 @@ function correctionResponse(
 async function handleRequest(request: Request, dependencies: Dependencies): Promise<Response> {
   try {
     const auth = await dependencies.authorize(request);
-    if (auth) return auth;
+    if (auth) return noStore(auth);
 
     let input: unknown;
     try {
