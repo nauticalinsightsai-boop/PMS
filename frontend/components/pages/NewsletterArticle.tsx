@@ -51,6 +51,8 @@ export function NewsletterArticlePage({
   article: NewsletterArticle;
   relatedArticles: NewsletterArticle[];
 }) {
+  const hasExplicitHeroImage = article.hasExplicitHeroImage ?? Boolean(article.image?.trim());
+
   return (
     <article className="flex flex-col min-h-screen">
       <section
@@ -89,26 +91,30 @@ export function NewsletterArticlePage({
       </section>
 
       <div className="container mx-auto max-w-4xl py-12 md:py-16">
-        <div className="aspect-[16/10] rounded-[2rem] overflow-hidden shadow-xl mb-12 md:hidden">
-          <img
-            src={resolveNewsletterArticleImage(article.slug, article.imageMobile ?? article.image)}
-            alt={article.heroImageAlt ?? article.title}
-            width={1200}
-            height={750}
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-        </div>
-        <div className="hidden md:block aspect-[16/10] rounded-[2rem] overflow-hidden shadow-xl mb-12">
-          <img
-            src={resolveNewsletterArticleImage(article.slug, article.image)}
-            alt={article.heroImageAlt ?? article.title}
-            width={1200}
-            height={750}
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-        </div>
+        {hasExplicitHeroImage ? (
+          <>
+            <div className="aspect-[16/10] rounded-[2rem] overflow-hidden shadow-xl mb-12 md:hidden">
+              <img
+                src={resolveNewsletterArticleImage(article.slug, article.imageMobile ?? article.image)}
+                alt={article.heroImageAlt ?? article.title}
+                width={1200}
+                height={750}
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            <div className="hidden md:block aspect-[16/10] rounded-[2rem] overflow-hidden shadow-xl mb-12">
+              <img
+                src={resolveNewsletterArticleImage(article.slug, article.image)}
+                alt={article.heroImageAlt ?? article.title}
+                width={1200}
+                height={750}
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </>
+        ) : null}
 
         {article.youtubeUrl ? (
           <div className="mb-10 overflow-hidden rounded-2xl border border-slate-200 bg-black shadow-xl dark:border-slate-800">

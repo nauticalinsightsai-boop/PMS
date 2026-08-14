@@ -99,4 +99,40 @@ describe('newsletter post rendering model', () => {
     expect(article.datePublished).toBeUndefined();
     expect(article.dateModified).toBeUndefined();
   });
+
+  it('keeps an intentionally empty CMS hero visual empty while retaining an SEO fallback image', () => {
+    const article = newsletterPostToArticle({
+      ...draftPost,
+      slug: 'workplace-safety-basics',
+      title: 'Workplace Safety Basics Every Team Should Know',
+      featuredImageUrl: '',
+      featuredImageMobileUrl: '',
+      heroImageAlt: '',
+    });
+
+    expect(article.hasExplicitHeroImage).toBe(false);
+    expect(article.image).toBeTruthy();
+    expect(article.imageMobile).toBe(article.image);
+    expect(article.heroImageAlt).toBe('');
+
+    const roundTrip = newsletterArticleToPost(article, 'published');
+    expect(roundTrip.featuredImageUrl).toBe('');
+    expect(roundTrip.featuredImageMobileUrl).toBe('');
+    expect(roundTrip.heroImageAlt).toBe('');
+  });
+
+  it('preserves explicit newsletter hero media URLs and alt text', () => {
+    const article = newsletterPostToArticle({
+      ...draftPost,
+      slug: 'pmi-rmp-2026-domain-map-five-domain-study-plan',
+      featuredImageUrl: '/newsletter-assets/item-09-desktop.webp',
+      featuredImageMobileUrl: '/newsletter-assets/item-09-mobile-v03.webp',
+      heroImageAlt: 'PMI-RMP domain map',
+    });
+
+    expect(article.hasExplicitHeroImage).toBe(true);
+    expect(article.image).toBe('/newsletter-assets/item-09-desktop.webp');
+    expect(article.imageMobile).toBe('/newsletter-assets/item-09-mobile-v03.webp');
+    expect(article.heroImageAlt).toBe('PMI-RMP domain map');
+  });
 });

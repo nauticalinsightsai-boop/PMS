@@ -115,6 +115,8 @@ export type NewsletterArticle = {
   readTime: string;
   image: string;
   imageMobile?: string;
+  /** True only when the source record explicitly supplies desktop or mobile visual hero media. */
+  hasExplicitHeroImage?: boolean;
   heroImageAlt?: string;
   body: string[];
   /** Full markdown source when mapped from CMS (preferred for rendering). */
@@ -201,8 +203,10 @@ export function resolveNewsletterArticleImage(slug: string, featuredImageUrl?: s
 }
 
 export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle {
-  const image = resolveNewsletterArticleImage(post.slug, post.featuredImageUrl);
+  const desktopRaw = post.featuredImageUrl?.trim() ?? '';
   const mobileRaw = post.featuredImageMobileUrl?.trim() ?? '';
+  const hasExplicitHeroImage = Boolean(desktopRaw || mobileRaw);
+  const image = resolveNewsletterArticleImage(post.slug, desktopRaw);
   const imageMobile = mobileRaw
     ? mobileRaw
     : image;
@@ -232,7 +236,8 @@ export function newsletterPostToArticle(post: NewsletterPost): NewsletterArticle
     readTime: estimateReadTime(post.content),
     image,
     imageMobile,
-    heroImageAlt: post.heroImageAlt?.trim() || post.title,
+    hasExplicitHeroImage,
+    heroImageAlt: hasExplicitHeroImage ? (post.heroImageAlt?.trim() || post.title) : '',
     body: contentToBodyParagraphs(renderableContent),
     markdown: renderableContent.trim() || undefined,
     ctaLabel: post.ctaLabel?.trim() || undefined,
@@ -420,9 +425,9 @@ export function newsletterArticleToPost(
     authorId: article.authorId ?? '',
     topics: [article.category],
     youtubeUrl: '',
-    featuredImageUrl: article.image,
-    featuredImageMobileUrl: article.imageMobile ?? '',
-    heroImageAlt: article.heroImageAlt?.trim() || article.title,
+    featuredImageUrl: article.hasExplicitHeroImage === false ? '' : article.image,
+    featuredImageMobileUrl: article.hasExplicitHeroImage === false ? '' : (article.imageMobile ?? ''),
+    heroImageAlt: article.hasExplicitHeroImage === false ? '' : (article.heroImageAlt?.trim() || article.title),
     emailSubject: '',
     emailPreheader: '',
     ctaLabel: article.ctaLabel?.trim() || '',

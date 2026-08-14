@@ -50,12 +50,14 @@ describe('long-form newsletter publication batch', () => {
     }
   });
 
-  it('includes the two exact PMI-RMP publications once with provider lastmod timestamps', async () => {
-    const entries = await sitemap();
+  it('includes the three fixed publications once with provider lastmod timestamps', async () => {
+    const entries = await buildSitemap([]);
     const expected = new Map([
       ['/newsletter/pmi-rmp-2026-domain-map-five-domain-study-plan', '2026-08-04T01:07:06.733Z'],
       ['/newsletter/pmi-rmp-eligibility-separate-risk-experience-general-project-work', '2026-08-04T01:08:27.700Z'],
+      ['/newsletter/workplace-safety-basics', '2026-08-14T12:04:24.575Z'],
     ]);
+    expect(new Set(entries.map((entry) => entry.url)).size).toBe(entries.length);
     for (const [path, timestamp] of expected) {
       const matches = entries.filter((entry) => new URL(entry.url).pathname === path);
       expect(matches).toHaveLength(1);
@@ -63,15 +65,22 @@ describe('long-form newsletter publication batch', () => {
     }
   });
 
-  it('keeps locked provider lastmods when CMS also returns both published slugs', async () => {
+  it('keeps locked provider lastmods when CMS also returns all fixed published slugs', async () => {
+    const baselineEntries = await buildSitemap([]);
     const entries = await buildSitemap([
       'pmi-rmp-2026-domain-map-five-domain-study-plan',
       'pmi-rmp-eligibility-separate-risk-experience-general-project-work',
+      'workplace-safety-basics',
     ]);
     const expected = new Map([
       ['/newsletter/pmi-rmp-2026-domain-map-five-domain-study-plan', '2026-08-04T01:07:06.733Z'],
       ['/newsletter/pmi-rmp-eligibility-separate-risk-experience-general-project-work', '2026-08-04T01:08:27.700Z'],
+      ['/newsletter/workplace-safety-basics', '2026-08-14T12:04:24.575Z'],
     ]);
+    expect(entries).toHaveLength(baselineEntries.length);
+    expect(entries.map((entry) => entry.url)).toEqual(
+      baselineEntries.map((entry) => entry.url),
+    );
     for (const [path, timestamp] of expected) {
       const matches = entries.filter((entry) => new URL(entry.url).pathname === path);
       expect(matches).toHaveLength(1);

@@ -24,6 +24,7 @@ const entry = buildSitemapEntry;
 const FIXED_PUBLISHED_NEWSLETTER_ENTRIES = [
   { path: '/newsletter/pmi-rmp-2026-domain-map-five-domain-study-plan', publishedAt: '2026-08-04T01:07:06.733Z' },
   { path: '/newsletter/pmi-rmp-eligibility-separate-risk-experience-general-project-work', publishedAt: '2026-08-04T01:08:27.700Z' },
+  { path: '/newsletter/workplace-safety-basics', publishedAt: '2026-08-14T12:04:24.575Z' },
 ] as const;
 
 function safeEntry(
