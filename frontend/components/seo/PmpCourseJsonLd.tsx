@@ -8,7 +8,7 @@ import {
 import type { PmpCourseContent } from '@/content/pmp/courses';
 
 export function PmpCourseJsonLd({ course }: { course: PmpCourseContent }) {
-  const graph = [
+  const graph: Record<string, unknown>[] = [
     buildWebPageSchema({ path: course.path, name: course.h1, description: course.description }),
     buildCourseSchema({ path: course.path, name: course.h1, description: course.description }),
     buildBreadcrumbSchema([

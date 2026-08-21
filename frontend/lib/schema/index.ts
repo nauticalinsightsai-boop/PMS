@@ -125,7 +125,12 @@ export function buildCourseSchema(input: {
     url,
     name: input.name,
     description: input.description,
-    provider: { '@id': organizationId() },
+    provider: {
+      '@type': 'Organization',
+      '@id': organizationId(),
+      name: PMS_SITE_NAME,
+      url: PMS_SITE_URL,
+    },
   };
 }
 
