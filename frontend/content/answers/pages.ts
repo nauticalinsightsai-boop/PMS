@@ -518,7 +518,7 @@ const pages: AnswerPageContent[] = [
     title: 'What is the PMP People domain?',
     description: 'Explain the People domain in the PMP Exam Content Outline and how to study it.',
     shortAnswer:
-      'The People domain covers leadership, team performance, conflict, and stakeholder engagement: a core third of the PMP ECO.',
+      'The People domain accounts for 33% of PMI’s July 2026 PMP Examination Content Outline and covers leadership, team performance, conflict and stakeholder engagement.',
     detailedAnswer:
       'Study People alongside Process and Business Environment using scenario practice, not definition memorization alone. Domain weights are published by PMI: verify the current ECO before exam day.',
     whoApplies: 'PMP candidates mapping study time across ECO domains.',
@@ -527,6 +527,12 @@ const pages: AnswerPageContent[] = [
     relatedPages: [{ href: '/pmp-people-domain', label: 'People domain guide' }],
     relatedAnswers: [
       { href: '/answers/what-is-the-pmp-business-environment-domain', label: 'Business Environment domain' },
+    ],
+    references: [
+      {
+        label: 'PMI PMP Examination Content Outline — July 2026',
+        url: 'https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/new-pmp-examination-content-outline-2026.pdf',
+      },
     ],
     ctaHref: '/pmp-study-plan-2026',
     ctaLabel: '2026 study plan',

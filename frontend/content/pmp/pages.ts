@@ -273,15 +273,23 @@ const pages: PmpPageContent[] = [
     description: 'Leadership, teams, and stakeholder themes for PMP People domain preparation.',
     h1: 'PMP People domain',
     directAnswer:
-      'The People domain emphasizes leadership, team performance, conflict resolution, and stakeholder engagement. Scenario questions often test how you apply soft skills under pressure.',
+      'In PMI’s July 2026 PMP Examination Content Outline, the People domain accounts for 33% of the exam. Use this guide to practice leadership, team performance, conflict resolution and stakeholder engagement in situational questions.',
     sections: [
       {
         id: 'focus-areas',
         heading: 'Focus areas',
         body: 'Team development, motivation, negotiation, cultural awareness, and stakeholder communication.',
       },
+      {
+        id: 'official-source',
+        heading: 'Official source',
+        body: 'Domain terminology and weighting: [PMI PMP Examination Content Outline — July 2026](https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/new-pmp-examination-content-outline-2026.pdf). PM Structure fact review: 19 June 2026.',
+      },
     ],
-    relatedLinks: clusterLinks('/pmp-people-domain'),
+    relatedLinks: [
+      { href: '/answers/what-is-the-pmp-people-domain', label: 'What is the PMP People domain?' },
+      ...clusterLinks('/pmp-people-domain'),
+    ],
   },
   {
     slug: 'pmp-process-domain',

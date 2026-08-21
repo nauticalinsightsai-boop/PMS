@@ -1,7 +1,7 @@
 {
   "site": "https://pmstructure.com",
   "version": "1.0.0",
-  "updatedAt": "2026-08-04",
+  "updatedAt": "2026-08-21",
   "count": 39,
   "indexUrl": "https://pmstructure.com/answers",
   "answers": [
@@ -182,7 +182,7 @@
       "title": "What is the PMP People domain?",
       "question": "What is the PMP People domain?",
       "description": "Explain the People domain in the PMP Exam Content Outline and how to study it.",
-      "shortAnswer": "The People domain covers leadership, team performance, conflict, and stakeholder engagement: a core third of the PMP ECO.",
+      "shortAnswer": "The People domain accounts for 33% of PMI’s July 2026 PMP Examination Content Outline and covers leadership, team performance, conflict and stakeholder engagement.",
       "status": "live"
     },
     {
