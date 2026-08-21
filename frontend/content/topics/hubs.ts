@@ -445,9 +445,16 @@ const hubs: TopicHubContent[] = [
     description: 'Process domain coverage, planning, execution, and monitoring tasks.',
     h1: 'PMP Process domain. PM Structure knowledge hub',
     whatIs:
-      'The Process domain spans initiating through closing: scope, schedule, cost, quality, risk, and integration.',
-    whyMatters: 'It is typically the largest share of PMP exam tasks.',
+      'This topic hub curates the Process domain guide, timed mock guidance, and supporting direct answers for the current PMP Exam Content Outline.',
+    whyMatters:
+      'Process is 41% of PMI’s July 2026 PMP Examination Content Outline, so candidates need both task coverage and scenario practice.',
     viewpoint: 'Use mocks to see how process knowledge appears in situational items.',
+    references: [
+      {
+        label: 'PMI PMP Examination Content Outline — July 2026',
+        href: 'https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/new-pmp-examination-content-outline-2026.pdf',
+      },
+    ],
     resources: [
       { href: '/pmp-process-domain', label: 'Process domain guide' },
       { href: '/pmp-mock-exam', label: 'Mock exams' },

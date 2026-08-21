@@ -290,15 +290,23 @@ const pages: PmpPageContent[] = [
     description: 'Delivery, risk, scope, and execution focus for the PMP Process domain.',
     h1: 'PMP Process domain',
     directAnswer:
-      'The Process domain covers planning, execution, monitoring, risk, quality, and delivery methods. Timed practice helps you select the best PMI-aligned action in situational items.',
+      'In PMI’s July 2026 PMP Examination Content Outline, the Process domain accounts for 41% of the exam and covers delivery work across planning, execution, monitoring, risk, quality, scope and integration. Use this guide to turn those task areas into scenario practice.',
     sections: [
       {
         id: 'focus-areas',
         heading: 'Focus areas',
         body: 'Scope, schedule, cost, risk, quality, procurement, and integrated change control.',
       },
+      {
+        id: 'official-source',
+        heading: 'Official source',
+        body: 'Domain terminology and weighting: [PMI PMP Examination Content Outline — July 2026](https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/new-pmp-examination-content-outline-2026.pdf). PM Structure fact review: 19 June 2026.',
+      },
     ],
-    relatedLinks: clusterLinks('/pmp-process-domain'),
+    relatedLinks: [
+      { href: '/topics/pmp-process-domain', label: 'Process domain topic hub' },
+      ...clusterLinks('/pmp-process-domain'),
+    ],
   },
   {
     slug: 'pmp-ai-sustainability-value-delivery',
