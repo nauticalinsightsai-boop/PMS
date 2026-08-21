@@ -247,24 +247,27 @@ export const T169_FEATURED_CARDS = {
 export const T169_PMP_PAGE = {
   h1: 'PMP 2026 Readiness Pathway',
   intro:
-    'The PMP exam was updated 9 July 2026. This pathway gives you a structured plan to study, practice, and track readiness for the current PMP exam using the latest exam content outline.',
+    'The current PMP exam has 180 questions: 170 scored and 10 pretest. Candidates have 240 minutes and two 10-minute breaks. Use this structure guide for the current format and domain coverage, then follow the comparison, timeline, preparation and weighting pages for those narrower intents.',
   disclaimer:
-    'Last reviewed: 25 July 2026. PMP exam details, eligibility rules, and training requirements should always be verified with PMI. PM Structure is an independent exam-prep and readiness-support platform.',
-  currentVsUpdatedHeading: 'Previous PMP Exam vs Current PMP Exam',
-  currentVsUpdatedTable: `| Exam Version | Exam Route | Format | Domain Weights | PM Structure Guidance |
-| --- | --- | --- | --- | --- |
-| Previous (before 9 July 2026) | Historical | 180 questions, 230 minutes | People 42%, Process 50%, BE 8% | Historical reference only; no longer offered. |
-| Current (from 9 July 2026) | Active | 180 questions, 240 minutes | People 33%, Process 41%, BE 26% | Use the PMP 2026 pathway and align study to the current exam structure. |`,
-  domainHeading: 'What changed in the current PMP exam?',
+    'Last reviewed: 22 August 2026. Exam structure and domain weights: [PMI PMP Examination Content Outline — July 2026](https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/new-pmp-examination-content-outline-2026.pdf). Current certification overview: [PMI PMP certification](https://www.pmi.org/certifications/project-management-pmp). PM Structure is an independent exam-prep and readiness-support platform.',
+  currentVsUpdatedHeading: 'Current PMP exam structure at a glance',
+  currentVsUpdatedTable: `| Item | Current PMP exam |
+| --- | --- |
+| Questions | 180 total: 170 scored and 10 pretest |
+| Time | 240 minutes |
+| Breaks | Two 10-minute breaks |
+| Domain weights | People 33%, Process 41%, Business Environment 26% |
+| Official source | [PMI PMP Examination Content Outline — July 2026](https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/new-pmp-examination-content-outline-2026.pdf) |`,
+  domainHeading: 'Current domain coverage',
   domainBody:
-    'The current PMP exam (updated July 2026) keeps the focus on practical project leadership, but the domain balance changed. The Business Environment domain became much more important, and the exam gives more attention to value, outcomes, AI, sustainability, stakeholder engagement, and real project dynamics.',
+    'The July 2026 ECO distributes exam items across People (33%), Process (41%), and Business Environment (26%). Approximately 40% of items use predictive approaches, while the remaining 60% is divided between adaptive/agile and hybrid approaches.',
   domainTable: `| Domain | Current Weight |
 | --- | ---: |
 | People | 33% |
 | Process | 41% |
 | Business Environment | 26% |`,
   domainNote:
-    'This section is a study-planning summary only. Always verify the official exam content outline and candidate guidance with PMI before booking the exam.',
+    'Source: [PMI PMP Examination Content Outline — July 2026](https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/new-pmp-examination-content-outline-2026.pdf). PM Structure fact review: 22 August 2026.',
 } as const;
 
 export const T169_SUPPORT_COPY = {

@@ -122,8 +122,8 @@ const pages: PmpPageContent[] = [
       ...clusterLinks('/pmp-exam-2026'),
       { href: '/answers/is-the-pmp-exam-changing-in-2026', label: 'Is the PMP exam changing in 2026?' },
       { href: '/answers/current-pmp-exam-vs-new-pmp-exam', label: 'Previous vs current PMP exam' },
-      { href: '/pmp-after-9-july-2026', label: 'Reset preparation for the current exam' },
-      { href: '/pmp-exam-2026', label: 'PMP exam 2026 guide' },
+      { href: '/pmp-exam-timeline-2026', label: 'Historical 2026 exam transition timeline' },
+      { href: '/pmp-new-exam-domain-weighting', label: 'Current PMP domain weighting' },
     ],
   },
   {
