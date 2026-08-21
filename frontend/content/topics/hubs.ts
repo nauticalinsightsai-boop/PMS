@@ -383,9 +383,9 @@ const hubs: TopicHubContent[] = [
     description: 'Readiness diagnostics, mocks, and study discipline across PM Structure pathways.',
     h1: 'Exam readiness. PM Structure knowledge hub',
     whatIs:
-      'Exam readiness means consistent mock performance, domain coverage, and scheduling confidence: not passive content completion.',
+      'This hub organizes readiness work around diagnostics, timed mocks, domain remediation, and scheduling decisions. Use the direct-answer page for the concise definition.',
     whyMatters:
-      'Candidates who skip readiness measurement often fail or delay exams repeatedly.',
+      'Readiness checks help candidates identify what to remediate and whether to schedule; they do not predict an exam result.',
     viewpoint:
       'Use diagnostics and mocks as decision tools; we do not guarantee pass outcomes.',
     resources: [

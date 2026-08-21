@@ -210,9 +210,18 @@ const pages: AnswerPageContent[] = [
       'Pick a tier at /pmp-enrollment',
     ],
     relatedCourses: [{ href: '/pmp-mastery', label: 'PMP Mastery' }],
-    relatedPages: [{ href: '/pmp-readiness-diagnostic', label: 'Readiness diagnostic page' }],
+    relatedPages: [
+      { href: '/pmp-readiness-diagnostic', label: 'Readiness diagnostic page' },
+      { href: '/topics/exam-readiness', label: 'Exam readiness hub' },
+    ],
     relatedAnswers: [
       { href: '/answers/what-is-pmp-scenario-practice', label: 'What is scenario practice?' },
+    ],
+    references: [
+      {
+        label: 'PMI PMP Examination Content Outline — July 2026',
+        url: 'https://www.pmi.org/-/media/pmi/documents/public/pdf/certifications/new-pmp-examination-content-outline-2026.pdf',
+      },
     ],
     ctaHref: '/pmp-readiness-diagnostic',
     ctaLabel: 'Start readiness diagnostic',
