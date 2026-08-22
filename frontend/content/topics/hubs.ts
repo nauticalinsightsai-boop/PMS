@@ -532,6 +532,10 @@ const hubs: TopicHubContent[] = [
     viewpoint: 'Adjust weekly; verify domain weights on PMI.org.',
     resources: [
       { href: '/pmp-study-plan-2026', label: '2026 study plan' },
+      {
+        href: '/newsletter/shift-worker-8-week-pmp-study-rhythm-gcc',
+        label: '8-week study rhythm for shift workers',
+      },
       { href: '/answers/what-is-the-best-pmp-study-plan', label: 'Best study plan answer' },
     ],
     relatedAnswers: [
