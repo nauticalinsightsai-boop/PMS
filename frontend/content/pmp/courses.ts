@@ -82,7 +82,7 @@ const courses: PmpCourseContent[] = [
       'Professional-tier PMP preparation with structured mocks, scenario practice, cohort support, and readiness checkpoints before Pearson VUE.',
     h1: 'PMP Professional course for PMP exam readiness',
     directAnswer:
-      'The Professional tier targets candidates with foundational knowledge who need structured readiness, timed practice, and feedback loops before scheduling Pearson VUE.',
+      "PM Structure's Professional tier is an independent preparation pathway for candidates with foundational knowledge who need structured readiness, timed practice and feedback before scheduling the PMP exam. PMI controls eligibility, exam delivery and certification.",
     forLearners:
       'Candidates with PM experience who are actively preparing to sit PMP within 6-12 weeks and need scenario-heavy practice.',
     notForLearners:
@@ -90,7 +90,7 @@ const courses: PmpCourseContent[] = [
     outcomes: resolvePathwayTierOutcomes('pmp', 'professional'),
     modules: professionalModules,
     examRelevance:
-      'Professional emphasizes situational judgment across People, Process, and Business Environment: skills emphasized in current and updated 2026 exam narratives. Verify weights on PMI.org.',
+      "Professional emphasizes situational judgment across People, Process and Business Environment in PMI's July 2026 PMP Examination Content Outline. Verify current requirements and domain weights on PMI.org before enrolling or scheduling.",
     enrollPath: enrollPath('pmp', 'professional'),
     faqs: [
       {

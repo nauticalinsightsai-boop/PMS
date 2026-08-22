@@ -316,11 +316,22 @@ const pages: AnswerPageContent[] = [
     question: 'Is PM Structure a PMI Authorized Training Partner (ATP)?',
     title: 'Is PM Structure a PMI ATP?',
     description:
-      'Clarifies PM Structure’s independent exam-prep status and PMI ATP positioning.',
+      "Explains PM Structure's independent preparation status and how to verify PMI Authorized Training Partner status.",
     shortAnswer:
-      'No: unless formally confirmed on a live page, PM Structure is an independent exam-preparation platform, not a PMI Authorized Training Partner.',
+      "PM Structure is an independent exam-preparation platform and does not claim PMI Authorized Training Partner status on this page. Verify any provider's current status in PMI's Authorized Training Partner Directory before purchase.",
     detailedAnswer:
-      'We provide structured pathways, LMS access, and practice support. PMI owns the PMP credential, exam delivery, and ATP program. Do not assume ATP benefits (such as specific contact-hour claims) unless explicitly stated on the relevant live page and your order confirmation.',
+      "PMI owns the credential, exam delivery and ATP program. PMI states that ATP status can be verified through its Authorized Training Partner Directory and that only ATPs use PMI official course content. PM Structure provides independent preparation support; do not assume ATP benefits or eligible training-hour coverage unless the relevant live offer and order confirmation state them and PMI's current rules support them.",
+    references: [
+      {
+        label: 'PMI Authorized Training Partners',
+        url: 'https://www.pmi.org/learning/authorized-training-partners',
+      },
+      {
+        label: 'PMI Authorized Training Partner Directory',
+        url: 'https://atp.pmi.org/provider-directory',
+      },
+    ],
+    dateModified: '2026-08-22',
     whoApplies: 'Anyone comparing PMP providers and contact-hour claims.',
     nextSteps: [
       'Read pricing disclaimers at /legal/pricing-disclaimers',
